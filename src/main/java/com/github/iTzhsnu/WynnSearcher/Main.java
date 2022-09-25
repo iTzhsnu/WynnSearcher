@@ -5,8 +5,15 @@ import me.bed0.jWynn.api.common.WynncraftIdentification;
 import me.bed0.jWynn.api.v2.ingredient.WynncraftIngredient;
 import me.bed0.jWynn.api.v2.ingredient.WynncraftIngredientIdentificationDetails;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Main {
     public static void main(String[] args) {
+        getItem();
+    }
+
+    public static void getItem() {
         WynncraftAPI api = new WynncraftAPI();
         for (int i = 0; api.v2().ingredient().search().level(50).run().length > i; ++i) {
             WynncraftIngredient ingredient = api.v2().ingredient().search().level(50).run()[i];
@@ -16,6 +23,4 @@ public class Main {
             }
         }
     }
-
-
 }
