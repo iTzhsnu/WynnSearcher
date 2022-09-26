@@ -1,5 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.google.gson.JsonObject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +11,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
+
+    //Item and Ingredient Data
+    private final List<JsonObject> wynnItems = new ArrayList<>();
+    private final List<JsonObject> wynnIngredients = new ArrayList<>();
 
     //Item or Ingredient
     private final JComboBox<String> itemOrIngredient = new JComboBox<>();
@@ -62,6 +68,9 @@ public class SearchUI extends JFrame implements ActionListener {
     private final List<JTextField> idMax_4 = new ArrayList<>();
 
     public SearchUI() {
+        GetAPI.setItemData(wynnItems);
+        GetAPI.setIngredientData(wynnIngredients);
+
         setTitle("Wynncraft Searcher");
         setBounds(100, 300, 1000, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,7 +98,6 @@ public class SearchUI extends JFrame implements ActionListener {
         typeIngredientDataSet();
         setVisibleIngredient(false);
 
-
         //ID Search Setting Bar
         setIDBoxAndIDField(idBoxes_1, idMin_1, idMax_1, 10, 65, 4, true);
         setIDBoxAndIDField(idBoxes_2, idMin_2, idMax_2, 10, 115, 4, false);
@@ -102,7 +110,6 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(searchF);
         contentPane.add(itemOrIngredient);
 
-
     }
 
     public static void main(String[] args) {
@@ -111,7 +118,13 @@ public class SearchUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //e.getSource() == (Button)
+        if (e.getSource() == searchB) {
+            if (canSearchItem()) {
+                searchItems();
+            } else if (canSearchIngredient()) {
+                searchIngredient();
+            }
+        }
 
         if (e.getSource() == itemOrIngredient) {
             if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Item")) {
@@ -122,7 +135,6 @@ public class SearchUI extends JFrame implements ActionListener {
                 setVisibleIngredient(true);
             }
         }
-
     }
 
     public void setIDBoxAndIDField(List<JComboBox<String>> boxes, List<JTextField> min, List<JTextField> max, int baseX, int baseY, int length, boolean need) {
@@ -130,7 +142,7 @@ public class SearchUI extends JFrame implements ActionListener {
             //ID Box
             boxes.add(new JComboBox<>());
             boxes.get(i).setBounds(baseX + (224 * i), baseY, 200, 20);
-            for (String s : IDBoxAdapter.displayIDList) {
+            for (String s : IDBoxAdapter.DISPLAY_ID_LIST) {
                 boxes.get(i).addItem(s);
             }
             boxes.get(i).setEditable(true);
@@ -262,4 +274,63 @@ public class SearchUI extends JFrame implements ActionListener {
         alchemism.setVisible(visible);
     }
 
+    public boolean canSearchItem() {
+        if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Item")) {
+            if (bow.isSelected() || spear.isSelected() || wand.isSelected() || dagger.isSelected() || relik.isSelected() || helmet.isSelected() || chestplate.isSelected() || leggings.isSelected() || boots.isSelected() || ring.isSelected() || bracelet.isSelected() || necklace.isSelected()) {
+                boolean hasText = false;
+                for (JComboBox<String> box : idBoxes_1) {
+                    if (notEmpty(box)) hasText = true;
+                }
+                for (JComboBox<String> box : idBoxes_2) {
+                    if (notEmpty(box)) hasText = true;
+                }
+                for (JComboBox<String> box : idBoxes_3) {
+                    if (notEmpty(box)) hasText = true;
+                }
+                for (JComboBox<String> box : idBoxes_4) {
+                    if (notEmpty(box)) hasText = true;
+                }
+                return hasText;
+            }
+        }
+        return false;
+    }
+
+    public boolean canSearchIngredient() {
+        if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Ingredient")) {
+            if (armouring.isSelected() || tailoring.isSelected() || weaponsmithing.isSelected() || woodworking.isSelected() || jeweling.isSelected() || scribing.isSelected() || cooking.isSelected() || alchemism.isSelected()) {
+                boolean hasText = false;
+                for (JComboBox<String> box : idBoxes_1) {
+                    if (notEmpty(box)) hasText = true;
+                }
+                for (JComboBox<String> box : idBoxes_2) {
+                    if (notEmpty(box)) hasText = true;
+                }
+                for (JComboBox<String> box : idBoxes_3) {
+                    if (notEmpty(box)) hasText = true;
+                }
+                for (JComboBox<String> box : idBoxes_4) {
+                    if (notEmpty(box)) hasText = true;
+                }
+                return hasText;
+            }
+        }
+        return false;
+    }
+
+    public boolean notEmpty(JComboBox<String> box) {
+        return !((JTextField) box.getEditor().getEditorComponent()).getText().isEmpty();
+    }
+
+    public void searchItems() {
+    }
+
+    public void searchIngredient() {
+    }
+
+    public void displayItems() {
+    }
+
+    public void displayIngredients() {
+    }
 }

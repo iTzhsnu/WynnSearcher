@@ -9,7 +9,7 @@ import java.util.Map;
 public class IDBoxAdapter extends KeyAdapter {
     private final JComboBox<String> box;
 
-    public static final String[] displayIDList = new String[] {
+    public static final String[] DISPLAY_ID_LIST = new String[] {
             "Combat Level", "Strength Req", "Dexterity Req", "Inteligence Req", "Defense Req", "Agility Req", "Quest Req",
             "Health", "Health Bonus", "Raw Health Regen", "Health Regen %", "Life Steal",
             "Strength", "Dexterity", "Inteligence", "Defense", "Agility",
@@ -40,7 +40,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Sum (Raw Spell Costs)", "Sum (Spell Costs %)"
     };
 
-    public static final Map<String, Integer> idList = new HashMap<String, Integer>(){{
+    public static final Map<String, Integer> ID_LIST = new HashMap<String, Integer>(){{
         put("Combat Level", 1);
         put("Strength Req", 2);
         put("Dexterity Req", 3);
@@ -203,7 +203,7 @@ public class IDBoxAdapter extends KeyAdapter {
     private static void setList(JComboBox<String> box, String text) {
         box.removeAllItems();
 
-        for (String s : displayIDList) {
+        for (String s : DISPLAY_ID_LIST) {
             if (text.isEmpty() || s.toLowerCase().contains(text.toLowerCase())) {
                 box.addItem(s);
             }
