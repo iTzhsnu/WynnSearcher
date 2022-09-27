@@ -1,7 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.swing.*;
@@ -38,7 +37,7 @@ public class SearchUI extends JFrame implements ActionListener {
     private final List<JsonObject> tailoringJson = new ArrayList<>();
     private final List<JsonObject> weaponsmithingJson = new ArrayList<>();
     private final List<JsonObject> woodworkingJson = new ArrayList<>();
-    private final List<JsonObject> jewlingJson = new ArrayList<>();
+    private final List<JsonObject> jewelingJson = new ArrayList<>();
     private final List<JsonObject> scribingJson = new ArrayList<>();
     private final List<JsonObject> cookingJson = new ArrayList<>();
     private final List<JsonObject> alchemismJson = new ArrayList<>();
@@ -449,9 +448,9 @@ public class SearchUI extends JFrame implements ActionListener {
             //Add Jeweling
             if (jeweling.isSelected()) {
                 if (!armouring.isSelected() && !tailoring.isSelected() && !weaponsmithing.isSelected() && !woodworking.isSelected()) {
-                    searchedItems.addAll(jewlingJson);
+                    searchedItems.addAll(jewelingJson);
                 } else {
-                    for (JsonObject json : jewlingJson) {
+                    for (JsonObject json : jewelingJson) {
                         boolean add = true;
                         JsonArray array = json.get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
@@ -585,7 +584,7 @@ public class SearchUI extends JFrame implements ActionListener {
                     break;
                     case "WOODWORKING": woodworkingJson.add(ing);
                     break;
-                    case "JEWELING": jewlingJson.add(ing);
+                    case "JEWELING": jewelingJson.add(ing);
                     break;
                     case "SCRIBING": scribingJson.add(ing);
                     break;

@@ -23,11 +23,11 @@ public class IDBoxAdapter extends KeyAdapter {
             "Walk Speed", "Sprint Bonus", "Sprint Regen", "Jump Height",
             "Thorns", "Reflection", "Exploding", "Stealing",
             "Combat XP Bonus", "Gathering XP Bonus", "Gathering Speed Bonus", "Loot Bonus", "Loot Quality",
-            "Soul Point Regen", "Powder Slots",
+            "Soul Point Regen", "Powder Slots", "Major ID",
             "1st Spell Cost Raw", "2nd Spell Cost Raw", "3rd Spell Cost Raw", "4th Spell Cost Raw",
             "1st Spell Cost %", "2nd Spell Cost %", "3rd Spell Cost %", "4th Spell Cost %",
             "Raw Earth Spell Damage", "Raw Thunder Spell Damage", "Raw Water Spell Damage", "Raw Fire Spell Damage", "Raw Air Spell Damage", "Raw Elemental Spell Damage",
-            "Durability", "Duration", "Ingredient Effectiveness", "Ingredient Effectiveness (Above)", "Ingredient Effectiveness (Under)",
+            "Durability", "Duration", "Charges", "Ingredient Effectiveness", "Ingredient Effectiveness (Above)", "Ingredient Effectiveness (Under)",
             "Ingredient Effectiveness (Right)", "Ingredient Effectiveness (Left)", "Ingredient Effectiveness (Touching)", "Ingredient Effectiveness (Not Touching)",
             "Sum (Total Health)", "Sum (Raw Defenses)", "Sum (Raw Rainbow Defenses)", "Sum (Defenses %)", "Sum (Rainbow Defenses %)",
             "Sum (Skill Point Bonus)", "Sum (Rainbow Skill Point Bonus)",
@@ -114,6 +114,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Loot Quality", Identifications.LOOT_QUALITY);
         put("Soul Point Regen", Identifications.SOUL_POINT_REGEN);
         put("Powder Slots", Identifications.POWDER_SLOTS);
+        put("Major ID", Identifications.MAJOR_IDS);
 
         put("1st Spell Cost Raw", Identifications.RAW_1ST_SPELL_COST);
         put("2nd Spell Cost Raw", Identifications.RAW_2ND_SPELL_COST);
@@ -134,6 +135,7 @@ public class IDBoxAdapter extends KeyAdapter {
 
         put("Durability", Identifications.DURABILITY);
         put("Duration", Identifications.DURATION);
+        put("Charges", Identifications.CHARGES);
         put("Ingredient Effectiveness", Identifications.INGREDIENT_EFFECTIVENESS);
         put("Ingredient Effectiveness (Above)", Identifications.INGREDIENT_EFFECTIVENESS_ABOVE);
         put("Ingredient Effectiveness (Under)", Identifications.INGREDIENT_EFFECTIVENESS_UNDER);
