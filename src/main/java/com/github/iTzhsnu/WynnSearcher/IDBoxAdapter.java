@@ -10,9 +10,9 @@ public class IDBoxAdapter extends KeyAdapter {
     private final JComboBox<String> box;
 
     public static final String[] DISPLAY_ID_LIST = new String[] {
-            "Combat Level", "Strength Req", "Dexterity Req", "Inteligence Req", "Defense Req", "Agility Req", "Quest Req",
+            "Level", "Strength Req", "Dexterity Req", "Intelligence Req", "Defense Req", "Agility Req", "Quest Req",
             "Health", "Health Bonus", "Raw Health Regen", "Health Regen %", "Life Steal",
-            "Strength", "Dexterity", "Inteligence", "Defense", "Agility",
+            "Strength", "Dexterity", "Intelligence", "Defense", "Agility",
             "Earth Defense", "Thunder Defense", "Water Defense", "Fire Defense", "Air Defense",
             "Earth Defense %", "Thunder Defense %", "Water Defense %", "Fire Defense %", "Air Defense %",
             "Neutral Damage", "Earth Damage", "Thunder Damage", "Water Damage", "Fire Damage", "Air Damage",
@@ -31,156 +31,159 @@ public class IDBoxAdapter extends KeyAdapter {
             "Ingredient Effectiveness (Right)", "Ingredient Effectiveness (Left)", "Ingredient Effectiveness (Touching)", "Ingredient Effectiveness (Not Touching)",
             "Sum (Total Health)", "Sum (Raw Defenses)", "Sum (Raw Rainbow Defenses)", "Sum (Defenses %)", "Sum (Rainbow Defenses %)",
             "Sum (Skill Point Bonus)", "Sum (Rainbow Skill Point Bonus)",
-            "Sum (Base DPS)", "Sum (Total Melee Damage)", "Sum (Total Spell Damage)", "Sum (Damages Raw)", "Sum (Rainbow Damages Raw)",
-            "Sum (Damages %)", "Sum (Rainbow Damages %)",
-            "Sum (Total Melee Damage x Damages %)", "Sum (Total Spell Damage x Damages %)", "Sum (Neutral Damages x Melee %)", "Sum (Neutral Damages x Spell %)",
-            "Sum (Earth Damages x Damages %)", "Sum (Thunder Damages x Damages %)", "Sum (Water Damages x Damages %)", "Sum (Fire Damages x Damages %)", "Sum (Air Damages x Damages %)",
-            "Sum (Base DPS x Damages %)", "Sum (DPS x Melee Damage %)", "Sum (DPS x Spell Damage %)", "Sum (Neutral DPS x Melee %)", "Sum (Neutral DPS x Spell %)",
-            "Sum (Earth DPS x Damages %)", "Sum (Thunder DPS x Damages %)", "Sum (Water DPS x Damages %)", "Sum (Fire DPS x Damages %)", "Sum (Air DPS x Damages %)",
+            "Sum (Base DPS)", "Sum (Neutral DPS)", "Sum (Earth DPS)", "Sum (Thunder DPS)", "Sum (Water DPS)", "Sum (Fire DPS)", "Sum (Air DPS)",
+            "Sum (Damages Raw)", "Sum (Rainbow Damages Raw)", "Sum (Damages %)", "Sum (Rainbow Damages %)",
+            "Sum (Total Melee Damage)", "Sum (Total Neutral Melee Damage)",
+            "Sum (Total Earth Damage)", "Sum (Total Thunder Damage)", "Sum (Total Water Damage)", "Sum (Total Fire Damage)", "Sum (Total Air Damage)",
+            "Sum (Total DPS)", "Sum (Total Melee DPS)", "Sum (Total Spell DPS)", "Sum (Total Neutral Melee DPS)", "Sum (Total Neutral Spell DPS)",
+            "Sum (Total Earth DPS)", "Sum (Total Thunder DPS)", "Sum (Total Water DPS)", "Sum (Total Fire DPS)", "Sum (Total Air DPS)",
             "Sum (Raw Spell Costs)", "Sum (Spell Costs %)"
     };
 
-    public static final Map<String, Integer> ID_LIST = new HashMap<String, Integer>(){{
-        put("Combat Level", 1);
-        put("Strength Req", 2);
-        put("Dexterity Req", 3);
-        put("Inteligence Req", 4);
-        put("Defense Req", 5);
-        put("Agility Req", 6);
-        put("Quest Req", 7);
+    public static final Map<String, Identifications> ID_LIST = new HashMap<String, Identifications>(){{
+        put("Level", Identifications.LEVEL);
+        put("Strength Req", Identifications.STRENGTH_REQ);
+        put("Dexterity Req", Identifications.DEXTERITY_REQ);
+        put("Intelligence Req", Identifications.INTELLIGENCE_REQ);
+        put("Defense Req", Identifications.DEFENSE_REQ);
+        put("Agility Req", Identifications.AGILITY_REQ);
+        put("Quest Req", Identifications.QUEST_REQ);
 
-        put("Health", 10);
-        put("Health Bonus", 11);
-        put("Raw Health Regen", 12);
-        put("Health Regen %", 13);
-        put("Life Steal", 14);
+        put("Health", Identifications.HEALTH);
+        put("Health Bonus", Identifications.HEALTH_BONUS);
+        put("Raw Health Regen", Identifications.RAW_HEALTH_REGEN);
+        put("Health Regen %", Identifications.HEALTH_REGEN_PERCENT);
+        put("Life Steal", Identifications.LIFE_STEAL);
 
-        put("Strength", 15);
-        put("Dexterity", 16);
-        put("Inteligence", 17);
-        put("Defense", 18);
-        put("Agility", 19);
+        put("Strength", Identifications.STRENGTH);
+        put("Dexterity", Identifications.DEXTERITY);
+        put("Intelligence", Identifications.INTELLIGENCE);
+        put("Defense", Identifications.DEFENSE);
+        put("Agility", Identifications.AGILITY);
 
-        put("Earth Defense", 20);
-        put("Thunder Defense", 21);
-        put("Water Defense", 22);
-        put("Fire Defense", 23);
-        put("Air Defense", 24);
+        put("Earth Defense", Identifications.EARTH_DEFENSE);
+        put("Thunder Defense", Identifications.THUNDER_DEFENSE);
+        put("Water Defense", Identifications.WATER_DEFENSE);
+        put("Fire Defense", Identifications.FIRE_DEFENSE);
+        put("Air Defense", Identifications.AIR_DEFENSE);
 
-        put("Earth Defense %", 25);
-        put("Thunder Defense %", 26);
-        put("Water Defense %", 27);
-        put("Fire Defense %", 28);
-        put("Air Defense %", 29);
+        put("Earth Defense %", Identifications.EARTH_DEFENSE_PERCENT);
+        put("Thunder Defense %", Identifications.THUNDER_DEFENSE_PERCENT);
+        put("Water Defense %", Identifications.WATER_DEFENSE_PERCENT);
+        put("Fire Defense %", Identifications.FIRE_DEFENSE_PERCENT);
+        put("Air Defense %", Identifications.AIR_DEFENSE_PERCENT);
 
-        put("Neutral Damage", 30);
-        put("Earth Damage", 31);
-        put("Thunder Damage", 32);
-        put("Water Damage", 33);
-        put("Fire Damage", 34);
-        put("Air Damage", 35);
+        put("Neutral Damage", Identifications.NEUTRAL_DAMAGE);
+        put("Earth Damage", Identifications.EARTH_DAMAGE);
+        put("Thunder Damage", Identifications.THUNDER_DAMAGE);
+        put("Water Damage", Identifications.WATER_DAMAGE);
+        put("Fire Damage", Identifications.FIRE_DAMAGE);
+        put("Air Damage", Identifications.AIR_DAMAGE);
 
-        put("Earth Damage %", 36);
-        put("Thunder Damage %", 37);
-        put("Water Damage %", 38);
-        put("Fire Damage %", 39);
-        put("Air Damage %", 40);
+        put("Earth Damage %", Identifications.EARTH_DAMAGE_PERCENT);
+        put("Thunder Damage %", Identifications.THUNDER_DAMAGE_PERCENT);
+        put("Water Damage %", Identifications.WATER_DAMAGE_PERCENT);
+        put("Fire Damage %", Identifications.FIRE_DAMAGE_PERCENT);
+        put("Air Damage %", Identifications.AIR_DAMAGE_PERCENT);
 
-        put("Raw Spell Damage", 41);
-        put("Raw Melee Damage", 42);
-        put("Spell Damage %", 43);
-        put("Melee Damage %", 44);
-        put("Poison", 45);
+        put("Raw Spell Damage", Identifications.RAW_SPELL_DAMAGE);
+        put("Raw Melee Damage", Identifications.RAW_MELEE_DAMAGE);
+        put("Spell Damage %", Identifications.SPELL_DAMAGE_PERCENT);
+        put("Melee Damage %", Identifications.MELEE_DAMAGE_PERCENT);
+        put("Poison", Identifications.POISON);
 
-        put("Attack Speed", 46);
-        put("Attack Speed Bonus", 47);
+        put("Attack Speed", Identifications.ATTACK_SPEED);
+        put("Attack Speed Bonus", Identifications.ATTACK_SPEED_BONUS);
 
-        put("Mana Regen", 48);
-        put("Mana Steal", 49);
+        put("Mana Regen", Identifications.MANA_REGEN);
+        put("Mana Steal", Identifications.MANA_STEAL);
 
-        put("Walk Speed", 50);
-        put("Sprint Bonus", 51);
-        put("Sprint Regen", 52);
-        put("Jump Height", 53);
+        put("Walk Speed", Identifications.WALK_SPEED);
+        put("Sprint Bonus", Identifications.SPRINT_BONUS);
+        put("Sprint Regen", Identifications.SPRINT_REGEN);
+        put("Jump Height", Identifications.JUMP_HEIGHT);
 
-        put("Thorns", 54);
-        put("Reflection", 55);
-        put("Exploding", 56);
-        put("Stealing", 57);
-        put("Combat XP Bonus", 58);
-        put("Gathering XP Bonus", 59);
-        put("Gathering Speed Bonus", 60);
-        put("Loot Bonus", 61);
-        put("Loot Quality", 62);
-        put("Soul Point Regen", 63);
-        put("Powder Slots", 64);
+        put("Thorns", Identifications.THORNS);
+        put("Reflection", Identifications.REFLECTION);
+        put("Exploding", Identifications.EXPLODING);
+        put("Stealing", Identifications.STEALING);
+        put("Combat XP Bonus", Identifications.COMBAT_XP_BONUS);
+        put("Gathering XP Bonus", Identifications.GATHERING_XP_BONUS);
+        put("Gathering Speed Bonus", Identifications.GATHERING_SPEED_BONUS);
+        put("Loot Bonus", Identifications.LOOT_BONUS);
+        put("Loot Quality", Identifications.LOOT_QUALITY);
+        put("Soul Point Regen", Identifications.SOUL_POINT_REGEN);
+        put("Powder Slots", Identifications.POWDER_SLOTS);
 
-        put("1st Spell Cost Raw", 65);
-        put("2nd Spell Cost Raw", 66);
-        put("3rd Spell Cost Raw", 67);
-        put("4th Spell Cost Raw", 68);
+        put("1st Spell Cost Raw", Identifications.RAW_1ST_SPELL_COST);
+        put("2nd Spell Cost Raw", Identifications.RAW_2ND_SPELL_COST);
+        put("3rd Spell Cost Raw", Identifications.RAW_3RD_SPELL_COST);
+        put("4th Spell Cost Raw", Identifications.RAW_4TH_SPELL_COST);
 
-        put("1st Spell Cost %", 69);
-        put("2nd Spell Cost %", 70);
-        put("3rd Spell Cost %", 71);
-        put("4th Spell Cost %", 72);
+        put("1st Spell Cost %", Identifications.PERCENT_1ST_SPELL_COST);
+        put("2nd Spell Cost %", Identifications.PERCENT_2ND_SPELL_COST);
+        put("3rd Spell Cost %", Identifications.PERCENT_3RD_SPELL_COST);
+        put("4th Spell Cost %", Identifications.PERCENT_4TH_SPELL_COST);
 
-        put("Raw Earth Spell Damage", 73);
-        put("Raw Thunder Spell Damage", 74);
-        put("Raw Water Spell Damage", 75);
-        put("Raw Fire Spell Damage", 76);
-        put("Raw Air Spell Damage", 77);
-        put("Raw Elemental Spell Damage", 78);
+        put("Raw Earth Spell Damage", Identifications.RAW_EARTH_SPELL_DAMAGE);
+        put("Raw Thunder Spell Damage", Identifications.RAW_THUNDER_SPELL_DAMAGE);
+        put("Raw Water Spell Damage", Identifications.RAW_WATER_SPELL_DAMAGE);
+        put("Raw Fire Spell Damage", Identifications.RAW_FIRE_SPELL_DAMAGE);
+        put("Raw Air Spell Damage", Identifications.RAW_AIR_SPELL_DAMAGE);
+        put("Raw Elemental Spell Damage", Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
 
-        put("Durability", 80);
-        put("Duration", 81);
-        put("Ingredient Effectiveness", 82);
-        put("Ingredient Effectiveness (Above)", 83);
-        put("Ingredient Effectiveness (Under)", 84);
-        put("Ingredient Effectiveness (Right)", 85);
-        put("Ingredient Effectiveness (Left)", 86);
-        put("Ingredient Effectiveness (Touching)", 87);
-        put("Ingredient Effectiveness (Not Touching)", 88);
+        put("Durability", Identifications.DURABILITY);
+        put("Duration", Identifications.DURATION);
+        put("Ingredient Effectiveness", Identifications.INGREDIENT_EFFECTIVENESS);
+        put("Ingredient Effectiveness (Above)", Identifications.INGREDIENT_EFFECTIVENESS_ABOVE);
+        put("Ingredient Effectiveness (Under)", Identifications.INGREDIENT_EFFECTIVENESS_UNDER);
+        put("Ingredient Effectiveness (Right)", Identifications.INGREDIENT_EFFECTIVENESS_RIGHT);
+        put("Ingredient Effectiveness (Left)", Identifications.INGREDIENT_EFFECTIVENESS_LEFT);
+        put("Ingredient Effectiveness (Touching)", Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING);
+        put("Ingredient Effectiveness (Not Touching)", Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING);
 
-        put("Sum (Total Health)", 90);
-        put("Sum (Raw Defenses)", 91);
-        put("Sum (Raw Rainbow Defenses)", 92);
-        put("Sum (Defenses %)", 93);
-        put("Sum (Rainbow Defenses %)", 94);
-        put("Sum (Skill Point Bonus)", 95);
-        put("Sum (Rainbow Skill Point Bonus)", 96);
+        put("Sum (Total Health)", Identifications.SUM_TOTAL_HEALTH);
+        put("Sum (Raw Defenses)", Identifications.SUM_RAW_DEFENSES);
+        put("Sum (Raw Rainbow Defenses)", Identifications.SUM_RAW_RAINBOW_DEFENSES);
+        put("Sum (Defenses %)", Identifications.SUM_DEFENSES_PERCENT);
+        put("Sum (Rainbow Defenses %)", Identifications.SUM_RAINBOW_DEFENSES_PERCENT);
+        put("Sum (Skill Point Bonus)", Identifications.SUM_SKILL_POINT_BONUS);
+        put("Sum (Rainbow Skill Point Bonus)", Identifications.SUM_RAINBOW_SKILL_POINT_BONUS);
 
-        put("Sum (Base DPS)", 97);
-        put("Sum (Total Melee Damage)", 98);
-        put("Sum (Total Spell Damage)", 99);
-        put("Sum (Damages Raw)", 100);
-        put("Sum (Rainbow Damages Raw)", 101);
-        put("Sum (Damages %)", 102);
-        put("Sum (Rainbow Damages %)", 103);
+        put("Sum (Base DPS)", Identifications.SUM_BASE_DPS);
+        put("Sum (Neutral DPS)", Identifications.SUM_NEUTRAL_DPS);
+        put("Sum (Earth DPS)", Identifications.SUM_EARTH_DPS);
+        put("Sum (Thunder DPS)", Identifications.SUM_TOTAL_THUNDER_DPS);
+        put("Sum (Water DPS)", Identifications.SUM_WATER_DPS);
+        put("Sum (Fire DPS)", Identifications.SUM_FIRE_DPS);
+        put("Sum (Air DPS)", Identifications.SUM_AIR_DPS);
 
-        put("Sum (Total Melee Damage x Damages %)", 104);
-        put("Sum (Total Spell Damage x Damages %)", 105);
-        put("Sum (Neutral Damages x Melee %)", 106);
-        put("Sum (Neutral Damages x Spell %)", 107);
-        put("Sum (Earth Damages x Damages %)", 108);
-        put("Sum (Thunder Damages x Damages %)", 109);
-        put("Sum (Water Damages x Damages %)", 110);
-        put("Sum (Fire Damages x Damages %)", 111);
-        put("Sum (Air Damages x Damages %)", 112);
+        put("Sum (Damages Raw)", Identifications.SUM_RAW_DAMAGES);
+        put("Sum (Rainbow Damages Raw)", Identifications.SUM_RAW_RAINBOW_DAMAGES);
+        put("Sum (Damages %)", Identifications.SUM_DAMAGES_PERCENT);
+        put("Sum (Rainbow Damages %)", Identifications.SUM_RAINBOW_DAMAGES_PERCENT);
 
-        put("Sum (Base DPS x Damages %)", 113);
-        put("Sum (DPS x Melee Damage %)", 114);
-        put("Sum (DPS x Spell Damage %)", 115);
-        put("Sum (Neutral DPS x Melee %)", 116);
-        put("Sum (Neutral DPS x Spell %)", 117);
-        put("Sum (Earth DPS x Damages %)", 118);
-        put("Sum (Thunder DPS x Damages %)", 119);
-        put("Sum (Water DPS x Damages %)", 120);
-        put("Sum (Fire DPS x Damages %)", 121);
-        put("Sum (Air DPS x Damages %)", 122);
+        put("Sum (Total Melee Damage)", Identifications.SUM_TOTAL_MELEE_DAMAGE);
+        put("Sum (Total Neutral Melee Damage)", Identifications.SUM_TOTAL_NEUTRAL_MELEE_DAMAGE);
+        put("Sum (Total Earth Damage)", Identifications.SUM_TOTAL_EARTH_DAMAGE);
+        put("Sum (Total Thunder Damage)", Identifications.SUM_TOTAL_THUNDER_DAMAGE);
+        put("Sum (Total Water Damage)", Identifications.SUM_TOTAL_WATER_DAMAGE);
+        put("Sum (Total Fire Damage)", Identifications.SUM_TOTAL_FIRE_DAMAGE);
+        put("Sum (Total Air Damage)", Identifications.SUM_TOTAL_AIR_DAMAGE);
 
-        put("Sum (Raw Spell Costs)", 123);
-        put("Sum (Spell Costs %)", 124);
+        put("Sum (Total DPS)", Identifications.SUM_TOTAL_DPS);
+        put("Sum (Total Melee DPS)", Identifications.SUM_TOTAL_MELEE_DPS);
+        put("Sum (Total Spell DPS)", Identifications.SUM_TOTAL_SPELL_DPS);
+        put("Sum (Total Neutral Melee DPS)", Identifications.SUM_TOTAL_NEUTRAL_MELEE_DPS);
+        put("Sum (Total Neutral Spell DPS)", Identifications.SUM_TOTAL_NEUTRAL_SPELL_DPS);
+        put("Sum (Total Earth DPS)", Identifications.SUM_TOTAL_EARTH_DPS);
+        put("Sum (Total Thunder DPS)", Identifications.SUM_TOTAL_THUNDER_DPS);
+        put("Sum (Total Water DPS)", Identifications.SUM_TOTAL_WATER_DPS);
+        put("Sum (Total Fire DPS)", Identifications.SUM_TOTAL_FIRE_DPS);
+        put("Sum (Total Air DPS)", Identifications.SUM_TOTAL_AIR_DPS);
+
+        put("Sum (Raw Spell Costs)", Identifications.SUM_RAW_SPELL_COSTS);
+        put("Sum (Spell Costs %)", Identifications.SUM_SPELL_COSTS_PERCENT);
     }};
 
     public IDBoxAdapter(JComboBox<String> box) {

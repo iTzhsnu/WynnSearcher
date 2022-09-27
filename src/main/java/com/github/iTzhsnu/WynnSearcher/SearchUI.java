@@ -1,8 +1,11 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +18,30 @@ public class SearchUI extends JFrame implements ActionListener {
     //Item and Ingredient Data
     private final List<JsonObject> wynnItems = new ArrayList<>();
     private final List<JsonObject> wynnIngredients = new ArrayList<>();
+
+    //Item Type Json
+    private final List<JsonObject> bowJson = new ArrayList<>();
+    private final List<JsonObject> spearJson = new ArrayList<>();
+    private final List<JsonObject> wandJson = new ArrayList<>();
+    private final List<JsonObject> daggerJson = new ArrayList<>();
+    private final List<JsonObject> relikJson = new ArrayList<>();
+    private final List<JsonObject> helmetJson = new ArrayList<>();
+    private final List<JsonObject> chestplateJson = new ArrayList<>();
+    private final List<JsonObject> leggingsJson = new ArrayList<>();
+    private final List<JsonObject> bootsJson = new ArrayList<>();
+    private final List<JsonObject> ringJson = new ArrayList<>();
+    private final List<JsonObject> braceletJson = new ArrayList<>();
+    private final List<JsonObject> necklaceJson = new ArrayList<>();
+
+    //Ingredient Type Json
+    private final List<JsonObject> armouringJson = new ArrayList<>();
+    private final List<JsonObject> tailoringJson = new ArrayList<>();
+    private final List<JsonObject> weaponsmithingJson = new ArrayList<>();
+    private final List<JsonObject> woodworkingJson = new ArrayList<>();
+    private final List<JsonObject> jewlingJson = new ArrayList<>();
+    private final List<JsonObject> scribingJson = new ArrayList<>();
+    private final List<JsonObject> cookingJson = new ArrayList<>();
+    private final List<JsonObject> alchemismJson = new ArrayList<>();
 
     //Item or Ingredient
     private final JComboBox<String> itemOrIngredient = new JComboBox<>();
@@ -48,6 +75,9 @@ public class SearchUI extends JFrame implements ActionListener {
     private final JButton searchB = new JButton("Search");
     private final JTextField searchF = new JTextField();
     private final Container contentPane;
+    private final JPanel searched = new JPanel();
+    private final List<JPanel> itemDisplays = new ArrayList<>();
+    private final List<JsonObject> searchedItems = new ArrayList<>();
 
     //ID Combo Box
     private final List<JComboBox<String>> idBoxes_1 = new ArrayList<>();
@@ -71,8 +101,11 @@ public class SearchUI extends JFrame implements ActionListener {
         GetAPI.setItemData(wynnItems);
         GetAPI.setIngredientData(wynnIngredients);
 
+        setItemJson();
+        setIngredientJson();
+
         setTitle("Wynncraft Searcher");
-        setBounds(100, 300, 1000, 800);
+        setBounds(100, 100, 1000, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         contentPane = getContentPane();
@@ -104,12 +137,17 @@ public class SearchUI extends JFrame implements ActionListener {
         setIDBoxAndIDField(idBoxes_3, idMin_3, idMax_3, 10, 165, 4, false);
         setIDBoxAndIDField(idBoxes_4, idMin_4, idMax_4, 10, 215, 4, false);
 
+        //Searched Items (or Ingredients) List Panel
+        searched.setBorder(new LineBorder(Color.BLACK));
+        searched.setBounds(5, 270, 975, 485);
+
+
         //Add Contents
         contentPane.add(name);
         contentPane.add(searchB);
         contentPane.add(searchF);
         contentPane.add(itemOrIngredient);
-
+        contentPane.add(searched);
     }
 
     public static void main(String[] args) {
@@ -119,6 +157,9 @@ public class SearchUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == searchB) {
+            for (JPanel p : itemDisplays) {
+                searched.remove(p);
+            }
             if (canSearchItem()) {
                 searchItems();
             } else if (canSearchIngredient()) {
@@ -323,14 +364,245 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void searchItems() {
+
+        //Search Item Type
+        if (bow.isSelected() && spear.isSelected() && wand.isSelected() && dagger.isSelected() && relik.isSelected() && helmet.isSelected() && chestplate.isSelected() && leggings.isSelected() && boots.isSelected() && ring.isSelected() && bracelet.isSelected() && necklace.isSelected()) {
+            searchedItems.addAll(wynnItems);
+        } else {
+            if (bow.isSelected()) searchedItems.addAll(bowJson);
+            if (spear.isSelected()) searchedItems.addAll(spearJson);
+            if (wand.isSelected()) searchedItems.addAll(wandJson);
+            if (dagger.isSelected()) searchedItems.addAll(daggerJson);
+            if (relik.isSelected()) searchedItems.addAll(relikJson);
+            if (helmet.isSelected()) searchedItems.addAll(helmetJson);
+            if (chestplate.isSelected()) searchedItems.addAll(chestplateJson);
+            if (leggings.isSelected()) searchedItems.addAll(leggingsJson);
+            if (boots.isSelected()) searchedItems.addAll(bootsJson);
+            if (ring.isSelected()) searchedItems.addAll(ringJson);
+            if (bracelet.isSelected()) searchedItems.addAll(braceletJson);
+            if (necklace.isSelected()) searchedItems.addAll(necklaceJson);
+        }
+
+        searchFromIDs(idBoxes_1);
+
     }
 
     public void searchIngredient() {
+
+        //Search Can Craft Type
+        if (armouring.isSelected() && tailoring.isSelected() && weaponsmithing.isSelected() && woodworking.isSelected() && jeweling.isSelected() && scribing.isSelected() && cooking.isSelected() && alchemism.isSelected()) {
+            searchedItems.addAll(wynnIngredients);
+        } else {
+            //Add Armouring
+            if (armouring.isSelected()) searchedItems.addAll(armouringJson);
+
+            //Add Tailoring
+            if (tailoring.isSelected()) {
+                if (!armouring.isSelected()) {
+                    searchedItems.addAll(tailoringJson);
+                } else {
+                    for (JsonObject json : tailoringJson) {
+                        boolean add = true;
+                        JsonArray array = json.get("skills").getAsJsonArray();
+                        for (int i = 0; array.size() > i; ++i) {
+                            if (array.get(i).getAsString().contains("ARMOURING")) add = false;
+                        }
+                        if (add) searchedItems.add(json);
+                    }
+                }
+            }
+
+            //Add Weaponsmithing
+            if (weaponsmithing.isSelected()) {
+                if (!armouring.isSelected() && !tailoring.isSelected()) {
+                    searchedItems.addAll(weaponsmithingJson);
+                } else {
+                    for (JsonObject json : weaponsmithingJson) {
+                        boolean add = true;
+                        JsonArray array = json.get("skills").getAsJsonArray();
+                        for (int i = 0; array.size() > i; ++i) {
+                            String s = array.get(i).getAsString();
+                            if (s.contains("ARMOURING") || s.contains("TAILORING")) add = false;
+                        }
+                        if (add) searchedItems.add(json);
+                    }
+                }
+            }
+
+            //Add Woodworking
+            if (woodworking.isSelected()) {
+                if (!armouring.isSelected() && !tailoring.isSelected() && !weaponsmithing.isSelected()) {
+                    searchedItems.addAll(woodworkingJson);
+                } else {
+                    for (JsonObject json : woodworkingJson) {
+                        boolean add = true;
+                        JsonArray array = json.get("skills").getAsJsonArray();
+                        for (int i = 0; array.size() > i; ++i) {
+                            String s = array.get(i).getAsString();
+                            if (s.contains("ARMOURING") || s.contains("TAILORING") || s.contains("WEAPONSMITHING")) add = false;
+                        }
+                        if (add) searchedItems.add(json);
+                    }
+                }
+            }
+
+            //Add Jeweling
+            if (jeweling.isSelected()) {
+                if (!armouring.isSelected() && !tailoring.isSelected() && !weaponsmithing.isSelected() && !woodworking.isSelected()) {
+                    searchedItems.addAll(jewlingJson);
+                } else {
+                    for (JsonObject json : jewlingJson) {
+                        boolean add = true;
+                        JsonArray array = json.get("skills").getAsJsonArray();
+                        for (int i = 0; array.size() > i; ++i) {
+                            String s = array.get(i).getAsString();
+                            if (s.contains("ARMOURING") || s.contains("TAILORING") || s.contains("WEAPONSMITHING") || s.contains("WOODWORKING")) add = false;
+                        }
+                        if (add) searchedItems.add(json);
+                    }
+                }
+            }
+
+            //Add Scribing
+            if (scribing.isSelected()) {
+                if (!armouring.isSelected() && !tailoring.isSelected() && !weaponsmithing.isSelected() && !woodworking.isSelected() && !jeweling.isSelected()) {
+                    searchedItems.addAll(scribingJson);
+                } else {
+                    for (JsonObject json : scribingJson) {
+                        boolean add = true;
+                        JsonArray array = json.get("skills").getAsJsonArray();
+                        for (int i = 0; array.size() > i; ++i) {
+                            String s = array.get(i).getAsString();
+                            if (s.contains("ARMOURING") || s.contains("TAILORING") || s.contains("WEAPONSMITHING") || s.contains("WOODWORKING") && s.contains("JEWELING")) add = false;
+                        }
+                        if (add) searchedItems.add(json);
+                    }
+                }
+            }
+
+            //Add Cooking
+            if (cooking.isSelected()) {
+                if (!armouring.isSelected() && !tailoring.isSelected() && !weaponsmithing.isSelected() && !woodworking.isSelected() && !jeweling.isSelected() && !scribing.isSelected()) {
+                    searchedItems.addAll(cookingJson);
+                } else {
+                    for (JsonObject json : cookingJson) {
+                        boolean add = true;
+                        JsonArray array = json.get("skills").getAsJsonArray();
+                        for (int i = 0; array.size() > i; ++i) {
+                            String s = array.get(i).getAsString();
+                            if (s.contains("ARMOURING") || s.contains("TAILORING") || s.contains("WEAPONSMITHING") || s.contains("WOODWORKING") && s.contains("JEWELING") || s.contains("SCRIBING")) add = false;
+                        }
+                        if (add) searchedItems.add(json);
+                    }
+                }
+            }
+
+            //Add Alchemism
+            if (alchemism.isSelected()) {
+                if (!armouring.isSelected() && !tailoring.isSelected() && !weaponsmithing.isSelected() && !woodworking.isSelected() && !jeweling.isSelected() && !scribing.isSelected() && !cooking.isSelected()) {
+                    searchedItems.addAll(alchemismJson);
+                } else {
+                    for (JsonObject json : alchemismJson) {
+                        boolean add = true;
+                        JsonArray array = json.get("skills").getAsJsonArray();
+                        for (int i = 0; array.size() > i; ++i) {
+                            String s = array.get(i).getAsString();
+                            if (s.contains("ARMOURING") || s.contains("TAILORING") || s.contains("WEAPONSMITHING") || s.contains("WOODWORKING") && s.contains("JEWELING") || s.contains("SCRIBING") || s.contains("COOKING")) add = false;
+                        }
+                        if (add) searchedItems.add(json);
+                    }
+                }
+            }
+        }
+
+
+
     }
 
     public void displayItems() {
     }
 
     public void displayIngredients() {
+    }
+
+    public void setItemJson() {
+        for (JsonObject item : wynnItems) {
+            if (item.get("type") != null) {
+                switch (item.get("type").getAsString()) {
+                    case "Bow":
+                        bowJson.add(item);
+                        break;
+                    case "Spear":
+                        spearJson.add(item);
+                        break;
+                    case "Wand":
+                        wandJson.add(item);
+                        break;
+                    case "Dagger":
+                        daggerJson.add(item);
+                        break;
+                    case "Relik":
+                        relikJson.add(item);
+                        break;
+                    case "Helmet":
+                        helmetJson.add(item);
+                        break;
+                    case "Chestplate":
+                        chestplateJson.add(item);
+                        break;
+                    case "Leggings":
+                        leggingsJson.add(item);
+                        break;
+                    case "Boots":
+                        bootsJson.add(item);
+                        break;
+                }
+            } else if (item.get("accessoryType") != null) {
+                switch (item.get("accessoryType").getAsString()) {
+                    case "Ring":
+                        ringJson.add(item);
+                        break;
+                    case "Bracelet":
+                        braceletJson.add(item);
+                        break;
+                    case "Necklace":
+                        necklaceJson.add(item);
+                        break;
+                }
+            }
+        }
+    }
+
+    public void setIngredientJson() {
+        for (JsonObject ing : wynnIngredients) {
+            for (int i = 0; ing.get("skills").getAsJsonArray().size() > i; ++i) {
+                switch (ing.get("skills").getAsJsonArray().get(i).getAsString()) {
+                    case "ARMOURING": armouringJson.add(ing);
+                    break;
+                    case "TAILORING": tailoringJson.add(ing);
+                    break;
+                    case "WEAPONSMITHING": weaponsmithingJson.add(ing);
+                    break;
+                    case "WOODWORKING": woodworkingJson.add(ing);
+                    break;
+                    case "JEWELING": jewlingJson.add(ing);
+                    break;
+                    case "SCRIBING": scribingJson.add(ing);
+                    break;
+                    case "COOKING": cookingJson.add(ing);
+                    break;
+                    case "ALCHEMISM": alchemismJson.add(ing);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void searchFromIDs(List<JComboBox<String>> box) {
+
+    }
+
+    public String getComboBoxText(List<JComboBox<String>> boxes, int i) {
+        return ((JTextField) boxes.get(i).getEditor().getEditorComponent()).getText();
     }
 }
