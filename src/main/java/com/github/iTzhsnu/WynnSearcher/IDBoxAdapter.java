@@ -155,7 +155,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Sum (Base DPS)", Identifications.SUM_BASE_DPS);
         put("Sum (Neutral DPS)", Identifications.SUM_NEUTRAL_DPS);
         put("Sum (Earth DPS)", Identifications.SUM_EARTH_DPS);
-        put("Sum (Thunder DPS)", Identifications.SUM_TOTAL_THUNDER_DPS);
+        put("Sum (Thunder DPS)", Identifications.SUM_THUNDER_DPS);
         put("Sum (Water DPS)", Identifications.SUM_WATER_DPS);
         put("Sum (Fire DPS)", Identifications.SUM_FIRE_DPS);
         put("Sum (Air DPS)", Identifications.SUM_AIR_DPS);

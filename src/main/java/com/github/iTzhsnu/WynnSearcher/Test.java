@@ -7,11 +7,13 @@ import java.util.List;
 
 public class Test {
     public static void main(String[] args) {
-        List<JsonObject> json = new ArrayList<>();
-        GetAPI.setIngredientData(json);
+        String s = "100-145";
 
-        for (int i = 0; json.size() > i; ++i) {
-            System.out.println(json.get(i).get("skills").getAsJsonArray().get(0).getAsString());
+        if (s.indexOf("-") != -1) {
+            String[] ss = s.split("-");
+
+            for (String value : ss) System.out.println(value);
         }
+
     }
 }

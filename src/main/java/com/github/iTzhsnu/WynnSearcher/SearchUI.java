@@ -156,8 +156,12 @@ public class SearchUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == searchB) {
-            for (JPanel p : itemDisplays) {
-                searched.remove(p);
+            for (int i = itemDisplays.size() - 1; i >= 0; --i) {
+                if (i > 19) {
+                    searched.remove(itemDisplays.get(i));
+                } else {
+                    itemDisplays.get(i).setVisible(false);
+                }
             }
             if (canSearchItem()) {
                 searchItems();
@@ -363,6 +367,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void searchItems() {
+        searchedItems.clear();
 
         //Search Item Type
         if (bow.isSelected() && spear.isSelected() && wand.isSelected() && dagger.isSelected() && relik.isSelected() && helmet.isSelected() && chestplate.isSelected() && leggings.isSelected() && boots.isSelected() && ring.isSelected() && bracelet.isSelected() && necklace.isSelected()) {
@@ -382,11 +387,15 @@ public class SearchUI extends JFrame implements ActionListener {
             if (necklace.isSelected()) searchedItems.addAll(necklaceJson);
         }
 
-        searchFromIDs(idBoxes_1);
+        searchItemFromIDs(idBoxes_1);
 
+        for (JsonObject searchedItem : searchedItems) {
+            System.out.println(searchedItem.get("name"));
+        }
     }
 
     public void searchIngredient() {
+        searchedItems.clear();
 
         //Search Can Craft Type
         if (armouring.isSelected() && tailoring.isSelected() && weaponsmithing.isSelected() && woodworking.isSelected() && jeweling.isSelected() && scribing.isSelected() && cooking.isSelected() && alchemism.isSelected()) {
@@ -597,8 +606,71 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    public void searchFromIDs(List<JComboBox<String>> box) {
+    public void searchItemFromIDs(List<JComboBox<String>> box) {
+        if(!getComboBoxText(box, 0).isEmpty()) {
+            Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
+            if (id.getItemName() != null) {
+                for (int i = searchedItems.size() - 1; i >= 0; --i) {
+                    if (!Objects.equals(id.getIDType(), "sum")) {
+                        if (searchedItems.get(i).get(id.getItemName()) != null) {
+                            if (Objects.equals(id.getIDType(), "int") && searchedItems.get(i).get(id.getItemName()).getAsInt() == 0) {
+                                searchedItems.remove(i);
+                            } else if (Objects.equals(id.getIDType(), "string") && searchedItems.get(i).get(id.getItemName()).getAsString().isEmpty()) {
+                                searchedItems.remove(i);
+                            } else if (Objects.equals(id.getIDType(), "damage_string") && Objects.equals(searchedItems.get(i).get(id.getItemName()).getAsString(), "0-0")) {
+                                searchedItems.remove(i);
+                            }
+                        } else {
+                            searchedItems.remove(i);
+                        }
+                    } else if (Objects.equals(id.getIDType(), "sum")) {
+                        boolean needAll = true;
+                        boolean need = false;
+                        for (int n = 0; id.getSum().getIds().size() > n; ++n) {
+                            if (id.getSum().getIds().get(n).getItemName() != null) {
+                                if (searchedItems.get(i).get(id.getSum().getIds().get(n).getItemName()) != null) {
+                                    if (Objects.equals(id.getSum().getIds().get(n).getIDType(), "int")) {
+                                        if (searchedItems.get(i).get(id.getSum().getIds().get(n).getItemName()).getAsInt() == 0) {
+                                            needAll = false;
+                                        } else {
+                                            need = true;
+                                        }
+                                    } else if (Objects.equals(id.getSum().getIds().get(n).getIDType(), "string")) {
+                                        if (searchedItems.get(i).get(id.getSum().getIds().get(n).getItemName()).getAsString().isEmpty()) {
+                                            needAll = false;
+                                        } else {
+                                            need = true;
+                                        }
+                                    } else if (Objects.equals(id.getSum().getIds().get(n).getIDType(), "damage_string")) {
+                                        if (Objects.equals(searchedItems.get(i).get(id.getSum().getIds().get(n).getItemName()).getAsString(), "0-0")) {
+                                            needAll = false;
+                                        } else {
+                                            need = true;
+                                        }
+                                    }
+                                } else {
+                                    needAll = false;
+                                }
+                            }
+                        }
+                        if (id.getSum().isNeedAll() && !needAll) {
+                            searchedItems.remove(i);
+                        } else if (!id.getSum().isNeedAll() && !need) {
+                            searchedItems.remove(i);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
+    public void searchIngFromIDs(List<JComboBox<String>> box) {
+        if (!getComboBoxText(box, 0).isEmpty()) {
+            Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
+            if (id.getIngName() != null) {
+
+            }
+        }
     }
 
     public String getComboBoxText(List<JComboBox<String>> boxes, int i) {
