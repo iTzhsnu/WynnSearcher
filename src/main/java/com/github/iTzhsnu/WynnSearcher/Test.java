@@ -7,13 +7,14 @@ import java.util.List;
 
 public class Test {
     public static void main(String[] args) {
-        String s = "100-145";
+        List<JsonObject> list = new ArrayList<>();
+        Identifications id = Identifications.POISON;
+        GetAPI.setIngredientData(list);
 
-        if (s.indexOf("-") != -1) {
-            String[] ss = s.split("-");
 
-            for (String value : ss) System.out.println(value);
-        }
-
+        System.out.println(list.get(0).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()));
     }
+
+    //if (string.indexOf("-") != -1) String[] s = string.split("-");
+    //use for String[] => String
 }

@@ -45,7 +45,9 @@ public enum SumEnum {
     TOTAL_AIR_DPS("total_air_dps", air_Damage(), "total_dps", air_Damage_Percent(), false),
 
     RAW_SPELL_COSTS("raw_spell_costs", raw_Spell_Costs(), "add", null, false),
-    SPELL_COSTS_PERCENT("spell_costs_percent", spell_Costs_Percent(), "add", null, false)
+    SPELL_COSTS_PERCENT("spell_costs_percent", spell_Costs_Percent(), "add", null, false),
+
+    INGREDIENT_EFFECTIVENESS("ingredient_effectiveness", ingredient_Effectiveness(), "add", null, false);
     ;
 
     private final String name;
@@ -301,6 +303,19 @@ public enum SumEnum {
         ids.add(Identifications.PERCENT_2ND_SPELL_COST);
         ids.add(Identifications.PERCENT_3RD_SPELL_COST);
         ids.add(Identifications.PERCENT_4TH_SPELL_COST);
+
+        return ids;
+    }
+
+    private static List<Identifications> ingredient_Effectiveness() {
+        List<Identifications> ids = new ArrayList<>();
+
+        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE);
+        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_UNDER);
+        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_RIGHT);
+        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_LEFT);
+        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING);
+        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING);
 
         return ids;
     }
