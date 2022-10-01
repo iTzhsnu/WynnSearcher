@@ -1019,12 +1019,15 @@ public class SearchUI extends JFrame implements ActionListener {
                 if (id.getItemName() != null) {
                     if (!Objects.equals(id.getIDType(), "sum")) {
                         if (Objects.equals(id.getIDType(), "int") && j.get(id.getItemName()) != null) {
-                            total = total + j.get(id.getItemName()).getAsInt();
+                            int t = ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
+                            if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                                t = j.get(id.getItemName()).getAsInt();
+                            }
+                            total = total + t;
                         } else if (Objects.equals(id.getIDType(), "damage_string") && j.get(id.getItemName()) != null && !Objects.equals(j.get(id.getItemName()).getAsString(), "0-0")) {
                             if (j.get(id.getItemName()).getAsString().contains("-")) {
                                 String[] ss = j.get(id.getItemName()).getAsString().split("-");
-                                int p = Integer.parseInt(ss[0]) + Integer.parseInt(ss[ss.length - 1]);
-                                total = total + (p / 2);
+                                total = total + Integer.parseInt(ss[ss.length - 1]);
                             }
                         }  else if (Objects.equals(id.getIDType(), "string") && Objects.equals(id.getItemName(), "attackSpeed") && j.get(id.getItemName()) != null) {
                             switch (j.get(id.getItemName()).getAsString()) {
@@ -1050,11 +1053,19 @@ public class SearchUI extends JFrame implements ActionListener {
                         for (int n = 0; id.getSum().getIds().size() > n; ++n) {
                             Identifications ids = id.getSum().getIds().get(n);
                             if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
-                                sum_total = sum_total + j.get(ids.getItemName()).getAsInt();
+                                int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
+                                if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                                    t = j.get(ids.getItemName()).getAsInt();
+                                }
+                                sum_total = sum_total + t;
                             } else if (Objects.equals(ids.getIDType(), "damage_string") && j.get(ids.getItemName()) != null && !Objects.equals(j.get(ids.getItemName()).getAsString(), "0-0")) {
                                 String[] ss = j.get(ids.getItemName()).getAsString().split("-");
-                                int p = Integer.parseInt(ss[0]) + Integer.parseInt(ss[ss.length - 1]);
-                                sum_total = sum_total + (p / 2);
+                                if (Objects.equals(id.getSum().getCalcType(), "add") || Objects.equals(id.getSum().getCalcType(), "multi")) {
+                                    sum_total = sum_total + Integer.parseInt(ss[ss.length - 1]);
+                                } else {
+                                    int p = Integer.parseInt(ss[0]) + Integer.parseInt(ss[ss.length - 1]);
+                                    sum_total = sum_total + (p / 2);
+                                }
                             }
                         }
                         if (Objects.equals(id.getSum().getCalcType(), "multi") || Objects.equals(id.getSum().getCalcType(), "total_dps") && id.getSum().getAndIDs() != null) {
