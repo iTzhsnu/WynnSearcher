@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
@@ -98,6 +99,7 @@ public class SearchUI extends JFrame implements ActionListener {
     private final List<JTextField> idMax_4 = new ArrayList<>();
 
     public SearchUI() {
+
         GetAPI.setItemData(wynnItems);
         GetAPI.setIngredientData(wynnIngredients);
 
@@ -105,7 +107,7 @@ public class SearchUI extends JFrame implements ActionListener {
         setIngredientJson();
 
         setTitle("Wynncraft Searcher");
-        setBounds(100, 100, 1000, 800);
+        setBounds(100, 100, 1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         contentPane = getContentPane();
@@ -139,15 +141,19 @@ public class SearchUI extends JFrame implements ActionListener {
 
         //Searched Items (or Ingredients) List Panel
         searched.setBorder(new LineBorder(Color.BLACK));
-        searched.setBounds(5, 270, 975, 485);
+        searched.setPreferredSize(new Dimension(1057, 482));
+        searched.setLayout(null);
 
+        JScrollPane scrollPane = new JScrollPane(searched);
+        scrollPane.setBounds(5, 270, 1075, 485);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         //Add Contents
         contentPane.add(name);
         contentPane.add(searchB);
         contentPane.add(searchF);
         contentPane.add(itemOrIngredient);
-        contentPane.add(searched);
+        contentPane.add(scrollPane);
     }
 
     public static void main(String[] args) {
@@ -158,11 +164,8 @@ public class SearchUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == searchB) {
             for (int i = itemDisplays.size() - 1; i >= 0; --i) {
-                if (i > 19) {
                     searched.remove(itemDisplays.get(i));
-                } else {
-                    itemDisplays.get(i).setVisible(false);
-                }
+                    itemDisplays.remove(i);
             }
             if (canSearchItem()) {
                 searchItems();
@@ -235,13 +238,14 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public void typeItemDataSet() {
         itemTier.addItem("All");
-        itemTier.addItem("No Common");
+        itemTier.addItem("No Normal");
         itemTier.addItem("Mythic");
         itemTier.addItem("Fabled");
         itemTier.addItem("Legendary");
         itemTier.addItem("Rare");
         itemTier.addItem("Unique");
-        itemTier.addItem("Common");
+        itemTier.addItem("Set");
+        itemTier.addItem("Normal");
         itemTier.setBounds(320, 35, 120, 20);
 
         bow.setBounds(450, 10, 50, 20);
@@ -304,6 +308,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void setVisibleItem(boolean visible) {
+        itemTier.setVisible(visible);
         bow.setVisible(visible);
         spear.setVisible(visible);
         wand.setVisible(visible);
@@ -404,9 +409,23 @@ public class SearchUI extends JFrame implements ActionListener {
         searchItemFromIDs(idBoxes_3);
         searchItemFromIDs(idBoxes_4);
 
-        for (JsonObject searchedItem : searchedItems) {
-            System.out.println(searchedItem.get("name"));
+        Identifications id_0 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 0), Identifications.EMPTY);
+        Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 1), Identifications.EMPTY);
+        Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 2), Identifications.EMPTY);
+        Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 3), Identifications.EMPTY);
+        if (id_0.getItemName() == null && id_1.getItemName() == null && id_2.getItemName() == null && id_3.getItemName() == null) {
+            removeAllSearchedItemOrIngredients();
         }
+
+        searchItemFromTier();
+
+        searchFromName();
+
+        for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
+            sortItems(idBoxes_1);
+        }
+
+        setDisplaySize();
     }
 
     public void searchIngredient() {
@@ -543,15 +562,27 @@ public class SearchUI extends JFrame implements ActionListener {
         searchIngFromIDs(idBoxes_3);
         searchIngFromIDs(idBoxes_4);
 
-        for (JsonObject searchedItem : searchedItems) {
-            System.out.println(searchedItem.get("name"));
+        searchIngFromTier();
+
+        searchFromName();
+
+        //sortIngredients(idBoxes_1);
+
+
+        for (int i = 0; searchedItems.size() > i; ++i) {
+            JPanel previous = null;
+            JPanel fourP = null;
+            if (i >= 1) {
+                previous = itemDisplays.get(i - 1);
+            }
+            if (i >= 4) {
+                fourP = itemDisplays.get(i - 4);
+            }
+            itemDisplays.add(new ItemUITemplate(searchedItems.get(i), true, previous, fourP));
+            searched.add(itemDisplays.get(i));
         }
-    }
 
-    public void displayItems() {
-    }
-
-    public void displayIngredients() {
+        setDisplaySize();
     }
 
     public void setItemJson() {
@@ -762,7 +793,7 @@ public class SearchUI extends JFrame implements ActionListener {
         Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
 
         if (!getComboBoxText(box, 0).isEmpty() || !getComboBoxText(box, 1).isEmpty() || !getComboBoxText(box, 2).isEmpty() || !getComboBoxText(box, 3).isEmpty()) {
-            if (id_0.getItemName() != null || id_1.getItemName() != null || id_2.getItemName() != null || id_3.getItemName() != null) {
+            if (id_0.getIngName() != null || id_1.getIngName() != null || id_2.getIngName() != null || id_3.getIngName() != null) {
                 for (int i = searchedItems.size() - 1; i >= 0; --i) {
                     boolean remove = true;
                     for (int num = 0; 4 > num; ++num) {
@@ -775,7 +806,7 @@ public class SearchUI extends JFrame implements ActionListener {
                                             remove = false;
                                         } else if (Objects.equals(id.getIngFieldPos(), "nothing") && searchedItems.get(i).get(id.getIngName()) != null && searchedItems.get(i).get(id.getIngName()).getAsInt() != 0) {
                                             remove = false;
-                                        } else if (!Objects.equals(id.getIngFieldPos(), "identifications") && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() != 0) {
+                                        } else if (!Objects.equals(id.getIngFieldPos(), "identifications") && searchedItems.get(i).get(id.getIngFieldPos()) != null && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() != 0) {
                                             remove = false;
                                         }
                                     } else if (Objects.equals(id.getIDType(), "sum")) {
@@ -785,24 +816,22 @@ public class SearchUI extends JFrame implements ActionListener {
                                         for (int n = 0; id.getSum().getIds().size() > n; ++n) {
                                             Identifications ids = id.getSum().getIds().get(n);
                                             if (ids.getIngName() != null && ids.getIngFieldPos() != null) {
-                                                if (Objects.equals(ids.getIngFieldPos(), "identifications") && searchedItems.get(i).get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject() != null) {
-                                                    if (searchedItems.get(i).get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("minimum").getAsInt() == 0) {
-                                                        needAll = false;
-                                                    } else {
-                                                        need = true;
-                                                    }
+                                                if (Objects.equals(ids.getIngFieldPos(), "identifications") && searchedItems.get(i).get(ids.getIngFieldPos()) != null && searchedItems.get(i).get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
+                                                    need = true;
                                                 } else if (Objects.equals(ids.getIngFieldPos(), "nothing") && searchedItems.get(i).get(ids.getIngName()) != null) {
                                                     if (searchedItems.get(i).get(ids.getIngName()).getAsInt() == 0) {
                                                         needAll = false;
                                                     } else {
                                                         need = true;
                                                     }
-                                                } else if (!Objects.equals(ids.getIngFieldPos(), "identifications") && searchedItems.get(i).get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
+                                                } else if (!Objects.equals(ids.getIngFieldPos(), "identifications") && searchedItems.get(i).get(ids.getIngFieldPos()) != null && searchedItems.get(i).get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
                                                     if (searchedItems.get(i).get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt() == 0) {
                                                         needAll = false;
                                                     } else {
                                                         need = true;
                                                     }
+                                                } else {
+                                                    needAll = false;
                                                 }
                                             }
                                         }
@@ -875,5 +904,265 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public String getComboBoxText(List<JComboBox<String>> boxes, int i) {
         return ((JTextField) boxes.get(i).getEditor().getEditorComponent()).getText();
+    }
+
+    public void setDisplaySize() {
+        if (itemDisplays.size() > 0) {
+            int si = itemDisplays.size() - 1;
+            int iu = -1;
+            int max = 0;
+            for (int i = 0; si >= i && 4 > i; ++i) {
+                int y = itemDisplays.get(si - i).getBounds().y + itemDisplays.get(si - i).getBounds().height;
+                if (y > max) {
+                    max = y;
+                    iu = i;
+                }
+            }
+            JPanel p = itemDisplays.get(si);
+
+            if (iu > 0) p = itemDisplays.get(si - iu);
+
+            if (10 + p.getBounds().y + p.getBounds().height > 482) {
+                searched.setPreferredSize(new Dimension(1057, 10 + p.getBounds().y + p.getBounds().height));
+            } else {
+                searched.setPreferredSize(new Dimension(1057, 482));
+            }
+        }
+
+        SwingUtilities.updateComponentTreeUI(searched);
+    }
+
+    public void searchItemFromTier() {
+        for (int i = searchedItems.size() - 1; i >= 0; --i) {
+            String s = searchedItems.get(i).get("tier").getAsString();
+            switch (itemTier.getItemAt(itemTier.getSelectedIndex())) {
+                case "No Normal": if (s.equals("Normal")) {
+                    searchedItems.remove(i);
+                }
+                break;
+                case "Mythic": if (!s.equals("Mythic")) {
+                    searchedItems.remove(i);
+                }
+                break;
+                case "Fabled": if (!s.equals("Fabled")) {
+                    searchedItems.remove(i);
+                }
+                break;
+                case "Legendary": if (!s.equals("Legendary")) {
+                    searchedItems.remove(i);
+                }
+                break;
+                case "Rare": if (!s.equals("Rare")) {
+                    searchedItems.remove(i);
+                }
+                break;
+                case "Unique": if (!s.equals("Unique")) {
+                    searchedItems.remove(i);
+                }
+                break;
+                case "Set": if (!s.equals("Set")) {
+                    searchedItems.remove(i);
+                }
+                break;
+                case "Normal": if (!s.equals("Normal")) {
+                    searchedItems.remove(i);
+                }
+                break;
+            }
+        }
+    }
+
+    public void searchIngFromTier() {
+        for (int i = searchedItems.size() - 1; i >= 0; --i) {
+            int t = searchedItems.get(i).get("tier").getAsInt();
+            switch (tier.getItemAt(tier.getSelectedIndex())) {
+                case "0 Star": if (t != 0) {
+                    searchedItems.remove(i);
+                }
+                break;
+                case "1 Star": if (t != 1) {
+                    searchedItems.remove(i);
+                }
+                break;
+                case "2 Star": if (t != 2) {
+                    searchedItems.remove(i);
+                }
+                break;
+                case "3 Star": if (t != 3) {
+                    searchedItems.remove(i);
+                }
+                break;
+            }
+        }
+    }
+
+    public void searchFromName() {
+        for (int i = searchedItems.size() - 1; i >= 0  ; --i) {
+            JsonObject json = searchedItems.get(i);
+            if (json.get("displayName") == null) {
+                if (!json.get("name").getAsString().toLowerCase().contains(searchF.getText().toLowerCase())) {
+                    searchedItems.remove(i);
+                }
+            } else {
+                if (!json.get("displayName").getAsString().toLowerCase().contains(searchF.getText().toLowerCase())) {
+                    searchedItems.remove(i);
+                }
+            }
+        }
+    }
+
+    public void filterItemFromSize() {
+
+    }
+
+    public void filterIngFromSize() {
+
+    }
+
+    public void sortItems(List<JComboBox<String>> box) {
+        int si = searchedItems.size() - 1;
+        int iu = 0;
+        int max = 0;
+        for (int i = 0; si > i; ++i) {
+            JsonObject j = searchedItems.get(si - i);
+            int total = 0;
+
+            for (int num = 0; 4 > num; ++num) {
+                Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, num), Identifications.EMPTY);
+                if (id.getItemName() != null) {
+                    if (!Objects.equals(id.getIDType(), "sum")) {
+                        if (Objects.equals(id.getIDType(), "int") && j.get(id.getItemName()) != null) {
+                            total = total + j.get(id.getItemName()).getAsInt();
+                        } else if (Objects.equals(id.getIDType(), "damage_string") && j.get(id.getItemName()) != null && !Objects.equals(j.get(id.getItemName()).getAsString(), "0-0")) {
+                            if (j.get(id.getItemName()).getAsString().contains("-")) {
+                                String[] ss = j.get(id.getItemName()).getAsString().split("-");
+                                int p = Integer.parseInt(ss[0]) + Integer.parseInt(ss[ss.length - 1]);
+                                total = total + (p / 2);
+                            }
+                        }  else if (Objects.equals(id.getIDType(), "string") && Objects.equals(id.getItemName(), "attackSpeed") && j.get(id.getItemName()) != null) {
+                            switch (j.get(id.getItemName()).getAsString()) {
+                                case "SUPER_FAST": total = 7;
+                                break;
+                                case "VERY_FAST": total = 6;
+                                break;
+                                case "FAST": total = 5;
+                                break;
+                                case "NORMAL": total = 4;
+                                break;
+                                case "SLOW": total = 3;
+                                break;
+                                case "VERY_SLOW": total = 2;
+                                break;
+                                case "SUPER_SLOW": total = 1;
+                                break;
+                            }
+                        }
+                    } else if (Objects.equals(id.getIDType(), "sum")) {
+                        double sum_total = 0;
+                        int sum_multi = 0;
+                        for (int n = 0; id.getSum().getIds().size() > n; ++n) {
+                            Identifications ids = id.getSum().getIds().get(n);
+                            if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
+                                sum_total = sum_total + j.get(ids.getItemName()).getAsInt();
+                            } else if (Objects.equals(ids.getIDType(), "damage_string") && j.get(ids.getItemName()) != null && !Objects.equals(j.get(ids.getItemName()).getAsString(), "0-0")) {
+                                String[] ss = j.get(ids.getItemName()).getAsString().split("-");
+                                int p = Integer.parseInt(ss[0]) + Integer.parseInt(ss[ss.length - 1]);
+                                sum_total = sum_total + (p / 2);
+                            }
+                        }
+                        if (Objects.equals(id.getSum().getCalcType(), "multi") || Objects.equals(id.getSum().getCalcType(), "total_dps") && id.getSum().getAndIDs() != null) {
+                            for (int n = 0; id.getSum().getAndIDs().size() > n; ++n) {
+                                Identifications ids = id.getSum().getAndIDs().get(n);
+                                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
+                                    sum_multi = sum_multi + j.get(ids.getItemName()).getAsInt();
+                                }
+                            }
+                            sum_total = sum_total * sum_multi / 100;
+                        }
+                        if (Objects.equals(id.getSum().getCalcType(), "base_dps") || Objects.equals(id.getSum().getCalcType(), "total_dps")) {
+                            if (j.get("attackSpeed") != null) {
+                                switch (j.get("attackSpeed").getAsString()) {
+                                    case "SUPER_FAST": sum_total = sum_total * 4.3;
+                                    break;
+                                    case "VERY_FAST": sum_total = sum_total * 3.1;
+                                    break;
+                                    case "FAST": sum_total = sum_total * 2.5;
+                                    break;
+                                    case "NORMAL": sum_total = sum_total * 2.05;
+                                    break;
+                                    case "SLOW": sum_total = sum_total * 1.5;
+                                    break;
+                                    case "VERY_SLOT": sum_total = sum_total * 0.83;
+                                    break;
+                                    case "SUPER_SLOW": sum_total = sum_total * 0.51;
+                                }
+                            }
+                        }
+                        total = total + (int) sum_total;
+                    }
+                }
+            }
+
+            if (total > max) {
+                max = total;
+                iu = si - i;
+            }
+        }
+
+        JPanel previous = null;
+        JPanel fourP = null;
+        if (itemDisplays.size() >= 1) {
+            previous = itemDisplays.get(itemDisplays.size() - 1);
+        }
+        if (itemDisplays.size() >= 4) {
+            fourP = itemDisplays.get(itemDisplays.size() - 4);
+        }
+        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), false, previous, fourP));
+        searched.add(itemDisplays.get(itemDisplays.size() - 1));
+        searchedItems.remove(iu);
+    }
+
+    public void sortIngredients(List<JComboBox<String>> box) {
+        int si = searchedItems.size() - 1;
+        int iu = 0;
+        int max = 0;
+        for (int i = 0; si > i; ++i) {
+            JsonObject j = searchedItems.get(si - i);
+            int total = 0;
+
+            for (int num = 0; 4 > num; ++num) {
+                Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, num), Identifications.EMPTY);
+                if (id.getIngName() != null) {
+                    if (!Objects.equals(id.getIDType(), "sum")) {
+
+                    } else if (Objects.equals(id.getIDType(), "sum")) {
+
+                    }
+                }
+            }
+
+            if (total > max) {
+                max = total;
+                iu = i;
+            }
+        }
+
+        JPanel previous = null;
+        JPanel fourP = null;
+        if (itemDisplays.size() >= 1) {
+            previous = itemDisplays.get(itemDisplays.size() - 1);
+        }
+        if (itemDisplays.size() >= 4) {
+            fourP = itemDisplays.get(itemDisplays.size() - 4);
+        }
+        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), false, previous, fourP));
+        searched.add(itemDisplays.get(itemDisplays.size() - 1));
+        searchedItems.remove(iu);
+    }
+
+    public void removeAllSearchedItemOrIngredients() {
+        if (searchedItems.size() > 0) {
+            searchedItems.subList(0, searchedItems.size()).clear();
+        }
     }
 }

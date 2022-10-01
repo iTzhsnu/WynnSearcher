@@ -10,7 +10,7 @@ public class IDBoxAdapter extends KeyAdapter {
     private final JComboBox<String> box;
 
     public static final String[] DISPLAY_ID_LIST = new String[] {
-            "Level", "Strength Req", "Dexterity Req", "Intelligence Req", "Defense Req", "Agility Req", "Quest Req",
+            "Level", "Strength Req", "Dexterity Req", "Intelligence Req", "Defense Req", "Agility Req",
             "Health", "Health Bonus", "Raw Health Regen", "Health Regen %", "Life Steal",
             "Strength", "Dexterity", "Intelligence", "Defense", "Agility",
             "Earth Defense", "Thunder Defense", "Water Defense", "Fire Defense", "Air Defense",
@@ -47,7 +47,6 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Intelligence Req", Identifications.INTELLIGENCE_REQ);
         put("Defense Req", Identifications.DEFENSE_REQ);
         put("Agility Req", Identifications.AGILITY_REQ);
-        put("Quest Req", Identifications.QUEST_REQ);
 
         put("Health", Identifications.HEALTH);
         put("Health Bonus", Identifications.HEALTH_BONUS);

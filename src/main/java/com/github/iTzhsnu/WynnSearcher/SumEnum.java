@@ -47,7 +47,7 @@ public enum SumEnum {
     RAW_SPELL_COSTS("raw_spell_costs", raw_Spell_Costs(), "add", null, false),
     SPELL_COSTS_PERCENT("spell_costs_percent", spell_Costs_Percent(), "add", null, false),
 
-    INGREDIENT_EFFECTIVENESS("ingredient_effectiveness", ingredient_Effectiveness(), "add", null, false);
+    INGREDIENT_EFFECTIVENESS("ingredient_effectiveness", ingredient_Effectiveness(), "add", null, false)
     ;
 
     private final String name;
@@ -203,19 +203,6 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> melee_Damages_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.MELEE_DAMAGE_PERCENT);
-        ids.add(Identifications.EARTH_DAMAGE_PERCENT);
-        ids.add(Identifications.THUNDER_DAMAGE_PERCENT);
-        ids.add(Identifications.WATER_DAMAGE_PERCENT);
-        ids.add(Identifications.FIRE_DAMAGE_PERCENT);
-        ids.add(Identifications.AIR_DAMAGE_PERCENT);
-
-        return ids;
-    }
-
     private static List<Identifications> melee_Damage_Percent() {
         List<Identifications> ids = new ArrayList<>();
 
@@ -228,19 +215,6 @@ public enum SumEnum {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.SPELL_DAMAGE_PERCENT);
-
-        return ids;
-    }
-
-    private static List<Identifications> spell_Damages_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.SPELL_DAMAGE_PERCENT);
-        ids.add(Identifications.EARTH_DAMAGE_PERCENT);
-        ids.add(Identifications.THUNDER_DAMAGE_PERCENT);
-        ids.add(Identifications.WATER_DAMAGE_PERCENT);
-        ids.add(Identifications.FIRE_DAMAGE_PERCENT);
-        ids.add(Identifications.AIR_DAMAGE_PERCENT);
 
         return ids;
     }
