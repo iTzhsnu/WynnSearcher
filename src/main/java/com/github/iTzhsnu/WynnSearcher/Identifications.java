@@ -157,7 +157,6 @@ public enum Identifications {
     private final SumEnum sum;
     private final String ingFieldPos;
 
-    //Special 0 = not Special, 1 = Require, 2 = Sum, 3 = other Special
     Identifications(String displayName, String itemName, String ingName, boolean percent, String idType, SumEnum sum, String ingFieldPos) {
         this.displayName = displayName;
         this.itemName = itemName;
