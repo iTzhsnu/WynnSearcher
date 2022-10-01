@@ -566,21 +566,23 @@ public class SearchUI extends JFrame implements ActionListener {
 
         searchFromName();
 
-        //sortIngredients(idBoxes_1);
-
-
-        for (int i = 0; searchedItems.size() > i; ++i) {
-            JPanel previous = null;
-            JPanel fourP = null;
-            if (i >= 1) {
-                previous = itemDisplays.get(i - 1);
-            }
-            if (i >= 4) {
-                fourP = itemDisplays.get(i - 4);
-            }
-            itemDisplays.add(new ItemUITemplate(searchedItems.get(i), true, previous, fourP));
-            searched.add(itemDisplays.get(i));
+        for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
+            sortIngredients(idBoxes_1);
         }
+
+
+        //for (int i = 0; searchedItems.size() > i; ++i) {
+        //    JPanel previous = null;
+        //    JPanel fourP = null;
+        //    if (i >= 1) {
+        //        previous = itemDisplays.get(i - 1);
+        //    }
+        //    if (i >= 4) {
+        //        fourP = itemDisplays.get(i - 4);
+        //    }
+        //    itemDisplays.add(new ItemUITemplate(searchedItems.get(i), true, previous, fourP));
+        //    searched.add(itemDisplays.get(i));
+        //}
 
         setDisplaySize();
     }
@@ -1134,16 +1136,33 @@ public class SearchUI extends JFrame implements ActionListener {
                 Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, num), Identifications.EMPTY);
                 if (id.getIngName() != null) {
                     if (!Objects.equals(id.getIDType(), "sum")) {
-
+                        if (Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
+                            total = total + j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("maximum").getAsInt();
+                        } else if (Objects.equals(id.getIngFieldPos(), "nothing") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsInt() != 0) {
+                            total = total + j.get(id.getIngName()).getAsInt();
+                        } else if (!Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() != 0) {
+                            total = total + j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt();
+                        }
                     } else if (Objects.equals(id.getIDType(), "sum")) {
-
+                        int sum_total = 0;
+                        for (int n = 0; id.getSum().getIds().size() > n; ++n) {
+                            Identifications ids = id.getSum().getIds().get(n);
+                            if (Objects.equals(ids.getIngFieldPos(), "identifications") && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
+                                sum_total = sum_total + j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("maximum").getAsInt();
+                            } else if (Objects.equals(ids.getIngFieldPos(), "nothing") && j.get(ids.getIngName()) != null && j.get(ids.getIngName()).getAsInt() != 0) {
+                                sum_total = sum_total + j.get(ids.getIngName()).getAsInt();
+                            } else if (!Objects.equals(ids.getIngFieldPos(), "identifications") && j.get(ids.getIngFieldPos()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt() != 0) {
+                                sum_total = sum_total + j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt();
+                            }
+                        }
+                        total = total + sum_total;
                     }
                 }
             }
 
             if (total > max) {
                 max = total;
-                iu = i;
+                iu = si - i;
             }
         }
 
@@ -1155,7 +1174,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (itemDisplays.size() >= 4) {
             fourP = itemDisplays.get(itemDisplays.size() - 4);
         }
-        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), false, previous, fourP));
+        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), true, previous, fourP));
         searched.add(itemDisplays.get(itemDisplays.size() - 1));
         searchedItems.remove(iu);
     }
