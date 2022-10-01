@@ -3,7 +3,7 @@ plugins {
 }
 
 
-version '1.0.0_First Release'
+version '1.0.0-Beta'
 
 repositories {
     mavenCentral()
