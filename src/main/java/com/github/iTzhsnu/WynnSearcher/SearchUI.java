@@ -570,20 +570,6 @@ public class SearchUI extends JFrame implements ActionListener {
             sortIngredients(idBoxes_1);
         }
 
-
-        //for (int i = 0; searchedItems.size() > i; ++i) {
-        //    JPanel previous = null;
-        //    JPanel fourP = null;
-        //    if (i >= 1) {
-        //        previous = itemDisplays.get(i - 1);
-        //    }
-        //    if (i >= 4) {
-        //        fourP = itemDisplays.get(i - 4);
-        //    }
-        //    itemDisplays.add(new ItemUITemplate(searchedItems.get(i), true, previous, fourP));
-        //    searched.add(itemDisplays.get(i));
-        //}
-
         setDisplaySize();
     }
 
