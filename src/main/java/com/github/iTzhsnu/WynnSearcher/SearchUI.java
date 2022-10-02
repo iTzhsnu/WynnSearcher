@@ -859,7 +859,7 @@ public class SearchUI extends JFrame implements ActionListener {
                     Identifications ids = id.getSum().getIds().get(n);
                     if (ids.getIngName() != null && ids.getIngFieldPos() != null) {
                         if (Objects.equals(ids.getIngFieldPos(), "identifications")) {
-                            if (json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("minimum").getAsInt() == 0) {
+                            if (json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null && json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("minimum").getAsInt() == 0) {
                                 needAll = false;
                             } else {
                                 need = true;
