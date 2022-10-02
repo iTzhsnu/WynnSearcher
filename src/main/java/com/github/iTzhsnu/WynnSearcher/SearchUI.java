@@ -844,7 +844,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (idPos >= needPos) {
             if (!Objects.equals(id.getIDType(), "sum")) {
                 if (id.getIngName() != null && id.getIngFieldPos() != null) {
-                    if (Objects.equals(id.getIngFieldPos(), "identifications") && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("minimum").getAsInt() != 0) {
+                    if (Objects.equals(id.getIngFieldPos(), "identifications") && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("minimum").getAsInt() != 0) {
                         return false;
                     } else if (Objects.equals(id.getIngFieldPos(), "nothing") && json.get(id.getIngName()).getAsInt() != 0) {
                         return false;
