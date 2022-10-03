@@ -362,7 +362,7 @@ public class ItemUITemplate extends JPanel {
             }
             if (json.get("healthRegenRaw") != null && json.get("healthRegenRaw").getAsInt() != 0) {
                 int base = json.get("healthRegenRaw").getAsInt();
-                label.add(new JLabel(getMin(base) + " Health Regen Raw" + getMax(base)));
+                label.add(new JLabel(getMin(base) + " Health Regen Raw " + getMax(base)));
             }
             if (json.get("healthRegen") != null && json.get("healthRegen").getAsInt() != 0) {
                 int base = json.get("healthRegen").getAsInt();
