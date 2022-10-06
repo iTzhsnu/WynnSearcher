@@ -5,4 +5,9 @@ Can Easy Search Wynncraft Item and Ingredients
 Java 8 or above
 
 ## Usage
-![](how_to_use.png)
+![](readme_pictures/how_to_use.png)
+
+##Screenshots
+![](readme_pictures/search_1.png)
+![](readme_pictures/search_2.png)
+![](readme_pictures/search_3.png)
