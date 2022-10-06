@@ -211,7 +211,7 @@ public class SearchUI extends JFrame implements ActionListener {
                 if (need) {
                     label = new JLabel("and");
                 } else {
-                    label = new JLabel("or");
+                    label = new JLabel(" or");
                 }
                 label.setBounds(baseX + 202 + (224 * i), baseY, 30, 20);
                 contentPane.add(label);
