@@ -17,6 +17,8 @@ public class SearchUI extends JFrame implements ActionListener {
     //Item and Ingredient Data
     private final List<JsonObject> wynnItems = new ArrayList<>();
     private final List<JsonObject> wynnIngredients = new ArrayList<>();
+    private final JLabel itemAPIConnect = new JLabel("Item API Connecting...");
+    private final JLabel ingredientAPIConnect = new JLabel("Ingredient API Connecting...");
 
     //Item Type Json
     private final List<JsonObject> bowJson = new ArrayList<>();
@@ -99,8 +101,8 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public SearchUI() {
 
-        GetAPI.setItemData(wynnItems);
-        GetAPI.setIngredientData(wynnIngredients);
+        GetAPI.setItemData(wynnItems, itemAPIConnect);
+        GetAPI.setIngredientData(wynnIngredients, ingredientAPIConnect);
 
         setItemJson();
         setIngredientJson();
@@ -209,8 +211,13 @@ public class SearchUI extends JFrame implements ActionListener {
                 label.setBounds(baseX + 202 + (224 * i), baseY, 30, 20);
                 contentPane.add(label);
             } else if (i == 3) {
-                JLabel label = new JLabel("(Total Sort)");
-                label.setBounds(baseX + 202 + (224 * i), baseY, 70, 20);
+                JLabel label;
+                if (need) {
+                    label = new JLabel("(Total Value Sort)");
+                } else {
+                    label = new JLabel("(Need One of These)");
+                }
+                label.setBounds(baseX + 202 + (224 * i), baseY, 115, 20);
                 contentPane.add(label);
             }
 
@@ -262,6 +269,8 @@ public class SearchUI extends JFrame implements ActionListener {
         bracelet.setBounds(860, 10, 80, 20);
         necklace.setBounds(785, 35, 80, 20);
 
+        itemAPIConnect.setBounds(875, 35, 120, 20);
+
         contentPane.add(itemTier);
         contentPane.add(bow);
         contentPane.add(spear);
@@ -275,6 +284,7 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(ring);
         contentPane.add(bracelet);
         contentPane.add(necklace);
+        contentPane.add(itemAPIConnect);
     }
 
     public void typeIngredientDataSet() {
@@ -295,6 +305,8 @@ public class SearchUI extends JFrame implements ActionListener {
         cooking.setBounds(625, 35, 75, 20);
         alchemism.setBounds(710, 35, 90, 20);
 
+        ingredientAPIConnect.setBounds(810, 35, 150, 20);
+
         contentPane.add(tier);
         contentPane.add(armouring);
         contentPane.add(tailoring);
@@ -304,6 +316,7 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(scribing);
         contentPane.add(cooking);
         contentPane.add(alchemism);
+        contentPane.add(ingredientAPIConnect);
     }
 
     public void setVisibleItem(boolean visible) {
@@ -320,6 +333,7 @@ public class SearchUI extends JFrame implements ActionListener {
         ring.setVisible(visible);
         bracelet.setVisible(visible);
         necklace.setVisible(visible);
+        itemAPIConnect.setVisible(visible);
     }
 
     public void setVisibleIngredient(boolean visible) {
@@ -332,6 +346,7 @@ public class SearchUI extends JFrame implements ActionListener {
         scribing.setVisible(visible);
         cooking.setVisible(visible);
         alchemism.setVisible(visible);
+        ingredientAPIConnect.setVisible(visible);
     }
 
     public boolean canSearchItem() {

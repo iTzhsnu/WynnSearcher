@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,7 +16,7 @@ public class GetAPI {
     public static final String WYNN_ITEM_API = "https://api.wynncraft.com/public_api.php?action=itemDB&category=all";
     public static final String WYNN_INGREDIENT_API = "https://api.wynncraft.com/v2/ingredient/search/tier/";
 
-    public static void setItemData(List<JsonObject> list) {
+    public static void setItemData(List<JsonObject> list, JLabel label) {
         try {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_ITEM_API).openStream()));
             String line;
@@ -31,12 +32,15 @@ public class GetAPI {
                 list.add(je.getAsJsonObject());
             }
 
+            label.setText("Item API Connected");
+
         } catch (IOException e) {
             e.printStackTrace();
+            label.setText("Connect Failed");
         }
     }
 
-    public static void setIngredientData(List<JsonObject> list) {
+    public static void setIngredientData(List<JsonObject> list, JLabel label) {
         for (int i = 0; i <= 3; ++i) {
             try {
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_INGREDIENT_API + i).openStream()));
@@ -53,8 +57,11 @@ public class GetAPI {
                     list.add(je.getAsJsonObject());
                 }
 
+                label.setText("Ingredient API Connected");
+
             } catch (IOException e) {
                 e.printStackTrace();
+                label.setText("Connect Failed");
             }
         }
     }
