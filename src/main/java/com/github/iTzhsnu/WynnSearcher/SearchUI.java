@@ -1010,7 +1010,7 @@ public class SearchUI extends JFrame implements ActionListener {
         int si = searchedItems.size() - 1;
         int iu = 0;
         int max = 0;
-        for (int i = 0; si > i; ++i) {
+        for (int i = 0; si >= i; ++i) {
             JsonObject j = searchedItems.get(si - i);
             int total = 0;
 
@@ -1128,7 +1128,7 @@ public class SearchUI extends JFrame implements ActionListener {
         int si = searchedItems.size() - 1;
         int iu = 0;
         int max = 0;
-        for (int i = 0; si > i; ++i) {
+        for (int i = 0; si >= i; ++i) {
             JsonObject j = searchedItems.get(si - i);
             int total = 0;
 
