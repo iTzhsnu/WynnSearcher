@@ -1020,7 +1020,7 @@ public class SearchUI extends JFrame implements ActionListener {
                     if (!Objects.equals(id.getIDType(), "sum")) {
                         if (Objects.equals(id.getIDType(), "int") && j.get(id.getItemName()) != null) {
                             int t = ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
-                            if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                            if (j.get("identified") != null && j.get("identified").getAsBoolean() || !id.isItemVariable()) {
                                 t = j.get(id.getItemName()).getAsInt();
                             }
                             total = total + t;
@@ -1054,7 +1054,7 @@ public class SearchUI extends JFrame implements ActionListener {
                             Identifications ids = id.getSum().getIds().get(n);
                             if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
                                 int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                                if (j.get("identified") != null && j.get("identified").getAsBoolean() || !id.isItemVariable()) {
                                     t = j.get(ids.getItemName()).getAsInt();
                                 }
                                 sum_total = sum_total + t;
@@ -1072,10 +1072,14 @@ public class SearchUI extends JFrame implements ActionListener {
                             for (int n = 0; id.getSum().getAndIDs().size() > n; ++n) {
                                 Identifications ids = id.getSum().getAndIDs().get(n);
                                 if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
-                                    sum_multi = sum_multi + j.get(ids.getItemName()).getAsInt();
+                                    int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
+                                    if (j.get("identified") != null && j.get("identified").getAsBoolean() || !id.isItemVariable()) {
+                                        t = j.get(ids.getItemName()).getAsInt();
+                                    }
+                                    sum_multi = sum_multi + t;
                                 }
                             }
-                            sum_total = sum_total * sum_multi / 100;
+                            sum_total = sum_total * (100 + sum_multi) / 100;
                         }
                         if (Objects.equals(id.getSum().getCalcType(), "base_dps") || Objects.equals(id.getSum().getCalcType(), "total_dps")) {
                             if (j.get("attackSpeed") != null) {
