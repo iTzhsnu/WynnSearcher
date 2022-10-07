@@ -43,8 +43,8 @@ public class GetAPI {
     }
 
     public static void setExistOnAPIItemData(List<JsonObject> list) {
-        JsonElement violet_shift = JsonParser.parseString("{\"name\":\"Violet-Shift\", \"tier\":\"Fabled\", \"type\":\"Boots\", \"sockets\":2, \"fireDefense\":-50, \"level\":77, \"manaRegen\":11, \"lifeSteal\":233, \"exploding\":17, \"soulPoints\":-25, \"spellElementalDamageBonus\":29, \"spellNeutralDamageBonusRaw\":178, \"majorIds\":[\"ENTROPY\"]}");
-        list.add(violet_shift.getAsJsonObject());
+        JsonElement violet_Shift = JsonParser.parseString("{\"name\":\"Violet-Shift\", \"tier\":\"Fabled\", \"type\":\"Boots\", \"sockets\":2, \"fireDefense\":-50, \"level\":77, \"manaRegen\":11, \"lifeSteal\":233, \"exploding\":17, \"soulPoints\":-25, \"spellElementalDamageBonus\":29, \"spellNeutralDamageBonusRaw\":178, \"majorIds\":[\"ENTROPY\"]}");
+        list.add(violet_Shift.getAsJsonObject());
     }
 
     public static void setIngredientData(List<JsonObject> list, JLabel label) {
