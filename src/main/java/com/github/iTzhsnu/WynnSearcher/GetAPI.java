@@ -16,8 +16,6 @@ public class GetAPI {
     public static final String WYNN_ITEM_API = "https://api.wynncraft.com/public_api.php?action=itemDB&category=all";
     public static final String WYNN_INGREDIENT_API = "https://api.wynncraft.com/v2/ingredient/search/tier/";
 
-    //private static final String VIOLET_SHIFT = "{\"name\":\"Violet-Shift\", \"tier\":\"Fabled\", \"type\":\"Boots\", \"sockets\":2, \"fireDefense\":-50, \"level\":77, \"manaRegen\":11, \"lifeSteal\":233, \"exploding\":17, \"soulPoints\":-25, \"spellElementalDamageBonus\":29, \"spellNeutralDamageBonusRaw\":178}";
-
     public static void setItemData(List<JsonObject> list, JLabel label) {
         try {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_ITEM_API).openStream()));
@@ -42,7 +40,7 @@ public class GetAPI {
         }
     }
 
-    public static void setExistOnAPIItemData(List<JsonObject> list) {
+    public static void setNotExistOnAPIItemData(List<JsonObject> list) {
         JsonElement violet_Shift = JsonParser.parseString("{\"name\":\"Violet-Shift\", \"tier\":\"Fabled\", \"type\":\"Boots\", \"sockets\":2, \"fireDefense\":-50, \"level\":77, \"manaRegen\":11, \"lifeSteal\":233, \"exploding\":17, \"soulPoints\":-25, \"spellElementalDamageBonus\":29, \"spellNeutralDamageBonusRaw\":178, \"majorIds\":[\"ENTROPY\"]}");
         list.add(violet_Shift.getAsJsonObject());
     }
