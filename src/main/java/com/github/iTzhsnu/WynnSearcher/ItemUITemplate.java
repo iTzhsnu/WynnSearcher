@@ -4,6 +4,10 @@ import com.google.gson.JsonObject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,11 +18,14 @@ public class ItemUITemplate extends JPanel {
 
     public ItemUITemplate(JsonObject json, boolean ing, JPanel previous, JPanel fourP) {
         this.json = json;
+        int urlSize;
 
         if (ing) {
             setIngDisplay();
+            urlSize = 32;
         } else {
             setItemDisplay();
+            urlSize = 48;
         }
 
         if (previous != null) {
@@ -27,17 +34,17 @@ public class ItemUITemplate extends JPanel {
 
             if (down) {
                 Rectangle y = fourP.getBounds();
-                setBounds(10, y.y + y.height + 10, 250, (label.size() + 1) * 16);
+                setBounds(10, y.y + y.height + 10, 250, (label.size() + 1) * 16 + urlSize);
             } else {
                 if (fourP != null) {
                     Rectangle y = fourP.getBounds();
-                    setBounds(10 + x.x + x.width, y.y + y.height + 10, 250, (label.size() + 1) * 16);
+                    setBounds(10 + x.x + x.width, y.y + y.height + 10, 250, (label.size() + 1) * 16 + urlSize);
                 } else {
-                    setBounds(10 + x.x + x.width, 10, 250, (label.size() + 1) * 16);
+                    setBounds(10 + x.x + x.width, 10, 250, (label.size() + 1) * 16 + urlSize);
                 }
             }
         } else {
-            setBounds(10, 10, 250, (label.size() + 1) * 16);
+            setBounds(10, 10, 250, (label.size() + 1) * 16 + urlSize);
         }
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -85,11 +92,30 @@ public class ItemUITemplate extends JPanel {
     }
 
     public void setItemDisplay() {
+        JButton dataButton = new JButton("Open Wynndata");
+        dataButton.setBorderPainted(false);
+        dataButton.setOpaque(false);
+        dataButton.setBackground(Color.WHITE);
+        dataButton.setForeground(Color.BLUE);
+        dataButton.addActionListener(new OpenURLAction());
+
+        JButton builderButton = new JButton("Open Wynnbuilder");
+        builderButton.setBorderPainted(false);
+        builderButton.setOpaque(false);
+        builderButton.setBackground(Color.WHITE);
+        builderButton.setForeground(Color.BLUE);
+        builderButton.addActionListener(new OpenURLAction());
 
         if (json.get("displayName") == null) {
             label.add(new JLabel(json.get("name").getAsString()));
+            String name = json.get("name").getAsString().replaceAll(" ", "%20");
+            dataButton.setToolTipText("https://www.wynndata.tk/i/" + name);
+            builderButton.setToolTipText("https://hppeng-wynn.github.io/item/#" + name);
         } else {
             label.add(new JLabel(json.get("displayName").getAsString()));
+            String name = json.get("displayName").getAsString().replaceAll(" ", "%20");
+            dataButton.setToolTipText("https://www.wynndata.tk/i/" + name);
+            builderButton.setToolTipText("https://hppeng-wynn.github.io/item/#" + name);
         }
 
         if (json.get("type") != null) {
@@ -223,6 +249,7 @@ public class ItemUITemplate extends JPanel {
             if (json.get("manaSteal") != null && json.get("manaSteal").getAsInt() != 0) {
                 label.add(new JLabel("Mana Steal: " + setPlus(json.get("manaSteal").getAsInt()) + "/3s"));
             }
+
             if (json.get("bonusEarthDefense") != null && json.get("bonusEarthDefense").getAsInt() != 0) {
                 label.add(new JLabel("Earth Defense: " + setPlus(json.get("bonusEarthDefense").getAsInt()) + "%"));
             }
@@ -238,6 +265,7 @@ public class ItemUITemplate extends JPanel {
             if (json.get("bonusAirDefense") != null && json.get("bonusAirDefense").getAsInt() != 0) {
                 label.add(new JLabel("Air Defense: " + setPlus(json.get("bonusAirDefense").getAsInt()) + "%"));
             }
+
             if (json.get("earthDamageBonus") != null && json.get("earthDamageBonus").getAsInt() != 0) {
                 label.add(new JLabel("Earth Damage: " + setPlus(json.get("earthDamageBonus").getAsInt()) + "%"));
             }
@@ -271,6 +299,7 @@ public class ItemUITemplate extends JPanel {
             if (json.get("attackSpeedBonus") != null && json.get("attackSpeedBonus").getAsInt() != 0) {
                 label.add(new JLabel("Attack Speed Bonus: " + setPlus(json.get("attackSpeedBonus").getAsInt()) + "tier"));
             }
+
             if (json.get("speed") != null && json.get("speed").getAsInt() != 0) {
                 label.add(new JLabel("Walk Speed: " + setPlus(json.get("speed").getAsInt()) + "%"));
             }
@@ -283,6 +312,7 @@ public class ItemUITemplate extends JPanel {
             if (json.get("jumpHeight") != null && json.get("jumpHeight").getAsInt() != 0) {
                 label.add(new JLabel("Jump Height: " + setPlus(json.get("jumpHeight").getAsInt())));
             }
+
             if (json.get("thorns") != null && json.get("thorns").getAsInt() != 0) {
                 label.add(new JLabel("Thorns: " + setPlus(json.get("thorns").getAsInt()) + "%"));
             }
@@ -313,6 +343,7 @@ public class ItemUITemplate extends JPanel {
             if (json.get("soulPoints") != null && json.get("soulPoints").getAsInt() != 0) {
                 label.add(new JLabel("Soul Point Regen: " + setPlus(json.get("soulPoints").getAsInt()) + "%"));
             }
+
             if (json.get("spellCostRaw1") != null && json.get("spellCostRaw1").getAsInt() != 0) {
                 label.add(new JLabel("1st Spell Cost Raw: " + setPlus(json.get("spellCostRaw1").getAsInt())));
             }
@@ -337,23 +368,90 @@ public class ItemUITemplate extends JPanel {
             if (json.get("spellCostPct4") != null && json.get("spellCostPct4").getAsInt() != 0) {
                 label.add(new JLabel("4th Spell Cost: " + setPlus(json.get("spellCostPct4").getAsInt()) + "%"));
             }
-            if (json.get("spellEarthDamageBonusRaw") != null && json.get("spellEarthDamageBonusRaw").getAsInt() != 0) {
-                label.add(new JLabel("Earth Spell Damage: " + setPlus(json.get("spellEarthDamageBonusRaw").getAsInt())));
+
+            if (json.get("mainAttackNeutralDamageBonus") != null && json.get("mainAttackNeutralDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Neutral Melee Damage: " + setPlus(json.get("mainAttackNeutralDamageBonus").getAsInt()) + "%"));
             }
-            if (json.get("spellThunderDamageBonusRaw") != null && json.get("spellThunderDamageBonusRaw").getAsInt() != 0) {
-                label.add(new JLabel("Thunder Spell Damage: " + setPlus(json.get("spellThunderDamageBonusRaw").getAsInt())));
+            if (json.get("mainAttackEarthDamageBonus") != null && json.get("mainAttackEarthDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Neutral Earth Damage: " + setPlus(json.get("mainAttackEarthDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("mainAttackThunderDamageBonus") != null && json.get("mainAttackThunderDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Neutral Thunder Damage: " + setPlus(json.get("mainAttackThunderDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("mainAttackWaterDamageBonus") != null && json.get("mainAttackWaterDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Neutral Water Damage: " + setPlus(json.get("mainAttackWaterDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("mainAttackFireDamageBonus") != null && json.get("mainAttackFireDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Neutral Fire Damage: " + setPlus(json.get("mainAttackFireDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("mainAttackAirDamageBonus") != null && json.get("mainAttackAirDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Neutral Air Damage: " + setPlus(json.get("mainAttackAirDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("mainAttackElementalDamageBonus") != null && json.get("mainAttackElementalDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Neutral Elemental Damage: " + setPlus(json.get("mainAttackElementalDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("mainAttackNeutralDamageBonusRaw") != null && json.get("mainAttackNeutralDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Neutral Melee Damage: " + setPlus(json.get("mainAttackNeutralDamageBonusRaw").getAsInt())));
+            }
+            if (json.get("mainAttackEarthDamageBonusRaw") != null && json.get("mainAttackEarthDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Earth Melee Damage: " + setPlus(json.get("mainAttackEarthDamageBonusRaw").getAsInt())));
+            }
+            if (json.get("mainAttackThunderDamageBonusRaw") != null && json.get("mainAttackThunderDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Thunder Melee Damage: " + setPlus(json.get("mainAttackThunderDamageBonusRaw").getAsInt())));
+            }
+            if (json.get("mainAttackWaterDamageBonusRaw") != null && json.get("mainAttackWaterDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Water Melee Damage: " + setPlus(json.get("mainAttackWaterDamageBonusRaw").getAsInt())));
+            }
+            if (json.get("mainAttackFireDamageBonusRaw") != null && json.get("mainAttackFireDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Fire Melee Damage: " + setPlus(json.get("mainAttackFireDamageBonusRaw").getAsInt())));
+            }
+            if (json.get("mainAttackAirDamageBonusRaw") != null && json.get("mainAttackAirDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Air Melee Damage: " + setPlus(json.get("mainAttackAirDamageBonusRaw").getAsInt())));
+            }
+            if (json.get("mainAttackElementalDamageBonusRaw") != null && json.get("mainAttackElementalDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Elemental Melee Damage: " + setPlus(json.get("mainAttackElementalDamageBonusRaw").getAsInt())));
+            }
+            if (json.get("spellNeutralDamageBonus") != null && json.get("spellNeutralDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Neutral Spell Damage: " + setPlus(json.get("spellNeutralDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("spellEarthDamageBonus") != null && json.get("spellEarthDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Earth Spell Damage: " + setPlus(json.get("spellEarthDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("spellThunderDamageBonus") != null && json.get("spellThunderDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Thunder Spell Damage: " + setPlus(json.get("spellThunderDamageBonus").getAsInt()) + "%"));
             }
             if (json.get("spellWaterDamageBonus") != null && json.get("spellWaterDamageBonus").getAsInt() != 0) {
-                label.add(new JLabel("Water Spell Damage: " + setPlus(json.get("spellWaterDamageBonus").getAsInt())));
+                label.add(new JLabel("Water Spell Damage: " + setPlus(json.get("spellWaterDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("spellFireDamageBonus") != null && json.get("spellFireDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Fire Spell Damage: " + setPlus(json.get("spellFireDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("spellAirDamageBonus") != null && json.get("spellAirDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Air Spell Damage: " + setPlus(json.get("spellAirDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("spellElementalDamageBonus") != null && json.get("spellElementalDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Elemental Spell Damage: " + setPlus(json.get("spellElementalDamageBonus").getAsInt()) + "%"));
+            }
+            if (json.get("spellNeutralDamageBonusRaw") != null && json.get("spellNeutralDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Neutral Spell Damage: " + setPlus(json.get("spellNeutralDamageBonusRaw").getAsInt())));
+            }
+            if (json.get("spellEarthDamageBonusRaw") != null && json.get("spellEarthDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Earth Spell Damage: " + setPlus(json.get("spellEarthDamageBonusRaw").getAsInt())));
+            }
+            if (json.get("spellThunderDamageBonusRaw") != null && json.get("spellThunderDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Thunder Spell Damage: " + setPlus(json.get("spellThunderDamageBonusRaw").getAsInt())));
+            }
+            if (json.get("spellWaterDamageBonus") != null && json.get("spellWaterDamageBonus").getAsInt() != 0) {
+                label.add(new JLabel("Raw Water Spell Damage: " + setPlus(json.get("spellWaterDamageBonus").getAsInt())));
             }
             if (json.get("spellFireDamageBonusRaw") != null && json.get("spellFireDamageBonusRaw").getAsInt() != 0) {
-                label.add(new JLabel("Fire Spell Damage: " + setPlus(json.get("spellFireDamageBonusRaw").getAsInt())));
+                label.add(new JLabel("Raw Fire Spell Damage: " + setPlus(json.get("spellFireDamageBonusRaw").getAsInt())));
             }
             if (json.get("spellAirDamageBonusRaw") != null && json.get("spellAirDamageBonusRaw").getAsInt() != 0) {
-                label.add(new JLabel("Air Spell Damage: " + setPlus(json.get("spellAirDamageBonusRaw").getAsInt())));
+                label.add(new JLabel("Raw Air Spell Damage: " + setPlus(json.get("spellAirDamageBonusRaw").getAsInt())));
             }
             if (json.get("spellElementalDamageBonusRaw") != null && json.get("spellElementalDamageBonusRaw").getAsInt() != 0) {
-                label.add(new JLabel("Elemental Spell Damage: " + setPlus(json.get("spellElementalDamageBonusRaw").getAsInt())));
+                label.add(new JLabel("Raw Elemental Spell Damage: " + setPlus(json.get("spellElementalDamageBonusRaw").getAsInt())));
             }
         } else {
             if (json.get("healthBonus") != null && json.get("healthBonus").getAsInt() != 0) {
@@ -380,6 +478,7 @@ public class ItemUITemplate extends JPanel {
                 int base = json.get("manaSteal").getAsInt();
                 label.add(new JLabel(getMin(base) + "/3s Mana Steal " + getMax(base) + "/3s"));
             }
+
             if (json.get("bonusEarthDefense") != null && json.get("bonusEarthDefense").getAsInt() != 0) {
                 int base = json.get("bonusEarthDefense").getAsInt();
                 label.add(new JLabel(getMin(base) + "% Earth Defense " + getMax(base) + "%"));
@@ -400,6 +499,7 @@ public class ItemUITemplate extends JPanel {
                 int base = json.get("bonusAirDefense").getAsInt();
                 label.add(new JLabel(getMin(base) + "% Air Defense " + getMax(base) + "%"));
             }
+
             if (json.get("earthDamageBonus") != null && json.get("earthDamageBonus").getAsInt() != 0) {
                 int base = json.get("earthDamageBonus").getAsInt();
                 label.add(new JLabel(getMin(base) + "% Earth Damage " + getMax(base) + "%"));
@@ -444,6 +544,7 @@ public class ItemUITemplate extends JPanel {
                 int base = json.get("attackSpeedBonus").getAsInt();
                 label.add(new JLabel(getMin(base) + "tier Attack Speed Bonus " + getMax(base) + "tier"));
             }
+
             if (json.get("speed") != null && json.get("speed").getAsInt() != 0) {
                 int base = json.get("speed").getAsInt();
                 label.add(new JLabel(getMin(base) + "% Walk Speed " + getMax(base) + "%"));
@@ -460,6 +561,7 @@ public class ItemUITemplate extends JPanel {
                 int base = json.get("jumpHeight").getAsInt();
                 label.add(new JLabel(getMin(base) + " Jump Height " + getMax(base)));
             }
+
             if (json.get("thorns") != null && json.get("thorns").getAsInt() != 0) {
                 int base = json.get("thorns").getAsInt();
                 label.add(new JLabel(getMin(base) + "% Thorns " + getMax(base) + "%"));
@@ -500,37 +602,127 @@ public class ItemUITemplate extends JPanel {
                 int base = json.get("soulPoints").getAsInt();
                 label.add(new JLabel(getMin(base) + "% Soul Point Regen " + getMax(base) + "%"));
             }
+
             if (json.get("spellCostRaw1") != null && json.get("spellCostRaw1").getAsInt() != 0) {
                 int base = json.get("spellCostRaw1").getAsInt();
-                label.add(new JLabel(getMin(base) + " 1st Spell Cost Raw " + getMax(base)));
+                label.add(new JLabel(getMax(base) + " 1st Spell Cost Raw " + getMin(base)));
             }
             if (json.get("spellCostRaw2") != null && json.get("spellCostRaw2").getAsInt() != 0) {
                 int base = json.get("spellCostRaw2").getAsInt();
-                label.add(new JLabel(getMin(base) + " 2nd Spell Cost Raw " + getMax(base)));
+                label.add(new JLabel(getMax(base) + " 2nd Spell Cost Raw " + getMin(base)));
             }
             if (json.get("spellCostRaw3") != null && json.get("spellCostRaw3").getAsInt() != 0) {
                 int base = json.get("spellCostRaw3").getAsInt();
-                label.add(new JLabel(getMin(base) + " 3rd Spell Cost Raw " + getMax(base)));
+                label.add(new JLabel(getMax(base) + " 3rd Spell Cost Raw " + getMin(base)));
             }
             if (json.get("spellCostRaw4") != null && json.get("spellCostRaw4").getAsInt() != 0) {
                 int base = json.get("spellCostRaw4").getAsInt();
-                label.add(new JLabel(getMin(base) + " 4th Spell Cost Raw " + getMax(base)));
+                label.add(new JLabel(getMax(base) + " 4th Spell Cost Raw " + getMin(base)));
             }
             if (json.get("spellCostPct1") != null && json.get("spellCostPct1").getAsInt() != 0) {
                 int base = json.get("spellCostPct1").getAsInt();
-                label.add(new JLabel(getMin(base) + "% 1st Spell Cost " + getMax(base) + "%"));
+                label.add(new JLabel(getMax(base) + "% 1st Spell Cost " + getMin(base) + "%"));
             }
             if (json.get("spellCostPct2") != null && json.get("spellCostPct2").getAsInt() != 0) {
                 int base = json.get("spellCostPct2").getAsInt();
-                label.add(new JLabel(getMin(base) + "% 2nd Spell Cost " + getMax(base) + "%"));
+                label.add(new JLabel(getMax(base) + "% 2nd Spell Cost " + getMin(base) + "%"));
             }
             if (json.get("spellCostPct3") != null && json.get("spellCostPct3").getAsInt() != 0) {
                 int base = json.get("spellCostPct3").getAsInt();
-                label.add(new JLabel(getMin(base) + "% 3rd Spell Cost " + getMax(base) + "%"));
+                label.add(new JLabel(getMax(base) + "% 3rd Spell Cost " + getMin(base) + "%"));
             }
             if (json.get("spellCostPct4") != null && json.get("spellCostPct4").getAsInt() != 0) {
                 int base = json.get("spellCostPct4").getAsInt();
-                label.add(new JLabel(getMin(base) + "% 4th Spell Cost " + getMax(base) + "%"));
+                label.add(new JLabel(getMax(base) + "% 4th Spell Cost " + getMin(base) + "%"));
+            }
+
+            if (json.get("mainAttackNeutralDamageBonus") != null && json.get("mainAttackNeutralDamageBonus").getAsInt() != 0) {
+                int base = json.get("mainAttackNeutralDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Neutral Melee Damage " + getMax(base) + "%"));
+            }
+            if (json.get("mainAttackEarthDamageBonus") != null && json.get("mainAttackEarthDamageBonus").getAsInt() != 0) {
+                int base = json.get("mainAttackEarthDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Neutral Earth Damage " + getMax(base) + "%"));
+            }
+            if (json.get("mainAttackThunderDamageBonus") != null && json.get("mainAttackThunderDamageBonus").getAsInt() != 0) {
+                int base = json.get("mainAttackThunderDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Neutral Thunder Damage " + getMax(base) + "%"));
+            }
+            if (json.get("mainAttackWaterDamageBonus") != null && json.get("mainAttackWaterDamageBonus").getAsInt() != 0) {
+                int base = json.get("mainAttackWaterDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Neutral Water Damage " + getMax(base) + "%"));
+            }
+            if (json.get("mainAttackFireDamageBonus") != null && json.get("mainAttackFireDamageBonus").getAsInt() != 0) {
+                int base = json.get("mainAttackFireDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Neutral Fire Damage " + getMax(base) + "%"));
+            }
+            if (json.get("mainAttackAirDamageBonus") != null && json.get("mainAttackAirDamageBonus").getAsInt() != 0) {
+                int base = json.get("mainAttackAirDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Neutral Air Damage " + getMax(base) + "%"));
+            }
+            if (json.get("mainAttackElementalDamageBonus") != null && json.get("mainAttackElementalDamageBonus").getAsInt() != 0) {
+                int base = json.get("mainAttackElementalDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Neutral Elemental Damage " + getMax(base) + "%"));
+            }
+            if (json.get("mainAttackNeutralDamageBonusRaw") != null && json.get("mainAttackNeutralDamageBonusRaw").getAsInt() != 0) {
+                int base = json.get("mainAttackNeutralDamageBonusRaw").getAsInt();
+                label.add(new JLabel(getMin(base) + " Raw Neutral Melee Damage " + getMax(base)));
+            }
+            if (json.get("mainAttackEarthDamageBonusRaw") != null && json.get("mainAttackEarthDamageBonusRaw").getAsInt() != 0) {
+                int base = json.get("mainAttackEarthDamageBonusRaw").getAsInt();
+                label.add(new JLabel(getMin(base) + " Raw Earth Melee Damage " + getMax(base)));
+            }
+            if (json.get("mainAttackThunderDamageBonusRaw") != null && json.get("mainAttackThunderDamageBonusRaw").getAsInt() != 0) {
+                int base = json.get("mainAttackThunderDamageBonusRaw").getAsInt();
+                label.add(new JLabel(getMin(base) + " Raw Thunder Melee Damage " + getMax(base)));
+            }
+            if (json.get("mainAttackWaterDamageBonusRaw") != null && json.get("mainAttackWaterDamageBonusRaw").getAsInt() != 0) {
+                int base = json.get("mainAttackWaterDamageBonusRaw").getAsInt();
+                label.add(new JLabel(getMin(base) + " Raw Water Melee Damage " + getMax(base)));
+            }
+            if (json.get("mainAttackFireDamageBonusRaw") != null && json.get("mainAttackFireDamageBonusRaw").getAsInt() != 0) {
+                int base = json.get("mainAttackFireDamageBonusRaw").getAsInt();
+                label.add(new JLabel(getMin(base) + " Raw Fire Melee Damage " + getMax(base)));
+            }
+            if (json.get("mainAttackAirDamageBonusRaw") != null && json.get("mainAttackAirDamageBonusRaw").getAsInt() != 0) {
+                int base = json.get("mainAttackAirDamageBonusRaw").getAsInt();
+                label.add(new JLabel(getMin(base) + " Raw Air Melee Damage " + getMax(base)));
+            }
+            if (json.get("mainAttackElementalDamageBonusRaw") != null && json.get("mainAttackElementalDamageBonusRaw").getAsInt() != 0) {
+                int base = json.get("mainAttackElementalDamageBonusRaw").getAsInt();
+                label.add(new JLabel(getMin(base) + " Raw Elemental Melee Damage " + getMax(base)));
+            }
+            if (json.get("spellNeutralDamageBonus") != null && json.get("spellNeutralDamageBonus").getAsInt() != 0) {
+                int base = json.get("spellNeutralDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Neutral Spell Damage " + getMax(base) + "%"));
+            }
+            if (json.get("spellEarthDamageBonus") != null && json.get("spellEarthDamageBonus").getAsInt() != 0) {
+                int base = json.get("spellEarthDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Earth Spell Damage " + getMax(base) + "%"));
+            }
+            if (json.get("spellThunderDamageBonus") != null && json.get("spellThunderDamageBonus").getAsInt() != 0) {
+                int base = json.get("spellThunderDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Thunder Spell Damage " + getMax(base) + "%"));
+            }
+            if (json.get("spellWaterDamageBonus") != null && json.get("spellWaterDamageBonus").getAsInt() != 0) {
+                int base = json.get("spellWaterDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Water Spell Damage " + getMax(base) + "%"));
+            }
+            if (json.get("spellFireDamageBonus") != null && json.get("spellFireDamageBonus").getAsInt() != 0) {
+                int base = json.get("spellFireDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Fire Spell Damage " + getMax(base) + "%"));
+            }
+            if (json.get("spellAirDamageBonus") != null && json.get("spellAirDamageBonus").getAsInt() != 0) {
+                int base = json.get("spellAirDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Air Spell Damage " + getMax(base) + "%"));
+            }
+            if (json.get("spellElementalDamageBonus") != null && json.get("spellElementalDamageBonus").getAsInt() != 0) {
+                int base = json.get("spellElementalDamageBonus").getAsInt();
+                label.add(new JLabel(getMin(base) + "% Elemental Spell Damage " + getMax(base) + "%"));
+            }
+            if (json.get("spellNeutralDamageBonusRaw") != null && json.get("spellNeutralDamageBonusRaw").getAsInt() != 0) {
+                int base = json.get("spellNeutralDamageBonusRaw").getAsInt();
+                label.add(new JLabel(getMin(base) + " Raw Neutral Spell Damage " + getMax(base)));
             }
             if (json.get("spellEarthDamageBonusRaw") != null && json.get("spellEarthDamageBonusRaw").getAsInt() != 0) {
                 int base = json.get("spellEarthDamageBonusRaw").getAsInt();
@@ -570,18 +762,31 @@ public class ItemUITemplate extends JPanel {
         if (json.get("restrictions") != null && !json.get("restrictions").isJsonNull()) {
             label.add(new JLabel(json.get("restrictions").getAsString()));
         }
+        label.add(new JLabel(" "));
+        label.add(new JLabel("External Links"));
 
         for (JLabel jLabel : label) {
             add(jLabel);
         }
 
+        add(dataButton);
+        add(builderButton);
     }
 
     public void setIngDisplay() {
+        JButton dataButton = new JButton("Wynndata Link");
+        dataButton.setBorderPainted(false);
+        dataButton.setOpaque(false);
+        dataButton.setBackground(Color.WHITE);
+        dataButton.setForeground(Color.BLUE);
+        dataButton.addActionListener(new OpenURLAction());
+
         if (json.get("displayName") == null) {
             label.add(new JLabel(json.get("name").getAsString()));
+            dataButton.setToolTipText("https://www.wynndata.tk/i/" + json.get("name").getAsString().replaceAll(" ", "%20"));
         } else {
             label.add(new JLabel(json.get("displayName").getAsString()));
+            dataButton.setToolTipText("https://www.wynndata.tk/i/" + json.get("displayName").getAsString().replaceAll(" ", "%20"));
         }
 
         if (json.get("tier") != null) {
@@ -828,14 +1033,19 @@ public class ItemUITemplate extends JPanel {
             }
         }
 
+        label.add(new JLabel(" "));
+        label.add(new JLabel("External Links"));
+
         for (JLabel jLabel : label) {
             add(jLabel);
         }
+
+        add(dataButton);
     }
 
    public String getMin(int base) {
        if (base < 0) {
-           return String.valueOf((int) Math.min(Math.round(base * 0.7d), -1));
+           return String.valueOf((int) Math.min(Math.round(base * 1.3d), -1));
        } else {
            return "+" + (int) Math.max(Math.round(base * 0.3d), 1);
        }
@@ -843,15 +1053,15 @@ public class ItemUITemplate extends JPanel {
 
    public String getMax(int base) {
        if (base < 0) {
-           return String.valueOf((int) Math.min(Math.round(base * 1.3d), -1));
+           return String.valueOf((int) Math.min(Math.round(base * 0.7d), -1));
        } else {
            return "+" + (int) Math.max(Math.round(base * 1.3d), 1);
        }
    }
 
-    public static int getMaxInt(int base) {
+   public static int getMaxInt(int base) {
         if (base < 0) {
-            return (int) Math.min(Math.round(base * 1.3d), -1);
+            return (int) Math.min(Math.round(base * 0.7d), -1);
         } else {
             return (int) Math.max(Math.round(base * 1.3d), 1);
         }
@@ -863,5 +1073,19 @@ public class ItemUITemplate extends JPanel {
         } else {
             return "+" + i;
         }
+   }
+
+   public static class OpenURLAction implements ActionListener {
+
+       @Override
+       public void actionPerformed(ActionEvent e) {
+           if (Desktop.isDesktopSupported() && e.getSource() instanceof JButton) {
+               try {
+                   Desktop.getDesktop().browse(URI.create(((JButton) e.getSource()).getToolTipText()));
+               } catch (IOException ex) {
+                   ex.printStackTrace();
+               }
+           }
+       }
    }
 }

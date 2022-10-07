@@ -26,7 +26,10 @@ public class IDBoxAdapter extends KeyAdapter {
             "Soul Point Regen", "Powder Slots", "Major ID",
             "1st Spell Cost Raw", "2nd Spell Cost Raw", "3rd Spell Cost Raw", "4th Spell Cost Raw",
             "1st Spell Cost %", "2nd Spell Cost %", "3rd Spell Cost %", "4th Spell Cost %",
-            "Raw Earth Spell Damage", "Raw Thunder Spell Damage", "Raw Water Spell Damage", "Raw Fire Spell Damage", "Raw Air Spell Damage", "Raw Elemental Spell Damage",
+            "Neutral Melee Damage %", "Earth Melee Damage %", "Thunder Melee Damage %", "Water Melee Damage %", "Fire Melee Damage %", "Air Melee Damage %", "Elemental Melee Damage %",
+            "Raw Neutral Melee Damage", "Raw Earth Melee Damage", "Raw Thunder Melee Damage", "Raw Water Melee Damage",  "Raw Fire Melee Damage", "Raw Air Melee Damage",  "Raw Elemental Melee Damage",
+            "Neutral Spell Damage %", "Earth Spell Damage %", "Thunder Spell Damage %", "Water Spell Damage %", "Fire Spell Damage %", "Air Spell Damage %", "Elemental Spell Damage %",
+            "Raw Neutral Spell Damage", "Raw Earth Spell Damage", "Raw Thunder Spell Damage", "Raw Water Spell Damage", "Raw Fire Spell Damage", "Raw Air Spell Damage", "Raw Elemental Spell Damage",
             "Durability", "Duration", "Charges", "Ingredient Effectiveness", "Ingredient Effectiveness (Above)", "Ingredient Effectiveness (Under)",
             "Ingredient Effectiveness (Right)", "Ingredient Effectiveness (Left)", "Ingredient Effectiveness (Touching)", "Ingredient Effectiveness (Not Touching)",
             "Sum (Total Health)", "Sum (Raw Defenses)", "Sum (Raw Rainbow Defenses)", "Sum (Defenses %)", "Sum (Rainbow Defenses %)",
@@ -125,6 +128,32 @@ public class IDBoxAdapter extends KeyAdapter {
         put("3rd Spell Cost %", Identifications.PERCENT_3RD_SPELL_COST);
         put("4th Spell Cost %", Identifications.PERCENT_4TH_SPELL_COST);
 
+        put("Neutral Melee Damage %", Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT);
+        put("Earth Melee Damage %", Identifications.EARTH_MELEE_DAMAGE_PERCENT);
+        put("Thunder Melee Damage %", Identifications.THUNDER_MELEE_DAMAGE_PERCENT);
+        put("Water Melee Damage %", Identifications.WATER_MELEE_DAMAGE_PERCENT);
+        put("Fire Melee Damage %", Identifications.FIRE_MELEE_DAMAGE_PERCENT);
+        put("Air Melee Damage %", Identifications.AIR_MELEE_DAMAGE_PERCENT);
+        put("Elemental Melee Damage %", Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT);
+
+        put("Raw Neutral Melee Damage", Identifications.RAW_NEUTRAL_MELEE_DAMAGE);
+        put("Raw Earth Melee Damage", Identifications.RAW_EARTH_MELEE_DAMAGE);
+        put("Raw Thunder Melee Damage", Identifications.RAW_THUNDER_MELEE_DAMAGE);
+        put("Raw Water Melee Damage", Identifications.RAW_WATER_MELEE_DAMAGE);
+        put("Raw Fire Melee Damage", Identifications.RAW_FIRE_MELEE_DAMAGE);
+        put("Raw Air Melee Damage", Identifications.RAW_AIR_MELEE_DAMAGE);
+        put("Raw Elemental Melee Damage", Identifications.RAW_ELEMENTAL_MELEE_DAMAGE);
+
+        put("Neutral Spell Damage %", Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT);
+        put("Earth Spell Damage %", Identifications.EARTH_SPELL_DAMAGE_PERCENT);
+        put("Thunder Spell Damage %", Identifications.THUNDER_SPELL_DAMAGE_PERCENT);
+        put("Water Spell Damage %", Identifications.WATER_SPELL_DAMAGE_PERCENT);
+        put("Fire Spell Damage %", Identifications.FIRE_SPELL_DAMAGE_PERCENT);
+        put("Air Spell Damage %", Identifications.AIR_SPELL_DAMAGE_PERCENT);
+        put("Elemental Spell Damage %", Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT);
+
+
+        put("Raw Neutral Spell Damage", Identifications.RAW_NEUTRAL_SPELL_DAMAGE);
         put("Raw Earth Spell Damage", Identifications.RAW_EARTH_SPELL_DAMAGE);
         put("Raw Thunder Spell Damage", Identifications.RAW_THUNDER_SPELL_DAMAGE);
         put("Raw Water Spell Damage", Identifications.RAW_WATER_SPELL_DAMAGE);
