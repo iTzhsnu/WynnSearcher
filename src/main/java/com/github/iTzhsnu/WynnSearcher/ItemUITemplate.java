@@ -204,7 +204,7 @@ public class ItemUITemplate extends JPanel {
             label.add(new JLabel("Agility Req: " + json.get("agility").getAsInt()));
         }
 
-        if (!json.get("quest").isJsonNull()) {
+        if (json.get("quest") != null && !json.get("quest").isJsonNull()) {
             label.add(new JLabel("Quest Req: " + json.get("quest").getAsString()));
         }
 
