@@ -114,7 +114,7 @@ public enum Identifications {
     RAW_NEUTRAL_SPELL_DAMAGE("spellNeutralDamageBonusRaw", null, false, "int", null, null, true),
     RAW_EARTH_SPELL_DAMAGE("spellEarthDamageBonusRaw", null, false, "int", null, null, true),
     RAW_THUNDER_SPELL_DAMAGE("spellThunderDamageBonusRaw", null, false, "int", null, null, true),
-    RAW_WATER_SPELL_DAMAGE("spellWaterDamageBonus", null, false, "int", null, null, true),
+    RAW_WATER_SPELL_DAMAGE("spellWaterDamageBonusRaw", null, false, "int", null, null, true),
     RAW_FIRE_SPELL_DAMAGE("spellFireDamageBonusRaw", null, false, "int", null, null, true),
     RAW_AIR_SPELL_DAMAGE("spellAirDamageBonusRaw", null, false, "int", null, null, true),
     RAW_ELEMENTAL_SPELL_DAMAGE("spellElementalDamageBonusRaw", null, false, "int", null, null, true),

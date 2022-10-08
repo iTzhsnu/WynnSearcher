@@ -40,11 +40,6 @@ public class GetAPI {
         }
     }
 
-    public static void setNotExistInAPIItemData(List<JsonObject> list) {
-        JsonElement violet_Shift = JsonParser.parseString("{\"name\":\"Violet-Shift\", \"tier\":\"Fabled\", \"type\":\"Boots\", \"sockets\":2, \"fireDefense\":-50, \"level\":77, \"manaRegen\":11, \"lifeSteal\":233, \"exploding\":17, \"soulPoints\":-25, \"spellElementalDamageBonus\":29, \"spellNeutralDamageBonusRaw\":178, \"majorIds\":[\"ENTROPY\"]}");
-        list.add(violet_Shift.getAsJsonObject());
-    }
-
     public static void setIngredientData(List<JsonObject> list, JLabel label) {
         for (int i = 0; i <= 3; ++i) {
             try {

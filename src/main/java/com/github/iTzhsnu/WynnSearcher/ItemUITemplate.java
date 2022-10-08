@@ -441,8 +441,8 @@ public class ItemUITemplate extends JPanel {
             if (json.get("spellThunderDamageBonusRaw") != null && json.get("spellThunderDamageBonusRaw").getAsInt() != 0) {
                 label.add(new JLabel("Raw Thunder Spell Damage: " + setPlus(json.get("spellThunderDamageBonusRaw").getAsInt())));
             }
-            if (json.get("spellWaterDamageBonus") != null && json.get("spellWaterDamageBonus").getAsInt() != 0) {
-                label.add(new JLabel("Raw Water Spell Damage: " + setPlus(json.get("spellWaterDamageBonus").getAsInt())));
+            if (json.get("spellWaterDamageBonusRaw") != null && json.get("spellWaterDamageBonusRaw").getAsInt() != 0) {
+                label.add(new JLabel("Raw Water Spell Damage: " + setPlus(json.get("spellWaterDamageBonusRaw").getAsInt())));
             }
             if (json.get("spellFireDamageBonusRaw") != null && json.get("spellFireDamageBonusRaw").getAsInt() != 0) {
                 label.add(new JLabel("Raw Fire Spell Damage: " + setPlus(json.get("spellFireDamageBonusRaw").getAsInt())));
