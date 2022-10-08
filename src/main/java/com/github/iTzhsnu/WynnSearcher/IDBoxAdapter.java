@@ -32,7 +32,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Raw Neutral Spell Damage", "Raw Earth Spell Damage", "Raw Thunder Spell Damage", "Raw Water Spell Damage", "Raw Fire Spell Damage", "Raw Air Spell Damage", "Raw Elemental Spell Damage",
             "Durability", "Duration", "Charges", "Ingredient Effectiveness", "Ingredient Effectiveness (Above)", "Ingredient Effectiveness (Under)",
             "Ingredient Effectiveness (Right)", "Ingredient Effectiveness (Left)", "Ingredient Effectiveness (Touching)", "Ingredient Effectiveness (Not Touching)",
-            "Sum (Total Health)", "Sum (Raw Defenses)", "Sum (Raw Rainbow Defenses)", "Sum (Defenses %)", "Sum (Rainbow Defenses %)",
+            "Sum (Total Health)", "Sum (Total Health Regen)", "Sum (Raw Defenses)", "Sum (Raw Rainbow Defenses)", "Sum (Defenses %)", "Sum (Rainbow Defenses %)",
             "Sum (Skill Point Bonus)", "Sum (Rainbow Skill Point Bonus)",
             "Sum (Base DPS)", "Sum (Neutral DPS)", "Sum (Earth DPS)", "Sum (Thunder DPS)", "Sum (Water DPS)", "Sum (Fire DPS)", "Sum (Air DPS)",
             "Sum (Damages Raw)", "Sum (Rainbow Damages Raw)", "Sum (Damages %)", "Sum (Rainbow Damages %)",
@@ -173,6 +173,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Ingredient Effectiveness (Not Touching)", Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING);
 
         put("Sum (Total Health)", Identifications.SUM_TOTAL_HEALTH);
+        put("Sum (Total Health Regen)", Identifications.SUM_TOTAL_HP_REGEN);
         put("Sum (Raw Defenses)", Identifications.SUM_RAW_DEFENSES);
         put("Sum (Raw Rainbow Defenses)", Identifications.SUM_RAW_RAINBOW_DEFENSES);
         put("Sum (Defenses %)", Identifications.SUM_DEFENSES_PERCENT);

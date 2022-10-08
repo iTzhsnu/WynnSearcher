@@ -131,6 +131,7 @@ public enum Identifications {
     INGREDIENT_EFFECTIVENESS(null, "ingEffective", true, "sum", SumEnum.INGREDIENT_EFFECTIVENESS, "sum", false),
 
     SUM_TOTAL_HEALTH("total_health", "total_health", false, "sum", SumEnum.TOTAL_HEALTH, "sum", false),
+    SUM_TOTAL_HP_REGEN("total_hp_regen", "total_hp_regen", false, "sum", SumEnum.TOTAL_HEALTH_REGEN, "sum", false),
     SUM_RAW_DEFENSES("raw_defenses", null, false, "sum", SumEnum.RAW_DEFENSES, null, false),
     SUM_RAW_RAINBOW_DEFENSES("raw_rainbow_defense", null, false, "sum", SumEnum.RAW_RAINBOW_DEFENSES, null, false),
     SUM_DEFENSES_PERCENT("defenses", "defenses", true, "sum", SumEnum.DEFENSES_PERCENT, "sum", false),

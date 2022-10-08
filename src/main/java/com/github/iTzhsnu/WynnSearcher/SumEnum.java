@@ -5,6 +5,7 @@ import java.util.List;
 
 public enum SumEnum {
     TOTAL_HEALTH("total_health", health(), "add", null, false),
+    TOTAL_HEALTH_REGEN("total_hp_regen", health_Regen_Raw(), "multi", health_Regen_Percent(), false),
     RAW_DEFENSES("raw_defenses", raw_Defenses(), "add", null, false),
     RAW_RAINBOW_DEFENSES("raw_rainbow_defenses", raw_Defenses(), "add", null, true),
     DEFENSES_PERCENT("defenses_percent", defenses_Percent(), "add", null, false),
@@ -294,4 +295,19 @@ public enum SumEnum {
         return ids;
     }
 
+    private static List<Identifications> health_Regen_Raw() {
+        List<Identifications> ids = new ArrayList<>();
+
+        ids.add(Identifications.RAW_HEALTH_REGEN);
+
+        return ids;
+    }
+
+    private static List<Identifications> health_Regen_Percent() {
+        List<Identifications> ids = new ArrayList<>();
+
+        ids.add(Identifications.HEALTH_REGEN_PERCENT);
+
+        return ids;
+    }
 }
