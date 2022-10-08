@@ -373,22 +373,22 @@ public class ItemUITemplate extends JPanel {
                 label.add(new JLabel("Neutral Melee Damage: " + setPlus(json.get("mainAttackNeutralDamageBonus").getAsInt()) + "%"));
             }
             if (json.get("mainAttackEarthDamageBonus") != null && json.get("mainAttackEarthDamageBonus").getAsInt() != 0) {
-                label.add(new JLabel("Neutral Earth Damage: " + setPlus(json.get("mainAttackEarthDamageBonus").getAsInt()) + "%"));
+                label.add(new JLabel("Earth Melee Damage: " + setPlus(json.get("mainAttackEarthDamageBonus").getAsInt()) + "%"));
             }
             if (json.get("mainAttackThunderDamageBonus") != null && json.get("mainAttackThunderDamageBonus").getAsInt() != 0) {
-                label.add(new JLabel("Neutral Thunder Damage: " + setPlus(json.get("mainAttackThunderDamageBonus").getAsInt()) + "%"));
+                label.add(new JLabel("Thunder Melee Damage: " + setPlus(json.get("mainAttackThunderDamageBonus").getAsInt()) + "%"));
             }
             if (json.get("mainAttackWaterDamageBonus") != null && json.get("mainAttackWaterDamageBonus").getAsInt() != 0) {
-                label.add(new JLabel("Neutral Water Damage: " + setPlus(json.get("mainAttackWaterDamageBonus").getAsInt()) + "%"));
+                label.add(new JLabel("Water Melee Damage: " + setPlus(json.get("mainAttackWaterDamageBonus").getAsInt()) + "%"));
             }
             if (json.get("mainAttackFireDamageBonus") != null && json.get("mainAttackFireDamageBonus").getAsInt() != 0) {
-                label.add(new JLabel("Neutral Fire Damage: " + setPlus(json.get("mainAttackFireDamageBonus").getAsInt()) + "%"));
+                label.add(new JLabel("Fire Melee Damage: " + setPlus(json.get("mainAttackFireDamageBonus").getAsInt()) + "%"));
             }
             if (json.get("mainAttackAirDamageBonus") != null && json.get("mainAttackAirDamageBonus").getAsInt() != 0) {
-                label.add(new JLabel("Neutral Air Damage: " + setPlus(json.get("mainAttackAirDamageBonus").getAsInt()) + "%"));
+                label.add(new JLabel("Air Melee Damage: " + setPlus(json.get("mainAttackAirDamageBonus").getAsInt()) + "%"));
             }
             if (json.get("mainAttackElementalDamageBonus") != null && json.get("mainAttackElementalDamageBonus").getAsInt() != 0) {
-                label.add(new JLabel("Neutral Elemental Damage: " + setPlus(json.get("mainAttackElementalDamageBonus").getAsInt()) + "%"));
+                label.add(new JLabel("Elemental Melee Damage: " + setPlus(json.get("mainAttackElementalDamageBonus").getAsInt()) + "%"));
             }
             if (json.get("mainAttackNeutralDamageBonusRaw") != null && json.get("mainAttackNeutralDamageBonusRaw").getAsInt() != 0) {
                 label.add(new JLabel("Raw Neutral Melee Damage: " + setPlus(json.get("mainAttackNeutralDamageBonusRaw").getAsInt())));
@@ -642,27 +642,27 @@ public class ItemUITemplate extends JPanel {
             }
             if (json.get("mainAttackEarthDamageBonus") != null && json.get("mainAttackEarthDamageBonus").getAsInt() != 0) {
                 int base = json.get("mainAttackEarthDamageBonus").getAsInt();
-                label.add(new JLabel(getMin(base) + "% Neutral Earth Damage " + getMax(base) + "%"));
+                label.add(new JLabel(getMin(base) + "% Earth Melee Damage " + getMax(base) + "%"));
             }
             if (json.get("mainAttackThunderDamageBonus") != null && json.get("mainAttackThunderDamageBonus").getAsInt() != 0) {
                 int base = json.get("mainAttackThunderDamageBonus").getAsInt();
-                label.add(new JLabel(getMin(base) + "% Neutral Thunder Damage " + getMax(base) + "%"));
+                label.add(new JLabel(getMin(base) + "% Thunder Melee Damage " + getMax(base) + "%"));
             }
             if (json.get("mainAttackWaterDamageBonus") != null && json.get("mainAttackWaterDamageBonus").getAsInt() != 0) {
                 int base = json.get("mainAttackWaterDamageBonus").getAsInt();
-                label.add(new JLabel(getMin(base) + "% Neutral Water Damage " + getMax(base) + "%"));
+                label.add(new JLabel(getMin(base) + "% Water Melee Damage " + getMax(base) + "%"));
             }
             if (json.get("mainAttackFireDamageBonus") != null && json.get("mainAttackFireDamageBonus").getAsInt() != 0) {
                 int base = json.get("mainAttackFireDamageBonus").getAsInt();
-                label.add(new JLabel(getMin(base) + "% Neutral Fire Damage " + getMax(base) + "%"));
+                label.add(new JLabel(getMin(base) + "% Fire Melee Damage " + getMax(base) + "%"));
             }
             if (json.get("mainAttackAirDamageBonus") != null && json.get("mainAttackAirDamageBonus").getAsInt() != 0) {
                 int base = json.get("mainAttackAirDamageBonus").getAsInt();
-                label.add(new JLabel(getMin(base) + "% Neutral Air Damage " + getMax(base) + "%"));
+                label.add(new JLabel(getMin(base) + "% Air Melee Damage " + getMax(base) + "%"));
             }
             if (json.get("mainAttackElementalDamageBonus") != null && json.get("mainAttackElementalDamageBonus").getAsInt() != 0) {
                 int base = json.get("mainAttackElementalDamageBonus").getAsInt();
-                label.add(new JLabel(getMin(base) + "% Neutral Elemental Damage " + getMax(base) + "%"));
+                label.add(new JLabel(getMin(base) + "% Elemental Melee Damage " + getMax(base) + "%"));
             }
             if (json.get("mainAttackNeutralDamageBonusRaw") != null && json.get("mainAttackNeutralDamageBonusRaw").getAsInt() != 0) {
                 int base = json.get("mainAttackNeutralDamageBonusRaw").getAsInt();
