@@ -585,6 +585,9 @@ public class SearchUI extends JFrame implements ActionListener {
         searchFromName();
 
         filterIngredientFromSize(idBoxes_1, idMin_1, idMax_1);
+        filterIngredientFromSize(idBoxes_2, idMin_2, idMax_2);
+        filterIngredientFromSize(idBoxes_3, idMin_3, idMax_3);
+        filterIngredientFromSize(idBoxes_4, idMin_4, idMax_4);
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
             sortIngredients(idBoxes_1);
