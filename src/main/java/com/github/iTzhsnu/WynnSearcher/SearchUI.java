@@ -14,7 +14,6 @@ import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
 
-    //TODO add ID Range Filter
     //TODO add get Update
 
     //Item and Ingredient Data
@@ -438,6 +437,9 @@ public class SearchUI extends JFrame implements ActionListener {
         searchFromName();
 
         filterItemFromSize(idBoxes_1, idMin_1, idMax_1);
+        filterItemFromSize(idBoxes_2, idMin_2, idMax_2);
+        filterItemFromSize(idBoxes_3, idMin_3, idMax_3);
+        filterItemFromSize(idBoxes_4, idMin_4, idMax_4);
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
             sortItems(idBoxes_1);
@@ -583,6 +585,8 @@ public class SearchUI extends JFrame implements ActionListener {
         searchIngFromTier();
 
         searchFromName();
+
+        filterIngredientFromSize(idBoxes_1, idMin_1, idMax_1);
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
             sortIngredients(idBoxes_1);
@@ -1153,7 +1157,57 @@ public class SearchUI extends JFrame implements ActionListener {
             if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
             if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
             if (min_Int != Integer.MIN_VALUE || max_Int != Integer.MAX_VALUE) {
-
+                Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
+                Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
+                Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
+                Identifications id_4 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
+                if (id_1.getIngName() != null || id_2.getIngName() != null || id_3.getIngName() != null || id_4.getIngName() != null) {
+                    for (int i = searchedItems.size() - 1; i >= 0; --i) {
+                        JsonObject j = searchedItems.get(i);
+                        int total_min = 0;
+                        int total_max = 0;
+                        for (int s = 0; 4 > s; ++s) {
+                            Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, s), Identifications.EMPTY);
+                            if (id.getIngName() != null && id.getIngFieldPos() != null) {
+                                if (!id.getIDType().equals("sum")) {
+                                    if (Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("minimum").getAsInt() != 0) {
+                                        total_min = total_min + j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("minimum").getAsInt();
+                                        total_max = total_max + j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("maximum").getAsInt();
+                                    } else if (Objects.equals(id.getIngFieldPos(), "nothing") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsInt() != 0) {
+                                        total_min = total_min + j.get(id.getIngName()).getAsInt();
+                                        total_max = total_max + j.get(id.getIngName()).getAsInt();
+                                    } else if (!Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() != 0) {
+                                        total_min = total_min + j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt();
+                                        total_max = total_max + j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt();
+                                    }
+                                } else {
+                                    int sum_total_min = 0;
+                                    int sum_total_max = 0;
+                                    for (int n = 0; id.getSum().getIds().size() > n; ++n) {
+                                        Identifications ids = id.getSum().getIds().get(n);
+                                        if (ids.getIngName() != null && ids.getIngFieldPos() != null) {
+                                            if (Objects.equals(ids.getIngFieldPos(), "identifications") && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
+                                                sum_total_min = sum_total_min + j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("minimum").getAsInt();
+                                                sum_total_max = sum_total_max + j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("maximum").getAsInt();
+                                            } else if (Objects.equals(ids.getIngFieldPos(), "nothing") && j.get(ids.getIngName()) != null && j.get(ids.getIngName()).getAsInt() != 0) {
+                                                sum_total_min = sum_total_min + j.get(ids.getIngName()).getAsInt();
+                                                sum_total_max = sum_total_max + j.get(ids.getIngName()).getAsInt();
+                                            } else if (!Objects.equals(ids.getIngFieldPos(), "identifications") && j.get(ids.getIngFieldPos()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt() != 0) {
+                                                sum_total_min = sum_total_min + j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt();
+                                                sum_total_max = sum_total_max + j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt();
+                                            }
+                                        }
+                                    }
+                                    total_min = total_min + sum_total_min;
+                                    total_max = total_max + sum_total_max;
+                                }
+                            }
+                        }
+                        if (min_Int > total_min || max_Int < total_max) {
+                            searchedItems.remove(i);
+                        }
+                    }
+                }
             }
         }
     }
