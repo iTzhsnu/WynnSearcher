@@ -10,4 +10,3 @@ Java 8 or above
 ## Screenshots
 ![](readme_pictures/search_1.png)
 ![](readme_pictures/search_2.png)
-![](readme_pictures/search_3.png)
