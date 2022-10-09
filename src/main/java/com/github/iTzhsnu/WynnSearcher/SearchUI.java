@@ -14,8 +14,6 @@ import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
 
-    //TODO add get Update
-
     //Item and Ingredient Data
     private final List<JsonObject> wynnItems = new ArrayList<>();
     private final List<JsonObject> wynnIngredients = new ArrayList<>();
