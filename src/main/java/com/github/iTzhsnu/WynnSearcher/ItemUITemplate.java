@@ -1059,6 +1059,14 @@ public class ItemUITemplate extends JPanel {
        }
    }
 
+   public static int getMinInt(int base) {
+       if (base < 0) {
+           return (int) Math.min(Math.round(base * 1.3d), -1);
+       } else {
+           return (int) Math.max(Math.round(base * 0.3d), 1);
+       }
+   }
+
    public static int getMaxInt(int base) {
         if (base < 0) {
             return (int) Math.min(Math.round(base * 0.7d), -1);

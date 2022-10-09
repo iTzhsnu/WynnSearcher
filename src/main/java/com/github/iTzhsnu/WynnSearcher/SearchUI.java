@@ -14,6 +14,9 @@ import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
 
+    //TODO add ID Range Filter
+    //TODO add get Update
+
     //Item and Ingredient Data
     private final List<JsonObject> wynnItems = new ArrayList<>();
     private final List<JsonObject> wynnIngredients = new ArrayList<>();
@@ -88,16 +91,16 @@ public class SearchUI extends JFrame implements ActionListener {
     private final List<JComboBox<String>> idBoxes_4 = new ArrayList<>();
 
     //ID Min Text
-    private final List<JTextField> idMin_1 = new ArrayList<>();
-    private final List<JTextField> idMin_2 = new ArrayList<>();
-    private final List<JTextField> idMin_3 = new ArrayList<>();
-    private final List<JTextField> idMin_4 = new ArrayList<>();
+    private final JTextField idMin_1 = new JTextField();
+    private final JTextField idMin_2 = new JTextField();
+    private final JTextField idMin_3 = new JTextField();
+    private final JTextField idMin_4 = new JTextField();
 
     //ID Max Text
-    private final List<JTextField> idMax_1 = new ArrayList<>();
-    private final List<JTextField> idMax_2 = new ArrayList<>();
-    private final List<JTextField> idMax_3 = new ArrayList<>();
-    private final List<JTextField> idMax_4 = new ArrayList<>();
+    private final JTextField idMax_1 = new JTextField();
+    private final JTextField idMax_2 = new JTextField();
+    private final JTextField idMax_3 = new JTextField();
+    private final JTextField idMax_4 = new JTextField();
 
     public SearchUI() {
 
@@ -186,7 +189,7 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    public void setIDBoxAndIDField(List<JComboBox<String>> boxes, List<JTextField> min, List<JTextField> max, int baseX, int baseY, int length, boolean need) {
+    public void setIDBoxAndIDField(List<JComboBox<String>> boxes, JTextField min, JTextField max, int baseX, int baseY, int length, boolean need) {
         for (int i = 0; length > i; ++i) {
             //ID Box
             boxes.add(new JComboBox<>());
@@ -205,7 +208,7 @@ public class SearchUI extends JFrame implements ActionListener {
             JTextField textField = (JTextField) boxes.get(i).getEditor().getEditorComponent();
             textField.addKeyListener(new IDBoxAdapter(boxes.get(i)));
 
-            //And
+            //And Or
             if (i < 3) {
                 JLabel label;
                 if (need) {
@@ -226,25 +229,19 @@ public class SearchUI extends JFrame implements ActionListener {
                 contentPane.add(label);
             }
 
-            //Min
-            min.add(new JTextField());
-            min.get(i).setBounds(baseX + 120 + (224 * i), baseY + 21, 20, 20);
-
-            //To
-            JLabel toName = new JLabel("to");
-            toName.setBounds(baseX + 145 + (224 * i), baseY + 20, 20, 20);
-
-            //Max
-            max.add(new JTextField());
-            max.get(i).setBounds(baseX + 160 + (224 * i), baseY + 21, 20, 20);
-
-            //Add
             contentPane.add(boxes.get(i));
-            contentPane.add(min.get(i));
-            contentPane.add(toName);
-            contentPane.add(max.get(i));
-
         }
+
+        //Min Max
+        min.setBounds(baseX + 120, baseY + 21, 20, 20);
+        max.setBounds(baseX + 160, baseY + 21, 20, 20);
+
+        JLabel toName = new JLabel("to");
+        toName.setBounds(baseX + 145, baseY + 20, 20, 20);
+
+        contentPane.add(min);
+        contentPane.add(toName);
+        contentPane.add(max);
     }
 
     public void typeItemDataSet() {
@@ -439,6 +436,8 @@ public class SearchUI extends JFrame implements ActionListener {
         searchItemFromTier();
 
         searchFromName();
+
+        filterItemFromSize(idBoxes_1, idMin_1, idMax_1);
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
             sortItems(idBoxes_1);
@@ -1018,12 +1017,145 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    public void filterItemFromSize() {
+    public void filterItemFromSize(List<JComboBox<String>> box, JTextField min, JTextField max) {
+        if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
+            int min_Int = Integer.MIN_VALUE;
+            int max_Int = Integer.MAX_VALUE;
+            if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
+            if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
+            if (min_Int != Integer.MIN_VALUE || max_Int != Integer.MAX_VALUE) {
+                Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
+                Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
+                Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
+                Identifications id_4 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
+                if (id_1.getItemName() != null || id_2.getItemName() != null || id_3.getItemName() != null || id_4.getItemName() != null) {
+                    if (!id_1.getIDType().equals("string") || !id_2.getIDType().equals("string") || !id_3.getIDType().equals("string") || !id_4.getIDType().equals("string")) {
+                        for (int i = searchedItems.size() - 1; i >= 0; --i) {
+                            JsonObject j = searchedItems.get(i);
+                            int total_min = 0;
+                            int total_max = 0;
+                            for (int s = 0; 4 > s; ++s) {
+                                Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, s), Identifications.EMPTY);
+                                if (id.getItemName() != null) {
+                                    if (!id.getIDType().equals("sum")) {
+                                        if (id.getIDType().equals("int") && j.get(id.getItemName()) != null && j.get(id.getItemName()).getAsInt() != 0) {
+                                            if (id.isItemVariable()) {
+                                                total_min = total_min + ItemUITemplate.getMinInt(j.get(id.getItemName()).getAsInt());
+                                                total_max = total_max + ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
+                                            } else {
+                                                total_min = total_min + j.get(id.getItemName()).getAsInt();
+                                                total_max = total_max + j.get(id.getItemName()).getAsInt();
+                                            }
+                                        } else if (id.getIDType().equals("damage_string") && j.get(id.getItemName()) != null && j.get(id.getItemName()).getAsString().contains("-") && !j.get(id.getItemName()).getAsString().equals("0-0")) {
+                                            String[] ss = j.get(id.getItemName()).getAsString().split("-");
+                                            total_min = total_min + Integer.parseInt(ss[0]);
+                                            total_max = total_max + Integer.parseInt(ss[ss.length - 1]);
+                                        }
+                                    } else {
+                                        double sum_total_min = 0;
+                                        double sum_total_max = 0;
+                                        int sum_multi_min = 0;
+                                        int sum_multi_max = 0;
+                                        for (int n = 0; id.getSum().getIds().size() > n; ++n) {
+                                            Identifications ids = id.getSum().getIds().get(n);
+                                            if (ids.getIDType().equals("int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
+                                                if (ids.isItemVariable()) {
+                                                    sum_total_min = sum_total_min + ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
+                                                    sum_total_max = sum_total_max + ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
+                                                } else {
+                                                    sum_total_min = sum_total_min + j.get(ids.getItemName()).getAsInt();
+                                                    sum_total_max = sum_total_max + j.get(ids.getItemName()).getAsInt();
+                                                }
+                                            } else if (ids.getIDType().equals("damage_string") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsString().contains("-") && !j.get(ids.getItemName()).getAsString().equals("0-0")) {
+                                                String[] ss = j.get(ids.getItemName()).getAsString().split("-");
+                                                sum_total_min = sum_total_min + Integer.parseInt(ss[0]);
+                                                sum_total_max = sum_total_max + Integer.parseInt(ss[ss.length - 1]);
+                                            }
+                                        }
 
+                                        if (Objects.equals(id.getSum().getCalcType(), "multi") || Objects.equals(id.getSum().getCalcType(), "total_dps") && id.getSum().getAndIDs() != null) {
+                                            for (int n = 0; id.getSum().getAndIDs().size() > n; ++n) {
+                                                Identifications ids = id.getSum().getAndIDs().get(n);
+                                                if (ids.getIDType().equals("int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
+                                                    if (ids.isItemVariable()) {
+                                                        sum_multi_min = sum_multi_min + ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
+                                                        sum_multi_max = sum_multi_max + ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
+                                                    } else {
+                                                        sum_multi_min = sum_multi_min + j.get(ids.getItemName()).getAsInt();
+                                                        sum_multi_max = sum_multi_max + j.get(ids.getItemName()).getAsInt();
+                                                    }
+                                                }
+                                            }
+                                            sum_total_min = sum_total_min * (100 + sum_multi_min) / 100;
+                                            sum_total_max = sum_total_max * (100 + sum_multi_max) / 100;
+                                        }
+
+                                        if (Objects.equals(id.getSum().getCalcType(), "base_dps") || Objects.equals(id.getSum().getCalcType(), "total_dps")) {
+                                            if (j.get("attackSpeed") != null) {
+                                                switch (j.get("attackSpeed").getAsString()) {
+                                                    case "SUPER_FAST": {
+                                                        sum_total_min = sum_total_min * 4.3;
+                                                        sum_total_max = sum_total_max * 4.3;
+                                                        break;
+                                                    }
+                                                    case "VERY_FAST": {
+                                                        sum_total_min = sum_total_min * 3.1;
+                                                        sum_total_max = sum_total_max * 3.1;
+                                                        break;
+                                                    }
+                                                    case "FAST": {
+                                                        sum_total_min = sum_total_min * 2.5;
+                                                        sum_total_max = sum_total_max * 2.5;
+                                                        break;
+                                                    }
+                                                    case "NORMAL": {
+                                                        sum_total_min = sum_total_min * 2.05;
+                                                        sum_total_max = sum_total_max * 2.05;
+                                                        break;
+                                                    }
+                                                    case "SLOW": {
+                                                        sum_total_min = sum_total_min * 1.5;
+                                                        sum_total_max = sum_total_max * 1.5;
+                                                        break;
+                                                    }
+                                                    case "VERY_SLOT": {
+                                                        sum_total_min = sum_total_min * 0.83;
+                                                        sum_total_max = sum_total_max * 0.83;
+                                                        break;
+                                                    }
+                                                    case "SUPER_SLOW": {
+                                                        sum_total_min = sum_total_min * 0.51;
+                                                        sum_total_max = sum_total_max * 0.51;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        total_min = total_min + (int) sum_total_min;
+                                        total_max = total_max + (int) sum_total_max;
+                                    }
+                                }
+                            }
+                            if (min_Int > total_min || max_Int < total_max) {
+                                searchedItems.remove(i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    public void filterIngFromSize() {
+    public void filterIngredientFromSize(List<JComboBox<String>> box, JTextField min, JTextField max) {
+        if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
+            int min_Int = Integer.MIN_VALUE;
+            int max_Int = Integer.MAX_VALUE;
+            if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
+            if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
+            if (min_Int != Integer.MIN_VALUE || max_Int != Integer.MAX_VALUE) {
 
+            }
+        }
     }
 
     public void sortItems(List<JComboBox<String>> box) {
@@ -1049,7 +1181,7 @@ public class SearchUI extends JFrame implements ActionListener {
                                 String[] ss = j.get(id.getItemName()).getAsString().split("-");
                                 total = total + Integer.parseInt(ss[ss.length - 1]);
                             }
-                        }  else if (Objects.equals(id.getIDType(), "string") && Objects.equals(id.getItemName(), "attackSpeed") && j.get(id.getItemName()) != null) {
+                        } else if (Objects.equals(id.getIDType(), "string") && Objects.equals(id.getItemName(), "attackSpeed") && j.get(id.getItemName()) != null) {
                             switch (j.get(id.getItemName()).getAsString()) {
                                 case "SUPER_FAST": total = 7;
                                 break;
@@ -1117,6 +1249,7 @@ public class SearchUI extends JFrame implements ActionListener {
                                     case "VERY_SLOT": sum_total = sum_total * 0.83;
                                     break;
                                     case "SUPER_SLOW": sum_total = sum_total * 0.51;
+                                    break;
                                 }
                             }
                         }
