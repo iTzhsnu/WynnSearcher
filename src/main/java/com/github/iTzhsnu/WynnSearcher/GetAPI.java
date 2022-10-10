@@ -41,6 +41,7 @@ public class GetAPI {
     }
 
     public static void setIngredientData(List<JsonObject> list, JLabel label) {
+        boolean connect = true;
         for (int i = 0; i <= 3; ++i) {
             try {
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_INGREDIENT_API + i).openStream()));
@@ -57,12 +58,16 @@ public class GetAPI {
                     list.add(je.getAsJsonObject());
                 }
 
-                label.setText("Ingredient API Connected");
-
             } catch (IOException e) {
                 e.printStackTrace();
-                label.setText("Connect Failed");
+                connect = false;
             }
+        }
+
+        if (connect) {
+            label.setText("Ingredient API Connected");
+        } else {
+            label.setText("Connect Failed");
         }
     }
 
