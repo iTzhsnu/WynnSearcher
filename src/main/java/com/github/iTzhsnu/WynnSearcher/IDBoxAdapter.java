@@ -226,7 +226,7 @@ public class IDBoxAdapter extends KeyAdapter {
     public void keyTyped(KeyEvent e) {
         JTextField text = (JTextField) e.getComponent();
 
-        setList(box, text.getText());
+        setList(box, text.getText(), text.getCaretPosition(), text.getSelectionStart(), text.getSelectionEnd());
     }
 
     @Override
@@ -234,7 +234,7 @@ public class IDBoxAdapter extends KeyAdapter {
         super.keyPressed(e);
     }
 
-    private static void setList(JComboBox<String> box, String text) {
+    private static void setList(JComboBox<String> box, String text, int caretPos, int selectionStart, int selectionEnd) {
         box.removeAllItems();
 
         for (String s : DISPLAY_ID_LIST) {
@@ -244,5 +244,10 @@ public class IDBoxAdapter extends KeyAdapter {
         }
 
         ((JTextField) box.getEditor().getEditorComponent()).setText(text);
+        ((JTextField) box.getEditor().getEditorComponent()).setCaretPosition(caretPos);
+        if (selectionStart < selectionEnd) {
+            ((JTextField) box.getEditor().getEditorComponent()).setSelectionStart(selectionStart);
+            ((JTextField) box.getEditor().getEditorComponent()).setSelectionEnd(selectionEnd);
+        }
     }
 }
