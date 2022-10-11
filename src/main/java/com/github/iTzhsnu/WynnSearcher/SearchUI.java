@@ -1226,7 +1226,7 @@ public class SearchUI extends JFrame implements ActionListener {
     public void sortItems(List<JComboBox<String>> box) {
         int si = searchedItems.size() - 1;
         int iu = 0;
-        int max = 0;
+        int max = Integer.MIN_VALUE;
         boolean bSortType = false;
 
         if (sortType.getItemAt(sortType.getSelectedIndex()).equals("Sort: Min")) {
@@ -1373,7 +1373,7 @@ public class SearchUI extends JFrame implements ActionListener {
     public void sortIngredients(List<JComboBox<String>> box) {
         int si = searchedItems.size() - 1;
         int iu = 0;
-        int max = 0;
+        int max = Integer.MIN_VALUE;
         boolean bSortType = false;
 
         if (sortType.getItemAt(sortType.getSelectedIndex()).equals("Sort: Min")) {
