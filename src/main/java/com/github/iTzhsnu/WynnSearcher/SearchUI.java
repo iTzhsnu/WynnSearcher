@@ -110,7 +110,7 @@ public class SearchUI extends JFrame implements ActionListener {
         setItemJson();
         setIngredientJson();
 
-        setTitle("Wynncraft Searcher (Beta 1.1.4)");
+        setTitle("Wynncraft Searcher (Beta 1.1.5)");
         setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/wynn_searcher_icon.png"))).getImage());
         setBounds(100, 100, 1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1244,7 +1244,9 @@ public class SearchUI extends JFrame implements ActionListener {
                     if (!Objects.equals(id.getIDType(), "sum")) {
                         if (Objects.equals(id.getIDType(), "int") && j.get(id.getItemName()) != null) {
                             int t = ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
-                            if (j.get("identified") != null && j.get("identified").getAsBoolean() || !id.isItemVariable()) {
+                            if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                                t = j.get(id.getItemName()).getAsInt();
+                            } else if (!id.isItemVariable()) {
                                 t = j.get(id.getItemName()).getAsInt();
                             } else if (bSortType) {
                                 t = ItemUITemplate.getMinInt(j.get(id.getItemName()).getAsInt());
@@ -1284,7 +1286,9 @@ public class SearchUI extends JFrame implements ActionListener {
                             Identifications ids = id.getSum().getIds().get(n);
                             if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
                                 int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                if (j.get("identified") != null && j.get("identified").getAsBoolean() || !id.isItemVariable()) {
+                                if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                                    t = j.get(ids.getItemName()).getAsInt();
+                                } else if (!ids.isItemVariable()) {
                                     t = j.get(ids.getItemName()).getAsInt();
                                 } else if (bSortType) {
                                     t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
@@ -1300,7 +1304,7 @@ public class SearchUI extends JFrame implements ActionListener {
                                     sum_total += t;
                                 } else {
                                     int p = Integer.parseInt(ss[0]) + Integer.parseInt(ss[ss.length - 1]);
-                                    sum_total += (p / 2);
+                                    sum_total += (p / 2F);
                                 }
                             }
                         }
@@ -1309,7 +1313,9 @@ public class SearchUI extends JFrame implements ActionListener {
                                 Identifications ids = id.getSum().getAndIDs().get(n);
                                 if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
                                     int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                    if (j.get("identified") != null && j.get("identified").getAsBoolean() || !id.isItemVariable()) {
+                                    if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                                        t = j.get(ids.getItemName()).getAsInt();
+                                    } else if (!ids.isItemVariable()) {
                                         t = j.get(ids.getItemName()).getAsInt();
                                     } else if (bSortType) {
                                         t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
@@ -1317,24 +1323,24 @@ public class SearchUI extends JFrame implements ActionListener {
                                     sum_multi += t;
                                 }
                             }
-                            sum_total = sum_total * (100 + sum_multi) / 100;
+                            sum_total = sum_total * (100 + sum_multi) / 100F;
                         }
                         if (Objects.equals(id.getSum().getCalcType(), "base_dps") || Objects.equals(id.getSum().getCalcType(), "total_dps")) {
                             if (j.get("attackSpeed") != null) {
                                 switch (j.get("attackSpeed").getAsString()) {
-                                    case "SUPER_FAST": sum_total *= 4.3;
+                                    case "SUPER_FAST": sum_total *= 4.3F;
                                     break;
-                                    case "VERY_FAST": sum_total *= 3.1;
+                                    case "VERY_FAST": sum_total *= 3.1F;
                                     break;
-                                    case "FAST": sum_total *= 2.5;
+                                    case "FAST": sum_total *= 2.5F;
                                     break;
-                                    case "NORMAL": sum_total *= 2.05;
+                                    case "NORMAL": sum_total *= 2.05F;
                                     break;
-                                    case "SLOW": sum_total *= 1.5;
+                                    case "SLOW": sum_total *= 1.5F;
                                     break;
-                                    case "VERY_SLOT": sum_total *= 0.83;
+                                    case "VERY_SLOT": sum_total *= 0.83F;
                                     break;
-                                    case "SUPER_SLOW": sum_total *= 0.51;
+                                    case "SUPER_SLOW": sum_total *= 0.51F;
                                     break;
                                 }
                             }
@@ -1356,6 +1362,8 @@ public class SearchUI extends JFrame implements ActionListener {
                 }
             }
         }
+
+        System.out.println(max);
 
         JPanel previous = null;
         JPanel fourP = null;
