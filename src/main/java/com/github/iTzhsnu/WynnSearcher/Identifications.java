@@ -152,7 +152,7 @@ public enum Identifications {
     SUM_DAMAGES_PERCENT("damages", "damages", true, "sum", SumEnum.DAMAGES_PERCENT, "sum", false),
     SUM_RAINBOW_DAMAGES_PERCENT("rainbow_damage", "rainbow_damage", true, "sum", SumEnum.RAINBOW_DAMAGES_PERCENT, "sum", false),
 
-    SUM_TOTAL_MELEE_DAMAGE("total_melee_damage", null, false, "sum", SumEnum.TOTAL_MELEE_DAMAGE, null, false),
+    SUM_TOTAL_MELEE_DAMAGE("total_melee_damage", null, false, "sum", SumEnum.TOTAL_MELEE_DAMAGE, null, false), //Need Calc Fixes
     SUM_TOTAL_NEUTRAL_MELEE_DAMAGE("total_neutral_melee_damage", null, false, "sum", SumEnum.TOTAL_NEUTRAL_MELEE_DAMAGE, null, false),
     SUM_TOTAL_EARTH_MELEE_DAMAGE("total_earth_damage", null, false, "sum", SumEnum.TOTAL_EARTH_MELEE_DAMAGE, null, false),
     SUM_TOTAL_THUNDER_MELEE_DAMAGE("total_thunder_damage", null, false, "sum", SumEnum.TOTAL_THUNDER_MELEE_DAMAGE, null, false),
@@ -160,8 +160,8 @@ public enum Identifications {
     SUM_TOTAL_FIRE_MELEE_DAMAGE("total_fire_damage", null, false, "sum", SumEnum.TOTAL_FIRE_MELEE_DAMAGE, null, false),
     SUM_TOTAL_AIR_MELEE_DAMAGE("total_air_damage", null, false, "sum", SumEnum.TOTAL_AIR_MELEE_DAMAGE, null, false),
 
-    SUM_TOTAL_MELEE_DPS("total_melee_dps", null, false, "sum", SumEnum.TOTAL_MELEE_DPS, null, false),
-    SUM_TOTAL_SPELL_DPS("total_spell_dps", null, false, "sum", SumEnum.TOTAL_SPELL_DPS, null, false),
+    SUM_TOTAL_MELEE_DPS("total_melee_dps", null, false, "sum", SumEnum.TOTAL_MELEE_DPS, null, false), //Need Calc Fixes
+    SUM_TOTAL_SPELL_DPS("total_spell_dps", null, false, "sum", SumEnum.TOTAL_SPELL_DPS, null, false), //Need Calc Fixes
     SUM_TOTAL_NEUTRAL_MELEE_DPS("total_neutral_melee_dps", null, false, "sum", SumEnum.TOTAL_NEUTRAL_MELEE_DPS, null, false),
     SUM_TOTAL_NEUTRAL_SPELL_DPS("total_neutral_spell_dps", null, false, "sum", SumEnum.TOTAL_NEUTRAL_SPELL_DPS, null, false),
     SUM_TOTAL_EARTH_MELEE_DPS("total_earth_melee_dps", null, false, "sum", SumEnum.TOTAL_EARTH_MELEE_DPS, null, false),
