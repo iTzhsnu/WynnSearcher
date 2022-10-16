@@ -36,10 +36,9 @@ public class IDBoxAdapter extends KeyAdapter {
             "Sum (Skill Point Bonus)", "Sum (Rainbow Skill Point Bonus)",
             "Sum (Base DPS)", "Sum (Neutral DPS)", "Sum (Earth DPS)", "Sum (Thunder DPS)", "Sum (Water DPS)", "Sum (Fire DPS)", "Sum (Air DPS)",
             "Sum (Damages Raw)", "Sum (Rainbow Damages Raw)", "Sum (Damages %)", "Sum (Rainbow Damages %)",
-            "Sum (Total Melee Damage)", "Sum (Total Neutral Melee Damage)",
-            "Sum (Total Earth Damage)", "Sum (Total Thunder Damage)", "Sum (Total Water Damage)", "Sum (Total Fire Damage)", "Sum (Total Air Damage)",
-            "Sum (Total DPS)", "Sum (Total Melee DPS)", "Sum (Total Spell DPS)", "Sum (Total Neutral Melee DPS)", "Sum (Total Neutral Spell DPS)",
-            "Sum (Total Earth DPS)", "Sum (Total Thunder DPS)", "Sum (Total Water DPS)", "Sum (Total Fire DPS)", "Sum (Total Air DPS)",
+            "Sum (Total Melee Damage)", "Sum (Total Neutral Melee Damage)", "Sum (Total Earth Melee Damage)", "Sum (Total Thunder Melee Damage)", "Sum (Total Water Melee Damage)", "Sum (Total Fire Melee Damage)", "Sum (Total Air Melee Damage)",
+            "Sum (Total Melee DPS)", "Sum (Total Neutral Melee DPS)", "Sum (Total Earth Melee DPS)", "Sum (Total Thunder Melee DPS)", "Sum (Total Water Melee DPS)", "Sum (Total Fire Melee DPS)", "Sum (Total Air Melee DPS)",
+            "Sum (Total Spell DPS)", "Sum (Total Neutral Spell DPS)", "Sum (Total Earth Spell DPS)", "Sum (Total Thunder Spell DPS)", "Sum (Total Water Spell DPS)", "Sum (Total Fire Spell DPS)", "Sum (Total Air Spell DPS)",
             "Sum (Raw Spell Costs)", "Sum (Spell Costs %)"
     };
 
@@ -196,22 +195,26 @@ public class IDBoxAdapter extends KeyAdapter {
 
         put("Sum (Total Melee Damage)", Identifications.SUM_TOTAL_MELEE_DAMAGE);
         put("Sum (Total Neutral Melee Damage)", Identifications.SUM_TOTAL_NEUTRAL_MELEE_DAMAGE);
-        put("Sum (Total Earth Damage)", Identifications.SUM_TOTAL_EARTH_DAMAGE);
-        put("Sum (Total Thunder Damage)", Identifications.SUM_TOTAL_THUNDER_DAMAGE);
-        put("Sum (Total Water Damage)", Identifications.SUM_TOTAL_WATER_DAMAGE);
-        put("Sum (Total Fire Damage)", Identifications.SUM_TOTAL_FIRE_DAMAGE);
-        put("Sum (Total Air Damage)", Identifications.SUM_TOTAL_AIR_DAMAGE);
+        put("Sum (Total Earth Melee Damage)", Identifications.SUM_TOTAL_EARTH_MELEE_DAMAGE);
+        put("Sum (Total Thunder Melee Damage)", Identifications.SUM_TOTAL_THUNDER_MELEE_DAMAGE);
+        put("Sum (Total Water Melee Damage)", Identifications.SUM_TOTAL_WATER_MELEE_DAMAGE);
+        put("Sum (Total Fire Melee Damage)", Identifications.SUM_TOTAL_FIRE_MELEE_DAMAGE);
+        put("Sum (Total Air Melee Damage)", Identifications.SUM_TOTAL_AIR_MELEE_DAMAGE);
 
-        put("Sum (Total DPS)", Identifications.SUM_TOTAL_DPS);
         put("Sum (Total Melee DPS)", Identifications.SUM_TOTAL_MELEE_DPS);
         put("Sum (Total Spell DPS)", Identifications.SUM_TOTAL_SPELL_DPS);
         put("Sum (Total Neutral Melee DPS)", Identifications.SUM_TOTAL_NEUTRAL_MELEE_DPS);
         put("Sum (Total Neutral Spell DPS)", Identifications.SUM_TOTAL_NEUTRAL_SPELL_DPS);
-        put("Sum (Total Earth DPS)", Identifications.SUM_TOTAL_EARTH_DPS);
-        put("Sum (Total Thunder DPS)", Identifications.SUM_TOTAL_THUNDER_DPS);
-        put("Sum (Total Water DPS)", Identifications.SUM_TOTAL_WATER_DPS);
-        put("Sum (Total Fire DPS)", Identifications.SUM_TOTAL_FIRE_DPS);
-        put("Sum (Total Air DPS)", Identifications.SUM_TOTAL_AIR_DPS);
+        put("Sum (Total Earth Melee DPS)", Identifications.SUM_TOTAL_EARTH_MELEE_DPS);
+        put("Sum (Total Earth Spell DPS)", Identifications.SUM_TOTAL_EARTH_SPELL_DPS);
+        put("Sum (Total Thunder Melee DPS)", Identifications.SUM_TOTAL_THUNDER_MELEE_DPS);
+        put("Sum (Total Thunder Spell DPS)", Identifications.SUM_TOTAL_THUNDER_SPELL_DPS);
+        put("Sum (Total Water Melee DPS)", Identifications.SUM_TOTAL_WATER_MELEE_DPS);
+        put("Sum (Total Water Spell DPS)", Identifications.SUM_TOTAL_WATER_SPELL_DPS);
+        put("Sum (Total Fire Melee DPS)", Identifications.SUM_TOTAL_FIRE_MELEE_DPS);
+        put("Sum (Total Fire Spell DPS)", Identifications.SUM_TOTAL_FIRE_SPELL_DPS);
+        put("Sum (Total Air Melee DPS)", Identifications.SUM_TOTAL_AIR_MELEE_DPS);
+        put("Sum (Total Air Spell DPS)", Identifications.SUM_TOTAL_AIR_SPELL_DPS);
 
         put("Sum (Raw Spell Costs)", Identifications.SUM_RAW_SPELL_COSTS);
         put("Sum (Spell Costs %)", Identifications.SUM_SPELL_COSTS_PERCENT);

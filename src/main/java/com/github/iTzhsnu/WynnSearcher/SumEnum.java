@@ -1,98 +1,101 @@
 package com.github.iTzhsnu.WynnSearcher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public enum SumEnum {
-    TOTAL_HEALTH("total_health", health(), "add", null, false),
-    TOTAL_HEALTH_REGEN("total_hp_regen", health_Regen_Raw(), "multi", health_Regen_Percent(), false),
-    RAW_DEFENSES("raw_defenses", raw_Defenses(), "add", null, false),
-    RAW_RAINBOW_DEFENSES("raw_rainbow_defenses", raw_Defenses(), "add", null, true),
-    DEFENSES_PERCENT("defenses_percent", defenses_Percent(), "add", null, false),
-    RAINBOW_DEFENSES_PERCENT("rainbow_defenses_percent", defenses_Percent(), "add", null, true),
-    SKILL_POINT_BONUS("skill_point_bonus", skill_Points(), "add", null, false),
-    RAINBOW_SKILL_POINT_BONUS("rainbow_skill_point_bonus", skill_Points(), "add", null, true),
+    TOTAL_HEALTH(create_ID_List(Identifications.HEALTH, Identifications.HEALTH_BONUS), null, null, false, false, false),
+    TOTAL_HEALTH_REGEN(create_ID_List(Identifications.RAW_HEALTH_REGEN), null, create_ID_List(Identifications.HEALTH_REGEN_PERCENT), false, false, false),
+    RAW_DEFENSES(raw_Defenses(), null, null, false, false, false),
+    RAW_RAINBOW_DEFENSES(raw_Defenses(), null, null, false, false, true),
+    DEFENSES_PERCENT(defenses_Percent(), null, null, false, false, false),
+    RAINBOW_DEFENSES_PERCENT(defenses_Percent(), null, null, false, false, true),
+    SKILL_POINT_BONUS(skill_Points(), null, null, false, false, false),
+    RAINBOW_SKILL_POINT_BONUS(skill_Points(), null, null, false, false, true),
 
-    BASE_DPS("base_dps", damages(), "base_dps", null, false),
-    NEUTRAL_DPS("neutral_dps", neutral_Damage(), "base_dps", null, false),
-    EARTH_DPS("earth_dps", earth_Damage(), "base_dps", null, false),
-    THUNDER_DPS("thunder_dps", thunder_Damage(), "base_dps", null, false),
-    WATER_DPS("water_dps", water_Damage(), "base_dps", null, false),
-    FIRE_DPS("fire_dps", fire_Damage(), "base_dps", null, false),
-    AIR_DPS("air_dps", air_Damage(), "base_dps", null, false),
+    BASE_DPS(damages(), null, null, true, false, false),
+    NEUTRAL_DPS(neutral_Damage(), null, null, true, false, false),
+    EARTH_DPS(earth_Damage(), null, null, true, false, false),
+    THUNDER_DPS(thunder_Damage(), null, null, true, false, false),
+    WATER_DPS(water_Damage(), null, null, true, false, false),
+    FIRE_DPS(fire_Damage(), null, null, true, false, false),
+    AIR_DPS(air_Damage(), null, null, true, false, false),
 
-    RAW_DAMAGES("raw_damages", damages(), "add", null, false),
-    RAW_RAINBOW_DAMAGES("raw_rainbow_damages", damages(), "add", null, true),
-    DAMAGES_PERCENT("damages_percent", damages_Percent(), "add", null, false),
-    RAINBOW_DAMAGES_PERCENT("rainbow_damages_percent", damages_Percent(), "add", null, true),
+    RAW_DAMAGES(damages(), null, null, false, false, false),
+    RAW_RAINBOW_DAMAGES(rainbow_damages(), null, null, false, false, true),
+    DAMAGES_PERCENT(damages_Percent(), null, null, false, false, false),
+    RAINBOW_DAMAGES_PERCENT(damages_Percent(), null, null, false, false, true),
 
-    TOTAL_MELEE_DAMAGE("total_melee_damage", damages(), "add", null, false),
-    TOTAL_NEUTRAL_MELEE_DAMAGE("total_neutral_melee_damage", neutral_Damage(), "multi", melee_Damage_Percent(), false),
-    TOTAL_EARTH_DAMAGE("total_earth_damage", earth_Damage(), "multi", earth_Damage_Percent(), false),
-    TOTAL_THUNDER_DAMAGE("total_thunder_damage", thunder_Damage(), "multi", thunder_Damage_Percent(), false),
-    TOTAL_WATER_DAMAGE("total_water_damage", water_Damage(), "multi", water_Damage_Percent(), false),
-    TOTAL_FIRE_DAMAGE("total_fire_damage", fire_Damage(), "multi", fire_Damage_Percent(), false),
-    TOTAL_AIR_DAMAGE("total_air_damage", air_Damage(), "multi", air_Damage_Percent(), false),
+    TOTAL_MELEE_DAMAGE(damages(), create_ID_List(Identifications.RAW_MELEE_DAMAGE), create_ID_List(Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
+    TOTAL_NEUTRAL_MELEE_DAMAGE(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE), create_ID_List(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
+    TOTAL_EARTH_MELEE_DAMAGE(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE) , create_ID_List(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
+    TOTAL_THUNDER_MELEE_DAMAGE(thunder_Damage(), create_ID_List(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.THUNDER_DAMAGE_PERCENT, Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
+    TOTAL_WATER_MELEE_DAMAGE(water_Damage(), create_ID_List(Identifications.RAW_WATER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.WATER_DAMAGE, Identifications.WATER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
+    TOTAL_FIRE_MELEE_DAMAGE(fire_Damage(), create_ID_List(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.FIRE_DAMAGE_PERCENT, Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
+    TOTAL_AIR_MELEE_DAMAGE(air_Damage(), create_ID_List(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.AIR_DAMAGE_PERCENT, Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
 
-    TOTAL_DPS("total_dps", damages(), "total_dps", null, false),
-    TOTAL_MELEE_DPS("total_melee_dps", damages(), "total_dps", melee_Damage_Percent(), false),
-    TOTAL_SPELL_DPS("total_spell_dps", damages(), "total_dps", spell_Damage_Percent(), false),
-    TOTAL_NEUTRAL_MELEE_DPS("total_neutral_melee_dps", neutral_Damage(), "total_dps", melee_Damage_Percent(), false),
-    TOTAL_NEUTRAL_SPELL_DPS("total_neutral_spell_dps", neutral_Damage(), "total_dps", spell_Damage_Percent(), false),
-    TOTAL_EARTH_DPS("total_earth_dps", earth_Damage(), "total_dps", earth_Damage_Percent(), false),
-    TOTAL_THUNDER_DPS("total_thunder_dps", thunder_Damage(), "total_dps", thunder_Damage_Percent(), false),
-    TOTAL_WATER_DPS("total_water_dps", water_Damage(), "total_dps", water_Damage_Percent(), false),
-    TOTAL_FIRE_DPS("total_fire_dps", fire_Damage(), "total_dps", fire_Damage_Percent(), false),
-    TOTAL_AIR_DPS("total_air_dps", air_Damage(), "total_dps", air_Damage_Percent(), false),
+    TOTAL_MELEE_DPS(damages(), create_ID_List(Identifications.RAW_MELEE_DAMAGE), create_ID_List(Identifications.MELEE_DAMAGE_PERCENT), true, true, false),
+    TOTAL_SPELL_DPS(damages(), create_ID_List(Identifications.RAW_SPELL_DAMAGE), create_ID_List(Identifications.SPELL_DAMAGE_PERCENT), true, false, false),
+    TOTAL_NEUTRAL_MELEE_DPS(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE), create_ID_List(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), true, true, false),
+    TOTAL_NEUTRAL_SPELL_DPS(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE), create_ID_List(Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT), true, false, false),
+    TOTAL_EARTH_MELEE_DPS(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT), true, true, false),
+    TOTAL_EARTH_SPELL_DPS(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE), create_ID_List(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT), true, false, false),
+    TOTAL_THUNDER_MELEE_DPS(thunder_Damage(), create_ID_List(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.THUNDER_DAMAGE_PERCENT, Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT), true, true, false),
+    TOTAL_THUNDER_SPELL_DPS(thunder_Damage(), create_ID_List(Identifications.RAW_THUNDER_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE), create_ID_List(Identifications.THUNDER_DAMAGE_PERCENT, Identifications.THUNDER_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT), true, false, false),
+    TOTAL_WATER_MELEE_DPS(water_Damage(), create_ID_List(Identifications.RAW_WATER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.WATER_DAMAGE_PERCENT, Identifications.WATER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT), true, true, false),
+    TOTAL_WATER_SPELL_DPS(water_Damage(), create_ID_List(Identifications.RAW_WATER_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE), create_ID_List(Identifications.WATER_DAMAGE_PERCENT, Identifications.WATER_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT), true, false, false),
+    TOTAL_FIRE_MELEE_DPS(fire_Damage(), create_ID_List(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.FIRE_DAMAGE_PERCENT, Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT), true, true, false),
+    TOTAL_FIRE_SPELL_DPS(fire_Damage(), create_ID_List(Identifications.RAW_FIRE_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE), create_ID_List(Identifications.FIRE_DAMAGE_PERCENT, Identifications.FIRE_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT), true, false, false),
+    TOTAL_AIR_MELEE_DPS(air_Damage(), create_ID_List(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.AIR_DAMAGE_PERCENT, Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT), true, true, false),
+    TOTAL_AIR_SPELL_DPS(air_Damage(), create_ID_List(Identifications.RAW_AIR_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE), create_ID_List(Identifications.AIR_DAMAGE_PERCENT, Identifications.AIR_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT), true, false, false),
 
-    RAW_SPELL_COSTS("raw_spell_costs", raw_Spell_Costs(), "add", null, false),
-    SPELL_COSTS_PERCENT("spell_costs_percent", spell_Costs_Percent(), "add", null, false),
+    RAW_SPELL_COSTS(create_ID_List(Identifications.RAW_1ST_SPELL_COST, Identifications.RAW_2ND_SPELL_COST, Identifications.RAW_3RD_SPELL_COST, Identifications.RAW_4TH_SPELL_COST), null, null, false, false, false),
+    SPELL_COSTS_PERCENT(create_ID_List(Identifications.PERCENT_1ST_SPELL_COST, Identifications.PERCENT_2ND_SPELL_COST, Identifications.PERCENT_3RD_SPELL_COST, Identifications.PERCENT_4TH_SPELL_COST), null, null, false, false, false),
 
-    INGREDIENT_EFFECTIVENESS("ingredient_effectiveness", ingredient_Effectiveness(), "add", null, false)
+    INGREDIENT_EFFECTIVENESS(create_ID_List(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE, Identifications.INGREDIENT_EFFECTIVENESS_UNDER, Identifications.INGREDIENT_EFFECTIVENESS_RIGHT, Identifications.INGREDIENT_EFFECTIVENESS_LEFT, Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING, Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING), null, null, false, false, false)
     ;
 
-    private final String name;
     private final List<Identifications> ids;
-    private final String calcType;
-    private final List<Identifications> andIDs;
+    private final List<Identifications> addIDs;
+    private final List<Identifications> multiIDs;
+    private final boolean dps;
+    private final boolean meleeDPS;
     private final boolean needAll;
 
 
-    SumEnum(String name, List<Identifications> ids, String calcType, List<Identifications> andIDs, boolean needAll) {
-        this.name = name;
+    SumEnum(List<Identifications> ids, List<Identifications> addIDs, List<Identifications> multiIDs, boolean dps, boolean meleeDPS, boolean needAll) {
         this.ids = ids;
-        this.calcType = calcType;
-        this.andIDs = andIDs;
+        this.addIDs = addIDs;
+        this.multiIDs = multiIDs;
+        this.dps = dps;
+        this.meleeDPS = meleeDPS;
         this.needAll = needAll;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public List<Identifications> getIds() {
         return this.ids;
     }
 
-    public String getCalcType() {
-        return this.calcType;
+
+    public List<Identifications> getAddIDs() {
+        return this.addIDs;
     }
 
-    public List<Identifications> getAndIDs() {
-        return this.andIDs;
+    public List<Identifications> getMultiIDs() {
+        return this.multiIDs;
+    }
+
+    public boolean isDPS() {
+        return this.dps;
+    }
+
+    public boolean isMeleeDPS() {
+        return this.meleeDPS;
     }
 
     public boolean isNeedAll() {
         return this.needAll;
-    }
-
-    private static List<Identifications> health() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.HEALTH);
-        ids.add(Identifications.HEALTH_BONUS);
-
-        return ids;
     }
 
     private static List<Identifications> raw_Defenses() {
@@ -192,6 +195,18 @@ public enum SumEnum {
         return ids;
     }
 
+    private static List<Identifications> rainbow_damages() {
+        List<Identifications> ids = new ArrayList<>();
+
+        ids.add(Identifications.EARTH_DAMAGE);
+        ids.add(Identifications.THUNDER_DAMAGE);
+        ids.add(Identifications.WATER_DAMAGE);
+        ids.add(Identifications.FIRE_DAMAGE);
+        ids.add(Identifications.AIR_DAMAGE);
+
+        return ids;
+    }
+
     private static List<Identifications> damages_Percent() {
         List<Identifications> ids = new ArrayList<>();
 
@@ -204,110 +219,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> melee_Damage_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.MELEE_DAMAGE_PERCENT);
-
-        return ids;
-    }
-
-    private static List<Identifications> spell_Damage_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.SPELL_DAMAGE_PERCENT);
-
-        return ids;
-    }
-
-    private static List<Identifications> earth_Damage_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.EARTH_DAMAGE_PERCENT);
-
-        return ids;
-    }
-
-    private static List<Identifications> thunder_Damage_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.THUNDER_DAMAGE_PERCENT);
-
-        return ids;
-    }
-
-    private static List<Identifications> water_Damage_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.WATER_DAMAGE_PERCENT);
-
-        return ids;
-    }
-
-    private static List<Identifications> fire_Damage_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.FIRE_DAMAGE_PERCENT);
-
-        return ids;
-    }
-
-    private static List<Identifications> air_Damage_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.AIR_DAMAGE_PERCENT);
-
-        return ids;
-    }
-
-    private static List<Identifications> raw_Spell_Costs() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.RAW_1ST_SPELL_COST);
-        ids.add(Identifications.RAW_2ND_SPELL_COST);
-        ids.add(Identifications.RAW_3RD_SPELL_COST);
-        ids.add(Identifications.RAW_4TH_SPELL_COST);
-
-        return ids;
-    }
-
-    private static List<Identifications> spell_Costs_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.PERCENT_1ST_SPELL_COST);
-        ids.add(Identifications.PERCENT_2ND_SPELL_COST);
-        ids.add(Identifications.PERCENT_3RD_SPELL_COST);
-        ids.add(Identifications.PERCENT_4TH_SPELL_COST);
-
-        return ids;
-    }
-
-    private static List<Identifications> ingredient_Effectiveness() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE);
-        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_UNDER);
-        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_RIGHT);
-        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_LEFT);
-        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING);
-        ids.add(Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING);
-
-        return ids;
-    }
-
-    private static List<Identifications> health_Regen_Raw() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.RAW_HEALTH_REGEN);
-
-        return ids;
-    }
-
-    private static List<Identifications> health_Regen_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.HEALTH_REGEN_PERCENT);
-
-        return ids;
+    private static List<Identifications> create_ID_List(Identifications... ids) {
+        return new ArrayList<>(Arrays.asList(ids));
     }
 }
