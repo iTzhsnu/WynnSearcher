@@ -27,7 +27,7 @@ public enum SumEnum {
     DAMAGES_PERCENT(damages_Percent(), null, null, false, false, false),
     RAINBOW_DAMAGES_PERCENT(damages_Percent(), null, null, false, false, true),
 
-    TOTAL_MELEE_DAMAGE(damages(), create_ID_List(Identifications.RAW_MELEE_DAMAGE), create_ID_List(Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
+    TOTAL_MELEE_DAMAGE(damages(), create_ID_List(Identifications.RAW_MELEE_DAMAGE), create_ID_List(Identifications.MELEE_DAMAGE_PERCENT), false, false, false), //Todo Need Calc Fixes
     TOTAL_NEUTRAL_MELEE_DAMAGE(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE), create_ID_List(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
     TOTAL_EARTH_MELEE_DAMAGE(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE) , create_ID_List(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
     TOTAL_THUNDER_MELEE_DAMAGE(thunder_Damage(), create_ID_List(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.THUNDER_DAMAGE_PERCENT, Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
@@ -35,8 +35,8 @@ public enum SumEnum {
     TOTAL_FIRE_MELEE_DAMAGE(fire_Damage(), create_ID_List(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.FIRE_DAMAGE_PERCENT, Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
     TOTAL_AIR_MELEE_DAMAGE(air_Damage(), create_ID_List(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.AIR_DAMAGE_PERCENT, Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), false, false, false),
 
-    TOTAL_MELEE_DPS(damages(), create_ID_List(Identifications.RAW_MELEE_DAMAGE), create_ID_List(Identifications.MELEE_DAMAGE_PERCENT), true, true, false),
-    TOTAL_SPELL_DPS(damages(), create_ID_List(Identifications.RAW_SPELL_DAMAGE), create_ID_List(Identifications.SPELL_DAMAGE_PERCENT), true, false, false),
+    TOTAL_MELEE_DPS(damages(), create_ID_List(Identifications.RAW_MELEE_DAMAGE), create_ID_List(Identifications.MELEE_DAMAGE_PERCENT), true, true, false), //Todo Need Calc Fixes
+    TOTAL_SPELL_DPS(damages(), create_ID_List(Identifications.RAW_SPELL_DAMAGE), create_ID_List(Identifications.SPELL_DAMAGE_PERCENT), true, false, false), //Todo Need Calc Fixes
     TOTAL_NEUTRAL_MELEE_DPS(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE), create_ID_List(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), true, true, false),
     TOTAL_NEUTRAL_SPELL_DPS(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE), create_ID_List(Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT), true, false, false),
     TOTAL_EARTH_MELEE_DPS(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE), create_ID_List(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT), true, true, false),
