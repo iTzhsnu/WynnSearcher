@@ -7,7 +7,7 @@ Java 8 or above
 ## Usage
 ![](readme_pictures/how_to_use.png)
 
-## Sum Calc Info
+## Sum Calc Info (Beta 1.1.7 or above)
 Total Health = Health + Health Bonus  
 Total Health Regen = Raw Health Regen * (100 + Health Regen %) / 100  
 Raw Defenses = Raw Earth Def + Raw Thunder Def + Raw Water Def + Raw Fire Def + Raw Air Def  
