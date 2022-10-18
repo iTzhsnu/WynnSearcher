@@ -187,6 +187,8 @@ public class SearchUI extends JFrame implements ActionListener {
                 searchItems();
             } else if (canSearchIngredient()) {
                 searchIngredient();
+            } else {
+                searchedItemCount.setText("Search Failed");
             }
         }
 
@@ -1063,12 +1065,15 @@ public class SearchUI extends JFrame implements ActionListener {
                                 if (id.getItemName() != null) {
                                     if (!id.getIDType().equals("sum")) {
                                         if (id.getIDType().equals("int") && j.get(id.getItemName()) != null && j.get(id.getItemName()).getAsInt() != 0) {
-                                            if (id.isItemVariable()) {
-                                                total_min += ItemUITemplate.getMinInt(j.get(id.getItemName()).getAsInt());
-                                                total_max += ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
-                                            } else {
+                                            if (!id.isItemVariable()) {
                                                 total_min += j.get(id.getItemName()).getAsInt();
                                                 total_max += j.get(id.getItemName()).getAsInt();
+                                            } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                                                total_min += j.get(id.getItemName()).getAsInt();
+                                                total_max += j.get(id.getItemName()).getAsInt();
+                                            } else {
+                                                total_min += ItemUITemplate.getMinInt(j.get(id.getItemName()).getAsInt());
+                                                total_max += ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
                                             }
                                         } else if (id.getIDType().equals("damage_string") && j.get(id.getItemName()) != null && j.get(id.getItemName()).getAsString().contains("-") && !j.get(id.getItemName()).getAsString().equals("0-0")) {
                                             String[] ss = j.get(id.getItemName()).getAsString().split("-");
@@ -1083,12 +1088,15 @@ public class SearchUI extends JFrame implements ActionListener {
                                         for (int n = 0; id.getSum().getIds().size() > n; ++n) {
                                             Identifications ids = id.getSum().getIds().get(n);
                                             if (ids.getIDType().equals("int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
-                                                if (ids.isItemVariable()) {
-                                                    sum_total_min += ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
-                                                    sum_total_max += ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                                } else {
+                                                if (!ids.isItemVariable()) {
                                                     sum_total_min += j.get(ids.getItemName()).getAsInt();
                                                     sum_total_max += j.get(ids.getItemName()).getAsInt();
+                                                } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                                                    sum_total_min += j.get(ids.getItemName()).getAsInt();
+                                                    sum_total_max += j.get(ids.getItemName()).getAsInt();
+                                                } else {
+                                                    sum_total_min += ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
+                                                    sum_total_max += ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
                                                 }
                                             } else if (ids.getIDType().equals("damage_string") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsString().contains("-") && !j.get(ids.getItemName()).getAsString().equals("0-0")) {
                                                 String[] ss = j.get(ids.getItemName()).getAsString().split("-");
@@ -1101,12 +1109,15 @@ public class SearchUI extends JFrame implements ActionListener {
                                             for (int n = 0; id.getSum().getAddIDs().size() > n; ++n) {
                                                 Identifications ids = id.getSum().getAddIDs().get(n);
                                                 if (ids.getIDType().equals("int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
-                                                    if (ids.isItemVariable()) {
-                                                        total_min += ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
-                                                        total_max += ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                                    } else {
+                                                    if (!ids.isItemVariable()) {
                                                         total_min += j.get(ids.getItemName()).getAsInt();
                                                         total_max += j.get(ids.getItemName()).getAsInt();
+                                                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                                                        total_min += j.get(ids.getItemName()).getAsInt();
+                                                        total_max += j.get(ids.getItemName()).getAsInt();
+                                                    } else {
+                                                        total_min += ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
+                                                        total_max += ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
                                                     }
                                                 }
                                             }
@@ -1116,12 +1127,15 @@ public class SearchUI extends JFrame implements ActionListener {
                                             for (int n = 0; id.getSum().getMultiIDs().size() > n; ++n) {
                                                 Identifications ids = id.getSum().getMultiIDs().get(n);
                                                 if (ids.getIDType().equals("int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
-                                                    if (ids.isItemVariable()) {
-                                                        sum_multi_min += ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
-                                                        sum_multi_max += ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                                    } else {
+                                                    if (!ids.isItemVariable()) {
                                                         sum_multi_min += j.get(ids.getItemName()).getAsInt();
                                                         sum_multi_max += j.get(ids.getItemName()).getAsInt();
+                                                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                                                        sum_multi_min += j.get(ids.getItemName()).getAsInt();
+                                                        sum_multi_max += j.get(ids.getItemName()).getAsInt();
+                                                    } else {
+                                                        sum_multi_min += ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
+                                                        sum_multi_max += ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
                                                     }
                                                 }
                                             }
@@ -1176,7 +1190,7 @@ public class SearchUI extends JFrame implements ActionListener {
                                 }
                             }
                             if (min_Int > total_min || max_Int < total_max) {
-                                searchedItems.remove(i);
+                                if (min_Int > total_max || max_Int < total_min) searchedItems.remove(i);
                             }
                         }
                     }
@@ -1239,7 +1253,7 @@ public class SearchUI extends JFrame implements ActionListener {
                             }
                         }
                         if (min_Int > total_min || max_Int < total_max) {
-                            searchedItems.remove(i);
+                            if (min_Int > total_max || max_Int < total_min) searchedItems.remove(i);
                         }
                     }
                 }
