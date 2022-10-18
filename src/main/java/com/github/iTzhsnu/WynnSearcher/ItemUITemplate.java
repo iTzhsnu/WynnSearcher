@@ -54,19 +54,19 @@ public class ItemUITemplate extends JPanel {
                     setBackground(new Color(252, 242, 99));
                     break;
                 case "Rare":
-                    setBackground(new Color(220, 107, 154));
+                    setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
                     break;
                 case "Legendary":
                     setBackground(new Color(135, 206, 250));
                     break;
                 case "Fabled":
-                    setBackground(new Color(255, 81, 81));
+                    setBackground(new Color(220, 107, 154)); //OLD COLOR 255 81 81
                     break;
                 case "Mythic":
                     setBackground(new Color(145, 93, 163));
                     break;
                 case "Set":
-                    setBackground(new Color(85, 255, 85));
+                    setBackground(new Color(121, 192, 110)); //OLD COLOR 85 255 85
                     break;
                 default:
                     setBackground(new Color(230, 230, 230));
@@ -78,7 +78,7 @@ public class ItemUITemplate extends JPanel {
                     setBackground(new Color(252, 242, 99));
                     break;
                 case 2:
-                    setBackground(new Color(220, 107, 154));
+                    setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
                     break;
                 case 3:
                     setBackground(new Color(135, 206, 250));
