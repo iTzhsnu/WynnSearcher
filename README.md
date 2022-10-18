@@ -30,7 +30,7 @@ Rainbow Damages Raw = Earth Damage Max + Thunder Damage Max + Water Damage Max +
 Damages % = Earth Damage % + Thunder Damage % + Water Damage % + Fire Damage % + Air Damage %  
 Rainbow Damages % = Damages % (Need All)  
   
-Total Melee Damage = Total Neutral Melee Damage + Total Earth Melee Damage + Total Thunder Melee Damage + Total Water Melee Damage + Total Fire Melee Damage + Total Air Melee Damage (Coming Soon)  
+Total Melee Damage = Total Neutral Melee Damage + Total Earth Melee Damage + Total Thunder Melee Damage + Total Water Melee Damage + Total Fire Melee Damage + Total Air Melee Damage - (Raw Melee Damage * 5) - (Raw Elemental Melee Damage * 4)  
 Total Neutral Melee Damage = Neutral Damage Max * (100 + Melee Damage % + Neutral Melee Damage %) / 100 + Raw Neutral Melee Damage + Raw Melee Damage  
 Total Earth Melee Damage = Earth Damage Max * (100 + Melee Damage % + Earth Melee Damage % + Elemental Melee Damage %) / 100 + Raw Earth Melee Damage + Raw Melee Damage + Raw Elemental Melee Damage  
 Total Thunder Melee Damage = Thunder Damage Max * (100 + Melee Damage % + Thunder Melee Damage % + Elemental Melee Damage %) / 100 + Raw Thunder Melee Damage + Raw Melee Damage + Raw Elemental Melee Damage  
@@ -38,7 +38,7 @@ Total Water Melee Damage = Water Damage Max * (100 + Melee Damage % + Water Mele
 Total Fire Melee Damage = Fire Damage Max * (100 + Melee Damage % + Fire Melee Damage % + Elemental Melee Damage %) / 100 + Raw Fire Melee Damage + Raw Melee Damage + Raw Elemental Melee Damage  
 Total Air Melee Damage = Air Damage Max * (100 + Melee Damage % + Air Melee Damage % + Elemental Melee Damage %) / 100 + Raw Air Melee Damage + Raw Melee Damage + Raw Elemental Melee Damage  
   
-Total Melee DPS = Total Neutral Melee DPS + Total Earth Melee DPS + Total Thunder Melee DPS + Total Water Melee DPS + Total Fire Melee DPS + Total Air Melee DPS (Coming Soon)  
+Total Melee DPS = Total Neutral Melee DPS + Total Earth Melee DPS + Total Thunder Melee DPS + Total Water Melee DPS + Total Fire Melee DPS + Total Air Melee DPS - ((Raw Melee Damage * 5 + Raw Elemental Melee Damage * 4) * Attack Speed)  
 Total Neutral Melee DPS = ((Neutral Damage Min + Neutral Damage Max) / 2 * (100 + Melee Damage % + Neutral Melee Damage %) / 100 + Raw Neutral Melee Damage + Raw Melee Damage) * Attack Speed  
 Total Earth Melee DPS = ((Earth Damage Min + Earth Damage Max) / 2 * (100 + Melee Damage % + Earth Melee Damage % + Elemental Melee Damage %) / 100 + Raw Earth Melee Damage + Raw Melee Damage + Raw Elemental Melee Damage) * Attack Speed  
 Total Thunder Melee DPS = ((Thunder Damage Min + Thunder Damage Max) / 2 * (100 + Melee Damage % + Thunder Melee Damage % + Elemental Melee Damage %) / 100 + Raw Thunder Melee Damage + Raw Melee Damage + Raw Elemental Melee Damage) * Attack Speed  
@@ -46,7 +46,7 @@ Total Water Melee DPS = ((Water Damage Min + Water Damage Max) / 2 * (100 + Mele
 Total Fire Melee DPS = ((Fire Damage Min + Fire Damage Max) / 2 * (100 + Melee Damage % + Fire Melee Damage % + Elemental Melee Damage %) / 100 + Raw Fire Melee Damage + Raw Melee Damage + Raw Elemental Melee Damage) * Attack Speed  
 Total Air Melee DPS = ((Air Damage Min + Air Damage Max) / 2 * (100 + Melee Damage % + Air Melee Damage % + Elemental Melee Damage %) / 100 + Raw Air Melee Damage + Raw Melee Damage + Raw Elemental Melee Damage) * Attack Speed  
   
-Total Spell DPS = Total Neutral Spell DPS + Total Earth Spell DPS + Total Thunder Spell DPS + Total Fire Spell DPS + Total Air Spell DPS (Coming Soon)  
+Total Spell DPS = Total Neutral Spell DPS + Total Earth Spell DPS + Total Thunder Spell DPS + Total Fire Spell DPS + Total Air Spell DPS - (Raw Spell Damage * 5) - (Raw Elemental Spell Damage * 4)  
 Total Neutral Spell DPS = (Neutral Damage Min + Neutral Damage Max) / 2 * (100 + Spell Damage % + Neutral Spell Damage %) / 100 * Attack Speed + Raw Neutral Spell Damage + Raw Spell Damage  
 Total Earth Spell DPS = (Earth Damage Min + Earth Damage Max) / 2 * (100 + Earth Spell Damage % + Spell Damage % + Elemental Spell Damage %) / 100 * Attack Speed + Raw Earth Spell Damage + Raw Elemental Spell Damage + Raw Spell Damage  
 Total Thunder Spell DPS = (Thunder Damage Min + Thunder Damage Max) / 2 * (100 + Thunder Spell Damage % + Spell Damage % + Elemental Spell Damage %) / 100 * Attack Speed + Raw Thunder Spell Damage + Raw Elemental Spell Damage + Raw Spell Damage  

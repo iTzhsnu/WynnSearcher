@@ -111,7 +111,7 @@ public class SearchUI extends JFrame implements ActionListener {
         setItemJson();
         setIngredientJson();
 
-        setTitle("Wynncraft Searcher (Beta 1.1.5)");
+        setTitle("Wynncraft Searcher (Beta 1.1.7)");
         setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/wynn_searcher_icon.png"))).getImage());
         setBounds(100, 100, 1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -247,11 +247,11 @@ public class SearchUI extends JFrame implements ActionListener {
         }
 
         //Min Max
-        min.setBounds(baseX + 120, baseY + 21, 20, 20);
-        max.setBounds(baseX + 160, baseY + 21, 20, 20);
+        min.setBounds(baseX + 120, baseY + 21, 30, 20);
+        max.setBounds(baseX + 170, baseY + 21, 30, 20);
 
         JLabel toName = new JLabel("to");
-        toName.setBounds(baseX + 145, baseY + 20, 20, 20);
+        toName.setBounds(baseX + 155, baseY + 20, 20, 20);
 
         contentPane.add(min);
         contentPane.add(toName);
@@ -1081,111 +1081,15 @@ public class SearchUI extends JFrame implements ActionListener {
                                             total_max += Integer.parseInt(ss[ss.length - 1]);
                                         }
                                     } else {
-                                        float sum_total_min = 0;
-                                        float sum_total_max = 0;
-                                        int sum_multi_min = 0;
-                                        int sum_multi_max = 0;
-                                        for (int n = 0; id.getSum().getIds().size() > n; ++n) {
-                                            Identifications ids = id.getSum().getIds().get(n);
-                                            if (ids.getIDType().equals("int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
-                                                if (!ids.isItemVariable()) {
-                                                    sum_total_min += j.get(ids.getItemName()).getAsInt();
-                                                    sum_total_max += j.get(ids.getItemName()).getAsInt();
-                                                } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                                                    sum_total_min += j.get(ids.getItemName()).getAsInt();
-                                                    sum_total_max += j.get(ids.getItemName()).getAsInt();
-                                                } else {
-                                                    sum_total_min += ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
-                                                    sum_total_max += ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                                }
-                                            } else if (ids.getIDType().equals("damage_string") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsString().contains("-") && !j.get(ids.getItemName()).getAsString().equals("0-0")) {
-                                                String[] ss = j.get(ids.getItemName()).getAsString().split("-");
-                                                sum_total_min += Integer.parseInt(ss[0]);
-                                                sum_total_max += Integer.parseInt(ss[ss.length - 1]);
+                                        if (id.getSum().getSumIDs() != null) {
+                                            for (int n = 0; id.getSum().getSumIDs().size() > n; n++) {
+                                                total_min += getTotalSumItemInt(j, id.getSum().getSumIDs().get(n), true);
+                                                total_max += getTotalSumItemInt(j, id.getSum().getSumIDs().get(n), false);
                                             }
+                                        } else {
+                                            total_min += getTotalSumItemInt(j, id.getSum(), true);
+                                            total_max += getTotalSumItemInt(j, id.getSum(), false);
                                         }
-
-                                        if (id.getSum().getAddIDs() != null) {
-                                            for (int n = 0; id.getSum().getAddIDs().size() > n; ++n) {
-                                                Identifications ids = id.getSum().getAddIDs().get(n);
-                                                if (ids.getIDType().equals("int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
-                                                    if (!ids.isItemVariable()) {
-                                                        total_min += j.get(ids.getItemName()).getAsInt();
-                                                        total_max += j.get(ids.getItemName()).getAsInt();
-                                                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                                                        total_min += j.get(ids.getItemName()).getAsInt();
-                                                        total_max += j.get(ids.getItemName()).getAsInt();
-                                                    } else {
-                                                        total_min += ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
-                                                        total_max += ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        if (id.getSum().getMultiIDs() != null) {
-                                            for (int n = 0; id.getSum().getMultiIDs().size() > n; ++n) {
-                                                Identifications ids = id.getSum().getMultiIDs().get(n);
-                                                if (ids.getIDType().equals("int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
-                                                    if (!ids.isItemVariable()) {
-                                                        sum_multi_min += j.get(ids.getItemName()).getAsInt();
-                                                        sum_multi_max += j.get(ids.getItemName()).getAsInt();
-                                                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                                                        sum_multi_min += j.get(ids.getItemName()).getAsInt();
-                                                        sum_multi_max += j.get(ids.getItemName()).getAsInt();
-                                                    } else {
-                                                        sum_multi_min += ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
-                                                        sum_multi_max += ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                                    }
-                                                }
-                                            }
-                                            sum_total_min = sum_total_min * (100 + sum_multi_min) / 100;
-                                            sum_total_max = sum_total_max * (100 + sum_multi_max) / 100;
-                                        }
-
-                                        if (id.getSum().isDPS()) {
-                                            if (j.get("attackSpeed") != null) {
-                                                switch (j.get("attackSpeed").getAsString()) {
-                                                    case "SUPER_FAST": {
-                                                        sum_total_min *= 4.3F;
-                                                        sum_total_max *= 4.3F;
-                                                        break;
-                                                    }
-                                                    case "VERY_FAST": {
-                                                        sum_total_min *= 3.1F;
-                                                        sum_total_max *= 3.1F;
-                                                        break;
-                                                    }
-                                                    case "FAST": {
-                                                        sum_total_min *= 2.5F;
-                                                        sum_total_max *= 2.5F;
-                                                        break;
-                                                    }
-                                                    case "NORMAL": {
-                                                        sum_total_min *= 2.05F;
-                                                        sum_total_max *= 2.05F;
-                                                        break;
-                                                    }
-                                                    case "SLOW": {
-                                                        sum_total_min *= 1.5F;
-                                                        sum_total_max *= 1.5F;
-                                                        break;
-                                                    }
-                                                    case "VERY_SLOT": {
-                                                        sum_total_min *= 0.83F;
-                                                        sum_total_max *= 0.83F;
-                                                        break;
-                                                    }
-                                                    case "SUPER_SLOW": {
-                                                        sum_total_min *= 0.51F;
-                                                        sum_total_max *= 0.51F;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        total_min += Math.round(sum_total_min);
-                                        total_max += Math.round(sum_total_max);
                                     }
                                 }
                             }
@@ -1321,97 +1225,15 @@ public class SearchUI extends JFrame implements ActionListener {
                             }
                         }
                     } else if (Objects.equals(id.getIDType(), "sum")) {
-                        float sum_total = 0;
-                        int sum_total_sub = 0;
-                        //Base IDs
-                        for (int n = 0; id.getSum().getIds().size() > n; ++n) {
-                            Identifications ids = id.getSum().getIds().get(n);
-                            if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
-                                //Integer Type
-                                int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                                    t = j.get(ids.getItemName()).getAsInt();
-                                } else if (!ids.isItemVariable()) {
-                                    t = j.get(ids.getItemName()).getAsInt();
-                                } else if (bSortType) {
-                                    t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
-                                }
-                                sum_total += t;
-                            } else if (Objects.equals(ids.getIDType(), "damage_string") && j.get(ids.getItemName()) != null && !Objects.equals(j.get(ids.getItemName()).getAsString(), "0-0")) {
-                                //Damage
-                                String[] ss = j.get(ids.getItemName()).getAsString().split("-");
-                                if (!id.getSum().isDPS()) {
-                                    int t = Integer.parseInt(ss[ss.length - 1]);
-                                    if (bSortType) {
-                                        t = Integer.parseInt(ss[0]);
-                                    }
-                                    sum_total += t;
-                                } else {
-                                    int p = Integer.parseInt(ss[0]) + Integer.parseInt(ss[ss.length - 1]);
-                                    sum_total += (p / 2F);
-                                }
+                        if (id.getSum().getSumIDs() != null) {
+                            //SUM in SUM
+                            for (int n = 0; id.getSum().getSumIDs().size() > n; ++n) {
+                                total += Math.round(getTotalSumItemInt(j, id.getSum().getSumIDs().get(n), bSortType));
                             }
+                        } else {
+                            //Normal SUM
+                            total += Math.round(getTotalSumItemInt(j, id.getSum(), bSortType));
                         }
-                        //Sub IDs
-                        if (id.getSum().getMultiIDs() != null) {
-                            for (int n = 0; id.getSum().getMultiIDs().size() > n; ++n) {
-                                Identifications ids = id.getSum().getMultiIDs().get(n);
-                                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
-                                    int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                    if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                                        t = j.get(ids.getItemName()).getAsInt();
-                                    } else if (!ids.isItemVariable()) {
-                                        t = j.get(ids.getItemName()).getAsInt();
-                                    } else if (bSortType) {
-                                        t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
-                                    }
-                                    sum_total_sub += t;
-                                }
-                            }
-                                sum_total = sum_total * (100 + sum_total_sub) / 100F;
-                        }
-                        if (id.getSum().getAddIDs() != null) {
-                            for (int n = 0; id.getSum().getAddIDs().size() > n; ++n) {
-                                Identifications ids = id.getSum().getAddIDs().get(n);
-                                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
-                                    int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
-                                    if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                                        t = j.get(ids.getItemName()).getAsInt();
-                                    } else if (!ids.isItemVariable()) {
-                                        t = j.get(ids.getItemName()).getAsInt();
-                                    } else if (bSortType) {
-                                        t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
-                                    }
-                                    if (id.getSum().isMeleeDPS()) {
-                                        sum_total += t;
-                                    } else {
-                                        total += t;
-                                    }
-                                }
-                            }
-                        }
-                        //DPS (Attack Speed)
-                        if (id.getSum().isDPS()) {
-                            if (j.get("attackSpeed") != null) {
-                                switch (j.get("attackSpeed").getAsString()) {
-                                    case "SUPER_FAST": sum_total *= 4.3F;
-                                    break;
-                                    case "VERY_FAST": sum_total *= 3.1F;
-                                    break;
-                                    case "FAST": sum_total *= 2.5F;
-                                    break;
-                                    case "NORMAL": sum_total *= 2.05F;
-                                    break;
-                                    case "SLOW": sum_total *= 1.5F;
-                                    break;
-                                    case "VERY_SLOT": sum_total *= 0.83F;
-                                    break;
-                                    case "SUPER_SLOW": sum_total *= 0.51F;
-                                    break;
-                                }
-                            }
-                        }
-                        total += Math.round(sum_total);
                     }
                 }
             }
@@ -1523,5 +1345,110 @@ public class SearchUI extends JFrame implements ActionListener {
         if (searchedItems.size() > 0) {
             searchedItems.subList(0, searchedItems.size()).clear();
         }
+    }
+
+    public float getTotalSumItemInt(JsonObject j, SumEnum sum, boolean getMin) {
+        float total = 0;
+        float sum_total = 0;
+        int sum_total_sub = 0;
+        //Base IDs
+        if (sum.getIds() != null) {
+            for (int n = 0; sum.getIds().size() > n; ++n) {
+                Identifications ids = sum.getIds().get(n);
+                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
+                    //Integer Type
+                    int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
+                    if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                        t = j.get(ids.getItemName()).getAsInt();
+                    } else if (!ids.isItemVariable()) {
+                        t = j.get(ids.getItemName()).getAsInt();
+                    } else if (getMin) {
+                        t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
+                    }
+                    sum_total += t;
+                } else if (Objects.equals(ids.getIDType(), "damage_string") && j.get(ids.getItemName()) != null && !Objects.equals(j.get(ids.getItemName()).getAsString(), "0-0")) {
+                    //Damage
+                    String[] ss = j.get(ids.getItemName()).getAsString().split("-");
+                    if (!sum.isDPS()) {
+                        int t = Integer.parseInt(ss[ss.length - 1]);
+                        if (getMin) {
+                            t = Integer.parseInt(ss[0]);
+                        }
+                        sum_total += t;
+                    } else {
+                        int p = Integer.parseInt(ss[0]) + Integer.parseInt(ss[ss.length - 1]);
+                        sum_total += (p / 2F);
+                    }
+                }
+            }
+        }
+        //Sub IDs
+        if (sum.getMultiIDs() != null) {
+            for (int n = 0; sum.getMultiIDs().size() > n; ++n) {
+                Identifications ids = sum.getMultiIDs().get(n);
+                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
+                    int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
+                    if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                        t = j.get(ids.getItemName()).getAsInt();
+                    } else if (!ids.isItemVariable()) {
+                        t = j.get(ids.getItemName()).getAsInt();
+                    } else if (getMin) {
+                        t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
+                    }
+                    sum_total_sub += t;
+                }
+            }
+            if (sum_total < 0 && sum_total_sub < 0) {
+                sum_total_sub *= -1;
+            } else if (sum_total < 0 && sum_total_sub > 0) {
+                sum_total_sub *= -1;
+                if (sum_total_sub < -100) {
+                    sum_total_sub = -100;
+                }
+            }
+            sum_total = sum_total * (100 + sum_total_sub) / 100F;
+        }
+        if (sum.getAddIDs() != null) {
+            for (int n = 0; sum.getAddIDs().size() > n; ++n) {
+                Identifications ids = sum.getAddIDs().get(n);
+                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
+                    int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
+                    if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                        t = j.get(ids.getItemName()).getAsInt();
+                    } else if (!ids.isItemVariable()) {
+                        t = j.get(ids.getItemName()).getAsInt();
+                    } else if (getMin) {
+                        t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
+                    }
+                    if (sum.isMeleeDPS()) {
+                        sum_total += t;
+                    } else {
+                        total += t;
+                    }
+                }
+            }
+        }
+        //DPS (Attack Speed)
+        if (sum.isDPS()) {
+            if (j.get("attackSpeed") != null) {
+                switch (j.get("attackSpeed").getAsString()) {
+                    case "SUPER_FAST": sum_total *= 4.3F;
+                        break;
+                    case "VERY_FAST": sum_total *= 3.1F;
+                        break;
+                    case "FAST": sum_total *= 2.5F;
+                        break;
+                    case "NORMAL": sum_total *= 2.05F;
+                        break;
+                    case "SLOW": sum_total *= 1.5F;
+                        break;
+                    case "VERY_SLOT": sum_total *= 0.83F;
+                        break;
+                    case "SUPER_SLOW": sum_total *= 0.51F;
+                        break;
+                }
+            }
+        }
+        return total + sum_total;
     }
 }
