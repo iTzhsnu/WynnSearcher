@@ -83,6 +83,7 @@ public class SearchUI extends JFrame implements ActionListener {
     private final JPanel searched = new JPanel();
     private final List<JPanel> itemDisplays = new ArrayList<>();
     private final List<JsonObject> searchedItems = new ArrayList<>();
+    private final JLabel searchedItemCount = new JLabel();
 
     //ID Combo Box
     private final List<JComboBox<String>> idBoxes_1 = new ArrayList<>();
@@ -158,6 +159,9 @@ public class SearchUI extends JFrame implements ActionListener {
         sortType.addItem("Sort: Max");
         sortType.addItem("Sort: Min");
 
+        //Searched Item Count
+        searchedItemCount.setBounds(450, 235, 200, 40);
+
         //Add Contents
         contentPane.add(name);
         contentPane.add(searchB);
@@ -165,6 +169,7 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(itemOrIngredient);
         contentPane.add(scrollPane);
         contentPane.add(sortType);
+        contentPane.add(searchedItemCount);
     }
 
     public static void main(String[] args) {
@@ -449,6 +454,8 @@ public class SearchUI extends JFrame implements ActionListener {
         filterItemFromSize(idBoxes_3, idMin_3, idMax_3);
         filterItemFromSize(idBoxes_4, idMin_4, idMax_4);
 
+        searchedItemCount.setText("Searched Item: " + searchedItems.size());
+
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
             sortItems(idBoxes_1);
         }
@@ -598,6 +605,8 @@ public class SearchUI extends JFrame implements ActionListener {
         filterIngredientFromSize(idBoxes_2, idMin_2, idMax_2);
         filterIngredientFromSize(idBoxes_3, idMin_3, idMax_3);
         filterIngredientFromSize(idBoxes_4, idMin_4, idMax_4);
+
+        searchedItemCount.setText("Searched Item: " + searchedItems.size());
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
             sortIngredients(idBoxes_1);
