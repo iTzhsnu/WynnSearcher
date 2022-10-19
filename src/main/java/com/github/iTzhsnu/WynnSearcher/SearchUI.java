@@ -84,6 +84,8 @@ public class SearchUI extends JFrame implements ActionListener {
     private final List<JPanel> itemDisplays = new ArrayList<>();
     private final List<JsonObject> searchedItems = new ArrayList<>();
     private final JLabel searchedItemCount = new JLabel();
+    private final JScrollPane scrollPane;
+    private final JButton updateSize = new JButton("Update Size");
 
     //ID Combo Box
     private final List<JComboBox<String>> idBoxes_1 = new ArrayList<>();
@@ -150,7 +152,7 @@ public class SearchUI extends JFrame implements ActionListener {
         searched.setPreferredSize(new Dimension(1057, 482));
         searched.setLayout(null);
 
-        JScrollPane scrollPane = new JScrollPane(searched);
+        scrollPane = new JScrollPane(searched);
         scrollPane.setBounds(5, 270, 1075, 485);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
@@ -162,6 +164,10 @@ public class SearchUI extends JFrame implements ActionListener {
         //Searched Item Count
         searchedItemCount.setBounds(450, 235, 200, 40);
 
+        //Update Size
+        updateSize.setBounds(960, 235, 110, 30);
+        updateSize.addActionListener(this);
+
         //Add Contents
         contentPane.add(name);
         contentPane.add(searchB);
@@ -170,6 +176,7 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(scrollPane);
         contentPane.add(sortType);
         contentPane.add(searchedItemCount);
+        contentPane.add(updateSize);
     }
 
     public static void main(String[] args) {
@@ -200,6 +207,11 @@ public class SearchUI extends JFrame implements ActionListener {
                 setVisibleItem(false);
                 setVisibleIngredient(true);
             }
+        }
+
+        if (e.getSource() == updateSize) {
+            scrollPane.setSize(getWidth() - 25, getHeight() - 315);
+            SwingUtilities.updateComponentTreeUI(searched);
         }
     }
 
@@ -954,10 +966,10 @@ public class SearchUI extends JFrame implements ActionListener {
 
             if (iu > 0) p = itemDisplays.get(si - iu);
 
-            if (10 + p.getBounds().y + p.getBounds().height > 482) {
-                searched.setPreferredSize(new Dimension(1057, 10 + p.getBounds().y + p.getBounds().height));
+            if (10 + p.getBounds().y + p.getBounds().height > scrollPane.getHeight()) {
+                searched.setPreferredSize(new Dimension(scrollPane.getWidth() - 18, 10 + p.getBounds().y + p.getBounds().height));
             } else {
-                searched.setPreferredSize(new Dimension(1057, 482));
+                searched.setPreferredSize(new Dimension(scrollPane.getWidth() - 18, scrollPane.getHeight()));
             }
         }
 
@@ -1252,14 +1264,14 @@ public class SearchUI extends JFrame implements ActionListener {
         }
 
         JPanel previous = null;
-        JPanel fourP = null;
+        JPanel above = null;
         if (itemDisplays.size() >= 1) {
             previous = itemDisplays.get(itemDisplays.size() - 1);
         }
-        if (itemDisplays.size() >= 4) {
-            fourP = itemDisplays.get(itemDisplays.size() - 4);
+        if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
+            above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
         }
-        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), false, previous, fourP));
+        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), false, previous, above, scrollPane.getWidth()));
         searched.add(itemDisplays.get(itemDisplays.size() - 1));
         searchedItems.remove(iu);
     }
@@ -1329,14 +1341,14 @@ public class SearchUI extends JFrame implements ActionListener {
         }
 
         JPanel previous = null;
-        JPanel fourP = null;
+        JPanel above = null;
         if (itemDisplays.size() >= 1) {
             previous = itemDisplays.get(itemDisplays.size() - 1);
         }
-        if (itemDisplays.size() >= 4) {
-            fourP = itemDisplays.get(itemDisplays.size() - 4);
+        if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
+            above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
         }
-        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), true, previous, fourP));
+        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), true, previous, above, scrollPane.getWidth()));
         searched.add(itemDisplays.get(itemDisplays.size() - 1));
         searchedItems.remove(iu);
     }
