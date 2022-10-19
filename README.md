@@ -61,3 +61,5 @@ Spell Costs % = 1st Spell Cost % + 2nd Spell Cost % + 3rd Spell Cost % + 4th Spe
 ![](readme_pictures/search_1.png)
 ![](readme_pictures/search_2.png)
 ![](readme_pictures/search_3.png)
+![](readme_pictures/search_4.png)
+![](readme_pictures/search_5.png)
