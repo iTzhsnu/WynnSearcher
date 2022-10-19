@@ -4,7 +4,7 @@ Can Easy Search Wynncraft Item and Ingredients
 ## Requirement
 Java 8 or above
 
-## Usage
+## How to Use
 ![](readme_pictures/how_to_use.png)
 
 ## Sum Calc Info (Beta 1.1.7 or above)
