@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,15 +29,21 @@ public class GetAPI {
 
             JsonElement element = JsonParser.parseString(builder.toString());
             JsonObject object = element.getAsJsonObject();
-            for (JsonElement je : object.get("items").getAsJsonArray()) {
-                list.add(je.getAsJsonObject());
+            if (object.get("items") != null) {
+                for (JsonElement je : object.get("items").getAsJsonArray()) {
+                    list.add(je.getAsJsonObject());
+                }
+                label.setText("Item API Connected");
+                label.setForeground(new Color(0, 169, 104));
+            } else {
+                label.setText("Connect Failed");
+                label.setForeground(new Color(255, 0, 0));
             }
-
-            label.setText("Item API Connected");
 
         } catch (IOException e) {
             e.printStackTrace();
             label.setText("Connect Failed");
+            label.setForeground(new Color(255, 0, 0));
         }
     }
 
@@ -54,8 +61,12 @@ public class GetAPI {
 
                 JsonElement element = JsonParser.parseString(builder.toString());
                 JsonObject object = element.getAsJsonObject();
-                for (JsonElement je : object.get("data").getAsJsonArray()) {
-                    list.add(je.getAsJsonObject());
+                if (object.get("data") != null) {
+                    for (JsonElement je : object.get("data").getAsJsonArray()) {
+                        list.add(je.getAsJsonObject());
+                    }
+                } else {
+                    connect = false;
                 }
 
             } catch (IOException e) {
@@ -66,8 +77,10 @@ public class GetAPI {
 
         if (connect) {
             label.setText("Ingredient API Connected");
+            label.setForeground(new Color(0, 169, 104));
         } else {
             label.setText("Connect Failed");
+            label.setForeground(new Color(255, 0, 0));
         }
     }
 
