@@ -1070,8 +1070,8 @@ public class SearchUI extends JFrame implements ActionListener {
                     if (!id_1.getIDType().equals("string") || !id_2.getIDType().equals("string") || !id_3.getIDType().equals("string") || !id_4.getIDType().equals("string")) {
                         for (int i = searchedItems.size() - 1; i >= 0; --i) {
                             JsonObject j = searchedItems.get(i);
-                            int total_min = 0;
-                            int total_max = 0;
+                            float total_min = 0;
+                            float total_max = 0;
                             for (int s = 0; 4 > s; ++s) {
                                 Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, s), Identifications.EMPTY);
                                 if (id.getItemName() != null) {
@@ -1095,12 +1095,12 @@ public class SearchUI extends JFrame implements ActionListener {
                                     } else {
                                         if (id.getSum().getSumIDs() != null) {
                                             for (int n = 0; id.getSum().getSumIDs().size() > n; n++) {
-                                                total_min += getTotalSumItemInt(j, id.getSum().getSumIDs().get(n), true);
-                                                total_max += getTotalSumItemInt(j, id.getSum().getSumIDs().get(n), false);
+                                                total_min += getTotalSumItemFloat(j, id.getSum().getSumIDs().get(n), true);
+                                                total_max += getTotalSumItemFloat(j, id.getSum().getSumIDs().get(n), false);
                                             }
                                         } else {
-                                            total_min += getTotalSumItemInt(j, id.getSum(), true);
-                                            total_max += getTotalSumItemInt(j, id.getSum(), false);
+                                            total_min += getTotalSumItemFloat(j, id.getSum(), true);
+                                            total_max += getTotalSumItemFloat(j, id.getSum(), false);
                                         }
                                     }
                                 }
@@ -1180,7 +1180,7 @@ public class SearchUI extends JFrame implements ActionListener {
     public void sortItems(List<JComboBox<String>> box) {
         int si = searchedItems.size() - 1;
         int iu = 0;
-        int max = Integer.MIN_VALUE;
+        float max = Integer.MIN_VALUE;
         boolean bSortType = false;
 
         if (sortType.getItemAt(sortType.getSelectedIndex()).equals("Sort: Min")) {
@@ -1190,7 +1190,7 @@ public class SearchUI extends JFrame implements ActionListener {
 
         for (int i = 0; si >= i; ++i) {
             JsonObject j = searchedItems.get(si - i);
-            int total = 0;
+            float total = 0;
 
             for (int num = 0; 4 > num; ++num) {
                 Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, num), Identifications.EMPTY);
@@ -1240,11 +1240,11 @@ public class SearchUI extends JFrame implements ActionListener {
                         if (id.getSum().getSumIDs() != null) {
                             //SUM in SUM
                             for (int n = 0; id.getSum().getSumIDs().size() > n; ++n) {
-                                total += Math.round(getTotalSumItemInt(j, id.getSum().getSumIDs().get(n), bSortType));
+                                total += getTotalSumItemFloat(j, id.getSum().getSumIDs().get(n), bSortType);
                             }
                         } else {
                             //Normal SUM
-                            total += Math.round(getTotalSumItemInt(j, id.getSum(), bSortType));
+                            total += getTotalSumItemFloat(j, id.getSum(), bSortType);
                         }
                     }
                 }
@@ -1359,7 +1359,7 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    public float getTotalSumItemInt(JsonObject j, SumEnum sum, boolean getMin) {
+    public float getTotalSumItemFloat(JsonObject j, SumEnum sum, boolean getMin) {
         float total = 0;
         float sum_total = 0;
         int sum_total_sub = 0;
