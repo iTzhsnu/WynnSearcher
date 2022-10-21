@@ -113,7 +113,7 @@ public class SearchUI extends JFrame implements ActionListener {
         setItemJson();
         setIngredientJson();
 
-        setTitle("Wynncraft Searcher (Release 2.0.0)");
+        setTitle("Wynncraft Searcher (Release 2.0.1)");
         setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/wynn_searcher_icon.png"))).getImage());
         setBounds(100, 100, 1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -384,15 +384,6 @@ public class SearchUI extends JFrame implements ActionListener {
                 for (JComboBox<String> box : idBoxes_1) {
                     if (notEmpty(box)) hasText = true;
                 }
-                for (JComboBox<String> box : idBoxes_2) {
-                    if (notEmpty(box)) hasText = true;
-                }
-                for (JComboBox<String> box : idBoxes_3) {
-                    if (notEmpty(box)) hasText = true;
-                }
-                for (JComboBox<String> box : idBoxes_4) {
-                    if (notEmpty(box)) hasText = true;
-                }
                 return hasText;
             }
         }
@@ -404,15 +395,6 @@ public class SearchUI extends JFrame implements ActionListener {
             if (armouring.isSelected() || tailoring.isSelected() || weaponsmithing.isSelected() || woodworking.isSelected() || jeweling.isSelected() || scribing.isSelected() || cooking.isSelected() || alchemism.isSelected()) {
                 boolean hasText = false;
                 for (JComboBox<String> box : idBoxes_1) {
-                    if (notEmpty(box)) hasText = true;
-                }
-                for (JComboBox<String> box : idBoxes_2) {
-                    if (notEmpty(box)) hasText = true;
-                }
-                for (JComboBox<String> box : idBoxes_3) {
-                    if (notEmpty(box)) hasText = true;
-                }
-                for (JComboBox<String> box : idBoxes_4) {
                     if (notEmpty(box)) hasText = true;
                 }
                 return hasText;
@@ -1271,7 +1253,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
             above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
         }
-        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), false, previous, above, scrollPane.getWidth()));
+        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), false, previous, above, scrollPane.getWidth(), max));
         searched.add(itemDisplays.get(itemDisplays.size() - 1));
         searchedItems.remove(iu);
     }
@@ -1322,7 +1304,7 @@ public class SearchUI extends JFrame implements ActionListener {
                                 sum_total += j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt();
                             }
                         }
-                        total += Math.round(sum_total);
+                        total += sum_total;
                     }
                 }
             }
@@ -1348,7 +1330,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
             above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
         }
-        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), true, previous, above, scrollPane.getWidth()));
+        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), true, previous, above, scrollPane.getWidth(), max));
         searched.add(itemDisplays.get(itemDisplays.size() - 1));
         searchedItems.remove(iu);
     }

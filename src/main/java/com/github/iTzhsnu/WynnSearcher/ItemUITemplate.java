@@ -15,9 +15,11 @@ import java.util.Objects;
 public class ItemUITemplate extends JPanel {
     private final JsonObject json;
     private final List<JLabel> label = new ArrayList<>();
+    private final float totalValue;
 
-    public ItemUITemplate(JsonObject json, boolean ing, JPanel previous, JPanel above, int uiWidth) {
+    public ItemUITemplate(JsonObject json, boolean ing, JPanel previous, JPanel above, int uiWidth, float totalValue) {
         this.json = json;
+        this.totalValue = totalValue;
         int urlSize;
 
         if (ing) {
@@ -25,7 +27,7 @@ public class ItemUITemplate extends JPanel {
             urlSize = 32;
         } else {
             setItemDisplay();
-            urlSize = 48;
+            urlSize = 56;
         }
 
         if (previous != null) {
@@ -771,6 +773,10 @@ public class ItemUITemplate extends JPanel {
 
         add(dataButton);
         add(builderButton);
+
+        JLabel devValue = new JLabel("Dev Value: " + totalValue);
+        devValue.setForeground(Color.DARK_GRAY);
+        add(devValue);
     }
 
     public void setIngDisplay() {
@@ -1100,6 +1106,10 @@ public class ItemUITemplate extends JPanel {
         }
 
         add(dataButton);
+
+        JLabel devValue = new JLabel("Dev Value: " + totalValue);
+        devValue.setForeground(Color.DARK_GRAY);
+        add(devValue);
     }
 
    public String getMin(int base) {
