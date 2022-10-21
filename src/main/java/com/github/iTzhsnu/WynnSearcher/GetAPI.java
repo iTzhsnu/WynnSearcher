@@ -27,8 +27,7 @@ public class GetAPI {
                 builder.append(line);
             }
 
-            JsonElement element = JsonParser.parseString(builder.toString());
-            JsonObject object = element.getAsJsonObject();
+            JsonObject object = JsonParser.parseString(builder.toString()).getAsJsonObject();
             if (object.get("items") != null) {
                 for (JsonElement je : object.get("items").getAsJsonArray()) {
                     list.add(je.getAsJsonObject());
@@ -59,8 +58,7 @@ public class GetAPI {
                     builder.append(line);
                 }
 
-                JsonElement element = JsonParser.parseString(builder.toString());
-                JsonObject object = element.getAsJsonObject();
+                JsonObject object = JsonParser.parseString(builder.toString()).getAsJsonObject();
                 if (object.get("data") != null) {
                     for (JsonElement je : object.get("data").getAsJsonArray()) {
                         list.add(je.getAsJsonObject());
