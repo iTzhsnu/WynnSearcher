@@ -1117,7 +1117,7 @@ public class SearchUI extends JFrame implements ActionListener {
                             Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, s), Identifications.EMPTY);
                             if (id.getIngName() != null && id.getIngFieldPos() != null) {
                                 if (!id.getIDType().equals("sum")) {
-                                    if (Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("minimum").getAsInt() != 0) {
+                                    if (Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
                                         total_min += j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("minimum").getAsInt();
                                         total_max += j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("maximum").getAsInt();
                                     } else if (Objects.equals(id.getIngFieldPos(), "nothing") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsInt() != 0) {
@@ -1178,7 +1178,7 @@ public class SearchUI extends JFrame implements ActionListener {
                 Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, num), Identifications.EMPTY);
                 if (id.getItemName() != null) {
                     if (!Objects.equals(id.getIDType(), "sum")) {
-                        if (Objects.equals(id.getIDType(), "int") && j.get(id.getItemName()) != null) {
+                        if (Objects.equals(id.getIDType(), "int") && j.get(id.getItemName()) != null && j.get(id.getItemName()).getAsInt() != 0) {
                             //Integer Type IDs
                             int t = ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
                             if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
@@ -1349,7 +1349,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (sum.getIds() != null) {
             for (int n = 0; sum.getIds().size() > n; ++n) {
                 Identifications ids = sum.getIds().get(n);
-                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
+                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
                     //Integer Type
                     int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
                     if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
@@ -1380,7 +1380,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (sum.getMultiIDs() != null) {
             for (int n = 0; sum.getMultiIDs().size() > n; ++n) {
                 Identifications ids = sum.getMultiIDs().get(n);
-                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
+                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
                     int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
                     if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
                         t = j.get(ids.getItemName()).getAsInt();
@@ -1400,12 +1400,12 @@ public class SearchUI extends JFrame implements ActionListener {
                     sum_total_sub = -100;
                 }
             }
-            sum_total = sum_total * (100 + sum_total_sub) / 100F;
+            sum_total = sum_total * (100F + sum_total_sub) / 100F;
         }
         if (sum.getAddIDs() != null) {
             for (int n = 0; sum.getAddIDs().size() > n; ++n) {
                 Identifications ids = sum.getAddIDs().get(n);
-                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null) {
+                if (Objects.equals(ids.getIDType(), "int") && j.get(ids.getItemName()) != null && j.get(ids.getItemName()).getAsInt() != 0) {
                     int t = ItemUITemplate.getMaxInt(j.get(ids.getItemName()).getAsInt());
                     if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
                         t = j.get(ids.getItemName()).getAsInt();
