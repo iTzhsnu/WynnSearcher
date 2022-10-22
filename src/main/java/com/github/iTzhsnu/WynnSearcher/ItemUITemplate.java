@@ -774,9 +774,9 @@ public class ItemUITemplate extends JPanel {
         add(dataButton);
         add(builderButton);
 
-        JLabel devValue = new JLabel("Dev Value: " + totalValue);
-        devValue.setForeground(Color.DARK_GRAY);
-        add(devValue);
+        JLabel sortValue = new JLabel("Sort Value: " + totalValue);
+        sortValue.setForeground(Color.DARK_GRAY);
+        add(sortValue);
     }
 
     public void setIngDisplay() {
@@ -1107,9 +1107,9 @@ public class ItemUITemplate extends JPanel {
 
         add(dataButton);
 
-        JLabel devValue = new JLabel("Dev Value: " + totalValue);
-        devValue.setForeground(Color.DARK_GRAY);
-        add(devValue);
+        JLabel sortValue = new JLabel("Sort Value: " + totalValue);
+        sortValue.setForeground(Color.DARK_GRAY);
+        add(sortValue);
     }
 
    public String getMin(int base) {
