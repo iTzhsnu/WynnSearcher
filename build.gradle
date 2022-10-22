@@ -3,7 +3,7 @@ plugins {
 }
 
 
-version '2.0.1-Release'
+version '2.0.2-Release'
 
 repositories {
     mavenCentral()
