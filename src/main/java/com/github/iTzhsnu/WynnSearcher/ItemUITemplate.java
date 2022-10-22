@@ -470,7 +470,7 @@ public class ItemUITemplate extends JPanel {
             }
             if (json.get("lifeSteal") != null && json.get("lifeSteal").getAsInt() != 0) {
                 int base = json.get("lifeSteal").getAsInt();
-                label.add(new JLabel(getMin(base) + "/3s LifeSteal " + getMax(base) + "/3s"));
+                label.add(new JLabel(getMin(base) + "/3s Life Steal " + getMax(base) + "/3s"));
             }
             if (json.get("manaRegen") != null && json.get("manaRegen").getAsInt() != 0) {
                 int base = json.get("manaRegen").getAsInt();
