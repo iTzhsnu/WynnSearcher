@@ -86,6 +86,7 @@ public class SearchUI extends JFrame implements ActionListener {
     private final JLabel searchedItemCount = new JLabel();
     private final JScrollPane scrollPane;
     private final JButton updateSize = new JButton("Update Size");
+    private final JLabel displayTime = new JLabel();
 
     //ID Combo Box
     private final List<JComboBox<String>> idBoxes_1 = new ArrayList<>();
@@ -168,6 +169,9 @@ public class SearchUI extends JFrame implements ActionListener {
         updateSize.setBounds(960, 235, 110, 30);
         updateSize.addActionListener(this);
 
+        //Sort Filter Display Time
+        displayTime.setBounds(700, 235, 200, 40);
+
         //Add Contents
         contentPane.add(name);
         contentPane.add(searchB);
@@ -177,6 +181,8 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(sortType);
         contentPane.add(searchedItemCount);
         contentPane.add(updateSize);
+
+        contentPane.add(displayTime);
     }
 
     public static void main(String[] args) {
@@ -408,6 +414,8 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void searchItems() {
+        long startTime = System.currentTimeMillis();
+
         searchedItems.clear();
 
         //Search Item Type
@@ -452,14 +460,19 @@ public class SearchUI extends JFrame implements ActionListener {
 
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
 
+        long midTime = System.currentTimeMillis();
+
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
             sortItems(idBoxes_1);
         }
 
         setDisplaySize();
+
+        displayTime.setText((midTime - startTime) + "ms, " + (System.currentTimeMillis() - midTime) + "ms");
     }
 
     public void searchIngredient() {
+        long startTime = System.currentTimeMillis();
         searchedItems.clear();
 
         //Search Can Craft Type
@@ -604,11 +617,15 @@ public class SearchUI extends JFrame implements ActionListener {
 
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
 
+        long midTime = System.currentTimeMillis();
+
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
             sortIngredients(idBoxes_1);
         }
 
         setDisplaySize();
+
+        displayTime.setText((midTime - startTime) + "ms, " + (System.currentTimeMillis() - midTime) + "ms");
     }
 
     public void setItemJson() {
