@@ -2,12 +2,22 @@
 Can Easy Search Wynncraft Item and Ingredients
 
 ## Requirement
-Java 8 or above
+Java 8 or above  
+Gson (Include)
 
 ## How to Use
+### Searcher
 ![](readme_pictures/how_to_use.png)
+### Builder
+Coming Soon
 
-## Sum Calc Info (Beta 1.1.7 or above)
+### Crafter
+Coming Soon
+
+### Custom
+Coming Soon
+
+## Sum Calc Info
 Total Health = Health + Health Bonus  
 Total Health Regen = Raw Health Regen * (100 + Health Regen %) / 100  
 Raw Defenses = Raw Earth Def + Raw Thunder Def + Raw Water Def + Raw Fire Def + Raw Air Def  
