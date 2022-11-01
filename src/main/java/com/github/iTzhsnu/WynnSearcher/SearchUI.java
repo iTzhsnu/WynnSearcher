@@ -17,10 +17,8 @@ public class SearchUI extends JFrame implements ActionListener {
     //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
     private final List<JsonObject> wynnIngredients = new ArrayList<>();
-    private final List<JsonObject> wynnRecipes = new ArrayList<>();
     private final JLabel itemAPIConnect = new JLabel("Item API Connecting...");
     private final JLabel ingredientAPIConnect = new JLabel("Ingredient API Connecting...");
-    private final String recipeAPIConnect;
 
     //Item Type Json
     private final List<JsonObject> bowJson = new ArrayList<>();
@@ -122,12 +120,13 @@ public class SearchUI extends JFrame implements ActionListener {
 
         GetAPI.setItemData(wynnItems, itemAPIConnect);
         GetAPI.setIngredientData(wynnIngredients, ingredientAPIConnect);
-        recipeAPIConnect = GetAPI.setRecipeData(wynnRecipes);
+        List<JsonObject> wynnRecipes = new ArrayList<>();
+        String recipeAPIConnect = GetAPI.setRecipeData(wynnRecipes);
 
         setItemJson();
         setIngredientJson();
 
-        setTitle("Wynncraft Searcher (Release 2.0.2)");
+        setTitle("Wynncraft Searcher (3.0.0)");
         setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/wynn_searcher_icon.png"))).getImage());
         setBounds(100, 100, 1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
