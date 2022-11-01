@@ -113,7 +113,7 @@ public class SearchUI extends JFrame implements ActionListener {
 
     //Other UIs
     private final CrafterUI crafterUI;
-
+    private final BuilderUI builderUI;
     private final CustomUI customUI;
 
     public SearchUI() {
@@ -203,11 +203,11 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(displayTime);
 
         this.crafterUI = new CrafterUI(contentPane, wynnIngredients, wynnRecipes, recipeAPIConnect, ingredientAPIConnect);
-
+        this.builderUI = new BuilderUI(contentPane, wynnItems, wynnIngredients, wynnRecipes, itemAPIConnect, ingredientAPIConnect, recipeAPIConnect);
         this.customUI = new CustomUI(contentPane);
 
         crafterUI.setCrafterVisible(false);
-
+        builderUI.setBuilderVisible(false);
         customUI.setCustomVisible(false);
     }
 
@@ -276,8 +276,7 @@ public class SearchUI extends JFrame implements ActionListener {
                 boxes.get(i).setSelectedIndex(-1);
             }
 
-            JTextField textField = (JTextField) boxes.get(i).getEditor().getEditorComponent();
-            textField.addKeyListener(new IDBoxAdapter(boxes.get(i)));
+            boxes.get(i).getEditor().getEditorComponent().addKeyListener(new IDBoxAdapter(boxes.get(i)));
 
             //And Or
             if (i < 3) {
@@ -1556,8 +1555,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void setBuilderVisible(boolean visible) {
-
-
+        builderUI.setBuilderVisible(visible);
         if (visible) {
             setSearcherVisible(false);
             setCrafterVisible(false);

@@ -17,7 +17,10 @@ import java.util.List;
 
 public class CrafterUI implements ActionListener {
     private final Container pane;
+
     private final List<JsonObject> ingJson;
+    private final List<JsonObject> recipeJson;
+
     private final JLabel ingAPIConnect = new JLabel();
     private final JComboBox<String> recipeType = new JComboBox<>();
     private final JComboBox<String> attackSpeed = new JComboBox<>();
@@ -26,14 +29,15 @@ public class CrafterUI implements ActionListener {
     private final List<JLabel> texts = new ArrayList<>();
     private final JComboBox<String> material1 = new JComboBox<>();
     private final JComboBox<String> material2 = new JComboBox<>();
+
     private final JButton create = new JButton("Create");
+    private final JButton load = new JButton("Load");
     private final JTextField output = new JTextField();
+
     private final JPanel created = new JPanel();
     private final JScrollPane createdScroll;
     private final JPanel ingPanel = new JPanel();
     private final JScrollPane ingScroll;
-    private final JButton load = new JButton("Load");
-    private final List<JsonObject> recipeJson;
 
     private static final Map<Integer, Identifications> INT_TO_ID = new HashMap<Integer, Identifications>() {{
         put(0, Identifications.STRENGTH_REQ);
@@ -273,8 +277,7 @@ public class CrafterUI implements ActionListener {
             }
             box.setEditable(true);
             box.setSelectedIndex(-1);
-            JTextField textField = (JTextField) box.getEditor().getEditorComponent();
-            textField.addKeyListener(new Adapter(box, ingJson));
+            box.getEditor().getEditorComponent().addKeyListener(new Adapter(box, ingJson));
 
             ingBox.add(box);
             pane.add(ingBox.get(ingBox.size() - 1));
@@ -864,7 +867,7 @@ public class CrafterUI implements ActionListener {
         return total;
     }
 
-    private static class Adapter extends KeyAdapter {
+    public static class Adapter extends KeyAdapter {
         private final JComboBox<String> box;
         private final List<JsonObject> json;
 
