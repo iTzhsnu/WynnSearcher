@@ -16,18 +16,20 @@ public class ItemUITemplate extends JPanel {
     private final JsonObject json;
     private final List<JLabel> label = new ArrayList<>();
     private final float totalValue;
+    private final boolean isCustom;
 
-    public ItemUITemplate(JsonObject json, boolean ing, JPanel previous, JPanel above, int uiWidth, float totalValue) {
+    public ItemUITemplate(JsonObject json, boolean ing, JPanel previous, JPanel above, int uiWidth, float totalValue, boolean isCustom) {
         this.json = json;
         this.totalValue = totalValue;
-        int urlSize;
+        this.isCustom = isCustom;
+        int urlSize = 0;
 
         if (ing) {
             setIngDisplay();
-            urlSize = 32;
+            if (!isCustom) urlSize = 32;
         } else {
             setItemDisplay();
-            urlSize = 56;
+            if (!isCustom) urlSize = 56;
         }
 
         if (previous != null) {
@@ -764,19 +766,23 @@ public class ItemUITemplate extends JPanel {
         if (json.get("restrictions") != null && !json.get("restrictions").isJsonNull()) {
             label.add(new JLabel(json.get("restrictions").getAsString()));
         }
-        label.add(new JLabel(" "));
-        label.add(new JLabel("External Links"));
+        if (!isCustom) {
+            label.add(new JLabel(" "));
+            label.add(new JLabel("External Links"));
+        }
 
         for (JLabel jLabel : label) {
             add(jLabel);
         }
 
-        add(dataButton);
-        add(builderButton);
+        if (!isCustom) {
+            add(dataButton);
+            add(builderButton);
 
-        JLabel sortValue = new JLabel("Sort Value: " + totalValue);
-        sortValue.setForeground(Color.DARK_GRAY);
-        add(sortValue);
+            JLabel sortValue = new JLabel("Sort Value: " + totalValue);
+            sortValue.setForeground(Color.DARK_GRAY);
+            add(sortValue);
+        }
     }
 
     public void setIngDisplay() {
@@ -1144,7 +1150,7 @@ public class ItemUITemplate extends JPanel {
         }
     }
 
-   public String setPlus(int i) {
+   public static String setPlus(int i) {
         if (i < 0) {
             return "" + i;
         } else {

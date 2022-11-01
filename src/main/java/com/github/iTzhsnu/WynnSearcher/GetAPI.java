@@ -16,6 +16,7 @@ import java.util.List;
 public class GetAPI {
     public static final String WYNN_ITEM_API = "https://api.wynncraft.com/public_api.php?action=itemDB&category=all";
     public static final String WYNN_INGREDIENT_API = "https://api.wynncraft.com/v2/ingredient/search/tier/";
+    public static final String WYNN_RECIPE_API = "https://api.wynncraft.com/v2/recipe/search/skill/";
 
     public static void setItemData(List<JsonObject> list, JLabel label) {
         try {
@@ -39,6 +40,7 @@ public class GetAPI {
                 label.setForeground(new Color(255, 0, 0));
             }
 
+            buffer.close();
         } catch (IOException e) {
             e.printStackTrace();
             label.setText("Connect Failed");
@@ -67,6 +69,7 @@ public class GetAPI {
                     connect = false;
                 }
 
+                buffer.close();
             } catch (IOException e) {
                 e.printStackTrace();
                 connect = false;
@@ -79,6 +82,42 @@ public class GetAPI {
         } else {
             label.setText("Connect Failed");
             label.setForeground(new Color(255, 0, 0));
+        }
+    }
+
+    public static String setRecipeData(List<JsonObject> list) {
+        boolean connect = true;
+        String[] ss = new String[] {"armouring", "tailoring", "weaponsmithing", "woodworking", "jeweling", "scribing", "cooking", "alchemism"};
+
+        for (String s : ss) {
+            try {
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_RECIPE_API + s).openStream()));
+                String line;
+                StringBuilder builder = new StringBuilder();
+
+                while ((line = buffer.readLine()) != null) {
+                    builder.append(line);
+                }
+
+                JsonObject object = JsonParser.parseString(builder.toString()).getAsJsonObject();
+                if (object.get("data") != null) {
+                    for (JsonElement je : object.get("data").getAsJsonArray()) {
+                        list.add(je.getAsJsonObject());
+                    }
+                } else {
+                    connect = false;
+                }
+
+                buffer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (connect) {
+            return "Recipe API Connected";
+        } else {
+            return "Connect Failed";
         }
     }
 

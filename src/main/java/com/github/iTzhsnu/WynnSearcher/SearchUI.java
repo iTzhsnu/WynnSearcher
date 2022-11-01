@@ -14,11 +14,13 @@ import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
 
-    //Item and Ingredient Data
+    //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
     private final List<JsonObject> wynnIngredients = new ArrayList<>();
+    private final List<JsonObject> wynnRecipes = new ArrayList<>();
     private final JLabel itemAPIConnect = new JLabel("Item API Connecting...");
     private final JLabel ingredientAPIConnect = new JLabel("Ingredient API Connecting...");
+    private final String recipeAPIConnect;
 
     //Item Type Json
     private final List<JsonObject> bowJson = new ArrayList<>();
@@ -77,6 +79,7 @@ public class SearchUI extends JFrame implements ActionListener {
     private final JCheckBox alchemism = new JCheckBox("Alchemism");
 
     //Search Button and Text
+    private final JLabel name = new JLabel("Name:");
     private final JButton searchB = new JButton("Search");
     private final JTextField searchF = new JTextField();
     private final Container contentPane;
@@ -87,6 +90,7 @@ public class SearchUI extends JFrame implements ActionListener {
     private final JScrollPane scrollPane;
     private final JButton updateSize = new JButton("Update Size");
     private final JLabel displayTime = new JLabel();
+    private final JComboBox<String> type = new JComboBox<>();
 
     //ID Combo Box
     private final List<JComboBox<String>> idBoxes_1 = new ArrayList<>();
@@ -106,10 +110,19 @@ public class SearchUI extends JFrame implements ActionListener {
     private final JTextField idMax_3 = new JTextField();
     private final JTextField idMax_4 = new JTextField();
 
+    //ID Text
+    private final List<JLabel> idTexts = new ArrayList<>();
+
+    //Other UIs
+    private final CrafterUI crafterUI;
+
+    private final CustomUI customUI;
+
     public SearchUI() {
 
         GetAPI.setItemData(wynnItems, itemAPIConnect);
         GetAPI.setIngredientData(wynnIngredients, ingredientAPIConnect);
+        recipeAPIConnect = GetAPI.setRecipeData(wynnRecipes);
 
         setItemJson();
         setIngredientJson();
@@ -124,8 +137,6 @@ public class SearchUI extends JFrame implements ActionListener {
 
         //Search Text Field
         searchF.setBounds(10, 30, 200, 30);
-
-        JLabel name = new JLabel("Name:");
         name.setBounds(10, 0, 60, 30);
 
         //Click to Search
@@ -172,6 +183,14 @@ public class SearchUI extends JFrame implements ActionListener {
         //Sort Filter Display Time
         displayTime.setBounds(700, 235, 200, 40);
 
+        //Item and Ing Search, Craft, Build or Powder
+        type.setBounds(80, 5, 100, 20);
+        type.addItem("Searcher");
+        type.addItem("Crafter");
+        type.addItem("Builder");
+        type.addItem("Custom");
+        type.addActionListener(this);
+
         //Add Contents
         contentPane.add(name);
         contentPane.add(searchB);
@@ -181,8 +200,16 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(sortType);
         contentPane.add(searchedItemCount);
         contentPane.add(updateSize);
-
+        contentPane.add(type);
         contentPane.add(displayTime);
+
+        this.crafterUI = new CrafterUI(contentPane, wynnIngredients, wynnRecipes, recipeAPIConnect, ingredientAPIConnect);
+
+        this.customUI = new CustomUI(contentPane);
+
+        crafterUI.setCrafterVisible(false);
+
+        customUI.setCustomVisible(false);
     }
 
     public static void main(String[] args) {
@@ -219,6 +246,19 @@ public class SearchUI extends JFrame implements ActionListener {
             scrollPane.setSize(getWidth() - 25, getHeight() - 315);
             SwingUtilities.updateComponentTreeUI(searched);
         }
+
+        if (e.getSource() == type) {
+            switch (type.getItemAt(type.getSelectedIndex())) {
+                case "Searcher": setSearcherVisible(true);
+                    break;
+                case "Crafter": setCrafterVisible(true);
+                    break;
+                case "Builder": setBuilderVisible(true);
+                    break;
+                case "Custom": setCustomVisible(true);
+                    break;
+            }
+        }
     }
 
     public void setIDBoxAndIDField(List<JComboBox<String>> boxes, JTextField min, JTextField max, int baseX, int baseY, int length, boolean need) {
@@ -249,7 +289,8 @@ public class SearchUI extends JFrame implements ActionListener {
                     label = new JLabel(" or");
                 }
                 label.setBounds(baseX + 202 + (224 * i), baseY, 30, 20);
-                contentPane.add(label);
+                idTexts.add(label);
+                contentPane.add(idTexts.get(idTexts.size() - 1));
             } else if (i == 3) {
                 JLabel label;
                 if (need) {
@@ -258,7 +299,8 @@ public class SearchUI extends JFrame implements ActionListener {
                     label = new JLabel("(Need One of These)");
                 }
                 label.setBounds(baseX + 202 + (224 * i), baseY, 115, 20);
-                contentPane.add(label);
+                idTexts.add(label);
+                contentPane.add(idTexts.get(idTexts.size() - 1));
             }
 
             contentPane.add(boxes.get(i));
@@ -270,9 +312,10 @@ public class SearchUI extends JFrame implements ActionListener {
 
         JLabel toName = new JLabel("to");
         toName.setBounds(baseX + 155, baseY + 20, 20, 20);
+        idTexts.add(toName);
 
         contentPane.add(min);
-        contentPane.add(toName);
+        contentPane.add(idTexts.get(idTexts.size() - 1));
         contentPane.add(max);
     }
 
@@ -1270,7 +1313,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
             above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
         }
-        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), false, previous, above, scrollPane.getWidth(), max));
+        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), false, previous, above, scrollPane.getWidth(), max, false));
         searched.add(itemDisplays.get(itemDisplays.size() - 1));
         searchedItems.remove(iu);
     }
@@ -1347,7 +1390,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
             above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
         }
-        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), true, previous, above, scrollPane.getWidth(), max));
+        itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), true, previous, above, scrollPane.getWidth(), max, false));
         searched.add(itemDisplays.get(itemDisplays.size() - 1));
         searchedItems.remove(iu);
     }
@@ -1461,5 +1504,75 @@ public class SearchUI extends JFrame implements ActionListener {
             }
         }
         return total + sum_total;
+    }
+
+    public void setSearcherVisible(boolean visible) {
+        itemOrIngredient.setVisible(visible);
+        if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Item")) {
+            setVisibleItem(visible);
+        } else if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Ingredient")) {
+            setVisibleIngredient(visible);
+        }
+        name.setVisible(visible);
+        searchB.setVisible(visible);
+        searchF.setVisible(visible);
+        scrollPane.setVisible(visible);
+        searchedItemCount.setVisible(visible);
+        updateSize.setVisible(visible);
+        displayTime.setVisible(visible);
+        for (int i = 0; 3 >= i; ++i) {
+            idBoxes_1.get(i).setVisible(visible);
+            idBoxes_2.get(i).setVisible(visible);
+            idBoxes_3.get(i).setVisible(visible);
+            idBoxes_4.get(i).setVisible(visible);
+        }
+        for (JLabel idText : idTexts) {
+            idText.setVisible(visible);
+        }
+        idMin_1.setVisible(visible);
+        idMin_2.setVisible(visible);
+        idMin_3.setVisible(visible);
+        idMin_4.setVisible(visible);
+        idMax_1.setVisible(visible);
+        idMax_2.setVisible(visible);
+        idMax_3.setVisible(visible);
+        idMax_4.setVisible(visible);
+        sortType.setVisible(visible);
+
+        if (visible) {
+            setCrafterVisible(false);
+            setBuilderVisible(false);
+            setCustomVisible(false);
+        }
+    }
+
+    public void setCrafterVisible(boolean visible) {
+        crafterUI.setCrafterVisible(visible);
+
+        if (visible) {
+            setSearcherVisible(false);
+            setBuilderVisible(false);
+            setCustomVisible(false);
+        }
+    }
+
+    public void setBuilderVisible(boolean visible) {
+
+
+        if (visible) {
+            setSearcherVisible(false);
+            setCrafterVisible(false);
+            setCustomVisible(false);
+        }
+    }
+
+    public void setCustomVisible(boolean visible) {
+        customUI.setCustomVisible(visible);
+
+        if (visible) {
+            setSearcherVisible(false);
+            setCrafterVisible(false);
+            setBuilderVisible(false);
+        }
     }
 }
