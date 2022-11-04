@@ -209,6 +209,11 @@ public class SearchUI extends JFrame implements ActionListener {
         crafterUI.setCrafterVisible(false);
         builderUI.setBuilderVisible(false);
         customUI.setCustomVisible(false);
+
+        ToolTipManager tipManager = ToolTipManager.sharedInstance();
+        tipManager.setInitialDelay(100);
+        tipManager.setDismissDelay(Integer.MAX_VALUE);
+        tipManager.setReshowDelay(100);
     }
 
     public static void main(String[] args) {
@@ -229,9 +234,7 @@ public class SearchUI extends JFrame implements ActionListener {
             } else {
                 searchedItemCount.setText("Search Failed");
             }
-        }
-
-        if (e.getSource() == itemOrIngredient) {
+        } else if (e.getSource() == itemOrIngredient) {
             if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Item")) {
                 setVisibleIngredient(false);
                 setVisibleItem(true);
@@ -239,14 +242,10 @@ public class SearchUI extends JFrame implements ActionListener {
                 setVisibleItem(false);
                 setVisibleIngredient(true);
             }
-        }
-
-        if (e.getSource() == updateSize) {
+        } else if (e.getSource() == updateSize) {
             scrollPane.setSize(getWidth() - 25, getHeight() - 315);
             SwingUtilities.updateComponentTreeUI(searched);
-        }
-
-        if (e.getSource() == type) {
+        } else if (e.getSource() == type) {
             switch (type.getItemAt(type.getSelectedIndex())) {
                 case "Searcher": setSearcherVisible(true);
                     break;

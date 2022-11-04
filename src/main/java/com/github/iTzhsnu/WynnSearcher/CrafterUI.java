@@ -251,8 +251,7 @@ public class CrafterUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == create) {
             createCraftItem();
-        }
-        if (e.getSource() == load) {
+        } else if (e.getSource() == load) {
             loadCraftItem(true);
         }
     }
