@@ -1,26 +1,40 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.awt.*;
 
 public class SkillPoint {
+    private final SkillPointPanel strength;
+    private final SkillPointPanel dexterity;
+    private final SkillPointPanel intelligence;
+    private final SkillPointPanel defense;
+    private final SkillPointPanel agility;
 
     public SkillPoint(JPanel p) {
-
+        this.strength = new SkillPointPanel("Strength", 212, 120, p);
+        this.dexterity = new SkillPointPanel("Dexterity", 342, 120, p);
+        this.intelligence = new SkillPointPanel("Intelligence", 472, 120, p);
+        this.defense = new SkillPointPanel("Defense", 602, 120, p);
+        this.agility = new SkillPointPanel("Agility", 732, 120, p);
     }
 
-    public void setSkillPointVisible(boolean visible) {
-
+    public void setSkillPoint(int originalStr, int manualStr, int originalDex, int manualDex, int originalInt, int manualInt, int originalDef, int manualDef, int originalAgi, int manualAgi) {
+        strength.setValue(originalStr, manualStr);
+        dexterity.setValue(originalDex, manualDex);
+        intelligence.setValue(originalInt, manualInt);
+        defense.setValue(originalDef, manualDef);
+        agility.setValue(originalAgi, manualAgi);
     }
 
-    public void setSkillPoint(int strength, int dexterity, int intelligence, int defense, int agility) {
-
+    public void updateSkillPoint() {
+        strength.setValue();
+        dexterity.setValue();
+        intelligence.setValue();
+        defense.setValue();
+        agility.setValue();
     }
 
     private static class SkillPointPanel {
-        private final JPanel panel = new JPanel();
         private final JTextField textField = new JTextField("0");
         private final JLabel name = new JLabel();
         private final JLabel boost = new JLabel();
@@ -97,9 +111,25 @@ public class SkillPoint {
         };
 
         public SkillPointPanel(String name, int x, int y, JPanel p) {
+            JPanel pane = new JPanel();
+            pane.setBounds(x, y, 120, 85);
+            pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
             this.name.setText(name);
+            setValue(0, 0);
 
+            this.name.setAlignmentX(Component.CENTER_ALIGNMENT);
+            textField.setAlignmentX(Component.CENTER_ALIGNMENT);
+            original.setAlignmentX(Component.CENTER_ALIGNMENT);
+            manual.setAlignmentX(Component.CENTER_ALIGNMENT);
+            boost.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+            pane.add(this.name);
+            pane.add(textField);
+            pane.add(original);
+            pane.add(manual);
+            pane.add(boost);
+
+            p.add(pane);
         }
 
         public int getSPValue() {
@@ -118,7 +148,7 @@ public class SkillPoint {
                 case "Dexterity":
                     if (sp > 0 && sp < 150) {
                         value = STR_AND_DEX[sp];
-                    } else {
+                    } else if (sp > 150) {
                         value = STR_AND_DEX[150];
                     }
                     break;
@@ -134,14 +164,14 @@ public class SkillPoint {
                 case "Defense":
                     if (sp > 0 && sp < 150) {
                         value = DEFENSE[sp];
-                    } else {
+                    } else if (sp > 150) {
                         value = DEFENSE[150];
                     }
                     break;
                 case "Agility":
                     if (sp > 0 && sp < 150) {
                         value = AGILITY[sp];
-                    } else {
+                    } else if (sp > 150) {
                         value = AGILITY[150];
                     }
                     break;
@@ -170,19 +200,19 @@ public class SkillPoint {
         public void setValue() {
             switch (name.getText()) {
                 case "Strength":
-                    boost.setText("Damage Boost:" + (getSPBoost() - 1) + "%");
+                    boost.setText("Damage: +" + (Math.round((getSPBoost() - 1) * 1000F) / 10F) + "%");
                     break;
                 case "Dexterity":
-                    boost.setText("Crit Change:" + (getSPBoost() - 1) + "%");
+                    boost.setText("Crit: +" + (Math.round((getSPBoost() - 1) * 1000F) / 10F) + "%");
                     break;
                 case "Intelligence":
-                    boost.setText("Cost Reduce:" + getSPBoost() + "%");
+                    boost.setText("SP Cost: -" + (Math.round(getSPBoost() * 10000F) / 100F) + "%");
                     break;
                 case "Defense":
-                    boost.setText("Resistance:" + (getSPBoost() - 1) + "%");
+                    boost.setText("Resist: +" + (Math.round((getSPBoost() - 1) * 10000F) / 100F) + "%");
                     break;
                 case "Agility":
-                    boost.setText("Dodge:" + (getSPBoost() - 1) + "%");
+                    boost.setText("Dodge: +" + (Math.round((getSPBoost() - 1) * 10000F) / 100F) + "%");
                     break;
             }
         }
