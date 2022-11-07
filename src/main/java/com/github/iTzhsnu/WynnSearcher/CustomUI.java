@@ -30,7 +30,7 @@ public class CustomUI implements ActionListener {
     private final JPanel display = new JPanel();
     private final JScrollPane scroll;
 
-    private final Map<Integer, Identifications> ID_FROM_NOT_VARIABLE_INT = new HashMap<Integer, Identifications>() {{
+    private static final Map<Integer, Identifications> ID_FROM_NOT_VARIABLE_INT = new HashMap<Integer, Identifications>() {{
         put(1, Identifications.STRENGTH_REQ);
         put(2, Identifications.DEXTERITY_REQ);
         put(3, Identifications.INTELLIGENCE_REQ);
@@ -122,7 +122,7 @@ public class CustomUI implements ActionListener {
         put(89, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
     }};
 
-    private final Map<Integer, Identifications> ID_FROM_VARIABLE_INT = new HashMap<Integer, Identifications>() {{
+    private static final Map<Integer, Identifications> ID_FROM_VARIABLE_INT = new HashMap<Integer, Identifications>() {{
         put(0, Identifications.NEUTRAL_DAMAGE);
         put(1, Identifications.EARTH_DAMAGE);
         put(2, Identifications.THUNDER_DAMAGE);
