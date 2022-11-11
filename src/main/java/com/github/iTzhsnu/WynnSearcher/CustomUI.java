@@ -383,9 +383,9 @@ public class CustomUI implements ActionListener {
         itemData.append(atkSpdS);
 
         if (variable.isSelected()) {
-            itemData.append("\"tier\":\"Custom\",\"identified\":true}");
-        } else {
             itemData.append("\"tier\":\"Custom\",\"identified\":false}");
+        } else {
+            itemData.append("\"tier\":\"Custom\",\"identified\":true}");
         }
 
         ItemUITemplate itemUI = new ItemUITemplate(JsonParser.parseString(itemData.toString()).getAsJsonObject(), false, null, null, 270, 0, true);

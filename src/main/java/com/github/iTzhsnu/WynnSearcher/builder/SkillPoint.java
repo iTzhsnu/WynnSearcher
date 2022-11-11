@@ -9,6 +9,7 @@ public class SkillPoint {
     private final SkillPointPanel intelligence;
     private final SkillPointPanel defense;
     private final SkillPointPanel agility;
+    private final JLabel spText = new JLabel("Using Skill Point: 0");
 
     public SkillPoint(JPanel p) {
         this.strength = new SkillPointPanel("Strength", 212, 120, p);
@@ -16,6 +17,8 @@ public class SkillPoint {
         this.intelligence = new SkillPointPanel("Intelligence", 472, 120, p);
         this.defense = new SkillPointPanel("Defense", 602, 120, p);
         this.agility = new SkillPointPanel("Agility", 732, 120, p);
+        spText.setBounds(10, 155, 200, 20);
+        p.add(spText);
     }
 
     public void setSkillPoint(int originalStr, int manualStr, int originalDex, int manualDex, int originalInt, int manualInt, int originalDef, int manualDef, int originalAgi, int manualAgi) {
@@ -27,11 +30,36 @@ public class SkillPoint {
     }
 
     public void updateSkillPoint() {
-        strength.setValue();
-        dexterity.setValue();
-        intelligence.setValue();
-        defense.setValue();
-        agility.setValue();
+        strength.updateValue();
+        dexterity.updateValue();
+        intelligence.updateValue();
+        defense.updateValue();
+        agility.updateValue();
+        spText.setText("Using Skill Point: " + (strength.getTotalManual() + dexterity.getTotalManual() + intelligence.getTotalManual() + defense.getTotalManual() + agility.getTotalManual()));
+    }
+
+    public SkillPointPanel getSkillPoint(SkillPointType spType) {
+        switch (spType) {
+            case STRENGTH:
+                return strength;
+            case DEXTERITY:
+                return dexterity;
+            case INTELLIGENCE:
+                return intelligence;
+            case DEFENSE:
+                return defense;
+            case AGILITY:
+                return agility;
+        }
+        return null;
+    }
+
+    public enum SkillPointType {
+        STRENGTH,
+        DEXTERITY,
+        INTELLIGENCE,
+        DEFENSE,
+        AGILITY
     }
 
     private static class SkillPointPanel {
@@ -40,6 +68,7 @@ public class SkillPoint {
         private final JLabel boost = new JLabel();
         private final JLabel original = new JLabel("Original: 0");
         private final JLabel manual = new JLabel("Manual: 0");
+        private int manualBase = 0;
 
         private static final float[] STR_AND_DEX = new float[] {
                 1F, 1.01F, 1.02F, 1.029F, 1.039F, 1.049F, 1.058F, 1.067F, 1.077F, 1.086F, //0 ~ 9
@@ -194,16 +223,18 @@ public class SkillPoint {
         public void setValue(int originalSP, int manualSP) {
             original.setText("Original: " + originalSP);
             manual.setText("Manual: " + manualSP);
-            setValue();
+            textField.setText(String.valueOf(originalSP));
+            manualBase = manualSP;
+            updateValue();
         }
 
-        public void setValue() {
+        public void updateValue() {
             switch (name.getText()) {
                 case "Strength":
                     boost.setText("Damage: +" + (Math.round((getSPBoost() - 1) * 1000F) / 10F) + "%");
                     break;
                 case "Dexterity":
-                    boost.setText("Crit: +" + (Math.round((getSPBoost() - 1) * 1000F) / 10F) + "%");
+                    boost.setText("Crit: " + (Math.round((getSPBoost() - 1) * 1000F) / 10F) + "%");
                     break;
                 case "Intelligence":
                     boost.setText("SP Cost: -" + (Math.round(getSPBoost() * 10000F) / 100F) + "%");
@@ -212,9 +243,18 @@ public class SkillPoint {
                     boost.setText("Resist: +" + (Math.round((getSPBoost() - 1) * 10000F) / 100F) + "%");
                     break;
                 case "Agility":
-                    boost.setText("Dodge: +" + (Math.round((getSPBoost() - 1) * 10000F) / 100F) + "%");
+                    boost.setText("Dodge: " + (Math.round((getSPBoost() - 1) * 10000F) / 100F) + "%");
                     break;
             }
+            manual.setText("Manual: " + getTotalManual());
+        }
+
+        public int getOriginal() {
+            return Integer.parseInt(original.getText().replace("Original: ", ""));
+        }
+
+        public int getTotalManual() {
+            return getSPValue() - getOriginal() + manualBase;
         }
     }
 }

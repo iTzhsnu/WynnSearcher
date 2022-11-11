@@ -11,11 +11,11 @@ Gson (Include)
 ### Builder
 Coming Soon
 
-### Crafter
-Coming Soon
+### Crafter (Coming Soon)
+![](readme_pictures/how_to_use_3.png)
 
-### Custom
-Coming Soon
+### Custom (Coming Soon)
+![](readme_pictures/how_to_use_4.png)
 
 ## Sum Calc Info
 Total Health = Health + Health Bonus  

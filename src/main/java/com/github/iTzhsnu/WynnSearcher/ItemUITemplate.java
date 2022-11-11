@@ -34,7 +34,7 @@ public class ItemUITemplate extends JPanel {
 
         if (previous != null) {
             Rectangle x = previous.getBounds();
-            boolean down = x.x + x.width + 10 > uiWidth - 255;
+            boolean down = x.x + x.width + 10 > uiWidth - 250;
 
             if (down) {
                 Rectangle y = above.getBounds();
