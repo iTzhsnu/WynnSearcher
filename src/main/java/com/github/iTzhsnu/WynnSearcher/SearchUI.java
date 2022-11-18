@@ -116,6 +116,10 @@ public class SearchUI extends JFrame implements ActionListener {
     private final BuilderUI builderUI;
     private final CustomUI customUI;
 
+    public static boolean isReversedID(Identifications id) {
+        return id == Identifications.RAW_1ST_SPELL_COST || id == Identifications.RAW_2ND_SPELL_COST || id == Identifications.RAW_3RD_SPELL_COST || id == Identifications.RAW_4TH_SPELL_COST || id == Identifications.PERCENT_1ST_SPELL_COST || id == Identifications.PERCENT_2ND_SPELL_COST || id == Identifications.PERCENT_3RD_SPELL_COST || id == Identifications.PERCENT_4TH_SPELL_COST;
+    }
+
     public SearchUI() {
 
         GetAPI.setItemData(wynnItems, itemAPIConnect);
@@ -126,7 +130,7 @@ public class SearchUI extends JFrame implements ActionListener {
         setItemJson();
         setIngredientJson();
 
-        setTitle("Wynncraft Searcher (3.0.0)");
+        setTitle("Wynncraft Searcher (3.0.0 Unstable)");
         setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/wynn_searcher_icon.png"))).getImage());
         setBounds(100, 100, 1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -183,10 +187,10 @@ public class SearchUI extends JFrame implements ActionListener {
         displayTime.setBounds(700, 235, 200, 40);
 
         //Item and Ing Search, Craft, Build or Powder
-        type.setBounds(80, 5, 100, 20);
-        type.addItem("Searcher");
-        type.addItem("Crafter");
-        type.addItem("Builder");
+        type.setBounds(80, 5, 130, 20);
+        type.addItem("Searcher (Stable)");
+        type.addItem("Crafter (Beta)");
+        type.addItem("Builder (Beta)");
         type.addItem("Custom");
         type.addActionListener(this);
 
@@ -246,14 +250,14 @@ public class SearchUI extends JFrame implements ActionListener {
             scrollPane.setSize(getWidth() - 25, getHeight() - 315);
             SwingUtilities.updateComponentTreeUI(searched);
         } else if (e.getSource() == type) {
-            switch (type.getItemAt(type.getSelectedIndex())) {
-                case "Searcher": setSearcherVisible(true);
+            switch (type.getSelectedIndex()) {
+                case 0: setSearcherVisible(true);
                     break;
-                case "Crafter": setCrafterVisible(true);
+                case 1: setCrafterVisible(true);
                     break;
-                case "Builder": setBuilderVisible(true);
+                case 2: setBuilderVisible(true);
                     break;
-                case "Custom": setCustomVisible(true);
+                case 3: setCustomVisible(true);
                     break;
             }
         }
@@ -1122,6 +1126,9 @@ public class SearchUI extends JFrame implements ActionListener {
                                             } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
                                                 total_min += j.get(id.getItemName()).getAsInt();
                                                 total_max += j.get(id.getItemName()).getAsInt();
+                                            } else if (isReversedID(id)) {
+                                                total_min += ItemUITemplate.getReversedMinInt(j.get(id.getItemName()).getAsInt());
+                                                total_max += ItemUITemplate.getReversedMaxInt(j.get(id.getItemName()).getAsInt());
                                             } else {
                                                 total_min += ItemUITemplate.getMinInt(j.get(id.getItemName()).getAsInt());
                                                 total_max += ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
@@ -1242,6 +1249,12 @@ public class SearchUI extends JFrame implements ActionListener {
                                 t = j.get(id.getItemName()).getAsInt();
                             } else if (!id.isItemVariable()) {
                                 t = j.get(id.getItemName()).getAsInt();
+                            } else if (isReversedID(id)) {
+                                if (bSortType) {
+                                    t = ItemUITemplate.getReversedMinInt(j.get(id.getItemName()).getAsInt());
+                                } else {
+                                    t = ItemUITemplate.getReversedMaxInt(j.get(id.getItemName()).getAsInt());
+                                }
                             } else if (bSortType) {
                                 t = ItemUITemplate.getMinInt(j.get(id.getItemName()).getAsInt());
                             }
@@ -1413,6 +1426,12 @@ public class SearchUI extends JFrame implements ActionListener {
                         t = j.get(ids.getItemName()).getAsInt();
                     } else if (!ids.isItemVariable()) {
                         t = j.get(ids.getItemName()).getAsInt();
+                    } else if (isReversedID(ids)) {
+                        if (getMin) {
+                            t = ItemUITemplate.getReversedMinInt(j.get(ids.getItemName()).getAsInt());
+                        } else {
+                            t = ItemUITemplate.getReversedMaxInt(j.get(ids.getItemName()).getAsInt());
+                        }
                     } else if (getMin) {
                         t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
                     }
@@ -1443,6 +1462,12 @@ public class SearchUI extends JFrame implements ActionListener {
                         t = j.get(ids.getItemName()).getAsInt();
                     } else if (!ids.isItemVariable()) {
                         t = j.get(ids.getItemName()).getAsInt();
+                    } else if (isReversedID(ids)) {
+                        if (getMin) {
+                            t = ItemUITemplate.getReversedMinInt(j.get(ids.getItemName()).getAsInt());
+                        } else {
+                            t = ItemUITemplate.getReversedMaxInt(j.get(ids.getItemName()).getAsInt());
+                        }
                     } else if (getMin) {
                         t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
                     }
@@ -1468,6 +1493,12 @@ public class SearchUI extends JFrame implements ActionListener {
                         t = j.get(ids.getItemName()).getAsInt();
                     } else if (!ids.isItemVariable()) {
                         t = j.get(ids.getItemName()).getAsInt();
+                    } else if (isReversedID(ids)) {
+                        if (getMin) {
+                            t = ItemUITemplate.getReversedMinInt(j.get(ids.getItemName()).getAsInt());
+                        } else {
+                            t = ItemUITemplate.getReversedMaxInt(j.get(ids.getItemName()).getAsInt());
+                        }
                     } else if (getMin) {
                         t = ItemUITemplate.getMinInt(j.get(ids.getItemName()).getAsInt());
                     }

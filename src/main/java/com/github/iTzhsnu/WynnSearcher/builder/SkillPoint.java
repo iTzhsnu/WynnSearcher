@@ -62,7 +62,7 @@ public class SkillPoint {
         AGILITY
     }
 
-    private static class SkillPointPanel {
+    public static class SkillPointPanel {
         private final JTextField textField = new JTextField("0");
         private final JLabel name = new JLabel();
         private final JLabel boost = new JLabel();
@@ -177,7 +177,7 @@ public class SkillPoint {
                 case "Dexterity":
                     if (sp > 0 && sp < 150) {
                         value = STR_AND_DEX[sp];
-                    } else if (sp > 150) {
+                    } else if (sp >= 150) {
                         value = STR_AND_DEX[150];
                     }
                     break;
@@ -193,14 +193,14 @@ public class SkillPoint {
                 case "Defense":
                     if (sp > 0 && sp < 150) {
                         value = DEFENSE[sp];
-                    } else if (sp > 150) {
+                    } else if (sp >= 150) {
                         value = DEFENSE[150];
                     }
                     break;
                 case "Agility":
                     if (sp > 0 && sp < 150) {
                         value = AGILITY[sp];
-                    } else if (sp > 150) {
+                    } else if (sp >= 150) {
                         value = AGILITY[150];
                     }
                     break;

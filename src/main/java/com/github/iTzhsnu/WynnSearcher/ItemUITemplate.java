@@ -609,35 +609,35 @@ public class ItemUITemplate extends JPanel {
 
             if (json.get("spellCostRaw1") != null && json.get("spellCostRaw1").getAsInt() != 0) {
                 int base = json.get("spellCostRaw1").getAsInt();
-                label.add(new JLabel(getMax(base) + " 1st Spell Cost Raw " + getMin(base)));
+                label.add(new JLabel(getReversedMax(base) + " 1st Spell Cost Raw " + getReversedMin(base)));
             }
             if (json.get("spellCostRaw2") != null && json.get("spellCostRaw2").getAsInt() != 0) {
                 int base = json.get("spellCostRaw2").getAsInt();
-                label.add(new JLabel(getMax(base) + " 2nd Spell Cost Raw " + getMin(base)));
+                label.add(new JLabel(getReversedMax(base) + " 2nd Spell Cost Raw " + getReversedMin(base)));
             }
             if (json.get("spellCostRaw3") != null && json.get("spellCostRaw3").getAsInt() != 0) {
                 int base = json.get("spellCostRaw3").getAsInt();
-                label.add(new JLabel(getMax(base) + " 3rd Spell Cost Raw " + getMin(base)));
+                label.add(new JLabel(getReversedMax(base) + " 3rd Spell Cost Raw " + getReversedMin(base)));
             }
             if (json.get("spellCostRaw4") != null && json.get("spellCostRaw4").getAsInt() != 0) {
                 int base = json.get("spellCostRaw4").getAsInt();
-                label.add(new JLabel(getMax(base) + " 4th Spell Cost Raw " + getMin(base)));
+                label.add(new JLabel(getReversedMax(base) + " 4th Spell Cost Raw " + getReversedMin(base)));
             }
             if (json.get("spellCostPct1") != null && json.get("spellCostPct1").getAsInt() != 0) {
                 int base = json.get("spellCostPct1").getAsInt();
-                label.add(new JLabel(getMax(base) + "% 1st Spell Cost " + getMin(base) + "%"));
+                label.add(new JLabel(getReversedMax(base) + "% 1st Spell Cost " + getReversedMin(base) + "%"));
             }
             if (json.get("spellCostPct2") != null && json.get("spellCostPct2").getAsInt() != 0) {
                 int base = json.get("spellCostPct2").getAsInt();
-                label.add(new JLabel(getMax(base) + "% 2nd Spell Cost " + getMin(base) + "%"));
+                label.add(new JLabel(getReversedMax(base) + "% 2nd Spell Cost " + getReversedMin(base) + "%"));
             }
             if (json.get("spellCostPct3") != null && json.get("spellCostPct3").getAsInt() != 0) {
                 int base = json.get("spellCostPct3").getAsInt();
-                label.add(new JLabel(getMax(base) + "% 3rd Spell Cost " + getMin(base) + "%"));
+                label.add(new JLabel(getReversedMax(base) + "% 3rd Spell Cost " + getReversedMin(base) + "%"));
             }
             if (json.get("spellCostPct4") != null && json.get("spellCostPct4").getAsInt() != 0) {
                 int base = json.get("spellCostPct4").getAsInt();
-                label.add(new JLabel(getMax(base) + "% 4th Spell Cost " + getMin(base) + "%"));
+                label.add(new JLabel(getReversedMax(base) + "% 4th Spell Cost " + getReversedMin(base) + "%"));
             }
 
             if (json.get("mainAttackNeutralDamageBonus") != null && json.get("mainAttackNeutralDamageBonus").getAsInt() != 0) {
@@ -1120,17 +1120,33 @@ public class ItemUITemplate extends JPanel {
 
    public String getMin(int base) {
        if (base < 0) {
-           return String.valueOf((int) Math.min(Math.round(base * 1.3d), -1));
+           return String.valueOf(getMinInt(base));
        } else {
-           return "+" + (int) Math.max(Math.round(base * 0.3d), 1);
+           return "+" + getMinInt(base);
        }
    }
 
    public String getMax(int base) {
        if (base < 0) {
-           return String.valueOf((int) Math.min(Math.round(base * 0.7d), -1));
+           return String.valueOf(getMaxInt(base));
        } else {
-           return "+" + (int) Math.max(Math.round(base * 1.3d), 1);
+           return "+" + getMaxInt(base);
+       }
+   }
+
+   public String getReversedMin(int base) {
+       if (base < 0) {
+           return String.valueOf(getReversedMinInt(base));
+       } else {
+           return "+" + getReversedMinInt(base);
+       }
+   }
+
+   public String getReversedMax(int base) {
+       if (base < 0) {
+           return String.valueOf(getReversedMaxInt(base));
+       } else {
+           return "+" + getReversedMaxInt(base);
        }
    }
 
@@ -1145,6 +1161,22 @@ public class ItemUITemplate extends JPanel {
    public static int getMaxInt(int base) {
         if (base < 0) {
             return (int) Math.min(Math.round(base * 0.7d), -1);
+        } else {
+            return (int) Math.max(Math.round(base * 1.3d), 1);
+        }
+    }
+
+    public static int getReversedMinInt(int base) {
+        if (base < 0) {
+            return (int) Math.min(Math.round(base * 1.3d), -1);
+        } else {
+            return (int) Math.max(Math.round(base * 0.7d), 1);
+        }
+    }
+
+    public static int getReversedMaxInt(int base) {
+        if (base < 0) {
+            return (int) Math.min(Math.round(base * 0.3d), -1);
         } else {
             return (int) Math.max(Math.round(base * 1.3d), 1);
         }

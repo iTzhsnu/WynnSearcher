@@ -5,6 +5,8 @@ public enum SpellEnum {
     DOUBLE_BASH(-50, 0, 0, 0, 0, 0, SpellType.ADD, 1),
     QUADRUPLE_BASH(-20, 0, 0, 0, 0, 0, SpellType.ADD, 1),
 
+    CHARGE(0, 0, 0, 0, 0, 0, SpellType.BASE, 1),
+
     ARROW_BOMB(160, 0, 0, 0, 20, 0, SpellType.BASE, 1),
     HEART_SHATTER(100, 0, 0, 0, 0, 0, SpellType.ADD, 0),
 

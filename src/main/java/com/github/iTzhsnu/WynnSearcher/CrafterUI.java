@@ -531,6 +531,7 @@ public class CrafterUI implements ActionListener {
         if (json.get("duration") != null && json.get("duration").getAsInt() != 0) {
             label.add(new JLabel("Duration: " + minJ.get("duration").getAsInt() + "-" + json.get("duration").getAsInt()));
         }
+        label.add(new JLabel("Rarity: Crafted"));
 
         for (JLabel jLabel : label) {
             p.add(jLabel);
@@ -762,7 +763,7 @@ public class CrafterUI implements ActionListener {
 
             if (itemJ.get("type").getAsString().equals("Scroll") || itemJ.get("type").getAsString().equals("Potion") || itemJ.get("type").getAsString().equals("Food")) {
                 if (ingEmpty) {
-                    sb.append("\"charges\":3,\"duration\":3}");
+                    sb.append("\"charges\":3,\"duration\":3, \"tier\":\"Crafted\"}");
                 } else {
                     int lvM = Integer.parseInt(itemJ.get("level").getAsString().split("-")[0]);
                     if (lvM < 30) {
@@ -774,13 +775,13 @@ public class CrafterUI implements ActionListener {
                     }
                     int d = durabilityOrDuration + Math.round(recipeJ.get("duration").getAsJsonObject().get(getMinOrMax).getAsInt() * matTB);
                     if (d < 0) d = 1;
-                    String duration = "\"charges\":" + charges + ",\"duration\":" + d + "}";
+                    String duration = "\"charges\":" + charges + ",\"duration\":" + d + ", \"tier\":\"Crafted\"}";
                     sb.append(duration);
                 }
             } else {
                 int d = durabilityOrDuration + Math.round(recipeJ.get("durability").getAsJsonObject().get(getMinOrMax).getAsInt() * matTB);
                 if (d < 0) d = 1;
-                String durability = "\"durability\":" + d + "}";
+                String durability = "\"durability\":" + d + ", \"tier\":\"Crafted\"}";
                 sb.append(durability);
             }
 

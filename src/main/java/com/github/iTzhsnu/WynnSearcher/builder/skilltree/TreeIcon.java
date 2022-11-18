@@ -6,10 +6,12 @@ import java.util.Objects;
 
 public class TreeIcon extends JLabel {
 
-    public TreeIcon(int x, int y, JPanel p) {
+    public TreeIcon(int x, int y, JLayeredPane p) {
         super();
         setBounds(x, y, 36, 36);
+        setOpaque(false);
         p.add(this);
+        p.setLayer(this, 0);
     }
 
     public void all() {

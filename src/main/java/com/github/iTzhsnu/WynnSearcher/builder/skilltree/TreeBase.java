@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeBase implements ActionListener {
-    private final JPanel pane = new JPanel();
+    private final JLayeredPane pane = new JLayeredPane();
     private final JScrollPane scrollPane;
     private final JLabel text = new JLabel();
     private final String archetype1;
@@ -35,7 +35,7 @@ public class TreeBase implements ActionListener {
         p.add(text);
     }
 
-    public JPanel getPane() {
+    public JLayeredPane getPane() {
         return this.pane;
     }
 
@@ -43,6 +43,7 @@ public class TreeBase implements ActionListener {
         for (TreeCheckBox b : tcb) {
             b.addActionListener(this);
             pane.add(b);
+            pane.setLayer(b, 1);
         }
     }
 
@@ -83,7 +84,8 @@ public class TreeBase implements ActionListener {
             }
         }
         if (archetype_1 != 0 || archetype_2 != 0 || archetype_3 != 0) {
-            for (TreeCheckBox t : getTcb()) {
+            for (int i = getTcb().size() - 1; i >= 0; --i) {
+                TreeCheckBox t = getTcb().get(i);
                 if(t.isSelected() && t.canUse() && t.getArchetype() != null) {
                     boolean cantUse = true;
                     switch (t.getArchetype().getNum()) {
@@ -96,6 +98,10 @@ public class TreeBase implements ActionListener {
                         case 3:
                             if (archetype_3 > t.getMinArchetype()) cantUse = false;
                             break;
+                    }
+                    if (total_Cost > 45) {
+                        total_Cost -= t.getCost();
+                        cantUse = false;
                     }
                     if (cantUse) t.setSelected(false);
                 }

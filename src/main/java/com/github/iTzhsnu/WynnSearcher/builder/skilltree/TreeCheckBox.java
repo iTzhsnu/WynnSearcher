@@ -5,52 +5,59 @@ import java.awt.*;
 import java.util.Objects;
 
 public class TreeCheckBox extends JCheckBox {
+    private final String name;
+    private final String[] description;
     private final int cost;
     private final int minArchetype;
     private final ArchetypeEnum archetype;
     private final TreeCheckBox[] req;
-    private final TreeCheckBox[] cantUse;
-    private final TreeCheckBox[] above;
+    private TreeCheckBox[] cantUse;
+    private final TreeCheckBox[] previous;
     private final int x;
     private final int y;
     private final SkillEnum skill;
+    private TreeCheckBox[] hiddenReq;
 
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] req, TreeCheckBox[] cantUse, TreeCheckBox[] above, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] req, TreeCheckBox[] cantUse, TreeCheckBox[] previous, TreeCheckBox[] hiddenReq, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
         super();
 
+        this.name = name;
+        this.description = description;
         this.req = req;
         this.cantUse = cantUse;
-        this.above = above;
+        this.previous = previous;
         this.archetype = archetype;
         this.minArchetype = minArchetype;
         this.cost = cost;
         this.x = x;
         this.y = y;
         this.skill = skill;
+        this.hiddenReq = hiddenReq;
 
-        StringBuilder sb = new StringBuilder();
-        String nameS = "<html>" + name + "<br>";
-        sb.append(nameS);
-        for (String s : description) {
-            String ns = "<br>" + s;
-            sb.append(ns);
-        }
-        if (archetype != null) {
-            String arcS = "<br><br>" + archetype.getName() + " Archetype";
-            sb.append(arcS);
-            if (minArchetype > 0) {
-                String arcM = "<br>" + archetype.getName() + " Min: " + minArchetype;
-                sb.append(arcM);
-            }
-        }
-        String point = "<br><br>" + "Ability Point: " + cost;
-        sb.append(point);
+        setHorizontalAlignment(CENTER);
+        setOpaque(false);
 
-        setToolTipText(sb.toString());
+        setToolTip();
     }
 
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] above, int cost, SkillEnum skill, int x, int y) {
-        this(name, description, null, null, above, null, 0, cost, skill, x, y);
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, int cost, SkillEnum skill, int x, int y) {
+        this(name, description, null, null, previous, null, null, 0, cost, skill, x, y);
+    }
+
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, int cost, ArchetypeEnum archetype, int minArchetype, SkillEnum skill, int x, int y) {
+        this(name, description, null, null, previous, null, archetype, minArchetype, cost, skill, x, y);
+    }
+
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] cantUse, int cost, ArchetypeEnum archetype, int minArchetype, SkillEnum skill, int x, int y) {
+        this(name, description, null, cantUse, previous, null, archetype, minArchetype, cost, skill, x, y);
+    }
+
+    public TreeCheckBox(String name, String[] description, int cost, SkillEnum skill, int x, int y) {
+        this(name, description, null, null, null, null, null, 0, cost, skill, x, y);
+    }
+
+    public String getTreeName() {
+        return name;
     }
 
     public int getCost() {
@@ -69,10 +76,20 @@ public class TreeCheckBox extends JCheckBox {
         return skill;
     }
 
+    public void setCantUse(TreeCheckBox[] cantUse) {
+        this.cantUse = cantUse;
+        setToolTip();
+    }
+
+    public void setHiddenReq(TreeCheckBox[] hiddenReq) {
+        this.hiddenReq = hiddenReq;
+    }
+
     public boolean canUse() {
         boolean reqB = true;
         boolean cantUseB = true;
-        boolean aboveB = false;
+        boolean previousB = false;
+        boolean hiddenReqB = true;
 
         if (req != null) {
             for (TreeCheckBox b : req) {
@@ -84,21 +101,65 @@ public class TreeCheckBox extends JCheckBox {
                 if (b.isSelected()) cantUseB = false;
             }
         }
-        if (above != null) {
-            for (TreeCheckBox b : above) {
-                if (b.isSelected()) aboveB = true;
+        if (previous != null) {
+            for (TreeCheckBox b : previous) {
+                if (b.isSelected()) previousB = true;
             }
         } else {
-            aboveB = true;
+            previousB = true;
+        }
+        if (hiddenReq != null && !previousB) {
+            for (TreeCheckBox b : hiddenReq) {
+                if (!b.isSelected()) hiddenReqB = false;
+            }
         }
 
-        return reqB && cantUseB && aboveB;
+        if (!previousB && hiddenReq != null) {
+            return reqB && cantUseB && hiddenReqB;
+        }
+        return reqB && cantUseB && previousB;
+    }
+
+    private void setToolTip() {
+        StringBuilder sb = new StringBuilder();
+        String nameS = "<html>" + name + "<br>";
+        sb.append(nameS);
+        for (String s : description) {
+            String ns = "<br>" + s;
+            sb.append(ns);
+        }
+        if (req != null) {
+            sb.append("<br><br>Requirement:");
+            for (TreeCheckBox t : req) {
+                String reqN = "<br>" + t.getTreeName();
+                sb.append(reqN);
+            }
+        }
+        if (cantUse != null) {
+            sb.append("<br><br>Unlocking will block:");
+            for (TreeCheckBox t : cantUse) {
+                String cantUseN = "<br>" + t.getTreeName();
+                sb.append(cantUseN);
+            }
+        }
+        if (archetype != null) {
+            String arcS = "<br><br>" + archetype.getName() + " Archetype";
+            sb.append(arcS);
+            if (minArchetype > 0) {
+                String arcM = "<br>" + archetype.getName() + " Min: " + minArchetype;
+                sb.append(arcM);
+            }
+        }
+        String point = "<br><br>" + "Ability Point: " + cost;
+        sb.append(point);
+
+        setToolTipText(sb.toString());
     }
 
     public TreeCheckBox whiteIcon() {
         setIcon(getResizedIcon("/white_off.png", 40, 40));
         setSelectedIcon(getResizedIcon("/white_on.png", 40, 40));
-        setBounds(x, y, 44, 40);
+        setBounds(x, y, 40, 40);
         return this;
     }
 
@@ -112,7 +173,7 @@ public class TreeCheckBox extends JCheckBox {
     public TreeCheckBox purpleIcon() {
         setIcon(getResizedIcon("/purple_off.png", 48, 48));
         setSelectedIcon(getResizedIcon("/purple_on.png", 48, 48));
-        setBounds(x, y, 52, 48);
+        setBounds(x, y, 48, 48);
         return this;
     }
 
@@ -126,35 +187,35 @@ public class TreeCheckBox extends JCheckBox {
     public TreeCheckBox warriorIcon() {
         setIcon(getResizedIcon("/warrior_off.png", 48, 48));
         setSelectedIcon(getResizedIcon("/warrior_on.png", 48, 48));
-        setBounds(x, y, 52, 48);
+        setBounds(x, y, 48, 48);
         return this;
     }
 
     public TreeCheckBox archerIcon() {
         setIcon(getResizedIcon("/archer_off.png", 48, 48));
         setSelectedIcon(getResizedIcon("/archer_on.png", 48, 48));
-        setBounds(x, y, 52, 48);
+        setBounds(x, y, 48, 48);
         return this;
     }
 
     public TreeCheckBox assassinIcon() {
         setIcon(getResizedIcon("/assassin_off.png", 48, 48));
         setSelectedIcon(getResizedIcon("/assassin_on.png", 48, 48));
-        setBounds(x, y, 52, 48);
+        setBounds(x, y, 48, 48);
         return this;
     }
 
     public TreeCheckBox mageIcon() {
         setIcon(getResizedIcon("/mage_off.png", 48, 48));
         setSelectedIcon(getResizedIcon("/mage_on.png", 48, 48));
-        setBounds(x, y, 52, 48);
+        setBounds(x, y, 48, 48);
         return this;
     }
 
     public TreeCheckBox shamanIcon() {
         setIcon(getResizedIcon("/shaman_off.png", 48, 48));
         setSelectedIcon(getResizedIcon("/shaman_on.png", 48, 48));
-        setBounds(x, y, 52, 48);
+        setBounds(x, y, 48, 48);
         return this;
     }
 
