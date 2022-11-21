@@ -52,8 +52,16 @@ public class TreeCheckBox extends JCheckBox {
         this(name, description, null, cantUse, previous, null, archetype, minArchetype, cost, skill, x, y);
     }
 
-    public TreeCheckBox(String name, String[] description, int cost, SkillEnum skill, int x, int y) {
-        this(name, description, null, null, null, null, null, 0, cost, skill, x, y);
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] hiddenReq, int cost, SkillEnum skill, int x, int y) {
+        this(name, description, null, null, previous, hiddenReq, null, 0, cost, skill, x, y);
+    }
+
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] req, TreeCheckBox[] hiddenReq, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
+        this(name, description, req, null, previous, hiddenReq, archetype, minArchetype, cost, skill, x, y);
+    }
+
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] req, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
+        this(name, description, req, null, previous, null, archetype, minArchetype, cost, skill, x, y);
     }
 
     public String getTreeName() {

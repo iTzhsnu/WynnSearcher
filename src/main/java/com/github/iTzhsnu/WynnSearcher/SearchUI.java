@@ -1482,7 +1482,7 @@ public class SearchUI extends JFrame implements ActionListener {
                     sum_total_sub = -100;
                 }
             }
-            sum_total = sum_total * (100F + sum_total_sub) / 100F;
+            sum_total = sum_total * (1F + sum_total_sub / 100F);
         }
         if (sum.getAddIDs() != null) {
             for (int n = 0; sum.getAddIDs().size() > n; ++n) {

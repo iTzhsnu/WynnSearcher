@@ -99,11 +99,81 @@ public class TreeBase implements ActionListener {
                             if (archetype_3 > t.getMinArchetype()) cantUse = false;
                             break;
                     }
+                    if (cantUse) {
+                        total_Cost -= t.getCost();
+                        switch (t.getArchetype().getNum()) {
+                            case 1:
+                                --archetype_1;
+                                break;
+                            case 2:
+                                --archetype_2;
+                                break;
+                            case 3:
+                                --archetype_3;
+                                break;
+                        }
+                        t.setSelected(false);
+                    }
+                }
+            }
+        }
+        if (total_Cost > 45) {
+            for (int i = getTcb().size() - 1; i >= 0; --i) {
+                TreeCheckBox t = getTcb().get(i);
+                if (t.isSelected()) {
                     if (total_Cost > 45) {
                         total_Cost -= t.getCost();
-                        cantUse = false;
+                        if (t.getArchetype() != null) {
+                            switch (t.getArchetype().getNum()) {
+                                case 1:
+                                    --archetype_1;
+                                    break;
+                                case 2:
+                                    --archetype_2;
+                                    break;
+                                case 3:
+                                    --archetype_3;
+                                    break;
+                            }
+                        }
+                        t.setSelected(false);
+                    } else {
+                        boolean cantUse = true;
+                        if (t.canUse()) {
+                            if (t.getArchetype() != null) {
+                                switch (t.getArchetype().getNum()) {
+                                    case 1:
+                                        if (archetype_1 > t.getMinArchetype()) cantUse = false;
+                                        break;
+                                    case 2:
+                                        if (archetype_2 > t.getMinArchetype()) cantUse = false;
+                                        break;
+                                    case 3:
+                                        if (archetype_3 > t.getMinArchetype()) cantUse = false;
+                                        break;
+                                }
+                            } else {
+                                cantUse = false;
+                            }
+                        }
+                        if (cantUse) {
+                            total_Cost -= t.getCost();
+                            if (t.getArchetype() != null) {
+                                switch (t.getArchetype().getNum()) {
+                                    case 1:
+                                        --archetype_1;
+                                        break;
+                                    case 2:
+                                        --archetype_2;
+                                        break;
+                                    case 3:
+                                        --archetype_3;
+                                        break;
+                                }
+                            }
+                            t.setSelected(false);
+                        }
                     }
-                    if (cantUse) t.setSelected(false);
                 }
             }
         }
