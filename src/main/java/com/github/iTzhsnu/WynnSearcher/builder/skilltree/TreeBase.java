@@ -21,7 +21,7 @@ public class TreeBase implements ActionListener {
         this.archetype2 = archetype2.getName();
         this.archetype3 = archetype3.getName();
 
-        pane.setPreferredSize(new Dimension(400, 1000));
+        pane.setPreferredSize(new Dimension(400, 1500));
         pane.setLayout(null);
 
         scrollPane = new JScrollPane(pane);
@@ -39,8 +39,8 @@ public class TreeBase implements ActionListener {
         return this.pane;
     }
 
-    public void setTreeUI(List<TreeCheckBox> tcb) {
-        for (TreeCheckBox b : tcb) {
+    public void setTreeUI() {
+        for (TreeCheckBox b : getTcb()) {
             b.addActionListener(this);
             pane.add(b);
             pane.setLayer(b, 1);

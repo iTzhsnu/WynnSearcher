@@ -3,6 +3,7 @@ package com.github.iTzhsnu.WynnSearcher.builder.skilltree;
 public enum SkillEnum {
     //ANY
     PROFICIENCY_1,
+    PROFICIENCY_2,
     REDUCE_10_1ST_SP_COST,
     REDUCE_10_3RD_SP_COST,
     REDUCE_5_1ST_SP_COST,
@@ -14,7 +15,7 @@ public enum SkillEnum {
     WATER_DAMAGE,
     FIRE_DAMAGE,
     AIR_DAMAGE,
-
+    PRECISE_STRIKES,
 
     //WARRIOR
     BASH,
@@ -35,6 +36,22 @@ public enum SkillEnum {
     GENERALIST,
     MANTLE_OF_THE_BOVEMISTS,
     BAKALS_GRASP,
+    AERODYNAMICS,
+    PROVOKE,
+    AIR_SHOUT,
+    ENRAGED_BLOW,
+    FLYING_KICK,
+    STRONGER_MANTLE,
+    MANACHISM,
+    BOILING_BLOOD,
+    RAGNAROKKR,
+    AMBIDEXTROUS,
+    BURNING_HEART,
+    STRONGER_BASH,
+    INTOXICATING_BLOOD,
+    COLLIDE,
+    REJUVENATING_SKIN,
+    COMET,
 
 
     //ASSASSIN

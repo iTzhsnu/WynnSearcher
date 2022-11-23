@@ -16,9 +16,9 @@ public class TreeCheckBox extends JCheckBox {
     private final int x;
     private final int y;
     private final SkillEnum skill;
-    private TreeCheckBox[] hiddenReq;
+    private SpPrevious[] spPrevious;
 
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] req, TreeCheckBox[] cantUse, TreeCheckBox[] previous, TreeCheckBox[] hiddenReq, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] req, TreeCheckBox[] cantUse, TreeCheckBox[] previous, SpPrevious[] spPrevious, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
         super();
 
         this.name = name;
@@ -32,7 +32,7 @@ public class TreeCheckBox extends JCheckBox {
         this.x = x;
         this.y = y;
         this.skill = skill;
-        this.hiddenReq = hiddenReq;
+        this.spPrevious = spPrevious;
 
         setHorizontalAlignment(CENTER);
         setOpaque(false);
@@ -52,16 +52,20 @@ public class TreeCheckBox extends JCheckBox {
         this(name, description, null, cantUse, previous, null, archetype, minArchetype, cost, skill, x, y);
     }
 
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] hiddenReq, int cost, SkillEnum skill, int x, int y) {
-        this(name, description, null, null, previous, hiddenReq, null, 0, cost, skill, x, y);
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, SpPrevious[] spPrevious, int cost, SkillEnum skill, int x, int y) {
+        this(name, description, null, null, previous, spPrevious, null, 0, cost, skill, x, y);
     }
 
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] req, TreeCheckBox[] hiddenReq, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
-        this(name, description, req, null, previous, hiddenReq, archetype, minArchetype, cost, skill, x, y);
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] req, SpPrevious[] spPrevious, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
+        this(name, description, req, null, previous, spPrevious, archetype, minArchetype, cost, skill, x, y);
     }
 
     public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] req, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
         this(name, description, req, null, previous, null, archetype, minArchetype, cost, skill, x, y);
+    }
+
+    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] req, int cost, SkillEnum skill, int x, int y) {
+        this(name, description, req, null, previous, null, null, 0, cost, skill, x, y);
     }
 
     public String getTreeName() {
@@ -89,15 +93,15 @@ public class TreeCheckBox extends JCheckBox {
         setToolTip();
     }
 
-    public void setHiddenReq(TreeCheckBox[] hiddenReq) {
-        this.hiddenReq = hiddenReq;
+    public void setSpPrevious(SpPrevious[] spPrevious) {
+        this.spPrevious = spPrevious;
     }
 
     public boolean canUse() {
         boolean reqB = true;
         boolean cantUseB = true;
         boolean previousB = false;
-        boolean hiddenReqB = true;
+        boolean specialPreviousB = false;
 
         if (req != null) {
             for (TreeCheckBox b : req) {
@@ -113,17 +117,24 @@ public class TreeCheckBox extends JCheckBox {
             for (TreeCheckBox b : previous) {
                 if (b.isSelected()) previousB = true;
             }
-        } else {
+        } else if (spPrevious == null) {
             previousB = true;
         }
-        if (hiddenReq != null && !previousB) {
-            for (TreeCheckBox b : hiddenReq) {
-                if (!b.isSelected()) hiddenReqB = false;
+        if (spPrevious != null && !previousB) {
+            for (SpPrevious s : spPrevious) {
+                boolean spPreviousB = true;
+                for (TreeCheckBox b : s.getT()) {
+                    if (!b.isSelected()) spPreviousB = false;
+                }
+                if (spPreviousB) {
+                    specialPreviousB = true;
+                    break;
+                }
             }
         }
 
-        if (!previousB && hiddenReq != null) {
-            return reqB && cantUseB && hiddenReqB;
+        if (!previousB && spPrevious != null) {
+            return reqB && cantUseB && specialPreviousB;
         }
         return reqB && cantUseB && previousB;
     }
