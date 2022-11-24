@@ -480,10 +480,10 @@ public class SearchUI extends JFrame implements ActionListener {
             if (necklace.isSelected()) searchedItems.addAll(necklaceJson);
         }
 
-        searchItemFromIDs(idBoxes_1);
-        searchItemFromIDs(idBoxes_2);
-        searchItemFromIDs(idBoxes_3);
-        searchItemFromIDs(idBoxes_4);
+        searchItemFromIDs(idBoxes_1, idMin_1, idMax_1);
+        searchItemFromIDs(idBoxes_2, idMin_2, idMax_2);
+        searchItemFromIDs(idBoxes_3, idMin_3, idMax_3);
+        searchItemFromIDs(idBoxes_4, idMin_4, idMax_4);
 
         Identifications id_0 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 0), Identifications.EMPTY);
         Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 1), Identifications.EMPTY);
@@ -645,10 +645,10 @@ public class SearchUI extends JFrame implements ActionListener {
             }
         }
 
-        searchIngFromIDs(idBoxes_1);
-        searchIngFromIDs(idBoxes_2);
-        searchIngFromIDs(idBoxes_3);
-        searchIngFromIDs(idBoxes_4);
+        searchIngFromIDs(idBoxes_1, idMin_1, idMax_1);
+        searchIngFromIDs(idBoxes_2, idMin_2, idMax_2);
+        searchIngFromIDs(idBoxes_3, idMin_3, idMax_3);
+        searchIngFromIDs(idBoxes_4, idMin_4, idMax_4);
 
         searchIngFromTier();
 
@@ -745,7 +745,7 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    public void searchItemFromIDs(List<JComboBox<String>> box) {
+    public void searchItemFromIDs(List<JComboBox<String>> box, JTextField min, JTextField max) {
         Identifications id_0 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
         Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
         Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
@@ -754,6 +754,15 @@ public class SearchUI extends JFrame implements ActionListener {
         if (!getComboBoxText(box, 0).isEmpty() || !getComboBoxText(box, 1).isEmpty() || !getComboBoxText(box, 2).isEmpty() || !getComboBoxText(box, 3).isEmpty()) {
             if (id_0.getItemName() != null || id_1.getItemName() != null || id_2.getItemName() != null || id_3.getItemName() != null) {
                 for (int i = searchedItems.size() - 1; i >= 0; --i) {
+                    if (!min.getText().isEmpty() && !max.getText().isEmpty()) { //ID Range Filter 0 ~ 0
+                        int min_Int = Integer.MIN_VALUE;
+                        int max_Int = Integer.MAX_VALUE;
+                        if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
+                        if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
+                        if (min_Int == 0 && max_Int == 0 && notHaveItemID(id_0, searchedItems.get(i), 0, 0) && notHaveItemID(id_1, searchedItems.get(i), 0, 0) && notHaveItemID(id_2, searchedItems.get(i), 0, 0) && notHaveItemID(id_3, searchedItems.get(i), 0, 0)) {
+                            continue;
+                        }
+                    }
                     boolean remove = true;
                     for (int num = 0; 4 > num; ++num) {
                         if (!getComboBoxText(box, num).isEmpty()) {
@@ -873,7 +882,7 @@ public class SearchUI extends JFrame implements ActionListener {
         return true;
     }
 
-    public void searchIngFromIDs(List<JComboBox<String>> box) {
+    public void searchIngFromIDs(List<JComboBox<String>> box, JTextField min, JTextField max) {
         Identifications id_0 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
         Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
         Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
@@ -882,6 +891,15 @@ public class SearchUI extends JFrame implements ActionListener {
         if (!getComboBoxText(box, 0).isEmpty() || !getComboBoxText(box, 1).isEmpty() || !getComboBoxText(box, 2).isEmpty() || !getComboBoxText(box, 3).isEmpty()) {
             if (id_0.getIngName() != null || id_1.getIngName() != null || id_2.getIngName() != null || id_3.getIngName() != null) {
                 for (int i = searchedItems.size() - 1; i >= 0; --i) {
+                    if (!min.getText().isEmpty() && !max.getText().isEmpty()) { //ID Range Filter 0 ~ 0
+                        int min_Int = Integer.MIN_VALUE;
+                        int max_Int = Integer.MAX_VALUE;
+                        if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
+                        if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
+                        if (min_Int == 0 && max_Int == 0 && notHaveIngID(id_0, searchedItems.get(i), 0, 0) && notHaveIngID(id_1, searchedItems.get(i), 0, 0) && notHaveIngID(id_2, searchedItems.get(i), 0, 0) && notHaveIngID(id_3, searchedItems.get(i), 0, 0)) {
+                            continue;
+                        }
+                    }
                     boolean remove = true;
                     for (int num = 0; 4 > num; ++num) {
                         if (!getComboBoxText(box, num).isEmpty()) {
