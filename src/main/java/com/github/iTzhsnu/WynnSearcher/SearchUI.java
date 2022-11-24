@@ -754,13 +754,15 @@ public class SearchUI extends JFrame implements ActionListener {
         if (!getComboBoxText(box, 0).isEmpty() || !getComboBoxText(box, 1).isEmpty() || !getComboBoxText(box, 2).isEmpty() || !getComboBoxText(box, 3).isEmpty()) {
             if (id_0.getItemName() != null || id_1.getItemName() != null || id_2.getItemName() != null || id_3.getItemName() != null) {
                 for (int i = searchedItems.size() - 1; i >= 0; --i) {
-                    if (!min.getText().isEmpty() && !max.getText().isEmpty()) { //ID Range Filter 0 ~ 0
+                    if (!min.getText().isEmpty() || !max.getText().isEmpty()) { //ID Range Filter 0 ~ 0
                         int min_Int = Integer.MIN_VALUE;
                         int max_Int = Integer.MAX_VALUE;
                         if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
                         if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
-                        if (min_Int == 0 && max_Int == 0 && notHaveItemID(id_0, searchedItems.get(i), 0, 0) && notHaveItemID(id_1, searchedItems.get(i), 0, 0) && notHaveItemID(id_2, searchedItems.get(i), 0, 0) && notHaveItemID(id_3, searchedItems.get(i), 0, 0)) {
-                            continue;
+                        if (min_Int == 0 || max_Int == 0) {
+                            if (notHaveItemID(id_0, searchedItems.get(i), 0, 0) && notHaveItemID(id_1, searchedItems.get(i), 0, 0) && notHaveItemID(id_2, searchedItems.get(i), 0, 0) && notHaveItemID(id_3, searchedItems.get(i), 0, 0)) {
+                                continue;
+                            }
                         }
                     }
                     boolean remove = true;
@@ -891,13 +893,13 @@ public class SearchUI extends JFrame implements ActionListener {
         if (!getComboBoxText(box, 0).isEmpty() || !getComboBoxText(box, 1).isEmpty() || !getComboBoxText(box, 2).isEmpty() || !getComboBoxText(box, 3).isEmpty()) {
             if (id_0.getIngName() != null || id_1.getIngName() != null || id_2.getIngName() != null || id_3.getIngName() != null) {
                 for (int i = searchedItems.size() - 1; i >= 0; --i) {
-                    if (!min.getText().isEmpty() && !max.getText().isEmpty()) { //ID Range Filter 0 ~ 0
+                    if (!min.getText().isEmpty() || !max.getText().isEmpty()) { //ID Range Filter 0 ~ 0
                         int min_Int = Integer.MIN_VALUE;
                         int max_Int = Integer.MAX_VALUE;
                         if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
                         if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
-                        if (min_Int == 0 && max_Int == 0 && notHaveIngID(id_0, searchedItems.get(i), 0, 0) && notHaveIngID(id_1, searchedItems.get(i), 0, 0) && notHaveIngID(id_2, searchedItems.get(i), 0, 0) && notHaveIngID(id_3, searchedItems.get(i), 0, 0)) {
-                            continue;
+                        if (min_Int == 0 || max_Int == 0) {
+                            if (notHaveIngID(id_0, searchedItems.get(i), 0, 0) && notHaveIngID(id_1, searchedItems.get(i), 0, 0) && notHaveIngID(id_2, searchedItems.get(i), 0, 0) && notHaveIngID(id_3, searchedItems.get(i), 0, 0)) continue;
                         }
                     }
                     boolean remove = true;
