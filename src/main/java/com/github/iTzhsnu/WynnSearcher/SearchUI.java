@@ -130,7 +130,7 @@ public class SearchUI extends JFrame implements ActionListener {
         setItemJson();
         setIngredientJson();
 
-        setTitle("Wynncraft Searcher (3.0.0 Unstable)");
+        setTitle("Wynncraft Searcher (3.0.1)");
         setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/wynn_searcher_icon.png"))).getImage());
         setBounds(100, 100, 1100, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -190,7 +190,7 @@ public class SearchUI extends JFrame implements ActionListener {
         type.setBounds(80, 5, 130, 20);
         type.addItem("Searcher (Stable)");
         type.addItem("Crafter (Beta)");
-        type.addItem("Builder (Coming Soon)");
+        type.addItem("Builder (Beta)");
         type.addItem("Custom");
         type.addActionListener(this);
 
@@ -1605,7 +1605,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void setBuilderVisible(boolean visible) {
-        //builderUI.setBuilderVisible(visible);
+        builderUI.setBuilderVisible(visible);
         if (visible) {
             setSearcherVisible(false);
             setCrafterVisible(false);

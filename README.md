@@ -8,13 +8,14 @@ Gson (Include)
 ## How to Use
 ### Searcher
 ![](readme_pictures/how_to_use.png)
-### Builder
-Coming Soon
 
-### Crafter (Coming Soon)
+### Builder (Coming Soon)
+Creating...
+
+### Crafter (Beta)
 ![](readme_pictures/how_to_use_3.png)
 
-### Custom (Coming Soon)
+### Custom (Beta)
 ![](readme_pictures/how_to_use_4.png)
 
 ## Sum Calc Info
