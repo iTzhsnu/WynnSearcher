@@ -190,7 +190,7 @@ public class SearchUI extends JFrame implements ActionListener {
         type.setBounds(80, 5, 130, 20);
         type.addItem("Searcher (Stable)");
         type.addItem("Crafter (Beta)");
-        type.addItem("Builder (Beta)");
+        type.addItem("Builder (Coming Soon)");
         type.addItem("Custom");
         type.addActionListener(this);
 
@@ -1605,7 +1605,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void setBuilderVisible(boolean visible) {
-        builderUI.setBuilderVisible(visible);
+        //builderUI.setBuilderVisible(visible);
         if (visible) {
             setSearcherVisible(false);
             setCrafterVisible(false);

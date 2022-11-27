@@ -178,7 +178,10 @@ public class Warrior extends TreeBase {
         getTcb().add(new TreeCheckBox("Shield Strike", new String[]{"Deals damage around you for each mantle lost", "when Mantle of the Bovemists loses all charges.", " ", "Total Damage: 100% (of your DPS, per Mantle lost)", "(Damage 70%)", "(Thunder 30%)", "Area of Effect: 5 Blocks (Circle-Shaped)"}, new TreeCheckBox[]{getTcb().get(48)}, new TreeCheckBox[]{getTcb().get(24)}, TreeCheckBox.ArchetypeEnum.PALADIN, 0, 2, SkillEnum.SHIELD_STRIKE, 234, 978).yellowIcon()); //50
         getTcb().add(new TreeCheckBox("Sparkling Hope", new String[]{"Deal damage to all nearby enemies every", "time you heal 5% of your max health.", " ", "Total Damage: 60% (of your DPS)", "(Damage 40%)", "(Thunder 20%)", "Area of Effect: 6 Blocks (Circle-Shaped)"}, new TreeCheckBox[]{getTcb().get(48)}, 2, TreeCheckBox.ArchetypeEnum.PALADIN, 0, SkillEnum.SPARKLING_HOPE, 304, 976).purpleIcon()); //51
 
-
+        new TreeIcon(58, 1018, getPane()).right_left_down();
+        new TreeIcon(130, 1018, getPane()).right_left_down();
+        new TreeIcon(202, 1018, getPane()).left_down();
+        new TreeIcon(274, 1018, getPane()).up_down();
 
         setTreeUI();
     }
