@@ -59,6 +59,9 @@ public enum SkillEnum {
     ARMOUR_BREAKER,
     SHIELD_STRIKE,
     SPARKLING_HOPE,
+    MASSIVE_BASH,
+    TEMPEST,
+    SPIRIT_OF_THE_RABBIT,
 
 
     //ASSASSIN

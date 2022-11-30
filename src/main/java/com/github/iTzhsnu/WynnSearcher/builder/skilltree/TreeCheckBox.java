@@ -176,64 +176,64 @@ public class TreeCheckBox extends JCheckBox {
     }
 
     public TreeCheckBox whiteIcon() {
-        setIcon(getResizedIcon("/white_off.png", 40, 40));
-        setSelectedIcon(getResizedIcon("/white_on.png", 40, 40));
+        setIcon(getResizedIcon("/ability_buttons/white_off.png", 40, 40));
+        setSelectedIcon(getResizedIcon("/ability_buttons/white_on.png", 40, 40));
         setBounds(x, y, 40, 40);
         return this;
     }
 
     public TreeCheckBox yellowIcon() {
-        setIcon(getResizedIcon("/yellow_off.png", 44, 44));
-        setSelectedIcon(getResizedIcon("/yellow_on.png", 44, 44));
+        setIcon(getResizedIcon("/ability_buttons/yellow_off.png", 44, 44));
+        setSelectedIcon(getResizedIcon("/ability_buttons/yellow_on.png", 44, 44));
         setBounds(x, y, 44, 44);
         return this;
     }
 
     public TreeCheckBox purpleIcon() {
-        setIcon(getResizedIcon("/purple_off.png", 48, 48));
-        setSelectedIcon(getResizedIcon("/purple_on.png", 48, 48));
+        setIcon(getResizedIcon("/ability_buttons/purple_off.png", 48, 48));
+        setSelectedIcon(getResizedIcon("/ability_buttons/purple_on.png", 48, 48));
         setBounds(x, y, 48, 48);
         return this;
     }
 
     public TreeCheckBox redIcon() {
-        setIcon(getResizedIcon("/red_off.png", 56, 56));
-        setSelectedIcon(getResizedIcon("/red_on.png", 56, 56));
+        setIcon(getResizedIcon("/ability_buttons/red_off.png", 56, 56));
+        setSelectedIcon(getResizedIcon("/ability_buttons/red_on.png", 56, 56));
         setBounds(x, y, 56, 56);
         return this;
     }
 
     public TreeCheckBox warriorIcon() {
-        setIcon(getResizedIcon("/warrior_off.png", 48, 48));
-        setSelectedIcon(getResizedIcon("/warrior_on.png", 48, 48));
+        setIcon(getResizedIcon("/ability_buttons/warrior_off.png", 48, 48));
+        setSelectedIcon(getResizedIcon("/ability_buttons/warrior_on.png", 48, 48));
         setBounds(x, y, 48, 48);
         return this;
     }
 
     public TreeCheckBox archerIcon() {
-        setIcon(getResizedIcon("/archer_off.png", 48, 48));
-        setSelectedIcon(getResizedIcon("/archer_on.png", 48, 48));
+        setIcon(getResizedIcon("/ability_buttons/archer_off.png", 48, 48));
+        setSelectedIcon(getResizedIcon("/ability_buttons/archer_on.png", 48, 48));
         setBounds(x, y, 48, 48);
         return this;
     }
 
     public TreeCheckBox assassinIcon() {
-        setIcon(getResizedIcon("/assassin_off.png", 48, 48));
-        setSelectedIcon(getResizedIcon("/assassin_on.png", 48, 48));
+        setIcon(getResizedIcon("/ability_buttons/assassin_off.png", 48, 48));
+        setSelectedIcon(getResizedIcon("/ability_buttons/assassin_on.png", 48, 48));
         setBounds(x, y, 48, 48);
         return this;
     }
 
     public TreeCheckBox mageIcon() {
-        setIcon(getResizedIcon("/mage_off.png", 48, 48));
-        setSelectedIcon(getResizedIcon("/mage_on.png", 48, 48));
+        setIcon(getResizedIcon("/ability_buttons/mage_off.png", 48, 48));
+        setSelectedIcon(getResizedIcon("/ability_buttons/mage_on.png", 48, 48));
         setBounds(x, y, 48, 48);
         return this;
     }
 
     public TreeCheckBox shamanIcon() {
-        setIcon(getResizedIcon("/shaman_off.png", 48, 48));
-        setSelectedIcon(getResizedIcon("/shaman_on.png", 48, 48));
+        setIcon(getResizedIcon("/ability_buttons/shaman_off.png", 48, 48));
+        setSelectedIcon(getResizedIcon("/ability_buttons/shaman_on.png", 48, 48));
         setBounds(x, y, 48, 48);
         return this;
     }

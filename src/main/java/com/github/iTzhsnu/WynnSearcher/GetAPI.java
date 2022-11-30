@@ -53,7 +53,7 @@ public class GetAPI {
             label.setText("Using Archive");
             label.setForeground(new Color(255, 0, 0));
             try {
-                JsonObject j = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/items.json")).toURI()))).getAsJsonObject();
+                JsonObject j = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/archive_jsons/items.json")).toURI()))).getAsJsonObject();
                 for (JsonElement je : j.get("items").getAsJsonArray()) {
                     list.add(je.getAsJsonObject());
                 }
@@ -102,7 +102,7 @@ public class GetAPI {
             label.setForeground(new Color(255, 0, 0));
             try {
                 for (int i = 0; 3 >= i; ++i) {
-                    JsonObject j = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/ings_" + i + ".json")).toURI()))).getAsJsonObject();
+                    JsonObject j = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/archive_jsons/ings_" + i + ".json")).toURI()))).getAsJsonObject();
                     for (JsonElement je : j.get("data").getAsJsonArray()) {
                         list.add(je.getAsJsonObject());
                     }
@@ -151,7 +151,7 @@ public class GetAPI {
         } else {
             try {
                 for (String s : ss) {
-                    JsonObject j = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/recipes_" + s + ".json")).toURI()))).getAsJsonObject();
+                    JsonObject j = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/archive_jsons/recipes_" + s + ".json")).toURI()))).getAsJsonObject();
                     for (JsonElement je : j.get("data").getAsJsonArray()) {
                         list.add(je.getAsJsonObject());
                     }
