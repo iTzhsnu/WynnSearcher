@@ -1,5 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ public class CustomUI implements ActionListener {
     private final JCheckBox variable = new JCheckBox("ID Variable");
     private final List<JLabel> name = new ArrayList<>();
     private final JButton create = new JButton("Create");
+    private final JButton load = new JButton("Load");
     private final JTextField itemText = new JTextField();
     private final JPanel display = new JPanel();
     private final JScrollPane scroll;
@@ -254,6 +256,9 @@ public class CustomUI implements ActionListener {
         create.setBounds(520, 635, 80, 40);
         create.addActionListener(this);
 
+        load.setBounds(610, 635, 80, 40);
+        load.addActionListener(this);
+
         itemText.setBounds(520, 695, 200, 20);
 
         display.setBorder(new LineBorder(Color.BLACK));
@@ -265,6 +270,7 @@ public class CustomUI implements ActionListener {
         scroll.getVerticalScrollBar().setUnitIncrement(20);
 
         pane.add(create);
+        pane.add(load);
         pane.add(variable);
         pane.add(itemText);
         pane.add(scroll);
@@ -290,7 +296,11 @@ public class CustomUI implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        createCustomItem();
+        if (e.getSource() == create) {
+            createCustomItem();
+        } else if (e.getSource() == load) {
+            loadCustomItem();
+        }
     }
 
     public void uiTemplate(String labelName, int posX, int posY, boolean isVariable, int width) {
@@ -396,6 +406,74 @@ public class CustomUI implements ActionListener {
             display.setPreferredSize(new Dimension(270, 747));
         }
         itemText.setText("CI-" + itemData);
+        SwingUtilities.updateComponentTreeUI(display);
+    }
+
+    public void loadCustomItem() {
+        display.removeAll();
+        if (itemText.getText().contains("CI-")) {
+            JsonObject j = JsonParser.parseString(itemText.getText().replace("CI-", "")).getAsJsonObject();
+            ItemUITemplate itemUI = new ItemUITemplate(j, false, null, null, 270, 0, true);
+            display.add(itemUI);
+            if (itemUI.getBounds().y + itemUI.getBounds().height > 747) {
+                display.setPreferredSize(new Dimension(270, itemUI.getBounds().y + itemUI.getBounds().height));
+            } else {
+                display.setPreferredSize(new Dimension(270, 747));
+            }
+
+            if (j.get("name") != null) notVariable.get(0).setText(j.get("name").getAsString());
+            for (int i = 1; notVariable.size() > i; ++i) {
+                Identifications id = ID_FROM_NOT_VARIABLE_INT.get(i);
+                if (j.get(id.getItemName()) != null) {
+                    if (j.get(id.getItemName()).getAsInt() != 0) {
+                        notVariable.get(i).setText(String.valueOf(j.get(id.getItemName()).getAsInt()));
+                    } else {
+                        notVariable.get(i).setText("");
+                    }
+                }
+            }
+            for (int i = 0; min.size() > i; ++i) {
+                Identifications id = ID_FROM_VARIABLE_INT.get(i);
+                if (j.get(id.getItemName()) != null) {
+                    if (!j.get(id.getItemName()).getAsString().equals("0-0")) {
+                        if (j.get(id.getItemName()).getAsString().contains("-")) {
+                            String[] ss = j.get(id.getItemName()).getAsString().split("-");
+                            min.get(i).setText(ss[0]);
+                            max.get(i).setText(ss[ss.length - 1]);
+                        }
+                    } else {
+                        min.get(i).setText("");
+                        max.get(i).setText("");
+                    }
+                }
+            }
+            if (j.get("attackSpeed") != null) {
+                switch (j.get("attackSpeed").getAsString()) {
+                    case "SUPER_FAST":
+                        atkSpdBox.setSelectedIndex(0);
+                        break;
+                    case "VERY_FAST":
+                        atkSpdBox.setSelectedIndex(1);
+                        break;
+                    case "FAST":
+                        atkSpdBox.setSelectedIndex(2);
+                        break;
+                    case "NORMAL":
+                        atkSpdBox.setSelectedIndex(3);
+                        break;
+                    case "SLOW":
+                        atkSpdBox.setSelectedIndex(4);
+                        break;
+                    case "VERY_SLOW":
+                        atkSpdBox.setSelectedIndex(5);
+                        break;
+                    case "SUPER_SLOW":
+                        atkSpdBox.setSelectedIndex(6);
+                        break;
+                }
+            }
+            if (j.get("identified") != null) variable.setSelected(!j.get("identified").getAsBoolean());
+        }
         SwingUtilities.updateComponentTreeUI(display);
     }
 }
