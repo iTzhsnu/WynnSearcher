@@ -290,6 +290,7 @@ public class CustomUI implements ActionListener {
         atkSpdBox.setVisible(visible);
         variable.setVisible(visible);
         create.setVisible(visible);
+        load.setVisible(visible);
         itemText.setVisible(visible);
         scroll.setVisible(visible);
     }

@@ -122,10 +122,11 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public SearchUI() {
 
-        GetAPI.setItemData(wynnItems, itemAPIConnect);
-        GetAPI.setIngredientData(wynnIngredients, ingredientAPIConnect);
+        GetAPI getAPI = new GetAPI();
+        getAPI.setItemData(wynnItems, itemAPIConnect);
+        getAPI.setIngredientData(wynnIngredients, ingredientAPIConnect);
         List<JsonObject> wynnRecipes = new ArrayList<>();
-        String recipeAPIConnect = GetAPI.setRecipeData(wynnRecipes);
+        String recipeAPIConnect = getAPI.setRecipeData(wynnRecipes);
 
         setItemJson();
         setIngredientJson();
