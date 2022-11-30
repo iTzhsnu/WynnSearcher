@@ -155,7 +155,7 @@ public class GetAPI {
                     for (JsonElement je : j.get("data").getAsJsonArray()) {
                         list.add(je.getAsJsonObject());
                     }
-                    if (j.get("request") != null) {
+                    if (s.equals("armouring") && j.get("request") != null) {
                         return new Timestamp(j.get("request").getAsJsonObject().get("timestamp").getAsLong() * 1000).toLocalDateTime().toLocalDate() + " Archive";
                     }
                 }
@@ -164,5 +164,22 @@ public class GetAPI {
             }
             return "Using Archive";
         }
+    }
+
+    public static boolean getUpdate() {
+        try {
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL("https://raw.githubusercontent.com/iTzhsnu/WynnSearcher/master/version.txt").openStream()));
+            String line;
+            StringBuilder builder = new StringBuilder();
+
+            while ((line = buffer.readLine()) != null) {
+                builder.append(line);
+            }
+            buffer.close();
+            return !builder.toString().equals(SearchUI.VERSION);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
