@@ -21,14 +21,14 @@ public class TreeBase implements ActionListener {
         this.archetype2 = archetype2.getName();
         this.archetype3 = archetype3.getName();
 
-        pane.setPreferredSize(new Dimension(400, 1500));
+        pane.setPreferredSize(new Dimension(368, 1500));
         pane.setLayout(null);
 
         scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(10, 300, 418, 400);
+        scrollPane.setBounds(18, 300, 386, 400);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
-        text.setBounds(10, 275, 400, 20);
+        text.setBounds(20, 275, 400, 20);
         text.setText(this.archetype1 + ": 0 | " + this.archetype2 + ": 0 | " + this.archetype3 + ": 0 | Ability Point: 0/45");
 
         p.add(scrollPane);

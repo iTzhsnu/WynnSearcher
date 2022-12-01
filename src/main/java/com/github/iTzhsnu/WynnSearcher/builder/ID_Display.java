@@ -121,7 +121,7 @@ public class ID_Display {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(450, 300, 268, 400);
+        scrollPane.setBounds(422, 300, 268, 400);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);
@@ -134,7 +134,7 @@ public class ID_Display {
         if (ids.size() > 0) {
             ids.subList(0, ids.size()).clear();
         }
-        int[] numbers = new int[] {
+        int[] numbers = new int[] { //Using 0 ~ 77
                 535, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
