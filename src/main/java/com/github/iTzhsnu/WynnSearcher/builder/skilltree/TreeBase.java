@@ -15,11 +15,13 @@ public class TreeBase implements ActionListener {
     private final String archetype2;
     private final String archetype3;
     private final List<TreeCheckBox> tcb = new ArrayList<>();
+    private final String classes;
 
-    public TreeBase(JPanel p, TreeCheckBox.ArchetypeEnum archetype1, TreeCheckBox.ArchetypeEnum archetype2, TreeCheckBox.ArchetypeEnum archetype3) {
+    public TreeBase(JPanel p, TreeCheckBox.ArchetypeEnum archetype1, TreeCheckBox.ArchetypeEnum archetype2, TreeCheckBox.ArchetypeEnum archetype3, String classes) {
         this.archetype1 = archetype1.getName();
         this.archetype2 = archetype2.getName();
         this.archetype3 = archetype3.getName();
+        this.classes = classes;
 
         pane.setPreferredSize(new Dimension(368, 1500));
         pane.setLayout(null);
@@ -33,6 +35,10 @@ public class TreeBase implements ActionListener {
 
         p.add(scrollPane);
         p.add(text);
+    }
+
+    public String getClasses() {
+        return this.classes;
     }
 
     public JLayeredPane getPane() {

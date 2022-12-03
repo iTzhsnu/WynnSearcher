@@ -3,6 +3,7 @@ package com.github.iTzhsnu.WynnSearcher.builder;
 import com.github.iTzhsnu.WynnSearcher.Identifications;
 import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeBase;
+import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeCheckBox;
 import com.google.gson.JsonObject;
 
 import javax.swing.*;
@@ -108,6 +109,96 @@ public class ID_Display {
         put(7, Identifications.PERCENT_4TH_SPELL_COST);
     }};
 
+    private static final Map<Identifications, Integer> ID_INT = new HashMap<Identifications, Integer>() {{
+        put(Identifications.HEALTH, 0);
+        put(Identifications.HEALTH_BONUS, 1);
+        put(Identifications.LIFE_STEAL, 2);
+
+        put(Identifications.EARTH_DEFENSE, 3);
+        put(Identifications.THUNDER_DEFENSE, 4);
+        put(Identifications.WATER_DEFENSE, 5);
+        put(Identifications.FIRE_DEFENSE, 6);
+        put(Identifications.AIR_DEFENSE, 7);
+        put(Identifications.EARTH_DEFENSE_PERCENT, 8);
+        put(Identifications.THUNDER_DEFENSE_PERCENT, 9);
+        put(Identifications.WATER_DEFENSE_PERCENT, 10);
+        put(Identifications.FIRE_DEFENSE_PERCENT, 11);
+        put(Identifications.AIR_DEFENSE_PERCENT, 12);
+
+        put(Identifications.MANA_REGEN, 13);
+        put(Identifications.MANA_STEAL, 14);
+        put(Identifications.WALK_SPEED, 15);
+        put(Identifications.SPRINT_BONUS, 16);
+        put(Identifications.SPRINT_REGEN, 17);
+        put(Identifications.JUMP_HEIGHT, 18);
+        put(Identifications.THORNS, 19);
+        put(Identifications.REFLECTION, 20);
+        put(Identifications.EXPLODING, 21);
+        put(Identifications.STEALING, 22);
+        put(Identifications.COMBAT_XP_BONUS, 23);
+        put(Identifications.GATHERING_XP_BONUS, 24);
+        put(Identifications.GATHERING_SPEED_BONUS, 25);
+        put(Identifications.LOOT_BONUS, 26);
+        put(Identifications.LOOT_QUALITY, 27);
+        put(Identifications.SOUL_POINT_REGEN, 28);
+
+        put(Identifications.RAW_HEALTH_REGEN, 29);
+        put(Identifications.HEALTH_REGEN_PERCENT, 30);
+        put(Identifications.EARTH_DAMAGE_PERCENT, 31);
+        put(Identifications.THUNDER_DAMAGE_PERCENT, 32);
+        put(Identifications.WATER_DAMAGE_PERCENT, 33);
+        put(Identifications.FIRE_DAMAGE_PERCENT, 34);
+        put(Identifications.AIR_DAMAGE_PERCENT, 35);
+
+        put(Identifications.SPELL_DAMAGE_PERCENT, 36);
+        put(Identifications.RAW_SPELL_DAMAGE, 37);
+        put(Identifications.MELEE_DAMAGE_PERCENT, 38);
+        put(Identifications.RAW_MELEE_DAMAGE, 39);
+        put(Identifications.POISON, 40);
+        put(Identifications.ATTACK_SPEED_BONUS, 41);
+
+        put(Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT, 42);
+        put(Identifications.EARTH_SPELL_DAMAGE_PERCENT, 43);
+        put(Identifications.THUNDER_SPELL_DAMAGE_PERCENT, 44);
+        put(Identifications.WATER_SPELL_DAMAGE_PERCENT, 45);
+        put(Identifications.FIRE_SPELL_DAMAGE_PERCENT, 46);
+        put(Identifications.AIR_SPELL_DAMAGE_PERCENT, 47);
+        put(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, 48);
+
+        put(Identifications.RAW_NEUTRAL_SPELL_DAMAGE, 49);
+        put(Identifications.RAW_EARTH_SPELL_DAMAGE, 50);
+        put(Identifications.RAW_THUNDER_SPELL_DAMAGE, 51);
+        put(Identifications.RAW_WATER_SPELL_DAMAGE, 52);
+        put(Identifications.RAW_FIRE_SPELL_DAMAGE, 53);
+        put(Identifications.RAW_AIR_SPELL_DAMAGE, 54);
+        put(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, 55);
+
+        put(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, 56);
+        put(Identifications.EARTH_MELEE_DAMAGE_PERCENT, 57);
+        put(Identifications.THUNDER_MELEE_DAMAGE_PERCENT, 58);
+        put(Identifications.WATER_MELEE_DAMAGE_PERCENT, 59);
+        put(Identifications.FIRE_MELEE_DAMAGE_PERCENT, 60);
+        put(Identifications.AIR_MELEE_DAMAGE_PERCENT, 61);
+        put(Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, 62);
+
+        put(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, 63);
+        put(Identifications.RAW_EARTH_MELEE_DAMAGE, 64);
+        put(Identifications.RAW_THUNDER_MELEE_DAMAGE, 65);
+        put(Identifications.RAW_WATER_MELEE_DAMAGE, 66);
+        put(Identifications.RAW_FIRE_MELEE_DAMAGE, 67);
+        put(Identifications.RAW_AIR_MELEE_DAMAGE, 68);
+        put(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, 69);
+
+        put(Identifications.RAW_1ST_SPELL_COST, 70);
+        put(Identifications.RAW_2ND_SPELL_COST, 71);
+        put(Identifications.RAW_3RD_SPELL_COST, 72);
+        put(Identifications.RAW_4TH_SPELL_COST, 73);
+        put(Identifications.PERCENT_1ST_SPELL_COST, 74);
+        put(Identifications.PERCENT_2ND_SPELL_COST, 75);
+        put(Identifications.PERCENT_3RD_SPELL_COST, 76);
+        put(Identifications.PERCENT_4TH_SPELL_COST, 77);
+    }};
+
     private static final Map<Integer, Float> CLASS_DEF = new HashMap<Integer, Float>() {{
         put(0, 1F); //Warrior
         put(1, 1F); //Assassin
@@ -157,44 +248,6 @@ public class ID_Display {
                         }
                     }
                 }
-                if (!updateOnly) {
-                    for (int i = 29; 69 >= i; ++i) {
-                        if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
-                            if (!IDS.get(i).isItemVariable()) {
-                                numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                            } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                                numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                            } else {
-                                numbers[i] += ItemUITemplate.getMaxInt(j.get(IDS.get(i).getItemName()).getAsInt());
-                            }
-                        }
-                    }
-                    for (int i = 0; 7 >= i; ++i) {
-                        if (j.get(REVERSED_ID.get(i).getItemName()) != null && j.get(REVERSED_ID.get(i).getItemName()).getAsInt() != 0) {
-                            if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                                numbers[i + 70] += ItemUITemplate.getReversedMaxInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
-                            } else numbers[i + 70] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
-                        }
-                    }
-                }
-            }
-        }
-
-        if (itemJsons.getWeapon() != null) {
-            JsonObject j = itemJsons.getWeapon();
-            for (int i = 1; 28 >= i; ++i) {
-                if (i >= 3 && i <= 7) continue;
-                if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
-                    if (!IDS.get(i).isItemVariable()) {
-                        numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                        numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                    } else {
-                        numbers[i] += ItemUITemplate.getMaxInt(j.get(IDS.get(i).getItemName()).getAsInt());
-                    }
-                }
-            }
-            if (!updateOnly) {
                 for (int i = 29; 69 >= i; ++i) {
                     if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
                         if (!IDS.get(i).isItemVariable()) {
@@ -216,18 +269,156 @@ public class ID_Display {
             }
         }
 
-        if (updateOnly) {
+        if (itemJsons.getWeapon() != null) {
+            JsonObject j = itemJsons.getWeapon();
+            for (int i = 1; 28 >= i; ++i) {
+                if (i >= 3 && i <= 7) continue;
+                if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
+                    if (!IDS.get(i).isItemVariable()) {
+                        numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
+                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                        numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
+                    } else {
+                        numbers[i] += ItemUITemplate.getMaxInt(j.get(IDS.get(i).getItemName()).getAsInt());
+                    }
+                }
+            }
+            for (int i = 29; 69 >= i; ++i) {
+                if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
+                    if (!IDS.get(i).isItemVariable()) {
+                        numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
+                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                        numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
+                    } else {
+                        numbers[i] += ItemUITemplate.getMaxInt(j.get(IDS.get(i).getItemName()).getAsInt());
+                    }
+                }
+            }
+            for (int i = 0; 7 >= i; ++i) {
+                if (j.get(REVERSED_ID.get(i).getItemName()) != null && j.get(REVERSED_ID.get(i).getItemName()).getAsInt() != 0) {
+                    if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
+                        numbers[i + 70] += ItemUITemplate.getReversedMaxInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
+                    } else numbers[i + 70] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
+                }
+            }
+        }
+
+        //Update Edited ID
+        if (updateOnly) { //Damages and Health Regen
             for (int i = 29; 69 >= i; ++i) {
                 numbers[i] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).getValue();
             }
-            for (int i = 0; 7 >= i; ++i) {
+            for (int i = 0; 7 >= i; ++i) { //Spell Costs
                 numbers[i + 70] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).getValue();
+            }
+        }
+
+        //Set Editable ID Original Num
+        if (!updateOnly) { //Damages and Health Regen
+            for (int i = 29; 69 >= i; ++i) {
+                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).setValue(numbers[i]);
+            }
+            for (int i = 0; 7 >= i; ++i) { //Spell Costs
+                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).setValue(numbers[i + 70]);
+            }
+        }
+
+        float def = 2F - CLASS_DEF.get(classID); //Base Defense
+
+        for (TreeCheckBox tcb : tree.getTcb()) { //Ability Tree
+            if (tcb.isSelected()) {
+                switch (tcb.getSkill()) {
+                    case PROFICIENCY: numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)] += 5;
+                        break;
+                    case CHEAPER_1ST_SP_COST_10: numbers[ID_INT.get(Identifications.RAW_1ST_SPELL_COST)] -= 10;
+                        break;
+                    case CHEAPER_3RD_SP_COST_10: numbers[ID_INT.get(Identifications.RAW_3RD_SPELL_COST)] -= 10;
+                        break;
+                    case CHEAPER_1ST_SP_COST: numbers[ID_INT.get(Identifications.RAW_1ST_SPELL_COST)] -= 5;
+                        break;
+                    case CHEAPER_2ND_SP_COST: numbers[ID_INT.get(Identifications.RAW_2ND_SPELL_COST)] -= 5;
+                        break;
+                    case CHEAPER_3RD_SP_COST: numbers[ID_INT.get(Identifications.RAW_3RD_SPELL_COST)] -= 5;
+                        break;
+                    case CHEAPER_4TH_SP_COST: numbers[ID_INT.get(Identifications.RAW_4TH_SPELL_COST)] -= 5;
+                        break;
+                    case EARTH_DAMAGE: numbers[ID_INT.get(Identifications.EARTH_DAMAGE_PERCENT)] += 20;
+                        break;
+                    case THUNDER_DAMAGE: numbers[ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)] += 10;
+                        break;
+                    case WATER_DAMAGE: numbers[ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] += 15;
+                        break;
+                    case FIRE_DAMAGE: numbers[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += 15;
+                        break;
+                    case AIR_DAMAGE: numbers[ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)] += 15;
+                        break;
+                }
+                switch (tree.getClasses()) {
+                    case "Warrior": {
+                        switch (tcb.getSkill()) {
+                            case TOUGHER_SKIN:
+                            case MYTHRIL_SKIN:
+                                def -= 0.05F;
+                                break;
+                            case VEHEMENT: numbers[ID_INT.get(Identifications.WALK_SPEED)] += Math.min((numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)] + numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)]) * 2, 20);
+                                break;
+                            case BURNING_HEART: numbers[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.HEALTH_BONUS)] / 100F) * 2, 100);
+                                break;
+                            case RADIANT_DEVOTEE: numbers[ID_INT.get(Identifications.MANA_REGEN)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.REFLECTION)] / 4F), 10);
+                                break;
+                        }
+                        break;
+                    }
+                    case "Assassin": {
+
+                    }
+                    case "Archer": {
+
+                    }
+                    case "Mage": {
+
+                    }
+                    case "Shaman": {
+
+                    }
+                }
+            }
+        }
+
+        if (damage_boosts.getBox().get(0).isSelected()) def *= 0.8F; //War Scream
+
+        switch (tree.getClasses()) { //Check Boxes, Slider
+            case "Warrior": {
+                if (damage_boosts.getBox().get(5).isSelected()) def *= 0.3F; //Mantle
+                if (damage_boosts.getBox().get(7).isSelected()) def *= 0.6F; //Brink of Madness
+                break;
+            }
+            case "Assassin": {
+
+            }
+            case "Archer": {
+
+            }
+            case "Mage": {
+
+            }
+            case "Shaman": {
+
+            }
+        }
+
+        if (damage_boosts.getBox().get(2).isSelected()) { //Radiance
+            for (int i = 1; 69 >= i; ++i) {
+                if (i >= 3 && i <= 7) continue;
+                if (numbers[i] > 0) numbers[i] = Math.round(numbers[i] * 1.2F);
+            }
+            for (int i = 0; 7 >= i; ++i) {
+                if (0 > numbers[i + 70]) numbers[i + 70] = Math.round(numbers[i + 70] * 1.2F);
             }
         }
 
         numbers[0] += numbers[1]; //Health + Health Bonus
         if (numbers[0] < 5) numbers[0] = 5;
-        float def = 2F - CLASS_DEF.get(classID); //Base Defense (TODO ADD ABILITY TREE TAKE DAMAGE REDUCES)
         float defSP = sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost() - 1F; //Defense Skill Point
         float agiSP = sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost() - 1F; //Agility Skill Point
         float ehp = numbers[0] / (0.1F * agiSP + (1F - agiSP) * (1F - defSP)) / def; //Effective Health Calc
@@ -247,16 +438,6 @@ public class ID_Display {
         }
         for (int i = 0; 7 >= i; ++i) { //Reversed IDS
             if (numbers[i + 70] != 0) ids.add(new JLabel(REVERSED_ID.get(i).getDisplayName() + ": " + numbers[i + 70] + REVERSED_ID.get(i).getDisplaySp()));
-        }
-
-        //Set Editable ID Original Num
-        if (!updateOnly) { //Damage, Spell Cost and Health Regen
-            for (int i = 29; 69 >= i; ++i) {
-                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).setValue(numbers[i]);
-            }
-            for (int i = 0; 7 >= i; ++i) { //Spell Cost
-                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).setValue(numbers[i + 70]);
-            }
         }
 
         for (JLabel l : ids) {

@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class Assassin extends TreeBase {
     public Assassin(JPanel p) {
-        super(p, TreeCheckBox.ArchetypeEnum.SHADESTEPPER, TreeCheckBox.ArchetypeEnum.TRICKSTER, TreeCheckBox.ArchetypeEnum.ACROBAT);
+        super(p, TreeCheckBox.ArchetypeEnum.SHADESTEPPER, TreeCheckBox.ArchetypeEnum.TRICKSTER, TreeCheckBox.ArchetypeEnum.ACROBAT, "Assassin");
 
 
     }
