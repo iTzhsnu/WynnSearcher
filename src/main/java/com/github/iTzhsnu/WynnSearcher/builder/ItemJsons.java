@@ -28,38 +28,6 @@ public class ItemJsons {
         this.weapon = weapon;
     }
 
-    public JsonObject getHelmet() {
-        return helmet;
-    }
-
-    public JsonObject getChestplate() {
-        return chestplate;
-    }
-
-    public JsonObject getLeggings() {
-        return leggings;
-    }
-
-    public JsonObject getBoots() {
-        return boots;
-    }
-
-    public JsonObject getRing1() {
-        return ring1;
-    }
-
-    public JsonObject getRing2() {
-        return ring2;
-    }
-
-    public JsonObject getBracelet() {
-        return bracelet;
-    }
-
-    public JsonObject getNecklace() {
-        return necklace;
-    }
-
     public JsonObject getWeapon() {
         return weapon;
     }

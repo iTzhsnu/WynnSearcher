@@ -73,63 +73,63 @@ public class Damage_IDs {
     }};
 
     public Damage_IDs(JPanel p) {
-        damage_ID_Panels.add(new Damage_IDs_Panel("Earth Dam %", 10, 720, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Thunder Dam %", 140, 720, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Water Dam %", 270, 720, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Fire Dam %", 400, 720, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Air Dam %", 530, 720, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Earth Dam %", 10, 750, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Thunder Dam %", 140, 750, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Water Dam %", 270, 750, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Fire Dam %", 400, 750, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Air Dam %", 530, 750, p));
 
-        damage_ID_Panels.add(new Damage_IDs_Panel("Spell Dam %", 10, 787, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Spell Dam", 140, 787, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Melee Dam %", 400, 787, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Melee Dam", 530, 787, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Poison", 660, 787, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Attack Speed", 790, 787, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Spell Dam %", 10, 817, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Spell Dam", 140, 817, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Melee Dam %", 400, 817, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Melee Dam", 530, 817, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Poison", 660, 817, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Attack Speed", 790, 817, p));
 
-        damage_ID_Panels.add(new Damage_IDs_Panel("Neutral Spell %", 10, 837, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Earth Spell %", 140, 837, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Thunder Spell %", 270, 837, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Water Spell %", 400, 837, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Fire Spell %", 530, 837, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Air Spell %", 660, 837, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Elem. Spell %", 790, 837, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Neutral Spell %", 10, 867, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Earth Spell %", 140, 867, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Thunder Spell %", 270, 867, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Water Spell %", 400, 867, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Fire Spell %", 530, 867, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Air Spell %", 660, 867, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Elem. Spell %", 790, 867, p));
 
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Neutral Spell", 10, 894, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Earth Spell", 140, 894, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Thunder Spell", 270, 894, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Water Spell", 400, 894, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Fire Spell", 530, 894, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Air Spell", 660, 894, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Elem. Spell", 790, 894, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Neutral Spell", 10, 924, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Earth Spell", 140, 924, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Thunder Spell", 270, 924, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Water Spell", 400, 924, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Fire Spell", 530, 924, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Air Spell", 660, 924, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Elem. Spell", 790, 924, p));
 
-        damage_ID_Panels.add(new Damage_IDs_Panel("Neutral Melee %", 10, 956, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Earth Melee %", 140, 956, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Thunder Melee %", 270, 956, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Water Melee %", 400, 956, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Fire Melee %", 530, 956, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Air Melee %", 660, 956, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Elem. Melee %", 790, 956, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Neutral Melee %", 10, 986, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Earth Melee %", 140, 986, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Thunder Melee %", 270, 986, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Water Melee %", 400, 986, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Fire Melee %", 530, 986, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Air Melee %", 660, 986, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Elem. Melee %", 790, 986, p));
 
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Neutral Melee", 10, 1013, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Earth Melee", 140, 1013, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Thunder Melee", 270, 1013, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Water Melee", 400, 1013, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Fire Melee", 530, 1013, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Air Melee", 660, 1013, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Elem. Melee", 790, 1013, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Neutral Melee", 10, 1043, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Earth Melee", 140, 1043, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Thunder Melee", 270, 1043, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Water Melee", 400, 1043, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Fire Melee", 530, 1043, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Air Melee", 660, 1043, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Elem. Melee", 790, 1043, p));
 
-        damage_ID_Panels.add(new Damage_IDs_Panel("1st Spell Cost %", 10, 1075, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("2nd Spell Cost %", 140, 1075, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("3rd Spell Cost %", 270, 1075, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("4th Spell Cost %", 400, 1075, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("1st Spell Cost %", 10, 1105, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("2nd Spell Cost %", 140, 1105, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("3rd Spell Cost %", 270, 1105, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("4th Spell Cost %", 400, 1105, p));
 
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw 1st Spell Cost", 10, 1132, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw 2nd Spell Cost", 140, 1132, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw 3rd Spell Cost", 270, 1132, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw 4th Spell Cost", 400, 1132, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw 1st Spell Cost", 10, 1162, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw 2nd Spell Cost", 140, 1162, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw 3rd Spell Cost", 270, 1162, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw 4th Spell Cost", 400, 1162, p));
 
-        damage_ID_Panels.add(new Damage_IDs_Panel("Health Regen %", 790, 1075, p));
-        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Health Regen", 790, 1132, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Health Regen %", 790, 1105, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Health Regen", 790, 1162, p));
     }
 
     public Damage_IDs_Panel getID(int num) {
@@ -139,20 +139,20 @@ public class Damage_IDs {
 
     public static class Damage_IDs_Panel {
         private final JTextField textField = new JTextField("0");
-        private final JLabel name = new JLabel();
         private final JLabel original = new JLabel("Original: 0");
 
         public Damage_IDs_Panel(String name, int x, int y, JPanel p) {
             JPanel pane = new JPanel();
             pane.setBounds(x, y, 120, 52);
             pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-            this.name.setText(name);
+            JLabel nameP = new JLabel();
+            nameP.setText(name);
 
-            this.name.setAlignmentX(Component.CENTER_ALIGNMENT);
+            nameP.setAlignmentX(Component.CENTER_ALIGNMENT);
             textField.setAlignmentX(Component.CENTER_ALIGNMENT);
             original.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            pane.add(this.name);
+            pane.add(nameP);
             pane.add(textField);
             pane.add(original);
 

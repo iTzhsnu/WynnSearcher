@@ -212,7 +212,7 @@ public class ID_Display {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(422, 300, 268, 400);
+        scrollPane.setBounds(422, 330, 268, 400);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);
@@ -262,8 +262,10 @@ public class ID_Display {
                 for (int i = 0; 7 >= i; ++i) {
                     if (j.get(REVERSED_ID.get(i).getItemName()) != null && j.get(REVERSED_ID.get(i).getItemName()).getAsInt() != 0) {
                         if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                            numbers[i + 70] += ItemUITemplate.getReversedMaxInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
-                        } else numbers[i + 70] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
+                            numbers[i + 70] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
+                        } else {
+                            numbers[i + 70] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
+                        }
                     }
                 }
             }
@@ -297,8 +299,10 @@ public class ID_Display {
             for (int i = 0; 7 >= i; ++i) {
                 if (j.get(REVERSED_ID.get(i).getItemName()) != null && j.get(REVERSED_ID.get(i).getItemName()).getAsInt() != 0) {
                     if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                        numbers[i + 70] += ItemUITemplate.getReversedMaxInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
-                    } else numbers[i + 70] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
+                        numbers[i + 70] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
+                    } else {
+                        numbers[i + 70] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
+                    }
                 }
             }
         }
@@ -370,16 +374,16 @@ public class ID_Display {
                         break;
                     }
                     case "Assassin": {
-
+                        //TODO Asn Ability Tree Buffs
                     }
                     case "Archer": {
-
+                        //TODO Archer Ability Tree Buffs
                     }
                     case "Mage": {
-
+                        //TODO Mage Ability Tree Buffs
                     }
                     case "Shaman": {
-
+                        //TODO Shaman Ability Tree Buffs
                     }
                 }
             }
@@ -394,16 +398,18 @@ public class ID_Display {
                 break;
             }
             case "Assassin": {
-
-            }
-            case "Archer": {
-
-            }
-            case "Mage": {
-
+                if (damage_boosts.getBox().get(11).isSelected()) def *= 0.2F; //Mirror Image
+                break;
             }
             case "Shaman": {
-
+                if (damage_boosts.getBox().get(13).isSelected()) numbers[ID_INT.get(Identifications.WALK_SPEED)] -= 35; //Mask of the Lunatic
+                if (damage_boosts.getBox().get(14).isSelected()) def *= 0.65F; //Mask of the Fanatic
+                if (damage_boosts.getBox().get(15).isSelected()) { //Mask of the Coward
+                    numbers[ID_INT.get(Identifications.WALK_SPEED)] += 80;
+                    def *= 1.2F;
+                }
+                if (damage_boosts.getBox().get(16).isSelected()) def *= 0.3F; //Chant of the Fanatic
+                break;
             }
         }
 

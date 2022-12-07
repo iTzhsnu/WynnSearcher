@@ -13,7 +13,7 @@ public class Damage_Display {
         pane.setLayout(null);
 
         scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(708, 300, 318, 400);
+        scrollPane.setBounds(708, 330, 318, 400);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);

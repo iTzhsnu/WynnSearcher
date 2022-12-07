@@ -20,7 +20,7 @@ public class Item_Display {
         pane.setLayout(null);
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(1, 1200, 1063, 500);
+        scrollPane.setBounds(1, 1230, 1063, 500);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);

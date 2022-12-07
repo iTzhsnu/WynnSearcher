@@ -61,7 +61,7 @@ public class BuilderUI implements ActionListener {
         this.recipeAPI = recipeAPI;
         setJson(itemAPI);
 
-        pane.setPreferredSize(new Dimension(1064, 1710));
+        pane.setPreferredSize(new Dimension(1064, 1740));
         pane.setLayout(null);
 
         scrollPane = new JScrollPane(pane);
@@ -440,11 +440,14 @@ public class BuilderUI implements ActionListener {
 
     public void getItemID_And_Display() {
         item_display.setItem_Display(itemBox, ingAPI, recipeAPI, helmetJson, chestplateJson, leggingsJson, bootsJson, ringJson, braceletJson, necklaceJson, weaponJson);
+        skillPoint.setSkillPoint(item_display.getItemJsons());
         id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, classes.getSelectedIndex(), getTree(), damage_boost, false);
+        //Damage Display
     }
 
     public void updateIDs() {
         skillPoint.updateSkillPoint();
         id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, classes.getSelectedIndex() , getTree(), damage_boost, true);
+        //Damage Display
     }
 }

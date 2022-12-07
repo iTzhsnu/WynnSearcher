@@ -27,10 +27,10 @@ public class TreeBase implements ActionListener {
         pane.setLayout(null);
 
         scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(18, 300, 386, 400);
+        scrollPane.setBounds(18, 330, 386, 400);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
-        text.setBounds(20, 275, 400, 20);
+        text.setBounds(20, 305, 400, 20);
         text.setText(this.archetype1 + ": 0 | " + this.archetype2 + ": 0 | " + this.archetype3 + ": 0 | Ability Point: 0/45");
 
         p.add(scrollPane);

@@ -234,6 +234,7 @@ public class ItemUITemplate extends JPanel {
             label.add(new JLabel("Agility: " + setPlus(json.get("agilityPoints").getAsInt())));
         }
 
+        //TODO USE MAP
         if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
             if (json.get("healthBonus") != null && json.get("healthBonus").getAsInt() != 0) {
                 label.add(new JLabel("Health Bonus: " + setPlus(json.get("healthBonus").getAsInt())));
@@ -885,6 +886,7 @@ public class ItemUITemplate extends JPanel {
             if (run) label.add(new JLabel(" "));
         }
 
+        //TODO USE MAP
         if (json.get("identifications") != null) {
             JsonObject j = json.get("identifications").getAsJsonObject();
             boolean run = false;
