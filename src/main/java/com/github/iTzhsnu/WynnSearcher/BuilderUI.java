@@ -86,6 +86,7 @@ public class BuilderUI implements ActionListener {
 
         create.setBounds(860, 10, 80, 40);
         create.addActionListener(this);
+
         update.setBounds(950, 10, 80, 40);
         update.addActionListener(this);
 
@@ -441,13 +442,13 @@ public class BuilderUI implements ActionListener {
     public void getItemID_And_Display() {
         item_display.setItem_Display(itemBox, ingAPI, recipeAPI, helmetJson, chestplateJson, leggingsJson, bootsJson, ringJson, braceletJson, necklaceJson, weaponJson);
         skillPoint.setSkillPoint(item_display.getItemJsons());
-        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, classes.getSelectedIndex(), getTree(), damage_boost, false);
-        //Damage Display
+        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), damage_boost, powderField, classes.getSelectedIndex(), false);
+        damage_display.setDamage_Display(item_display.getItemJsons().getWeapon(), skillPoint, damage_boost, getTree(), id_display.getId_Numbers(), powderField);
     }
 
     public void updateIDs() {
         skillPoint.updateSkillPoint();
-        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, classes.getSelectedIndex() , getTree(), damage_boost, true);
-        //Damage Display
+        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), damage_boost, powderField, classes.getSelectedIndex(), true);
+        damage_display.setDamage_Display(item_display.getItemJsons().getWeapon(), skillPoint, damage_boost, getTree(), id_display.getId_Numbers(), powderField);
     }
 }

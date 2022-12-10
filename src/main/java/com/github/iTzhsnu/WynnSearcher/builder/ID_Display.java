@@ -2,20 +2,25 @@ package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
 import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
+import com.github.iTzhsnu.WynnSearcher.builder.skilltree.SkillEnum;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeBase;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeCheckBox;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.net.URISyntaxException;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class ID_Display {
     private final JPanel pane = new JPanel();
     private final List<JLabel> ids = new ArrayList<>();
+    private int[] id_Numbers = new int[] {};
 
     private static final Map<Integer, Identifications> IDS = new HashMap<Integer, Identifications>() {{
         put(0, Identifications.HEALTH);
@@ -220,7 +225,7 @@ public class ID_Display {
 
 
 
-    public void setIDs(ItemJsons itemJsons, Damage_IDs damage_ids, SkillPoint sp, int classID, TreeBase tree, Damage_Boosts damage_boosts, boolean updateOnly) {
+    public void setIDs(ItemJsons itemJsons, Damage_IDs damage_ids, SkillPoint sp, TreeBase tree, Damage_Boosts damage_boosts, List<JTextField> powders, int classID, boolean updateOnly) {
         pane.removeAll();
         if (ids.size() > 0) {
             ids.subList(0, ids.size()).clear();
@@ -307,29 +312,92 @@ public class ID_Display {
             }
         }
 
-        //Update Edited ID
-        if (updateOnly) { //Damages and Health Regen
-            for (int i = 29; 69 >= i; ++i) {
-                numbers[i] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).getValue();
-            }
-            for (int i = 0; 7 >= i; ++i) { //Spell Costs
-                numbers[i + 70] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).getValue();
-            }
-        }
+        try {
+            JsonObject powderJ = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/other/powders.json")).toURI()))).getAsJsonObject();
 
-        //Set Editable ID Original Num
-        if (!updateOnly) { //Damages and Health Regen
-            for (int i = 29; 69 >= i; ++i) {
-                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).setValue(numbers[i]);
+            //Helmet Powder
+            if (itemJsons.getHelmet() != null && itemJsons.getHelmet().get("sockets") != null && itemJsons.getHelmet().get("sockets").getAsInt() > 0 && powders.get(0).getText().length() > 1) {
+                for (int i = 0; (int) Math.floor(powders.get(0).getText().length() / 2F) * 2 > i; i += 2) {
+                    if (itemJsons.getHelmet().get("sockets").getAsInt() >= i / 2) {
+                        String name = String.valueOf(powders.get(0).getText().charAt(i)) + powders.get(0).getText().charAt(i + 1);
+                        if (powderJ.get(name) != null) {
+                            JsonObject j = powderJ.get(name).getAsJsonObject();
+                            if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
+                            if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
+                            if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
+                            if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
+                            if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
+                        }
+                    } else {
+                        break;
+                    }
+                }
             }
-            for (int i = 0; 7 >= i; ++i) { //Spell Costs
-                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).setValue(numbers[i + 70]);
+
+            //Chestplate Powder
+            if (itemJsons.getChestplate() != null && itemJsons.getChestplate().get("sockets") != null && itemJsons.getChestplate().get("sockets").getAsInt() > 0 && powders.get(1).getText().length() > 1) {
+                for (int i = 0; (int) Math.floor(powders.get(1).getText().length() / 2F) * 2 > i; i += 2) {
+                    if (itemJsons.getChestplate().get("sockets").getAsInt() >= i / 2) {
+                        String name = String.valueOf(powders.get(1).getText().charAt(i)) + powders.get(1).getText().charAt(i + 1);
+                        if (powderJ.get(name) != null) {
+                            JsonObject j = powderJ.get(name).getAsJsonObject();
+                            if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
+                            if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
+                            if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
+                            if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
+                            if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
+                        }
+                    } else {
+                        break;
+                    }
+                }
             }
+
+            //Leggings Powder
+            if (itemJsons.getLeggings() != null && itemJsons.getLeggings().get("sockets") != null && itemJsons.getLeggings().get("sockets").getAsInt() > 0 && powders.get(2).getText().length() > 1) {
+                for (int i = 0; (int) Math.floor(powders.get(2).getText().length() / 2F) * 2 > i; i += 2) {
+                    if (itemJsons.getLeggings().get("sockets").getAsInt() >= i / 2) {
+                        String name = String.valueOf(powders.get(2).getText().charAt(i)) + powders.get(2).getText().charAt(i + 1);
+                        if (powderJ.get(name) != null) {
+                            JsonObject j = powderJ.get(name).getAsJsonObject();
+                            if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
+                            if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
+                            if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
+                            if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
+                            if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            //Boots Powder
+            if (itemJsons.getBoots() != null && itemJsons.getBoots().get("sockets") != null && itemJsons.getBoots().get("sockets").getAsInt() > 0 && powders.get(3).getText().length() > 1) {
+                for (int i = 0; (int) Math.floor(powders.get(3).getText().length() / 2F) * 2 > i; i += 2) {
+                    if (itemJsons.getBoots().get("sockets").getAsInt() >= i / 2) {
+                        String name = String.valueOf(powders.get(3).getText().charAt(i)) + powders.get(3).getText().charAt(i + 1);
+                        if (powderJ.get(name) != null) {
+                            JsonObject j = powderJ.get(name).getAsJsonObject();
+                            if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
+                            if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
+                            if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
+                            if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
+                            if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+        } catch (FileNotFoundException | URISyntaxException e) {
+            e.printStackTrace();
         }
 
         float def = 2F - CLASS_DEF.get(classID); //Base Defense
 
-        for (TreeCheckBox tcb : tree.getTcb()) { //Ability Tree
+        //Ability Tree
+        for (TreeCheckBox tcb : tree.getTcb()) {
             if (tcb.isSelected()) {
                 switch (tcb.getSkill()) {
                     case PROFICIENCY: numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)] += 5;
@@ -358,40 +426,78 @@ public class ID_Display {
                         break;
                 }
                 switch (tree.getClasses()) {
-                    case "Warrior": {
-                        switch (tcb.getSkill()) {
-                            case TOUGHER_SKIN:
-                            case MYTHRIL_SKIN:
-                                def -= 0.05F;
-                                break;
-                            case VEHEMENT: numbers[ID_INT.get(Identifications.WALK_SPEED)] += Math.min((numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)] + numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)]) * 2, 20);
-                                break;
-                            case BURNING_HEART: numbers[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.HEALTH_BONUS)] / 100F) * 2, 100);
-                                break;
-                            case RADIANT_DEVOTEE: numbers[ID_INT.get(Identifications.MANA_REGEN)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.REFLECTION)] / 4F), 10);
-                                break;
-                        }
+                    case "Warrior": if (tcb.getSkill() == SkillEnum.TOUGHER_SKIN || tcb.getSkill() == SkillEnum.MYTHRIL_SKIN) def -= 0.05F;
                         break;
-                    }
                     case "Assassin": {
-                        //TODO Asn Ability Tree Buffs
+                        //TODO Assassin Ability Tree
                     }
                     case "Archer": {
-                        //TODO Archer Ability Tree Buffs
+                        //TODO Archer Ability Tree
                     }
                     case "Mage": {
-                        //TODO Mage Ability Tree Buffs
+                        //TODO Mage Ability Tree
                     }
                     case "Shaman": {
-                        //TODO Shaman Ability Tree Buffs
+                        //TODO Shaman Ability Tree
                     }
                 }
             }
         }
 
-        if (damage_boosts.getBox().get(0).isSelected()) def *= 0.8F; //War Scream
+        if (updateOnly) { //Update Edited ID
+            for (int i = 29; 69 >= i; ++i) { //Damages and Health Regen
+                numbers[i] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).getValue();
+            }
+            for (int i = 0; 7 >= i; ++i) { //Spell Costs
+                numbers[i + 70] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).getValue();
+            }
+        } else { //Set Editable ID Original Num
+            for (int i = 29; 69 >= i; ++i) { //Damages and Health Regen
+                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).setValue(numbers[i]);
+            }
+            for (int i = 0; 7 >= i; ++i) { //Spell Costs
+                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).setValue(numbers[i + 70]);
+            }
+        }
 
-        switch (tree.getClasses()) { //Check Boxes, Slider
+        //Radiance
+        if (damage_boosts.getBox().get(2).isSelected()) {
+            for (int i = 1; 69 >= i; ++i) {
+                if (i >= 3 && i <= 7) continue;
+                if (numbers[i] > 0) numbers[i] = Math.round(numbers[i] * 1.2F);
+            }
+            for (int i = 0; 7 >= i; ++i) {
+                if (0 > numbers[i + 70]) numbers[i + 70] = Math.round(numbers[i + 70] * 1.2F);
+            }
+        }
+
+        //Ability Tree
+        switch (tree.getClasses()) {
+            case "Warrior": {
+                if (tree.getTcb().get(5).isSelected()) numbers[ID_INT.get(Identifications.WALK_SPEED)] += Math.min((numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)] + numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)]) * 2, 20); //Vehement
+                if (tree.getTcb().get(39).isSelected()) numbers[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.HEALTH_BONUS)] / 100F) * 2, 100); //Burning Heart
+                if (tree.getTcb().get(46).isSelected()) numbers[ID_INT.get(Identifications.MANA_REGEN)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.REFLECTION)] / 4F), 10); //Radiant Devotee
+                break;
+            }
+            case "Assassin": {
+                //TODO Asn Ability Tree Buffs
+            }
+            case "Archer": {
+                //TODO Archer Ability Tree Buffs
+            }
+            case "Mage": {
+                //TODO Mage Ability Tree Buffs
+            }
+            case "Shaman": {
+                //TODO Shaman Ability Tree Buffs
+            }
+        }
+
+        //War Scream
+        if (damage_boosts.getBox().get(0).isSelected()) def *= 0.8F;
+
+        //Check Boxes and Slider
+        switch (tree.getClasses()) {
             case "Warrior": {
                 if (damage_boosts.getBox().get(5).isSelected()) def *= 0.3F; //Mantle
                 if (damage_boosts.getBox().get(7).isSelected()) def *= 0.6F; //Brink of Madness
@@ -413,15 +519,7 @@ public class ID_Display {
             }
         }
 
-        if (damage_boosts.getBox().get(2).isSelected()) { //Radiance
-            for (int i = 1; 69 >= i; ++i) {
-                if (i >= 3 && i <= 7) continue;
-                if (numbers[i] > 0) numbers[i] = Math.round(numbers[i] * 1.2F);
-            }
-            for (int i = 0; 7 >= i; ++i) {
-                if (0 > numbers[i + 70]) numbers[i + 70] = Math.round(numbers[i + 70] * 1.2F);
-            }
-        }
+        id_Numbers = numbers;
 
         numbers[0] += numbers[1]; //Health + Health Bonus
         if (numbers[0] < 5) numbers[0] = 5;
@@ -450,5 +548,9 @@ public class ID_Display {
             pane.add(l);
         }
         SwingUtilities.updateComponentTreeUI(pane);
+    }
+
+    public int[] getId_Numbers() {
+        return id_Numbers;
     }
 }

@@ -356,6 +356,7 @@ public class SkillPoint {
         intelligence.setValue(originalSP[2], manualSP[2], totalSP[2], intI);
         defense.setValue(originalSP[3], manualSP[3], totalSP[3], defI);
         agility.setValue(originalSP[4], manualSP[4], totalSP[4], agiI);
+        spText.setText("Using Skill Point: " + (manualSP[0] + manualSP[1] + manualSP[2] + manualSP[3] + manualSP[4]));
     }
 
     public void updateSkillPoint() {
