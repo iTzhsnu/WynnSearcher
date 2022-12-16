@@ -75,8 +75,8 @@ public class Warrior extends TreeBase {
         getTcb().get(18).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(14), getTcb().get(19)})});
 
         new TreeIcon(58, 478, getPane()).up_down();
-        getTcb().add(new TreeCheckBox("Half-Moon Swipe", new String[]{"Uppercut will deal a footsweep", "attack at a longer and wider angle.", " ", "Total Damage: -40% (of your DPS)", "(Damage -70%)", "(Water 30%)", "Range: 3 Blocks"}, new TreeCheckBox[]{getTcb().get(15)}, new TreeCheckBox[]{getTcb().get(7)}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 1, 2, SkillEnum.HALF_MOON_SWIPE, 162, 474).yellowIcon()); //20
-        getTcb().add(new TreeCheckBox("Iron Lungs", new String[]{"War Scream will deal more damage.", " ", "Total Damage: +60% (of your DPS)", "(Damage +30%)", "(Air +30%)"}, new TreeCheckBox[]{getTcb().get(18), getTcb().get(19)}, new TreeCheckBox[]{getTcb().get(8)}, TreeCheckBox.ArchetypeEnum.PALADIN, 0, 1, SkillEnum.IRON_LUNGS, 272, 476).whiteIcon()); //21
+        getTcb().add(new TreeCheckBox("Half-Moon Swipe", new String[]{"Uppercut will deal a footsweep", "attack at a longer and wider angle.", " ", "Uppercut Spell Cost: -5", "Total Damage: -40% (of your DPS)", "(Damage -70%)", "(Water 30%)", "Range: 1.5 Blocks"}, new TreeCheckBox[]{getTcb().get(15)}, new TreeCheckBox[]{getTcb().get(7)}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 1, 2, SkillEnum.HALF_MOON_SWIPE, 162, 474).yellowIcon()); //20
+        getTcb().add(new TreeCheckBox("Iron Lungs", new String[]{"War Scream will deal more damage.", " ", "Total Damage: +60% (of your DPS, for War Scream)", "(Damage +30%)", "(Air +30%)", " ", "Total Damage: +30% (of your DPS, for Air Shout)", "(Damage +15%)", "(Air +15%)"}, new TreeCheckBox[]{getTcb().get(18), getTcb().get(19)}, new TreeCheckBox[]{getTcb().get(8)}, TreeCheckBox.ArchetypeEnum.PALADIN, 0, 1, SkillEnum.IRON_LUNGS, 272, 476).whiteIcon()); //21
 
         new TreeIcon(58, 514, getPane()).up_down();
         new TreeIcon(166, 514, getPane()).up_down();
@@ -84,7 +84,7 @@ public class Warrior extends TreeBase {
 
         new TreeIcon(58, 550, getPane()).up_down();
         new TreeIcon(130, 550, getPane()).right_left_down();
-        getTcb().add(new TreeCheckBox("Counter", new String[]{"when dodding nearby enemy attack, get", "30% change to instaly attack back.", " ", "Total Damage: 100% (of your DPS)", "(Damage 60%)", "(Thunder 20%)", "(Air 20%)"}, new TreeCheckBox[]{getTcb().get(20)}, 2, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 0, SkillEnum.COUNTER, 162, 546).yellowIcon()); //22
+        getTcb().add(new TreeCheckBox("Air Shout", new String[]{"War Scream will fire a projectile that can", "go through walls and deal damage multiple times.", " ", "Total Damage: 50%", "(Neutral 40%)", "(Air 10%)", "Area of Effect: 2 Blocks (Circle-Shaped)", "Range: 32 Blocks"}, new TreeCheckBox[]{getTcb().get(20)}, 2, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 0, SkillEnum.AIR_SHOUT, 162, 546).yellowIcon()); //22
         getTcb().add(new TreeCheckBox("Generalist", new String[]{"After casting 3 different spells", "in a row, your next spell cost 5 Mana."}, new TreeCheckBox[]{getTcb().get(22)}, 2, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 3, SkillEnum.GENERALIST, 84, 540).redIcon()); //23
         getTcb().add(new TreeCheckBox("Mantle of the Bovemists", new String[]{"When casting War Scream, create a holy", "shield around you that reduces all incoming", "damage by -70% for 3 hits. (25s Cooldown)"}, new TreeCheckBox[]{getTcb().get(21)}, new TreeCheckBox[]{getTcb().get(8)}, TreeCheckBox.ArchetypeEnum.PALADIN, 3, 2, SkillEnum.MANTLE_OF_THE_BOVEMISTS, 264, 540).redIcon()); //24
 
@@ -95,8 +95,8 @@ public class Warrior extends TreeBase {
 
         new TreeIcon(58, 622, getPane()).right_left();
         new TreeIcon(94, 622, getPane()).right_left_down();
-        new TreeIcon(166, 622, getPane()).right_left();
-        new TreeIcon(238, 622, getPane()).right_left_down();
+        new TreeIcon(166, 622, getPane()).right_left_down();
+        new TreeIcon(238, 622, getPane()).right_left();
         new TreeIcon(310, 622, getPane()).left_down();
         getTcb().add(new TreeCheckBox("Spear Proficiency 2", new String[]{"Melee Damage: +5%", "Melee Range: +1 Blocks"}, new TreeCheckBox[]{getTcb().get(25)}, 1, SkillEnum.PROFICIENCY, 20, 620).whiteIcon()); //26
         getTcb().add(new TreeCheckBox("Cheaper Uppercut", new String[]{"Uppercut Spell Cost: -5"}, new TreeCheckBox[]{getTcb().get(22)}, 1, SkillEnum.CHEAPER_3RD_SP_COST, 128, 620).whiteIcon()); //27
@@ -109,8 +109,7 @@ public class Warrior extends TreeBase {
         new TreeIcon(22, 658, getPane()).up_down();
         new TreeIcon(130, 658, getPane()).up_down();
         new TreeIcon(310, 658, getPane()).up_down();
-        getTcb().add(new TreeCheckBox("Precise Strikes", new String[]{"Critical Damage: +30%"}, new TreeCheckBox[]{getTcb().get(26), getTcb().get(27)}, 1, SkillEnum.PRECISE_STRIKES, 92, 656).whiteIcon()); //30
-        getTcb().add(new TreeCheckBox("Air Shout", new String[]{"War Scream will fire a projectile that can", "go through walls and deal damage multiple times."}, new TreeCheckBox[]{getTcb().get(28), getTcb().get(29)}, new TreeCheckBox[]{getTcb().get(8)}, 2, SkillEnum.AIR_SHOUT, 234, 654).yellowIcon()); //31
+        getTcb().add(new TreeCheckBox("Counter", new String[]{"when dodding nearby enemy attack, get", "30% change to instaly attack back.", " ", "Total Damage: 100% (of your DPS)", "(Damage 60%)", "(Thunder 20%)", "(Air 20%)"}, new TreeCheckBox[]{getTcb().get(27), getTcb().get(28)}, new TreeCheckBox[]{getTcb().get(8)}, 2, SkillEnum.COUNTER, 162, 654).yellowIcon()); //30
 
         new TreeIcon(22, 694, getPane()).up_down();
         new TreeIcon(130, 694, getPane()).up_down();
@@ -120,12 +119,12 @@ public class Warrior extends TreeBase {
         new TreeIcon(166, 730, getPane()).right_left_down();
         new TreeIcon(202, 730, getPane()).right_left();
         new TreeIcon(274, 730, getPane()).right_left();
-        getTcb().add(new TreeCheckBox("Enraged Blow", new String[]{"While Corrupted, every 1% of", "Health you lose will increase your", "damage by +2% (Max 160%)"}, new TreeCheckBox[]{getTcb().get(26)}, new TreeCheckBox[]{getTcb().get(25)}, TreeCheckBox.ArchetypeEnum.FALLEN, 0, 2, SkillEnum.ENRAGED_BLOW, 16, 724).purpleIcon()); //32
-        getTcb().add(new TreeCheckBox("Flying Kick", new String[]{"Hitting mobs with Charge will halt your", "momentum and knock them away."}, new TreeCheckBox[]{getTcb().get(27)}, 2, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 1, SkillEnum.FLYING_KICK, 126, 726).yellowIcon()); //33
-        getTcb().add(new TreeCheckBox("Stronger Mantle", new String[]{"add +2 additional charges", "to Mantle of the Bovemists", "and reduce its cooldown by -5s."}, null, new TreeCheckBox[]{getTcb().get(24)}, TreeCheckBox.ArchetypeEnum.PALADIN, 0, 1, SkillEnum.STRONGER_MANTLE, 236, 728).whiteIcon()); //34
-        getTcb().add(new TreeCheckBox("Manachism", new String[]{"If you receive a hit that's less than 5%", "of your max HP, gain 10 Mana. (1s Cooldown)"}, new TreeCheckBox[]{getTcb().get(29)}, null, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(27), getTcb().get(33), getTcb().get(34)})}, TreeCheckBox.ArchetypeEnum.PALADIN, 3, 2, SkillEnum.MANACHISM, 304, 724).purpleIcon()); //35
-        getTcb().get(33).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(29), getTcb().get(34), getTcb().get(35)})});
-        getTcb().get(34).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(27), getTcb().get(33)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(29), getTcb().get(35)})});
+        getTcb().add(new TreeCheckBox("Enraged Blow", new String[]{"While Corrupted, every 1% of", "Health you lose will increase your", "damage by +1.5% (Max 120%)"}, new TreeCheckBox[]{getTcb().get(26)}, new TreeCheckBox[]{getTcb().get(25)}, TreeCheckBox.ArchetypeEnum.FALLEN, 0, 2, SkillEnum.ENRAGED_BLOW, 16, 724).purpleIcon()); //31
+        getTcb().add(new TreeCheckBox("Flying Kick", new String[]{"Hitting mobs with Charge will halt your", "momentum and knock them away.", " ", "Total Damage: 200% (of your DPS)", "(Damage 150%)", "(Water 20%)", "(Air 30%)"}, new TreeCheckBox[]{getTcb().get(27)}, 2, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 1, SkillEnum.FLYING_KICK, 126, 726).yellowIcon()); //32
+        getTcb().add(new TreeCheckBox("Stronger Mantle", new String[]{"add +2 additional charges", "to Mantle of the Bovemists", "and reduce its cooldown by -5s."}, null, new TreeCheckBox[]{getTcb().get(24)}, TreeCheckBox.ArchetypeEnum.PALADIN, 0, 1, SkillEnum.STRONGER_MANTLE, 236, 728).whiteIcon()); //33
+        getTcb().add(new TreeCheckBox("Manachism", new String[]{"If you receive a hit that's less than 5%", "of your max HP, gain 10 Mana. (1s Cooldown)"}, new TreeCheckBox[]{getTcb().get(29)}, null, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(27), getTcb().get(32), getTcb().get(33)})}, TreeCheckBox.ArchetypeEnum.PALADIN, 3, 2, SkillEnum.MANACHISM, 304, 724).purpleIcon()); //34
+        getTcb().get(32).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(29), getTcb().get(33), getTcb().get(34)})});
+        getTcb().get(33).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(27), getTcb().get(32)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(29), getTcb().get(34)})});
 
         new TreeIcon(22, 766, getPane()).up_down();
         new TreeIcon(94, 766, getPane()).up_down();
@@ -135,26 +134,26 @@ public class Warrior extends TreeBase {
         new TreeIcon(58, 802, getPane()).right_left_down();
         new TreeIcon(202, 802, getPane()).right_left_down();
         new TreeIcon(274, 802, getPane()).right_left_down();
-        getTcb().add(new TreeCheckBox("Boiling Blood", new String[]{"Bash will leave a puddle of boiling blood", "after its fast first explosion, slowing down and", "damaging enemies on it every 0.4 seconds.", " ", "Total Damage: 30% (of your DPS)", "(Damage 25%)", "(Fire 5%)", "Effect: 20% Slowness to Enemies", "Duration: 3s"}, new TreeCheckBox[]{getTcb().get(32)}, 2, SkillEnum.BOILING_BLOOD, 18, 798).yellowIcon()); //36
-        getTcb().add(new TreeCheckBox("Ragnarokkr", new String[]{"War Scream becomes defeating, increasing its", "range and granting players a damage bonus.", " ", "War Scream Spell Cost: +10", "Effect: 30% Damage Bonus to Players", "Duration: +90s"}, new TreeCheckBox[]{getTcb().get(33)}, new TreeCheckBox[]{getTcb().get(8)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(32), getTcb().get(36)})}, TreeCheckBox.ArchetypeEnum.FALLEN, 0, 2, SkillEnum.RAGNAROKKR, 88, 796).purpleIcon()); //37
-        getTcb().add(new TreeCheckBox("Ambidextrous", new String[]{"Increase your chance to attack", "with Counter by +30%."}, new TreeCheckBox[]{getTcb().get(33), getTcb().get(34)}, new TreeCheckBox[]{getTcb().get(22)}, 1, SkillEnum.AMBIDEXTROUS, 164, 800).whiteIcon()); //38
-        getTcb().add(new TreeCheckBox("Burning Heart", new String[]{"For every 100 Health Bonus you have from", "items, gain +2% Fire Damage. (Max 100%)"}, null, 1, TreeCheckBox.ArchetypeEnum.PALADIN, 0, SkillEnum.BURNING_HEART, 236, 800).whiteIcon()); //39
-        getTcb().add(new TreeCheckBox("Stronger Bash", new String[]{"Increase the damage of Bash.", " ", "Total Damage: +30% (of your DPS)", "(Damage +30%)"}, new TreeCheckBox[]{getTcb().get(35)}, 1, SkillEnum.STRONGER_BASH, 308, 800).whiteIcon()); //40
-        getTcb().get(36).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(33), getTcb().get(37)})});
-        getTcb().get(38).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(35), getTcb().get(39), getTcb().get(40)})});
-        getTcb().get(39).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(33), getTcb().get(38)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(35), getTcb().get(40)})});
+        getTcb().add(new TreeCheckBox("Boiling Blood", new String[]{"Bash will leave a puddle of boiling blood", "after its fast first explosion, slowing down and", "damaging enemies on it every 0.4 seconds.", " ", "Total Damage: 30% (of your DPS)", "(Damage 25%)", "(Fire 5%)", "Effect: 20% Slowness to Enemies", "Duration: 3s"}, new TreeCheckBox[]{getTcb().get(31)}, 2, SkillEnum.BOILING_BLOOD, 18, 798).yellowIcon()); //35
+        getTcb().add(new TreeCheckBox("Ragnarokkr", new String[]{"War Scream becomes defeating, increasing its", "range and granting players a damage bonus.", " ", "War Scream Spell Cost: +10", "Effect: 30% Damage Bonus to Players", "Duration: +90s"}, new TreeCheckBox[]{getTcb().get(32)}, new TreeCheckBox[]{getTcb().get(8)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(31), getTcb().get(35)})}, TreeCheckBox.ArchetypeEnum.FALLEN, 0, 2, SkillEnum.RAGNAROKKR, 88, 796).purpleIcon()); //36
+        getTcb().add(new TreeCheckBox("Precise Strike", new String[]{"Critical Hit Damage: +30%"}, new TreeCheckBox[]{getTcb().get(32), getTcb().get(33)}, 1, SkillEnum.PRECISE_STRIKES, 164, 800).whiteIcon()); //37
+        getTcb().add(new TreeCheckBox("Burning Heart", new String[]{"For every 100 Health Bonus you have from", "items, gain +2% Fire Damage. (Max 100%)"}, null, 1, TreeCheckBox.ArchetypeEnum.PALADIN, 0, SkillEnum.BURNING_HEART, 236, 800).whiteIcon()); //38
+        getTcb().add(new TreeCheckBox("Stronger Bash", new String[]{"Increase the damage of Bash.", " ", "Total Damage: +30% (of your DPS)", "(Damage +30%)"}, new TreeCheckBox[]{getTcb().get(34)}, 1, SkillEnum.STRONGER_BASH, 308, 800).whiteIcon()); //39
+        getTcb().get(35).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(32), getTcb().get(36)})});
+        getTcb().get(37).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(34), getTcb().get(38), getTcb().get(39)})});
+        getTcb().get(38).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(32), getTcb().get(37)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(34), getTcb().get(39)})});
 
         new TreeIcon(22, 838, getPane()).up_down();
         new TreeIcon(94, 838, getPane()).up_down();
         new TreeIcon(166, 838, getPane()).up_down();
-        getTcb().add(new TreeCheckBox("Intoxicating Blood", new String[]{"After leaving Corrupted, gain 5%", "of the health lost back for each", "enemy killed while Corrupted."}, new TreeCheckBox[]{getTcb().get(36), getTcb().get(37)}, new TreeCheckBox[]{getTcb().get(25)}, TreeCheckBox.ArchetypeEnum.FALLEN, 5, 2, SkillEnum.INTOXICATING_BLOOD, 54, 834).yellowIcon()); //41
-        getTcb().add(new TreeCheckBox("Collide", new String[]{"Enemies thrown into walls from Flying Kick", "will explode and receive additional damage.", " ", "Total Damage: 200% (of your DPS)", "(Damage 150%)", "(Fire 50%)", "Area of Effect: 4 Blocks"}, new TreeCheckBox[]{getTcb().get(38), getTcb().get(39)}, new TreeCheckBox[]{getTcb().get(33)}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 4, 2, SkillEnum.COLLIDE, 198, 834).yellowIcon()); //42
-        getTcb().add(new TreeCheckBox("Rejuvenating Skin", new String[]{"Regain back 30% of the damage", "you take as healing 30s."}, new TreeCheckBox[]{getTcb().get(39), getTcb().get(40)}, 2, TreeCheckBox.ArchetypeEnum.PALADIN, 5, SkillEnum.REJUVENATING_SKIN, 264, 828).redIcon()); //43
+        getTcb().add(new TreeCheckBox("Intoxicating Blood", new String[]{"After leaving Corrupted, gain 5%", "of the health lost back for each", "enemy killed while Corrupted."}, new TreeCheckBox[]{getTcb().get(35), getTcb().get(36)}, new TreeCheckBox[]{getTcb().get(25)}, TreeCheckBox.ArchetypeEnum.FALLEN, 5, 2, SkillEnum.INTOXICATING_BLOOD, 54, 834).yellowIcon()); //40
+        getTcb().add(new TreeCheckBox("Collide", new String[]{"Enemies thrown into walls from Flying Kick", "will explode and receive additional damage.", " ", "Total Damage: 200% (of your DPS)", "(Damage 150%)", "(Fire 50%)", "Area of Effect: 4 Blocks"}, new TreeCheckBox[]{getTcb().get(37), getTcb().get(38)}, new TreeCheckBox[]{getTcb().get(32)}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 4, 2, SkillEnum.COLLIDE, 198, 834).yellowIcon()); //41
+        getTcb().add(new TreeCheckBox("Rejuvenating Skin", new String[]{"Regain back 30% of the damage", "you take as healing 30s."}, new TreeCheckBox[]{getTcb().get(38), getTcb().get(39)}, 2, TreeCheckBox.ArchetypeEnum.PALADIN, 5, SkillEnum.REJUVENATING_SKIN, 264, 828).redIcon()); //42
 
         new TreeIcon(22, 874, getPane()).up_down();
         new TreeIcon(166, 874, getPane()).up_down();
         new TreeIcon(274, 874, getPane()).up_down();
-        getTcb().add(new TreeCheckBox("Comet", new String[]{"After being hit by Fireworks, enemies will crash", "unto the ground and receive more damage.", " ", "Total Damage: +100% (of your DPS)", "(Damage +80%)", "(Earth +20%)"}, new TreeCheckBox[]{getTcb().get(37)}, new TreeCheckBox[]{getTcb().get(33)}, TreeCheckBox.ArchetypeEnum.FALLEN, 0, 2, SkillEnum.COMET, 90, 870).yellowIcon()); //44
+        getTcb().add(new TreeCheckBox("Comet", new String[]{"After being hit by Fireworks, enemies will crash", "unto the ground and receive more damage.", " ", "Total Damage: +100% (of your DPS)", "(Damage +80%)", "(Earth +20%)"}, new TreeCheckBox[]{getTcb().get(36)}, new TreeCheckBox[]{getTcb().get(17)}, TreeCheckBox.ArchetypeEnum.FALLEN, 0, 2, SkillEnum.COMET, 90, 870).yellowIcon()); //43
 
         new TreeIcon(22, 910, getPane()).up_down();
         new TreeIcon(166, 910, getPane()).up_down();
@@ -164,35 +163,36 @@ public class Warrior extends TreeBase {
         new TreeIcon(130, 946, getPane()).right_left();
         new TreeIcon(238, 946, getPane()).right_down();
         new TreeIcon(310, 946, getPane()).left_down();
-        getTcb().add(new TreeCheckBox("Uncontainable Corruption", new String[]{"Reduces the cooldown of Bak'al's Grasp", "by -5s, and increases the raw damage", "gained for every 2% of health lost by +1."}, new TreeCheckBox[]{getTcb().get(36)}, new TreeCheckBox[]{getTcb().get(25)}, 1, SkillEnum.UNCONTAINABLE_CORRUPTION, 20, 944).whiteIcon()); //45
-        getTcb().add(new TreeCheckBox("Radiant Devotee", new String[]{"For every 4% Reflection you have from", "items, gain +1/5s Mana Regen. (Max 10/5s)"}, null, 1, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 1, SkillEnum.RADIANT_DEVOTEE, 92, 944).whiteIcon()); //46
-        getTcb().add(new TreeCheckBox("Whirlwind Strike", new String[]{"Uppercut will create a strong gust of air,", "launching you upward with enemies.", " ", "Total Damage: +50% (of your DPS)", "(Air +50%)", "Area of Effect: Circle-Shaped", "Range: 1 Blocks"}, new TreeCheckBox[]{getTcb().get(38)}, new TreeCheckBox[]{getTcb().get(7)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(36), getTcb().get(45), getTcb().get(46)})}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 5, 2, SkillEnum.WHIRLWIND_STRIKE, 162, 942).yellowIcon()); //47
-        getTcb().add(new TreeCheckBox("Mythril Skin", new String[]{"Gain +5% Base Resistance and", "become immune to knockback."}, new TreeCheckBox[]{getTcb().get(43)}, 2, TreeCheckBox.ArchetypeEnum.PALADIN, 6, SkillEnum.MYTHRIL_SKIN, 270, 942).yellowIcon()); //48
-        getTcb().get(45).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(38), getTcb().get(46), getTcb().get(47)})});
-        getTcb().get(46).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(36), getTcb().get(45)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(38), getTcb().get(47)})});
+        getTcb().add(new TreeCheckBox("Uncontainable Corruption", new String[]{"Reduces the cooldown of Bak'al's Grasp", "by -5s, and increases the raw damage", "gained for every 2% of health lost by +1."}, new TreeCheckBox[]{getTcb().get(35)}, new TreeCheckBox[]{getTcb().get(25)}, 1, SkillEnum.UNCONTAINABLE_CORRUPTION, 20, 944).whiteIcon()); //44
+        getTcb().add(new TreeCheckBox("Radiant Devotee", new String[]{"For every 4% Reflection you have from", "items, gain +1/5s Mana Regen. (Max 10/5s)"}, null, 1, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 1, SkillEnum.RADIANT_DEVOTEE, 92, 944).whiteIcon()); //45
+        getTcb().add(new TreeCheckBox("Whirlwind Strike", new String[]{"Uppercut will create a strong gust of air,", "launching you upward with enemies.", " ", "Total Damage: +10% (of your DPS)", "(Damage -20%)", "(Air +30%)", "Area of Effect: Circle-Shaped", "Range: 1 Blocks"}, new TreeCheckBox[]{getTcb().get(37)}, new TreeCheckBox[]{getTcb().get(7)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(35), getTcb().get(44), getTcb().get(45)})}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 5, 2, SkillEnum.WHIRLWIND_STRIKE, 156, 936).redIcon()); //46
+        getTcb().add(new TreeCheckBox("Mythril Skin", new String[]{"Gain +5% Base Resistance and", "become immune to knockback."}, new TreeCheckBox[]{getTcb().get(42)}, 2, TreeCheckBox.ArchetypeEnum.PALADIN, 6, SkillEnum.MYTHRIL_SKIN, 270, 942).yellowIcon()); //47
+        getTcb().get(44).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(37), getTcb().get(45), getTcb().get(46)})});
+        getTcb().get(45).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(35), getTcb().get(44)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(37), getTcb().get(46)})});
 
         new TreeIcon(22, 982, getPane()).up_down();
         new TreeIcon(166, 982, getPane()).up_down();
         new TreeIcon(274, 982, getPane()).right_left_down();
-        getTcb().add(new TreeCheckBox("Armour Breaker", new String[]{"While Corrupted, losing 30% Health will make", "your next Uppercut reduce the enemies defense stats.", " ", "Effect: -30% Resistance to Enemies", "Duration: 8s"}, new TreeCheckBox[]{getTcb().get(45), getTcb().get(46)}, new TreeCheckBox[]{getTcb().get(25)}, TreeCheckBox.ArchetypeEnum.FALLEN, 0, 2, SkillEnum.ARMOUR_BREAKER, 52, 976).purpleIcon()); //49
-        getTcb().add(new TreeCheckBox("Shield Strike", new String[]{"Deals damage around you for each mantle lost", "when Mantle of the Bovemists loses all charges.", " ", "Total Damage: 100% (of your DPS, per Mantle lost)", "(Damage 70%)", "(Thunder 30%)", "Area of Effect: 5 Blocks (Circle-Shaped)"}, new TreeCheckBox[]{getTcb().get(48)}, new TreeCheckBox[]{getTcb().get(24)}, TreeCheckBox.ArchetypeEnum.PALADIN, 0, 2, SkillEnum.SHIELD_STRIKE, 234, 978).yellowIcon()); //50
-        getTcb().add(new TreeCheckBox("Sparkling Hope", new String[]{"Deal damage to all nearby enemies every", "time you heal 5% of your max health.", " ", "Total Damage: 60% (of your DPS)", "(Damage 40%)", "(Thunder 20%)", "Area of Effect: 6 Blocks (Circle-Shaped)"}, new TreeCheckBox[]{getTcb().get(48)}, 2, TreeCheckBox.ArchetypeEnum.PALADIN, 0, SkillEnum.SPARKLING_HOPE, 304, 976).purpleIcon()); //51
+        getTcb().add(new TreeCheckBox("Armour Breaker", new String[]{"While Corrupted, losing 30% Health will make", "your next Uppercut reduce the enemies defense stats.", " ", "Effect: -30% Resistance to Enemies", "Duration: 8s"}, new TreeCheckBox[]{getTcb().get(44), getTcb().get(45)}, new TreeCheckBox[]{getTcb().get(25)}, TreeCheckBox.ArchetypeEnum.FALLEN, 0, 2, SkillEnum.ARMOUR_BREAKER, 52, 976).purpleIcon()); //48
+        getTcb().add(new TreeCheckBox("Ambidextrous", new String[]{"Increase your chance to attack", "with Counter by +30%."}, new TreeCheckBox[]{getTcb().get(44), getTcb().get(45)}, new TreeCheckBox[]{getTcb().get(30)}, 1, SkillEnum.AMBIDEXTROUS, 128, 980).whiteIcon()); //50
+        getTcb().add(new TreeCheckBox("Shield Strike", new String[]{"Deals damage around you for each mantle lost", "when Mantle of the Bovemists loses all charges.", " ", "Total Damage: 100% (of your DPS, per Mantle lost)", "(Damage 70%)", "(Thunder 30%)", "Area of Effect: 5 Blocks (Circle-Shaped)"}, new TreeCheckBox[]{getTcb().get(47)}, new TreeCheckBox[]{getTcb().get(24)}, TreeCheckBox.ArchetypeEnum.PALADIN, 0, 2, SkillEnum.SHIELD_STRIKE, 234, 978).yellowIcon()); //50
+        getTcb().add(new TreeCheckBox("Sparkling Hope", new String[]{"Deal damage to all nearby enemies every", "time you heal 5% of your max health.", " ", "Total Damage: 60% (of your DPS)", "(Damage 40%)", "(Thunder 20%)", "Area of Effect: 6 Blocks (Circle-Shaped)"}, new TreeCheckBox[]{getTcb().get(47)}, 2, TreeCheckBox.ArchetypeEnum.PALADIN, 0, SkillEnum.SPARKLING_HOPE, 304, 976).purpleIcon()); //51
 
         new TreeIcon(58, 1018, getPane()).right_left_down();
         new TreeIcon(130, 1018, getPane()).right_left_down();
         new TreeIcon(202, 1018, getPane()).left_down();
         new TreeIcon(274, 1018, getPane()).up_down();
-        getTcb().add(new TreeCheckBox("Massive Bash", new String[]{"While Corrupted, every 3% Health you", "lose will increase Bash's area of effect", "radius by +1. (Max +10)"}, new TreeCheckBox[]{getTcb().get(45)}, 2, TreeCheckBox.ArchetypeEnum.FALLEN, 7, SkillEnum.MASSIVE_BASH, 16, 1012).purpleIcon()); //52
+        getTcb().add(new TreeCheckBox("Massive Bash", new String[]{"While Corrupted, every 3% Health you", "lose will increase Bash's area of effect", "radius by +1. (Max +10)"}, new TreeCheckBox[]{getTcb().get(44)}, 2, TreeCheckBox.ArchetypeEnum.FALLEN, 7, SkillEnum.MASSIVE_BASH, 16, 1012).purpleIcon()); //52
         getTcb().add(new TreeCheckBox("Tempest", new String[]{"War Scream will ripple the ground and", "deal damage to enemies 3 times", "over large area.", " ", "Total Damage: 50% (of your DPS, per ripple)", "(Damage 30%)", "(Earth 10%)", "(Air 10%)", "Area of Effect: 12 Blocks (Circle-Shaped)"}, null, 2, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 0, SkillEnum.TEMPEST, 90, 1014).yellowIcon()); //53
-        getTcb().add(new TreeCheckBox("Spirit of the Rabbit", new String[]{"Reduce the Mana Cost of Charge", "and increase your Walk Speed by +20%", " ", "Charge Spell Cost: -5"}, new TreeCheckBox[]{getTcb().get(47)}, null, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(45), getTcb().get(52), getTcb().get(53)})}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 5, 1, SkillEnum.SPIRIT_OF_THE_RABBIT, 164, 1016).whiteIcon()); //54
-        getTcb().get(52).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(47), getTcb().get(53), getTcb().get(54)})});
-        getTcb().get(53).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(47), getTcb().get(54)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(45), getTcb().get(52)})});
+        getTcb().add(new TreeCheckBox("Spirit of the Rabbit", new String[]{"Reduce the Mana Cost of Charge", "and increase your Walk Speed by +20%", " ", "Charge Spell Cost: -5"}, new TreeCheckBox[]{getTcb().get(46)}, null, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(44), getTcb().get(52), getTcb().get(53)})}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 5, 1, SkillEnum.SPIRIT_OF_THE_RABBIT, 164, 1016).whiteIcon()); //54
+        getTcb().get(52).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(46), getTcb().get(53), getTcb().get(54)})});
+        getTcb().get(53).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(46), getTcb().get(54)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(44), getTcb().get(52)})});
 
         new TreeIcon(22, 1054, getPane()).up_down();
         new TreeIcon(166, 1054, getPane()).up_down();
         new TreeIcon(238, 1054, getPane()).right_left();
         getTcb().add(new TreeCheckBox("Massacre", new String[]{"While Corrupted, if your Attack Speed (affected by IDs)", "is Slow of lower, hitting an enemy with your", "Main Attack will add +4% Corruption to", "your Corrupted Bar."}, new TreeCheckBox[]{getTcb().get(52), getTcb().get(53)}, 2, TreeCheckBox.ArchetypeEnum.FALLEN, 5, SkillEnum.MASSACRE, 54, 1050).yellowIcon()); //55
-        getTcb().add(new TreeCheckBox("Axe Kick", new String[]{"Increases the damage and mana cost", "of Uppercut.", " ", "Uppercut Spell Cost: +10", "Total Damage: +100% (of your DPS)", "(Damage +100%)"}, new TreeCheckBox[]{getTcb().get(53), getTcb().get(54)}, 1, SkillEnum.AXE_KICK, 128, 1052).whiteIcon()); //56
+        getTcb().add(new TreeCheckBox("Axe Kick", new String[]{"Increases the damage and mana cost", "of Uppercut.", " ", "Uppercut Spell Cost: +15", "Total Damage: +150% (of your DPS)", "(Damage +150%)"}, new TreeCheckBox[]{getTcb().get(53), getTcb().get(54)}, 1, SkillEnum.AXE_KICK, 128, 1052).whiteIcon()); //56
         getTcb().add(new TreeCheckBox("Radiance", new String[]{"Bash will buff positive IDs of", "yourself and allies. (15s Cooldown)", " ", "Effect: +20% ID Effectiveness to Allies", "Duration: 8s"}, new TreeCheckBox[]{getTcb().get(54)}, 2, TreeCheckBox.ArchetypeEnum.PALADIN, 5, SkillEnum.RADIANCE, 196, 1048).purpleIcon()); //57
         getTcb().add(new TreeCheckBox("Cheaper Bash", new String[]{"Bash Spell Cost: -5"}, new TreeCheckBox[]{getTcb().get(50), getTcb().get(51)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(54), getTcb().get(57)})}, 1, SkillEnum.CHEAPER_1ST_SP_COST, 272, 1052).whiteIcon()); //58
         getTcb().get(57).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(50), getTcb().get(58)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(51), getTcb().get(58)})});
@@ -211,7 +211,7 @@ public class Warrior extends TreeBase {
         new TreeIcon(22, 1162, getPane()).up_down();
         new TreeIcon(238, 1162, getPane()).right_down();
         new TreeIcon(310, 1162, getPane()).left_down();
-        getTcb().add(new TreeCheckBox("Thunderclap", new String[]{"Bash will cast at the player's position at", "double the speed and with an increased", "area of effect. All Elemental", "conversions become Thunder.", " ", "Area of Effect: 3 Blocks (Circle-Shaped)"}, new TreeCheckBox[]{getTcb().get(60)}, new TreeCheckBox[]{getTcb().get(0)}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 8, 2, SkillEnum.THUNDERCLAP, 198, 1158).yellowIcon()); //62
+        getTcb().add(new TreeCheckBox("Thunderclap", new String[]{"Bash will cast at the player's position at", "double the speed and with an increased area of effect.", " ", "Total Damage: +25% (of your DPS, per Bash)", "(Thunder +25%)", "Area of Effect: +3 Blocks (Circle-Shaped)"}, new TreeCheckBox[]{getTcb().get(60)}, new TreeCheckBox[]{getTcb().get(0)}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 8, 2, SkillEnum.THUNDERCLAP, 198, 1158).yellowIcon()); //62
         getTcb().add(new TreeCheckBox("Second Chance", new String[]{"Keeps you alive with 30% of your health remaining", "after receiving a fatal blow. (10m Cooldown)"}, new TreeCheckBox[]{getTcb().get(58)}, 2, TreeCheckBox.ArchetypeEnum.PALADIN, 12, SkillEnum.SECOND_CHANCE, 264, 1152).redIcon()); //63
 
         new TreeIcon(58, 1198, getPane()).right_left();
