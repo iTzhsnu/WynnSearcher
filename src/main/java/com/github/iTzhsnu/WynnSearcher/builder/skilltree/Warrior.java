@@ -94,7 +94,7 @@ public class Warrior extends TreeBase {
         getTcb().add(new TreeCheckBox("Bak'al's Grasp", new String[]{"Casting War Scream will make you", "Corrupted (15s Cooldown)", " ", "While Corrupted you lose the ability", "to heal, and 2% health you lose will", "grant you +4 Raw Damage (Max 120)"}, new TreeCheckBox[]{getTcb().get(16), getTcb().get(17)}, new TreeCheckBox[]{getTcb().get(8)}, TreeCheckBox.ArchetypeEnum.FALLEN, 2, 2, SkillEnum.BAKALS_GRASP, 48, 576).redIcon()); //25
 
         new TreeIcon(58, 622, getPane()).right_left();
-        new TreeIcon(94, 622, getPane()).right_left_down();
+        new TreeIcon(94, 622, getPane()).right_left();
         new TreeIcon(166, 622, getPane()).right_left_down();
         new TreeIcon(238, 622, getPane()).right_left();
         new TreeIcon(310, 622, getPane()).left_down();
@@ -160,7 +160,7 @@ public class Warrior extends TreeBase {
         new TreeIcon(274, 910, getPane()).up_down();
 
         new TreeIcon(58, 946, getPane()).right_left_down();
-        new TreeIcon(130, 946, getPane()).right_left();
+        new TreeIcon(130, 946, getPane()).right_left_down();
         new TreeIcon(238, 946, getPane()).right_down();
         new TreeIcon(310, 946, getPane()).left_down();
         getTcb().add(new TreeCheckBox("Uncontainable Corruption", new String[]{"Reduces the cooldown of Bak'al's Grasp", "by -5s, and increases the raw damage", "gained for every 2% of health lost by +1."}, new TreeCheckBox[]{getTcb().get(35)}, new TreeCheckBox[]{getTcb().get(25)}, 1, SkillEnum.UNCONTAINABLE_CORRUPTION, 20, 944).whiteIcon()); //44
