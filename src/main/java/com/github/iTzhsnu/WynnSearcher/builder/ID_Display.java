@@ -114,7 +114,7 @@ public class ID_Display {
         put(7, Identifications.PERCENT_4TH_SPELL_COST);
     }};
 
-    private static final Map<Identifications, Integer> ID_INT = new HashMap<Identifications, Integer>() {{
+    public static final Map<Identifications, Integer> ID_INT = new HashMap<Identifications, Integer>() {{
         put(Identifications.HEALTH, 0);
         put(Identifications.HEALTH_BONUS, 1);
         put(Identifications.LIFE_STEAL, 2);
@@ -149,6 +149,7 @@ public class ID_Display {
 
         put(Identifications.RAW_HEALTH_REGEN, 29);
         put(Identifications.HEALTH_REGEN_PERCENT, 30);
+
         put(Identifications.EARTH_DAMAGE_PERCENT, 31);
         put(Identifications.THUNDER_DAMAGE_PERCENT, 32);
         put(Identifications.WATER_DAMAGE_PERCENT, 33);
@@ -396,54 +397,6 @@ public class ID_Display {
 
         float def = 2F - CLASS_DEF.get(classID); //Base Defense
 
-        //Ability Tree
-        for (TreeCheckBox tcb : tree.getTcb()) {
-            if (tcb.isSelected()) {
-                switch (tcb.getSkill()) {
-                    case PROFICIENCY: numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)] += 5;
-                        break;
-                    case CHEAPER_1ST_SP_COST_10: numbers[ID_INT.get(Identifications.RAW_1ST_SPELL_COST)] -= 10;
-                        break;
-                    case CHEAPER_3RD_SP_COST_10: numbers[ID_INT.get(Identifications.RAW_3RD_SPELL_COST)] -= 10;
-                        break;
-                    case CHEAPER_1ST_SP_COST: numbers[ID_INT.get(Identifications.RAW_1ST_SPELL_COST)] -= 5;
-                        break;
-                    case CHEAPER_2ND_SP_COST: numbers[ID_INT.get(Identifications.RAW_2ND_SPELL_COST)] -= 5;
-                        break;
-                    case CHEAPER_3RD_SP_COST: numbers[ID_INT.get(Identifications.RAW_3RD_SPELL_COST)] -= 5;
-                        break;
-                    case CHEAPER_4TH_SP_COST: numbers[ID_INT.get(Identifications.RAW_4TH_SPELL_COST)] -= 5;
-                        break;
-                    case EARTH_DAMAGE: numbers[ID_INT.get(Identifications.EARTH_DAMAGE_PERCENT)] += 20;
-                        break;
-                    case THUNDER_DAMAGE: numbers[ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)] += 10;
-                        break;
-                    case WATER_DAMAGE: numbers[ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] += 15;
-                        break;
-                    case FIRE_DAMAGE: numbers[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += 15;
-                        break;
-                    case AIR_DAMAGE: numbers[ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)] += 15;
-                        break;
-                }
-                switch (tree.getClasses()) {
-                    case "Warrior": if (tcb.getSkill() == SkillEnum.TOUGHER_SKIN || tcb.getSkill() == SkillEnum.MYTHRIL_SKIN) def -= 0.05F;
-                        break;
-                    case "Assassin": {
-                        //TODO Assassin Ability Tree
-                    }
-                    case "Archer": {
-                        //TODO Archer Ability Tree
-                    }
-                    case "Mage": {
-                        //TODO Mage Ability Tree
-                    }
-                    case "Shaman": {
-                        //TODO Shaman Ability Tree
-                    }
-                }
-            }
-        }
-
         if (updateOnly) { //Update Edited ID
             for (int i = 29; 69 >= i; ++i) { //Damages and Health Regen
                 numbers[i] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).getValue();
@@ -471,26 +424,80 @@ public class ID_Display {
             }
         }
 
+        int[] numbers_Sub = new int[] { //Using 0 ~ 77
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        };
+
         //Ability Tree
-        switch (tree.getClasses()) {
-            case "Warrior": {
-                if (tree.getTcb().get(5).isSelected()) numbers[ID_INT.get(Identifications.WALK_SPEED)] += Math.min((numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)] + numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)]) * 2, 20); //Vehement
-                if (tree.getTcb().get(39).isSelected()) numbers[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.HEALTH_BONUS)] / 100F) * 2, 100); //Burning Heart
-                if (tree.getTcb().get(46).isSelected()) numbers[ID_INT.get(Identifications.MANA_REGEN)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.REFLECTION)] / 4F), 10); //Radiant Devotee
-                break;
+        for (TreeCheckBox tcb : tree.getTcb()) {
+            if (tcb.isSelected()) {
+                switch (tcb.getSkill()) {
+                    case PROFICIENCY: numbers_Sub[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)] += 5;
+                        break;
+                    case CHEAPER_1ST_SP_COST_10: numbers_Sub[ID_INT.get(Identifications.RAW_1ST_SPELL_COST)] -= 10;
+                        break;
+                    case CHEAPER_3RD_SP_COST_10: numbers_Sub[ID_INT.get(Identifications.RAW_3RD_SPELL_COST)] -= 10;
+                        break;
+                    case CHEAPER_1ST_SP_COST: numbers_Sub[ID_INT.get(Identifications.RAW_1ST_SPELL_COST)] -= 5;
+                        break;
+                    case CHEAPER_2ND_SP_COST: numbers_Sub[ID_INT.get(Identifications.RAW_2ND_SPELL_COST)] -= 5;
+                        break;
+                    case CHEAPER_3RD_SP_COST: numbers_Sub[ID_INT.get(Identifications.RAW_3RD_SPELL_COST)] -= 5;
+                        break;
+                    case CHEAPER_4TH_SP_COST: numbers_Sub[ID_INT.get(Identifications.RAW_4TH_SPELL_COST)] -= 5;
+                        break;
+                    case EARTH_DAMAGE: numbers_Sub[ID_INT.get(Identifications.EARTH_DAMAGE_PERCENT)] += 20;
+                        break;
+                    case THUNDER_DAMAGE: numbers_Sub[ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)] += 10;
+                        break;
+                    case WATER_DAMAGE: numbers_Sub[ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] += 15;
+                        break;
+                    case FIRE_DAMAGE: numbers_Sub[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += 15;
+                        break;
+                    case AIR_DAMAGE: numbers_Sub[ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)] += 15;
+                        break;
+                }
+                switch (tree.getClasses()) {
+                    case "Warrior": {
+                        switch (tcb.getSkill()) {
+                            case TOUGHER_SKIN:
+                            case MYTHRIL_SKIN:
+                                def -= 0.05F;
+                                break;
+                            case VEHEMENT: numbers[ID_INT.get(Identifications.WALK_SPEED)] += Math.min((numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)] + numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)]) * 2, 20);
+                                break;
+                            case BURNING_HEART: numbers[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.HEALTH_BONUS)] / 100F) * 2, 100);
+                                break;
+                            case RADIANT_DEVOTEE: numbers[ID_INT.get(Identifications.MANA_REGEN)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.REFLECTION)] / 4F), 10);
+                                break;
+                        }
+                        break;
+                    }
+                    case "Assassin": {
+                        //TODO Assassin Ability Tree
+                    }
+                    case "Archer": {
+                        //TODO Archer Ability Tree
+                    }
+                    case "Mage": {
+                        //TODO Mage Ability Tree
+                    }
+                    case "Shaman": {
+                        //TODO Shaman Ability Tree
+                    }
+                }
             }
-            case "Assassin": {
-                //TODO Asn Ability Tree Buffs
-            }
-            case "Archer": {
-                //TODO Archer Ability Tree Buffs
-            }
-            case "Mage": {
-                //TODO Mage Ability Tree Buffs
-            }
-            case "Shaman": {
-                //TODO Shaman Ability Tree Buffs
-            }
+        }
+
+        for (int i = 0; 77 >= i; ++i) { //ID_Main + ID_Sub = ID_Main
+            numbers[i] += numbers_Sub[i];
         }
 
         //War Scream
@@ -521,14 +528,14 @@ public class ID_Display {
 
         id_Numbers = numbers;
 
-        numbers[0] += numbers[1]; //Health + Health Bonus
-        if (numbers[0] < 5) numbers[0] = 5;
+        int health = numbers[0] + numbers[1]; //Health + Health Bonus
+        if (health < 5) health = 5;
         float defSP = sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost() - 1F; //Defense Skill Point
         float agiSP = sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost() - 1F; //Agility Skill Point
-        float ehp = numbers[0] / (0.1F * agiSP + (1F - agiSP) * (1F - defSP)) / def; //Effective Health Calc
-        ids.add(new JLabel("Health: " + numbers[0])); //Total Health
+        float ehp = health / (0.1F * agiSP + (1F - agiSP) * (1F - defSP)) / def; //Effective Health Calc
+        ids.add(new JLabel("Health: " + health)); //Total Health
         ids.add(new JLabel("EHP: " + ehp)); //Effective Health
-        ids.add(new JLabel("EHP (No Agi): " + (numbers[0] / ((1F - defSP) * def)))); //Effective Health (No Agility)
+        ids.add(new JLabel("EHP (No Agi): " + (health / ((1F - defSP) * def)))); //Effective Health (No Agility)
         ids.add(new JLabel("HPR: " + (numbers[37] * ((100F + numbers[38]) / 100F)))); //Total Health Regen
         ids.add(new JLabel("Life Steal: " + numbers[2] + "/3s")); //Life Steal
         ids.add(new JLabel(" "));
