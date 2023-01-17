@@ -2,7 +2,6 @@ package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
 import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
-import com.github.iTzhsnu.WynnSearcher.builder.skilltree.SkillEnum;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeBase;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeCheckBox;
 import com.google.gson.JsonObject;
@@ -14,8 +13,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URISyntaxException;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class ID_Display {
     private final JPanel pane = new JPanel();
@@ -439,20 +438,6 @@ public class ID_Display {
         for (TreeCheckBox tcb : tree.getTcb()) {
             if (tcb.isSelected()) {
                 switch (tcb.getSkill()) {
-                    case PROFICIENCY: numbers_Sub[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)] += 5;
-                        break;
-                    case CHEAPER_1ST_SP_COST_10: numbers_Sub[ID_INT.get(Identifications.RAW_1ST_SPELL_COST)] -= 10;
-                        break;
-                    case CHEAPER_3RD_SP_COST_10: numbers_Sub[ID_INT.get(Identifications.RAW_3RD_SPELL_COST)] -= 10;
-                        break;
-                    case CHEAPER_1ST_SP_COST: numbers_Sub[ID_INT.get(Identifications.RAW_1ST_SPELL_COST)] -= 5;
-                        break;
-                    case CHEAPER_2ND_SP_COST: numbers_Sub[ID_INT.get(Identifications.RAW_2ND_SPELL_COST)] -= 5;
-                        break;
-                    case CHEAPER_3RD_SP_COST: numbers_Sub[ID_INT.get(Identifications.RAW_3RD_SPELL_COST)] -= 5;
-                        break;
-                    case CHEAPER_4TH_SP_COST: numbers_Sub[ID_INT.get(Identifications.RAW_4TH_SPELL_COST)] -= 5;
-                        break;
                     case EARTH_DAMAGE: numbers_Sub[ID_INT.get(Identifications.EARTH_DAMAGE_PERCENT)] += 20;
                         break;
                     case THUNDER_DAMAGE: numbers_Sub[ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)] += 10;
@@ -536,7 +521,7 @@ public class ID_Display {
         ids.add(new JLabel("Health: " + health)); //Total Health
         ids.add(new JLabel("EHP: " + ehp)); //Effective Health
         ids.add(new JLabel("EHP (No Agi): " + (health / ((1F - defSP) * def)))); //Effective Health (No Agility)
-        ids.add(new JLabel("HPR: " + (numbers[37] * ((100F + numbers[38]) / 100F)))); //Total Health Regen
+        ids.add(new JLabel("HPR: " + (numbers[29] * ((100F + numbers[30]) / 100F)))); //Total Health Regen
         ids.add(new JLabel("Life Steal: " + numbers[2] + "/3s")); //Life Steal
         ids.add(new JLabel(" "));
         for (int i = 3; 7 >= i; ++i) { //Defenses

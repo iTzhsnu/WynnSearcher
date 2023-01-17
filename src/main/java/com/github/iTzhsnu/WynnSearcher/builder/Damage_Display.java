@@ -1,6 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
+import com.github.iTzhsnu.WynnSearcher.builder.skilltree.SpellEnum;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeBase;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeCheckBox;
 import com.google.gson.JsonObject;
@@ -22,7 +23,7 @@ public class Damage_Display {
 
     public Damage_Display(JPanel p) {
 
-        pane.setPreferredSize(new Dimension(300, 1000));
+        pane.setPreferredSize(new Dimension(300, 397));
         pane.setLayout(null);
 
         JScrollPane scrollPane = new JScrollPane(pane);
@@ -207,7 +208,17 @@ public class Damage_Display {
             int elem_Raw_Damage = 0;
             float percent = 1F;
             float multiple = 1F;
+            float melee_percent = 0F;
+            float melee_multiple = 1F;
+            float spell_percent = 0F;
+            float spell_multiple = 1F;
+            int spell_cost_1 = 0;
+            int spell_cost_2 = 0;
+            int spell_cost_3 = 0;
+            int spell_cost_4 = 0;
+            float proficiency = 1F;
             int atkSpd = id_Numbers[41];
+            boolean crit_boost = false;
             if (weapon.get(Identifications.ATTACK_SPEED.getItemName()) != null) {
                 switch (weapon.get(Identifications.ATTACK_SPEED.getItemName()).getAsString()) {
                     case "VERY_SLOW": atkSpd += 1;
@@ -232,41 +243,60 @@ public class Damage_Display {
             for (TreeCheckBox tcb : tree.getTcb()) {
                 if (tcb.isSelected()) {
                     switch (tcb.getSkill()) {
-                        case EARTH_DAMAGE: {
+                        case EARTH_DAMAGE:
                             if (earth_min != 0 || earth_max != 0) {
                                 earth_min += 2;
                                 earth_max += 4;
                             }
                             break;
-                        }
-                        case THUNDER_DAMAGE: {
+                        case THUNDER_DAMAGE:
                             if (thunder_min != 0 || thunder_max != 0) {
                                 thunder_min += 1;
                                 thunder_max += 8;
                             }
                             break;
-                        }
-                        case WATER_DAMAGE: {
+                        case WATER_DAMAGE:
                             if (water_min != 0 || water_max != 0) {
                                 water_min += 2;
                                 water_max += 4;
                             }
                             break;
-                        }
-                        case FIRE_DAMAGE: {
+                        case FIRE_DAMAGE:
                             if (fire_min != 0 || fire_max != 0) {
                                 fire_min += 3;
                                 fire_max += 5;
                             }
                             break;
-                        }
-                        case AIR_DAMAGE: {
+                        case AIR_DAMAGE:
                             if (air_min != 0 || air_max != 0) {
                                 air_min += 3;
                                 air_max += 4;
                             }
                             break;
-                        }
+                        case PROFICIENCY:
+                            proficiency += 0.05F;
+                            break;
+                        case PRECISE_STRIKES:
+                            crit_boost = true;
+                            break;
+                        case CHEAPER_1ST_SP_COST_10:
+                            spell_cost_1 -= 10;
+                            break;
+                        case CHEAPER_3RD_SP_COST_10:
+                            spell_cost_3 -= 10;
+                            break;
+                        case CHEAPER_1ST_SP_COST:
+                            spell_cost_1 -= 5;
+                            break;
+                        case CHEAPER_2ND_SP_COST:
+                            spell_cost_2 -= 5;
+                            break;
+                        case CHEAPER_3RD_SP_COST:
+                            spell_cost_3 -= 5;
+                            break;
+                        case CHEAPER_4TH_SP_COST:
+                            spell_cost_4 -= 5;
+                            break;
                     }
 
                     switch (tree.getClasses()) {
@@ -285,10 +315,40 @@ public class Damage_Display {
                                     }
                                     break;
                                 case ENRAGED_BLOW:
-                                    if (damage_Boosts.getSlider().get(0).getValue() > 0) multiple *= Math.min(damage_Boosts.getSlider().get(0).getValue() * 0.015F, 1.2F);
+                                    if (damage_Boosts.getSlider().get(0).getValue() > 0) multiple *= Math.min(1F + damage_Boosts.getSlider().get(0).getValue() * 0.015F, 2.2F);
                                     break;
                                 case DISCOMBOBULATE:
-                                    if (damage_Boosts.getSlider().get(1).getValue() > 0) elem_Raw_Damage += damage_Boosts.getSlider().get(1).getValue();
+                                    if (damage_Boosts.getSlider().get(1).getValue() > 0) {
+                                        if (earth_min != 0 || earth_max != 0) {
+                                            earth_min += damage_Boosts.getSlider().get(1).getValue();
+                                            earth_max += damage_Boosts.getSlider().get(1).getValue();
+                                        }
+                                        if (thunder_min != 0 || thunder_max != 0) {
+                                            thunder_min += damage_Boosts.getSlider().get(1).getValue();
+                                            thunder_max += damage_Boosts.getSlider().get(1).getValue();
+                                        }
+                                        if (water_min != 0 || water_max != 0) {
+                                            water_min += damage_Boosts.getSlider().get(1).getValue();
+                                            water_max += damage_Boosts.getSlider().get(1).getValue();
+                                        }
+                                        if (fire_min != 0 || fire_max != 0) {
+                                            fire_min += damage_Boosts.getSlider().get(1).getValue();
+                                            fire_max += damage_Boosts.getSlider().get(1).getValue();
+                                        }
+                                        if (air_min != 0 || air_max != 0) {
+                                            air_min += damage_Boosts.getSlider().get(1).getValue();
+                                            air_max += damage_Boosts.getSlider().get(1).getValue();
+                                        }
+                                    }
+                                    break;
+                                case HALF_MOON_SWIPE:
+                                    spell_cost_3 -= 5;
+                                    break;
+                                case SPIRIT_OF_THE_RABBIT:
+                                    spell_cost_2 -= 5;
+                                    break;
+                                case AXE_KICK:
+                                    spell_cost_3 += 15;
                                     break;
                             }
                             break;
@@ -305,8 +365,15 @@ public class Damage_Display {
                 }
             }
 
-            if (raw_Damage != 0) {
+            melee_multiple *= proficiency; //Melee Multiple * Proficiency (5% or 10%)
+
+            if (raw_Damage != 0 || elem_Raw_Damage != 0) {
                 Calc_Raw calc = new Calc_Raw(neutral_min, earth_min, thunder_min, water_min, fire_min, air_min, neutral_max, earth_max, thunder_max, water_max, fire_max, air_max);
+
+                //Now Debug...
+                id_Numbers[37] = raw_Damage;
+                id_Numbers[39] = raw_Damage;
+                raw_Damage = 0;
 
                 if (neutral_min != 0 || neutral_max != 0) { //Neutral
                     neutral_min += calc.calc(raw_Damage, "Neutral", false, true);
@@ -336,14 +403,101 @@ public class Damage_Display {
 
             Calc_Raw calc_raw = new Calc_Raw(neutral_min, earth_min, thunder_min, water_min, fire_min, air_min, neutral_max, earth_max, thunder_max, water_max, fire_max, air_max);
 
+            float intelligence = 1F - sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getSPBoost();
+
             //Display Damages
             switch (tree.getClasses()) {
                 case "Warrior": {
-                    list.add(new Damage_Template("Melee", 0, pane, null, sp, true, false));
-                    float melee_percent = percent;
-                    float melee_multiple = multiple;
-                    calcMelee("", 0, calc_raw, list, melee_percent * melee_multiple, id_Numbers, new float[] {1, 0, 0, 0, 0, 0}, atkSpd, sp);
-                    //TODO Add Damages
+                    //Melee
+                    list.add(new Damage_Template("Melee", 0, pane, null, sp, true, false, crit_boost, false));
+                    calcMelee("", 0, calc_raw, list, percent * multiple * melee_multiple, id_Numbers, new float[] {1, 0, 0, 0, 0, 0}, atkSpd, sp);
+
+                    //Bash
+                    if (tree.getTcb().get(0).isSelected()) {
+                        list.add(new Damage_Template("Bash", calc_Spell_Cost(40 + spell_cost_1, intelligence, id_Numbers[70], id_Numbers[74]), pane, list.get(0), sp, false, true, crit_boost, true));
+                        float[] bash_percent = set_Damage_Percent(SpellEnum.BASH);
+                        if (tree.getTcb().get(3).isSelected()) add_Damage_Percent(bash_percent, SpellEnum.DOUBLE_BASH);
+                        if (tree.getTcb().get(16).isSelected())
+                            add_Damage_Percent(bash_percent, SpellEnum.QUADRUPLE_BASH);
+                        if (tree.getTcb().get(39).isSelected())
+                            add_Damage_Percent(bash_percent, SpellEnum.STRONGER_BASH);
+                        if (tree.getTcb().get(62).isSelected()) add_Damage_Percent(bash_percent, SpellEnum.THUNDERCLAP);
+                        calcSpell("Single Hit", 1, calc_raw, list, percent * multiple, id_Numbers, bash_percent, sp, false);
+                        calcSpell("Total Damage", 1, calc_raw, list, percent * multiple, id_Numbers, calc_Total_Damage_Percent(bash_percent), sp, true);
+                    }
+
+                    //Charge
+                    if (tree.getTcb().get(4).isSelected()) {
+                        list.add(new Damage_Template("Charge", calc_Spell_Cost(25 + spell_cost_2, intelligence, id_Numbers[71], id_Numbers[75]), pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
+                        if (tree.getTcb().get(10).isSelected()) calcSpell("Heavy Impact", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.HEAVY_IMPACT), sp, false);
+                        if (tree.getTcb().get(18).isSelected()) calcSpell("Flyby Jab", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.FLYBY_JAB), sp, false);
+                        if (tree.getTcb().get(32).isSelected()) calcSpell("Flying Kick", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.FLYING_KICK), sp, false);
+                        if (tree.getTcb().get(41).isSelected()) calcSpell("Collide", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.COLLIDE), sp, false);
+                    }
+
+                    //Uppercut
+                    if (tree.getTcb().get(7).isSelected()) {
+                        list.add(new Damage_Template("Uppercut", calc_Spell_Cost(40 + spell_cost_3, intelligence, id_Numbers[72], id_Numbers[76]), pane, list.get(list.size() - 1), sp, false, true, crit_boost, true));
+                        float[] uppercut_percent = set_Damage_Percent(SpellEnum.UPPERCUT);
+                        if (tree.getTcb().get(20).isSelected()) add_Damage_Percent(uppercut_percent, SpellEnum.HALF_MOON_SWIPE);
+                        if (tree.getTcb().get(46).isSelected()) add_Damage_Percent(uppercut_percent, SpellEnum.WHIRLWIND_STRIKE);
+                        if (tree.getTcb().get(56).isSelected()) add_Damage_Percent(uppercut_percent, SpellEnum.AXE_KICK);
+                        calcSpell("Uppercut", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, uppercut_percent, sp, false);
+                        if (tree.getTcb().get(17).isSelected()) {
+                            add_Damage_Percent(uppercut_percent, SpellEnum.FIREWORKS);
+                            calcSpell("Fireworks", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.FIREWORKS), sp, false);
+                        }
+                        if (tree.getTcb().get(43).isSelected()) {
+                            add_Damage_Percent(uppercut_percent, SpellEnum.COMET);
+                            calcSpell("Comet", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.COMET), sp, false);
+                        }
+                        calcSpell("Total Damage", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, uppercut_percent, sp, true);
+                    }
+
+                    //War Scream
+                    if (tree.getTcb().get(8).isSelected()) {
+                        list.add(new Damage_Template("War Scream", calc_Spell_Cost(30 + spell_cost_4, intelligence, id_Numbers[73], id_Numbers[77]), pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
+                        float[] war_scream_percent = set_Damage_Percent(SpellEnum.WAR_SCREAM);
+                        float[] air_shout_percent = set_Damage_Percent(SpellEnum.AIR_SHOUT);
+                        if (tree.getTcb().get(21).isSelected()) {
+                            add_Damage_Percent(war_scream_percent, SpellEnum.IRON_LUNGS_FOR_WAR_SCREAM);
+                            add_Damage_Percent(air_shout_percent, SpellEnum.IRON_LUNGS_FOR_AIR_SHOUT);
+                        }
+                        calcSpell("War Scream", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, war_scream_percent, sp, false);
+                        if (tree.getTcb().get(22).isSelected()) calcSpell("Air Shout", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, air_shout_percent, sp, false);
+                        if (tree.getTcb().get(53).isSelected()) calcSpell("Tempest", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.TEMPEST), sp, false);
+                    }
+
+                    //Flaming Uppercut
+                    if (tree.getTcb().get(19).isSelected()) {
+                        list.add(new Damage_Template("Flaming Uppercut", 0, pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
+                        calcSpell("", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.FLAMING_UPPERCUT), sp, false);
+                    }
+                    //Counter
+                    if (tree.getTcb().get(30).isSelected()) {
+                        list.add(new Damage_Template("Counter", 0, pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
+                        calcSpell("", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.COUNTER), sp, false);
+                    }
+                    //Boiling Blood
+                    if (tree.getTcb().get(35).isSelected()) {
+                        list.add(new Damage_Template("Boiling Blood", 0, pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
+                        calcSpell("", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.BOILING_BLOOD), sp, false);
+                    }
+                    //Sparking Hope
+                    if (tree.getTcb().get(51).isSelected()) {
+                        list.add(new Damage_Template("Sparkling Hope", 0, pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
+                        calcSpell("", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.SPARKING_HOPE), sp, false);
+                    }
+                    //Cyclone
+                    if (tree.getTcb().get(60).isSelected()) {
+                        list.add(new Damage_Template("Cyclone", 0, pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
+                        calcSpell("", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.CYCLONE), sp, false);
+                    }
+                    //Shield Strike
+                    if (tree.getTcb().get(50).isSelected()) {
+                        list.add(new Damage_Template("Shield Strike", 0, pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
+                        calcSpell("", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.SHIELD_STRIKE), sp, false);
+                    }
                     break;
                 }
                 case "Assassin": {
@@ -361,6 +515,42 @@ public class Damage_Display {
             }
         }
         SwingUtilities.updateComponentTreeUI(pane);
+    }
+
+    private float[] set_Damage_Percent(SpellEnum spell) {
+        float[] percent = new float[] {0, 0, 0, 0, 0, 0, 0};
+        percent[0] = spell.getNeutral();
+        percent[1] = spell.getEarth();
+        percent[2] = spell.getThunder();
+        percent[3] = spell.getWater();
+        percent[4] = spell.getFire();
+        percent[5] = spell.getAir();
+        percent[6] = spell.getAddNum();
+        return percent;
+    }
+
+    private void add_Damage_Percent(float[] percent, SpellEnum spell) {
+        percent[0] += spell.getNeutral();
+        percent[1] += spell.getEarth();
+        percent[2] += spell.getThunder();
+        percent[3] += spell.getWater();
+        percent[4] += spell.getFire();
+        percent[5] += spell.getAir();
+        percent[6] += spell.getAddNum();
+    }
+
+    private float[] calc_Total_Damage_Percent(float[] percent) {
+        percent[0] *= percent[6];
+        percent[1] *= percent[6];
+        percent[2] *= percent[6];
+        percent[3] *= percent[6];
+        percent[4] *= percent[6];
+        percent[5] *= percent[6];
+        return percent;
+    }
+
+    private float calc_Spell_Cost(int base, float intelligence, int id_Raw, int id_Percent) {
+        return Math.max((base * intelligence + id_Raw) * (1F + id_Percent / 100F), 1);
     }
 
     private float calc(float damage, float boosts, float sp_Boost, int... id_Boosts) {
@@ -412,49 +602,40 @@ public class Damage_Display {
         float air_max_base = calc_raw.air_max;
         float total_max = calc_raw.neutral_max + calc_raw.thunder_max + calc_raw.water_max + calc_raw.fire_max + calc_raw.air_max;
 
-        if (neutral_min_base != 0) neutral_min_base = calc_raw.neutral_min * percent[0];
-        if (earth_min_base != 0) {
-            earth_min_base = calc_raw.earth_min * percent[0];
-            earth_min_base += total_min * percent[1];
-        }
-        if (thunder_min_base != 0) {
-            thunder_min_base = calc_raw.thunder_min * percent[0];
-            thunder_min_base += total_min * percent[2];
-        }
-        if (water_min_base != 0) {
-            water_min_base = calc_raw.water_min * percent[0];
-            water_min_base += total_min * percent[3];
-        }
-        if (fire_min_base != 0) {
-            fire_min_base = calc_raw.fire_min * percent[0];
-            fire_min_base += total_min * percent[4];
-        }
-        if (air_min_base != 0) {
-            air_min_base = calc_raw.air_min * percent[0];
-            air_min_base += total_min * percent[5];
-        }
+        //Neutral Base
+        if (neutral_min_base != 0) neutral_min_base *= percent[0];
+        if (neutral_max_base != 0) neutral_max_base *= percent[0];
 
-        if (neutral_max_base != 0) neutral_max_base = calc_raw.neutral_max * percent[0];
-        if (earth_max_base != 0) {
-            earth_max_base = calc_raw.earth_max * percent[0];
-            earth_max_base += total_max * percent[1];
-        }
-        if (thunder_max_base != 0) {
-            thunder_max_base = calc_raw.thunder_max * percent[0];
-            thunder_max_base += total_max * percent[2];
-        }
-        if (water_max_base != 0) {
-            water_max_base = calc_raw.water_max * percent[0];
-            water_max_base += total_max * percent[3];
-        }
-        if (fire_max_base != 0) {
-            fire_max_base = calc_raw.fire_max * percent[0];
-            fire_max_base += total_max * percent[4];
-        }
-        if (air_max_base != 0) {
-            air_max_base = calc_raw.air_max * percent[0];
-            air_max_base += total_max * percent[5];
-        }
+        //Earth Base
+        if (earth_min_base != 0) earth_min_base *= percent[0];
+        if (earth_max_base != 0) earth_max_base *= percent[0];
+        earth_min_base += total_min * percent[1];
+        earth_max_base += total_max * percent[1];
+
+        //Thunder Base
+        if (thunder_min_base != 0) thunder_min_base *= percent[0];
+        if (thunder_max_base != 0) thunder_max_base *= percent[0];
+        thunder_min_base += total_min * percent[2];
+        thunder_max_base += total_max * percent[2];
+
+        //Water Base
+        if (water_min_base != 0) water_min_base *= percent[0];
+        if (water_max_base != 0) water_max_base *= percent[0];
+        water_min_base += total_min * percent[3];
+        water_max_base += total_max * percent[3];
+
+        //Fire Base
+        if (fire_min_base != 0) fire_min_base *= percent[0];
+        if (fire_max_base != 0) fire_max_base *= percent[0];
+        fire_min_base += total_min * percent[4];
+        fire_max_base += total_max * percent[4];
+
+        //Air Base
+        if (air_min_base != 0) air_min_base *= percent[0];
+        if (air_max_base != 0) air_max_base *= percent[0];
+        air_min_base += total_min * percent[5];
+        air_max_base += total_max * percent[5];
+
 
         float neutral_min = calc(neutral_min_base, boost, 1F, id_Numbers[38], id_Numbers[56]);
         float earth_min = calc(earth_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[38], id_Numbers[57], id_Numbers[62], id_Numbers[31]);
@@ -514,10 +695,11 @@ public class Damage_Display {
                 , water_max //Water Max
                 , fire_max //Fire Max
                 , air_max //Air Max
-                , atkSpdF);
+                , atkSpdF
+                , true);
     }
 
-    private void calcSpell(String name, int pos, Calc_Raw calc_raw, List<Damage_Template> list, float boost, int[] id_Numbers, float[] percent, SkillPoint sp) {
+    private void calcSpell(String name, int pos, Calc_Raw calc_raw, List<Damage_Template> list, float boost, int[] id_Numbers, float[] percent, SkillPoint sp, boolean isTotal) {
         float atkSpd = 0.51F;
         if (weapon != null && weapon.get(Identifications.ATTACK_SPEED.getItemName()) != null) {
             switch (weapon.get(Identifications.ATTACK_SPEED.getItemName()).getAsString()) {
@@ -552,49 +734,39 @@ public class Damage_Display {
         float air_max_base = calc_raw.air_max;
         float total_max = calc_raw.neutral_max + calc_raw.thunder_max + calc_raw.water_max + calc_raw.fire_max + calc_raw.air_max;
 
-        if (neutral_min_base != 0) neutral_min_base = calc_raw.neutral_min * percent[0];
-        if (earth_min_base != 0) {
-            earth_min_base = calc_raw.earth_min * percent[0];
-            earth_min_base += total_min * percent[1];
-        }
-        if (thunder_min_base != 0) {
-            thunder_min_base = calc_raw.thunder_min * percent[0];
-            thunder_min_base += total_min * percent[2];
-        }
-        if (water_min_base != 0) {
-            water_min_base = calc_raw.water_min * percent[0];
-            water_min_base += total_min * percent[3];
-        }
-        if (fire_min_base != 0) {
-            fire_min_base = calc_raw.fire_min * percent[0];
-            fire_min_base += total_min * percent[4];
-        }
-        if (air_min_base != 0) {
-            air_min_base = calc_raw.air_min * percent[0];
-            air_min_base += total_min * percent[5];
-        }
+        //Neutral Base
+        if (neutral_min_base != 0) neutral_min_base *= percent[0];
+        if (neutral_max_base != 0) neutral_max_base *= percent[0];
 
-        if (neutral_max_base != 0) neutral_max_base = calc_raw.neutral_max * percent[0];
-        if (earth_max_base != 0) {
-            earth_max_base = calc_raw.earth_max * percent[0];
-            earth_max_base += total_max * percent[1];
-        }
-        if (thunder_max_base != 0) {
-            thunder_max_base = calc_raw.thunder_max * percent[0];
-            thunder_max_base += total_max * percent[2];
-        }
-        if (water_max_base != 0) {
-            water_max_base = calc_raw.water_max * percent[0];
-            water_max_base += total_max * percent[3];
-        }
-        if (fire_max_base != 0) {
-            fire_max_base = calc_raw.fire_max * percent[0];
-            fire_max_base += total_max * percent[4];
-        }
-        if (air_max_base != 0) {
-            air_max_base = calc_raw.air_max * percent[0];
-            air_max_base += total_max * percent[5];
-        }
+        //Earth Base
+        if (earth_min_base != 0) earth_min_base *= percent[0];
+        if (earth_max_base != 0) earth_max_base *= percent[0];
+        earth_min_base += total_min * percent[1];
+        earth_max_base += total_max * percent[1];
+
+        //Thunder Base
+        if (thunder_min_base != 0) thunder_min_base *= percent[0];
+        if (thunder_max_base != 0) thunder_max_base *= percent[0];
+        thunder_min_base += total_min * percent[2];
+        thunder_max_base += total_max * percent[2];
+
+        //Water Base
+        if (water_min_base != 0) water_min_base *= percent[0];
+        if (water_max_base != 0) water_max_base *= percent[0];
+        water_min_base += total_min * percent[3];
+        water_max_base += total_max * percent[3];
+
+        //Fire Base
+        if (fire_min_base != 0) fire_min_base *= percent[0];
+        if (fire_max_base != 0) fire_max_base *= percent[0];
+        fire_min_base += total_min * percent[4];
+        fire_max_base += total_max * percent[4];
+
+        //Air Base
+        if (air_min_base != 0) air_min_base *= percent[0];
+        if (air_max_base != 0) air_max_base *= percent[0];
+        air_min_base += total_min * percent[5];
+        air_max_base += total_max * percent[5];
 
         float neutral_min = calc(neutral_min_base, boost, 1F, id_Numbers[36], id_Numbers[42]);
         float earth_min = calc(earth_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[36], id_Numbers[43], id_Numbers[48], id_Numbers[31]);
@@ -649,7 +821,8 @@ public class Damage_Display {
                 , water_max //Water Max
                 , fire_max //Fire Max
                 , air_max //Air Max
-                , atkSpd);
+                , atkSpd
+                , isTotal);
     }
 
     private static class Calc_Raw {
@@ -734,23 +907,27 @@ public class Damage_Display {
 
     private static class Damage_Template {
         private final JPanel p = new JPanel();
-        private int y_size = 71;
+        private int y_size = 25;
         private int y = 10;
         private final JLabel avg_total = new JLabel("Total Average: 0");
         private final JLabel avg_dps = new JLabel("Average DPS: 0");
         private final SkillPoint sp;
         private final boolean isMelee;
         private final boolean isSpell;
+        private final boolean crit_boost;
+        private final JPanel pane;
 
-        private Damage_Template(String name, int mana_Cost, JPanel pane, Damage_Template previous, SkillPoint sp, boolean isMelee, boolean isSpell) {
+        private Damage_Template(String name, float mana_Cost, JPanel pane, Damage_Template previous, SkillPoint sp, boolean isMelee, boolean isSpell, boolean crit_boost, boolean needTotal) {
             this.sp  = sp;
             this.isMelee = isMelee;
             this.isSpell = isSpell;
+            this.crit_boost = crit_boost;
+            this.pane = pane;
             if (previous != null) {
-                p.setBounds(10, previous.y + previous.y_size + 10, 280, 20);
+                p.setBounds(10, previous.y + previous.y_size + 10, 280, 30);
                 y = previous.y + previous.y_size + 10;
             } else {
-                p.setBounds(10, 10, 280, 20);
+                p.setBounds(10, 10, 280, 30);
             }
             p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
             JLabel nameL = new JLabel();
@@ -764,11 +941,22 @@ public class Damage_Display {
             avg_total.setAlignmentX(Component.CENTER_ALIGNMENT);
             avg_dps.setAlignmentX(Component.CENTER_ALIGNMENT);
             p.add(nameL);
-            p.add(new JLabel(" ")); // +20
-            p.add(avg_total); // +16
-            if (isMelee) {
+            if (needTotal || isMelee) { //Blank
+                p.add(new JLabel(" ")); // +20
+                y_size += 20;
+            }
+            if (needTotal) { //Avg Total Damage
+                p.add(avg_total); // +16
+                y_size += 16;
+            }
+            if (isMelee) { //Melee Avg DPS
                 p.add(avg_dps); // +16
                 y_size += 16;
+            }
+            if (y + y_size + 10 > 397) {
+                pane.setPreferredSize(new Dimension(300, y + y_size + 10));
+            } else {
+                pane.setPreferredSize(new Dimension(300, 397));
             }
 
             p.setBackground(new Color(200, 200, 200));
@@ -777,7 +965,7 @@ public class Damage_Display {
 
         private void addDamage(String name, float neutral_min, float earth_min, float thunder_min, float water_min, float fire_min, float air_min
                 , float neutral_max, float earth_max, float thunder_max, float water_max, float fire_max, float air_max
-                , float atkSpd) {
+                , float atkSpd, boolean isTotal) {
 
             if (isSpell) {
                 neutral_min *= atkSpd;
@@ -795,19 +983,22 @@ public class Damage_Display {
                 air_max *= atkSpd;
             }
 
-            float crit_neutral_min = neutral_min * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_earth_min = earth_min  * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_thunder_min = thunder_min  * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_water_min = water_min  * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_fire_min = fire_min  * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_air_min = air_min  * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_boost = 1F;
+            if (this.crit_boost) crit_boost = 1.3F;
 
-            float crit_neutral_max = neutral_max * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_earth_max = earth_max  * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_thunder_max = thunder_max  * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_water_max = water_max  * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_fire_max = fire_max  * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_air_max = air_max  * (1F + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_neutral_min = neutral_min * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_earth_min = earth_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_thunder_min = thunder_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_water_min = water_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_fire_min = fire_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_air_min = air_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+
+            float crit_neutral_max = neutral_max * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_earth_max = earth_max  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_thunder_max = thunder_max  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_water_max = water_max  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_fire_max = fire_max  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
+            float crit_air_max = air_max  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
 
             neutral_min *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
             earth_min *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
@@ -826,9 +1017,10 @@ public class Damage_Display {
             float damage = neutral_min + earth_min + thunder_min + water_min + fire_min + air_min + neutral_max + earth_max + thunder_max + water_max + fire_max + air_max;
             float crit_damage = crit_neutral_min + crit_earth_min + crit_thunder_min + crit_water_min + crit_fire_min + crit_air_min + crit_neutral_max + crit_earth_max + crit_thunder_max + crit_water_max + crit_fire_max + crit_air_max;
             float crit_chance = sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost();
+            float total_average = damage / 2F * (2F - crit_chance) + crit_damage / 2F * (crit_chance - 1F);
 
             JLabel nameL = new JLabel(name);
-            JLabel avg = new JLabel("Average: " + (damage / 2F * (2F - crit_chance) + crit_damage / 2F * (crit_chance - 1F)));
+            JLabel avg = new JLabel("Average: " + total_average);
             JLabel no_crit_avg = new JLabel("Non-Crit Average: " + (damage / 2F));
             JLabel neutral = new JLabel(neutral_min + " Neutral " + neutral_max);
             JLabel earth = new JLabel(earth_min + " Earth " + earth_max);
@@ -929,10 +1121,16 @@ public class Damage_Display {
 
             y_size += 84;
             p.setBounds(10, y, 280, y_size);
+            if (y + y_size + 10 > 397) {
+                pane.setPreferredSize(new Dimension(300, y + y_size + 10));
+            } else {
+                pane.setPreferredSize(new Dimension(300, 397));
+            }
 
-            float total_average = Float.parseFloat(avg_total.getText().replace("Total Average: ", "")) + (damage / 2F * (2F - crit_chance)) + (crit_damage / 2F * (crit_chance - 1F));
-            avg_total.setText("Total Average: " + total_average);
-            if (isMelee) avg_dps.setText("Average DPS: " + (total_average * atkSpd));
+            if (isTotal) {
+                avg_total.setText("Total Average: " + total_average);
+                if (isMelee) avg_dps.setText("Average DPS: " + (total_average * atkSpd));
+            }
         }
     }
 }

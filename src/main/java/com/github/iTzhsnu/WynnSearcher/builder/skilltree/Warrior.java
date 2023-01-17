@@ -68,7 +68,7 @@ public class Warrior extends TreeBase {
         new TreeIcon(58, 442, getPane()).right_left_down();
         new TreeIcon(274, 442, getPane()).right_left_down();
         getTcb().add(new TreeCheckBox("Quadruple Bash", new String[]{"Bash will cast 4 times consecutively", "at double speed.", " ", "Total Damage: -20% (of your DPS, per Bash)", "(Damage -20%)", "Range: +6 Blocks"}, new TreeCheckBox[]{getTcb().get(11)}, new TreeCheckBox[]{getTcb().get(0)}, TreeCheckBox.ArchetypeEnum.FALLEN, 0, 2, SkillEnum.QUADRUPLE_BASH, 18, 438).yellowIcon()); //16
-        getTcb().add(new TreeCheckBox("Fireworks", new String[]{"Mobs hit by Uppercut will explode", "mid-air and receive additional damage.", " ", "Total Damage: +100% (of your DPS)", "(Damage +80%)", "(Thunder +20%)"}, new TreeCheckBox[]{getTcb().get(12)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(11), getTcb().get(16)})}, 2, SkillEnum.FIREWORKS, 90, 438).yellowIcon()); //17
+        getTcb().add(new TreeCheckBox("Fireworks", new String[]{"Mobs hit by Uppercut will explode", "mid-air and receive additional damage.", " ", "Total Damage: +100% (of your DPS)", "(Damage +80%)", "(Thunder +20%)"}, new TreeCheckBox[]{getTcb().get(12)}, null, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(11), getTcb().get(16)})}, TreeCheckBox.ArchetypeEnum.FALLEN, 0, 2, SkillEnum.FIREWORKS, 90, 438).yellowIcon()); //17
         getTcb().add(new TreeCheckBox("Flyby Jab", new String[]{"Damage enemies in your", "way when using Charge.", " ", "Total Damage: 60% (of your DPS)", "(Damage 20%)", "(Air 40%)", "Area of Effect: 2 Blocks"}, new TreeCheckBox[]{getTcb().get(13)}, 2, SkillEnum.FLYBY_JAB, 234, 438).yellowIcon()); //18
         getTcb().add(new TreeCheckBox("Flaming Uppercut", new String[]{"Uppercut will light mobs on fire,", "dealing damage every seconds.", " ", "Total Damage: 50% (of your DPS)", "(Fire 50%)", "Duration: 3s"}, new TreeCheckBox[]{getTcb().get(14)}, new TreeCheckBox[]{getTcb().get(7)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(13), getTcb().get(18)})}, TreeCheckBox.ArchetypeEnum.PALADIN, 0, 2, SkillEnum.FLAMING_UPPERCUT, 306, 438).yellowIcon()); //19
         getTcb().get(16).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(12), getTcb().get(17)})});
@@ -84,7 +84,7 @@ public class Warrior extends TreeBase {
 
         new TreeIcon(58, 550, getPane()).up_down();
         new TreeIcon(130, 550, getPane()).right_left_down();
-        getTcb().add(new TreeCheckBox("Air Shout", new String[]{"War Scream will fire a projectile that can", "go through walls and deal damage multiple times.", " ", "Total Damage: 50%", "(Neutral 40%)", "(Air 10%)", "Area of Effect: 2 Blocks (Circle-Shaped)", "Range: 32 Blocks"}, new TreeCheckBox[]{getTcb().get(20)}, 2, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 0, SkillEnum.AIR_SHOUT, 162, 546).yellowIcon()); //22
+        getTcb().add(new TreeCheckBox("Air Shout", new String[]{"War Scream will fire a projectile that can", "go through walls and deal damage multiple times.", " ", "Total Damage: 50%", "(Neutral 40%)", "(Air 10%)", "Area of Effect: 2 Blocks (Circle-Shaped)", "Range: 32 Blocks"}, new TreeCheckBox[]{getTcb().get(20)}, new TreeCheckBox[]{getTcb().get(8)}, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 0, 2, SkillEnum.AIR_SHOUT, 162, 546).yellowIcon()); //22
         getTcb().add(new TreeCheckBox("Generalist", new String[]{"After casting 3 different spells", "in a row, your next spell cost 5 Mana."}, new TreeCheckBox[]{getTcb().get(22)}, 2, TreeCheckBox.ArchetypeEnum.BATTLE_MONK, 3, SkillEnum.GENERALIST, 84, 540).redIcon()); //23
         getTcb().add(new TreeCheckBox("Mantle of the Bovemists", new String[]{"When casting War Scream, create a holy", "shield around you that reduces all incoming", "damage by -70% for 3 hits. (25s Cooldown)"}, new TreeCheckBox[]{getTcb().get(21)}, new TreeCheckBox[]{getTcb().get(8)}, TreeCheckBox.ArchetypeEnum.PALADIN, 3, 2, SkillEnum.MANTLE_OF_THE_BOVEMISTS, 264, 540).redIcon()); //24
 
@@ -109,7 +109,7 @@ public class Warrior extends TreeBase {
         new TreeIcon(22, 658, getPane()).up_down();
         new TreeIcon(130, 658, getPane()).up_down();
         new TreeIcon(310, 658, getPane()).up_down();
-        getTcb().add(new TreeCheckBox("Counter", new String[]{"when dodding nearby enemy attack, get", "30% change to instaly attack back.", " ", "Total Damage: 100% (of your DPS)", "(Damage 60%)", "(Thunder 20%)", "(Air 20%)"}, new TreeCheckBox[]{getTcb().get(27), getTcb().get(28)}, new TreeCheckBox[]{getTcb().get(8)}, 2, SkillEnum.COUNTER, 162, 654).yellowIcon()); //30
+        getTcb().add(new TreeCheckBox("Counter", new String[]{"when dodding nearby enemy attack, get", "30% change to instaly attack back.", " ", "Total Damage: 100% (of your DPS)", "(Damage 60%)", "(Thunder 20%)", "(Air 20%)"}, new TreeCheckBox[]{getTcb().get(27), getTcb().get(28)}, 2, SkillEnum.COUNTER, 162, 654).yellowIcon()); //30
 
         new TreeIcon(22, 694, getPane()).up_down();
         new TreeIcon(130, 694, getPane()).up_down();
