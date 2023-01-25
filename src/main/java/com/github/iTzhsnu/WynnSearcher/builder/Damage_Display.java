@@ -406,12 +406,11 @@ public class Damage_Display {
             float intelligence = 1F - sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getSPBoost();
 
             //Display Damages
+            //Melee
+            list.add(new Damage_Template("Melee", 0, pane, null, sp, true, false, crit_boost, false));
+            calcMelee("", 0, calc_raw, list, (percent + melee_percent) * multiple * melee_multiple, id_Numbers, new float[] {1, 0, 0, 0, 0, 0}, atkSpd, sp);
             switch (tree.getClasses()) {
                 case "Warrior": {
-                    //Melee
-                    list.add(new Damage_Template("Melee", 0, pane, null, sp, true, false, crit_boost, false));
-                    calcMelee("", 0, calc_raw, list, percent * multiple * melee_multiple, id_Numbers, new float[] {1, 0, 0, 0, 0, 0}, atkSpd, sp);
-
                     //Bash
                     if (tree.getTcb().get(0).isSelected()) {
                         list.add(new Damage_Template("Bash", calc_Spell_Cost(40 + spell_cost_1, intelligence, id_Numbers[70], id_Numbers[74]), pane, list.get(0), sp, false, true, crit_boost, true));

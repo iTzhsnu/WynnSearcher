@@ -62,6 +62,24 @@ public class TreeBase implements ActionListener {
         return tcb;
     }
 
+    /**
+     * @param pos Position (0 ~ 8)
+     * @param size Branch = 0, White = 2, Yellow = 4, Class and Purple = 6, Red = 10
+     * @return Position (X)
+     */
+    public static int posWidth(int pos, int size) {
+        return 22 + 36 * pos - size;
+    }
+
+    /**
+     * @param pos Position (0 ~ )
+     * @param size Branch = 0, White = 2, Yellow = 4, Class and Purple = 6, Red = 10
+     * @return Position (Y)
+     */
+    public static int posHeight(int pos, int size) {
+        return 16 + 36 * pos - size;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         int total_Cost = 0;
