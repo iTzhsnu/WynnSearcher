@@ -1,0 +1,566 @@
+{
+  "items": [
+    {
+      "name": "Tome of Armour Mastery I",
+      "tier": "Legendary",
+      "type": "Armour",
+      "bonus": 2,
+      "level": 60,
+
+      "healthBonus": 100
+    },
+    {
+      "name": "Destructive Tome of Armour Mastery I",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 3,
+      "level": 60,
+
+      "healthBonus": 120,
+      "exploding": 5,
+      "mainAttackDamageBonus": 5
+    },
+    {
+      "name": "Everlasting Tome of Armour Mastery I",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 3,
+      "level": 60,
+
+      "healthBonus": 120,
+      "healthRegenRaw": 15
+    },
+    {
+      "name": "Greedy Tome of Armour Mastery I",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 3,
+      "level": 60,
+
+      "healthBonus": 120,
+      "lootBonus": 5
+    },
+    {
+      "name": "Retaliating Tome of Armour Mastery I",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 3,
+      "level": 60,
+
+      "healthBonus": 120,
+      "thorns": 6,
+      "reflection": 6
+    },
+    {
+      "name": "Sorcerer's Tome of Armour Mastery I",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 3,
+      "level": 60,
+
+      "healthBonus": 120,
+      "spellDamageBonus": 5
+    },
+    {
+      "name": "Vampiric Tome of Armour Mastery I",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 3,
+      "level": 60,
+
+      "healthBonus": 120,
+      "lifeSteal": 25
+    },
+    {
+      "name": "Weightless Tome of Armour Mastery I",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 3,
+      "level": 60,
+
+      "healthBonus": 120,
+      "speed": 5
+    },
+    {
+      "name": "Destructive Tome of Armour Mastery II",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 5,
+      "level": 100,
+
+      "exploding": 6,
+      "mainAttackDamageBonus": 6
+    },
+    {
+      "name": "Everlasting Tome of Armour Mastery II",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 5,
+      "level": 100,
+
+      "healthRegenRaw": 60
+    },
+    {
+      "name": "Greedy Tome of Armour Mastery II",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 5,
+      "level": 100,
+
+      "lootBonus": 6
+    },
+    {
+      "name": "Retaliating Tome of Armour Mastery II",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 5,
+      "level": 100,
+
+      "thorns": 8,
+      "reflection": 8
+    },
+    {
+      "name": "Sorcerer's Tome of Armour Mastery II",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 5,
+      "level": 100,
+
+      "spellDamageBonus": 6
+    },
+    {
+      "name": "Vampiric Tome of Armour Mastery II",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 5,
+      "level": 100,
+
+      "lifeSteal": 85
+    },
+    {
+      "name": "Weightless Tome of Armour Mastery II",
+      "tier": "Fabled",
+      "type": "Armour",
+      "bonus": 5,
+      "level": 100,
+
+      "speed": 6
+    },
+    {
+      "name": "Blooming Tome of Armour Mastery II",
+      "tier": "Mythic",
+      "type": "Armour",
+      "bonus": 8,
+      "level": 100,
+
+      "healthBonus": 150,
+      "bonusEarthDefense": 10
+    },
+    {
+      "name": "Pulsing Tome of Armour Mastery II",
+      "tier": "Mythic",
+      "type": "Armour",
+      "bonus": 8,
+      "level": 100,
+
+      "healthBonus": 150,
+      "bonusThunderDefense": 10
+    },
+    {
+      "name": "Oceanic Tome of Armour Mastery II",
+      "tier": "Mythic",
+      "type": "Armour",
+      "bonus": 8,
+      "level": 100,
+
+      "healthBonus": 150,
+      "bonusWaterDefense": 10
+    },
+    {
+      "name": "Courageous Tome of Armour Mastery II",
+      "tier": "Mythic",
+      "type": "Armour",
+      "bonus": 8,
+      "level": 100,
+
+      "healthBonus": 150,
+      "bonusFireDefense": 10
+    },
+    {
+      "name": "Clouded Tome of Armour Mastery II",
+      "tier": "Mythic",
+      "type": "Armour",
+      "bonus": 8,
+      "level": 100,
+
+      "healthBonus": 150,
+      "bonusAirDefense": 10
+    },
+    {
+      "name": "Radiant Tome of Armour Mastery II",
+      "tier": "Mythic",
+      "type": "Armour",
+      "bonus": 8,
+      "level": 100,
+
+      "healthBonus": 150,
+      "bonusEarthDefense": 6,
+      "bonusThunderDefense": 6,
+      "bonusWaterDefense": 6,
+      "bonusFireDefense": 6,
+      "bonusAirDefense": 6
+    },
+
+    {
+      "name": "Tome of Weapon Mastery I",
+      "tier": "Legendary",
+      "type": "Weapon",
+      "bonus": 6,
+      "level": 60
+    },
+    {
+      "name": "Earthbound Tome of Weapon Mastery I",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 7,
+      "level": 60,
+
+      "strengthPoints": 3
+    },
+    {
+      "name": "Nimble Tome of Weapon Mastery I",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 7,
+      "level": 60,
+
+      "dexterityPoints": 3
+    },
+    {
+      "name": "Mystical Tome of Weapon Mastery I",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 7,
+      "level": 60,
+
+      "intelligencePoints": 3
+    },
+    {
+      "name": "Warding Tome of Weapon Mastery I",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 7,
+      "level": 60,
+
+      "defensePoints": 3
+    },
+    {
+      "name": "Athletic Tome of Weapon Mastery I",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 7,
+      "level": 60,
+
+      "agilityPoints": 3
+    },
+    {
+      "name": "Cosmic Tome of Weapon Mastery I",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 7,
+      "level": 60,
+
+      "strengthPoints": 1,
+      "dexterityPoints": 1,
+      "intelligencePoints": 1,
+      "defensePoints": 1,
+      "agilityPoints": 1
+    },
+    {
+      "name": "Ephemeral Tome of Weapon Mastery I",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 7,
+      "level": 60,
+
+      "manaRegen": 1
+    },
+    {
+      "name": "Harvester's Tome of Weapon Mastery I",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 7,
+      "level": 60,
+
+      "manaSteal": 1
+    },
+    {
+      "name": "Earthbound Tome of Weapon Mastery II",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 8,
+      "level": 80,
+
+      "strengthPoints": 3
+    },
+    {
+      "name": "Nimble Tome of Weapon Mastery II",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 8,
+      "level": 80,
+
+      "dexterityPoints": 3
+    },
+    {
+      "name": "Mystical Tome of Weapon Mastery II",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 8,
+      "level": 80,
+
+      "intelligencePoints": 3
+    },
+    {
+      "name": "Warding Tome of Weapon Mastery II",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 8,
+      "level": 80,
+
+      "defensePoints": 3
+    },
+    {
+      "name": "Athletic Tome of Weapon Mastery II",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 8,
+      "level": 80,
+
+      "agilityPoints": 3
+    },
+    {
+      "name": "Cosmic Tome of Weapon Mastery II",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 8,
+      "level": 80,
+
+      "strengthPoints": 1,
+      "dexterityPoints": 1,
+      "intelligencePoints": 1,
+      "defensePoints": 1,
+      "agilityPoints": 1
+    },
+    {
+      "name": "Ephemeral Tome of Weapon Mastery II",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 8,
+      "level": 80,
+
+      "manaRegen": 1
+    },
+    {
+      "name": "Harvester's Tome of Weapon Mastery II",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 8,
+      "level": 80,
+
+      "manaSteal": 1
+    },
+    {
+      "name": "Seismic Tome of Weapon Mastery II",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 12,
+      "level": 80,
+
+      "earthDamageBonus": 7
+    },
+    {
+      "name": "Voltaic Tome of Weapon Mastery II",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 12,
+      "level": 80,
+
+      "thunderDamageBonus": 7
+    },
+    {
+      "name": "Abyssal Tome of Weapon Mastery II",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 12,
+      "level": 80,
+
+      "waterDamageBonus": 7
+    },
+    {
+      "name": "Infernal Tome of Weapon Mastery II",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 12,
+      "level": 80,
+
+      "fireDamageBonus": 7
+    },
+    {
+      "name": "Cyclonic Tome of Weapon Mastery II",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 12,
+      "level": 80,
+
+      "airDamageBonus": 7
+    },
+    {
+      "name": "Astral Tome of Weapon Mastery II",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 12,
+      "level": 80,
+
+      "earthDamageBonus": 6,
+      "thunderDamageBonus": 6,
+      "waterDamageBonus": 6,
+      "fireDamageBonus": 6,
+      "airDamageBonus": 6
+    },
+    {
+      "name": "Earthbound Tome of Weapon Mastery III",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 13,
+      "level": 105,
+
+      "strengthPoints": 3
+    },
+    {
+      "name": "Nimble Tome of Weapon Mastery III",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 13,
+      "level": 105,
+
+      "dexterityPoints": 3
+    },
+    {
+      "name": "Mystical Tome of Weapon Mastery III",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 13,
+      "level": 105,
+
+      "intelligencePoints": 3
+    },
+    {
+      "name": "Warding Tome of Weapon Mastery III",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 13,
+      "level": 105,
+
+      "defensePoints": 3
+    },
+    {
+      "name": "Athletic Tome of Weapon Mastery III",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 13,
+      "level": 105,
+
+      "agilityPoints": 3
+    },
+    {
+      "name": "Cosmic Tome of Weapon Mastery III",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 13,
+      "level": 105,
+
+      "strengthPoints": 1,
+      "dexterityPoints": 1,
+      "intelligencePoints": 1,
+      "defensePoints": 1,
+      "agilityPoints": 1
+    },
+    {
+      "name": "Ephemeral Tome of Weapon Mastery III",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 13,
+      "level": 105,
+
+      "manaRegen": 1
+    },
+    {
+      "name": "Harvester's Tome of Weapon Mastery III",
+      "tier": "Fabled",
+      "type": "Weapon",
+      "bonus": 13,
+      "level": 105,
+
+      "manaSteal": 1
+    },
+    {
+      "name": "Seismic Tome of Weapon Mastery III",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 16,
+      "level": 105,
+
+      "earthDamageBonus": 8
+    },
+    {
+      "name": "Voltaic Tome of Weapon Mastery III",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 16,
+      "level": 105,
+
+      "thunderDamageBonus": 8
+    },
+    {
+      "name": "Abyssal Tome of Weapon Mastery III",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 16,
+      "level": 105,
+
+      "waterDamageBonus": 8
+    },
+    {
+      "name": "Infernal Tome of Weapon Mastery III",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 16,
+      "level": 105,
+
+      "fireDamageBonus": 8
+    },
+    {
+      "name": "Cyclonic Tome of Weapon Mastery III",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 16,
+      "level": 105,
+
+      "airDamageBonus": 8
+    },
+    {
+      "name": "Astral Tome of Weapon Mastery III",
+      "tier": "Mythic",
+      "type": "Weapon",
+      "bonus": 16,
+      "level": 105,
+
+      "earthDamageBonus": 7,
+      "thunderDamageBonus": 7,
+      "waterDamageBonus": 7,
+      "fireDamageBonus": 7,
+      "airDamageBonus": 7
+    }
+  ]
+}
