@@ -15,8 +15,15 @@ public class ItemJsons {
     private final JsonObject bracelet;
     private final JsonObject necklace;
     private final JsonObject weapon;
+    private final JsonObject armourTome1;
+    private final JsonObject armourTome2;
+    private final JsonObject armourTome3;
+    private final JsonObject armourTome4;
+    private final JsonObject weaponTome1;
+    private final JsonObject weaponTome2;
+    private final JsonObject guildTome;
 
-    public ItemJsons(JsonObject helmet, JsonObject chestplate, JsonObject leggings, JsonObject boots, JsonObject ring1, JsonObject ring2, JsonObject bracelet, JsonObject necklace, JsonObject weapon) {
+    public ItemJsons(JsonObject helmet, JsonObject chestplate, JsonObject leggings, JsonObject boots, JsonObject ring1, JsonObject ring2, JsonObject bracelet, JsonObject necklace, JsonObject weapon, JsonObject armourTome1, JsonObject armourTome2, JsonObject armourTome3, JsonObject armourTome4, JsonObject weaponTome1, JsonObject weaponTome2, JsonObject guildTome) {
         this.helmet = helmet;
         this.chestplate = chestplate;
         this.leggings = leggings;
@@ -26,6 +33,13 @@ public class ItemJsons {
         this.bracelet = bracelet;
         this.necklace = necklace;
         this.weapon = weapon;
+        this.armourTome1 = armourTome1;
+        this.armourTome2 = armourTome2;
+        this.armourTome3 = armourTome3;
+        this.armourTome4 = armourTome4;
+        this.weaponTome1 = weaponTome1;
+        this.weaponTome2 = weaponTome2;
+        this.guildTome = guildTome;
     }
 
     public JsonObject getHelmet() {
@@ -46,6 +60,30 @@ public class ItemJsons {
 
     public JsonObject getWeapon() {
         return weapon;
+    }
+
+    public List<JsonObject> getArmourTomes() {
+        List<JsonObject> list = new ArrayList<>();
+
+        if (armourTome1 != null) list.add(armourTome1);
+        if (armourTome2 != null) list.add(armourTome2);
+        if (armourTome3 != null) list.add(armourTome3);
+        if (armourTome4 != null) list.add(armourTome4);
+
+        return list;
+    }
+
+    public List<JsonObject> getWeaponTomes() {
+        List<JsonObject> list = new ArrayList<>();
+
+        if (weaponTome1 != null) list.add(weaponTome1);
+        if (weaponTome2 != null) list.add(weaponTome2);
+
+        return list;
+    }
+
+    public JsonObject getGuildTome() {
+        return guildTome;
     }
 
     public List<JsonObject> getJsonObjectList() {

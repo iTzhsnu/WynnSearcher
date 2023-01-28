@@ -217,7 +217,7 @@ public class ID_Display {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(422, 330, 268, 400);
+        scrollPane.setBounds(422, 385, 268, 400);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);
@@ -230,16 +230,69 @@ public class ID_Display {
         if (ids.size() > 0) {
             ids.subList(0, ids.size()).clear();
         }
-        int[] numbers = new int[] { //Using 0 ~ 77
-                535, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        int[] numbers = new int[] { //Using 0 ~ 77 and 89
+                535, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0 ~ 9 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //10 ~ 19 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //20 ~ 29 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //30 ~ 39 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //40 ~ 49 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //50 ~ 59 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //60 ~ 69 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 77 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //89 (Weapon Tome Damage Bonus)
         };
+        float def = 2F - CLASS_DEF.get(classID); //Base Defense
+
+        float tomeResist = 1; //Tome Resistance
+        //Tomes
+        if (itemJsons.getArmourTomes().size() > 0) { //Armour Tomes
+            for (JsonObject j : itemJsons.getArmourTomes()) {
+                tomeResist -= j.get("bonus").getAsInt() / 100F; //Armour Tome Resistance
+                for (int i = 0; 27 >= i; ++i) {
+                    if (i >= 3 && i <= 7) continue;
+                    Identifications id = Item_Display.TOME_IDS.get(i);
+                    if (j.get(id.getItemName()) != null) {
+                        if (id.isItemVariable()) { //Variable
+                            numbers[ID_INT.get(id)] += ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
+                        } else { //Not Variable
+                            numbers[ID_INT.get(id)] += j.get(id.getItemName()).getAsInt();
+                        }
+                    }
+                }
+            }
+        }
+        if (itemJsons.getWeaponTomes().size() > 0) { //Weapon Tomes
+            for (JsonObject j : itemJsons.getWeaponTomes()) {
+                numbers[89] += j.get("bonus").getAsInt(); //Weapon Tome Damage Bonus
+                for (int i = 0; 27 >= i; ++i) {
+                    if (i >= 3 && i <= 7) continue;
+                    Identifications id = Item_Display.TOME_IDS.get(i);
+                    if (j.get(id.getItemName()) != null) {
+                        if (id.isItemVariable()) { //Variable
+                            numbers[ID_INT.get(id)] += ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
+                        } else { //Not Variable
+                            numbers[ID_INT.get(id)] += j.get(id.getItemName()).getAsInt();
+                        }
+                    }
+                }
+            }
+        }
+        if (itemJsons.getGuildTome() != null) { //Guild Tome
+            JsonObject j = itemJsons.getGuildTome();
+            for (int i = 0; 27 >= i; ++i) {
+                if (i >= 3 && i <= 7) continue;
+                Identifications id = Item_Display.TOME_IDS.get(i);
+                if (j.get(id.getItemName()) != null) {
+                    if (id.isItemVariable()) { //Variable
+                        numbers[ID_INT.get(id)] += ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
+                    } else { //Not Variable
+                        numbers[ID_INT.get(id)] += j.get(id.getItemName()).getAsInt();
+                    }
+                }
+            }
+        }
+
+        //Weapon, Armor, Accessory
         if (itemJsons.getJsonObjectList().size() > 0) {
             for (JsonObject j : itemJsons.getJsonObjectList()) {
                 for (int i = 0; 28 >= i; ++i) {
@@ -394,8 +447,6 @@ public class ID_Display {
             e.printStackTrace();
         }
 
-        float def = 2F - CLASS_DEF.get(classID); //Base Defense
-
         if (updateOnly) { //Update Edited ID
             for (int i = 29; 69 >= i; ++i) { //Damages and Health Regen
                 numbers[i] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).getValue();
@@ -424,14 +475,15 @@ public class ID_Display {
         }
 
         int[] numbers_Sub = new int[] { //Using 0 ~ 77
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0 ~ 9 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //10 ~ 19 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //20 ~ 29 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //30 ~ 39 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //40 ~ 49 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //50 ~ 59 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //60 ~ 69 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 77 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //80 (Weapon Tome Damage Bonus)
         };
 
         //Ability Tree
@@ -511,7 +563,9 @@ public class ID_Display {
             }
         }
 
-        id_Numbers = numbers;
+        id_Numbers = numbers; //Copy ID Numbers
+
+        def *= tomeResist; //Defense * Tome Resistance
 
         int health = numbers[0] + numbers[1]; //Health + Health Bonus
         if (health < 5) health = 5;

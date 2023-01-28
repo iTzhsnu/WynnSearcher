@@ -1120,7 +1120,7 @@ public class ItemUITemplate extends JPanel {
         add(sortValue);
     }
 
-   public String getMin(int base) {
+   public static String getMin(int base) {
        if (base < 0) {
            return String.valueOf(getMinInt(base));
        } else {
@@ -1128,7 +1128,7 @@ public class ItemUITemplate extends JPanel {
        }
    }
 
-   public String getMax(int base) {
+   public static String getMax(int base) {
        if (base < 0) {
            return String.valueOf(getMaxInt(base));
        } else {
