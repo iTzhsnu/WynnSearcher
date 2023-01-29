@@ -164,6 +164,10 @@ public class Damage_IDs {
             original.setText("Original: " + value);
         }
 
+        public void setTextValue(int value) {
+            textField.setText(String.valueOf(value));
+        }
+
         public int getValue() {
             int value = 0;
             if (textField.getText().matches("[+-]?\\d*(\\.\\d+)?")) {

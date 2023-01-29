@@ -453,6 +453,36 @@ public class SkillPoint {
         return null;
     }
 
+    public SkillPointPanel getSkillPoint(int i) {
+        switch (i) {
+            case 1:
+                return dexterity;
+            case 2:
+                return intelligence;
+            case 3:
+                return defense;
+            case 4:
+                return agility;
+            default:
+                return strength;
+        }
+    }
+
+    public int getSkillPointInt(int i) {
+        switch (i) {
+            case 1:
+                return dexterity.getSPValue();
+            case 2:
+                return intelligence.getSPValue();
+            case 3:
+                return defense.getSPValue();
+            case 4:
+                return agility.getSPValue();
+            default:
+                return strength.getSPValue();
+        }
+    }
+
     public enum SkillPointType {
         STRENGTH,
         DEXTERITY,
@@ -667,6 +697,10 @@ public class SkillPoint {
 
         public int getTotalManual() {
             return getSPValue() - getOriginal() + manualBase;
+        }
+
+        public void setTextValue(int value) {
+            textField.setText(String.valueOf(value));
         }
     }
 }

@@ -44,6 +44,9 @@ public class BuilderUI implements ActionListener {
     private final List<JTextField> powderField = new ArrayList<>();
     private final JButton create = new JButton("Create");
     private final JButton update = new JButton("Update");
+    private final JButton save = new JButton("Save");
+    private final JButton load = new JButton("Load");
+    private final JTextField output = new JTextField();
 
     //API Connect
     private final JLabel itemConnect;
@@ -101,6 +104,14 @@ public class BuilderUI implements ActionListener {
         update.setBounds(950, 10, 80, 40);
         update.addActionListener(this);
 
+        save.setBounds(860, 280, 80, 40);
+        save.addActionListener(this);
+
+        load.setBounds(950, 280, 80, 40);
+        load.addActionListener(this);
+
+        output.setBounds(800, 360, 250, 20);
+
         skillPoint = new SkillPoint(pane);
         damage_ids = new Damage_IDs(pane);
         id_display = new ID_Display(pane);
@@ -126,6 +137,9 @@ public class BuilderUI implements ActionListener {
 
         pane.add(create);
         pane.add(update);
+        pane.add(save);
+        pane.add(load);
+        pane.add(output);
         pane.add(classes);
         for (JLabel l : texts) {
             pane.add(l);
@@ -263,8 +277,6 @@ public class BuilderUI implements ActionListener {
 
     private TreeBase getTree() {
         switch (classes.getSelectedIndex()) {
-            case 0:
-                return warrior;
             case 1:
                 return assassin;
             case 2:
@@ -273,8 +285,9 @@ public class BuilderUI implements ActionListener {
                 return archer;
             case 4:
                 return shaman;
+            default:
+                return warrior;
         }
-        return null;
     }
 
     public void setComboBox() {
@@ -566,6 +579,10 @@ public class BuilderUI implements ActionListener {
             updateIDs();
         } else if (e.getSource() == classes) {
             setClassOnlyDisplayVisible();
+        } else if (e.getSource() == save) {
+            saveBuild();
+        } else if (e.getSource() == load) {
+            loadBuild();
         }
     }
 
@@ -580,5 +597,105 @@ public class BuilderUI implements ActionListener {
         skillPoint.updateSkillPoint();
         id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), damage_boost, powderField, classes.getSelectedIndex(), true);
         damage_display.setDamage_Display(item_display.getItemJsons().getWeapon(), skillPoint, damage_boost, getTree(), id_display.getId_Numbers(), powderField);
+    }
+
+    public void saveBuild() {
+        StringBuilder sb = new StringBuilder();
+
+        //Class
+        String base = "{\"class\":" + classes.getSelectedIndex() + ",\"items\":[";
+        sb.append(base);
+
+        //Armors, Accessories, Weapon and Tomes
+        for (int i = 0; 15 >= i; ++i) {
+            String s = "\"" + getItemName(i) + "\",";
+            sb.append(s);
+        }
+        sb.deleteCharAt(sb.length() - 1);
+
+        //Powders
+        sb.append("],\"powders\":[");
+        for (int i = 0; 4 >= i; ++i) {
+            String s = "\"" + powderField.get(i).getText() + "\",";
+            sb.append(s);
+        }
+        sb.deleteCharAt(sb.length() - 1);
+
+        //Skill Points
+        sb.append("],\"sps\":[");
+        for (int i = 0; 4 >= i; ++i) {
+            String s = skillPoint.getSkillPointInt(i) + ",";
+            sb.append(s);
+        }
+        sb.deleteCharAt(sb.length() - 1);
+
+        //Ability Tree
+        boolean haveTree = false;
+        sb.append("],\"tree\":[");
+        for (int i = 0; getTree().getTcb().size() > i; ++i) {
+            if (getTree().getTcb().get(i).isSelected()) {
+                haveTree = true;
+                String s = i + ",";
+                sb.append(s);
+            }
+        }
+        if (haveTree) sb.deleteCharAt(sb.length() - 1);
+
+        //IDs
+        sb.append("],\"ids\":[");
+        for (int i = 0; 48 >= i; ++i) {
+            String s = damage_ids.getID(i).getValue() + ",";
+            sb.append(s);
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        sb.append("]}");
+
+        output.setText(sb.toString());
+    }
+
+    public void loadBuild() {
+        JsonObject j = JsonParser.parseString(output.getText()).getAsJsonObject();
+
+        //Set Class
+        classes.setSelectedIndex(j.get("class").getAsInt());
+
+        //Set Armor, Accessory, Weapon and Tome
+        for (int i = 0; 15 >= i; ++i) {
+            setItemName(i, j.get("items").getAsJsonArray().get(i).getAsString());
+        }
+
+        //Set Powders
+        for (int i = 0; 4 >= i; ++i) {
+            powderField.get(i).setText(j.get("powders").getAsJsonArray().get(i).getAsString());
+        }
+
+        //Set Tree
+        for (JsonElement je : j.get("tree").getAsJsonArray()) {
+            getTree().getTcb().get(je.getAsInt()).setSelected(true);
+        }
+
+        //Create Build
+        getItemID_And_Display();
+
+        //Set Skill Point
+        for (int i = 0; 4 >= i; ++i) {
+            skillPoint.getSkillPoint(i).setTextValue(j.get("sps").getAsJsonArray().get(i).getAsInt());
+        }
+
+        //Set IDs
+        for (int i = 0; 48 >= i; ++i) {
+            damage_ids.getID(i).setTextValue(j.get("ids").getAsJsonArray().get(i).getAsInt());
+        }
+
+        //Update Build
+        updateIDs();
+    }
+
+    private String getItemName(int i) {
+        return ((JTextField) itemBox.get(i).getEditor().getEditorComponent()).getText();
+    }
+
+    private void setItemName(int i, String text) {
+        ((JTextField) itemBox.get(i).getEditor().getEditorComponent()).setText(text);
     }
 }
