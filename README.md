@@ -10,7 +10,7 @@ Gson (Include)
 ![](readme_pictures/how_to_use.png)
 
 ### Builder (Coming Soon)
-Creating... (TODO: Assassin, Archer, Mage, Shaman Ability Tree and Damage Display)
+Creating... (TODO: Ability Tree)
 
 ### Crafter (Beta)
 ![](readme_pictures/how_to_use_3.png)
