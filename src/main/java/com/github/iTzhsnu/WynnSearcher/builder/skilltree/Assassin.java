@@ -81,10 +81,60 @@ public class Assassin extends TreeBase {
         new TreeIcon(posWidth(5, 0), posHeight(15, 0), getPane()).left_down();
         new TreeIcon(posWidth(8, 0), posHeight(15, 0), getPane()).left_down();
         getTcb().add(new TreeCheckBox("Surprise Strike", new String[]{"Your first hit after casting Vanish", "will deal +80% more damage."}, new TreeCheckBox[]{getTcb().get(17)}, 2, TreeCheckBox.ArchetypeEnum.SHADESTEPPER, 3, SkillEnum.SURPRISE_STRIKE, posWidth(2, 10), posHeight(15, 10)).redIcon()); //20
-        //getTcb().add(new TreeCheckBox().redIcon()); //21
-        //getTcb().add(new TreeCheckBox().redIcon()); //22
+        getTcb().add(new TreeCheckBox("Mirror Image", new String[]{"Summons 3 Clones after reappearing from Vanish", "that will follow and protect you. (20s Cooldown)", " ", "When hit, get a chance to take 80%", "less damage and lose 1 Clone."}, new TreeCheckBox[]{getTcb().get(18)}, new TreeCheckBox[]{getTcb().get(17)}, TreeCheckBox.ArchetypeEnum.TRICKSTER, 2, 2, SkillEnum.MIRROR_IMAGE, posWidth(4, 10), posHeight(15, 10)).redIcon()); //21
+        getTcb().add(new TreeCheckBox("Lacerate", new String[]{"Spin Attack will lunge you forward,", "deal 3 strikes and then lunge you upward.", " ", "Total Damage: 90% (of your DPS, per Strike)", "(Damage 60%)", "(Water 10%)", "(Air 20%)"}, new TreeCheckBox[]{getTcb().get(16)}, 2, TreeCheckBox.ArchetypeEnum.ACROBAT, 2, SkillEnum.LACERATE, posWidth(7, 10), posHeight(15, 10)).redIcon()); //22
 
-        getTcb().get(15).setCantUse(new TreeCheckBox[]{getTcb().get(16)}); //Backstab
+        new TreeIcon(posWidth(0, 0), posHeight(16, 0), getPane()).right_down();
+        new TreeIcon(posWidth(2, 0), posHeight(16, 0), getPane()).left_down();
+        getTcb().add(new TreeCheckBox("Silent Killer", new String[]{"Resets Vanish's Cooldown", "after killing an enemy."}, new TreeCheckBox[]{getTcb().get(20)}, new TreeCheckBox[]{getTcb().get(17)}, 2, SkillEnum.SILENT_KILLER, posWidth(1, 6), posHeight(16, 6)).purpleIcon()); //23
+        getTcb().add(new TreeCheckBox("Shenanigans", new String[]{"For every 2% Stealing you have", "from items, gain 1/3s Mana Steal. (Max 8/3s)"}, new TreeCheckBox[]{getTcb().get(21)}, 2, TreeCheckBox.ArchetypeEnum.TRICKSTER, 0, SkillEnum.SHENANIGANS, posWidth(5, 2), posHeight(16, 2)).whiteIcon()); //24
+        getTcb().add(new TreeCheckBox("Wall of Smoke", new String[]{"Smoke Bomb will throw +2 bombs."}, new TreeCheckBox[]{getTcb().get(22)}, new TreeCheckBox[]{getTcb().get(7)}, 2, SkillEnum.WALL_OF_SMOKE, posWidth(8, 4), posHeight(16, 4)).yellowIcon()); //25
+
+        new TreeIcon(posWidth(0, 0), posHeight(17, 0), getPane()).up_down();
+        new TreeIcon(posWidth(2, 0), posHeight(17, 0), getPane()).up_down();
+        new TreeIcon(posWidth(5, 0), posHeight(17, 0), getPane()).up_down();
+        new TreeIcon(posWidth(8, 0), posHeight(17, 0), getPane()).up_down();
+
+        new TreeIcon(posWidth(1, 0), posHeight(18, 0), getPane()).right_left();
+        new TreeIcon(posWidth(3, 0), posHeight(18, 0), getPane()).right_left_down();
+        new TreeIcon(posWidth(4, 0), posHeight(18, 0), getPane()).right_left_down();
+        new TreeIcon(posWidth(6, 0), posHeight(18, 0), getPane()).right_left();
+        new TreeIcon(posWidth(7, 0), posHeight(18, 0), getPane()).right_left_down();
+        getTcb().add(new TreeCheckBox("Better Smoke Bomb", new String[]{"Increase Smoke Bomb's range", "and area of effect.", " ", "Range: +10 Blocks", "Area of Effect: +1 Blocks (Circle-Shaped)"}, new TreeCheckBox[]{getTcb().get(23)}, new TreeCheckBox[]{getTcb().get(7)}, 1, SkillEnum.BETTER_SMOKE_BOMB, posWidth(0, 2), posHeight(18, 2)).whiteIcon()); //26
+        getTcb().add(new TreeCheckBox("Shadow Travel", new String[]{"Increase your Walk Speed", "by +120% when in Vanish."}, new TreeCheckBox[]{getTcb().get(23)}, new TreeCheckBox[]{getTcb().get(17)}, TreeCheckBox.ArchetypeEnum.SHADESTEPPER, 0, 2, SkillEnum.SHADOW_TRAVEL, posWidth(2, 4), posHeight(18, 4)).yellowIcon()); //27
+        getTcb().add(new TreeCheckBox("Cheaper Multihit", new String[]{"Multihit Spell Cost: -5"}, new TreeCheckBox[]{getTcb().get(24)}, new TreeCheckBox[]{getTcb().get(8)}, 1, SkillEnum.CHEAPER_3RD_SP_COST, posWidth(5, 2), posHeight(18, 2)).whiteIcon()); //28
+        getTcb().add(new TreeCheckBox("Dagger Proficiency II", new String[]{"Damage Bonus: +5 (Raw)", "Range: +1 Block"}, new TreeCheckBox[]{getTcb().get(25)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(24), getTcb().get(28)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(23), getTcb().get(27), getTcb().get(28)})}, 1, SkillEnum.DAGGER_PROFICIENCY_2, posWidth(8, 2), posHeight(18, 2)).whiteIcon()); //29
+        getTcb().get(26).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(24), getTcb().get(27), getTcb().get(28)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(25), getTcb().get(27), getTcb().get(28), getTcb().get(29)})});
+        getTcb().get(27).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(24), getTcb().get(28)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(25), getTcb().get(28), getTcb().get(29)})});
+        getTcb().get(28).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(23), getTcb().get(27)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(25), getTcb().get(29)})});
+
+        new TreeIcon(posWidth(0, 0), posHeight(19, 0), getPane()).up_down();
+        new TreeIcon(posWidth(3, 0), posHeight(19, 0), getPane()).up_down();
+        new TreeIcon(posWidth(7, 0), posHeight(19, 0), getPane()).up_down();
+        getTcb().add(new TreeCheckBox("Last Laugh", new String[]{"When losing a Clone, it will", "cast Spin Attack before dying."}, new TreeCheckBox[]{getTcb().get(27), getTcb().get(28)}, new TreeCheckBox[]{getTcb().get(21)}, TreeCheckBox.ArchetypeEnum.TRICKSTER, 3, 2, SkillEnum.LAST_LAUGH, posWidth(4, 4), posHeight(19, 4)).yellowIcon()); //30
+
+        new TreeIcon(posWidth(0, 0), posHeight(20, 0), getPane()).up_down();
+        new TreeIcon(posWidth(3, 0), posHeight(20, 0), getPane()).up_down();
+        new TreeIcon(posWidth(7, 0), posHeight(20, 0), getPane()).up_down();
+
+        new TreeIcon(posWidth(1, 0), posHeight(21, 0), getPane()).right_left_down();
+        new TreeIcon(posWidth(2, 0), posHeight(21, 0), getPane()).right_left();
+        new TreeIcon(posWidth(4, 0), posHeight(21, 0), getPane()).left_down();
+        new TreeIcon(posWidth(6, 0), posHeight(21, 0), getPane()).right_down();
+        new TreeIcon(posWidth(8, 0), posHeight(21, 0), getPane()).left_down();
+        getTcb().add(new TreeCheckBox("Cheaper Smoke Bomb", new String[]{"Smoke Bomb Spell Cost: -5"}, new TreeCheckBox[]{getTcb().get(26)}, new TreeCheckBox[]{getTcb().get(7)}, 1, SkillEnum.CHEAPER_4TH_SP_COST, posWidth(0, 2), posHeight(21, 2)).whiteIcon()); //31
+        getTcb().add(new TreeCheckBox("Blazing Powder", new String[]{"Spin Attack will blind enemies", "and deal additional damage.", " ", "Total Damage: +20% (of your DPS)", "(Fire +20%)", "Effect: Blindness to Enemies", "Duration: 1s"}, new TreeCheckBox[]{getTcb().get(27), getTcb().get(28)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(26), getTcb().get(31)})}, 2, SkillEnum.BLAZING_POWDER, posWidth(3, 4), posHeight(21, 4)).yellowIcon()); //32
+        getTcb().add(new TreeCheckBox("Weightless", new String[]{"You gain +0.7 Mana if you", "hit an enemy while airborne.", "(1.25+ blocks off the", "ground to be airborne.)"}, new TreeCheckBox[]{getTcb().get(28), getTcb().get(29)}, 2, TreeCheckBox.ArchetypeEnum.ACROBAT, 3, SkillEnum.WEIGHTLESS, posWidth(7, 6), posHeight(21, 6)).purpleIcon()); //33
+        getTcb().get(31).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(27), getTcb().get(32)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(28), getTcb().get(32)})}); //Cheaper Smoke Bomb
+
+        new TreeIcon(posWidth(0, 0), posHeight(22, 0), getPane()).up_down();
+        new TreeIcon(posWidth(3, 0), posHeight(22, 0), getPane()).right_down();
+        new TreeIcon(posWidth(5, 0), posHeight(22, 0), getPane()).right_left_down();
+
+        
+
+        getTcb().get(22).setCantUse(null); //Lacerate (TODO Echo)
+        getTcb().get(15).setCantUse(new TreeCheckBox[]{getTcb().get(16)}); //Backstab (TODO Stronger Multihit)
 
         setTreeUI();
     }
