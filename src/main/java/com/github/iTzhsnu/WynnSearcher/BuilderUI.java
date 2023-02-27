@@ -5,6 +5,7 @@ import com.github.iTzhsnu.WynnSearcher.builder.skilltree.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -151,22 +154,18 @@ public class BuilderUI implements ActionListener {
     }
 
     private void getTomes(List<JsonObject> armourTomes, List<JsonObject> weaponTomes, List<JsonObject> guildTomes) {
-        try {
-            JsonObject armourJ = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/other/armour_tomes.json")).toURI()))).getAsJsonObject();
-            JsonObject weaponJ = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/other/weapon_tomes.json")).toURI()))).getAsJsonObject();
-            JsonObject guildJ = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/other/guild_tomes.json")).toURI()))).getAsJsonObject();
+        JsonObject armourJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/armour_tomes.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+        JsonObject weaponJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/weapon_tomes.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+        JsonObject guildJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/guild_tomes.json")), StandardCharsets.UTF_8))).getAsJsonObject();
 
-            for (JsonElement j : armourJ.get("items").getAsJsonArray()) {
-                armourTomes.add(j.getAsJsonObject());
-            }
-            for (JsonElement j : weaponJ.get("items").getAsJsonArray()) {
-                weaponTomes.add(j.getAsJsonObject());
-            }
-            for (JsonElement j : guildJ.get("items").getAsJsonArray()) {
-                guildTomes.add(j.getAsJsonObject());
-            }
-        } catch (FileNotFoundException | URISyntaxException e) {
-            e.printStackTrace();
+        for (JsonElement j : armourJ.get("items").getAsJsonArray()) {
+            armourTomes.add(j.getAsJsonObject());
+        }
+        for (JsonElement j : weaponJ.get("items").getAsJsonArray()) {
+            weaponTomes.add(j.getAsJsonObject());
+        }
+        for (JsonElement j : guildJ.get("items").getAsJsonArray()) {
+            guildTomes.add(j.getAsJsonObject());
         }
     }
 

@@ -5,6 +5,7 @@ plugins {
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
+group 'com.github.iTzhsnu'
 version '3.0.1'
 
 repositories {
@@ -12,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.10'
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 jar {

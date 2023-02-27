@@ -3,12 +3,13 @@ package com.github.iTzhsnu.WynnSearcher;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -52,16 +53,12 @@ public class GetAPI {
         } else {
             label.setText("Using Archive");
             label.setForeground(new Color(255, 0, 0));
-            try {
-                JsonObject j = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/archive_jsons/items.json")).toURI()))).getAsJsonObject();
-                for (JsonElement je : j.get("items").getAsJsonArray()) {
-                    list.add(je.getAsJsonObject());
-                }
-                if (j.get("request") != null) {
-                    label.setText(new Timestamp(j.get("request").getAsJsonObject().get("timestamp").getAsLong() * 1000).toLocalDateTime().toLocalDate() + " Archive");
-                }
-            } catch (FileNotFoundException | URISyntaxException e) {
-                e.printStackTrace();
+            JsonObject j = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/archive_jsons/items.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+            for (JsonElement je : j.get("items").getAsJsonArray()) {
+                list.add(je.getAsJsonObject());
+            }
+            if (j.get("request") != null) {
+                label.setText(new Timestamp(j.get("request").getAsJsonObject().get("timestamp").getAsLong() * 1000).toLocalDateTime().toLocalDate() + " Archive");
             }
         }
     }
@@ -100,18 +97,14 @@ public class GetAPI {
         } else {
             label.setText("Using Archive");
             label.setForeground(new Color(255, 0, 0));
-            try {
-                for (int i = 0; 3 >= i; ++i) {
-                    JsonObject j = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/archive_jsons/ings_" + i + ".json")).toURI()))).getAsJsonObject();
-                    for (JsonElement je : j.get("data").getAsJsonArray()) {
-                        list.add(je.getAsJsonObject());
-                    }
-                    if (i == 0 && j.get("request") != null) {
-                        label.setText(new Timestamp(j.get("request").getAsJsonObject().get("timestamp").getAsLong() * 1000).toLocalDateTime().toLocalDate() + " Archive");
-                    }
+            for (int i = 0; 3 >= i; ++i) {
+                JsonObject j = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/archive_jsons/ings_" + i + ".json")), StandardCharsets.UTF_8))).getAsJsonObject();
+                for (JsonElement je : j.get("data").getAsJsonArray()) {
+                    list.add(je.getAsJsonObject());
                 }
-            } catch (FileNotFoundException | URISyntaxException e) {
-                e.printStackTrace();
+                if (i == 0 && j.get("request") != null) {
+                    label.setText(new Timestamp(j.get("request").getAsJsonObject().get("timestamp").getAsLong() * 1000).toLocalDateTime().toLocalDate() + " Archive");
+                }
             }
         }
     }
@@ -149,18 +142,14 @@ public class GetAPI {
         if (connect) {
             return "Recipe API Connected";
         } else {
-            try {
-                for (String s : ss) {
-                    JsonObject j = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/archive_jsons/recipes_" + s + ".json")).toURI()))).getAsJsonObject();
-                    for (JsonElement je : j.get("data").getAsJsonArray()) {
-                        list.add(je.getAsJsonObject());
-                    }
-                    if (s.equals("armouring") && j.get("request") != null) {
-                        return new Timestamp(j.get("request").getAsJsonObject().get("timestamp").getAsLong() * 1000).toLocalDateTime().toLocalDate() + " Archive";
-                    }
+            for (String s : ss) {
+                JsonObject j = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/archive_jsons/recipes_" + s + ".json")), StandardCharsets.UTF_8))).getAsJsonObject();
+                for (JsonElement je : j.get("data").getAsJsonArray()) {
+                    list.add(je.getAsJsonObject());
                 }
-            } catch (FileNotFoundException | URISyntaxException e) {
-                e.printStackTrace();
+                if (s.equals("armouring") && j.get("request") != null) {
+                    return new Timestamp(j.get("request").getAsJsonObject().get("timestamp").getAsLong() * 1000).toLocalDateTime().toLocalDate() + " Archive";
+                }
             }
             return "Using Archive";
         }

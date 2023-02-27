@@ -6,13 +6,12 @@ import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeBase;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeCheckBox;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.net.URISyntaxException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.*;
 
@@ -365,86 +364,82 @@ public class ID_Display {
             }
         }
 
-        try {
-            JsonObject powderJ = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/other/powders.json")).toURI()))).getAsJsonObject();
+        JsonObject powderJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/powders.json")), StandardCharsets.UTF_8))).getAsJsonObject();
 
-            //Helmet Powder
-            if (itemJsons.getHelmet() != null && itemJsons.getHelmet().get("sockets") != null && itemJsons.getHelmet().get("sockets").getAsInt() > 0 && powders.get(0).getText().length() > 1) {
-                for (int i = 0; (int) Math.floor(powders.get(0).getText().length() / 2F) * 2 > i; i += 2) {
-                    if (itemJsons.getHelmet().get("sockets").getAsInt() >= i / 2) {
-                        String name = String.valueOf(powders.get(0).getText().charAt(i)) + powders.get(0).getText().charAt(i + 1);
-                        if (powderJ.get(name) != null) {
-                            JsonObject j = powderJ.get(name).getAsJsonObject();
-                            if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
-                            if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
-                            if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
-                            if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
-                            if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
-                        }
-                    } else {
-                        break;
+        //Helmet Powder
+        if (itemJsons.getHelmet() != null && itemJsons.getHelmet().get("sockets") != null && itemJsons.getHelmet().get("sockets").getAsInt() > 0 && powders.get(0).getText().length() > 1) {
+            for (int i = 0; (int) Math.floor(powders.get(0).getText().length() / 2F) * 2 > i; i += 2) {
+                if (itemJsons.getHelmet().get("sockets").getAsInt() >= i / 2) {
+                    String name = String.valueOf(powders.get(0).getText().charAt(i)) + powders.get(0).getText().charAt(i + 1);
+                    if (powderJ.get(name) != null) {
+                        JsonObject j = powderJ.get(name).getAsJsonObject();
+                        if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
+                        if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
+                        if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
+                        if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
+                        if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
                     }
+                } else {
+                    break;
                 }
             }
+        }
 
-            //Chestplate Powder
-            if (itemJsons.getChestplate() != null && itemJsons.getChestplate().get("sockets") != null && itemJsons.getChestplate().get("sockets").getAsInt() > 0 && powders.get(1).getText().length() > 1) {
-                for (int i = 0; (int) Math.floor(powders.get(1).getText().length() / 2F) * 2 > i; i += 2) {
-                    if (itemJsons.getChestplate().get("sockets").getAsInt() >= i / 2) {
-                        String name = String.valueOf(powders.get(1).getText().charAt(i)) + powders.get(1).getText().charAt(i + 1);
-                        if (powderJ.get(name) != null) {
-                            JsonObject j = powderJ.get(name).getAsJsonObject();
-                            if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
-                            if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
-                            if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
-                            if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
-                            if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
-                        }
-                    } else {
-                        break;
+        //Chestplate Powder
+        if (itemJsons.getChestplate() != null && itemJsons.getChestplate().get("sockets") != null && itemJsons.getChestplate().get("sockets").getAsInt() > 0 && powders.get(1).getText().length() > 1) {
+            for (int i = 0; (int) Math.floor(powders.get(1).getText().length() / 2F) * 2 > i; i += 2) {
+                if (itemJsons.getChestplate().get("sockets").getAsInt() >= i / 2) {
+                    String name = String.valueOf(powders.get(1).getText().charAt(i)) + powders.get(1).getText().charAt(i + 1);
+                    if (powderJ.get(name) != null) {
+                        JsonObject j = powderJ.get(name).getAsJsonObject();
+                        if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
+                        if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
+                        if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
+                        if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
+                        if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
                     }
+                } else {
+                    break;
                 }
             }
+        }
 
-            //Leggings Powder
-            if (itemJsons.getLeggings() != null && itemJsons.getLeggings().get("sockets") != null && itemJsons.getLeggings().get("sockets").getAsInt() > 0 && powders.get(2).getText().length() > 1) {
-                for (int i = 0; (int) Math.floor(powders.get(2).getText().length() / 2F) * 2 > i; i += 2) {
-                    if (itemJsons.getLeggings().get("sockets").getAsInt() >= i / 2) {
-                        String name = String.valueOf(powders.get(2).getText().charAt(i)) + powders.get(2).getText().charAt(i + 1);
-                        if (powderJ.get(name) != null) {
-                            JsonObject j = powderJ.get(name).getAsJsonObject();
-                            if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
-                            if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
-                            if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
-                            if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
-                            if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
-                        }
-                    } else {
-                        break;
+        //Leggings Powder
+        if (itemJsons.getLeggings() != null && itemJsons.getLeggings().get("sockets") != null && itemJsons.getLeggings().get("sockets").getAsInt() > 0 && powders.get(2).getText().length() > 1) {
+            for (int i = 0; (int) Math.floor(powders.get(2).getText().length() / 2F) * 2 > i; i += 2) {
+                if (itemJsons.getLeggings().get("sockets").getAsInt() >= i / 2) {
+                    String name = String.valueOf(powders.get(2).getText().charAt(i)) + powders.get(2).getText().charAt(i + 1);
+                    if (powderJ.get(name) != null) {
+                        JsonObject j = powderJ.get(name).getAsJsonObject();
+                        if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
+                        if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
+                        if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
+                        if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
+                        if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
                     }
+                } else {
+                    break;
                 }
             }
+        }
 
-            //Boots Powder
-            if (itemJsons.getBoots() != null && itemJsons.getBoots().get("sockets") != null && itemJsons.getBoots().get("sockets").getAsInt() > 0 && powders.get(3).getText().length() > 1) {
-                for (int i = 0; (int) Math.floor(powders.get(3).getText().length() / 2F) * 2 > i; i += 2) {
-                    if (itemJsons.getBoots().get("sockets").getAsInt() >= i / 2) {
-                        String name = String.valueOf(powders.get(3).getText().charAt(i)) + powders.get(3).getText().charAt(i + 1);
-                        if (powderJ.get(name) != null) {
-                            JsonObject j = powderJ.get(name).getAsJsonObject();
-                            if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
-                            if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
-                            if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
-                            if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
-                            if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
-                        }
-                    } else {
-                        break;
+        //Boots Powder
+        if (itemJsons.getBoots() != null && itemJsons.getBoots().get("sockets") != null && itemJsons.getBoots().get("sockets").getAsInt() > 0 && powders.get(3).getText().length() > 1) {
+            for (int i = 0; (int) Math.floor(powders.get(3).getText().length() / 2F) * 2 > i; i += 2) {
+                if (itemJsons.getBoots().get("sockets").getAsInt() >= i / 2) {
+                    String name = String.valueOf(powders.get(3).getText().charAt(i)) + powders.get(3).getText().charAt(i + 1);
+                    if (powderJ.get(name) != null) {
+                        JsonObject j = powderJ.get(name).getAsJsonObject();
+                        if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
+                        if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
+                        if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
+                        if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
+                        if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
                     }
+                } else {
+                    break;
                 }
             }
-        } catch (FileNotFoundException | URISyntaxException e) {
-            e.printStackTrace();
         }
 
         if (updateOnly) { //Update Edited ID

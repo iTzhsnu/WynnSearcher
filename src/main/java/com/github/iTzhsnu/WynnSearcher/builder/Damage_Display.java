@@ -6,13 +6,12 @@ import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeBase;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeCheckBox;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.net.URISyntaxException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -97,111 +96,107 @@ public class Damage_Display {
 
 
             //Powder
-            try {
-                JsonObject powderJ = JsonParser.parseReader(new FileReader(new File(Objects.requireNonNull(getClass().getResource("/other/powders.json")).toURI()))).getAsJsonObject();
-                if (weapon.get("sockets") != null && weapon.get("sockets").getAsInt() > 0 && powders.get(4).getText().length() > 1) {
-                    String[] turn = new String[] {"", "", "", "", ""};
-                    int[] convert = new int[] {0, 0, 0, 0, 0};
-                    for (int i = 0; (int) Math.floor(powders.get(4).getText().length() / 2F) * 2 > i; i += 2) {
-                        if (weapon.get("sockets").getAsInt() >= i / 2) {
-                            String name = String.valueOf(powders.get(4).getText().charAt(i)) + powders.get(4).getText().charAt(i + 1);
-                            if (powderJ.get(name) != null) {
-                                JsonObject j = powderJ.get(name).getAsJsonObject();
-                                String[] ss = j.get("damage").getAsString().split("-");
-                                switch (j.get("type").getAsString()) {
-                                    case "earth": { //Earth Powder Damage
-                                        earth_min += Integer.parseInt(ss[0]);
-                                        earth_max += Integer.parseInt(ss[1]);
-                                        break;
-                                    }
-                                    case "thunder": { //Thunder Powder Damage
-                                        thunder_min += Integer.parseInt(ss[0]);
-                                        thunder_max += Integer.parseInt(ss[1]);
-                                        break;
-                                    }
-                                    case "water": { //Water Powder Damage
-                                        water_min += Integer.parseInt(ss[0]);
-                                        water_max += Integer.parseInt(ss[1]);
-                                        break;
-                                    }
-                                    case "fire": { //Fire Powder Damage
-                                        fire_min += Integer.parseInt(ss[0]);
-                                        fire_max += Integer.parseInt(ss[1]);
-                                        break;
-                                    }
-                                    case "air": { //Air Powder Damage
-                                        air_min += Integer.parseInt(ss[0]);
-                                        air_max += Integer.parseInt(ss[1]);
-                                        break;
-                                    }
+            JsonObject powderJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/powders.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+            if (weapon.get("sockets") != null && weapon.get("sockets").getAsInt() > 0 && powders.get(4).getText().length() > 1) {
+                String[] turn = new String[] {"", "", "", "", ""};
+                int[] convert = new int[] {0, 0, 0, 0, 0};
+                for (int i = 0; (int) Math.floor(powders.get(4).getText().length() / 2F) * 2 > i; i += 2) {
+                    if (weapon.get("sockets").getAsInt() >= i / 2) {
+                        String name = String.valueOf(powders.get(4).getText().charAt(i)) + powders.get(4).getText().charAt(i + 1);
+                        if (powderJ.get(name) != null) {
+                            JsonObject j = powderJ.get(name).getAsJsonObject();
+                            String[] ss = j.get("damage").getAsString().split("-");
+                            switch (j.get("type").getAsString()) {
+                                case "earth": { //Earth Powder Damage
+                                    earth_min += Integer.parseInt(ss[0]);
+                                    earth_max += Integer.parseInt(ss[1]);
+                                    break;
                                 }
-                                for (int n = 0; 5 > n; ++n) { //Powder Convert
-                                    if (turn[n].isEmpty()) {
-                                        turn[n] = j.get("type").getAsString();
-                                        convert[n] += j.get("convert").getAsInt();
-                                        break;
-                                    } else if (turn[n].equals(j.get("type").getAsString())) {
-                                        convert[n] += j.get("convert").getAsInt();
-                                        break;
-                                    }
+                                case "thunder": { //Thunder Powder Damage
+                                    thunder_min += Integer.parseInt(ss[0]);
+                                    thunder_max += Integer.parseInt(ss[1]);
+                                    break;
+                                }
+                                case "water": { //Water Powder Damage
+                                    water_min += Integer.parseInt(ss[0]);
+                                    water_max += Integer.parseInt(ss[1]);
+                                    break;
+                                }
+                                case "fire": { //Fire Powder Damage
+                                    fire_min += Integer.parseInt(ss[0]);
+                                    fire_max += Integer.parseInt(ss[1]);
+                                    break;
+                                }
+                                case "air": { //Air Powder Damage
+                                    air_min += Integer.parseInt(ss[0]);
+                                    air_max += Integer.parseInt(ss[1]);
+                                    break;
                                 }
                             }
-                        } else {
-                            break;
+                            for (int n = 0; 5 > n; ++n) { //Powder Convert
+                                if (turn[n].isEmpty()) {
+                                    turn[n] = j.get("type").getAsString();
+                                    convert[n] += j.get("convert").getAsInt();
+                                    break;
+                                } else if (turn[n].equals(j.get("type").getAsString())) {
+                                    convert[n] += j.get("convert").getAsInt();
+                                    break;
+                                }
+                            }
                         }
-                    }
-
-                    for (int i = 0; 5 > i; ++i) { //Powder Convert (Math.round)
-                        if (turn[i].isEmpty()) {
-                            break;
-                        } else if (neutral_min > 0 || neutral_max > 0) {
-                            if (convert[i] > 100) { //Convert 101%+ => 100%
-                                convert[i] = 100;
-                            }
-
-                            float convertCalcMin = neutral_min * (convert[i] / 100F);
-                            float convertCalcMax = neutral_max * (convert[i] / 100F);
-
-                            if (neutral_min == 0) convertCalcMin = 0;
-                            if (neutral_max == 0) convertCalcMax = 0;
-
-                            //Add Elemental
-                            switch (turn[i]) {
-                                case "earth": {
-                                    earth_min += convertCalcMin; //Neutral Damage Min * (Convert % / 100)
-                                    earth_max += convertCalcMax; //Neutral Damage Max * (Convert % / 100)
-                                    break;
-                                }
-                                case "thunder": {
-                                    thunder_min += convertCalcMin;
-                                    thunder_max += convertCalcMax;
-                                    break;
-                                }
-                                case "water": {
-                                    water_min += convertCalcMin;
-                                    water_max += convertCalcMax;
-                                    break;
-                                }
-                                case "fire": {
-                                    fire_min += convertCalcMin;
-                                    fire_max += convertCalcMax;
-                                    break;
-                                }
-                                case "air": {
-                                    air_min += convertCalcMin;
-                                    air_max += convertCalcMax;
-                                    break;
-                                }
-                            }
-
-                            //Remove Neutral
-                            neutral_min -= convertCalcMin;
-                            neutral_max -= convertCalcMax;
-                        }
+                    } else {
+                        break;
                     }
                 }
-            } catch (FileNotFoundException | URISyntaxException e) {
-                e.printStackTrace();
+
+                for (int i = 0; 5 > i; ++i) { //Powder Convert (Math.round)
+                    if (turn[i].isEmpty()) {
+                        break;
+                    } else if (neutral_min > 0 || neutral_max > 0) {
+                        if (convert[i] > 100) { //Convert 101%+ => 100%
+                            convert[i] = 100;
+                        }
+
+                        float convertCalcMin = neutral_min * (convert[i] / 100F);
+                        float convertCalcMax = neutral_max * (convert[i] / 100F);
+
+                        if (neutral_min == 0) convertCalcMin = 0;
+                        if (neutral_max == 0) convertCalcMax = 0;
+
+                        //Add Elemental
+                        switch (turn[i]) {
+                            case "earth": {
+                                earth_min += convertCalcMin; //Neutral Damage Min * (Convert % / 100)
+                                earth_max += convertCalcMax; //Neutral Damage Max * (Convert % / 100)
+                                break;
+                            }
+                            case "thunder": {
+                                thunder_min += convertCalcMin;
+                                thunder_max += convertCalcMax;
+                                break;
+                            }
+                            case "water": {
+                                water_min += convertCalcMin;
+                                water_max += convertCalcMax;
+                                break;
+                            }
+                            case "fire": {
+                                fire_min += convertCalcMin;
+                                fire_max += convertCalcMax;
+                                break;
+                            }
+                            case "air": {
+                                air_min += convertCalcMin;
+                                air_max += convertCalcMax;
+                                break;
+                            }
+                        }
+
+                        //Remove Neutral
+                        neutral_min -= convertCalcMin;
+                        neutral_max -= convertCalcMax;
+                    }
+                }
             }
 
             int raw_Damage = 0;
