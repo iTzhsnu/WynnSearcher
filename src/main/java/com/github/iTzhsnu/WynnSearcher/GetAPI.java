@@ -1,3 +1,4 @@
+//Thanks: soramame_256
 package com.github.iTzhsnu.WynnSearcher;
 
 import com.google.gson.JsonElement;
