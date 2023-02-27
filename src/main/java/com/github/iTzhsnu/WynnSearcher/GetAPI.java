@@ -24,7 +24,7 @@ public class GetAPI {
     public void setItemData(List<JsonObject> list, JLabel label) {
         boolean connect = true;
         try {
-            BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_ITEM_API).openStream()));
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_ITEM_API).openStream(), StandardCharsets.UTF_8));
             String line;
             StringBuilder builder = new StringBuilder();
 
@@ -67,7 +67,7 @@ public class GetAPI {
         boolean connect = true;
         for (int i = 0; 3 >= i; ++i) {
             try {
-                BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_INGREDIENT_API + i).openStream()));
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_INGREDIENT_API + i).openStream(), StandardCharsets.UTF_8));
                 String line;
                 StringBuilder builder = new StringBuilder();
 
@@ -115,7 +115,7 @@ public class GetAPI {
 
         for (String s : ss) {
             try {
-                BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_RECIPE_API + s).openStream()));
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_RECIPE_API + s).openStream(), StandardCharsets.UTF_8));
                 String line;
                 StringBuilder builder = new StringBuilder();
 
