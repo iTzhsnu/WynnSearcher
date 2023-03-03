@@ -231,7 +231,7 @@ public class Damage_Display {
                 }
             }
 
-            if (damage_Boosts.getBox().get(1).isSelected()) percent += 0.3F; //Ragnarokkr (+30%)
+            if (damage_Boosts.getBox().get(1).isSelected()) percent += 0.2F; //Ragnarokkr (+20%)
             if (damage_Boosts.getBox().get(3).isSelected()) percent += 0.6F; //Fortitude (+60%)
             if (damage_Boosts.getBox().get(4).isSelected()) percent += 0.2F; //Vengeful Spirit (+20%)
 
@@ -310,7 +310,13 @@ public class Damage_Display {
                                     }
                                     break;
                                 case ENRAGED_BLOW:
-                                    if (damage_Boosts.getSlider().get(0).getValue() > 0) multiple *= Math.min(1F + damage_Boosts.getSlider().get(0).getValue() * 0.015F, 2.2F);
+                                    if (damage_Boosts.getSlider().get(0).getValue() > 0) {
+                                        if (tree.getTcb().get(63).isSelected()) {
+                                            multiple *= Math.min(1F + damage_Boosts.getSlider().get(0).getValue() * 0.015F, 2.4F);
+                                        } else {
+                                            multiple *= Math.min(1F + damage_Boosts.getSlider().get(0).getValue() * 0.015F, 1.8F);
+                                        }
+                                    }
                                     break;
                                 case DISCOMBOBULATE:
                                     if (damage_Boosts.getSlider().get(1).getValue() > 0) {
@@ -1016,7 +1022,7 @@ public class Damage_Display {
             }
 
             float crit_boost = 1F;
-            if (this.crit_boost) crit_boost = 1.3F;
+            if (this.crit_boost) crit_boost = 1.15F;
 
             float crit_neutral_min = neutral_min * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
             float crit_earth_min = earth_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());

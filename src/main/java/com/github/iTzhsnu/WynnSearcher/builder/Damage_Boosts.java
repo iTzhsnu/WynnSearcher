@@ -13,7 +13,7 @@ public class Damage_Boosts {
     public Damage_Boosts(JPanel p) {
         //Sliders
         slider.add(new Damage_Boost_Slider("Corrupted", 0, 100, 10, 235)); //0
-        slider.add(new Damage_Boost_Slider("Discombobulate", 0, 80, 10, 275)); //1
+        slider.add(new Damage_Boost_Slider("Discombobulate", 0, 100, 10, 275)); //1
 
         slider.add(new Damage_Boost_Slider("Marked", 0, 6, 10, 235)); //2
 

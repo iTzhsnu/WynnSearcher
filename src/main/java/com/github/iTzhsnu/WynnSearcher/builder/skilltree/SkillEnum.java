@@ -66,6 +66,7 @@ public enum SkillEnum {
     RADIANCE,
     DISCOMBOBULATE,
     CYCLONE,
+    BETTER_ENRAGED_BLOW,
     THUNDERCLAP,
     SECOND_CHANCE,
     BLOOD_PACT,

@@ -10,8 +10,8 @@ public enum SpellEnum {
     THUNDERCLAP(0, 0, 25, 0, 0, 0, 0), //ADD (Bash)
 
     //Charge
-    HEAVY_IMPACT(100, 0, 0, 0, 0, 0, 1), //BASE (Charge)
-    FLYBY_JAB(20, 0, 0, 0, 0, 40, 1), //BASE (Charge)
+    HEAVY_IMPACT(120, 0, 0, 0, 0, 0, 1), //BASE (Charge)
+    FLYBY_JAB(100, 0, 0, 0, 0, 20, 1), //BASE (Charge)
     FLYING_KICK(150, 0, 0, 20, 0, 30, 1), //BASE (Charge)
     COLLIDE(150, 0, 0, 0, 50, 0, 1), //BASE (Flying Kick)
 
