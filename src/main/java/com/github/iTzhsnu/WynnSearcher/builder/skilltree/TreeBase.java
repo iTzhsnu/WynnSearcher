@@ -46,10 +46,44 @@ public class TreeBase implements ActionListener {
     }
 
     public void setTreeUI() {
-        for (TreeCheckBox b : getTcb()) {
+        for (int i = 0; tcb.size() > i; ++i) {
+            TreeCheckBox b = tcb.get(i);
+
+            //debugTree(i, b);
+
             b.addActionListener(this);
             pane.add(b);
             pane.setLayer(b, 1);
+        }
+    }
+
+    public void debugTree(int i, TreeCheckBox b) {
+        if (classes.equals("Assassin")) {
+            StringBuilder sb = new StringBuilder();
+            String n = i + ". " + b.getTreeName();
+            sb.append(n);
+
+            if (b.getPrevious() != null) {
+                sb.append(" , Previous:");
+                for (TreeCheckBox treeBox : b.getPrevious()) {
+                    String s = " " + treeBox.getTreeName();
+                    sb.append(s);
+                }
+            }
+
+            if (b.getSpPrevious() != null) {
+                sb.append(" , Sp Previous:");
+                for (SpPrevious sp : b.getSpPrevious()) {
+                    sb.append(" (");
+                    for (TreeCheckBox treeBox : sp.getT()) {
+                        String s = " " + treeBox.getTreeName();
+                        sb.append(s);
+                    }
+                    sb.append(" )");
+                }
+            }
+
+            System.out.println(sb);
         }
     }
 

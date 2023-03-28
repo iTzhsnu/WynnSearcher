@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
-    public static final String VERSION = "3.0.1";
+    public static final String VERSION = "3.0.2";
 
     //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
@@ -778,7 +778,7 @@ public class SearchUI extends JFrame implements ActionListener {
                             if (id.getItemName() != null) {
                                 if (notHaveItemID(id_0, searchedItems.get(i), num, 1) && notHaveItemID(id_1, searchedItems.get(i), num, 2) && notHaveItemID(id_2, searchedItems.get(i), num, 3)) {
                                     if (!Objects.equals(id.getIDType(), "sum")) {
-                                        if (searchedItems.get(i).get(id.getItemName()) != null) {
+                                        if (searchedItems.get(i).get(id.getItemName()) != null && !searchedItems.get(i).get(id.getItemName()).isJsonNull()) {
                                             if (Objects.equals(id.getIDType(), "int") && searchedItems.get(i).get(id.getItemName()).getAsInt() != 0) {
                                                 remove = false;
                                             } else if (Objects.equals(id.getIDType(), "string") && !searchedItems.get(i).get(id.getItemName()).getAsString().isEmpty()) {
@@ -1136,7 +1136,7 @@ public class SearchUI extends JFrame implements ActionListener {
                 Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
                 Identifications id_4 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
                 if (id_1.getItemName() != null || id_2.getItemName() != null || id_3.getItemName() != null || id_4.getItemName() != null) {
-                    if (!id_1.getIDType().equals("string") || !id_2.getIDType().equals("string") || !id_3.getIDType().equals("string") || !id_4.getIDType().equals("string")) {
+                    if (!id_1.getIDType().equals("string") && !id_2.getIDType().equals("string") && !id_3.getIDType().equals("string") && !id_4.getIDType().equals("string")) {
                         for (int i = searchedItems.size() - 1; i >= 0; --i) {
                             JsonObject j = searchedItems.get(i);
                             float total_min = 0;

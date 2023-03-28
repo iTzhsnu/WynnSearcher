@@ -9,6 +9,8 @@ public enum Identifications {
     INTELLIGENCE_REQ("Intelligence Req", "intelligence", "intelligenceRequirement", "", "int", null, "itemOnlyIDs", false),
     DEFENSE_REQ("Defense Req", "defense", "defenceRequirement", "", "int", null, "itemOnlyIDs", false),
     AGILITY_REQ("Agility Req", "agility", "agilityRequirement", "", "int", null, "itemOnlyIDs", false),
+    QUEST_REQ("Quest Req", "quest", null, "", "string", null, null, false),
+    UNTRADABLE("Untradable", "restrictions", null, "", "string", null, null, false),
 
     HEALTH("Health", "health", null, "", "int", null, null, false),
     HEALTH_BONUS("Health Bonus", "healthBonus", "HEALTHBONUS", "", "int", null, "identifications", true),

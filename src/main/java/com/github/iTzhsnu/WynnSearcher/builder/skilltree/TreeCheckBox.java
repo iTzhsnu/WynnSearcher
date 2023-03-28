@@ -88,6 +88,14 @@ public class TreeCheckBox extends JCheckBox {
         return skill;
     }
 
+    public TreeCheckBox[] getPrevious() {
+        return previous;
+    }
+
+    public SpPrevious[] getSpPrevious() {
+        return spPrevious;
+    }
+
     public void setCantUse(TreeCheckBox[] cantUse) {
         this.cantUse = cantUse;
         setToolTip();

@@ -134,6 +134,9 @@ public enum SkillEnum {
     BETTER_RICOCHETS,
     DEVOUR,
     BETTER_MARKED,
+    BAMBOOZLE,
+    DISTRACTION,
+    FLOW_STATE,
 
 
     //ARCHER
