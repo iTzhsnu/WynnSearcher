@@ -10,8 +10,7 @@ Gson (Include)
 ![](readme_pictures/how_to_use.png)
 
 ### Builder (Beta)
-※Can use Warrior only. (Ability Tree Old)
-Ability Tree creating.
+Can Use Warrior Only (Other Ability Tree is Creating...)
 
 ### Crafter (Beta)
 ![](readme_pictures/how_to_use_3.png)
