@@ -1,7 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher;
 
 public enum Identifications {
-    EMPTY(null, null, null, "", null, null, null, false),
+    EMPTY(null, null, null, "", "", null, null, false),
 
     LEVEL("Lv. Min","level", "level", "", "int", null, "nothing", false),
     STRENGTH_REQ("Strength Req", "strength", "strengthRequirement", "", "int", null, "itemOnlyIDs", false),
