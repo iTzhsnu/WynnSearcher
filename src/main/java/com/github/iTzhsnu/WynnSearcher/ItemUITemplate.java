@@ -468,212 +468,25 @@ public class ItemUITemplate extends JPanel {
         if (json.get("identifications") != null) {
             JsonObject j = json.get("identifications").getAsJsonObject();
             boolean run = false;
-            if (j.get("STRENGTHPOINTS") != null && j.get("STRENGTHPOINTS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("STRENGTHPOINTS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + " Strength " + setPlus(jo.get("maximum").getAsInt())));
-                run = true;
-            }
-            if (j.get("DEXTERITYPOINTS") != null && j.get("DEXTERITYPOINTS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("DEXTERITYPOINTS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + " Dexterity " + setPlus(jo.get("maximum").getAsInt())));
-                run = true;
-            }
-            if (j.get("INTELLIGENCEPOINTS") != null && j.get("INTELLIGENCEPOINTS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("INTELLIGENCEPOINTS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + " Intelligence " + setPlus(jo.get("maximum").getAsInt())));
-                run = true;
-            }
-            if (j.get("DEFENSEPOINTS") != null && j.get("DEFENSEPOINTS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("DEFENSEPOINTS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + " Defense " + setPlus(jo.get("maximum").getAsInt())));
-                run = true;
-            }
-            if (j.get("AGILITYPOINTS") != null && j.get("AGILITYPOINTS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("AGILITYPOINTS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + " Agility " + setPlus(jo.get("maximum").getAsInt())));
-                run = true;
+
+            for (int i = 0; 70 >= i; ++i) {
+                Identifications id = ITEM_IDS.get(i);
+                if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
+                    JsonObject jo = j.get(id.getIngName()).getAsJsonObject();
+                    label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(jo.get("maximum").getAsInt()) + id.getDisplaySp()));
+                    run = true;
+                }
             }
 
-            if (j.get("HEALTHBONUS") != null && j.get("HEALTHBONUS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("HEALTHBONUS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + " Health Bonus " + setPlus(jo.get("maximum").getAsInt())));
-                run = true;
+            for (int i = 0; 7 >= i; ++i) {
+                Identifications id = REVERSED_ITEM_IDS.get(i);
+                if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
+                    JsonObject jo = j.get(id.getIngName()).getAsJsonObject();
+                    label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(jo.get("maximum").getAsInt()) + id.getDisplaySp()));
+                    run = true;
+                }
             }
-            if (j.get("HEALTHREGENRAW") != null && j.get("HEALTHREGENRAW").getAsJsonObject() != null) {
-                JsonObject jo = j.get("HEALTHREGENRAW").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + " Health Regen Raw " + setPlus(jo.get("maximum").getAsInt())));
-                run = true;
-            }
-            if (j.get("HEALTHREGEN") != null && j.get("HEALTHREGEN").getAsJsonObject() != null) {
-                JsonObject jo = j.get("HEALTHREGEN").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Health Regen " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("LIFESTEAL") != null && j.get("LIFESTEAL").getAsJsonObject() != null) {
-                JsonObject jo = j.get("LIFESTEAL").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "/3s Life Steal " + setPlus(jo.get("maximum").getAsInt()) + "/3s"));
-                run = true;
-            }
-            if (j.get("MANAREGEN") != null && j.get("MANAREGEN").getAsJsonObject() != null) {
-                JsonObject jo = j.get("MANAREGEN").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "/5s Mana Regen " + setPlus(jo.get("maximum").getAsInt()) + "/5s"));
-                run = true;
-            }
-            if (j.get("MANASTEAL") != null && j.get("MANASTEAL").getAsJsonObject() != null) {
-                JsonObject jo = j.get("MANASTEAL").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "/3s Mana Steal " + setPlus(jo.get("maximum").getAsInt()) + "/3s"));
-                run = true;
-            }
-            if (j.get("EARTHDEFENSE") != null && j.get("EARTHDEFENSE").getAsJsonObject() != null) {
-                JsonObject jo = j.get("EARTHDEFENSE").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Earth Defense " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("THUNDERDEFENSE") != null && j.get("THUNDERDEFENSE").getAsJsonObject() != null) {
-                JsonObject jo = j.get("THUNDERDEFENSE").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Thunder Defense " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("WATERDEFENSE") != null && j.get("WATERDEFENSE").getAsJsonObject() != null) {
-                JsonObject jo = j.get("WATERDEFENSE").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Water Defense " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("FIREDEFENSE") != null && j.get("FIREDEFENSE").getAsJsonObject() != null) {
-                JsonObject jo = j.get("FIREDEFENSE").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Fire Defense " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("AIRDEFENSE") != null && j.get("AIRDEFENSE").getAsJsonObject() != null) {
-                JsonObject jo = j.get("AIRDEFENSE").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Air Defense " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("EARTHDAMAGEBONUS") != null && j.get("EARTHDAMAGEBONUS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("EARTHDAMAGEBONUS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Earth Damage " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("THUNDERDAMAGEBONUS") != null && j.get("THUNDERDAMAGEBONUS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("THUNDERDAMAGEBONUS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Thunder Damage " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("WATERDAMAGEBONUS") != null && j.get("WATERDAMAGEBONUS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("WATERDAMAGEBONUS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Water Damage " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("FIREDAMAGEBONUS") != null && j.get("FIREDAMAGEBONUS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("FIREDAMAGEBONUS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Fire Damage " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("AIRDAMAGEBONUS") != null && j.get("AIRDAMAGEBONUS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("AIRDAMAGEBONUS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Air Damage " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("SPELLDAMAGERAW") != null && j.get("SPELLDAMAGERAW").getAsJsonObject() != null) {
-                JsonObject jo = j.get("SPELLDAMAGERAW").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + " Raw Spell Damage " + setPlus(jo.get("maximum").getAsInt())));
-                run = true;
-            }
-            if (j.get("DAMAGEBONUSRAW") != null && j.get("DAMAGEBONUSRAW").getAsJsonObject() != null) {
-                JsonObject jo = j.get("DAMAGEBONUSRAW").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + " Raw Melee Damage " + setPlus(jo.get("maximum").getAsInt())));
-                run = true;
-            }
-            if (j.get("SPELLDAMAGE") != null && j.get("SPELLDAMAGE").getAsJsonObject() != null) {
-                JsonObject jo = j.get("SPELLDAMAGE").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Spell Damage " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("DAMAGEBONUS") != null && j.get("DAMAGEBONUS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("DAMAGEBONUS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Melee Damage " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("POISON") != null && j.get("POISON").getAsJsonObject() != null) {
-                JsonObject jo = j.get("POISON").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "/3s Poison " + setPlus(jo.get("maximum").getAsInt()) + "/3s"));
-                run = true;
-            }
-            if (j.get("ATTACKSPEED") != null && j.get("ATTACKSPEED").getAsJsonObject() != null) {
-                JsonObject jo = j.get("ATTACKSPEED").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "tier Attack Speed " + setPlus(jo.get("maximum").getAsInt()) + "tier"));
-                run = true;
-            }
-            if (j.get("SPEED") != null && j.get("SPEED").getAsJsonObject() != null) {
-                JsonObject jo = j.get("SPEED").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Walk Speed " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("STAMINA") != null && j.get("STAMINA").getAsJsonObject() != null) {
-                JsonObject jo = j.get("STAMINA").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Sprint " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("STAMINA_REGEN") != null && j.get("STAMINA_REGEN").getAsJsonObject() != null) {
-                JsonObject jo = j.get("STAMINA_REGEN").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Sprint Regen " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("JUMP_HEIGHT") != null && j.get("JUMP_HEIGHT").getAsJsonObject() != null) {
-                JsonObject jo = j.get("JUMP_HEIGHT").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + " Jump Height " + setPlus(jo.get("maximum").getAsInt())));
-                run = true;
-            }
-            if (j.get("THORNS") != null && j.get("THORNS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("THORNS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Thorns " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("REFLECTION") != null && j.get("REFLECTION").getAsJsonObject() != null) {
-                JsonObject jo = j.get("REFLECTION").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Reflection " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("EXPLODING") != null && j.get("EXPLODING").getAsJsonObject() != null) {
-                JsonObject jo = j.get("EXPLODING").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Exploding " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("EMERALDSTEALING") != null && j.get("EMERALDSTEALING").getAsJsonObject() != null) {
-                JsonObject jo = j.get("EMERALDSTEALING").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Stealing " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("XPBONUS") != null && j.get("XPBONUS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("XPBONUS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Combat XP Bonus " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("GATHER_XP_BONUS") != null && j.get("GATHER_XP_BONUS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("GATHER_XP_BONUS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Gather XP Bonus " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("GATHER_SPEED") != null && j.get("GATHER_SPEED").getAsJsonObject() != null) {
-                JsonObject jo = j.get("GATHER_SPEED").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Gather Speed " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("LOOTBONUS") != null && j.get("LOOTBONUS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("LOOTBONUS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Loot Bonus " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("LOOT_QUALITY") != null && j.get("LOOT_QUALITY").getAsJsonObject() != null) {
-                JsonObject jo = j.get("LOOT_QUALITY").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Loot Quality " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
-            if (j.get("SOULPOINTS") != null && j.get("SOULPOINTS").getAsJsonObject() != null) {
-                JsonObject jo = j.get("SOULPOINTS").getAsJsonObject();
-                label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + "% Soul Point Regen " + setPlus(jo.get("maximum").getAsInt()) + "%"));
-                run = true;
-            }
+
             if (run) label.add(new JLabel(" "));
         }
 
