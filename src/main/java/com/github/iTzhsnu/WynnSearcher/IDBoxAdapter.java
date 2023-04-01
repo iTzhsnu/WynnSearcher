@@ -16,8 +16,8 @@ public class IDBoxAdapter extends KeyAdapter {
             "Earth Defense", "Thunder Defense", "Water Defense", "Fire Defense", "Air Defense",
             "Earth Defense %", "Thunder Defense %", "Water Defense %", "Fire Defense %", "Air Defense %",
             "Neutral Damage", "Earth Damage", "Thunder Damage", "Water Damage", "Fire Damage", "Air Damage",
-            "Earth Damage %", "Thunder Damage %", "Water Damage %", "Fire Damage %", "Air Damage %",
-            "Raw Spell Damage", "Raw Melee Damage", "Spell Damage %", "Melee Damage %", "Poison",
+            "Earth Damage %", "Thunder Damage %", "Water Damage %", "Fire Damage %", "Air Damage %", "Elemental Damage %",
+            "Raw Elemental Damage", "Raw Spell Damage", "Raw Melee Damage", "Spell Damage %", "Melee Damage %", "Poison",
             "Attack Speed", "Attack Speed Bonus",
             "Mana Regen", "Mana Steal",
             "Walk Speed", "Sprint Bonus", "Sprint Regen", "Jump Height",
@@ -88,7 +88,9 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Water Damage %", Identifications.WATER_DAMAGE_PERCENT);
         put("Fire Damage %", Identifications.FIRE_DAMAGE_PERCENT);
         put("Air Damage %", Identifications.AIR_DAMAGE_PERCENT);
+        put("Elemental Damage %", Identifications.ELEMENTAL_DAMAGE_PERCENT);
 
+        put("Raw Elemental Damage", Identifications.RAW_ELEMENTAL_DAMAGE);
         put("Raw Spell Damage", Identifications.RAW_SPELL_DAMAGE);
         put("Raw Melee Damage", Identifications.RAW_MELEE_DAMAGE);
         put("Spell Damage %", Identifications.SPELL_DAMAGE_PERCENT);
@@ -152,7 +154,6 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Fire Spell Damage %", Identifications.FIRE_SPELL_DAMAGE_PERCENT);
         put("Air Spell Damage %", Identifications.AIR_SPELL_DAMAGE_PERCENT);
         put("Elemental Spell Damage %", Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT);
-
 
         put("Raw Neutral Spell Damage", Identifications.RAW_NEUTRAL_SPELL_DAMAGE);
         put("Raw Earth Spell Damage", Identifications.RAW_EARTH_SPELL_DAMAGE);

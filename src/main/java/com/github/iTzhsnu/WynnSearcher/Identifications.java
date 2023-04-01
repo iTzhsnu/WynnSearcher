@@ -48,7 +48,9 @@ public enum Identifications {
     WATER_DAMAGE_PERCENT("Water Damage", "waterDamageBonus", "WATERDAMAGEBONUS", "%", "int", null, "identifications", true),
     FIRE_DAMAGE_PERCENT("Fire Damage", "fireDamageBonus", "FIREDAMAGEBONUS", "%", "int", null, "identifications", true),
     AIR_DAMAGE_PERCENT("Air Damage", "airDamageBonus", "AIRDAMAGEBONUS", "%", "int", null, "identifications", true),
+    ELEMENTAL_DAMAGE_PERCENT("Elemental Damage", "elementalDamageBonus", null, "%", "int", null, null, true),
 
+    RAW_ELEMENTAL_DAMAGE("Raw Elemental Damage", "elementalDamageBonusRaw", null, "", "int", null, null, true),
     RAW_SPELL_DAMAGE("Raw Spell Damage", "spellDamageBonusRaw", "SPELLDAMAGERAW", "", "int", null, "identifications", true),
     RAW_MELEE_DAMAGE("Raw Melee Damage", "mainAttackDamageBonusRaw", "DAMAGEBONUSRAW", "", "int", null, "identifications", true),
     SPELL_DAMAGE_PERCENT("Spell Damage", "spellDamageBonus", "SPELLDAMAGE", "%", "int", null, "identifications", true),
