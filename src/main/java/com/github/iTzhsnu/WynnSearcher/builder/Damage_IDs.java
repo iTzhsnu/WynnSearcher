@@ -70,6 +70,9 @@ public class Damage_IDs {
 
         put(Identifications.HEALTH_REGEN_PERCENT, 47);
         put(Identifications.RAW_HEALTH_REGEN, 48);
+
+        put(Identifications.ELEMENTAL_DAMAGE_PERCENT, 49);
+        put(Identifications.RAW_ELEMENTAL_DAMAGE, 50);
     }};
 
     public Damage_IDs(JPanel p) {
@@ -130,6 +133,9 @@ public class Damage_IDs {
 
         damage_ID_Panels.add(new Damage_IDs_Panel("Health Regen %", 790, 1160, p));
         damage_ID_Panels.add(new Damage_IDs_Panel("Raw Health Regen", 790, 1217, p));
+
+        damage_ID_Panels.add(new Damage_IDs_Panel("Elem. Dam %", 660, 805, p));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Raw Elem. Dam", 790, 805, p));
     }
 
     public Damage_IDs_Panel getID(int num) {

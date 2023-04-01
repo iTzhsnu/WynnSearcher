@@ -122,6 +122,8 @@ public class CustomUI implements ActionListener {
         put(87, Identifications.RAW_FIRE_SPELL_DAMAGE);
         put(88, Identifications.RAW_AIR_SPELL_DAMAGE);
         put(89, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
+        put(90, Identifications.ELEMENTAL_DAMAGE_PERCENT);
+        put(91, Identifications.RAW_ELEMENTAL_DAMAGE);
     }};
 
     private static final Map<Integer, Identifications> ID_FROM_VARIABLE_INT = new HashMap<Integer, Identifications>() {{
@@ -251,15 +253,18 @@ public class CustomUI implements ActionListener {
         uiTemplate("Raw Air Spell", 510, 545, false, 110);
         uiTemplate("Raw Elem. Spell", 510, 570, false, 110);
 
-        variable.setBounds(510, 605, 100, 20);
+        uiTemplate("Elem. Damage %", 510, 605, false, 110);
+        uiTemplate("Raw Elem. Damage", 510, 630, false, 110);
 
-        create.setBounds(520, 635, 80, 40);
+        variable.setBounds(510, 680, 100, 20);
+
+        create.setBounds(520, 710, 80, 40);
         create.addActionListener(this);
 
-        load.setBounds(610, 635, 80, 40);
+        load.setBounds(610, 710, 80, 40);
         load.addActionListener(this);
 
-        itemText.setBounds(520, 695, 200, 20);
+        itemText.setBounds(10, 730, 400, 20);
 
         display.setBorder(new LineBorder(Color.BLACK));
         display.setPreferredSize(new Dimension(270, 747));
@@ -366,7 +371,7 @@ public class CustomUI implements ActionListener {
         for (int i = 1; notVariable.size() > i; ++i) {
             if (!notVariable.get(i).getText().isEmpty()) {
                 Identifications id = ID_FROM_NOT_VARIABLE_INT.get(i);
-                String s = id.getItemName() + ":" + notVariable.get(i).getText() + ",";
+                String s = "\"" + id.getItemName() + "\":" + notVariable.get(i).getText() + ",";
                 if (notVariable.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?")) itemData.append(s);
             }
         }
@@ -384,13 +389,13 @@ public class CustomUI implements ActionListener {
                         minNum = maxNum;
                     }
 
-                    String s = id.getItemName() + ":\"" + minNum + "-" + maxNum + "\",";
+                    String s = "\"" + id.getItemName() + "\":\"" + minNum + "-" + maxNum + "\",";
                     itemData.append(s);
                 }
             }
         }
 
-        String atkSpdS = Identifications.ATTACK_SPEED.getItemName() + ":\"" + atkSpdBox.getItemAt(atkSpdBox.getSelectedIndex()) + "\",";
+        String atkSpdS = "\"" + Identifications.ATTACK_SPEED.getItemName() + "\":\"" + atkSpdBox.getItemAt(atkSpdBox.getSelectedIndex()) + "\",";
         itemData.append(atkSpdS);
 
         if (variable.isSelected()) {

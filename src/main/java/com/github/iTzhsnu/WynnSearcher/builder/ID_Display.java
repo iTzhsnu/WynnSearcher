@@ -99,6 +99,9 @@ public class ID_Display {
         put(67, Identifications.RAW_FIRE_MELEE_DAMAGE);
         put(68, Identifications.RAW_AIR_MELEE_DAMAGE);
         put(69, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE);
+
+        put(70, Identifications.ELEMENTAL_DAMAGE_PERCENT);
+        put(71, Identifications.RAW_ELEMENTAL_DAMAGE);
     }};
 
     private static final Map<Integer, Identifications> REVERSED_ID = new HashMap<Integer, Identifications>() {{
@@ -193,14 +196,17 @@ public class ID_Display {
         put(Identifications.RAW_AIR_MELEE_DAMAGE, 68);
         put(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, 69);
 
-        put(Identifications.RAW_1ST_SPELL_COST, 70);
-        put(Identifications.RAW_2ND_SPELL_COST, 71);
-        put(Identifications.RAW_3RD_SPELL_COST, 72);
-        put(Identifications.RAW_4TH_SPELL_COST, 73);
-        put(Identifications.PERCENT_1ST_SPELL_COST, 74);
-        put(Identifications.PERCENT_2ND_SPELL_COST, 75);
-        put(Identifications.PERCENT_3RD_SPELL_COST, 76);
-        put(Identifications.PERCENT_4TH_SPELL_COST, 77);
+        put(Identifications.ELEMENTAL_DAMAGE_PERCENT, 70);
+        put(Identifications.RAW_ELEMENTAL_DAMAGE, 71);
+
+        put(Identifications.RAW_1ST_SPELL_COST, 72);
+        put(Identifications.RAW_2ND_SPELL_COST, 73);
+        put(Identifications.RAW_3RD_SPELL_COST, 74);
+        put(Identifications.RAW_4TH_SPELL_COST, 75);
+        put(Identifications.PERCENT_1ST_SPELL_COST, 76);
+        put(Identifications.PERCENT_2ND_SPELL_COST, 77);
+        put(Identifications.PERCENT_3RD_SPELL_COST, 78);
+        put(Identifications.PERCENT_4TH_SPELL_COST, 79);
     }};
 
     private static final Map<Integer, Float> CLASS_DEF = new HashMap<Integer, Float>() {{
@@ -229,7 +235,7 @@ public class ID_Display {
         if (ids.size() > 0) {
             ids.subList(0, ids.size()).clear();
         }
-        int[] numbers = new int[] { //Using 0 ~ 77 and 89
+        int[] numbers = new int[] { //Using 0 ~ 79 and 89
                 535, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0 ~ 9 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //10 ~ 19 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //20 ~ 29 (ID)
@@ -237,7 +243,7 @@ public class ID_Display {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //40 ~ 49 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //50 ~ 59 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //60 ~ 69 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 77 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 79 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //89 (Weapon Tome Damage Bonus)
         };
         float def = 2F - CLASS_DEF.get(classID); //Base Defense
@@ -294,18 +300,7 @@ public class ID_Display {
         //Weapon, Armor, Accessory
         if (itemJsons.getJsonObjectList().size() > 0) {
             for (JsonObject j : itemJsons.getJsonObjectList()) {
-                for (int i = 0; 28 >= i; ++i) {
-                    if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
-                        if (!IDS.get(i).isItemVariable()) {
-                            numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                        } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                            numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                        } else {
-                            numbers[i] += ItemUITemplate.getMaxInt(j.get(IDS.get(i).getItemName()).getAsInt());
-                        }
-                    }
-                }
-                for (int i = 29; 69 >= i; ++i) {
+                for (int i = 0; 71 >= i; ++i) {
                     if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
                         if (!IDS.get(i).isItemVariable()) {
                             numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
@@ -319,9 +314,9 @@ public class ID_Display {
                 for (int i = 0; 7 >= i; ++i) {
                     if (j.get(REVERSED_ID.get(i).getItemName()) != null && j.get(REVERSED_ID.get(i).getItemName()).getAsInt() != 0) {
                         if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                            numbers[i + 70] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
+                            numbers[i + 72] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
                         } else {
-                            numbers[i + 70] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
+                            numbers[i + 72] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
                         }
                     }
                 }
@@ -330,19 +325,8 @@ public class ID_Display {
 
         if (itemJsons.getWeapon() != null) {
             JsonObject j = itemJsons.getWeapon();
-            for (int i = 1; 28 >= i; ++i) {
+            for (int i = 1; 71 >= i; ++i) {
                 if (i >= 3 && i <= 7) continue;
-                if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
-                    if (!IDS.get(i).isItemVariable()) {
-                        numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                        numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                    } else {
-                        numbers[i] += ItemUITemplate.getMaxInt(j.get(IDS.get(i).getItemName()).getAsInt());
-                    }
-                }
-            }
-            for (int i = 29; 69 >= i; ++i) {
                 if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
                     if (!IDS.get(i).isItemVariable()) {
                         numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
@@ -356,9 +340,9 @@ public class ID_Display {
             for (int i = 0; 7 >= i; ++i) {
                 if (j.get(REVERSED_ID.get(i).getItemName()) != null && j.get(REVERSED_ID.get(i).getItemName()).getAsInt() != 0) {
                     if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                        numbers[i + 70] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
+                        numbers[i + 72] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
                     } else {
-                        numbers[i + 70] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
+                        numbers[i + 72] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
                     }
                 }
             }
@@ -443,33 +427,33 @@ public class ID_Display {
         }
 
         if (updateOnly) { //Update Edited ID
-            for (int i = 29; 69 >= i; ++i) { //Damages and Health Regen
+            for (int i = 29; 71 >= i; ++i) { //Damages and Health Regen
                 numbers[i] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).getValue();
             }
             for (int i = 0; 7 >= i; ++i) { //Spell Costs
-                numbers[i + 70] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).getValue();
+                numbers[i + 72] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).getValue();
             }
         } else { //Set Editable ID Original Num
-            for (int i = 29; 69 >= i; ++i) { //Damages and Health Regen
+            for (int i = 29; 71 >= i; ++i) { //Damages and Health Regen
                 damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).setValue(numbers[i]);
             }
             for (int i = 0; 7 >= i; ++i) { //Spell Costs
-                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).setValue(numbers[i + 70]);
+                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).setValue(numbers[i + 72]);
             }
         }
 
         //Radiance
         if (damage_boosts.getBox().get(2).isSelected()) {
-            for (int i = 1; 69 >= i; ++i) {
+            for (int i = 1; 71 >= i; ++i) {
                 if (i >= 3 && i <= 7) continue;
                 if (numbers[i] > 0) numbers[i] = Math.round(numbers[i] * 1.2F);
             }
             for (int i = 0; 7 >= i; ++i) {
-                if (0 > numbers[i + 70]) numbers[i + 70] = Math.round(numbers[i + 70] * 1.2F);
+                if (0 > numbers[i + 72]) numbers[i + 72] = Math.round(numbers[i + 72] * 1.2F);
             }
         }
 
-        int[] numbers_Sub = new int[] { //Using 0 ~ 77
+        int[] numbers_Sub = new int[] { //Using 0 ~ 79
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0 ~ 9 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //10 ~ 19 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //20 ~ 29 (ID)
@@ -477,7 +461,7 @@ public class ID_Display {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //40 ~ 49 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //50 ~ 59 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //60 ~ 69 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 77 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 79 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //80 (Weapon Tome Damage Bonus)
         };
 
@@ -578,11 +562,11 @@ public class ID_Display {
         }
         ids.add(new JLabel(" "));
         if (numbers[1] != 0) ids.add(new JLabel(IDS.get(1).getDisplayName() + ": " + numbers[1] + IDS.get(1).getDisplaySp())); //Health Bonus
-        for (int i = 13; 69 >= i; ++i) { //Normal IDS
+        for (int i = 13; 71 >= i; ++i) { //Normal IDS
             if (numbers[i] != 0) ids.add(new JLabel(IDS.get(i).getDisplayName() + ": " + numbers[i] + IDS.get(i).getDisplaySp()));
         }
         for (int i = 0; 7 >= i; ++i) { //Reversed IDS
-            if (numbers[i + 70] != 0) ids.add(new JLabel(REVERSED_ID.get(i).getDisplayName() + ": " + numbers[i + 70] + REVERSED_ID.get(i).getDisplaySp()));
+            if (numbers[i + 72] != 0) ids.add(new JLabel(REVERSED_ID.get(i).getDisplayName() + ": " + numbers[i + 72] + REVERSED_ID.get(i).getDisplaySp()));
         }
 
         for (JLabel l : ids) {

@@ -414,7 +414,7 @@ public class Damage_Display {
                 case "Warrior": {
                     //Bash
                     if (tree.getTcb().get(0).isSelected()) {
-                        list.add(new Damage_Template("Bash", calc_Spell_Cost(40 + spell_cost_1, intelligence, id_Numbers[70], id_Numbers[74]), pane, list.get(0), sp, false, true, crit_boost, true));
+                        list.add(new Damage_Template("Bash", calc_Spell_Cost(40 + spell_cost_1, intelligence, id_Numbers[72], id_Numbers[76]), pane, list.get(0), sp, false, true, crit_boost, true));
                         float[] bash_percent = set_Damage_Percent(SpellEnum.BASH);
                         if (tree.getTcb().get(3).isSelected()) add_Damage_Percent(bash_percent, SpellEnum.DOUBLE_BASH);
                         if (tree.getTcb().get(16).isSelected())
@@ -428,7 +428,7 @@ public class Damage_Display {
 
                     //Charge
                     if (tree.getTcb().get(4).isSelected()) {
-                        list.add(new Damage_Template("Charge", calc_Spell_Cost(25 + spell_cost_2, intelligence, id_Numbers[71], id_Numbers[75]), pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
+                        list.add(new Damage_Template("Charge", calc_Spell_Cost(25 + spell_cost_2, intelligence, id_Numbers[73], id_Numbers[77]), pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
                         if (tree.getTcb().get(10).isSelected()) calcSpell("Heavy Impact", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.HEAVY_IMPACT), sp, false);
                         if (tree.getTcb().get(18).isSelected()) calcSpell("Flyby Jab", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.FLYBY_JAB), sp, false);
                         if (tree.getTcb().get(32).isSelected()) calcSpell("Flying Kick", list.size() - 1, calc_raw, list, percent * multiple, id_Numbers, set_Damage_Percent(SpellEnum.FLYING_KICK), sp, false);
@@ -437,7 +437,7 @@ public class Damage_Display {
 
                     //Uppercut
                     if (tree.getTcb().get(7).isSelected()) {
-                        list.add(new Damage_Template("Uppercut", calc_Spell_Cost(40 + spell_cost_3, intelligence, id_Numbers[72], id_Numbers[76]), pane, list.get(list.size() - 1), sp, false, true, crit_boost, true));
+                        list.add(new Damage_Template("Uppercut", calc_Spell_Cost(40 + spell_cost_3, intelligence, id_Numbers[74], id_Numbers[78]), pane, list.get(list.size() - 1), sp, false, true, crit_boost, true));
                         float[] uppercut_percent = set_Damage_Percent(SpellEnum.UPPERCUT);
                         if (tree.getTcb().get(20).isSelected()) add_Damage_Percent(uppercut_percent, SpellEnum.HALF_MOON_SWIPE);
                         if (tree.getTcb().get(46).isSelected()) add_Damage_Percent(uppercut_percent, SpellEnum.WHIRLWIND_STRIKE);
@@ -456,7 +456,7 @@ public class Damage_Display {
 
                     //War Scream
                     if (tree.getTcb().get(8).isSelected()) {
-                        list.add(new Damage_Template("War Scream", calc_Spell_Cost(30 + spell_cost_4, intelligence, id_Numbers[73], id_Numbers[77]), pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
+                        list.add(new Damage_Template("War Scream", calc_Spell_Cost(30 + spell_cost_4, intelligence, id_Numbers[75], id_Numbers[79]), pane, list.get(list.size() - 1), sp, false, true, crit_boost, false));
                         float[] war_scream_percent = set_Damage_Percent(SpellEnum.WAR_SCREAM);
                         float[] air_shout_percent = set_Damage_Percent(SpellEnum.AIR_SHOUT);
                         if (tree.getTcb().get(21).isSelected()) {
@@ -639,18 +639,18 @@ public class Damage_Display {
 
 
         float neutral_min = calc(neutral_min_base, boost, 1F, id_Numbers[38], id_Numbers[56]);
-        float earth_min = calc(earth_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[38], id_Numbers[57], id_Numbers[62], id_Numbers[31]);
-        float thunder_min = calc(thunder_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[38], id_Numbers[58], id_Numbers[62], id_Numbers[32]);
-        float water_min = calc(water_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getIntDamageBonus(), id_Numbers[38], id_Numbers[59], id_Numbers[62], id_Numbers[33]);
-        float fire_min = calc(fire_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[38], id_Numbers[60], id_Numbers[62], id_Numbers[34]);
-        float air_min = calc(air_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[38], id_Numbers[61], id_Numbers[62], id_Numbers[35]);
+        float earth_min = calc(earth_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[38], id_Numbers[57], id_Numbers[62], id_Numbers[31], id_Numbers[70]);
+        float thunder_min = calc(thunder_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[38], id_Numbers[58], id_Numbers[62], id_Numbers[32], id_Numbers[70]);
+        float water_min = calc(water_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getIntDamageBonus(), id_Numbers[38], id_Numbers[59], id_Numbers[62], id_Numbers[33], id_Numbers[70]);
+        float fire_min = calc(fire_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[38], id_Numbers[60], id_Numbers[62], id_Numbers[34], id_Numbers[70]);
+        float air_min = calc(air_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[38], id_Numbers[61], id_Numbers[62], id_Numbers[35], id_Numbers[70]);
 
         float neutral_max = calc(neutral_max_base, boost, 1F, id_Numbers[38], id_Numbers[56]);
-        float earth_max = calc(earth_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[38], id_Numbers[57], id_Numbers[62], id_Numbers[31]);
-        float thunder_max = calc(thunder_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[38], id_Numbers[58], id_Numbers[62], id_Numbers[32]);
-        float water_max = calc(water_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getIntDamageBonus(), id_Numbers[38], id_Numbers[59], id_Numbers[62], id_Numbers[33]);
-        float fire_max = calc(fire_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[38], id_Numbers[60], id_Numbers[62], id_Numbers[34]);
-        float air_max = calc(air_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[38], id_Numbers[61], id_Numbers[62], id_Numbers[35]);
+        float earth_max = calc(earth_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[38], id_Numbers[57], id_Numbers[62], id_Numbers[31], id_Numbers[70]);
+        float thunder_max = calc(thunder_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[38], id_Numbers[58], id_Numbers[62], id_Numbers[32], id_Numbers[70]);
+        float water_max = calc(water_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getIntDamageBonus(), id_Numbers[38], id_Numbers[59], id_Numbers[62], id_Numbers[33], id_Numbers[70]);
+        float fire_max = calc(fire_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[38], id_Numbers[60], id_Numbers[62], id_Numbers[34], id_Numbers[70]);
+        float air_max = calc(air_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[38], id_Numbers[61], id_Numbers[62], id_Numbers[35], id_Numbers[70]);
 
         if (neutral_min != 0 || neutral_max != 0) {
             neutral_min += calc_raw.calc(id_Numbers[39], "Neutral", false, true) + id_Numbers[63];
@@ -661,40 +661,40 @@ public class Damage_Display {
         }
 
         if (earth_min != 0 || earth_max != 0) {
-            earth_min += calc_raw.calc(id_Numbers[39], "Earth", false, true) + calc_raw.calc(id_Numbers[69], "Earth", false, false) + id_Numbers[64];
-            earth_max += calc_raw.calc(id_Numbers[39], "Earth", true, true) + calc_raw.calc(id_Numbers[69], "Earth", true, false) + id_Numbers[64];
+            earth_min += calc_raw.calc(id_Numbers[39], "Earth", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Earth", false, false) + id_Numbers[64];
+            earth_max += calc_raw.calc(id_Numbers[39], "Earth", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Earth", true, false) + id_Numbers[64];
 
             earth_min *= tomeBonus;
             earth_max *= tomeBonus;
         }
 
         if (thunder_min != 0 || thunder_max != 0) {
-            thunder_min += calc_raw.calc(id_Numbers[39], "Thunder", false, true) + calc_raw.calc(id_Numbers[69], "Thunder", false, false) + id_Numbers[65];
-            thunder_max += calc_raw.calc(id_Numbers[39], "Thunder", true, true) + calc_raw.calc(id_Numbers[69], "Thunder", true, false) + id_Numbers[65];
+            thunder_min += calc_raw.calc(id_Numbers[39], "Thunder", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Thunder", false, false) + id_Numbers[65];
+            thunder_max += calc_raw.calc(id_Numbers[39], "Thunder", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Thunder", true, false) + id_Numbers[65];
 
             thunder_min *= tomeBonus;
             thunder_max *= tomeBonus;
         }
 
         if (water_min != 0 || water_max != 0) {
-            water_min += calc_raw.calc(id_Numbers[39], "Water", false, true) + calc_raw.calc(id_Numbers[69], "Water", false, false) + id_Numbers[66];
-            water_max += calc_raw.calc(id_Numbers[39], "Water", true, true) + calc_raw.calc(id_Numbers[69], "Water", true, false) + id_Numbers[66];
+            water_min += calc_raw.calc(id_Numbers[39], "Water", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Water", false, false) + id_Numbers[66];
+            water_max += calc_raw.calc(id_Numbers[39], "Water", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Water", true, false) + id_Numbers[66];
 
             water_min *= tomeBonus;
             water_max *= tomeBonus;
         }
 
         if (fire_min != 0 || fire_max != 0) {
-            fire_min += calc_raw.calc(id_Numbers[39], "Fire", false, true) + calc_raw.calc(id_Numbers[69], "Fire", false, false) + id_Numbers[67];
-            fire_max += calc_raw.calc(id_Numbers[39], "Fire", true, true) + calc_raw.calc(id_Numbers[69], "Fire", true, false) + id_Numbers[67];
+            fire_min += calc_raw.calc(id_Numbers[39], "Fire", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Fire", false, false) + id_Numbers[67];
+            fire_max += calc_raw.calc(id_Numbers[39], "Fire", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Fire", true, false) + id_Numbers[67];
 
             fire_min *= tomeBonus;
             fire_max *= tomeBonus;
         }
 
         if (air_min != 0 || air_max != 0) {
-            air_min += calc_raw.calc(id_Numbers[39], "Air", false, true) + calc_raw.calc(id_Numbers[69], "Air", false, false) + id_Numbers[68];
-            air_max += calc_raw.calc(id_Numbers[39], "Air", true, true) + calc_raw.calc(id_Numbers[69], "Air", true, false) + id_Numbers[68];
+            air_min += calc_raw.calc(id_Numbers[39], "Air", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Air", false, false) + id_Numbers[68];
+            air_max += calc_raw.calc(id_Numbers[39], "Air", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Air", true, false) + id_Numbers[68];
 
             air_min *= tomeBonus;
             air_max *= tomeBonus;
@@ -789,18 +789,18 @@ public class Damage_Display {
         air_max_base += total_max * percent[5];
 
         float neutral_min = calc(neutral_min_base, boost, 1F, id_Numbers[36], id_Numbers[42]);
-        float earth_min = calc(earth_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[36], id_Numbers[43], id_Numbers[48], id_Numbers[31]);
-        float thunder_min = calc(thunder_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[36], id_Numbers[44], id_Numbers[48], id_Numbers[32]);
-        float water_min = calc(water_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getIntDamageBonus(), id_Numbers[36], id_Numbers[45], id_Numbers[48], id_Numbers[33]);
-        float fire_min = calc(fire_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[36], id_Numbers[46], id_Numbers[48], id_Numbers[34]);
-        float air_min = calc(air_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[36], id_Numbers[47], id_Numbers[48], id_Numbers[35]);
+        float earth_min = calc(earth_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[36], id_Numbers[43], id_Numbers[48], id_Numbers[31], id_Numbers[70]);
+        float thunder_min = calc(thunder_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[36], id_Numbers[44], id_Numbers[48], id_Numbers[32], id_Numbers[70]);
+        float water_min = calc(water_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getIntDamageBonus(), id_Numbers[36], id_Numbers[45], id_Numbers[48], id_Numbers[33], id_Numbers[70]);
+        float fire_min = calc(fire_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[36], id_Numbers[46], id_Numbers[48], id_Numbers[34], id_Numbers[70]);
+        float air_min = calc(air_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[36], id_Numbers[47], id_Numbers[48], id_Numbers[35], id_Numbers[70]);
 
         float neutral_max = calc(neutral_max_base, boost, 1F, id_Numbers[36], id_Numbers[42]);
-        float earth_max = calc(earth_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[36], id_Numbers[43], id_Numbers[48], id_Numbers[31]);
-        float thunder_max = calc(thunder_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[36], id_Numbers[44], id_Numbers[48], id_Numbers[32]);
-        float water_max = calc(water_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getIntDamageBonus(), id_Numbers[36], id_Numbers[45], id_Numbers[48], id_Numbers[33]);
-        float fire_max = calc(fire_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[36], id_Numbers[46], id_Numbers[48], id_Numbers[34]);
-        float air_max = calc(air_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[36], id_Numbers[47], id_Numbers[48], id_Numbers[35]);
+        float earth_max = calc(earth_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[36], id_Numbers[43], id_Numbers[48], id_Numbers[31], id_Numbers[70]);
+        float thunder_max = calc(thunder_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[36], id_Numbers[44], id_Numbers[48], id_Numbers[32], id_Numbers[70]);
+        float water_max = calc(water_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getIntDamageBonus(), id_Numbers[36], id_Numbers[45], id_Numbers[48], id_Numbers[33], id_Numbers[70]);
+        float fire_max = calc(fire_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[36], id_Numbers[46], id_Numbers[48], id_Numbers[34], id_Numbers[70]);
+        float air_max = calc(air_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[36], id_Numbers[47], id_Numbers[48], id_Numbers[35], id_Numbers[70]);
 
         if (neutral_min != 0 || neutral_max != 0) {
             neutral_min += calc_raw.calc(id_Numbers[37], "Neutral", false, true) + id_Numbers[49];
@@ -810,36 +810,36 @@ public class Damage_Display {
             neutral_max *= tomeBonus;
         }
         if (earth_min != 0 || earth_max != 0) {
-            earth_min += calc_raw.calc(id_Numbers[37], "Earth", false, true) + calc_raw.calc(id_Numbers[55], "Earth", false, false) + id_Numbers[50];
-            earth_max += calc_raw.calc(id_Numbers[37], "Earth", true, true) + calc_raw.calc(id_Numbers[55], "Earth", true, false) + id_Numbers[50];
+            earth_min += calc_raw.calc(id_Numbers[37], "Earth", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Earth", false, false) + id_Numbers[50];
+            earth_max += calc_raw.calc(id_Numbers[37], "Earth", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Earth", true, false) + id_Numbers[50];
 
             earth_min *= tomeBonus;
             earth_max *= tomeBonus;
         }
         if (thunder_min != 0 || thunder_max != 0) {
-            thunder_min += calc_raw.calc(id_Numbers[37], "Thunder", false, true) + calc_raw.calc(id_Numbers[55], "Thunder", false, false) + id_Numbers[51];
-            thunder_max += calc_raw.calc(id_Numbers[37], "Thunder", true, true) + calc_raw.calc(id_Numbers[55], "Thunder", true, false) + id_Numbers[51];
+            thunder_min += calc_raw.calc(id_Numbers[37], "Thunder", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Thunder", false, false) + id_Numbers[51];
+            thunder_max += calc_raw.calc(id_Numbers[37], "Thunder", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Thunder", true, false) + id_Numbers[51];
 
             thunder_min *= tomeBonus;
             thunder_max *= tomeBonus;
         }
         if (water_min != 0 || water_max != 0) {
-            water_min += calc_raw.calc(id_Numbers[37], "Water", false, true) + calc_raw.calc(id_Numbers[55], "Water", false, false) + id_Numbers[52];
-            water_max += calc_raw.calc(id_Numbers[37], "Water", true, true) + calc_raw.calc(id_Numbers[55], "Water", true, false) + id_Numbers[52];
+            water_min += calc_raw.calc(id_Numbers[37], "Water", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Water", false, false) + id_Numbers[52];
+            water_max += calc_raw.calc(id_Numbers[37], "Water", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Water", true, false) + id_Numbers[52];
 
             water_min *= tomeBonus;
             water_max *= tomeBonus;
         }
         if (fire_min != 0 || fire_max != 0) {
-            fire_min += calc_raw.calc(id_Numbers[37], "Fire", false, true) + calc_raw.calc(id_Numbers[55], "Fire", false, false) + id_Numbers[53];
-            fire_max += calc_raw.calc(id_Numbers[37], "Fire", true, true) + calc_raw.calc(id_Numbers[55], "Fire", true, false) + id_Numbers[53];
+            fire_min += calc_raw.calc(id_Numbers[37], "Fire", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Fire", false, false) + id_Numbers[53];
+            fire_max += calc_raw.calc(id_Numbers[37], "Fire", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Fire", true, false) + id_Numbers[53];
 
             fire_min *= tomeBonus;
             fire_max *= tomeBonus;
         }
         if (air_min != 0 || air_max != 0) {
-            air_min += calc_raw.calc(id_Numbers[37], "Air", false, true) + calc_raw.calc(id_Numbers[55], "Air", false, false) + id_Numbers[54];
-            air_max += calc_raw.calc(id_Numbers[37], "Air", true, true) + calc_raw.calc(id_Numbers[55], "Air", true, false) + id_Numbers[54];
+            air_min += calc_raw.calc(id_Numbers[37], "Air", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Air", false, false) + id_Numbers[54];
+            air_max += calc_raw.calc(id_Numbers[37], "Air", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Air", true, false) + id_Numbers[54];
 
             air_min *= tomeBonus;
             air_max *= tomeBonus;
