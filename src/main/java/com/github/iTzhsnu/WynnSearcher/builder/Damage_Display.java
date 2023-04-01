@@ -922,7 +922,11 @@ public class Damage_Display {
                     default: elemMin_OR_Max = neutral_max;
                         break;
                 }
-                return raw * (elemMin_OR_Max / total_max);
+                if (elemMin_OR_Max != 0) {
+                    return raw * (elemMin_OR_Max / total_max);
+                } else {
+                    return 0;
+                }
             } else {
                 switch (elem) {
                     case "Earth": elemMin_OR_Max = earth_min;
@@ -938,7 +942,12 @@ public class Damage_Display {
                     default: elemMin_OR_Max = neutral_min;
                         break;
                 }
-                return raw * (elemMin_OR_Max / total_min);
+
+                if (elemMin_OR_Max != 0) {
+                    return raw * (elemMin_OR_Max / total_min);
+                } else {
+                    return 0;
+                }
             }
         }
     }
