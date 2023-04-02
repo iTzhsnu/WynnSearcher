@@ -334,7 +334,7 @@ public class ItemUITemplate extends JPanel {
                 if (!id.isItemVariable() || json.get("identified") != null && json.get("identified").getAsBoolean()) {
                     label.add(new JLabel(id.getDisplayName() + " " + setPlus(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp()));
                 } else {
-                    label.add(new JLabel(getReversedMin(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMax(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp()));
+                    label.add(new JLabel(getReversedMax(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp()));
                 }
             }
         }
