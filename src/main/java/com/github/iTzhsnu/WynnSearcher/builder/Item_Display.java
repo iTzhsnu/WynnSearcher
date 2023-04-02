@@ -59,7 +59,7 @@ public class Item_Display {
         pane.setLayout(null);
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(1, 1285, 1063, 500);
+        scrollPane.setBounds(1, 1355, 1063, 500); // Y + 70
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);

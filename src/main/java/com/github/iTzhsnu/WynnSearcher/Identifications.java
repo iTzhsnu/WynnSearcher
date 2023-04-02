@@ -50,7 +50,6 @@ public enum Identifications {
     AIR_DAMAGE_PERCENT("Air Damage", "airDamageBonus", "AIRDAMAGEBONUS", "%", "int", null, "identifications", true),
     ELEMENTAL_DAMAGE_PERCENT("Elemental Damage", "elementalDamageBonus", null, "%", "int", null, null, true),
 
-    RAW_ELEMENTAL_DAMAGE("Raw Elemental Damage", "elementalDamageBonusRaw", null, "", "int", null, null, true),
     RAW_SPELL_DAMAGE("Raw Spell Damage", "spellDamageBonusRaw", "SPELLDAMAGERAW", "", "int", null, "identifications", true),
     RAW_MELEE_DAMAGE("Raw Melee Damage", "mainAttackDamageBonusRaw", "DAMAGEBONUSRAW", "", "int", null, "identifications", true),
     SPELL_DAMAGE_PERCENT("Spell Damage", "spellDamageBonus", "SPELLDAMAGE", "%", "int", null, "identifications", true),
@@ -90,6 +89,14 @@ public enum Identifications {
     PERCENT_2ND_SPELL_COST("2nd Spell Cost", "spellCostPct2", null, "%", "int", null, null, true),
     PERCENT_3RD_SPELL_COST("3rd Spell Cost", "spellCostPct3", null, "%", "int", null, null, true),
     PERCENT_4TH_SPELL_COST("4th Spell Cost", "spellCostPct4", null, "%", "int", null, null, true),
+
+    RAW_NEUTRAL_DAMAGE("Raw Neutral Damage", "neutralDamageBonusRaw", null, "", "int", null, null, true),
+    RAW_EARTH_DAMAGE("Raw Earth Damage", "earthDamageBonusRaw", null, "", "int", null, null, true),
+    RAW_THUNDER_DAMAGE("Raw Thunder Damage", "thunderDamageBonusRaw", null, "", "int", null, null, true),
+    RAW_WATER_DAMAGE("Raw Water Damage", "waterDamageBonusRaw", null, "", "int", null, null, true),
+    RAW_FIRE_DAMAGE("Raw Fire Damage", "fireDamageBonusRaw", null, "", "int", null, null, true),
+    RAW_AIR_DAMAGE("Raw Air Damage", "airDamageBonusRaw", null, "", "int", null, null, true),
+    RAW_ELEMENTAL_DAMAGE("Raw Elemental Damage", "elementalDamageBonusRaw", null, "", "int", null, null, true),
 
     NEUTRAL_MELEE_DAMAGE_PERCENT("Neutral Melee Damage", "mainAttackNeutralDamageBonus", null, "%", "int", null, null, true),
     EARTH_MELEE_DAMAGE_PERCENT("Earth Melee Damage", "mainAttackEarthDamageBonus", null, "%", "int", null, null, true),

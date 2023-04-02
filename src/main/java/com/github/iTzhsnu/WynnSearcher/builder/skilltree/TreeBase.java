@@ -49,7 +49,7 @@ public class TreeBase implements ActionListener {
         for (int i = 0; tcb.size() > i; ++i) {
             TreeCheckBox b = tcb.get(i);
 
-            //debugTree(i, b);
+            debugTree(i, b);
 
             b.addActionListener(this);
             pane.add(b);

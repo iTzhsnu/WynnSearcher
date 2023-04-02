@@ -256,6 +256,8 @@ public class CustomUI implements ActionListener {
         uiTemplate("Elem. Damage %", 510, 605, false, 110);
         uiTemplate("Raw Elem. Damage", 510, 630, false, 110);
 
+        //TODO: Raw Neutral Damage, Raw Earth Damage, Raw Thunder Damage, Raw Water Damage, Raw Fire Damage, Raw Air Damage
+
         variable.setBounds(510, 680, 100, 20);
 
         create.setBounds(520, 710, 80, 40);

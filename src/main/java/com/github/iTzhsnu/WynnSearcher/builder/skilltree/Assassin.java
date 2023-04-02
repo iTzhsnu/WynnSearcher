@@ -191,15 +191,21 @@ public class Assassin extends TreeBase {
         new TreeIcon(posWidth(3, 0), posHeight(29, 0), getPane()).right_left_down();
         new TreeIcon(posWidth(5, 0), posHeight(29, 0), getPane()).right_left_down();
         new TreeIcon(posWidth(7, 0), posHeight(29, 0), getPane()).right_left_down();
-        //getTcb().add(new TreeCheckBox("Nightcloak Knife", new String[]{"If cast while in Vanish,", "Spin Attack will consume all", "Marks from nearby enemies to", "summon the Nightcloak Knife.", " ", "The Knife will copy your", "attacks on enemies near you,", "dealing 6% of your damage for every", "1 Mark consumed. (Max 10 Marks)", " ", "Duration: 15s"}, ).purpleIcon()); //54
-        //getTcb().add(new TreeCheckBox().whiteIcon()); //55
-        //getTcb().add(new TreeCheckBox().yellowIcon()); //56
-        //getTcb().add(new TreeCheckBox().yellowIcon()); //57
-        //getTcb().add(new TreeCheckBox().yellowIcon()); //58
-        //getTcb().get(54).setSpPrevious(); //Nightcloak Knife
-        //getTcb().get(55).setSpPrevious(); //
-        //getTcb().get(56).setSpPrevious(); //
-        //getTcb().get(57).setSpPrevious(); //
+        getTcb().add(new TreeCheckBox("Nightcloak Knife", new String[]{"If cast while in Vanish,", "Spin Attack will consume all", "Marks from nearby enemies to", "summon the Nightcloak Knife.", " ", "The Knife will copy your", "attacks on enemies near you,", "dealing 6% of your damage for every", "1 Mark consumed. (Max 10 Marks)", " ", "Duration: 15s"}, new TreeCheckBox[]{getTcb().get(49)}, new TreeCheckBox[]{getTcb().get(44)}, TreeCheckBox.ArchetypeEnum.SHADESTEPPER, 0, 2, SkillEnum.NIGHTCLOAK_KNIFE, posWidth(0, 6), posHeight(29, 6)).purpleIcon()); //54
+        getTcb().add(new TreeCheckBox("Cheaper Multihit", new String[]{"Multihit Spell Cost: -5"}, new TreeCheckBox[]{getTcb().get(50)}, new TreeCheckBox[]{getTcb().get(8)}, 1, SkillEnum.CHEAPER_3RD_SP_COST, posWidth(2, 2), posHeight(29, 2)).whiteIcon()); //55
+        getTcb().add(new TreeCheckBox("Hoodwink", new String[]{"When hitting enemies "}, new TreeCheckBox[]{getTcb().get(51)}, new TreeCheckBox[]{getTcb().get(0)}, TreeCheckBox.ArchetypeEnum.TRICKSTER, 1, 2, SkillEnum.HOODWINK, posWidth(4, 4), posHeight(29, 4)).yellowIcon()); //56
+        getTcb().add(new TreeCheckBox("Choke Bomb", new String[]{}, new TreeCheckBox[]{getTcb().get(53)}, 2, TreeCheckBox.ArchetypeEnum.TRICKSTER, 0, SkillEnum.CHOKE_BOMB, posWidth(6, 4), posHeight(29, 4)).yellowIcon()); //57
+        getTcb().add(new TreeCheckBox("Wall Jump", new String[]{}, new TreeCheckBox[]{getTcb().get(52)}, new TreeCheckBox[]{getTcb().get(39)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(49), getTcb().get(54), getTcb().get(55), getTcb().get(56), getTcb().get(57)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(50), getTcb().get(55), getTcb().get(56), getTcb().get(57)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(51), getTcb().get(56), getTcb().get(57)})}, TreeCheckBox.ArchetypeEnum.ACROBAT, 5, 2, SkillEnum.WALL_JUMP, posWidth(8, 4), posHeight(29, 4)).yellowIcon()); //58
+        getTcb().get(54).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(50), getTcb().get(55)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(51), getTcb().get(55), getTcb().get(56)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(53), getTcb().get(55), getTcb().get(56), getTcb().get(57)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(52), getTcb().get(55), getTcb().get(56), getTcb().get(57), getTcb().get(58)})}); //Nightcloak Knife
+        getTcb().get(55).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(49), getTcb().get(54)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(51), getTcb().get(56)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(53), getTcb().get(56), getTcb().get(57)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(52), getTcb().get(56), getTcb().get(57), getTcb().get(58)})}); //Cheaper Multihit
+        getTcb().get(56).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(49), getTcb().get(54), getTcb().get(55)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(50), getTcb().get(55)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(53), getTcb().get(57)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(52), getTcb().get(57), getTcb().get(58)})}); //Hoodwink
+        getTcb().get(57).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(49), getTcb().get(54), getTcb().get(55), getTcb().get(56)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(50), getTcb().get(55), getTcb().get(56)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(51), getTcb().get(56)}), new SpPrevious(new TreeCheckBox[]{getTcb().get(52), getTcb().get(58)})}); //Choke Bomb
+
+        new TreeIcon(posWidth(0, 0), posHeight(30, 0), getPane()).right_down();
+        new TreeIcon(posWidth(4, 0), posHeight(30, 0), getPane()).up_down();
+        new TreeIcon(posWidth(6, 0), posHeight(30, 0), getPane()).right_left();
+
+
 
         setTreeUI();
     }

@@ -137,6 +137,7 @@ public enum SkillEnum {
     BAMBOOZLE,
     DISTRACTION,
     FLOW_STATE,
+    NIGHTCLOAK_KNIFE,
 
 
     //ARCHER

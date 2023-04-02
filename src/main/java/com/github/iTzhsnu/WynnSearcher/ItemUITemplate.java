@@ -62,44 +62,51 @@ public class ItemUITemplate extends JPanel {
         put(36, Identifications.AIR_MELEE_DAMAGE_PERCENT);
         put(37, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT);
 
-        put(38, Identifications.RAW_ELEMENTAL_DAMAGE);
-        put(39, Identifications.RAW_SPELL_DAMAGE);
-        put(40, Identifications.RAW_MELEE_DAMAGE);
+        put(38, Identifications.RAW_SPELL_DAMAGE);
+        put(39, Identifications.RAW_MELEE_DAMAGE);
 
-        put(41, Identifications.RAW_NEUTRAL_SPELL_DAMAGE);
-        put(42, Identifications.RAW_EARTH_SPELL_DAMAGE);
-        put(43, Identifications.RAW_THUNDER_SPELL_DAMAGE);
-        put(44, Identifications.RAW_WATER_SPELL_DAMAGE);
-        put(45, Identifications.RAW_FIRE_SPELL_DAMAGE);
-        put(46, Identifications.RAW_AIR_SPELL_DAMAGE);
-        put(47, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
+        put(40, Identifications.RAW_NEUTRAL_DAMAGE);
+        put(41, Identifications.RAW_EARTH_DAMAGE);
+        put(42, Identifications.RAW_THUNDER_DAMAGE);
+        put(43, Identifications.RAW_WATER_DAMAGE);
+        put(44, Identifications.RAW_FIRE_DAMAGE);
+        put(45, Identifications.RAW_AIR_DAMAGE);
+        put(46, Identifications.RAW_ELEMENTAL_DAMAGE);
 
-        put(48, Identifications.RAW_NEUTRAL_MELEE_DAMAGE);
-        put(49, Identifications.RAW_EARTH_MELEE_DAMAGE);
-        put(50, Identifications.RAW_THUNDER_MELEE_DAMAGE);
-        put(51, Identifications.RAW_WATER_MELEE_DAMAGE);
-        put(52, Identifications.RAW_FIRE_MELEE_DAMAGE);
-        put(53, Identifications.RAW_AIR_MELEE_DAMAGE);
-        put(54, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE);
+        put(47, Identifications.RAW_NEUTRAL_SPELL_DAMAGE);
+        put(48, Identifications.RAW_EARTH_SPELL_DAMAGE);
+        put(49, Identifications.RAW_THUNDER_SPELL_DAMAGE);
+        put(50, Identifications.RAW_WATER_SPELL_DAMAGE);
+        put(51, Identifications.RAW_FIRE_SPELL_DAMAGE);
+        put(52, Identifications.RAW_AIR_SPELL_DAMAGE);
+        put(53, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
 
-        put(55, Identifications.POISON);
-        put(56, Identifications.ATTACK_SPEED_BONUS);
+        put(54, Identifications.RAW_NEUTRAL_MELEE_DAMAGE);
+        put(55, Identifications.RAW_EARTH_MELEE_DAMAGE);
+        put(56, Identifications.RAW_THUNDER_MELEE_DAMAGE);
+        put(57, Identifications.RAW_WATER_MELEE_DAMAGE);
+        put(58, Identifications.RAW_FIRE_MELEE_DAMAGE);
+        put(59, Identifications.RAW_AIR_MELEE_DAMAGE);
+        put(60, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE);
 
-        put(57, Identifications.WALK_SPEED);
-        put(58, Identifications.SPRINT_BONUS);
-        put(59, Identifications.SPRINT_REGEN);
-        put(60, Identifications.JUMP_HEIGHT);
+        put(61, Identifications.POISON);
+        put(62, Identifications.ATTACK_SPEED_BONUS);
 
-        put(61, Identifications.THORNS);
-        put(62, Identifications.REFLECTION);
-        put(63, Identifications.EXPLODING);
-        put(64, Identifications.STEALING);
-        put(65, Identifications.COMBAT_XP_BONUS);
-        put(66, Identifications.GATHERING_XP_BONUS);
-        put(67, Identifications.GATHERING_SPEED_BONUS);
-        put(68, Identifications.LOOT_BONUS);
-        put(69, Identifications.LOOT_QUALITY);
-        put(70, Identifications.SOUL_POINT_REGEN);
+        put(63, Identifications.WALK_SPEED);
+        put(64, Identifications.SPRINT_BONUS);
+        put(65, Identifications.SPRINT_REGEN);
+        put(66, Identifications.JUMP_HEIGHT);
+
+        put(67, Identifications.THORNS);
+        put(68, Identifications.REFLECTION);
+        put(69, Identifications.EXPLODING);
+        put(70, Identifications.STEALING);
+        put(71, Identifications.COMBAT_XP_BONUS);
+        put(72, Identifications.GATHERING_XP_BONUS);
+        put(73, Identifications.GATHERING_SPEED_BONUS);
+        put(74, Identifications.LOOT_BONUS);
+        put(75, Identifications.LOOT_QUALITY);
+        put(76, Identifications.SOUL_POINT_REGEN);
     }};
 
     public static final Map<Integer, Identifications> REVERSED_ITEM_IDS = new HashMap<Integer, Identifications>() {{
@@ -310,7 +317,7 @@ public class ItemUITemplate extends JPanel {
 
         label.add(new JLabel(" "));
 
-        for (int i = 0; 70 >= i; ++i) {
+        for (int i = 0; 76 >= i; ++i) {
             Identifications id = ITEM_IDS.get(i);
             if (json.get(id.getItemName()) != null && json.get(id.getItemName()).getAsInt() != 0) {
                 if (!id.isItemVariable() || json.get("identified") != null && json.get("identified").getAsBoolean()) {
@@ -464,12 +471,11 @@ public class ItemUITemplate extends JPanel {
             if (run) label.add(new JLabel(" "));
         }
 
-        //TODO USE MAP
         if (json.get("identifications") != null) {
             JsonObject j = json.get("identifications").getAsJsonObject();
             boolean run = false;
 
-            for (int i = 0; 70 >= i; ++i) {
+            for (int i = 0; 76 >= i; ++i) {
                 Identifications id = ITEM_IDS.get(i);
                 if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
                     JsonObject jo = j.get(id.getIngName()).getAsJsonObject();

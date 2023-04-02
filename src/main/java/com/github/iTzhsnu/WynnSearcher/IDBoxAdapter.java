@@ -17,7 +17,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Earth Defense %", "Thunder Defense %", "Water Defense %", "Fire Defense %", "Air Defense %",
             "Neutral Damage", "Earth Damage", "Thunder Damage", "Water Damage", "Fire Damage", "Air Damage",
             "Earth Damage %", "Thunder Damage %", "Water Damage %", "Fire Damage %", "Air Damage %", "Elemental Damage %",
-            "Raw Elemental Damage", "Raw Spell Damage", "Raw Melee Damage", "Spell Damage %", "Melee Damage %", "Poison",
+            "Raw Spell Damage", "Raw Melee Damage", "Spell Damage %", "Melee Damage %", "Poison",
             "Attack Speed", "Attack Speed Bonus",
             "Mana Regen", "Mana Steal",
             "Walk Speed", "Sprint Bonus", "Sprint Regen", "Jump Height",
@@ -26,6 +26,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Soul Point Regen", "Powder Slots", "Major ID",
             "1st Spell Cost Raw", "2nd Spell Cost Raw", "3rd Spell Cost Raw", "4th Spell Cost Raw",
             "1st Spell Cost %", "2nd Spell Cost %", "3rd Spell Cost %", "4th Spell Cost %",
+            "Raw Neutral Damage", "Raw Earth Damage", "Raw Thunder Damage", "Raw Water Damage", "Raw Fire Damage", "Raw Air Damage", "Raw Elemental Damage",
             "Neutral Melee Damage %", "Earth Melee Damage %", "Thunder Melee Damage %", "Water Melee Damage %", "Fire Melee Damage %", "Air Melee Damage %", "Elemental Melee Damage %",
             "Raw Neutral Melee Damage", "Raw Earth Melee Damage", "Raw Thunder Melee Damage", "Raw Water Melee Damage",  "Raw Fire Melee Damage", "Raw Air Melee Damage",  "Raw Elemental Melee Damage",
             "Neutral Spell Damage %", "Earth Spell Damage %", "Thunder Spell Damage %", "Water Spell Damage %", "Fire Spell Damage %", "Air Spell Damage %", "Elemental Spell Damage %",
@@ -90,7 +91,6 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Air Damage %", Identifications.AIR_DAMAGE_PERCENT);
         put("Elemental Damage %", Identifications.ELEMENTAL_DAMAGE_PERCENT);
 
-        put("Raw Elemental Damage", Identifications.RAW_ELEMENTAL_DAMAGE);
         put("Raw Spell Damage", Identifications.RAW_SPELL_DAMAGE);
         put("Raw Melee Damage", Identifications.RAW_MELEE_DAMAGE);
         put("Spell Damage %", Identifications.SPELL_DAMAGE_PERCENT);
@@ -130,6 +130,14 @@ public class IDBoxAdapter extends KeyAdapter {
         put("2nd Spell Cost %", Identifications.PERCENT_2ND_SPELL_COST);
         put("3rd Spell Cost %", Identifications.PERCENT_3RD_SPELL_COST);
         put("4th Spell Cost %", Identifications.PERCENT_4TH_SPELL_COST);
+
+        put("Raw Neutral Damage", Identifications.RAW_NEUTRAL_DAMAGE);
+        put("Raw Earth Damage", Identifications.RAW_EARTH_DAMAGE);
+        put("Raw Thunder Damage", Identifications.RAW_THUNDER_DAMAGE);
+        put("Raw Water Damage", Identifications.RAW_WATER_DAMAGE);
+        put("Raw Fire Damage", Identifications.RAW_FIRE_DAMAGE);
+        put("Raw Air Damage", Identifications.RAW_AIR_DAMAGE);
+        put("Raw Elemental Damage", Identifications.RAW_ELEMENTAL_DAMAGE);
 
         put("Neutral Melee Damage %", Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT);
         put("Earth Melee Damage %", Identifications.EARTH_MELEE_DAMAGE_PERCENT);

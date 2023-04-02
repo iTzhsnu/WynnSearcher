@@ -661,40 +661,40 @@ public class Damage_Display {
         }
 
         if (earth_min != 0 || earth_max != 0) {
-            earth_min += calc_raw.calc(id_Numbers[39], "Earth", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Earth", false, false) + id_Numbers[64];
-            earth_max += calc_raw.calc(id_Numbers[39], "Earth", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Earth", true, false) + id_Numbers[64];
+            earth_min += calc_raw.calc(id_Numbers[39], "Earth", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Earth", false, false) + id_Numbers[64] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)];
+            earth_max += calc_raw.calc(id_Numbers[39], "Earth", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Earth", true, false) + id_Numbers[64] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)];
 
             earth_min *= tomeBonus;
             earth_max *= tomeBonus;
         }
 
         if (thunder_min != 0 || thunder_max != 0) {
-            thunder_min += calc_raw.calc(id_Numbers[39], "Thunder", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Thunder", false, false) + id_Numbers[65];
-            thunder_max += calc_raw.calc(id_Numbers[39], "Thunder", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Thunder", true, false) + id_Numbers[65];
+            thunder_min += calc_raw.calc(id_Numbers[39], "Thunder", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Thunder", false, false) + id_Numbers[65] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)];
+            thunder_max += calc_raw.calc(id_Numbers[39], "Thunder", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Thunder", true, false) + id_Numbers[65] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)];
 
             thunder_min *= tomeBonus;
             thunder_max *= tomeBonus;
         }
 
         if (water_min != 0 || water_max != 0) {
-            water_min += calc_raw.calc(id_Numbers[39], "Water", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Water", false, false) + id_Numbers[66];
-            water_max += calc_raw.calc(id_Numbers[39], "Water", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Water", true, false) + id_Numbers[66];
+            water_min += calc_raw.calc(id_Numbers[39], "Water", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Water", false, false) + id_Numbers[66] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)];
+            water_max += calc_raw.calc(id_Numbers[39], "Water", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Water", true, false) + id_Numbers[66] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)];
 
             water_min *= tomeBonus;
             water_max *= tomeBonus;
         }
 
         if (fire_min != 0 || fire_max != 0) {
-            fire_min += calc_raw.calc(id_Numbers[39], "Fire", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Fire", false, false) + id_Numbers[67];
-            fire_max += calc_raw.calc(id_Numbers[39], "Fire", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Fire", true, false) + id_Numbers[67];
+            fire_min += calc_raw.calc(id_Numbers[39], "Fire", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Fire", false, false) + id_Numbers[67] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)];
+            fire_max += calc_raw.calc(id_Numbers[39], "Fire", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Fire", true, false) + id_Numbers[67] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)];
 
             fire_min *= tomeBonus;
             fire_max *= tomeBonus;
         }
 
         if (air_min != 0 || air_max != 0) {
-            air_min += calc_raw.calc(id_Numbers[39], "Air", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Air", false, false) + id_Numbers[68];
-            air_max += calc_raw.calc(id_Numbers[39], "Air", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Air", true, false) + id_Numbers[68];
+            air_min += calc_raw.calc(id_Numbers[39], "Air", false, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Air", false, false) + id_Numbers[68] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)];
+            air_max += calc_raw.calc(id_Numbers[39], "Air", true, true) + calc_raw.calc(id_Numbers[69] + id_Numbers[71], "Air", true, false) + id_Numbers[68] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)];
 
             air_min *= tomeBonus;
             air_max *= tomeBonus;
@@ -810,36 +810,36 @@ public class Damage_Display {
             neutral_max *= tomeBonus;
         }
         if (earth_min != 0 || earth_max != 0) {
-            earth_min += calc_raw.calc(id_Numbers[37], "Earth", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Earth", false, false) + id_Numbers[50];
-            earth_max += calc_raw.calc(id_Numbers[37], "Earth", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Earth", true, false) + id_Numbers[50];
+            earth_min += calc_raw.calc(id_Numbers[37], "Earth", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Earth", false, false) + id_Numbers[50] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)];
+            earth_max += calc_raw.calc(id_Numbers[37], "Earth", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Earth", true, false) + id_Numbers[50] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)];
 
             earth_min *= tomeBonus;
             earth_max *= tomeBonus;
         }
         if (thunder_min != 0 || thunder_max != 0) {
-            thunder_min += calc_raw.calc(id_Numbers[37], "Thunder", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Thunder", false, false) + id_Numbers[51];
-            thunder_max += calc_raw.calc(id_Numbers[37], "Thunder", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Thunder", true, false) + id_Numbers[51];
+            thunder_min += calc_raw.calc(id_Numbers[37], "Thunder", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Thunder", false, false) + id_Numbers[51] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)];
+            thunder_max += calc_raw.calc(id_Numbers[37], "Thunder", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Thunder", true, false) + id_Numbers[51] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)];
 
             thunder_min *= tomeBonus;
             thunder_max *= tomeBonus;
         }
         if (water_min != 0 || water_max != 0) {
-            water_min += calc_raw.calc(id_Numbers[37], "Water", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Water", false, false) + id_Numbers[52];
-            water_max += calc_raw.calc(id_Numbers[37], "Water", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Water", true, false) + id_Numbers[52];
+            water_min += calc_raw.calc(id_Numbers[37], "Water", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Water", false, false) + id_Numbers[52] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)];
+            water_max += calc_raw.calc(id_Numbers[37], "Water", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Water", true, false) + id_Numbers[52] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)];
 
             water_min *= tomeBonus;
             water_max *= tomeBonus;
         }
         if (fire_min != 0 || fire_max != 0) {
-            fire_min += calc_raw.calc(id_Numbers[37], "Fire", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Fire", false, false) + id_Numbers[53];
-            fire_max += calc_raw.calc(id_Numbers[37], "Fire", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Fire", true, false) + id_Numbers[53];
+            fire_min += calc_raw.calc(id_Numbers[37], "Fire", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Fire", false, false) + id_Numbers[53] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)];
+            fire_max += calc_raw.calc(id_Numbers[37], "Fire", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Fire", true, false) + id_Numbers[53] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)];
 
             fire_min *= tomeBonus;
             fire_max *= tomeBonus;
         }
         if (air_min != 0 || air_max != 0) {
-            air_min += calc_raw.calc(id_Numbers[37], "Air", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Air", false, false) + id_Numbers[54];
-            air_max += calc_raw.calc(id_Numbers[37], "Air", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Air", true, false) + id_Numbers[54];
+            air_min += calc_raw.calc(id_Numbers[37], "Air", false, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Air", false, false) + id_Numbers[54] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)];
+            air_max += calc_raw.calc(id_Numbers[37], "Air", true, true) + calc_raw.calc(id_Numbers[55] + id_Numbers[71], "Air", true, false) + id_Numbers[54] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)];
 
             air_min *= tomeBonus;
             air_max *= tomeBonus;

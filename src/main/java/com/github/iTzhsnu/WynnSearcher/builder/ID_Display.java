@@ -102,6 +102,12 @@ public class ID_Display {
 
         put(70, Identifications.ELEMENTAL_DAMAGE_PERCENT);
         put(71, Identifications.RAW_ELEMENTAL_DAMAGE);
+        put(72, Identifications.RAW_NEUTRAL_DAMAGE);
+        put(73, Identifications.RAW_EARTH_DAMAGE);
+        put(74, Identifications.RAW_THUNDER_DAMAGE);
+        put(75, Identifications.RAW_WATER_DAMAGE);
+        put(76, Identifications.RAW_FIRE_DAMAGE);
+        put(77, Identifications.RAW_AIR_DAMAGE);
     }};
 
     private static final Map<Integer, Identifications> REVERSED_ID = new HashMap<Integer, Identifications>() {{
@@ -198,15 +204,21 @@ public class ID_Display {
 
         put(Identifications.ELEMENTAL_DAMAGE_PERCENT, 70);
         put(Identifications.RAW_ELEMENTAL_DAMAGE, 71);
+        put(Identifications.RAW_NEUTRAL_DAMAGE, 72);
+        put(Identifications.RAW_EARTH_DAMAGE, 73);
+        put(Identifications.RAW_THUNDER_DAMAGE, 74);
+        put(Identifications.RAW_WATER_DAMAGE, 75);
+        put(Identifications.RAW_FIRE_DAMAGE, 76);
+        put(Identifications.RAW_AIR_DAMAGE, 77);
 
-        put(Identifications.RAW_1ST_SPELL_COST, 72);
-        put(Identifications.RAW_2ND_SPELL_COST, 73);
-        put(Identifications.RAW_3RD_SPELL_COST, 74);
-        put(Identifications.RAW_4TH_SPELL_COST, 75);
-        put(Identifications.PERCENT_1ST_SPELL_COST, 76);
-        put(Identifications.PERCENT_2ND_SPELL_COST, 77);
-        put(Identifications.PERCENT_3RD_SPELL_COST, 78);
-        put(Identifications.PERCENT_4TH_SPELL_COST, 79);
+        put(Identifications.RAW_1ST_SPELL_COST, 78);
+        put(Identifications.RAW_2ND_SPELL_COST, 79);
+        put(Identifications.RAW_3RD_SPELL_COST, 80);
+        put(Identifications.RAW_4TH_SPELL_COST, 81);
+        put(Identifications.PERCENT_1ST_SPELL_COST, 82);
+        put(Identifications.PERCENT_2ND_SPELL_COST, 83);
+        put(Identifications.PERCENT_3RD_SPELL_COST, 84);
+        put(Identifications.PERCENT_4TH_SPELL_COST, 85);
     }};
 
     private static final Map<Integer, Float> CLASS_DEF = new HashMap<Integer, Float>() {{
@@ -244,7 +256,7 @@ public class ID_Display {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //50 ~ 59 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //60 ~ 69 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 79 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //89 (Weapon Tome Damage Bonus)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //80 ~ 85 (ID), 89 (Weapon Tome Damage Bonus)
         };
         float def = 2F - CLASS_DEF.get(classID); //Base Defense
 
@@ -300,7 +312,7 @@ public class ID_Display {
         //Weapon, Armor, Accessory
         if (itemJsons.getJsonObjectList().size() > 0) {
             for (JsonObject j : itemJsons.getJsonObjectList()) {
-                for (int i = 0; 71 >= i; ++i) {
+                for (int i = 0; 77 >= i; ++i) {
                     if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
                         if (!IDS.get(i).isItemVariable()) {
                             numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
@@ -314,9 +326,9 @@ public class ID_Display {
                 for (int i = 0; 7 >= i; ++i) {
                     if (j.get(REVERSED_ID.get(i).getItemName()) != null && j.get(REVERSED_ID.get(i).getItemName()).getAsInt() != 0) {
                         if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                            numbers[i + 72] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
+                            numbers[i + 78] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
                         } else {
-                            numbers[i + 72] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
+                            numbers[i + 78] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
                         }
                     }
                 }
@@ -325,7 +337,7 @@ public class ID_Display {
 
         if (itemJsons.getWeapon() != null) {
             JsonObject j = itemJsons.getWeapon();
-            for (int i = 1; 71 >= i; ++i) {
+            for (int i = 1; 77 >= i; ++i) {
                 if (i >= 3 && i <= 7) continue;
                 if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
                     if (!IDS.get(i).isItemVariable()) {
@@ -340,9 +352,9 @@ public class ID_Display {
             for (int i = 0; 7 >= i; ++i) {
                 if (j.get(REVERSED_ID.get(i).getItemName()) != null && j.get(REVERSED_ID.get(i).getItemName()).getAsInt() != 0) {
                     if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                        numbers[i + 72] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
+                        numbers[i + 78] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
                     } else {
-                        numbers[i + 72] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
+                        numbers[i + 78] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
                     }
                 }
             }
@@ -427,29 +439,29 @@ public class ID_Display {
         }
 
         if (updateOnly) { //Update Edited ID
-            for (int i = 29; 71 >= i; ++i) { //Damages and Health Regen
+            for (int i = 29; 77 >= i; ++i) { //Damages and Health Regen
                 numbers[i] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).getValue();
             }
             for (int i = 0; 7 >= i; ++i) { //Spell Costs
-                numbers[i + 72] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).getValue();
+                numbers[i + 78] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).getValue();
             }
         } else { //Set Editable ID Original Num
-            for (int i = 29; 71 >= i; ++i) { //Damages and Health Regen
+            for (int i = 29; 77 >= i; ++i) { //Damages and Health Regen
                 damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(IDS.get(i))).setValue(numbers[i]);
             }
             for (int i = 0; 7 >= i; ++i) { //Spell Costs
-                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).setValue(numbers[i + 72]);
+                damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(REVERSED_ID.get(i))).setValue(numbers[i + 78]);
             }
         }
 
         //Radiance
         if (damage_boosts.getBox().get(2).isSelected()) {
-            for (int i = 1; 71 >= i; ++i) {
+            for (int i = 1; 77 >= i; ++i) {
                 if (i >= 3 && i <= 7) continue;
                 if (numbers[i] > 0) numbers[i] = Math.round(numbers[i] * 1.2F);
             }
             for (int i = 0; 7 >= i; ++i) {
-                if (0 > numbers[i + 72]) numbers[i + 72] = Math.round(numbers[i + 72] * 1.2F);
+                if (0 > numbers[i + 78]) numbers[i + 78] = Math.round(numbers[i + 78] * 1.2F);
             }
         }
 
@@ -462,7 +474,7 @@ public class ID_Display {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //50 ~ 59 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //60 ~ 69 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 79 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //80 (Weapon Tome Damage Bonus)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //89 (Weapon Tome Damage Bonus)
         };
 
         //Ability Tree
@@ -512,7 +524,7 @@ public class ID_Display {
             }
         }
 
-        for (int i = 0; 77 >= i; ++i) { //ID_Main + ID_Sub = ID_Main
+        for (int i = 0; 85 >= i; ++i) { //ID_Main + ID_Sub = ID_Main
             numbers[i] += numbers_Sub[i];
         }
 
@@ -562,11 +574,11 @@ public class ID_Display {
         }
         ids.add(new JLabel(" "));
         if (numbers[1] != 0) ids.add(new JLabel(IDS.get(1).getDisplayName() + ": " + numbers[1] + IDS.get(1).getDisplaySp())); //Health Bonus
-        for (int i = 13; 71 >= i; ++i) { //Normal IDS
+        for (int i = 13; 77 >= i; ++i) { //Normal IDS
             if (numbers[i] != 0) ids.add(new JLabel(IDS.get(i).getDisplayName() + ": " + numbers[i] + IDS.get(i).getDisplaySp()));
         }
         for (int i = 0; 7 >= i; ++i) { //Reversed IDS
-            if (numbers[i + 72] != 0) ids.add(new JLabel(REVERSED_ID.get(i).getDisplayName() + ": " + numbers[i + 72] + REVERSED_ID.get(i).getDisplaySp()));
+            if (numbers[i + 78] != 0) ids.add(new JLabel(REVERSED_ID.get(i).getDisplayName() + ": " + numbers[i + 78] + REVERSED_ID.get(i).getDisplaySp()));
         }
 
         for (JLabel l : ids) {
