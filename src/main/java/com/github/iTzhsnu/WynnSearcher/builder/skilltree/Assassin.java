@@ -204,6 +204,16 @@ public class Assassin extends TreeBase {
         new TreeIcon(posWidth(0, 0), posHeight(30, 0), getPane()).right_down();
         new TreeIcon(posWidth(4, 0), posHeight(30, 0), getPane()).up_down();
         new TreeIcon(posWidth(6, 0), posHeight(30, 0), getPane()).right_left();
+        getTcb().add(new TreeCheckBox("Fatal Spin", new String[]{"Increases Spin Attack and Lacerate's range", "and damage, and adds +1 Mark to enemies hit.", " ", "Total Damage: +20% (of your DPS)", "(Damage +20%)", "Area of Effect: +1 Block (Circle-Shaped)"}, new TreeCheckBox[]{getTcb().get(54), getTcb().get(55)}, new TreeCheckBox[]{getTcb().get(44)}, TreeCheckBox.ArchetypeEnum.SHADESTEPPER, 8, 2, SkillEnum.FATAL_SPIN, posWidth(1, 4), posHeight(30, 4)).yellowIcon()); //59
+        getTcb().add(new TreeCheckBox("Dissolution", new String[]{"When entering Vanish, become immune to knockback", "and gain resistance for a brief moment.", " ", "Effect: +40% Resistance Bonus to Self", "Duration: 0.5s"}, new TreeCheckBox[]{getTcb().get(55), getTcb().get(56)}, new TreeCheckBox[]{getTcb().get(17)}, TreeCheckBox.ArchetypeEnum.SHADESTEPPER, 2, 1, SkillEnum.DISSOLUTION, posWidth(3, 2), posHeight(30, 2)).whiteIcon()); //60
+        getTcb().add(new TreeCheckBox("Pirouette", new String[]{"When hitting an enemy with Dancing Blade,", "you will deal extra damage and vault upwards,", "resetting Dash as if you touched the ground.", " ", "Total Damage: +40%", "(Neutral +30%)", "(Air +10%)"}, new TreeCheckBox[]{getTcb().get(56), getTcb().get(57)}, new TreeCheckBox[]{getTcb().get(48)}, 2, SkillEnum.PIROUETTE, posWidth(5, 4), posHeight(30, 4)).yellowIcon()); //61
+        getTcb().add(new TreeCheckBox("Stronger Lacerate", new String[]{"Lacerate will deal +1 slash."}, new TreeCheckBox[]{getTcb().get(57), getTcb().get(58)}, new TreeCheckBox[]{getTcb().get(22)}, new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(56), getTcb().get(61)})}, TreeCheckBox.ArchetypeEnum.ACROBAT, 0, 1, SkillEnum.STRONGER_LACERATE, posWidth(7, 2), posHeight(30, 2)).whiteIcon()); //62
+        getTcb().get(61).setSpPrevious(new SpPrevious[]{new SpPrevious(new TreeCheckBox[]{getTcb().get(58), getTcb().get(62)})});
+
+        new TreeIcon(posWidth(1, 0), posHeight(31, 0), getPane()).up_down();
+        new TreeIcon(posWidth(4, 0), posHeight(31, 0), getPane()).up_down();
+        new TreeIcon(posWidth(7, 0), posHeight(31, 0), getPane()).up_down();
+        getTcb().add(new TreeCheckBox("Stronger Vortex", new String[]{"Increases Violet Vortex's damage", "by +40% and increases the damage", "requirement to be 2.5x your max health."}, new TreeCheckBox[]{getTcb().get(59)}, new TreeCheckBox[]{getTcb().get(41)}, TreeCheckBox.ArchetypeEnum.SHADESTEPPER, 0, 1, SkillEnum.STRONGER_VORTEX, posWidth(0, 2), posHeight(31, 2)).whiteIcon()); //63
 
 
 

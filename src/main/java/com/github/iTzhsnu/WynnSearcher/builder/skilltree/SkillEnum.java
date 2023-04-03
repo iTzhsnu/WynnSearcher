@@ -138,6 +138,8 @@ public enum SkillEnum {
     DISTRACTION,
     FLOW_STATE,
     NIGHTCLOAK_KNIFE,
+    DISSOLUTION,
+    PIROUETTE,
 
 
     //ARCHER
