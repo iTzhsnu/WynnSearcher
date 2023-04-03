@@ -31,6 +31,8 @@ public class CustomUI implements ActionListener {
     private final JTextField itemText = new JTextField();
     private final JPanel display = new JPanel();
     private final JScrollPane scroll;
+    private final JComboBox<String> itemType = new JComboBox<>();
+    private final JPanel textScroll = new JPanel();
 
     private static final Map<Integer, Identifications> ID_FROM_NOT_VARIABLE_INT = new HashMap<Integer, Identifications>() {{
         put(1, Identifications.STRENGTH_REQ);
@@ -124,6 +126,12 @@ public class CustomUI implements ActionListener {
         put(89, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
         put(90, Identifications.ELEMENTAL_DAMAGE_PERCENT);
         put(91, Identifications.RAW_ELEMENTAL_DAMAGE);
+        put(92, Identifications.RAW_NEUTRAL_DAMAGE);
+        put(93, Identifications.RAW_EARTH_DAMAGE);
+        put(94, Identifications.RAW_THUNDER_DAMAGE);
+        put(95, Identifications.RAW_WATER_DAMAGE);
+        put(96, Identifications.RAW_FIRE_DAMAGE);
+        put(97, Identifications.RAW_AIR_DAMAGE);
     }};
 
     private static final Map<Integer, Identifications> ID_FROM_VARIABLE_INT = new HashMap<Integer, Identifications>() {{
@@ -138,149 +146,180 @@ public class CustomUI implements ActionListener {
     public CustomUI(Container pane) {
         this.pane = pane;
 
-        uiTemplate("Name", 20, 30, false, 95);
-        uiTemplate("Strength Req", 20, 55, false, 95);
-        uiTemplate("Dexterity Req", 20, 80, false, 95);
-        uiTemplate("Intelligence Req", 20, 105, false, 95);
-        uiTemplate("Defense Req", 20, 130, false, 95);
-        uiTemplate("Agility Req", 20, 155, false, 95);
-        uiTemplate("Powder Slots", 20, 180, false, 95);
+        uiTemplate("Name", 20, getY(0), false, 95);
+        uiTemplate("Strength Req", 20, getY(1), false, 95);
+        uiTemplate("Dexterity Req", 20, getY(2), false, 95);
+        uiTemplate("Intelligence Req", 20, getY(3), false, 95);
+        uiTemplate("Defense Req", 20, getY(4), false, 95);
+        uiTemplate("Agility Req", 20, getY(5), false, 95);
+        uiTemplate("Powder Slots", 20, getY(6), false, 95);
 
-        uiTemplate("Health", 20, 225, false, 95);
-        uiTemplate("Earth Def", 20, 250, false, 95);
-        uiTemplate("Thunder Def", 20, 275, false, 95);
-        uiTemplate("Water Def", 20, 300, false, 95);
-        uiTemplate("Fire Def", 20, 325, false, 95);
-        uiTemplate("Air Def", 20, 350, false, 95);
+        uiTemplate("Health", 20, getY(8), false, 95);
+        uiTemplate("Earth Def", 20, getY(9), false, 95);
+        uiTemplate("Thunder Def", 20, getY(10), false, 95);
+        uiTemplate("Water Def", 20, getY(11), false, 95);
+        uiTemplate("Fire Def", 20, getY(12), false, 95);
+        uiTemplate("Air Def", 20, getY(13), false, 95);
 
-        uiTemplate("Neutral Dam", 20, 395, true, 75);
-        uiTemplate("Earth Dam", 20, 420, true, 75);
-        uiTemplate("Thunder Dam", 20, 445, true, 75);
-        uiTemplate("Water Dam", 20, 470, true, 75);
-        uiTemplate("Fire Dam", 20, 495, true, 75);
-        uiTemplate("Air Dam", 20, 520, true, 75);
-        atkSpdBoxUITemplate("Atk Spd", 20, 545);
+        uiTemplate("Neutral Dam", 10, getY(8), true, 75);
+        uiTemplate("Earth Dam", 10, getY(9), true, 75);
+        uiTemplate("Thunder Dam", 10, getY(10), true, 75);
+        uiTemplate("Water Dam", 10, getY(11), true, 75);
+        uiTemplate("Fire Dam", 10, getY(12), true, 75);
+        uiTemplate("Air Dam", 10, getY(13), true, 75);
+        atkSpdBoxUITemplate("Atk Spd", 10, getY(14));
 
-        uiTemplate("Strength", 20, 590, false, 95);
-        uiTemplate("Dexterity", 20, 615, false, 95);
-        uiTemplate("Intelligence", 20, 640, false, 95);
-        uiTemplate("Defense", 20, 665, false, 95);
-        uiTemplate("Agility", 20, 690, false, 95);
+        uiTemplate("Strength", 20, getY(15), false, 95);
+        uiTemplate("Dexterity", 20, getY(16), false, 95);
+        uiTemplate("Intelligence", 20, getY(17), false, 95);
+        uiTemplate("Defense", 20, getY(18), false, 95);
+        uiTemplate("Agility", 20, getY(19), false, 95);
 
-        uiTemplate("Health Bonus", 180, 30, false, 105);
-        uiTemplate("Raw Health Regen", 180, 55, false, 105);
-        uiTemplate("Health Regen %", 180, 80, false, 105);
-        uiTemplate("Life Steal", 180, 105, false, 105);
+        uiTemplate("Health Bonus", 180, getY(0), false, 105);
+        uiTemplate("Raw Health Regen", 180, getY(1), false, 105);
+        uiTemplate("Health Regen %", 180, getY(2), false, 105);
+        uiTemplate("Life Steal", 180, getY(3), false, 105);
 
-        uiTemplate("Earth Def %", 180, 130, false, 105);
-        uiTemplate("Thunder Def %", 180, 155, false, 105);
-        uiTemplate("Water Def %", 180, 180, false, 105);
-        uiTemplate("Fire Def %", 180, 205, false, 105);
-        uiTemplate("Air Def %", 180, 230, false, 105);
+        uiTemplate("Earth Def %", 180, getY(4), false, 105);
+        uiTemplate("Thunder Def %", 180, getY(5), false, 105);
+        uiTemplate("Water Def %", 180, getY(6), false, 105);
+        uiTemplate("Fire Def %", 180, getY(7), false, 105);
+        uiTemplate("Air Def %", 180, getY(8), false, 105);
 
-        uiTemplate("Earth Dam %", 180, 255, false, 105);
-        uiTemplate("Thunder Dam %", 180, 280, false, 105);
-        uiTemplate("Water Dam %", 180, 305, false, 105);
-        uiTemplate("Fire Dam %", 180, 330, false, 105);
-        uiTemplate("Air Dam %", 180, 355, false, 105);
+        uiTemplate("Earth Dam %", 20, getY(21), false, 95);
+        uiTemplate("Thunder Dam %", 20, getY(22), false, 95);
+        uiTemplate("Water Dam %", 20, getY(23), false, 95);
+        uiTemplate("Fire Dam %", 20, getY(24), false, 95);
+        uiTemplate("Air Dam %", 20, getY(25), false, 95);
 
-        uiTemplate("Raw Spell Dam", 200, 400, false, 95);
-        uiTemplate("Raw Melee Dam", 200, 425, false, 95);
-        uiTemplate("Spell Dam %", 200, 450, false, 95);
-        uiTemplate("Melee Dam %", 200, 475, false, 95);
-        uiTemplate("Poison", 200, 500, false, 95);
-        uiTemplate("Atk Spd Bonus", 200, 525, false, 95);
+        uiTemplate("Raw Spell Dam", 180, getY(10), false, 105);
+        uiTemplate("Raw Melee Dam", 180, getY(11), false, 105);
+        uiTemplate("Spell Dam %", 180, getY(12), false, 105);
+        uiTemplate("Melee Dam %", 180, getY(13), false, 105);
+        uiTemplate("Poison", 180, getY(14), false, 105);
+        uiTemplate("Atk Spd Bonus", 180, getY(15), false, 105);
 
-        uiTemplate("Mana Regen", 200, 550, false, 95);
-        uiTemplate("Mana Steal", 200, 575, false, 95);
+        uiTemplate("Mana Regen", 180, getY(16), false, 105);
+        uiTemplate("Mana Steal", 180, getY(17), false, 105);
 
-        uiTemplate("Walk Speed", 200, 620, false, 95);
-        uiTemplate("Sprint Bonus", 200, 645, false, 95);
-        uiTemplate("Sprint Regen", 200, 670, false, 95);
-        uiTemplate("Jump Height", 200, 695, false, 95);
+        uiTemplate("Walk Speed", 345, getY(16), false, 105);
+        uiTemplate("Sprint Bonus", 345, getY(17), false, 105);
+        uiTemplate("Sprint Regen", 345, getY(18), false, 105);
+        uiTemplate("Jump Height", 345, getY(19), false, 105);
 
-        uiTemplate("Thorns", 370, 30, false, 80);
-        uiTemplate("Reflection", 370, 55, false, 80);
-        uiTemplate("Exploding", 370, 80, false, 80);
-        uiTemplate("Stealing", 370, 105, false, 80);
+        uiTemplate("Thorns", 510, getY(24), false, 115);
+        uiTemplate("Reflection", 510, getY(25), false, 115);
+        uiTemplate("Exploding", 510, getY(26), false, 115);
+        uiTemplate("Stealing", 510, getY(27), false, 115);
 
-        uiTemplate("Combat XP Bonus", 345, 150, false, 105);
-        uiTemplate("Gathering XP", 345, 175, false, 105);
-        uiTemplate("Gathering Speed", 345, 200, false, 105);
-        uiTemplate("Loot Bonus", 345, 225, false, 105);
-        uiTemplate("Loot Quality", 345, 250, false, 105);
-        uiTemplate("Soul Point Regen", 345, 275, false, 105);
+        uiTemplate("Combat XP Bonus", 345, getY(0), false, 105);
+        uiTemplate("Gathering XP", 345, getY(1), false, 105);
+        uiTemplate("Gathering Speed", 345, getY(2), false, 105);
+        uiTemplate("Loot Bonus", 345, getY(3), false, 105);
+        uiTemplate("Loot Quality", 345, getY(4), false, 105);
+        uiTemplate("Soul Point Regen", 345, getY(5), false, 105);
 
-        uiTemplate("Raw 1st Cost", 365, 320, false, 85);
-        uiTemplate("Raw 2nd Cost", 365, 345, false, 85);
-        uiTemplate("Raw 3rd Cost", 365, 370, false, 85);
-        uiTemplate("Raw 4th Cost", 365, 395, false, 85);
+        uiTemplate("Raw 1st Cost", 345, getY(7), false, 105);
+        uiTemplate("Raw 2nd Cost", 345, getY(8), false, 105);
+        uiTemplate("Raw 3rd Cost", 345, getY(9), false, 105);
+        uiTemplate("Raw 4th Cost", 345, getY(10), false, 105);
 
-        uiTemplate("1st Spell Cost %", 355, 420, false, 95);
-        uiTemplate("2nd Spell Cost %", 355, 445, false, 95);
-        uiTemplate("3rd Spell Cost %", 355, 470, false, 95);
-        uiTemplate("4th Spell Cost %", 355, 495, false, 95);
+        uiTemplate("1st Spell Cost %", 345, getY(11), false, 105);
+        uiTemplate("2nd Spell Cost %", 345, getY(12), false, 105);
+        uiTemplate("3rd Spell Cost %", 345, getY(13), false, 105);
+        uiTemplate("4th Spell Cost %", 345, getY(14), false, 105);
 
-        uiTemplate("Neutral Melee %", 350, 540, false, 100);
-        uiTemplate("Earth Melee %", 350, 565, false, 100);
-        uiTemplate("Thunder Melee %", 350, 590, false, 100);
-        uiTemplate("Water Melee %", 350, 615, false, 100);
-        uiTemplate("Fire Melee %", 350, 640, false, 100);
-        uiTemplate("Air Melee %", 350, 665, false, 100);
-        uiTemplate("Elem. Melee %", 350, 690, false, 100);
+        uiTemplate("Neutral Melee %", 345, getY(21), false, 105);
+        uiTemplate("Earth Melee %", 345, getY(22), false, 105);
+        uiTemplate("Thunder Melee %", 345, getY(23), false, 105);
+        uiTemplate("Water Melee %", 345, getY(24), false, 105);
+        uiTemplate("Fire Melee %", 345, getY(25), false, 105);
+        uiTemplate("Air Melee %", 345, getY(26), false, 105);
+        uiTemplate("Elem. Melee %", 345, getY(27), false, 105);
 
-        uiTemplate("Raw Neutral Melee", 510, 30, false, 110);
-        uiTemplate("Raw Earth Melee", 510, 55, false, 110);
-        uiTemplate("Raw Thunder Melee", 510, 80, false, 110);
-        uiTemplate("Raw Water Melee", 510, 105, false, 110);
-        uiTemplate("Raw Fire Melee", 510, 130, false, 110);
-        uiTemplate("Raw Air Melee", 510, 155, false, 110);
-        uiTemplate("Raw Elem. Melee", 510, 180, false, 110);
+        uiTemplate("Raw Neutral Melee", 510, getY(0), false, 115);
+        uiTemplate("Raw Earth Melee", 510, getY(1), false, 115);
+        uiTemplate("Raw Thunder Melee", 510, getY(2), false, 115);
+        uiTemplate("Raw Water Melee", 510, getY(3), false, 115);
+        uiTemplate("Raw Fire Melee", 510, getY(4), false, 115);
+        uiTemplate("Raw Air Melee", 510, getY(5), false, 115);
+        uiTemplate("Raw Elem. Melee", 510, getY(6), false, 115);
 
-        uiTemplate("Neutral Spell %", 520, 225, false, 100);
-        uiTemplate("Earth Spell %", 520, 250, false, 100);
-        uiTemplate("Thunder Spell %", 520, 275, false, 100);
-        uiTemplate("Water Spell %", 520, 300, false, 100);
-        uiTemplate("Fire Spell %", 520, 325, false, 100);
-        uiTemplate("Air Spell %", 520, 350, false, 100);
-        uiTemplate("Elem. Spell %", 520, 375, false, 100);
+        uiTemplate("Neutral Spell %", 510, getY(8), false, 115);
+        uiTemplate("Earth Spell %", 510, getY(9), false, 115);
+        uiTemplate("Thunder Spell %", 510, getY(10), false, 115);
+        uiTemplate("Water Spell %", 510, getY(11), false, 115);
+        uiTemplate("Fire Spell %", 510, getY(12), false, 115);
+        uiTemplate("Air Spell %", 510, getY(13), false, 115);
+        uiTemplate("Elem. Spell %", 510, getY(14), false, 115);
 
-        uiTemplate("Raw Neutral Spell", 510, 420, false, 110);
-        uiTemplate("Raw Earth Spell", 510, 445, false, 110);
-        uiTemplate("Raw Thunder Spell", 510, 470, false, 110);
-        uiTemplate("Raw Water Spell", 510, 495, false, 110);
-        uiTemplate("Raw Fire Spell", 510, 520, false, 110);
-        uiTemplate("Raw Air Spell", 510, 545, false, 110);
-        uiTemplate("Raw Elem. Spell", 510, 570, false, 110);
+        uiTemplate("Raw Neutral Spell", 510, getY(16), false, 115);
+        uiTemplate("Raw Earth Spell", 510, getY(17), false, 115);
+        uiTemplate("Raw Thunder Spell", 510, getY(18), false, 115);
+        uiTemplate("Raw Water Spell", 510, getY(19), false, 115);
+        uiTemplate("Raw Fire Spell", 510, getY(20), false, 115);
+        uiTemplate("Raw Air Spell", 510, getY(21), false, 115);
+        uiTemplate("Raw Elem. Spell", 510, getY(22), false, 115);
 
-        uiTemplate("Elem. Damage %", 510, 605, false, 110);
-        uiTemplate("Raw Elem. Damage", 510, 630, false, 110);
+        uiTemplate("Elem. Dam %", 20, getY(26), false, 95);
+        uiTemplate("Raw Elem. Dam", 180, getY(25), false, 105);
 
-        //TODO: Raw Neutral Damage, Raw Earth Damage, Raw Thunder Damage, Raw Water Damage, Raw Fire Damage, Raw Air Damage
+        uiTemplate("Raw Neutral Dam", 180, getY(19), false, 105);
+        uiTemplate("Raw Earth Dam", 180, getY(20), false, 105);
+        uiTemplate("Raw Thunder Dam", 180, getY(21), false, 105);
+        uiTemplate("Raw Water Dam", 180, getY(22), false, 105);
+        uiTemplate("Raw Fire Dam", 180, getY(23), false, 105);
+        uiTemplate("Raw Air Dam", 180, getY(24), false, 105);
 
-        variable.setBounds(510, 680, 100, 20);
+        variable.setBounds(185, 685, 90, 20);
 
-        create.setBounds(520, 710, 80, 40);
+        create.setBounds(675, 660, 80, 40);
         create.addActionListener(this);
 
-        load.setBounds(610, 710, 80, 40);
+        load.setBounds(675, 710, 80, 40);
         load.addActionListener(this);
 
-        itemText.setBounds(10, 730, 400, 20);
+        textScroll.setBounds(20, 715, 285, 40);
+        textScroll.setLayout(new BoxLayout(textScroll, BoxLayout.Y_AXIS));
+        JScrollBar textScrollBar = new JScrollBar(JScrollBar.HORIZONTAL);
+        textScrollBar.setUnitIncrement(20);
+        textScrollBar.setModel(itemText.getHorizontalVisibility());
+        textScroll.add(itemText);
+        textScroll.add(textScrollBar);
 
         display.setBorder(new LineBorder(Color.BLACK));
         display.setPreferredSize(new Dimension(270, 747));
         display.setLayout(null);
 
         scroll = new JScrollPane(display);
-        scroll.setBounds(750, 5, 288, 750);
+        scroll.setBounds(770, 5, 288, 750);
         scroll.getVerticalScrollBar().setUnitIncrement(20);
+
+        itemType.setBounds(300, 5, 100, 20);
+        itemType.addItem("Helmet");
+        itemType.addItem("Chestplate");
+        itemType.addItem("Leggings");
+        itemType.addItem("Boots");
+        itemType.addItem("Ring");
+        itemType.addItem("Bracelet");
+        itemType.addItem("Necklace");
+        itemType.addItem("Spear");
+        itemType.addItem("Dagger");
+        itemType.addItem("Bow");
+        itemType.addItem("Wand");
+        itemType.addItem("Relik");
+        itemType.addActionListener(this);
 
         pane.add(create);
         pane.add(load);
         pane.add(variable);
-        pane.add(itemText);
+        pane.add(textScroll);
         pane.add(scroll);
+        pane.add(itemType);
+    }
+
+    public static int getY(int i) {
+        return 30 + i * 25;
     }
 
     public void setCustomVisible(boolean visible) {
@@ -298,8 +337,38 @@ public class CustomUI implements ActionListener {
         variable.setVisible(visible);
         create.setVisible(visible);
         load.setVisible(visible);
-        itemText.setVisible(visible);
+        textScroll.setVisible(visible);
         scroll.setVisible(visible);
+        itemType.setVisible(visible);
+
+        if (visible) {
+            String selected = itemType.getItemAt(itemType.getSelectedIndex());
+            if (selected.equals("Spear") || selected.equals("Dagger") || selected.equals("Bow") || selected.equals("Wand") || selected.equals("Relik")) {
+                for (int i = 0; min.size() > i; ++i) {
+                    min.get(i).setVisible(true);
+                    max.get(i).setVisible(true);
+                    name.get(i + 13).setVisible(true);
+                }
+                for (int i = 7; 12 >= i; ++i) {
+                    notVariable.get(i).setVisible(false);
+                    name.get(i).setVisible(false);
+                }
+                name.get(19).setVisible(true);
+                atkSpdBox.setVisible(true);
+            } else { //Armor and Accessories
+                for (int i = 0; min.size() > i; ++i) {
+                    min.get(i).setVisible(false);
+                    max.get(i).setVisible(false);
+                    name.get(i + 13).setVisible(false);
+                }
+                for (int i = 7; 12 >= i; ++i) {
+                    notVariable.get(i).setVisible(true);
+                    name.get(i).setVisible(true);
+                }
+                name.get(19).setVisible(false);
+                atkSpdBox.setVisible(false);
+            }
+        }
     }
 
     @Override
@@ -308,6 +377,33 @@ public class CustomUI implements ActionListener {
             createCustomItem();
         } else if (e.getSource() == load) {
             loadCustomItem();
+        } else if (e.getSource() == itemType) {
+            String selected = itemType.getItemAt(itemType.getSelectedIndex());
+            if (selected.equals("Spear") || selected.equals("Dagger") || selected.equals("Bow") || selected.equals("Wand") || selected.equals("Relik")) {
+                for (int i = 0; min.size() > i; ++i) {
+                    min.get(i).setVisible(true);
+                    max.get(i).setVisible(true);
+                    name.get(i + 13).setVisible(true);
+                }
+                for (int i = 7; 12 >= i; ++i) {
+                    notVariable.get(i).setVisible(false);
+                    name.get(i).setVisible(false);
+                }
+                name.get(19).setVisible(true);
+                atkSpdBox.setVisible(true);
+            } else { //Armor and Accessories
+                for (int i = 0; min.size() > i; ++i) {
+                    min.get(i).setVisible(false);
+                    max.get(i).setVisible(false);
+                    name.get(i + 13).setVisible(false);
+                }
+                for (int i = 7; 12 >= i; ++i) {
+                    notVariable.get(i).setVisible(true);
+                    name.get(i).setVisible(true);
+                }
+                name.get(19).setVisible(false);
+                atkSpdBox.setVisible(false);
+            }
         }
     }
 
@@ -371,6 +467,7 @@ public class CustomUI implements ActionListener {
         }
 
         for (int i = 1; notVariable.size() > i; ++i) {
+            if (i >= 7 && i <= 12) continue;
             if (!notVariable.get(i).getText().isEmpty()) {
                 Identifications id = ID_FROM_NOT_VARIABLE_INT.get(i);
                 String s = "\"" + id.getItemName() + "\":" + notVariable.get(i).getText() + ",";
@@ -378,27 +475,44 @@ public class CustomUI implements ActionListener {
             }
         }
 
-        for (int i = 0; min.size() > i; ++i) {
-            if (!min.get(i).getText().isEmpty() || !max.get(i).getText().isEmpty()) {
-                if (min.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?") || max.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?")) {
-                    Identifications id = ID_FROM_VARIABLE_INT.get(i);
-                    String minNum = min.get(i).getText();
-                    String maxNum = max.get(i).getText();
+        String selectedType = itemType.getItemAt(itemType.getSelectedIndex());
+        if (selectedType.equals("Spear") || selectedType.equals("Dagger") || selectedType.equals("Bow") || selectedType.equals("Wand") || selectedType.equals("Relik")) {
+            //Neutral, Earth, Thunder, Water, Fire and Air Damage
+            for (int i = 0; min.size() > i; ++i) {
+                if (!min.get(i).getText().isEmpty() || !max.get(i).getText().isEmpty()) {
+                    if (min.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?") || max.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?")) {
+                        Identifications id = ID_FROM_VARIABLE_INT.get(i);
+                        String minNum = min.get(i).getText();
+                        String maxNum = max.get(i).getText();
 
-                    if (!maxNum.matches("[+-]?\\d*(\\.\\d+)?") || maxNum.isEmpty()) {
-                        maxNum = minNum;
-                    } else if (!minNum.matches("[+-]?\\d*(\\.\\d+)?") || minNum.isEmpty()) {
-                        minNum = maxNum;
+                        if (!maxNum.matches("[+-]?\\d*(\\.\\d+)?") || maxNum.isEmpty()) {
+                            maxNum = minNum;
+                        } else if (!minNum.matches("[+-]?\\d*(\\.\\d+)?") || minNum.isEmpty()) {
+                            minNum = maxNum;
+                        }
+
+                        String s = "\"" + id.getItemName() + "\":\"" + minNum + "-" + maxNum + "\",";
+                        itemData.append(s);
                     }
+                }
+            }
 
-                    String s = "\"" + id.getItemName() + "\":\"" + minNum + "-" + maxNum + "\",";
-                    itemData.append(s);
+            //Attack Speed
+            String atkSpdS = "\"" + Identifications.ATTACK_SPEED.getItemName() + "\":\"" + atkSpdBox.getItemAt(atkSpdBox.getSelectedIndex()) + "\",";
+            itemData.append(atkSpdS);
+        } else {
+            //Health, Earth Defense, Thunder Defense, Water Defense, Fire Defense and Air Defense
+            for (int i = 7; 12 >= i; ++i) {
+                if (!notVariable.get(i).getText().isEmpty()) {
+                    Identifications id = ID_FROM_NOT_VARIABLE_INT.get(i);
+                    String s = "\"" + id.getItemName() + "\":" + notVariable.get(i).getText() + ",";
+                    if (notVariable.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?")) itemData.append(s);
                 }
             }
         }
 
-        String atkSpdS = "\"" + Identifications.ATTACK_SPEED.getItemName() + "\":\"" + atkSpdBox.getItemAt(atkSpdBox.getSelectedIndex()) + "\",";
-        itemData.append(atkSpdS);
+        String itemTypeS = "\"type\":\"" + selectedType + "\",";
+        itemData.append(itemTypeS);
 
         if (variable.isSelected()) {
             itemData.append("\"tier\":\"Custom\",\"identified\":false}");
