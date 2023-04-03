@@ -33,6 +33,8 @@ public class CrafterUI implements ActionListener {
     private final JButton create = new JButton("Create");
     private final JButton load = new JButton("Load");
     private final JTextField output = new JTextField();
+    private final JPanel outputP = new JPanel();
+    private final JScrollBar outputB = new JScrollBar(JScrollBar.HORIZONTAL);
 
     private final JPanel created = new JPanel();
     private final JScrollPane createdScroll;
@@ -186,8 +188,13 @@ public class CrafterUI implements ActionListener {
 
         //Displays
         JLabel oText = new JLabel("Output / Load:");
-        oText.setBounds(350, 130, 80, 20);
-        output.setBounds(430, 130, 160, 20);
+        oText.setBounds(440, 120, 80, 20);
+        outputP.setBounds(520, 110, 200, 40);
+        outputP.setLayout(new BoxLayout(outputP, BoxLayout.Y_AXIS));
+        outputB.setUnitIncrement(20);
+        outputB.setModel(output.getHorizontalVisibility());
+        outputP.add(output);
+        outputP.add(outputB);
 
         ingPanel.setBorder(new LineBorder(Color.BLACK));
         created.setBorder(new LineBorder(Color.BLACK));
@@ -201,7 +208,7 @@ public class CrafterUI implements ActionListener {
         ingScroll.getVerticalScrollBar().setUnitIncrement(20);
         createdScroll.getVerticalScrollBar().setUnitIncrement(20);
         ingScroll.setBounds(10, 160, 548, 598);
-        createdScroll.setBounds(700, 10, 288, 748);
+        createdScroll.setBounds(730, 10, 288, 748);
 
         texts.add(recipeConnect);
         texts.add(typeText);
@@ -217,7 +224,7 @@ public class CrafterUI implements ActionListener {
         pane.add(material1);
         pane.add(material2);
         pane.add(create);
-        pane.add(output);
+        pane.add(outputP);
         pane.add(ingScroll);
         pane.add(createdScroll);
         pane.add(load);
@@ -241,7 +248,7 @@ public class CrafterUI implements ActionListener {
         material1.setVisible(visible);
         material2.setVisible(visible);
         create.setVisible(visible);
-        output.setVisible(visible);
+        outputP.setVisible(visible);
         createdScroll.setVisible(visible);
         ingScroll.setVisible(visible);
         load.setVisible(visible);

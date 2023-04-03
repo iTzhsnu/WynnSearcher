@@ -11,11 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +109,14 @@ public class BuilderUI implements ActionListener {
         load.setBounds(950, 280, 80, 40);
         load.addActionListener(this);
 
-        output.setBounds(800, 360, 250, 20);
+        JPanel outputP = new JPanel();
+        JScrollBar outputB = new JScrollBar(JScrollBar.HORIZONTAL);
+        outputP.setBounds(800, 330, 250, 40);
+        outputP.setLayout(new BoxLayout(outputP, BoxLayout.Y_AXIS));
+        outputB.setUnitIncrement(20);
+        outputB.setModel(output.getHorizontalVisibility());
+        outputP.add(output);
+        outputP.add(outputB);
 
         skillPoint = new SkillPoint(pane);
         damage_ids = new Damage_IDs(pane);
@@ -142,7 +145,7 @@ public class BuilderUI implements ActionListener {
         pane.add(update);
         pane.add(save);
         pane.add(load);
-        pane.add(output);
+        pane.add(outputP);
         pane.add(classes);
         for (JLabel l : texts) {
             pane.add(l);
