@@ -140,6 +140,7 @@ public enum SkillEnum {
     NIGHTCLOAK_KNIFE,
     DISSOLUTION,
     PIROUETTE,
+    EVEN_STRONGER_CLONES,
 
 
     //ARCHER
