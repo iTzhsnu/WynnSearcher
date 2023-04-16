@@ -915,7 +915,7 @@ public class SearchUI extends JFrame implements ActionListener {
                             if (id.getIngName() != null && id.getIngFieldPos() != null) {
                                 if (notHaveIngID(id_0, searchedItems.get(i), num, 1) && notHaveIngID(id_1, searchedItems.get(i), num, 2) && notHaveIngID(id_2, searchedItems.get(i), num, 3)) {
                                     if (!Objects.equals(id.getIDType(), "sum")) {
-                                        if (Objects.equals(id.getIngFieldPos(), "identifications") && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("minimum").getAsInt() != 0) {
+                                        if (Objects.equals(id.getIngFieldPos(), "identifications") && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("maximum").getAsInt() != 0) {
                                             remove = false;
                                         } else if (Objects.equals(id.getIngFieldPos(), "nothing") && searchedItems.get(i).get(id.getIngName()) != null && searchedItems.get(i).get(id.getIngName()).getAsInt() != 0) {
                                             remove = false;
@@ -970,7 +970,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (idPos >= needPos) {
             if (!Objects.equals(id.getIDType(), "sum")) {
                 if (id.getIngName() != null && id.getIngFieldPos() != null) {
-                    if (Objects.equals(id.getIngFieldPos(), "identifications") && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("minimum").getAsInt() != 0) {
+                    if (Objects.equals(id.getIngFieldPos(), "identifications") && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("maximum").getAsInt() != 0) {
                         return false;
                     } else if (Objects.equals(id.getIngFieldPos(), "nothing") && json.get(id.getIngName()).getAsInt() != 0) {
                         return false;
@@ -985,7 +985,7 @@ public class SearchUI extends JFrame implements ActionListener {
                     Identifications ids = id.getSum().getIds().get(n);
                     if (ids.getIngName() != null && ids.getIngFieldPos() != null) {
                         if (Objects.equals(ids.getIngFieldPos(), "identifications")) {
-                            if (json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null && json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("minimum").getAsInt() == 0) {
+                            if (json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null && json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("maximum").getAsInt() == 0) {
                                 needAll = false;
                             } else {
                                 need = true;

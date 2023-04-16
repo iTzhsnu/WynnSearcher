@@ -538,6 +538,9 @@ public class CrafterUI implements ActionListener {
         if (json.get("duration") != null && json.get("duration").getAsInt() != 0) {
             label.add(new JLabel("Duration: " + minJ.get("duration").getAsInt() + "-" + json.get("duration").getAsInt()));
         }
+        if (json.get("charges") != null && json.get("charges").getAsInt() != 0) {
+            label.add(new JLabel("Charges: " + json.get("charges").getAsInt()));
+        }
         label.add(new JLabel("Rarity: Crafted"));
 
         for (JLabel jLabel : label) {
