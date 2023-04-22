@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
-    public static final String VERSION = "3.0.5";
+    public static final String VERSION = "3.0.6";
 
     //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
@@ -541,7 +541,8 @@ public class SearchUI extends JFrame implements ActionListener {
                         boolean add = true;
                         JsonArray array = json.get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
-                            if (array.get(i).getAsString().contains("ARMOURING")) add = false;
+                            String s = array.get(i).getAsString();
+                            if (s.contains("ARMOURING")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -558,7 +559,7 @@ public class SearchUI extends JFrame implements ActionListener {
                         JsonArray array = json.get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (s.contains("ARMOURING") || s.contains("TAILORING")) add = false;
+                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -575,7 +576,7 @@ public class SearchUI extends JFrame implements ActionListener {
                         JsonArray array = json.get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (s.contains("ARMOURING") || s.contains("TAILORING") || s.contains("WEAPONSMITHING")) add = false;
+                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING") || hasIngType(s, "WEAPONSMITHING")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -592,7 +593,7 @@ public class SearchUI extends JFrame implements ActionListener {
                         JsonArray array = json.get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (s.contains("ARMOURING") || s.contains("TAILORING") || s.contains("WEAPONSMITHING") || s.contains("WOODWORKING")) add = false;
+                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING") || hasIngType(s, "WEAPONSMITHING") || hasIngType(s, "WOODWORKING")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -609,7 +610,7 @@ public class SearchUI extends JFrame implements ActionListener {
                         JsonArray array = json.get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (s.contains("ARMOURING") || s.contains("TAILORING") || s.contains("WEAPONSMITHING") || s.contains("WOODWORKING") && s.contains("JEWELING")) add = false;
+                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING") || hasIngType(s, "WEAPONSMITHING") || hasIngType(s, "WOODWORKING") || hasIngType(s, "JEWELING")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -626,7 +627,7 @@ public class SearchUI extends JFrame implements ActionListener {
                         JsonArray array = json.get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (s.contains("ARMOURING") || s.contains("TAILORING") || s.contains("WEAPONSMITHING") || s.contains("WOODWORKING") && s.contains("JEWELING") || s.contains("SCRIBING")) add = false;
+                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING") || hasIngType(s, "WEAPONSMITHING") || hasIngType(s, "WOODWORKING") || hasIngType(s, "JEWELING") || hasIngType(s, "SCRIBING")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -643,7 +644,7 @@ public class SearchUI extends JFrame implements ActionListener {
                         JsonArray array = json.get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (s.contains("ARMOURING") || s.contains("TAILORING") || s.contains("WEAPONSMITHING") || s.contains("WOODWORKING") && s.contains("JEWELING") || s.contains("SCRIBING") || s.contains("COOKING")) add = false;
+                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING") || hasIngType(s, "WEAPONSMITHING") || hasIngType(s, "WOODWORKING") || hasIngType(s, "JEWELING") || hasIngType(s, "SCRIBING") || hasIngType(s, "COOKING")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -676,6 +677,36 @@ public class SearchUI extends JFrame implements ActionListener {
         setDisplaySize();
 
         displayTime.setText((midTime - startTime) + "ms, " + (System.currentTimeMillis() - midTime) + "ms");
+    }
+
+    public boolean hasIngType(String thisName, String needName) {
+        JCheckBox needCheckBox = armouring;
+
+        switch (needName) {
+            case "TAILORING":
+                needCheckBox = tailoring;
+                break;
+            case "WEAPONSMITHING":
+                needCheckBox = weaponsmithing;
+                break;
+            case "WOODWORKING":
+                needCheckBox = woodworking;
+                break;
+            case "JEWELING":
+                needCheckBox = jeweling;
+                break;
+            case "SCRIBING":
+                needCheckBox = scribing;
+                break;
+            case "COOKING":
+                needCheckBox = cooking;
+                break;
+            case "ALCHEMISM":
+                needCheckBox = alchemism;
+                break;
+        }
+
+        return thisName.contains(needName) && needCheckBox.isSelected();
     }
 
     public void setItemJson() {
@@ -915,7 +946,7 @@ public class SearchUI extends JFrame implements ActionListener {
                             if (id.getIngName() != null && id.getIngFieldPos() != null) {
                                 if (notHaveIngID(id_0, searchedItems.get(i), num, 1) && notHaveIngID(id_1, searchedItems.get(i), num, 2) && notHaveIngID(id_2, searchedItems.get(i), num, 3)) {
                                     if (!Objects.equals(id.getIDType(), "sum")) {
-                                        if (Objects.equals(id.getIngFieldPos(), "identifications") && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("maximum").getAsInt() != 0) {
+                                        if (Objects.equals(id.getIngFieldPos(), "identifications") && searchedItems.get(i).get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
                                             remove = false;
                                         } else if (Objects.equals(id.getIngFieldPos(), "nothing") && searchedItems.get(i).get(id.getIngName()) != null && searchedItems.get(i).get(id.getIngName()).getAsInt() != 0) {
                                             remove = false;
@@ -970,7 +1001,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (idPos >= needPos) {
             if (!Objects.equals(id.getIDType(), "sum")) {
                 if (id.getIngName() != null && id.getIngFieldPos() != null) {
-                    if (Objects.equals(id.getIngFieldPos(), "identifications") && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("maximum").getAsInt() != 0) {
+                    if (Objects.equals(id.getIngFieldPos(), "identifications") && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
                         return false;
                     } else if (Objects.equals(id.getIngFieldPos(), "nothing") && json.get(id.getIngName()).getAsInt() != 0) {
                         return false;
@@ -985,7 +1016,7 @@ public class SearchUI extends JFrame implements ActionListener {
                     Identifications ids = id.getSum().getIds().get(n);
                     if (ids.getIngName() != null && ids.getIngFieldPos() != null) {
                         if (Objects.equals(ids.getIngFieldPos(), "identifications")) {
-                            if (json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null && json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("maximum").getAsInt() == 0) {
+                            if (json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
                                 needAll = false;
                             } else {
                                 need = true;
