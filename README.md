@@ -1,5 +1,6 @@
 # WynnSearcher
 Can Easy Search Wynncraft Item and Ingredients
+Updating the API used from Item API (legacy) and Ingredient API (v2) to Item API (v3)
 
 ## Requirement
 Java 8 or above  
