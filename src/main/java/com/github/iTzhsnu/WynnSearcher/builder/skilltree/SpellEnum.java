@@ -40,9 +40,15 @@ public enum SpellEnum {
 
       //Assassin
     //Spin Attack
+    SPIN_ATTACK(120, 0, 30, 0, 0, 0, 1),
+    DOUBLE_SPIN(-40, 0, 0, 0, 0, 0, 1),
+
     //Dash
     //Multihit
+    MULTIHIT(30, 0, 0, 10, 0, 0, 8),
+
     //Smoke Bomb
+    SMOKE_BOMB(25, 10, 5, 0, 0, 0, 1),
 
       //Archer
     //Arrow Storm
