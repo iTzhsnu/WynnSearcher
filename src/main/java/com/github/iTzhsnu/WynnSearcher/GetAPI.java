@@ -1,4 +1,3 @@
-//Thanks: soramame_256
 package com.github.iTzhsnu.WynnSearcher;
 
 import com.google.gson.JsonElement;
@@ -10,17 +9,185 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class GetAPI {
     public static final String WYNN_ITEM_API = "https://api.wynncraft.com/public_api.php?action=itemDB&category=all";
     public static final String WYNN_INGREDIENT_API = "https://api.wynncraft.com/v2/ingredient/search/tier/";
     public static final String WYNN_RECIPE_API = "https://api.wynncraft.com/v2/recipe/search/skill/";
+    public static final String WYNN_ITEM_V3_API = "https://web-api.wynncraft.com/api/v3/item/search";
 
     public GetAPI() {}
+
+    public static void main(String[] args) {
+        new GetAPI().getWynnAPIV3(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new JLabel());
+    }
+
+    public void getWynnAPIV3(List<JsonObject> equipAndWeapon, List<JsonObject> ingredients, List<JsonObject> otherItems, JLabel label) {
+        boolean connect = true;
+        JsonObject saveEquipAndWeaponJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
+        JsonObject saveIngredientJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
+        JsonObject saveOtherItemsJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
+        try {
+            //Load Items (1m20s Slow)
+            for (int i = 0; 8 > i; ++i) {
+                String s = "\"weapons\"";
+                switch (i) {
+                    case 1:
+                        s = "\"armour\"";
+                        break;
+                    case 2:
+                        s = "\"accessories\"";
+                        break;
+                    case 3:
+                        s = "\"tomes\"";
+                        break;
+                    case 4:
+                        s = "\"charms\"";
+                        break;
+                    case 5:
+                        s = "\"tools\"";
+                        break;
+                    case 6:
+                        s = "\"ingredients\"";
+                        break;
+                    case 7:
+                        s = "\"materials\"";
+                        break;
+                }
+
+                String post = "{\"query\":null,\"type\":[" + s + "],\"tier\":[],\"attackSpeed\":[],\"levelRange\":[0,110],\"professions\":[],\"identifications\":[]}";
+                int endPos = 1;
+                for (int n = 1; endPos >= n; ++n) {
+                    URLConnection urlConn = new URL(WYNN_ITEM_V3_API + "?page=" + n).openConnection();
+                    urlConn.setDoOutput(true);
+                    urlConn.setRequestProperty("Content-Type", "application/json");
+
+                    DataOutputStream dos = new DataOutputStream(urlConn.getOutputStream());
+                    dos.writeBytes(post);
+
+                    BufferedReader buffer = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), StandardCharsets.UTF_8));
+                    String line;
+                    StringBuilder builder = new StringBuilder();
+                    while ((line = buffer.readLine()) != null) {
+                        builder.append(line);
+                    }
+
+                    JsonObject json = JsonParser.parseString(builder.toString()).getAsJsonObject();
+                    if (json.get("results") != null) {
+                        if (n == 1) endPos = json.get("controller").getAsJsonObject().get("pages").getAsInt();
+                        Set<Map.Entry<String, JsonElement>> entries = json.get("results").getAsJsonObject().entrySet();
+                        for (Map.Entry<String, JsonElement> entry : entries) {
+                            JsonObject j = json.get("results").getAsJsonObject().get(entry.getKey()).getAsJsonObject();
+                            j.addProperty("name", entry.getKey());
+                            switch (i) {
+                                case 0: //Weapons
+                                case 1: //Armours
+                                case 2: //Accessories
+                                    equipAndWeapon.add(j);
+                                    saveEquipAndWeaponJ.get("items").getAsJsonArray().add(j);
+                                    break;
+                                case 6: //Ingredients
+                                    ingredients.add(j);
+                                    saveIngredientJ.get("items").getAsJsonArray().add(j);
+                                    break;
+                                case 3: //Tomes
+                                case 5: //Tools
+                                    otherItems.add(j);
+                                    saveOtherItemsJ.get("items").getAsJsonArray().add(j);
+                                    break;
+                                case 4: //Charms
+                                    j.addProperty("type", "charm");
+                                    otherItems.add(j);
+                                    saveOtherItemsJ.get("items").getAsJsonArray().add(j);
+                                    break;
+                                case 7: //Materials
+                                    j.addProperty("type", "material");
+                                    otherItems.add(j);
+                                    saveOtherItemsJ.get("items").getAsJsonArray().add(j);
+                                    break;
+                            }
+                            System.out.println(entry.getKey());
+                        }
+                    } else {
+                        connect = false;
+                    }
+
+                    buffer.close();
+                }
+            }
+
+            //Write File
+            if (connect) {
+                String path = Objects.requireNonNull(getClass().getResource("")).getPath();
+                if (path.contains("classes/java/main/com/github/iTzhsnu/WynnSearcher")) {
+                    path = path.replace("classes/java/main/com/github/iTzhsnu/WynnSearcher", "");
+                } else if (path.contains("WynnSearcher-" + SearchUI.VERSION + ".jar!/com/github/iTzhsnu/WynnSearcher/")) {
+                    path = path.replace("WynnSearcher-" + SearchUI.VERSION + ".jar!/com/github/iTzhsnu/WynnSearcher/", "");
+                    path = path.replace("file:", "");
+                }
+                FileWriter eawW = new FileWriter(path + "items_data/equip_and_weapons.json");
+                FileWriter ingW = new FileWriter(path + "items_data/ingredients.json");
+                FileWriter oItemsW = new FileWriter(path + "items_data/other_items.json");
+                eawW.write(saveEquipAndWeaponJ.toString());
+                ingW.write(saveIngredientJ.toString());
+                oItemsW.write(saveOtherItemsJ.toString());
+                eawW.close();
+                ingW.close();
+                oItemsW.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (connect) {
+            label.setText("Item API Latest");
+            label.setForeground(new Color(0, 169, 104));
+        } else {
+            label.setText("Using Archive");
+            label.setForeground(new Color(255, 255, 0));
+        }
+    }
+
+    public void loadArchiveV3API(List<JsonObject> equipAndWeapon, List<JsonObject> ingredients, List<JsonObject> otherItems, JLabel label) {
+        try {
+            String path = Objects.requireNonNull(getClass().getResource("")).getPath();
+            if (path.contains("classes/java/main/com/github/iTzhsnu/WynnSearcher")) {
+                path = path.replace("classes/java/main/com/github/iTzhsnu/WynnSearcher", "");
+            } else if (path.contains("WynnSearcher-" + SearchUI.VERSION + ".jar!/com/github/iTzhsnu/WynnSearcher/")) {
+                path = path.replace("WynnSearcher-" + SearchUI.VERSION + ".jar!/com/github/iTzhsnu/WynnSearcher/", "");
+                path = path.replace("file:", "");
+            }
+
+            JsonObject eawJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(path + "items_data/equip_and_weapons.json"), StandardCharsets.UTF_8))).getAsJsonObject();
+            JsonObject ingJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(path + "items_data/ingredients.json"), StandardCharsets.UTF_8))).getAsJsonObject();
+            JsonObject oItemsJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(path + "items_data/other_items.json"), StandardCharsets.UTF_8))).getAsJsonObject();
+
+            //Equip And Weapons
+            for (JsonElement je : eawJ.get("items").getAsJsonArray()) {
+                equipAndWeapon.add(je.getAsJsonObject());
+            }
+
+            //Ingredients
+            for (JsonElement je : ingJ.get("items").getAsJsonArray()) {
+                ingredients.add(je.getAsJsonObject());
+            }
+
+            //Other Items
+            for (JsonElement je : oItemsJ.get("items").getAsJsonArray()) {
+                otherItems.add(je.getAsJsonObject());
+            }
+
+            label.setText("Archive Loaded");
+            label.setForeground(new Color(0, 169, 104));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setItemData(List<JsonObject> list, JLabel label) {
         boolean connect = true;
