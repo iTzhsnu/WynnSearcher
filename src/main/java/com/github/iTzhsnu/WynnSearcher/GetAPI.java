@@ -96,12 +96,17 @@ public class GetAPI {
                                     saveIngredientJ.get("items").getAsJsonArray().add(j);
                                     break;
                                 case 3: //Tomes
-                                case 5: //Tools
+                                    j.addProperty("type", "tome");
                                     otherItems.add(j);
                                     saveOtherItemsJ.get("items").getAsJsonArray().add(j);
                                     break;
                                 case 4: //Charms
                                     j.addProperty("type", "charm");
+                                    otherItems.add(j);
+                                    saveOtherItemsJ.get("items").getAsJsonArray().add(j);
+                                    break;
+                                case 5: //Tools
+                                    j.addProperty("type", "tool");
                                     otherItems.add(j);
                                     saveOtherItemsJ.get("items").getAsJsonArray().add(j);
                                     break;
