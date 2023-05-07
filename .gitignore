@@ -1,4 +1,8 @@
 # プロジェクトの除外パス
 /.gradle/
-/build/
+/build/generated/
+/build/libs/
+/build/reports/
+/build/test-results/
+/build/tmp
 /.idea/
