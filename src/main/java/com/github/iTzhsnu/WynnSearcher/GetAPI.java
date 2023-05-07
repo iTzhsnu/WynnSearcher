@@ -4,6 +4,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import org.scijava.util.FileUtils;
+import org.scijava.util.Types;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +26,16 @@ public class GetAPI {
     public GetAPI() {}
 
     public static void main(String[] args) {
-        new GetAPI().getWynnAPIV3(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new JLabel());
+        System.out.println(new GetAPI().getFilePath("/items_data/equip_and_weapons.json"));
+    }
+
+    public File getFilePath(String path) {
+        String s = FileUtils.urlToFile(Types.location(GetAPI.class)).getParentFile().getPath().replaceAll("\\\\", "/") + path;
+        try {
+            return FileUtils.urlToFile(s);
+        } catch (IllegalArgumentException e) {
+         return new File(s);
+        }
     }
 
     public void getWynnAPIV3(List<JsonObject> equipAndWeapon, List<JsonObject> ingredients, List<JsonObject> otherItems, JLabel label) {
@@ -128,16 +139,9 @@ public class GetAPI {
 
             //Write File
             if (connect) {
-                String path = Objects.requireNonNull(getClass().getResource("")).getPath();
-                if (path.contains("classes/java/main/com/github/iTzhsnu/WynnSearcher")) {
-                    path = path.replace("classes/java/main/com/github/iTzhsnu/WynnSearcher", "");
-                } else if (path.contains("WynnSearcher-" + SearchUI.VERSION + ".jar!/com/github/iTzhsnu/WynnSearcher/")) {
-                    path = path.replace("WynnSearcher-" + SearchUI.VERSION + ".jar!/com/github/iTzhsnu/WynnSearcher/", "");
-                    path = path.replace("file:", "");
-                }
-                FileWriter eawW = new FileWriter(path + "items_data/equip_and_weapons.json");
-                FileWriter ingW = new FileWriter(path + "items_data/ingredients.json");
-                FileWriter oItemsW = new FileWriter(path + "items_data/other_items.json");
+                FileWriter eawW = new FileWriter(getFilePath("/items_data/equip_and_weapons.json"));
+                FileWriter ingW = new FileWriter(getFilePath("/items_data/ingredients.json"));
+                FileWriter oItemsW = new FileWriter(getFilePath("/items_data/other_items.json"));
                 eawW.write(saveEquipAndWeaponJ.toString());
                 ingW.write(saveIngredientJ.toString());
                 oItemsW.write(saveOtherItemsJ.toString());
@@ -160,17 +164,9 @@ public class GetAPI {
 
     public void loadArchiveV3API(List<JsonObject> equipAndWeapon, List<JsonObject> ingredients, List<JsonObject> otherItems, JLabel label) {
         try {
-            String path = Objects.requireNonNull(getClass().getResource("")).getPath();
-            if (path.contains("classes/java/main/com/github/iTzhsnu/WynnSearcher")) {
-                path = path.replace("classes/java/main/com/github/iTzhsnu/WynnSearcher", "");
-            } else if (path.contains("WynnSearcher-" + SearchUI.VERSION + ".jar!/com/github/iTzhsnu/WynnSearcher/")) {
-                path = path.replace("WynnSearcher-" + SearchUI.VERSION + ".jar!/com/github/iTzhsnu/WynnSearcher/", "");
-                path = path.replace("file:", "");
-            }
-
-            JsonObject eawJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(path + "items_data/equip_and_weapons.json"), StandardCharsets.UTF_8))).getAsJsonObject();
-            JsonObject ingJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(path + "items_data/ingredients.json"), StandardCharsets.UTF_8))).getAsJsonObject();
-            JsonObject oItemsJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(path + "items_data/other_items.json"), StandardCharsets.UTF_8))).getAsJsonObject();
+            JsonObject eawJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/equip_and_weapons.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+            JsonObject ingJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/ingredients.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+            JsonObject oItemsJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/other_items.json")), StandardCharsets.UTF_8))).getAsJsonObject();
 
             //Equip And Weapons
             for (JsonElement je : eawJ.get("items").getAsJsonArray()) {
