@@ -18,16 +18,10 @@ import java.util.List;
 import java.util.*;
 
 public class GetAPI {
-    public static final String WYNN_ITEM_API = "https://api.wynncraft.com/public_api.php?action=itemDB&category=all";
-    public static final String WYNN_INGREDIENT_API = "https://api.wynncraft.com/v2/ingredient/search/tier/";
     public static final String WYNN_RECIPE_API = "https://api.wynncraft.com/v2/recipe/search/skill/";
     public static final String WYNN_ITEM_V3_API = "https://web-api.wynncraft.com/api/v3/item/search";
 
     public GetAPI() {}
-
-    public static void main(String[] args) {
-        System.out.println(new GetAPI().getFilePath("/items_data/equip_and_weapons.json"));
-    }
 
     public File getFilePath(String path) {
         String s = FileUtils.urlToFile(Types.location(GetAPI.class)).getParentFile().getPath().replaceAll("\\\\", "/") + path;
@@ -157,7 +151,7 @@ public class GetAPI {
             label.setText("Item API Latest");
             label.setForeground(new Color(0, 169, 104));
         } else {
-            label.setText("Using Archive");
+            label.setText("Update Failed");
             label.setForeground(new Color(255, 255, 0));
         }
     }
@@ -187,94 +181,8 @@ public class GetAPI {
             label.setForeground(new Color(0, 169, 104));
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void setItemData(List<JsonObject> list, JLabel label) {
-        boolean connect = true;
-        try {
-            BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_ITEM_API).openStream(), StandardCharsets.UTF_8));
-            String line;
-            StringBuilder builder = new StringBuilder();
-
-            while ((line = buffer.readLine()) != null) {
-                builder.append(line);
-            }
-
-            JsonObject object = JsonParser.parseString(builder.toString()).getAsJsonObject();
-            if (object.get("items") != null) {
-                for (JsonElement je : object.get("items").getAsJsonArray()) {
-                    list.add(je.getAsJsonObject());
-                }
-            } else {
-                connect = false;
-            }
-
-            buffer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            connect = false;
-        }
-
-        if (connect) {
-            label.setText("Item API Connected");
-            label.setForeground(new Color(0, 169, 104));
-        } else {
-            label.setText("Using Archive");
+            label.setText("Load Failed");
             label.setForeground(new Color(255, 0, 0));
-            JsonObject j = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/archive_jsons/items.json")), StandardCharsets.UTF_8))).getAsJsonObject();
-            for (JsonElement je : j.get("items").getAsJsonArray()) {
-                list.add(je.getAsJsonObject());
-            }
-            if (j.get("request") != null) {
-                label.setText(new Timestamp(j.get("request").getAsJsonObject().get("timestamp").getAsLong() * 1000).toLocalDateTime().toLocalDate() + " Archive");
-            }
-        }
-    }
-
-    public void setIngredientData(List<JsonObject> list, JLabel label) {
-        boolean connect = true;
-        for (int i = 0; 3 >= i; ++i) {
-            try {
-                BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_INGREDIENT_API + i).openStream(), StandardCharsets.UTF_8));
-                String line;
-                StringBuilder builder = new StringBuilder();
-
-                while ((line = buffer.readLine()) != null) {
-                    builder.append(line);
-                }
-
-                JsonObject object = JsonParser.parseString(builder.toString()).getAsJsonObject();
-                if (object.get("data") != null) {
-                    for (JsonElement je : object.get("data").getAsJsonArray()) {
-                        list.add(je.getAsJsonObject());
-                    }
-                } else {
-                    connect = false;
-                }
-
-                buffer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                connect = false;
-            }
-        }
-
-        if (connect) {
-            label.setText("Ingredient API Connected");
-            label.setForeground(new Color(0, 169, 104));
-        } else {
-            label.setText("Using Archive");
-            label.setForeground(new Color(255, 0, 0));
-            for (int i = 0; 3 >= i; ++i) {
-                JsonObject j = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/archive_jsons/ings_" + i + ".json")), StandardCharsets.UTF_8))).getAsJsonObject();
-                for (JsonElement je : j.get("data").getAsJsonArray()) {
-                    list.add(je.getAsJsonObject());
-                }
-                if (i == 0 && j.get("request") != null) {
-                    label.setText(new Timestamp(j.get("request").getAsJsonObject().get("timestamp").getAsLong() * 1000).toLocalDateTime().toLocalDate() + " Archive");
-                }
-            }
         }
     }
 

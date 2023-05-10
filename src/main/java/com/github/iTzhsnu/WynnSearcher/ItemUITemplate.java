@@ -1,5 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.swing.*;
@@ -121,18 +123,25 @@ public class ItemUITemplate extends JPanel {
        put(7, Identifications.RAW_4TH_SPELL_COST);
     }};
 
-    public ItemUITemplate(JsonObject json, boolean ing, JPanel previous, JPanel above, int uiWidth, float totalValue, boolean isCustom) {
+    public ItemUITemplate(JsonObject json, String type, JPanel previous, JPanel above, int uiWidth, float totalValue, boolean isCustom) {
         this.json = json;
         this.totalValue = totalValue;
         this.isCustom = isCustom;
         int urlSize = 0;
 
-        if (ing) {
-            setIngDisplay();
-            if (!isCustom) urlSize = 32;
-        } else {
-            setItemDisplay();
-            if (!isCustom) urlSize = 56;
+        switch (type) {
+            case "item":
+                setItemDisplay();
+                if (!isCustom) urlSize = 56;
+                break;
+            case "ingredient":
+                setIngDisplay();
+                if (!isCustom) urlSize = 32;
+                break;
+            case "other":
+                setOtherDisplay();
+                if (!isCustom && !json.get("type").getAsString().equals("charm") && !json.get("type").getAsString().equals("tome")) urlSize = 32;
+                break;
         }
 
         if (previous != null) {
@@ -155,44 +164,49 @@ public class ItemUITemplate extends JPanel {
         }
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        if (!ing && json.get("tier") != null) {
-            switch (json.get("tier").getAsString()) {
-                case "Unique":
-                    setBackground(new Color(252, 242, 99));
-                    break;
-                case "Rare":
-                    setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
-                    break;
-                case "Legendary":
-                    setBackground(new Color(135, 206, 250));
-                    break;
-                case "Fabled":
-                    setBackground(new Color(220, 107, 154)); //OLD COLOR 255 81 81
-                    break;
-                case "Mythic":
-                    setBackground(new Color(145, 93, 163));
-                    break;
-                case "Set":
-                    setBackground(new Color(121, 192, 110)); //OLD COLOR 85 255 85
-                    break;
-                default:
-                    setBackground(new Color(230, 230, 230));
-                    break;
-            }
-        } else if (ing && json.get("tier") != null) {
-            switch (json.get("tier").getAsInt()) {
-                case 1:
-                    setBackground(new Color(252, 242, 99));
-                    break;
-                case 2:
-                    setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
-                    break;
-                case 3:
-                    setBackground(new Color(135, 206, 250));
-                    break;
-                default:
-                    setBackground(new Color(230, 230, 230));
-                    break;
+        if (json.get("tier") != null) {
+            try {
+                switch (json.get("tier").getAsInt()) {
+                    case 1:
+                        setBackground(new Color(252, 242, 99));
+                        break;
+                    case 2:
+                        setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
+                        break;
+                    case 3:
+                        setBackground(new Color(135, 206, 250));
+                        break;
+                    default:
+                        setBackground(new Color(230, 230, 230));
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                switch (json.get("tier").getAsString()) {
+                    case "unique":
+                        setBackground(new Color(252, 242, 99));
+                        break;
+                    case "rare":
+                        setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
+                        break;
+                    case "legendary":
+                        setBackground(new Color(135, 206, 250));
+                        break;
+                    case "fabled":
+                        setBackground(new Color(220, 107, 154)); //OLD COLOR 255 81 81
+                        break;
+                    case "mythic":
+                        setBackground(new Color(145, 93, 163));
+                        break;
+                    case "set":
+                        setBackground(new Color(121, 192, 110)); //OLD COLOR 85 255 85
+                        break;
+                    case "crafted":
+                        setBackground(new Color(0, 175, 204));
+                        break;
+                    default:
+                        setBackground(new Color(230, 230, 230));
+                        break;
+                }
             }
         }
         setVisible(true);
@@ -213,14 +227,9 @@ public class ItemUITemplate extends JPanel {
         builderButton.setForeground(Color.BLUE);
         builderButton.addActionListener(new OpenURLAction());
 
-        if (json.get("displayName") == null) {
+        if (json.get("name") != null) {
             label.add(new JLabel(json.get("name").getAsString()));
             String name = json.get("name").getAsString().replaceAll(" ", "%20");
-            dataButton.setToolTipText("https://www.wynndata.tk/i/" + name);
-            builderButton.setToolTipText("https://hppeng-wynn.github.io/item/#" + name);
-        } else {
-            label.add(new JLabel(json.get("displayName").getAsString()));
-            String name = json.get("displayName").getAsString().replaceAll(" ", "%20");
             dataButton.setToolTipText("https://www.wynndata.tk/i/" + name);
             builderButton.setToolTipText("https://hppeng-wynn.github.io/item/#" + name);
         }
@@ -237,114 +246,129 @@ public class ItemUITemplate extends JPanel {
 
         label.add(new JLabel(" "));
 
-        if (json.get("health") != null && json.get("health").getAsInt() != 0) {
-            label.add(new JLabel("Health: " + setPlus(json.get("health").getAsInt())));
-        }
+        if (json.get("base") != null) {
+            JsonObject j = json.get("base").getAsJsonObject();
+            if (j.get(Identifications.HEALTH.getItemName()) != null && j.get(Identifications.HEALTH.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Health: " + setPlus(j.get(Identifications.HEALTH.getItemName()).getAsInt())));
+            }
 
-        if (json.get("earthDefense") != null && json.get("earthDefense").getAsInt() != 0) {
-            label.add(new JLabel("Earth Defense: " + setPlus(json.get("earthDefense").getAsInt())));
-        }
+            if (j.get(Identifications.EARTH_DEFENSE.getItemName()) != null && j.get(Identifications.EARTH_DEFENSE.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Earth Defense: " + setPlus(j.get(Identifications.EARTH_DEFENSE.getItemName()).getAsInt())));
+            }
 
-        if (json.get("thunderDefense") != null && json.get("thunderDefense").getAsInt() != 0) {
-            label.add(new JLabel("Thunder Defense: " + setPlus(json.get("thunderDefense").getAsInt())));
-        }
+            if (j.get(Identifications.THUNDER_DEFENSE.getItemName()) != null && j.get(Identifications.THUNDER_DEFENSE.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Thunder Defense: " + setPlus(j.get(Identifications.THUNDER_DEFENSE.getItemName()).getAsInt())));
+            }
 
-        if (json.get("waterDefense") != null && json.get("waterDefense").getAsInt() != 0) {
-            label.add(new JLabel("Water Defense: " + setPlus(json.get("waterDefense").getAsInt())));
-        }
+            if (j.get(Identifications.WATER_DEFENSE.getItemName()) != null && j.get(Identifications.WATER_DEFENSE.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Water Defense: " + setPlus(j.get(Identifications.WATER_DEFENSE.getItemName()).getAsInt())));
+            }
 
-        if (json.get("fireDefense") != null && json.get("fireDefense").getAsInt() != 0) {
-            label.add(new JLabel("Fire Defense: " + setPlus(json.get("fireDefense").getAsInt())));
-        }
+            if (j.get(Identifications.FIRE_DEFENSE.getItemName()) != null && j.get(Identifications.FIRE_DEFENSE.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Fire Defense: " + setPlus(j.get(Identifications.FIRE_DEFENSE.getItemName()).getAsInt())));
+            }
 
-        if (json.get("airDefense") != null && json.get("airDefense").getAsInt() != 0) {
-            label.add(new JLabel("Air Defense: " + setPlus(json.get("airDefense").getAsInt())));
-        }
+            if (j.get(Identifications.AIR_DEFENSE.getItemName()) != null && j.get(Identifications.AIR_DEFENSE.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Air Defense: " + setPlus(j.get(Identifications.AIR_DEFENSE.getItemName()).getAsInt())));
+            }
 
-        if (json.get("damage") != null && !Objects.equals(json.get("damage").getAsString(), "0-0")) {
-            label.add(new JLabel("Neutral Damage: " + json.get("damage").getAsString()));
-        }
+            if (j.get(Identifications.NEUTRAL_DAMAGE.getItemName()) != null) {
+                label.add(new JLabel("Neutral Damage: " + j.get(Identifications.NEUTRAL_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.NEUTRAL_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
+            }
 
-        if (json.get("earthDamage") != null && !Objects.equals(json.get("earthDamage").getAsString(), "0-0")) {
-            label.add(new JLabel("Earth Damage: " + json.get("earthDamage").getAsString()));
-        }
+            if (j.get(Identifications.EARTH_DAMAGE.getItemName()) != null) {
+                label.add(new JLabel("Earth Damage: " + j.get(Identifications.EARTH_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.EARTH_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
+            }
 
-        if (json.get("thunderDamage") != null && !Objects.equals(json.get("thunderDamage").getAsString(), "0-0")) {
-            label.add(new JLabel("Thunder Damage: " + json.get("thunderDamage").getAsString()));
-        }
+            if (j.get(Identifications.THUNDER_DAMAGE.getItemName()) != null) {
+                label.add(new JLabel("Thunder Damage: " + j.get(Identifications.THUNDER_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.THUNDER_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
+            }
 
-        if (json.get("waterDamage") != null && !Objects.equals(json.get("waterDamage").getAsString(), "0-0")) {
-            label.add(new JLabel("Water Damage: " + json.get("waterDamage").getAsString()));
-        }
+            if (j.get(Identifications.WATER_DAMAGE.getItemName()) != null) {
+                label.add(new JLabel("Water Damage: " + j.get(Identifications.WATER_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.WATER_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
+            }
 
-        if (json.get("fireDamage") != null && !Objects.equals(json.get("fireDamage").getAsString(), "0-0")) {
-            label.add(new JLabel("Fire Damage: " + json.get("fireDamage").getAsString()));
-        }
+            if (j.get(Identifications.FIRE_DAMAGE.getItemName()) != null) {
+                label.add(new JLabel("Fire Damage: " + j.get(Identifications.FIRE_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.FIRE_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
+            }
 
-        if (json.get("airDamage") != null && !Objects.equals(json.get("airDamage").getAsString(), "0-0")) {
-            label.add(new JLabel("Air Damage: " + json.get("airDamage").getAsString()));
+            if (j.get(Identifications.AIR_DAMAGE.getItemName()) != null) {
+                label.add(new JLabel("Air Damage: " + j.get(Identifications.AIR_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.AIR_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
+            }
         }
 
         label.add(new JLabel(" "));
 
-        if (json.get("level") != null) {
-            label.add(new JLabel("Combat Lv. Min: " + json.get("level").getAsInt()));
-        }
+        if (json.get("requirements") != null) {
+            JsonObject j = json.get("requirements").getAsJsonObject();
+            if (j.get(Identifications.LEVEL.getItemName()) != null) {
+                label.add(new JLabel("Combat Lv. Min: " + j.get(Identifications.LEVEL.getItemName()).getAsInt()));
+            }
 
-        if (json.get("strength") != null && json.get("strength").getAsInt() != 0) {
-            label.add(new JLabel("Strength Req: " + json.get("strength").getAsInt()));
-        }
+            if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Strength Req: " + j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt()));
+            }
 
-        if (json.get("dexterity") != null && json.get("dexterity").getAsInt() != 0) {
-            label.add(new JLabel("Dexterity Req: " + json.get("dexterity").getAsInt()));
-        }
+            if (j.get(Identifications.DEXTERITY_REQ.getItemName()) != null && j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Dexterity Req: " + j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt()));
+            }
 
-        if (json.get("intelligence") != null && json.get("intelligence").getAsInt() != 0) {
-            label.add(new JLabel("Intelligence Req: " + json.get("intelligence").getAsInt()));
-        }
+            if (j.get(Identifications.INTELLIGENCE_REQ.getItemName()) != null && j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Intelligence Req: " + j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt()));
+            }
 
-        if (json.get("defense") != null && json.get("defense").getAsInt() != 0) {
-            label.add(new JLabel("Defense Req: " + json.get("defense").getAsInt()));
-        }
+            if (j.get(Identifications.DEFENSE_REQ.getItemName()) != null && j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Defense Req: " + j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt()));
+            }
 
-        if (json.get("agility") != null && json.get("agility").getAsInt() != 0) {
-            label.add(new JLabel("Agility Req: " + json.get("agility").getAsInt()));
-        }
+            if (j.get(Identifications.AGILITY_REQ.getItemName()) != null && j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt() != 0) {
+                label.add(new JLabel("Agility Req: " + j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt()));
+            }
 
-        if (json.get("quest") != null && !json.get("quest").isJsonNull()) {
-            label.add(new JLabel("Quest Req: " + json.get("quest").getAsString()));
+            if (j.get(Identifications.QUEST_REQ.getItemName()) != null) {
+                label.add(new JLabel("Quest Req: " + j.get(Identifications.QUEST_REQ.getItemName()).getAsString()));
+            }
         }
 
         label.add(new JLabel(" "));
 
         for (int i = 0; 76 >= i; ++i) {
             Identifications id = ITEM_IDS.get(i);
-            if (json.get(id.getItemName()) != null && json.get(id.getItemName()).getAsInt() != 0) {
-                if (!id.isItemVariable() || json.get("identified") != null && json.get("identified").getAsBoolean()) {
-                    label.add(new JLabel(id.getDisplayName() + " " + setPlus(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp()));
-                } else {
-                    label.add(new JLabel(getMin(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getMax(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp()));
+            if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
+                JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+                if (!j.isJsonObject()) {
+                    label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
+                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
+                    String minOrMax = "max";
+                    if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
+                    label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt())) + id.getDisplaySp()));
+                } else if (id.isItemVariable()) {
+                    label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                 }
             }
         }
 
         for (int i = 0; 7 >= i; ++i) {
             Identifications id = REVERSED_ITEM_IDS.get(i);
-            if (json.get(id.getItemName()) != null && json.get(id.getItemName()).getAsInt() != 0) {
-                if (!id.isItemVariable() || json.get("identified") != null && json.get("identified").getAsBoolean()) {
-                    label.add(new JLabel(id.getDisplayName() + " " + setPlus(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp()));
+            if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
+                JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+                if (!j.isJsonObject()) {
+                    label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
+                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
+                    label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt())) + id.getDisplaySp()));
                 } else {
-                    label.add(new JLabel(getReversedMax(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(json.get(id.getItemName()).getAsInt()) + id.getDisplaySp()));
+                    int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
+                    label.add(new JLabel(getReversedMax(base) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(base) + id.getDisplaySp()));
                 }
             }
         }
 
         label.add(new JLabel(" "));
-        if (json.get("sockets") != null && json.get("sockets").getAsInt() != 0) {
-            label.add(new JLabel("Powder Slots: " + json.get("sockets").getAsInt()));
+        if (json.get(Identifications.POWDER_SLOTS.getItemName()) != null && json.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() != 0) {
+            label.add(new JLabel("Powder Slots: " + json.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt()));
         }
-        if (json.get("majorIds") != null && json.get("majorIds").getAsJsonArray() != null) {
-            label.add(new JLabel("Major ID: " + json.get("majorIds").getAsJsonArray().get(0).getAsString()));
+        if (json.get(Identifications.MAJOR_IDS.getItemName()) != null) {
+            label.add(new JLabel("Major ID: " + json.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString()));
         }
         if (json.get("tier") != null) {
             label.add(new JLabel("Rarity: " + json.get("tier").getAsString()));
@@ -379,20 +403,17 @@ public class ItemUITemplate extends JPanel {
         dataButton.setForeground(Color.BLUE);
         dataButton.addActionListener(new OpenURLAction());
 
-        if (json.get("displayName") == null) {
+        if (json.get("name") != null) {
             label.add(new JLabel(json.get("name").getAsString()));
             dataButton.setToolTipText("https://www.wynndata.tk/i/" + json.get("name").getAsString().replaceAll(" ", "%20"));
-        } else {
-            label.add(new JLabel(json.get("displayName").getAsString()));
-            dataButton.setToolTipText("https://www.wynndata.tk/i/" + json.get("displayName").getAsString().replaceAll(" ", "%20"));
         }
 
         if (json.get("tier") != null) {
             label.add(new JLabel("Star: " + json.get("tier").getAsInt()));
         }
 
-        if (json.get("level") != null) {
-            label.add(new JLabel("Lv. Min: " + json.get("level").getAsInt()));
+        if (json.get("requirements") != null && json.get("requirements").getAsJsonObject().get("level") != null) {
+            label.add(new JLabel("Lv. Min: " + json.get("requirements").getAsJsonObject().get("level").getAsInt()));
         }
 
         label.add(new JLabel(" "));
@@ -401,7 +422,7 @@ public class ItemUITemplate extends JPanel {
             JsonObject j = json.getAsJsonObject("itemOnlyIDs").getAsJsonObject();
             boolean run = false;
             if (j.get("durabilityModifier") != null && j.get("durabilityModifier").getAsInt() != 0) {
-                label.add(new JLabel("Durability: " + setPlus(j.get("durabilityModifier").getAsInt())));
+                label.add(new JLabel("Durability: " + setPlus(j.get("durabilityModifier").getAsInt() / 1000)));
                 run = true;
             }
             if (j.get("strengthRequirement") != null && j.get("strengthRequirement").getAsInt() != 0) {
@@ -478,8 +499,11 @@ public class ItemUITemplate extends JPanel {
             for (int i = 0; 76 >= i; ++i) {
                 Identifications id = ITEM_IDS.get(i);
                 if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
-                    JsonObject jo = j.get(id.getIngName()).getAsJsonObject();
-                    label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(jo.get("maximum").getAsInt()) + id.getDisplaySp()));
+                    JsonElement je = j.get(id.getIngName());
+                    if (!je.isJsonObject()) {
+                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(je.getAsInt()) + id.getDisplaySp()));
+                    }
+                    label.add(new JLabel(setPlus(je.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                     run = true;
                 }
             }
@@ -487,8 +511,11 @@ public class ItemUITemplate extends JPanel {
             for (int i = 0; 7 >= i; ++i) {
                 Identifications id = REVERSED_ITEM_IDS.get(i);
                 if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
-                    JsonObject jo = j.get(id.getIngName()).getAsJsonObject();
-                    label.add(new JLabel(setPlus(jo.get("minimum").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(jo.get("maximum").getAsInt()) + id.getDisplaySp()));
+                    JsonElement je = j.get(id.getIngName());
+                    if (!je.isJsonObject()) {
+                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(je.getAsInt()) + id.getDisplaySp()));
+                    }
+                    label.add(new JLabel(setPlus(je.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                     run = true;
                 }
             }
@@ -496,10 +523,11 @@ public class ItemUITemplate extends JPanel {
             if (run) label.add(new JLabel(" "));
         }
 
-        if (json.get("skills") != null) {
+        if (json.get("requirements") != null && json.get("requirements").getAsJsonObject().get("skills") != null) {
+            JsonArray j = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
             label.add(new JLabel("Can Use:"));
-            for (int i = 0; json.get("skills").getAsJsonArray().size() > i; ++i) {
-                label.add(new JLabel(json.get("skills").getAsJsonArray().get(i).getAsString()));
+            for (int i = 0; j.size() > i; ++i) {
+                label.add(new JLabel(j.get(i).getAsString()));
             }
             label.add(new JLabel(" "));
         }
@@ -511,6 +539,154 @@ public class ItemUITemplate extends JPanel {
         }
 
         add(dataButton);
+
+        JLabel sortValue = new JLabel("Sort Value: " + totalValue);
+        sortValue.setForeground(Color.DARK_GRAY);
+        add(sortValue);
+    }
+
+    public void setOtherDisplay() {
+        String type = json.get("type").getAsString();
+        JButton dataButton = new JButton("Open Wynndata");
+        dataButton.setBorderPainted(false);
+        dataButton.setOpaque(false);
+        dataButton.setBackground(Color.WHITE);
+        dataButton.setForeground(Color.BLUE);
+        dataButton.addActionListener(new OpenURLAction());
+
+        if (json.get("name") != null) {
+            label.add(new JLabel(json.get("name").getAsString()));
+            String s = json.get("name").getAsString().replaceAll(" ", "%20");
+            if (type.equals("tool")) {
+                s = s.substring(4);
+            } else if (type.equals("material")) {
+                s = "Refined%20" + json.get("name").getAsString().replaceAll(" ", "%20");
+            }
+            dataButton.setToolTipText("https://www.wynndata.tk/i/" + s);
+        }
+
+        if (type.equals("material") && json.get("tier") != null) {
+            label.add(new JLabel("Star: " + json.get("tier").getAsInt()));
+        }
+
+        if (json.get("requirements") != null && json.get("requirements").getAsJsonObject().get("level") != null) {
+            int i = json.get("requirements").getAsJsonObject().get("level").getAsInt();
+            switch (type) {
+                case "tome":
+                case "charm":
+                    label.add(new JLabel("Combat Lv. Min: " + i));
+                    break;
+                case "tool":
+                    switch (json.get("toolType").getAsString()) {
+                        case "pickaxe":
+                            label.add(new JLabel("Mining Lv. Min: " + i));
+                            break;
+                        case "axe":
+                            label.add(new JLabel("Woodcutting Lv. Min: " + i));
+                            break;
+                        case "scythe":
+                            label.add(new JLabel("Farming Lv. Min: " + i));
+                            break;
+                        case "rod":
+                            label.add(new JLabel("Fishing Lv. Min: " + i));
+                            break;
+                    }
+                    break;
+                case "material":
+                    label.add(new JLabel("Lv. Min: " + i));
+                    break;
+            }
+        }
+
+        label.add(new JLabel(" "));
+
+        if (json.get("gatheringSpeed") != null) { //Tools
+            String s = "Slow";
+            int i = json.get("gatheringSpeed").getAsInt();
+            if (i >= 120) {
+                s = "Very Fast";
+            } else if (i >= 65) {
+                s = "Fast";
+            } else if (i == 45) {
+                s = "Normal";
+            }
+            label.add(new JLabel("Gathering Speed: " + i + " (" + s + ")"));
+        }
+
+        if (json.get("craftable") != null) { //Material
+            label.add(new JLabel("Use this material to craft"));
+            for (JsonElement j : json.get("craftable").getAsJsonArray()) {
+                label.add(new JLabel(j.getAsString()));
+            }
+        }
+
+        if (type.equals("tome") && json.get("base") != null) { //Tome
+            JsonObject j = json.get("base").getAsJsonObject();
+            if (j.get("damageToMobs") != null) label.add(new JLabel("+" + j.get("damageToMobs").getAsInt() + "% Damage to Mobs"));
+            if (j.get("defenceToMobs") != null) label.add(new JLabel("+" + j.get("defenceToMobs").getAsInt() + "% Mob Damage Resistance"));
+            if (j.get("dungeonXP") != null) label.add(new JLabel("+" + j.get("dungeonXP").getAsInt() + "% Dungeon XP"));
+            if (j.get("gatheringXP") != null) label.add(new JLabel("+" + j.get("gatheringXP").getAsInt() + "% Gathering XP"));
+            if (j.get("slayingXP") != null) label.add(new JLabel("+" + j.get("slayingXP").getAsInt() + "% Slaying XP"));
+            label.add(new JLabel(" "));
+        }
+
+        if (type.equals("charm") && json.get("base") != null && json.get("requirements") != null) {
+            JsonObject j = json.get("base").getAsJsonObject();
+            int min = json.get("requirements").getAsJsonObject().get("levelRange").getAsJsonObject().get("min").getAsInt();
+            int max = json.get("requirements").getAsJsonObject().get("levelRange").getAsJsonObject().get("max").getAsInt();
+
+            if (j.get("leveledXpBonus") != null) label.add(new JLabel(getMin(j.get("leveledXpBonus").getAsInt()) + "% XP from Lv." + min + "-" + max + " contents " + getMax(j.get("leveledXpBonus").getAsInt()) + "%"));
+            if (j.get("damageFromMobs") != null) label.add(new JLabel(getMin(j.get("damageFromMobs").getAsInt()) + "% Damage taken from mobs " + getMax(j.get("damageFromMobs").getAsInt()) + "%"));
+            if (j.get("leveledLootBonus") != null) label.add(new JLabel(getMin(j.get("leveledLootBonus").getAsInt()) + "% XP from Lv." + min + "-" + max + " contents " + getMax(j.get("leveledLootBonus").getAsInt()) + "%"));
+        }
+
+        if (type.equals("tome") || type.equals("charm")) { //IDs
+            for (int i = 0; 76 >= i; ++i) {
+                Identifications id = ITEM_IDS.get(i);
+                if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
+                    JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+                    if (!j.isJsonObject()) {
+                        label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
+                    } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
+                        String minOrMax = "max";
+                        if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
+                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt())) + id.getDisplaySp()));
+                    } else if (id.isItemVariable()) {
+                        label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                    }
+                }
+            }
+
+            for (int i = 0; 7 >= i; ++i) {
+                Identifications id = REVERSED_ITEM_IDS.get(i);
+                if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
+                    JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+                    if (!j.isJsonObject()) {
+                        label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
+                    } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
+                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt())) + id.getDisplaySp()));
+                    } else {
+                        int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
+                        label.add(new JLabel(getReversedMax(base) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(base) + id.getDisplaySp()));
+                    }
+                }
+            }
+        }
+
+        label.add(new JLabel(" "));
+
+        if (!type.equals("material") && !type.equals("tool") && json.get("tier") != null) {
+            label.add(new JLabel("Rarity: " + json.get("tier").getAsString()));
+            label.add(new JLabel(" "));
+        }
+
+        if (!type.equals("tome") && !type.equals("charm")) label.add(new JLabel("External Links"));
+
+        for (JLabel jLabel : label) {
+            add(jLabel);
+        }
+
+        if (!type.equals("tome") && !type.equals("charm")) add(dataButton);
 
         JLabel sortValue = new JLabel("Sort Value: " + totalValue);
         sortValue.setForeground(Color.DARK_GRAY);
