@@ -302,7 +302,7 @@ public class ItemUITemplate extends JPanel {
         if (json.get("requirements") != null) {
             JsonObject j = json.get("requirements").getAsJsonObject();
             if (j.get(Identifications.LEVEL.getItemName()) != null) {
-                label.add(new JLabel("Combat Lv. Min: " + j.get(Identifications.LEVEL.getItemName()).getAsInt()));
+                label.add(new JLabel("Combat Lv. Min: " + j.get(Identifications.LEVEL.getItemName()).getAsString()));
             }
 
             if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {
@@ -367,15 +367,31 @@ public class ItemUITemplate extends JPanel {
         if (json.get(Identifications.POWDER_SLOTS.getItemName()) != null && json.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() != 0) {
             label.add(new JLabel("Powder Slots: " + json.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt()));
         }
+
         if (json.get(Identifications.MAJOR_IDS.getItemName()) != null) {
             label.add(new JLabel("Major ID: " + json.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString()));
         }
+
         if (json.get("tier") != null) {
             label.add(new JLabel("Rarity: " + json.get("tier").getAsString()));
         }
+
+        if (json.get("durability") != null) {
+            label.add(new JLabel("Durability: " + json.get("durability").getAsString()));
+        }
+
+        if (json.get("duration") != null) {
+            label.add(new JLabel("Duration: " + json.get("duration").getAsString()));
+        }
+
+        if (json.get("charges") != null) {
+            label.add(new JLabel("Charge: " + json.get("charges").getAsInt()));
+        }
+
         if (json.get("restrictions") != null && !json.get("restrictions").isJsonNull()) {
             label.add(new JLabel(json.get("restrictions").getAsString()));
         }
+
         if (!isCustom) {
             label.add(new JLabel(" "));
             label.add(new JLabel("External Links"));
@@ -637,7 +653,7 @@ public class ItemUITemplate extends JPanel {
 
             if (j.get("leveledXpBonus") != null) label.add(new JLabel(getMin(j.get("leveledXpBonus").getAsInt()) + "% XP from Lv." + min + "-" + max + " contents " + getMax(j.get("leveledXpBonus").getAsInt()) + "%"));
             if (j.get("damageFromMobs") != null) label.add(new JLabel(getMin(j.get("damageFromMobs").getAsInt()) + "% Damage taken from mobs " + getMax(j.get("damageFromMobs").getAsInt()) + "%"));
-            if (j.get("leveledLootBonus") != null) label.add(new JLabel(getMin(j.get("leveledLootBonus").getAsInt()) + "% XP from Lv." + min + "-" + max + " contents " + getMax(j.get("leveledLootBonus").getAsInt()) + "%"));
+            if (j.get("leveledLootBonus") != null) label.add(new JLabel(getMin(j.get("leveledLootBonus").getAsInt()) + "% Loot from Lv." + min + "-" + max + " contents " + getMax(j.get("leveledLootBonus").getAsInt()) + "%"));
         }
 
         if (type.equals("tome") || type.equals("charm")) { //IDs
