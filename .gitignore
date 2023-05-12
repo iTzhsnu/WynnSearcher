@@ -4,5 +4,7 @@
 /build/libs/
 /build/reports/
 /build/test-results/
-/build/tmp
+/build/tmp/
 /.idea/
+/build/classes/java/main/
+/build/classes/java/test/
