@@ -49,7 +49,6 @@ public class BuilderUI implements ActionListener {
 
     //API Connect
     private final JLabel itemConnect;
-    private final JLabel ingConnect;
     private final JLabel recipeConnect;
 
     //Skill Point, Damage IDs and ID Display
@@ -68,7 +67,7 @@ public class BuilderUI implements ActionListener {
     private final Mage mage;
     private final Shaman shaman;
 
-    public BuilderUI(Container p, List<JsonObject> itemAPI, List<JsonObject> ingAPI, List<JsonObject> recipeAPI, JLabel itemAPIConnect, JLabel ingAPIConnect, String recipeAPIConnect) {
+    public BuilderUI(Container p, List<JsonObject> itemAPI, List<JsonObject> ingAPI, List<JsonObject> recipeAPI, JLabel itemAPIConnect, String recipeAPIConnect) {
         this.ingAPI = ingAPI;
         this.recipeAPI = recipeAPI;
         setJson(itemAPI);
@@ -82,18 +81,15 @@ public class BuilderUI implements ActionListener {
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         itemConnect = new JLabel(itemAPIConnect.getText());
-        ingConnect = new JLabel(ingAPIConnect.getText());
         recipeConnect = new JLabel(recipeAPIConnect);
         itemConnect.setForeground(itemAPIConnect.getForeground());
-        ingConnect.setForeground(ingAPIConnect.getForeground());
         if (recipeAPIConnect.equals("Recipe API Connected")) {
             recipeConnect.setForeground(new Color(0, 169, 104));
         } else {
             recipeConnect.setForeground(new Color(255, 0, 0));
         }
         itemConnect.setBounds(520, 5, 150, 20);
-        ingConnect.setBounds(700, 5, 150, 20);
-        recipeConnect.setBounds(900, 5, 150, 20);
+        recipeConnect.setBounds(700, 5, 150, 20);
 
         setComboBox();
 
@@ -152,7 +148,6 @@ public class BuilderUI implements ActionListener {
         }
         p.add(scrollPane);
         p.add(itemConnect);
-        p.add(ingConnect);
         p.add(recipeConnect);
     }
 
@@ -215,7 +210,6 @@ public class BuilderUI implements ActionListener {
     public void setBuilderVisible(boolean visible) {
         scrollPane.setVisible(visible);
         itemConnect.setVisible(visible);
-        ingConnect.setVisible(visible);
         recipeConnect.setVisible(visible);
     }
 

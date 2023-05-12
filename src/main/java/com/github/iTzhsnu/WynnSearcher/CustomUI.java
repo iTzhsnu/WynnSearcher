@@ -520,7 +520,7 @@ public class CustomUI implements ActionListener {
             itemData.append("\"tier\":\"Custom\",\"identified\":true}");
         }
 
-        ItemUITemplate itemUI = new ItemUITemplate(JsonParser.parseString(itemData.toString()).getAsJsonObject(), false, null, null, 270, 0, true);
+        ItemUITemplate itemUI = new ItemUITemplate(JsonParser.parseString(itemData.toString()).getAsJsonObject(), "item", null, null, 270, 0, true);
         display.add(itemUI);
         if (itemUI.getBounds().y + itemUI.getBounds().height > 747) {
             display.setPreferredSize(new Dimension(270, itemUI.getBounds().y + itemUI.getBounds().height));
@@ -535,7 +535,7 @@ public class CustomUI implements ActionListener {
         display.removeAll();
         if (itemText.getText().contains("CI-")) {
             JsonObject j = JsonParser.parseString(itemText.getText().replace("CI-", "")).getAsJsonObject();
-            ItemUITemplate itemUI = new ItemUITemplate(j, false, null, null, 270, 0, true);
+            ItemUITemplate itemUI = new ItemUITemplate(j, "item", null, null, 270, 0, true);
             display.add(itemUI);
             if (itemUI.getBounds().y + itemUI.getBounds().height > 747) {
                 display.setPreferredSize(new Dimension(270, itemUI.getBounds().y + itemUI.getBounds().height));

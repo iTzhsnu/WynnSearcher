@@ -21,7 +21,7 @@ public class CrafterUI implements ActionListener {
     private final List<JsonObject> ingJson;
     private final List<JsonObject> recipeJson;
 
-    private final JLabel ingAPIConnect = new JLabel();
+    private final JLabel itemAPIConnect = new JLabel();
     private final JComboBox<String> recipeType = new JComboBox<>();
     private final JComboBox<String> attackSpeed = new JComboBox<>();
     private final JComboBox<String> level = new JComboBox<>();
@@ -34,7 +34,6 @@ public class CrafterUI implements ActionListener {
     private final JButton load = new JButton("Load");
     private final JTextField output = new JTextField();
     private final JPanel outputP = new JPanel();
-    private final JScrollBar outputB = new JScrollBar(JScrollBar.HORIZONTAL);
 
     private final JPanel created = new JPanel();
     private final JScrollPane createdScroll;
@@ -100,31 +99,31 @@ public class CrafterUI implements ActionListener {
     }};
 
     private static final Map<String, String> TYPE_TO_SKILL = new HashMap<String, String>() {{
-        put("Helmet", "Armouring");
-        put("Chestplate", "Armouring");
-        put("Leggings", "Tailoring");
-        put("Boots", "Tailoring");
-        put("Ring", "Jeweling");
-        put("Bracelet", "Jeweling");
-        put("Necklace", "Jeweling");
-        put("Spear", "Weaponsmithing");
-        put("Dagger", "Weaponsmithing");
-        put("Bow", "Woodworking");
-        put("Wand", "Woodworking");
-        put("Relik", "Woodworking");
-        put("Scroll", "Scribing");
-        put("Food", "Cooking");
-        put("Potion", "Alchemism");
+        put("Helmet", "armouring");
+        put("Chestplate", "armouring");
+        put("Leggings", "tailoring");
+        put("Boots", "tailoring");
+        put("Ring", "jeweling");
+        put("Bracelet", "jeweling");
+        put("Necklace", "jeweling");
+        put("Spear", "weaponsmithing");
+        put("Dagger", "weaponsmithing");
+        put("Bow", "woodworking");
+        put("Wand", "woodworking");
+        put("Relik", "woodworking");
+        put("Scroll", "scribing");
+        put("Food", "cooking");
+        put("Potion", "alchemism");
     }};
 
-    public CrafterUI(Container pane, List<JsonObject> ingJson, List<JsonObject> recipeJson, String recipeAPIConnect, JLabel ingAPIConnect) {
+    public CrafterUI(Container pane, List<JsonObject> ingJson, List<JsonObject> recipeJson, String recipeAPIConnect, JLabel itemAPIConnect) {
         this.pane = pane;
         this.ingJson = ingJson;
         this.recipeJson = recipeJson;
 
-        this.ingAPIConnect.setText(ingAPIConnect.getText());
-        this.ingAPIConnect.setForeground(ingAPIConnect.getForeground());
-        this.ingAPIConnect.setBounds(530, 5, 150, 20);
+        this.itemAPIConnect.setText(itemAPIConnect.getText());
+        this.itemAPIConnect.setForeground(itemAPIConnect.getForeground());
+        this.itemAPIConnect.setBounds(530, 5, 150, 20);
 
         JLabel recipeConnect = new JLabel(recipeAPIConnect);
         recipeConnect.setBounds(530, 30, 150, 20);
@@ -156,9 +155,9 @@ public class CrafterUI implements ActionListener {
 
         //Attack Speed
         attackSpeed.setBounds(260, 40, 80, 20);
-        attackSpeed.addItem("SLOW");
-        attackSpeed.addItem("NORMAL");
-        attackSpeed.addItem("FAST");
+        attackSpeed.addItem("slow");
+        attackSpeed.addItem("normal");
+        attackSpeed.addItem("fast");
 
         //Level
         JLabel lvText = new JLabel("Lv.");
@@ -191,6 +190,7 @@ public class CrafterUI implements ActionListener {
         oText.setBounds(440, 120, 80, 20);
         outputP.setBounds(520, 110, 200, 40);
         outputP.setLayout(new BoxLayout(outputP, BoxLayout.Y_AXIS));
+        JScrollBar outputB = new JScrollBar(JScrollBar.HORIZONTAL);
         outputB.setUnitIncrement(20);
         outputB.setModel(output.getHorizontalVisibility());
         outputP.add(output);
@@ -217,7 +217,7 @@ public class CrafterUI implements ActionListener {
         texts.add(mat2);
         texts.add(oText);
 
-        pane.add(this.ingAPIConnect);
+        pane.add(this.itemAPIConnect);
         pane.add(recipeType);
         pane.add(attackSpeed);
         pane.add(level);
@@ -235,7 +235,7 @@ public class CrafterUI implements ActionListener {
     }
 
     public void setCrafterVisible(boolean visible) {
-        ingAPIConnect.setVisible(visible);
+        itemAPIConnect.setVisible(visible);
         recipeType.setVisible(visible);
         attackSpeed.setVisible(visible);
         level.setVisible(visible);
@@ -269,9 +269,7 @@ public class CrafterUI implements ActionListener {
             int pos = (int) Math.floor(i / 2F);
 
             for (JsonObject j : ingJson) {
-                if (j.get("displayName") != null) {
-                    box.addItem(j.get("displayName").getAsString());
-                } else if (j.get("name") != null) {
+                if (j.get("name") != null) {
                     box.addItem(j.get("name").getAsString());
                 }
             }
@@ -387,10 +385,7 @@ public class CrafterUI implements ActionListener {
         for (JsonElement je : ing) {
             if (!je.getAsString().isEmpty()) {
                 for (JsonObject jo : ingJson) {
-                    if (jo.get("displayName") != null && jo.get("displayName").getAsString().equals(je.getAsString())) {
-                        lj.add(jo);
-                        break;
-                    } else if (jo.get("name") != null && jo.get("name").getAsString().equals(je.getAsString())) {
+                    if (jo.get("name") != null && jo.get("name").getAsString().equals(je.getAsString())) {
                         lj.add(jo);
                         break;
                     }
@@ -401,13 +396,13 @@ public class CrafterUI implements ActionListener {
         for (int i = 0; lj.size() > i; ++i) {
             JsonObject j = lj.get(i);
             if (i == 0) {
-                ItemUITemplate p = new ItemUITemplate(j, true, null, null, 530, 0, false);
+                ItemUITemplate p = new ItemUITemplate(j, "ingredient", null, null, 530, 0, false);
                 lp.add(p);
             } else if (i == 1) {
-                ItemUITemplate p = new ItemUITemplate(j, true, lp.get(0), null, 530, 0, false);
+                ItemUITemplate p = new ItemUITemplate(j, "ingredient", lp.get(0), null, 530, 0, false);
                 lp.add(p);
             } else {
-                ItemUITemplate p = new ItemUITemplate(j, true, lp.get(i - 1), lp.get(i - 2), 530, 0, false);
+                ItemUITemplate p = new ItemUITemplate(j, "ingredient", lp.get(i - 1), lp.get(i - 2), 530, 0, false);
                 lp.add(p);
             }
         }
@@ -578,11 +573,11 @@ public class CrafterUI implements ActionListener {
             JsonObject itemJ = JsonParser.parseString(sJ).getAsJsonObject();
             JsonObject recipeJ = getRecipe(recipes, itemJ.get("type").getAsString(), itemJ.get("level").getAsString());
             StringBuilder sb = new StringBuilder();
-            String getMinOrMax = "maximum";
+            String getMinOrMax = "max";
             String[] lvs = itemJ.get("level").getAsString().split("-");
             float matTB = getMatTB(itemJ.get("type").getAsString(), itemJ.get("material1").getAsInt(), itemJ.get("material2").getAsInt());
             int durabilityOrDuration = 0;
-            if (getMin) getMinOrMax = "minimum";
+            if (getMin) getMinOrMax = "min";
             sb.append("{");
 
             boolean ingEmpty = true;
@@ -610,13 +605,13 @@ public class CrafterUI implements ActionListener {
                         sockets = 3;
                     }
                     float atkSpdBoost = 1F;
-                    if (itemJ.get("attackSpeed").getAsString().equals("Fast")) {
+                    if (itemJ.get("attackSpeed").getAsString().equals("fast")) {
                         atkSpdBoost = 0.82F;
-                    } else if (itemJ.get("attackSpeed").getAsString().equals("Slow")) {
+                    } else if (itemJ.get("attackSpeed").getAsString().equals("slow")) {
                         atkSpdBoost = 1.36667F;
                     }
-                    int min = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMax).getAsInt() * 0.9F * atkSpdBoost * matTB);
-                    int max = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMax).getAsInt() * 1.1F * atkSpdBoost * matTB);
+                    int min = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * 0.9F * atkSpdBoost * matTB);
+                    int max = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * 1.1F * atkSpdBoost * matTB);
                     String damage = "\"damage\":\"" + min + "-" + max + "\",\"sockets\":" + sockets + ",";
                     sb.append(damage);
                     break;
@@ -635,7 +630,7 @@ public class CrafterUI implements ActionListener {
                     } else {
                         sockets = 3;
                     }
-                    int h = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMax).getAsInt() * matTB);
+                    int h = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * matTB);
                     String health = "\"health\":" + h + ",\"sockets\":" + sockets + ",";
                     sb.append(health);
                     break;
@@ -645,7 +640,7 @@ public class CrafterUI implements ActionListener {
                 case "Food":
                 {
                     if (ingEmpty) {
-                        int h = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMax).getAsInt() * matTB);
+                        int h = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * matTB);
                         String healthAndDuration = "\"health\":" + h + ",";
                         sb.append(healthAndDuration);
                     }
@@ -671,19 +666,16 @@ public class CrafterUI implements ActionListener {
                     lJ.add(JsonParser.parseString("{}").getAsJsonObject());
                     if (!je.getAsString().isEmpty()) {
                         for (JsonObject jo : ing) {
-                            if (jo.get("displayName") != null && jo.get("displayName").getAsString().equals(je.getAsString())) {
-                                lJ.set(i, jo);
-                                break;
-                            } else if (jo.get("name") != null && jo.get("name").getAsString().equals(je.getAsString())) {
+                            if (jo.get("name") != null && jo.get("name").getAsString().equals(je.getAsString())) {
                                 lJ.set(i, jo);
                                 break;
                             }
                         }
 
-                        if (lJ.get(i).get("skills") != null) {
+                        if (lJ.get(i).get("requirements") != null && lJ.get(i).get("requirements").getAsJsonObject().get("skills") != null) {
                             boolean remove = true;
-                            for (int skillI = 0; lJ.get(i).get("skills").getAsJsonArray().size() > skillI; ++skillI) {
-                                if (lJ.get(i).get("skills").getAsJsonArray().get(skillI).getAsString().equalsIgnoreCase(TYPE_TO_SKILL.get(itemJ.get("type").getAsString()))) {
+                            for (int skillI = 0; lJ.get(i).get("requirements").getAsJsonObject().get("skills").getAsJsonArray().size() > skillI; ++skillI) {
+                                if (lJ.get(i).get("requirements").getAsJsonObject().get("skills").getAsJsonArray().get(skillI).getAsString().equalsIgnoreCase(TYPE_TO_SKILL.get(itemJ.get("type").getAsString()))) {
                                     remove = false;
                                     break;
                                 }
@@ -692,8 +684,8 @@ public class CrafterUI implements ActionListener {
                         } else {
                             lJ.set(i, JsonParser.parseString("{}").getAsJsonObject());
                         }
-                        if (lJ.get(i).get("level") != null) {
-                            if (lJ.get(i).get("level").getAsInt() > Integer.parseInt(lvs[lvs.length - 1])) lJ.set(i, JsonParser.parseString("{}").getAsJsonObject());
+                        if (lJ.get(i).get("requirements") != null && lJ.get(i).get("requirements").getAsJsonObject().get("level") != null) {
+                            if (lJ.get(i).get("requirements").getAsJsonObject().get("level").getAsInt() > Integer.parseInt(lvs[lvs.length - 1])) lJ.set(i, JsonParser.parseString("{}").getAsJsonObject());
                         } else {
                             lJ.set(i, JsonParser.parseString("{}").getAsJsonObject());
                         }
@@ -761,7 +753,7 @@ public class CrafterUI implements ActionListener {
                 int total = 0;
                 for (int i = 0; lJ.size() > i; ++i) {
                     JsonObject j = lJ.get(i);
-                    if (id.getIngFieldPos().equals("identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("minimum").getAsInt() != 0) {
+                    if (id.getIngFieldPos().equals("identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
                         total += (int) Math.floor(j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get(getMinOrMax).getAsInt() * ingEffective[i]);
                     } else if (!id.getIngFieldPos().equals("identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() != 0) {
                         total += (int) Math.floor(j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() * ingEffective[i]);
@@ -773,7 +765,7 @@ public class CrafterUI implements ActionListener {
 
             if (itemJ.get("type").getAsString().equals("Scroll") || itemJ.get("type").getAsString().equals("Potion") || itemJ.get("type").getAsString().equals("Food")) {
                 if (ingEmpty) {
-                    sb.append("\"charges\":3,\"duration\":3, \"tier\":\"Crafted\"}");
+                    sb.append("\"charges\":3,\"duration\":3, \"tier\":\"crafted\"}");
                 } else {
                     int lvM = Integer.parseInt(itemJ.get("level").getAsString().split("-")[0]);
                     if (lvM < 30) {
@@ -783,15 +775,15 @@ public class CrafterUI implements ActionListener {
                     } else {
                         charges += 3;
                     }
-                    int d = durabilityOrDuration + Math.round(recipeJ.get("duration").getAsJsonObject().get(getMinOrMax).getAsInt() * matTB);
+                    int d = durabilityOrDuration + Math.round(recipeJ.get("duration").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * matTB);
                     if (d < 0) d = 1;
-                    String duration = "\"charges\":" + charges + ",\"duration\":" + d + ", \"tier\":\"Crafted\"}";
+                    String duration = "\"charges\":" + charges + ",\"duration\":" + d + ", \"tier\":\"crafted\"}";
                     sb.append(duration);
                 }
             } else {
-                int d = durabilityOrDuration + Math.round(recipeJ.get("durability").getAsJsonObject().get(getMinOrMax).getAsInt() * matTB);
+                int d = durabilityOrDuration + Math.round(recipeJ.get("durability").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * matTB);
                 if (d < 0) d = 1;
-                String durability = "\"durability\":" + d + ", \"tier\":\"Crafted\"}";
+                String durability = "\"durability\":" + d + ", \"tier\":\"crafted\"}";
                 sb.append(durability);
             }
 
@@ -875,6 +867,14 @@ public class CrafterUI implements ActionListener {
                 break;
         }
         return total;
+    }
+
+    public static String getMinOrMaxV2(String s) {
+        if (s.equals("min")) {
+            return "minimum";
+        } else {
+            return "maximum";
+        }
     }
 
     public static class Adapter extends KeyAdapter {

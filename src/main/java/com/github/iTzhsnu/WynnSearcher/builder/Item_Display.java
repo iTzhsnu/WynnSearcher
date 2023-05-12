@@ -114,7 +114,7 @@ public class Item_Display {
         //Helmet
         if (helmet.contains("CI-")) {
             helmetJson = JsonParser.parseString(helmet.replace("CI-", "")).getAsJsonObject();
-            itemsPanel.add(new ItemUITemplate(helmetJson, false, null, null, 1045, 0, true));
+            itemsPanel.add(new ItemUITemplate(helmetJson, "item", null, null, 1045, 0, true));
         } else if (helmet.contains("CR-")) {
             if (helmet.contains("\"type\":\"Helmet\"")) {
                 helmetJson = CrafterUI.getCraftItemJson(recipe, ing, helmet, false);
@@ -133,7 +133,7 @@ public class Item_Display {
             }
             if (json != null) {
                 helmetJson = json;
-                itemsPanel.add(new ItemUITemplate(json, false, null, null, 1045, 0, false));
+                itemsPanel.add(new ItemUITemplate(json, "item", null, null, 1045, 0, false));
             }
         }
 
@@ -142,7 +142,7 @@ public class Item_Display {
         if (itemsPanel.size() > 0) previousC = itemsPanel.get(0);
         if (chestplate.contains("CI-")) {
             chestplateJson = JsonParser.parseString(chestplate.replace("CI-", "")).getAsJsonObject();
-            itemsPanel.add(new ItemUITemplate(chestplateJson, false, previousC, null, 1045, 0, true));
+            itemsPanel.add(new ItemUITemplate(chestplateJson, "item", previousC, null, 1045, 0, true));
         } else if (chestplate.contains("CR-")) {
             if (chestplate.contains("\"type\":\"Chestplate\"")) {
                 chestplateJson = CrafterUI.getCraftItemJson(recipe, ing, chestplate, false);
@@ -161,7 +161,7 @@ public class Item_Display {
             }
             if (json != null) {
                 chestplateJson = json;
-                itemsPanel.add(new ItemUITemplate(json, false, previousC, null, 1045, 0, false));
+                itemsPanel.add(new ItemUITemplate(json, "item", previousC, null, 1045, 0, false));
             }
         }
 
@@ -170,7 +170,7 @@ public class Item_Display {
         if (itemsPanel.size() > 0) previousL = itemsPanel.get(itemsPanel.size() - 1);
         if (leggings.contains("CI-")) {
             leggingsJson = JsonParser.parseString(leggings.replace("CI-", "")).getAsJsonObject();
-            itemsPanel.add(new ItemUITemplate(leggingsJson, false, previousL, null, 1045, 0, true));
+            itemsPanel.add(new ItemUITemplate(leggingsJson, "item", previousL, null, 1045, 0, true));
         } else if (leggings.contains("CR-")) {
             if (leggings.contains("\"type\":\"Leggings\"")) {
                 leggingsJson = CrafterUI.getCraftItemJson(recipe, ing, leggings, false);
@@ -189,7 +189,7 @@ public class Item_Display {
             }
             if (json != null) {
                 leggingsJson = json;
-                itemsPanel.add(new ItemUITemplate(json, false, previousL, null, 1045, 0, false));
+                itemsPanel.add(new ItemUITemplate(json, "item", previousL, null, 1045, 0, false));
             }
         }
 
@@ -198,7 +198,7 @@ public class Item_Display {
         if (itemsPanel.size() > 0) previousB = itemsPanel.get(itemsPanel.size() - 1);
         if (boots.contains("CI-")) {
             bootsJson = JsonParser.parseString(boots.replace("CI-", "")).getAsJsonObject();
-            itemsPanel.add(new ItemUITemplate(bootsJson, false, previousB, null, 1045, 0, true));
+            itemsPanel.add(new ItemUITemplate(bootsJson, "item", previousB, null, 1045, 0, true));
         } else if (boots.contains("CR-")) {
             if (boots.contains("\"type\":\"Boots\"")) {
                 bootsJson = CrafterUI.getCraftItemJson(recipe, ing, boots, false);
@@ -217,7 +217,7 @@ public class Item_Display {
             }
             if (json != null) {
                 bootsJson = json;
-                itemsPanel.add(new ItemUITemplate(json, false, previousB, null, 1045, 0, false));
+                itemsPanel.add(new ItemUITemplate(json, "item", previousB, null, 1045, 0, false));
             }
         }
 
@@ -228,7 +228,7 @@ public class Item_Display {
         if (itemsPanel.size() > 3) aboveR1 = itemsPanel.get(itemsPanel.size() - 4);
         if (ring1.contains("CI-")) {
             ring1Json = JsonParser.parseString(ring1.replace("CI-", "")).getAsJsonObject();
-            itemsPanel.add(new ItemUITemplate(ring1Json, false, previousR1, aboveR1, 1045, 0, true));
+            itemsPanel.add(new ItemUITemplate(ring1Json, "item", previousR1, aboveR1, 1045, 0, true));
         } else if (ring1.contains("CR-")) {
             if (ring1.contains("\"type\":\"Ring\"")) {
                 ring1Json = CrafterUI.getCraftItemJson(recipe, ing, ring1, false);
@@ -247,7 +247,7 @@ public class Item_Display {
             }
             if (json != null) {
                 ring1Json = json;
-                itemsPanel.add(new ItemUITemplate(json, false, previousR1, aboveR1, 1045, 0, false));
+                itemsPanel.add(new ItemUITemplate(json, "item", previousR1, aboveR1, 1045, 0, false));
             }
         }
 
@@ -258,7 +258,7 @@ public class Item_Display {
         if (itemsPanel.size() > 3) aboveR2 = itemsPanel.get(itemsPanel.size() - 4);
         if (ring2.contains("CI-")) {
             ring2Json = JsonParser.parseString(ring2.replace("CI-", "")).getAsJsonObject();
-            itemsPanel.add(new ItemUITemplate(ring2Json, false, previousR2, aboveR2, 1045, 0, true));
+            itemsPanel.add(new ItemUITemplate(ring2Json, "item", previousR2, aboveR2, 1045, 0, true));
         } else if (ring2.contains("CR-")) {
             if (ring2.contains("\"type\":\"Ring\"")) {
                 ring2Json = CrafterUI.getCraftItemJson(recipe, ing, ring2, false);
@@ -277,7 +277,7 @@ public class Item_Display {
             }
             if (json != null) {
                 ring2Json = json;
-                itemsPanel.add(new ItemUITemplate(json, false, previousR2, aboveR2, 1045, 0, false));
+                itemsPanel.add(new ItemUITemplate(json, "item", previousR2, aboveR2, 1045, 0, false));
             }
         }
 
@@ -288,7 +288,7 @@ public class Item_Display {
         if (itemsPanel.size() > 3) aboveBr = itemsPanel.get(itemsPanel.size() - 4);
         if (bracelet.contains("CI-")) {
             braceletJson = JsonParser.parseString(bracelet.replace("CI-", "")).getAsJsonObject();
-            itemsPanel.add(new ItemUITemplate(braceletJson, false, previousBr, aboveBr, 1045, 0, true));
+            itemsPanel.add(new ItemUITemplate(braceletJson, "item", previousBr, aboveBr, 1045, 0, true));
         } else if (bracelet.contains("CR-")) {
             if (bracelet.contains("\"type\":\"Bracelet\"")) {
                 braceletJson = CrafterUI.getCraftItemJson(recipe, ing, bracelet, false);
@@ -307,7 +307,7 @@ public class Item_Display {
             }
             if (json != null) {
                 braceletJson = json;
-                itemsPanel.add(new ItemUITemplate(json, false, previousBr, aboveBr, 1045, 0, false));
+                itemsPanel.add(new ItemUITemplate(json, "item", previousBr, aboveBr, 1045, 0, false));
             }
         }
 
@@ -318,7 +318,7 @@ public class Item_Display {
         if (itemsPanel.size() > 3) aboveN = itemsPanel.get(itemsPanel.size() - 4);
         if (necklace.contains("CI-")) {
             necklaceJson = JsonParser.parseString(necklace.replace("CI-", "")).getAsJsonObject();
-            itemsPanel.add(new ItemUITemplate(necklaceJson, false, previousN, aboveN, 1045, 0, true));
+            itemsPanel.add(new ItemUITemplate(necklaceJson, "item", previousN, aboveN, 1045, 0, true));
         } else if (necklace.contains("CR-")) {
             if (necklace.contains("\"type\":\"Necklace\"")) {
                 necklaceJson = CrafterUI.getCraftItemJson(recipe, ing, necklace, false);
@@ -337,7 +337,7 @@ public class Item_Display {
             }
             if (json != null) {
                 necklaceJson = json;
-                itemsPanel.add(new ItemUITemplate(json, false, previousN, aboveN, 1045, 0, false));
+                itemsPanel.add(new ItemUITemplate(json, "item", previousN, aboveN, 1045, 0, false));
             }
         }
 
@@ -348,7 +348,7 @@ public class Item_Display {
         if (itemsPanel.size() > 3) aboveW = itemsPanel.get(itemsPanel.size() - 4);
         if (weapon.contains("CI-")) {
             weaponJson = JsonParser.parseString(weapon.replace("CI-", "")).getAsJsonObject();
-            itemsPanel.add(new ItemUITemplate(weaponJson, false, previousW, aboveW, 1045, 0, true));
+            itemsPanel.add(new ItemUITemplate(weaponJson, "item", previousW, aboveW, 1045, 0, true));
         } else if (weapon.contains("CR-")) {
             if (weapon.contains("\"type\":\"Spear\"") || weapon.contains("\"type\":\"Dagger\"") || weapon.contains("\"type\":\"Bow\"") || weapon.contains("\"type\":\"Wand\"") || weapon.contains("\"type\":\"Relik\"")) {
                 weaponJson = CrafterUI.getCraftItemJson(recipe, ing, weapon, false);
@@ -367,7 +367,7 @@ public class Item_Display {
             }
             if (json != null) {
                 weaponJson = json;
-                itemsPanel.add(new ItemUITemplate(json, false, previousW, aboveW, 1045, 0, false));
+                itemsPanel.add(new ItemUITemplate(json, "item", previousW, aboveW, 1045, 0, false));
             }
         }
 

@@ -1,5 +1,7 @@
 # プロジェクトの除外パス
 /.gradle/
+/build/classes/java/main/
+/build/classes/java/test/
 /build/generated/
 /build/libs/
 /build/reports/
