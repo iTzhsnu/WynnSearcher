@@ -123,6 +123,15 @@ public class ItemUITemplate extends JPanel {
        put(7, Identifications.RAW_4TH_SPELL_COST);
     }};
 
+    public static final Map<Integer, Identifications> DAMAGE_IDS = new HashMap<Integer, Identifications>() {{
+        put(0, Identifications.NEUTRAL_DAMAGE);
+        put(1, Identifications.EARTH_DAMAGE);
+        put(2, Identifications.THUNDER_DAMAGE);
+        put(3, Identifications.WATER_DAMAGE);
+        put(4, Identifications.FIRE_DAMAGE);
+        put(5, Identifications.AIR_DAMAGE);
+    }};
+
     public ItemUITemplate(JsonObject json, String type, JPanel previous, JPanel above, int uiWidth, float totalValue, boolean isCustom) {
         this.json = json;
         this.totalValue = totalValue;
@@ -248,8 +257,13 @@ public class ItemUITemplate extends JPanel {
 
         if (json.get("base") != null) {
             JsonObject j = json.get("base").getAsJsonObject();
-            if (j.get(Identifications.HEALTH.getItemName()) != null && j.get(Identifications.HEALTH.getItemName()).getAsInt() != 0) {
-                label.add(new JLabel("Health: " + setPlus(j.get(Identifications.HEALTH.getItemName()).getAsInt())));
+            if (j.get(Identifications.HEALTH.getItemName()) != null) {
+                JsonElement j2 = j.get(Identifications.HEALTH.getItemName());
+                if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) {
+                    label.add(new JLabel("Health: " + j2.getAsJsonObject().get("min").getAsInt() + "-" + j2.getAsJsonObject().get("max").getAsInt()));
+                } else if (j.get(Identifications.HEALTH.getItemName()).getAsInt() != 0) {
+                    label.add(new JLabel("Health: " + setPlus(j2.getAsInt())));
+                }
             }
 
             if (j.get(Identifications.EARTH_DEFENSE.getItemName()) != null && j.get(Identifications.EARTH_DEFENSE.getItemName()).getAsInt() != 0) {
@@ -272,28 +286,16 @@ public class ItemUITemplate extends JPanel {
                 label.add(new JLabel("Air Defense: " + setPlus(j.get(Identifications.AIR_DEFENSE.getItemName()).getAsInt())));
             }
 
-            if (j.get(Identifications.NEUTRAL_DAMAGE.getItemName()) != null) {
-                label.add(new JLabel("Neutral Damage: " + j.get(Identifications.NEUTRAL_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.NEUTRAL_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
-            }
-
-            if (j.get(Identifications.EARTH_DAMAGE.getItemName()) != null) {
-                label.add(new JLabel("Earth Damage: " + j.get(Identifications.EARTH_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.EARTH_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
-            }
-
-            if (j.get(Identifications.THUNDER_DAMAGE.getItemName()) != null) {
-                label.add(new JLabel("Thunder Damage: " + j.get(Identifications.THUNDER_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.THUNDER_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
-            }
-
-            if (j.get(Identifications.WATER_DAMAGE.getItemName()) != null) {
-                label.add(new JLabel("Water Damage: " + j.get(Identifications.WATER_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.WATER_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
-            }
-
-            if (j.get(Identifications.FIRE_DAMAGE.getItemName()) != null) {
-                label.add(new JLabel("Fire Damage: " + j.get(Identifications.FIRE_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.FIRE_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
-            }
-
-            if (j.get(Identifications.AIR_DAMAGE.getItemName()) != null) {
-                label.add(new JLabel("Air Damage: " + j.get(Identifications.AIR_DAMAGE.getItemName()).getAsJsonObject().get("min").getAsInt() + "-" + j.get(Identifications.AIR_DAMAGE.getItemName()).getAsJsonObject().get("max").getAsInt()));
+            for (int i = 0; 5 >= i; ++i) { //Damages
+                Identifications id = DAMAGE_IDS.get(i);
+                if (j.get(id.getItemName()) != null) {
+                    JsonObject j2 = j.get(id.getItemName()).getAsJsonObject();
+                    if (json.get("tier") != null && !json.get("tier").getAsString().equals("crafted")) {
+                        label.add(new JLabel(id.getDisplayName() + ": " + j2.get("min").getAsInt() + "-" + j2.getAsJsonObject().get("max").getAsInt()));
+                    } else {
+                        label.add(new JLabel(id.getDisplayName() + ": " + j2.get("min").getAsString() + " to " + j2.getAsJsonObject().get("max").getAsString()));
+                    }
+                }
             }
         }
 
@@ -302,7 +304,12 @@ public class ItemUITemplate extends JPanel {
         if (json.get("requirements") != null) {
             JsonObject j = json.get("requirements").getAsJsonObject();
             if (j.get(Identifications.LEVEL.getItemName()) != null) {
-                label.add(new JLabel("Combat Lv. Min: " + j.get(Identifications.LEVEL.getItemName()).getAsString()));
+                JsonElement j2 = j.get(Identifications.LEVEL.getItemName());
+                if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) {
+                    label.add(new JLabel("Combat Lv. Min: " + j2.getAsJsonObject().get("min").getAsInt() + "-" + j2.getAsJsonObject().get("max").getAsInt()));
+                } else {
+                    label.add(new JLabel("Combat Lv. Min: " + j2.getAsInt()));
+                }
             }
 
             if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {
@@ -342,7 +349,7 @@ public class ItemUITemplate extends JPanel {
                     String minOrMax = "max";
                     if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
                     label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt())) + id.getDisplaySp()));
-                } else if (id.isItemVariable()) {
+                } else if (id.isItemVariable() || json.get("tier").getAsString().equals("crafted")) {
                     label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                 }
             }
@@ -518,8 +525,9 @@ public class ItemUITemplate extends JPanel {
                     JsonElement je = j.get(id.getIngName());
                     if (!je.isJsonObject()) {
                         label.add(new JLabel(id.getDisplayName() + " " + setPlus(je.getAsInt()) + id.getDisplaySp()));
+                    } else {
+                        label.add(new JLabel(setPlus(je.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                     }
-                    label.add(new JLabel(setPlus(je.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                     run = true;
                 }
             }
@@ -530,8 +538,9 @@ public class ItemUITemplate extends JPanel {
                     JsonElement je = j.get(id.getIngName());
                     if (!je.isJsonObject()) {
                         label.add(new JLabel(id.getDisplayName() + " " + setPlus(je.getAsInt()) + id.getDisplaySp()));
+                    } else {
+                        label.add(new JLabel(setPlus(je.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                     }
-                    label.add(new JLabel(setPlus(je.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                     run = true;
                 }
             }

@@ -99,21 +99,21 @@ public class CrafterUI implements ActionListener {
     }};
 
     private static final Map<String, String> TYPE_TO_SKILL = new HashMap<String, String>() {{
-        put("Helmet", "armouring");
-        put("Chestplate", "armouring");
-        put("Leggings", "tailoring");
-        put("Boots", "tailoring");
-        put("Ring", "jeweling");
-        put("Bracelet", "jeweling");
-        put("Necklace", "jeweling");
-        put("Spear", "weaponsmithing");
-        put("Dagger", "weaponsmithing");
-        put("Bow", "woodworking");
-        put("Wand", "woodworking");
-        put("Relik", "woodworking");
-        put("Scroll", "scribing");
-        put("Food", "cooking");
-        put("Potion", "alchemism");
+        put("helmet", "armouring");
+        put("chestplate", "armouring");
+        put("leggings", "tailoring");
+        put("boots", "tailoring");
+        put("ring", "jeweling");
+        put("bracelet", "jeweling");
+        put("necklace", "jeweling");
+        put("spear", "weaponsmithing");
+        put("dagger", "weaponsmithing");
+        put("bow", "woodworking");
+        put("wand", "woodworking");
+        put("relik", "woodworking");
+        put("scroll", "scribing");
+        put("food", "cooking");
+        put("potion", "alchemism");
     }};
 
     public CrafterUI(Container pane, List<JsonObject> ingJson, List<JsonObject> recipeJson, String recipeAPIConnect, JLabel itemAPIConnect) {
@@ -137,21 +137,21 @@ public class CrafterUI implements ActionListener {
         JLabel typeText = new JLabel("Type:");
         typeText.setBounds(10, 40, 30, 20);
         recipeType.setBounds(45, 40, 90, 20);
-        recipeType.addItem("Helmet");
-        recipeType.addItem("Chestplate");
-        recipeType.addItem("Leggings");
-        recipeType.addItem("Boots");
-        recipeType.addItem("Ring");
-        recipeType.addItem("Bracelet");
-        recipeType.addItem("Necklace");
-        recipeType.addItem("Bow");
-        recipeType.addItem("Wand");
-        recipeType.addItem("Relik");
-        recipeType.addItem("Spear");
-        recipeType.addItem("Dagger");
-        recipeType.addItem("Scroll");
-        recipeType.addItem("Food");
-        recipeType.addItem("Potion");
+        recipeType.addItem("helmet");
+        recipeType.addItem("chestplate");
+        recipeType.addItem("leggings");
+        recipeType.addItem("boots");
+        recipeType.addItem("ring");
+        recipeType.addItem("bracelet");
+        recipeType.addItem("necklace");
+        recipeType.addItem("bow");
+        recipeType.addItem("wand");
+        recipeType.addItem("relik");
+        recipeType.addItem("spear");
+        recipeType.addItem("dagger");
+        recipeType.addItem("scroll");
+        recipeType.addItem("food");
+        recipeType.addItem("potion");
 
         //Attack Speed
         attackSpeed.setBounds(260, 40, 80, 20);
@@ -332,7 +332,7 @@ public class CrafterUI implements ActionListener {
         sb.append(lvS);
         sb.append(type);
 
-        if (recType.equals("Bow") || recType.equals("Wand") || recType.equals("Relik") || recType.equals("Spear") || recType.equals("Dagger")) {
+        if (recType.equals("bow") || recType.equals("wand") || recType.equals("relik") || recType.equals("spear") || recType.equals("dagger")) {
             String atkSpd = "\"attackSpeed\":\"" + attackSpeed.getItemAt(attackSpeed.getSelectedIndex()) + "\",";
             sb.append(atkSpd);
         }
@@ -352,7 +352,8 @@ public class CrafterUI implements ActionListener {
         if (s.contains("CR-")) {
             setIngDisplay(JsonParser.parseString(s.replace("CR-", "")).getAsJsonObject().get("ing").getAsJsonArray());
 
-            JPanel itemUI = setDisplay(getCraftItemJson(recipeJson, ingJson, s, true), getCraftItemJson(recipeJson, ingJson, s, false), null, null, 270);
+            //JPanel itemUI = setDisplay(getCraftItemJson(recipeJson, ingJson, s, true), getCraftItemJson(recipeJson, ingJson, s, false), null, null, 270); //Change to ItemUITemplate
+            ItemUITemplate itemUI = new ItemUITemplate(getCraftItemJson(recipeJson, ingJson, s), "item", null, null, 270, 0, true);
             created.add(itemUI);
             if (itemUI.getBounds().y + itemUI.getBounds().height > 745) {
                 created.setPreferredSize(new Dimension(270, itemUI.getBounds().y + itemUI.getBounds().height));
@@ -567,18 +568,15 @@ public class CrafterUI implements ActionListener {
         return p;
     }
 
-    public static JsonObject getCraftItemJson(List<JsonObject> recipes, List<JsonObject> ing, String s, boolean getMin) {
+    public static JsonObject getCraftItemJson(List<JsonObject> recipes, List<JsonObject> ing, String s) {
         if (s.contains("CR-")) {
             String sJ = s.replace("CR-", "");
             JsonObject itemJ = JsonParser.parseString(sJ).getAsJsonObject();
             JsonObject recipeJ = getRecipe(recipes, itemJ.get("type").getAsString(), itemJ.get("level").getAsString());
-            StringBuilder sb = new StringBuilder();
-            String getMinOrMax = "max";
             String[] lvs = itemJ.get("level").getAsString().split("-");
             float matTB = getMatTB(itemJ.get("type").getAsString(), itemJ.get("material1").getAsInt(), itemJ.get("material2").getAsInt());
             int durabilityOrDuration = 0;
-            if (getMin) getMinOrMax = "min";
-            sb.append("{");
+            JsonObject output = JsonParser.parseString("{\"name\":\"crafted " + itemJ.get("type").getAsString() + "\",\"base\":{},\"requirements\":{},\"tier\":\"crafted\"}").getAsJsonObject();
 
             boolean ingEmpty = true;
             for (JsonElement je : itemJ.get("ing").getAsJsonArray()) {
@@ -589,76 +587,58 @@ public class CrafterUI implements ActionListener {
             }
 
             switch (itemJ.get("type").getAsString()) {
-                case "Bow":
-                case "Wand":
-                case "Relik":
-                case "Spear":
-                case "Dagger":
+                case "bow":
+                case "wand":
+                case "relik":
+                case "spear":
+                case "dagger":
                 {
-                    int lvM = Integer.parseInt(itemJ.get("level").getAsString().split("-")[0]);
-                    int sockets;
-                    if (lvM < 30) {
-                        sockets = 1;
-                    } else if (lvM < 70) {
-                        sockets = 2;
-                    } else {
-                        sockets = 3;
-                    }
                     float atkSpdBoost = 1F;
                     if (itemJ.get("attackSpeed").getAsString().equals("fast")) {
                         atkSpdBoost = 0.82F;
                     } else if (itemJ.get("attackSpeed").getAsString().equals("slow")) {
                         atkSpdBoost = 1.36667F;
                     }
-                    int min = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * 0.9F * atkSpdBoost * matTB);
-                    int max = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * 1.1F * atkSpdBoost * matTB);
-                    String damage = "\"damage\":\"" + min + "-" + max + "\",\"sockets\":" + sockets + ",";
-                    sb.append(damage);
+                    JsonObject j = recipeJ.get("healthOrDamage").getAsJsonObject();
+                    float min = 0.9F * atkSpdBoost * matTB;
+                    float max = 1.1F * atkSpdBoost * matTB;
+
+                    output.get("base").getAsJsonObject().add(Identifications.NEUTRAL_DAMAGE.getItemName(), JsonParser.parseString("{\"min\":\"" + ((int) Math.floor(j.get("minimum").getAsInt() * min)) + "-" + ((int) Math.floor(j.get("minimum").getAsInt() * max)) + "\",\"max\":\"" + ((int) Math.floor(j.get("maximum").getAsInt() * min)) + "-" + ((int) Math.floor(j.get("maximum").getAsInt() * max)) + "\"}"));
                     break;
                 }
-                case "Helmet":
-                case "Chestplate":
-                case "Leggings":
-                case "Boots":
+                case "helmet":
+                case "chestplate":
+                case "leggings":
+                case "boots":
                 {
-                    int lvM = Integer.parseInt(itemJ.get("level").getAsString().split("-")[0]);
-                    int sockets;
-                    if (lvM < 30) {
-                        sockets = 1;
-                    } else if (lvM < 70) {
-                        sockets = 2;
-                    } else {
-                        sockets = 3;
-                    }
-                    int h = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * matTB);
-                    String health = "\"health\":" + h + ",\"sockets\":" + sockets + ",";
-                    sb.append(health);
+                    JsonObject j = recipeJ.get("healthOrDamage").getAsJsonObject();
+                    int min = (int) Math.floor(j.get("minimum").getAsInt() * matTB);
+                    int max = (int) Math.floor(j.get("maximum").getAsInt() * matTB);
+
+                    output.get("base").getAsJsonObject().add(Identifications.HEALTH.getItemName(), JsonParser.parseString("{\"min\":" + min + ",\"max\":" + max + "}"));
                     break;
                 }
-                case "Scroll":
-                case "Potion":
-                case "Food":
+                case "scroll":
+                case "potion":
+                case "food":
                 {
                     if (ingEmpty) {
-                        int h = (int) Math.floor(recipeJ.get("healthOrDamage").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * matTB);
-                        String healthAndDuration = "\"health\":" + h + ",";
-                        sb.append(healthAndDuration);
+                        JsonObject j = recipeJ.get("healthOrDamage").getAsJsonObject();
+                        int min = (int) Math.floor(j.get("minimum").getAsInt() * matTB);
+                        int max = (int) Math.floor(j.get("maximum").getAsInt() * matTB);
+
+                        output.get("base").getAsJsonObject().add(Identifications.HEALTH.getItemName(), JsonParser.parseString("{\"min\":" + min + ",\"max\":" + max + "}"));
                     }
                     break;
                 }
             }
 
-            String lvString = "\"level\":" + lvs[lvs.length - 1] + ",";
-            if (getMin) lvString = "\"level\":" + lvs[0] + ",";
-            sb.append(lvString);
-
-            String typeString = "\"type\":\"" + itemJ.get("type").getAsString() + "\",\"name\":\"Crafted " + itemJ.get("type").getAsString() + "\",";
-            if (itemJ.get("type").getAsString().equals("Ring") || itemJ.get("type").getAsString().equals("Bracelet") || itemJ.get("type").getAsString().equals("Necklace")) typeString = "\"accessoryType\":\"" + itemJ.get("type").getAsString() + "\",\"name\":\"Crafted " + itemJ.get("type").getAsString() + "\",";
-            sb.append(typeString);
+            output.get("requirements").getAsJsonObject().add(Identifications.LEVEL.getItemName(), JsonParser.parseString("{\"min\":" + lvs[0] + ",\"max\":" + lvs[lvs.length - 1] + "}"));
+            output.addProperty("type", itemJ.get("type").getAsString());
 
             List<JsonObject> lJ = new ArrayList<>();
             float[] ingEffective = new float[] {1F, 1F, 1F, 1F, 1F, 1F};
-            int charges = 0;
+            int charges = 1;
 
             if (!ingEmpty) {
                 for (int i = 0; itemJ.get("ing").getAsJsonArray().size() > i; ++i) {
@@ -672,10 +652,11 @@ public class CrafterUI implements ActionListener {
                             }
                         }
 
+                        //Can Use (Item Type)
                         if (lJ.get(i).get("requirements") != null && lJ.get(i).get("requirements").getAsJsonObject().get("skills") != null) {
                             boolean remove = true;
                             for (int skillI = 0; lJ.get(i).get("requirements").getAsJsonObject().get("skills").getAsJsonArray().size() > skillI; ++skillI) {
-                                if (lJ.get(i).get("requirements").getAsJsonObject().get("skills").getAsJsonArray().get(skillI).getAsString().equalsIgnoreCase(TYPE_TO_SKILL.get(itemJ.get("type").getAsString()))) {
+                                if (lJ.get(i).get("requirements").getAsJsonObject().get("skills").getAsJsonArray().get(skillI).getAsString().toLowerCase().equals(TYPE_TO_SKILL.get(itemJ.get("type").getAsString()))) {
                                     remove = false;
                                     break;
                                 }
@@ -684,6 +665,8 @@ public class CrafterUI implements ActionListener {
                         } else {
                             lJ.set(i, JsonParser.parseString("{}").getAsJsonObject());
                         }
+
+                        //Can Use (Level)
                         if (lJ.get(i).get("requirements") != null && lJ.get(i).get("requirements").getAsJsonObject().get("level") != null) {
                             if (lJ.get(i).get("requirements").getAsJsonObject().get("level").getAsInt() > Integer.parseInt(lvs[lvs.length - 1])) lJ.set(i, JsonParser.parseString("{}").getAsJsonObject());
                         } else {
@@ -740,7 +723,7 @@ public class CrafterUI implements ActionListener {
                             if (j.get("itemOnlyIDs") != null) {
                                 JsonObject jo = j.get("itemOnlyIDs").getAsJsonObject();
                                 if (jo.get("durabilityModifier") != null) {
-                                    durabilityOrDuration += jo.get("durabilityModifier").getAsInt();
+                                    durabilityOrDuration += jo.get("durabilityModifier").getAsInt() / 1000F;
                                 }
                             }
                         }
@@ -748,46 +731,72 @@ public class CrafterUI implements ActionListener {
                 }
             }
 
-            for (int idl = 0; 45 >= idl; ++idl) {
-                Identifications id = INT_TO_ID.get(idl);
-                int total = 0;
-                for (int i = 0; lJ.size() > i; ++i) {
-                    JsonObject j = lJ.get(i);
-                    if (id.getIngFieldPos().equals("identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
-                        total += (int) Math.floor(j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get(getMinOrMax).getAsInt() * ingEffective[i]);
-                    } else if (!id.getIngFieldPos().equals("identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() != 0) {
-                        total += (int) Math.floor(j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() * ingEffective[i]);
+            for (int i = 0; 76 >= i; ++i) { //IDs
+                Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+                int total_Min = 0;
+                int total_Max = 0;
+                for (int n = 0; lJ.size() > n; ++n) {
+                    JsonObject j = lJ.get(n);
+                    if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get("identifications") != null && j.get("identifications").getAsJsonObject().get(id.getIngName()) != null) {
+                        JsonElement je = j.get("identifications").getAsJsonObject().get(id.getIngName());
+                        if (!je.isJsonObject()) {
+                            total_Min += (int) Math.floor(je.getAsInt() * ingEffective[n]);
+                            total_Max += (int) Math.floor(je.getAsInt() * ingEffective[n]);
+                        } else {
+                            total_Min += (int) Math.floor(je.getAsJsonObject().get("min").getAsInt() * ingEffective[n]);
+                            total_Max += (int) Math.floor(je.getAsJsonObject().get("max").getAsInt() * ingEffective[n]);
+                        }
                     }
                 }
-                String idS = "\"" + id.getItemName() + "\":" + total + ",";
-                sb.append(idS);
+                if (total_Min != 0 || total_Max != 0) {
+                    if (output.get("identifications") != null) {
+                        output.get("identifications").getAsJsonObject().add(id.getItemName(), JsonParser.parseString("{\"min\":" + total_Min + ",\"max\":" + total_Max + "}"));
+                    } else {
+                        output.add("identifications", JsonParser.parseString("{\"" + id.getItemName() + "\":{\"min\":" + total_Min + ",\"max\":" + total_Max + "}}"));
+                    }
+                }
             }
+
+            //TODO Reversed IDs
 
             if (itemJ.get("type").getAsString().equals("Scroll") || itemJ.get("type").getAsString().equals("Potion") || itemJ.get("type").getAsString().equals("Food")) {
                 if (ingEmpty) {
-                    sb.append("\"charges\":3,\"duration\":3, \"tier\":\"crafted\"}");
+                    output.addProperty("charges", 3);
+                    output.addProperty("duration", 3);
                 } else {
                     int lvM = Integer.parseInt(itemJ.get("level").getAsString().split("-")[0]);
-                    if (lvM < 30) {
+                    if (lvM >= 30 && lvM < 70) {
                         charges += 1;
-                    } else if (lvM < 70) {
+                    } else if (lvM >= 70) {
                         charges += 2;
-                    } else {
-                        charges += 3;
                     }
-                    int d = durabilityOrDuration + Math.round(recipeJ.get("duration").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * matTB);
-                    if (d < 0) d = 1;
-                    String duration = "\"charges\":" + charges + ",\"duration\":" + d + ", \"tier\":\"crafted\"}";
-                    sb.append(duration);
+                    if (charges < 0) charges = 1;
+                    output.addProperty("charges", charges);
+
+                    int duration_Min = durabilityOrDuration + Math.round(recipeJ.get("duration").getAsJsonObject().get("minimum").getAsInt() * matTB);
+                    int duration_Max = durabilityOrDuration + Math.round(recipeJ.get("duration").getAsJsonObject().get("maximum").getAsInt() * matTB);
+                    if (duration_Min < 0) duration_Min = 1;
+                    if (duration_Max < 0) duration_Max = 1;
+                    output.addProperty("duration", duration_Min + "-" + duration_Max);
                 }
             } else {
-                int d = durabilityOrDuration + Math.round(recipeJ.get("durability").getAsJsonObject().get(getMinOrMaxV2(getMinOrMax)).getAsInt() * matTB);
-                if (d < 0) d = 1;
-                String durability = "\"durability\":" + d + ", \"tier\":\"crafted\"}";
-                sb.append(durability);
+                int durability_Min = durabilityOrDuration + Math.round(recipeJ.get("durability").getAsJsonObject().get("minimum").getAsInt() * matTB);
+                int durability_Max = durabilityOrDuration + Math.round(recipeJ.get("durability").getAsJsonObject().get("maximum").getAsInt() * matTB);
+                if (durability_Min < 0) durability_Min = 1;
+                if (durability_Max < 0) durability_Max = 1;
+                output.addProperty("durability", durability_Min + "-" + durability_Max);
+
+                int lvM = Integer.parseInt(itemJ.get("level").getAsString().split("-")[0]);
+                int powderSlots = 1;
+                if (lvM >= 30 && lvM < 70) {
+                    powderSlots += 1;
+                } else if (lvM >= 70) {
+                    powderSlots += 2;
+                }
+                output.addProperty(Identifications.POWDER_SLOTS.getItemName(), powderSlots);
             }
 
-            return JsonParser.parseString(sb.toString()).getAsJsonObject();
+            return output;
         }
         return JsonParser.parseString("{\"failed\":true}").getAsJsonObject();
     }
@@ -796,7 +805,7 @@ public class CrafterUI implements ActionListener {
         String id = type + "-" + lv;
         JsonObject json = JsonParser.parseString("{\"failed\":true}").getAsJsonObject();
         for (JsonObject j : recipe) {
-            if (j.get("id") != null && j.get("id").getAsString().equals(id)) {
+            if (j.get("id") != null && j.get("id").getAsString().toLowerCase().equals(id)) {
                 json = j;
                 break;
             }
@@ -867,14 +876,6 @@ public class CrafterUI implements ActionListener {
                 break;
         }
         return total;
-    }
-
-    public static String getMinOrMaxV2(String s) {
-        if (s.equals("min")) {
-            return "minimum";
-        } else {
-            return "maximum";
-        }
     }
 
     public static class Adapter extends KeyAdapter {
