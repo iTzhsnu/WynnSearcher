@@ -98,6 +98,14 @@ public class CrafterUI implements ActionListener {
         put(45, Identifications.SOUL_POINT_REGEN);
     }};
 
+    private static final Map<Integer, Identifications> SP_REQ = new HashMap<Integer, Identifications>() {{
+        put(0, Identifications.STRENGTH_REQ);
+        put(1, Identifications.DEXTERITY_REQ);
+        put(2, Identifications.INTELLIGENCE_REQ);
+        put(3, Identifications.DEFENSE_REQ);
+        put(4, Identifications.AGILITY_REQ);
+    }};
+
     private static final Map<String, String> TYPE_TO_SKILL = new HashMap<String, String>() {{
         put("helmet", "armouring");
         put("chestplate", "armouring");
@@ -731,6 +739,20 @@ public class CrafterUI implements ActionListener {
                 }
             }
 
+            for (int i = 0; 4 >= i; ++i) { //SP Requests
+                Identifications id = SP_REQ.get(i);
+                int total = 0;
+                for (int n = 0; lJ.size() > n; ++n) {
+                    JsonObject j = lJ.get(n);
+                    if (id.getIngName() != null && j.get("itemOnlyIDs") != null && j.get("itemOnlyIDs").getAsJsonObject().get(id.getIngName()) != null) {
+                        total += (int) Math.floor(j.get("itemOnlyIDs").getAsJsonObject().get(id.getIngName()).getAsInt() * ingEffective[n]);
+                    }
+                }
+                if (total != 0) {
+                    output.get("requirements").getAsJsonObject().addProperty(id.getItemName(), total);
+                }
+            }
+
             for (int i = 0; 76 >= i; ++i) { //IDs
                 Identifications id = ItemUITemplate.ITEM_IDS.get(i);
                 int total_Min = 0;
@@ -794,6 +816,7 @@ public class CrafterUI implements ActionListener {
                     powderSlots += 2;
                 }
                 output.addProperty(Identifications.POWDER_SLOTS.getItemName(), powderSlots);
+                if (itemJ.get("attackSpeed") != null) output.addProperty(Identifications.ATTACK_SPEED.getItemName(), itemJ.get("attackSpeed").getAsString());
             }
 
             return output;
