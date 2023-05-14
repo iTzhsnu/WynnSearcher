@@ -360,7 +360,6 @@ public class CrafterUI implements ActionListener {
         if (s.contains("CR-")) {
             setIngDisplay(JsonParser.parseString(s.replace("CR-", "")).getAsJsonObject().get("ing").getAsJsonArray());
 
-            //JPanel itemUI = setDisplay(getCraftItemJson(recipeJson, ingJson, s, true), getCraftItemJson(recipeJson, ingJson, s, false), null, null, 270); //Change to ItemUITemplate
             ItemUITemplate itemUI = new ItemUITemplate(getCraftItemJson(recipeJson, ingJson, s), "item", null, null, 270, 0, true);
             created.add(itemUI);
             if (itemUI.getBounds().y + itemUI.getBounds().height > 745) {
@@ -721,7 +720,7 @@ public class CrafterUI implements ActionListener {
                             }
                         }
 
-                        if (itemJ.get("type").getAsString().equals("Scroll") || itemJ.get("type").getAsString().equals("Potion") || itemJ.get("type").getAsString().equals("Food")) {
+                        if (itemJ.get("type").getAsString().equals("scroll") || itemJ.get("type").getAsString().equals("potion") || itemJ.get("type").getAsString().equals("food")) {
                             if (j.get("consumableOnlyIDs") != null) {
                                 JsonObject jo = j.get("consumableOnlyIDs").getAsJsonObject();
                                 if (jo.get("duration") != null) durabilityOrDuration += jo.get("duration").getAsInt();
@@ -781,7 +780,7 @@ public class CrafterUI implements ActionListener {
 
             //TODO Reversed IDs
 
-            if (itemJ.get("type").getAsString().equals("Scroll") || itemJ.get("type").getAsString().equals("Potion") || itemJ.get("type").getAsString().equals("Food")) {
+            if (itemJ.get("type").getAsString().equals("scroll") || itemJ.get("type").getAsString().equals("potion") || itemJ.get("type").getAsString().equals("food")) {
                 if (ingEmpty) {
                     output.addProperty("charges", 3);
                     output.addProperty("duration", 3);
