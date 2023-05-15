@@ -1,5 +1,6 @@
 # WynnSearcher
-Can Easy Search Wynncraft Item and Ingredients
+Can Easy Search Wynncraft Item and Ingredients  
+Item Data Updated!
 
 ## Requirement
 Java 8 or above  
@@ -12,7 +13,7 @@ Gson (Include)
 ### Builder (Beta)
 Can Use Warrior Only (Other Ability Tree is Creating...)
 
-### Crafter (Beta)
+### Crafter (Latest Version Not Working)
 ![](readme_pictures/how_to_use_3.png)
 
 ### Custom
