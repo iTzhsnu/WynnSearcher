@@ -3,8 +3,7 @@ Can Easy Search Wynncraft Item and Ingredients
 Item Data Updated!
 
 ## Requirement
-Java 8 or above  
-Gson (Include)
+Java 8 or above
 
 ## How to Use
 ### Searcher
