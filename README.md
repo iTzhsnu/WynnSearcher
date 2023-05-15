@@ -9,10 +9,10 @@ Java 8 or above
 ### Searcher
 ![](readme_pictures/how_to_use.png)
 
-### Builder (Beta)
+### Builder (Latest Version not working)
 Can Use Warrior Only (Other Ability Tree is Creating...)
 
-### Crafter (Latest Version Not Working)
+### Crafter (Beta)
 ![](readme_pictures/how_to_use_3.png)
 
 ### Custom
