@@ -235,7 +235,7 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(updateAPI);
 
         this.crafterUI = new CrafterUI(contentPane, wynnIngredients, wynnRecipes, recipeAPIConnect, itemAPIConnect);
-        this.builderUI = new BuilderUI(contentPane, wynnItems, wynnIngredients, wynnRecipes, itemAPIConnect, recipeAPIConnect);
+        this.builderUI = new BuilderUI(contentPane, wynnItems, wynnIngredients, wynnOtherItems, wynnRecipes, itemAPIConnect, recipeAPIConnect);
         this.customUI = new CustomUI(contentPane);
 
         crafterUI.setCrafterVisible(false);

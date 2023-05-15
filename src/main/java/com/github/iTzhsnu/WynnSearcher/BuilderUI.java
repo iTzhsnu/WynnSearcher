@@ -33,6 +33,7 @@ public class BuilderUI implements ActionListener {
     private final List<JsonObject> necklaceJson = new ArrayList<>();
     private final List<JsonObject> ingAPI;
     private final List<JsonObject> recipeAPI;
+    private final List<JsonObject> otherItemAPI;
     private final List<JsonObject> armourTomeJson = new ArrayList<>();
     private final List<JsonObject> weaponTomeJson = new ArrayList<>();
     private final List<JsonObject> guildTomeJson = new ArrayList<>();
@@ -67,11 +68,12 @@ public class BuilderUI implements ActionListener {
     private final Mage mage;
     private final Shaman shaman;
 
-    public BuilderUI(Container p, List<JsonObject> itemAPI, List<JsonObject> ingAPI, List<JsonObject> recipeAPI, JLabel itemAPIConnect, String recipeAPIConnect) {
+    public BuilderUI(Container p, List<JsonObject> itemAPI, List<JsonObject> ingAPI, List<JsonObject> otherItemAPI, List<JsonObject> recipeAPI, JLabel itemAPIConnect, String recipeAPIConnect) {
         this.ingAPI = ingAPI;
         this.recipeAPI = recipeAPI;
+        this.otherItemAPI = otherItemAPI;
         setJson(itemAPI);
-        getTomes(armourTomeJson, weaponTomeJson, guildTomeJson);
+        setTomeJson();
 
         pane.setPreferredSize(new Dimension(1064, 1795));
         pane.setLayout(null);
@@ -151,19 +153,21 @@ public class BuilderUI implements ActionListener {
         p.add(recipeConnect);
     }
 
-    private void getTomes(List<JsonObject> armourTomes, List<JsonObject> weaponTomes, List<JsonObject> guildTomes) {
-        JsonObject armourJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/armour_tomes.json")), StandardCharsets.UTF_8))).getAsJsonObject();
-        JsonObject weaponJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/weapon_tomes.json")), StandardCharsets.UTF_8))).getAsJsonObject();
-        JsonObject guildJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/guild_tomes.json")), StandardCharsets.UTF_8))).getAsJsonObject();
-
-        for (JsonElement j : armourJ.get("items").getAsJsonArray()) {
-            armourTomes.add(j.getAsJsonObject());
-        }
-        for (JsonElement j : weaponJ.get("items").getAsJsonArray()) {
-            weaponTomes.add(j.getAsJsonObject());
-        }
-        for (JsonElement j : guildJ.get("items").getAsJsonArray()) {
-            guildTomes.add(j.getAsJsonObject());
+    public void setTomeJson() {
+        for (JsonObject j : otherItemAPI) {
+            if (j.get("tomeType") != null) {
+                switch (j.get("tomeType").getAsString()) {
+                    case "mobdamage":
+                        weaponTomeJson.add(j);
+                        break;
+                    case "guildtome":
+                        guildTomeJson.add(j);
+                        break;
+                    case "mobdefence":
+                        armourTomeJson.add(j);
+                        break;
+                }
+            }
         }
     }
 
@@ -171,35 +175,35 @@ public class BuilderUI implements ActionListener {
         for (JsonObject j : jsonList) {
             if (j.get("type") != null) {
                 switch (j.get("type").getAsString()) {
-                    case "Bow":
-                    case "Spear":
-                    case "Wand":
-                    case "Dagger":
-                    case "Relik":
+                    case "bow":
+                    case "spear":
+                    case "wand":
+                    case "dagger":
+                    case "relik":
                         weaponJson.add(j);
                         break;
-                    case "Helmet":
+                    case "helmet":
                         helmetJson.add(j);
                         break;
-                    case "Chestplate":
+                    case "chestplate":
                         chestplateJson.add(j);
                         break;
-                    case "Leggings":
+                    case "leggings":
                         leggingsJson.add(j);
                         break;
-                    case "Boots":
+                    case "boots":
                         bootsJson.add(j);
                         break;
                 }
             } else if (j.get("accessoryType") != null) {
                 switch (j.get("accessoryType").getAsString()) {
-                    case "Ring":
+                    case "ring":
                         ringJson.add(j);
                         break;
-                    case "Bracelet":
+                    case "bracelet":
                         braceletJson.add(j);
                         break;
-                    case "Necklace":
+                    case "necklace":
                         necklaceJson.add(j);
                         break;
                 }
@@ -306,60 +310,43 @@ public class BuilderUI implements ActionListener {
         JComboBox<String> guildTomeBox = new JComboBox<>();
 
         for (JsonObject j : helmetJson) {
-            if (j.get("displayName") != null) {
-                helmetBox.addItem(j.get("displayName").getAsString());
-            } else if (j.get("name") != null) {
+            if (j.get("name") != null) {
                 helmetBox.addItem(j.get("name").getAsString());
             }
         }
         for (JsonObject j : chestplateJson) {
-            if (j.get("displayName") != null) {
-                chestplateBox.addItem(j.get("displayName").getAsString());
-            } else if (j.get("name") != null) {
+            if (j.get("name") != null) {
                 chestplateBox.addItem(j.get("name").getAsString());
             }
         }
         for (JsonObject j : leggingsJson) {
-            if (j.get("displayName") != null) {
-                leggingsBox.addItem(j.get("displayName").getAsString());
-            } else if (j.get("name") != null) {
+            if (j.get("name") != null) {
                 leggingsBox.addItem(j.get("name").getAsString());
             }
         }
         for (JsonObject j : bootsJson) {
-            if (j.get("displayName") != null) {
-                bootsBox.addItem(j.get("displayName").getAsString());
-            } else if (j.get("name") != null) {
+            if (j.get("name") != null) {
                 bootsBox.addItem(j.get("name").getAsString());
             }
         }
         for (JsonObject j : ringJson) {
-            if (j.get("displayName") != null) {
-                ring1Box.addItem(j.get("displayName").getAsString());
-                ring2Box.addItem(j.get("displayName").getAsString());
-            } else if (j.get("name") != null) {
+            if (j.get("name") != null) {
                 ring1Box.addItem(j.get("name").getAsString());
                 ring2Box.addItem(j.get("name").getAsString());
             }
         }
         for (JsonObject j : braceletJson) {
-            if (j.get("displayName") != null) {
-                braceletBox.addItem(j.get("displayName").getAsString());
-            } else if (j.get("name") != null) {
+            if (j.get("name") != null) {
                 braceletBox.addItem(j.get("name").getAsString());
             }
         }
         for (JsonObject j : necklaceJson) {
-            if (j.get("displayName") != null) {
-                necklaceBox.addItem(j.get("displayName").getAsString());
-            } else if (j.get("name") != null) {
+            if (j.get("name") != null) {
                 necklaceBox.addItem(j.get("name").getAsString());
             }
         }
         for (JsonObject j : weaponJson) {
-            if (j.get("displayName") != null) {
-                weaponBox.addItem(j.get("displayName").getAsString());
-            } else if (j.get("name") != null) {
+            if (j.get("name") != null) {
                 weaponBox.addItem(j.get("name").getAsString());
             }
         }

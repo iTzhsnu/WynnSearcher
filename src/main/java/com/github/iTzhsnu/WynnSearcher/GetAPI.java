@@ -20,6 +20,7 @@ import java.util.*;
 public class GetAPI {
     public static final String WYNN_RECIPE_API = "https://api.wynncraft.com/v2/recipe/search/skill/";
     public static final String WYNN_ITEM_V3_API = "https://web-api.wynncraft.com/api/v3/item/search";
+    public static final String WYNN_ABILITY_TREE_API = "https://web-api.wynncraft.com/api/v3/ability/"; // map/[class], tree/[class]
 
     public GetAPI() {}
 
@@ -229,6 +230,18 @@ public class GetAPI {
                 }
             }
             return "Using Archive";
+        }
+    }
+
+    public void setWynnAbilityTreeAPI() { //Creating...
+        boolean connect = true;
+        String[] ss = new String[] {"warrior", "assassin", "archer", "mage", "shaman"};
+
+        for (String s : ss) {
+            String treePath = WYNN_ABILITY_TREE_API + "tree/" + s;
+            String mapPath = WYNN_ABILITY_TREE_API + "map/" + s;
+
+
         }
     }
 

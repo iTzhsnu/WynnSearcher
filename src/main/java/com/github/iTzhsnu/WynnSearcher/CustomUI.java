@@ -1,5 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -296,18 +297,18 @@ public class CustomUI implements ActionListener {
         scroll.getVerticalScrollBar().setUnitIncrement(20);
 
         itemType.setBounds(300, 5, 100, 20);
-        itemType.addItem("Helmet");
-        itemType.addItem("Chestplate");
-        itemType.addItem("Leggings");
-        itemType.addItem("Boots");
-        itemType.addItem("Ring");
-        itemType.addItem("Bracelet");
-        itemType.addItem("Necklace");
-        itemType.addItem("Spear");
-        itemType.addItem("Dagger");
-        itemType.addItem("Bow");
-        itemType.addItem("Wand");
-        itemType.addItem("Relik");
+        itemType.addItem("helmet");
+        itemType.addItem("chestplate");
+        itemType.addItem("leggings");
+        itemType.addItem("boots");
+        itemType.addItem("ring");
+        itemType.addItem("bracelet");
+        itemType.addItem("necklace");
+        itemType.addItem("spear");
+        itemType.addItem("dagger");
+        itemType.addItem("bow");
+        itemType.addItem("wand");
+        itemType.addItem("relik");
         itemType.addActionListener(this);
 
         pane.add(create);
@@ -343,7 +344,7 @@ public class CustomUI implements ActionListener {
 
         if (visible) {
             String selected = itemType.getItemAt(itemType.getSelectedIndex());
-            if (selected.equals("Spear") || selected.equals("Dagger") || selected.equals("Bow") || selected.equals("Wand") || selected.equals("Relik")) {
+            if (selected.equals("spear") || selected.equals("dagger") || selected.equals("bow") || selected.equals("wand") || selected.equals("relik")) {
                 for (int i = 0; min.size() > i; ++i) {
                     min.get(i).setVisible(true);
                     max.get(i).setVisible(true);
@@ -379,7 +380,7 @@ public class CustomUI implements ActionListener {
             loadCustomItem();
         } else if (e.getSource() == itemType) {
             String selected = itemType.getItemAt(itemType.getSelectedIndex());
-            if (selected.equals("Spear") || selected.equals("Dagger") || selected.equals("Bow") || selected.equals("Wand") || selected.equals("Relik")) {
+            if (selected.equals("spear") || selected.equals("dagger") || selected.equals("bow") || selected.equals("wand") || selected.equals("relik")) {
                 for (int i = 0; min.size() > i; ++i) {
                     min.get(i).setVisible(true);
                     max.get(i).setVisible(true);
@@ -440,13 +441,13 @@ public class CustomUI implements ActionListener {
         name.setBounds(width, height, 45, 20);
         atkSpdBox.setBounds(width + 50, height, 120, 20);
 
-        atkSpdBox.addItem("SUPER_FAST");
-        atkSpdBox.addItem("VERY_FAST");
-        atkSpdBox.addItem("FAST");
-        atkSpdBox.addItem("NORMAL");
-        atkSpdBox.addItem("SLOW");
-        atkSpdBox.addItem("VERY_SLOW");
-        atkSpdBox.addItem("SUPER_SLOW");
+        atkSpdBox.addItem("super_fast");
+        atkSpdBox.addItem("very_fast");
+        atkSpdBox.addItem("fast");
+        atkSpdBox.addItem("normal");
+        atkSpdBox.addItem("slow");
+        atkSpdBox.addItem("very_slow");
+        atkSpdBox.addItem("super_slow");
 
         this.name.add(name);
 
@@ -457,26 +458,40 @@ public class CustomUI implements ActionListener {
     public void createCustomItem() {
         display.removeAll();
 
-        StringBuilder itemData = new StringBuilder();
-        itemData.append("{");
+        JsonObject j = JsonParser.parseString("{\"tier\":\"custom\"}").getAsJsonObject();
         if (notVariable.get(0).getText().isEmpty()) {
-            itemData.append("\"name\":\"Custom Item\",");
+            j.addProperty("name", "Custom Item");
         } else {
-            String s = "\"name\":\"" + notVariable.get(0).getText() + "\",";
-            itemData.append(s);
+            j.addProperty("name", notVariable.get(0).getText());
         }
 
         for (int i = 1; notVariable.size() > i; ++i) {
             if (i >= 7 && i <= 12) continue;
             if (!notVariable.get(i).getText().isEmpty()) {
                 Identifications id = ID_FROM_NOT_VARIABLE_INT.get(i);
-                String s = "\"" + id.getItemName() + "\":" + notVariable.get(i).getText() + ",";
-                if (notVariable.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?")) itemData.append(s);
+                if (notVariable.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?") && !notVariable.get(i).getText().equals("0")) {
+                    if (j.get(id.getItemFieldPos()) == null) j.add(id.getItemFieldPos(), JsonParser.parseString("{}"));
+                    if (!variable.isSelected() || !id.isItemVariable()) { //Id Not Variable
+                        j.get(id.getItemFieldPos()).getAsJsonObject().addProperty(id.getItemName(), Integer.parseInt(notVariable.get(i).getText()));
+                    } else { //ID Variable
+                        int min = Integer.parseInt(notVariable.get(i).getText());
+                        int max = Integer.parseInt(notVariable.get(i).getText());
+                        if (SearchUI.isReversedID(id)) {
+                            min = ItemUITemplate.getReversedMinInt(min);
+                            max = ItemUITemplate.getReversedMaxInt(max);
+                        } else {
+                            min = ItemUITemplate.getMinInt(min);
+                            max = ItemUITemplate.getMaxInt(max);
+                        }
+
+                        j.get(id.getItemFieldPos()).getAsJsonObject().add(id.getItemName(), JsonParser.parseString("{\"min\":" + min + ",\"max\":" + max + "}"));
+                    }
+                }
             }
         }
 
         String selectedType = itemType.getItemAt(itemType.getSelectedIndex());
-        if (selectedType.equals("Spear") || selectedType.equals("Dagger") || selectedType.equals("Bow") || selectedType.equals("Wand") || selectedType.equals("Relik")) {
+        if (selectedType.equals("spear") || selectedType.equals("dagger") || selectedType.equals("bow") || selectedType.equals("wand") || selectedType.equals("relik")) {
             //Neutral, Earth, Thunder, Water, Fire and Air Damage
             for (int i = 0; min.size() > i; ++i) {
                 if (!min.get(i).getText().isEmpty() || !max.get(i).getText().isEmpty()) {
@@ -491,43 +506,38 @@ public class CustomUI implements ActionListener {
                             minNum = maxNum;
                         }
 
-                        String s = "\"" + id.getItemName() + "\":\"" + minNum + "-" + maxNum + "\",";
-                        itemData.append(s);
+                        if (j.get(id.getItemFieldPos()) == null) j.add(id.getItemFieldPos(), JsonParser.parseString("{}"));
+                        j.get(id.getItemFieldPos()).getAsJsonObject().add(id.getItemName(), JsonParser.parseString("{\"min\":" + minNum + "\"max\":" + maxNum + "}"));
                     }
                 }
             }
 
             //Attack Speed
-            String atkSpdS = "\"" + Identifications.ATTACK_SPEED.getItemName() + "\":\"" + atkSpdBox.getItemAt(atkSpdBox.getSelectedIndex()) + "\",";
-            itemData.append(atkSpdS);
+            j.addProperty(Identifications.ATTACK_SPEED_BONUS.getItemName(), atkSpdBox.getItemAt(atkSpdBox.getSelectedIndex()));
         } else {
             //Health, Earth Defense, Thunder Defense, Water Defense, Fire Defense and Air Defense
             for (int i = 7; 12 >= i; ++i) {
                 if (!notVariable.get(i).getText().isEmpty()) {
                     Identifications id = ID_FROM_NOT_VARIABLE_INT.get(i);
-                    String s = "\"" + id.getItemName() + "\":" + notVariable.get(i).getText() + ",";
-                    if (notVariable.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?")) itemData.append(s);
+                    if (notVariable.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?") && !notVariable.get(i).getText().equals("0")) {
+                        if (j.get(id.getItemFieldPos()) == null) j.add(id.getItemFieldPos(), JsonParser.parseString("{}"));
+                        j.get(id.getItemFieldPos()).getAsJsonObject().addProperty(id.getItemName(), Integer.parseInt(notVariable.get(i).getText()));
+                    }
                 }
             }
         }
 
-        String itemTypeS = "\"type\":\"" + selectedType + "\",";
-        itemData.append(itemTypeS);
+        j.addProperty("type", selectedType);
+        j.addProperty("identified", !variable.isSelected());
 
-        if (variable.isSelected()) {
-            itemData.append("\"tier\":\"Custom\",\"identified\":false}");
-        } else {
-            itemData.append("\"tier\":\"Custom\",\"identified\":true}");
-        }
-
-        ItemUITemplate itemUI = new ItemUITemplate(JsonParser.parseString(itemData.toString()).getAsJsonObject(), "item", null, null, 270, 0, true);
+        ItemUITemplate itemUI = new ItemUITemplate(j, "item", null, null, 270, 0, true);
         display.add(itemUI);
         if (itemUI.getBounds().y + itemUI.getBounds().height > 747) {
             display.setPreferredSize(new Dimension(270, itemUI.getBounds().y + itemUI.getBounds().height));
         } else {
             display.setPreferredSize(new Dimension(270, 747));
         }
-        itemText.setText("CI-" + itemData);
+        itemText.setText("CI-" + j);
         SwingUtilities.updateComponentTreeUI(display);
     }
 
@@ -546,50 +556,51 @@ public class CustomUI implements ActionListener {
             if (j.get("name") != null) notVariable.get(0).setText(j.get("name").getAsString());
             for (int i = 1; notVariable.size() > i; ++i) {
                 Identifications id = ID_FROM_NOT_VARIABLE_INT.get(i);
-                if (j.get(id.getItemName()) != null) {
-                    if (j.get(id.getItemName()).getAsInt() != 0) {
-                        notVariable.get(i).setText(String.valueOf(j.get(id.getItemName()).getAsInt()));
+                if (j.get(id.getItemFieldPos()) != null && j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
+                    JsonElement je = j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+                    if (!je.isJsonObject()) {
+                        notVariable.get(i).setText(String.valueOf(je.getAsInt()));
                     } else {
-                        notVariable.get(i).setText("");
+                        String getMinOrMax = "max";
+                        if (je.getAsJsonObject().get("max").getAsInt() < 0) getMinOrMax = "min";
+                        notVariable.get(i).setText(String.valueOf(SearchUI.getBaseID(je.getAsJsonObject().get(getMinOrMax).getAsInt())));
                     }
+                } else {
+                    notVariable.get(i).setText("");
                 }
             }
             for (int i = 0; min.size() > i; ++i) {
                 Identifications id = ID_FROM_VARIABLE_INT.get(i);
-                if (j.get(id.getItemName()) != null) {
-                    if (!j.get(id.getItemName()).getAsString().equals("0-0")) {
-                        if (j.get(id.getItemName()).getAsString().contains("-")) {
-                            String[] ss = j.get(id.getItemName()).getAsString().split("-");
-                            min.get(i).setText(ss[0]);
-                            max.get(i).setText(ss[ss.length - 1]);
-                        }
-                    } else {
-                        min.get(i).setText("");
-                        max.get(i).setText("");
-                    }
+                if (j.get(id.getItemFieldPos()) != null && j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
+                    JsonObject jo = j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject();
+                    min.get(i).setText(String.valueOf(jo.get("min").getAsInt()));
+                    max.get(i).setText(String.valueOf(jo.get("max").getAsInt()));
+                } else {
+                    min.get(i).setText("");
+                    max.get(i).setText("");
                 }
             }
             if (j.get("attackSpeed") != null) {
                 switch (j.get("attackSpeed").getAsString()) {
-                    case "SUPER_FAST":
+                    case "super_fast":
                         atkSpdBox.setSelectedIndex(0);
                         break;
-                    case "VERY_FAST":
+                    case "very_fast":
                         atkSpdBox.setSelectedIndex(1);
                         break;
-                    case "FAST":
+                    case "fast":
                         atkSpdBox.setSelectedIndex(2);
                         break;
-                    case "NORMAL":
+                    case "normal":
                         atkSpdBox.setSelectedIndex(3);
                         break;
-                    case "SLOW":
+                    case "slow":
                         atkSpdBox.setSelectedIndex(4);
                         break;
-                    case "VERY_SLOW":
+                    case "very_slow":
                         atkSpdBox.setSelectedIndex(5);
                         break;
-                    case "SUPER_SLOW":
+                    case "super_slow":
                         atkSpdBox.setSelectedIndex(6);
                         break;
                 }
