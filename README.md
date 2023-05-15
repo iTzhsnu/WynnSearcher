@@ -10,7 +10,7 @@ Java 8 or above
 ![](readme_pictures/how_to_use.png)
 
 ### Builder (Latest Version not working)
-Can Use Warrior Only (Other Ability Tree is Creating...)
+Fixes Soon...
 
 ### Crafter (Beta)
 ![](readme_pictures/how_to_use_3.png)
