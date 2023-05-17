@@ -645,10 +645,10 @@ public class SearchUI extends JFrame implements ActionListener {
                 } else {
                     for (JsonObject json : tailoringJson) {
                         boolean add = true;
-                        JsonArray array = json.get("skills").getAsJsonArray();
+                        JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (s.contains("ARMOURING")) add = false;
+                            if (s.contains("armouring")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -662,10 +662,10 @@ public class SearchUI extends JFrame implements ActionListener {
                 } else {
                     for (JsonObject json : weaponsmithingJson) {
                         boolean add = true;
-                        JsonArray array = json.get("skills").getAsJsonArray();
+                        JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING")) add = false;
+                            if (hasIngType(s, "armouring") || hasIngType(s, "tailoring")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -679,10 +679,10 @@ public class SearchUI extends JFrame implements ActionListener {
                 } else {
                     for (JsonObject json : woodworkingJson) {
                         boolean add = true;
-                        JsonArray array = json.get("skills").getAsJsonArray();
+                        JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING") || hasIngType(s, "WEAPONSMITHING")) add = false;
+                            if (hasIngType(s, "armouring") || hasIngType(s, "tailoring") || hasIngType(s, "weaponsmithing")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -696,10 +696,10 @@ public class SearchUI extends JFrame implements ActionListener {
                 } else {
                     for (JsonObject json : jewelingJson) {
                         boolean add = true;
-                        JsonArray array = json.get("skills").getAsJsonArray();
+                        JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING") || hasIngType(s, "WEAPONSMITHING") || hasIngType(s, "WOODWORKING")) add = false;
+                            if (hasIngType(s, "armouring") || hasIngType(s, "tailoring") || hasIngType(s, "weaponsmithing") || hasIngType(s, "woodworking")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -713,10 +713,10 @@ public class SearchUI extends JFrame implements ActionListener {
                 } else {
                     for (JsonObject json : scribingJson) {
                         boolean add = true;
-                        JsonArray array = json.get("skills").getAsJsonArray();
+                        JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING") || hasIngType(s, "WEAPONSMITHING") || hasIngType(s, "WOODWORKING") || hasIngType(s, "JEWELING")) add = false;
+                            if (hasIngType(s, "armouring") || hasIngType(s, "tailoring") || hasIngType(s, "weaponsmithing") || hasIngType(s, "woodworking") || hasIngType(s, "jeweling")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -730,10 +730,10 @@ public class SearchUI extends JFrame implements ActionListener {
                 } else {
                     for (JsonObject json : cookingJson) {
                         boolean add = true;
-                        JsonArray array = json.get("skills").getAsJsonArray();
+                        JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING") || hasIngType(s, "WEAPONSMITHING") || hasIngType(s, "WOODWORKING") || hasIngType(s, "JEWELING") || hasIngType(s, "SCRIBING")) add = false;
+                            if (hasIngType(s, "armouring") || hasIngType(s, "tailoring") || hasIngType(s, "weaponsmithing") || hasIngType(s, "woodworking") || hasIngType(s, "jeweling") || hasIngType(s, "scribing")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
@@ -747,10 +747,10 @@ public class SearchUI extends JFrame implements ActionListener {
                 } else {
                     for (JsonObject json : alchemismJson) {
                         boolean add = true;
-                        JsonArray array = json.get("skills").getAsJsonArray();
+                        JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
                         for (int i = 0; array.size() > i; ++i) {
                             String s = array.get(i).getAsString();
-                            if (hasIngType(s, "ARMOURING") || hasIngType(s, "TAILORING") || hasIngType(s, "WEAPONSMITHING") || hasIngType(s, "WOODWORKING") || hasIngType(s, "JEWELING") || hasIngType(s, "SCRIBING") || hasIngType(s, "COOKING")) add = false;
+                            if (hasIngType(s, "armouring") || hasIngType(s, "tailoring") || hasIngType(s, "weaponsmithing") || hasIngType(s, "woodworking") || hasIngType(s, "jeweling") || hasIngType(s, "scribing") || hasIngType(s, "cooking")) add = false;
                         }
                         if (add) searchedItems.add(json);
                     }
