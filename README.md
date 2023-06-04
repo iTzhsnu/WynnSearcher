@@ -10,6 +10,8 @@ Java 8 or above
 
 ### Builder (Beta)
 Release Soon...
+![](readme_pictures/how_to_use_2_1.png)
+![](readme_pictures/how_to_use_2_2.png)
 
 ### Crafter (Beta)
 ![](readme_pictures/how_to_use_3.png)
