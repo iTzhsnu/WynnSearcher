@@ -1,6 +1,5 @@
 # WynnSearcher
-Can Easy Search Wynncraft Item and Ingredients  
-Item Data Updated!
+Can Easy Search Wynncraft Item and Ingredients
 
 ## Requirement
 Java 8 or above
@@ -9,13 +8,13 @@ Java 8 or above
 ### Searcher
 ![](readme_pictures/how_to_use.png)
 
-### Builder (Latest Version not working)
-Fixes Soon...
+### Builder (Beta)
+Release Soon...
 
 ### Crafter (Beta)
 ![](readme_pictures/how_to_use_3.png)
 
-### Custom
+### Custom (Beta)
 ![](readme_pictures/how_to_use_4.png)
 
 ## Screenshots
