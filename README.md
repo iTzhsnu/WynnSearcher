@@ -9,7 +9,6 @@ Java 8 or above
 ![](readme_pictures/how_to_use.png)
 
 ### Builder (Beta)
-Release Soon...
 ![](readme_pictures/how_to_use_2_1.png)
 ![](readme_pictures/how_to_use_2_2.png)
 
