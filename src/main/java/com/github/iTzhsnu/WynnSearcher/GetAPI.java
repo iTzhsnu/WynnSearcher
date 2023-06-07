@@ -233,16 +233,73 @@ public class GetAPI {
         }
     }
 
-    public void setWynnAbilityTreeAPI() { //Creating...
-        boolean connect = true;
-        String[] ss = new String[] {"warrior", "assassin", "archer", "mage", "shaman"};
+    public JsonObject setWynnAbilityTreeAPI(String s, List<JsonObject> treeMap, JLabel connect) {
+        String treePath = WYNN_ABILITY_TREE_API + "tree/" + s;
+        String mapPath = WYNN_ABILITY_TREE_API + "map/" + s;
 
-        for (String s : ss) {
-            String treePath = WYNN_ABILITY_TREE_API + "tree/" + s;
-            String mapPath = WYNN_ABILITY_TREE_API + "map/" + s;
+        try {
+            //Tree
+            BufferedReader treeBuffer = new BufferedReader(new InputStreamReader(new URL(treePath).openStream(), StandardCharsets.UTF_8));
+            String treeLine;
+            StringBuilder treeBuilder = new StringBuilder();
 
+            while ((treeLine = treeBuffer.readLine()) != null) {
+                treeBuilder.append(treeLine);
+            }
 
+            //Tree Map
+            BufferedReader mapBuffer = new BufferedReader(new InputStreamReader(new URL(mapPath).openStream(), StandardCharsets.UTF_8));
+            String mapLine;
+            StringBuilder mapBuilder = new StringBuilder();
+
+            while ((mapLine = mapBuffer.readLine()) != null) {
+                mapBuilder.append(mapLine);
+            }
+
+            JsonObject json = JsonParser.parseString(mapBuilder.toString()).getAsJsonObject();
+            if (json.get("map") != null) {
+                for (JsonElement je : json.get("map").getAsJsonArray()) {
+                    if (je.getAsJsonObject().get("TYPE") != null && je.getAsJsonObject().get("TYPE").getAsString().equals("CONNECTOR")) {
+                        treeMap.add(je.getAsJsonObject());
+                    }
+                }
+            }
+
+            FileWriter treeFW = new FileWriter(getFilePath("/items_data/" + s + "_tree.json"));
+            FileWriter mapFW = new FileWriter(getFilePath("/items_data/" + s + "_map.json"));
+            treeFW.write(treeBuilder.toString());
+            mapFW.write(mapBuilder.toString());
+            treeFW.close();
+            mapFW.close();
+
+            return JsonParser.parseString(treeBuilder.toString()).getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        connect.setText("Using Archive");
+        connect.setForeground(new Color(255, 255, 0));
+
+        try {
+            JsonObject treeJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/" + s + "_tree.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+            JsonObject mapJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/" + s + "_map.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+
+            //Tree Map
+            if (mapJ.get("map") != null) {
+                for (JsonElement je : mapJ.get("map").getAsJsonArray()) {
+                    if (je.getAsJsonObject().get("TYPE") != null && je.getAsJsonObject().get("TYPE").getAsString().equals("CONNECTOR")) {
+                        treeMap.add(je.getAsJsonObject());
+                    }
+                }
+            }
+
+            return treeJ;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        connect.setText("Load Failed");
+        connect.setForeground(new Color(255, 0, 0));
+        return null;
     }
 
     public static boolean getUpdate() {

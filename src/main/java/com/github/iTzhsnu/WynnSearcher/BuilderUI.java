@@ -5,17 +5,13 @@ import com.github.iTzhsnu.WynnSearcher.builder.skilltree.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class BuilderUI implements ActionListener {
     //Main Panel
@@ -51,6 +47,7 @@ public class BuilderUI implements ActionListener {
     //API Connect
     private final JLabel itemConnect;
     private final JLabel recipeConnect;
+    private final JLabel treeConnect = new JLabel("Tree API Connected");
 
     //Skill Point, Damage IDs and ID Display
     private final SkillPoint skillPoint;
@@ -58,15 +55,16 @@ public class BuilderUI implements ActionListener {
     private final ID_Display id_display;
     private final Damage_Display damage_display;
     private final Item_Display item_display;
+    private final Powder_Effects powder_effects;
 
     //Ability Tree
     private final JComboBox<String> classes = new JComboBox<>();
     private final Damage_Boosts damage_boost;
-    private final Warrior warrior;
-    private final Assassin assassin;
-    private final Archer archer;
-    private final Mage mage;
-    private final Shaman shaman;
+    private final TreeBase warrior;
+    private final TreeBase assassin;
+    private final TreeBase archer;
+    private final TreeBase mage;
+    private final TreeBase shaman;
 
     public BuilderUI(Container p, List<JsonObject> itemAPI, List<JsonObject> ingAPI, List<JsonObject> otherItemAPI, List<JsonObject> recipeAPI, JLabel itemAPIConnect, String recipeAPIConnect) {
         this.ingAPI = ingAPI;
@@ -75,7 +73,7 @@ public class BuilderUI implements ActionListener {
         setJson(itemAPI);
         setTomeJson();
 
-        pane.setPreferredSize(new Dimension(1064, 1795));
+        pane.setPreferredSize(new Dimension(1064, 1910));
         pane.setLayout(null);
 
         scrollPane = new JScrollPane(pane);
@@ -90,8 +88,8 @@ public class BuilderUI implements ActionListener {
         } else {
             recipeConnect.setForeground(new Color(255, 0, 0));
         }
-        itemConnect.setBounds(520, 5, 150, 20);
-        recipeConnect.setBounds(700, 5, 150, 20);
+        itemConnect.setBounds(400, 5, 150, 20);
+        recipeConnect.setBounds(600, 5, 150, 20);
 
         setComboBox();
 
@@ -121,6 +119,7 @@ public class BuilderUI implements ActionListener {
         id_display = new ID_Display(pane);
         damage_display = new Damage_Display(pane);
         item_display = new Item_Display(pane);
+        powder_effects = new Powder_Effects(pane);
 
         classes.setBounds(10, 185, 80, 20);
         classes.addItem("Warrior");
@@ -131,11 +130,14 @@ public class BuilderUI implements ActionListener {
         classes.addActionListener(this);
 
         damage_boost = new Damage_Boosts(pane);
-        warrior = new Warrior(pane);
-        assassin = new Assassin(pane);
-        archer = new Archer(pane);
-        mage = new Mage(pane);
-        shaman = new Shaman(pane);
+
+        treeConnect.setForeground(new Color(0, 169, 104));
+        treeConnect.setBounds(800, 5, 150, 20);
+        warrior = new TreeBase(pane, Archetype.FALLEN, Archetype.BATTLE_MONK, Archetype.PALADIN, "warrior", treeConnect);
+        assassin = new TreeBase(pane, Archetype.SHADESTEPPER, Archetype.TRICKSTER, Archetype.ACROBAT, "assassin", treeConnect);
+        archer = new TreeBase(pane, Archetype.BOLTSLINGER, Archetype.SHARPSHOOTER, Archetype.TRAPPER, "archer", treeConnect);
+        mage = new TreeBase(pane, Archetype.RIFTWALKER, Archetype.LIGHT_BENDER, Archetype.ARCANIST, "mage", treeConnect);
+        shaman = new TreeBase(pane, Archetype.SUMMONER, Archetype.RITUALIST, Archetype.ACOLYTE, "shaman", treeConnect);
 
         setClassOnlyDisplayVisible();
 
@@ -151,6 +153,7 @@ public class BuilderUI implements ActionListener {
         p.add(scrollPane);
         p.add(itemConnect);
         p.add(recipeConnect);
+        p.add(treeConnect);
     }
 
     public void setTomeJson() {
@@ -215,6 +218,7 @@ public class BuilderUI implements ActionListener {
         scrollPane.setVisible(visible);
         itemConnect.setVisible(visible);
         recipeConnect.setVisible(visible);
+        treeConnect.setVisible(visible);
     }
 
     public void setClassOnlyDisplayVisible() {
@@ -241,38 +245,42 @@ public class BuilderUI implements ActionListener {
                 break;
         }
         warrior.setTreeVisible(warriorB);
-        damage_boost.getSlider().get(0).setDamage_Boost_Slider_Visible(warriorB);
-        damage_boost.getSlider().get(1).setDamage_Boost_Slider_Visible(warriorB);
-        damage_boost.getBox().get(5).setVisible(warriorB);
-        damage_boost.getBox().get(6).setVisible(warriorB);
-        damage_boost.getBox().get(7).setVisible(warriorB);
+        damage_boost.getSlider().get(1).setDamage_Boost_Slider_Visible(warriorB); //Corrupted
+        damage_boost.getSlider().get(2).setDamage_Boost_Slider_Visible(warriorB); //Discombobulate
+        damage_boost.getBox().get(7).setVisible(warriorB); //Mantle
+        damage_boost.getBox().get(8).setVisible(warriorB); //Brink of Madness
 
         assassin.setTreeVisible(assassinB);
-        damage_boost.getSlider().get(2).setDamage_Boost_Slider_Visible(assassinB);
-        damage_boost.getBox().get(8).setVisible(assassinB);
-        damage_boost.getBox().get(9).setVisible(assassinB);
-        damage_boost.getBox().get(10).setVisible(assassinB);
-        damage_boost.getBox().get(11).setVisible(assassinB);
-        damage_boost.getBox().get(12).setVisible(assassinB);
+        damage_boost.getSlider().get(3).setDamage_Boost_Slider_Visible(assassinB); //Clones
+        damage_boost.getSlider().get(4).setDamage_Boost_Slider_Visible(assassinB); //Nightcloak Knife
+        damage_boost.getBox().get(9).setVisible(assassinB); //Backstab
+        damage_boost.getBox().get(10).setVisible(assassinB); //Surprise Strike
+        damage_boost.getBox().get(11).setVisible(assassinB); //Derilious Gas
+        damage_boost.getBox().get(12).setVisible(assassinB); //Mirror Image
+        damage_boost.getBox().get(13).setVisible(assassinB); //Satsujin
+        damage_boost.getBox().get(14).setVisible(assassinB); //Flow State
+        damage_boost.getBox().get(15).setVisible(assassinB); //Parry
+        damage_boost.getBox().get(16).setVisible(assassinB); //Dissolution
 
         archer.setTreeVisible(archerB);
-        damage_boost.getSlider().get(3).setDamage_Boost_Slider_Visible(archerB);
-        damage_boost.getSlider().get(4).setDamage_Boost_Slider_Visible(archerB);
-        damage_boost.getSlider().get(5).setDamage_Boost_Slider_Visible(archerB);
+        damage_boost.getSlider().get(5).setDamage_Boost_Slider_Visible(archerB); //Focus
+        damage_boost.getSlider().get(6).setDamage_Boost_Slider_Visible(archerB); //Patient Hunter
+        damage_boost.getSlider().get(7).setDamage_Boost_Slider_Visible(archerB); //Decimator
+        damage_boost.getBox().get(17).setVisible(archerB); //Initiator
 
         mage.setTreeVisible(mageB);
-        damage_boost.getSlider().get(6).setDamage_Boost_Slider_Visible(mageB);
+        damage_boost.getSlider().get(8).setDamage_Boost_Slider_Visible(mageB); //Winded
 
         shaman.setTreeVisible(shamanB);
-        damage_boost.getSlider().get(7).setDamage_Boost_Slider_Visible(shamanB);
-        damage_boost.getBox().get(13).setVisible(shamanB);
-        damage_boost.getBox().get(14).setVisible(shamanB);
-        damage_boost.getBox().get(15).setVisible(shamanB);
-        damage_boost.getBox().get(16).setVisible(shamanB);
-        damage_boost.getBox().get(17).setVisible(shamanB);
-        damage_boost.getBox().get(18).setVisible(shamanB);
-        damage_boost.getBox().get(19).setVisible(shamanB);
-        damage_boost.getBox().get(20).setVisible(shamanB);
+        damage_boost.getSlider().get(9).setDamage_Boost_Slider_Visible(shamanB); //Shepherd
+        damage_boost.getBox().get(18).setVisible(shamanB); //Mask of the Lunatic
+        damage_boost.getBox().get(19).setVisible(shamanB); //Mask of the Fanatic
+        damage_boost.getBox().get(20).setVisible(shamanB); //Mask of the Coward
+        damage_boost.getBox().get(21).setVisible(shamanB); //Chant of the Fanatic
+        damage_boost.getBox().get(22).setVisible(shamanB); //Bullwhip
+        damage_boost.getBox().get(23).setVisible(shamanB); //Invigorating Wave
+        damage_boost.getBox().get(24).setVisible(shamanB); //Sacrificial Shrine
+        damage_boost.getBox().get(25).setVisible(shamanB); //Mask of the Awakened
     }
 
     private TreeBase getTree() {
@@ -572,14 +580,14 @@ public class BuilderUI implements ActionListener {
     public void getItemID_And_Display() {
         item_display.setItem_Display(itemBox, ingAPI, recipeAPI, helmetJson, chestplateJson, leggingsJson, bootsJson, ringJson, braceletJson, necklaceJson, weaponJson, armourTomeJson, weaponTomeJson, guildTomeJson);
         skillPoint.setSkillPoint(item_display.getItemJsons());
-        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), damage_boost, powderField, classes.getSelectedIndex(), false);
-        damage_display.setDamage_Display(item_display.getItemJsons().getWeapon(), skillPoint, damage_boost, getTree(), id_display.getId_Numbers(), powderField);
+        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), damage_boost ,powder_effects, powderField, classes.getSelectedIndex(), false);
+        damage_display.setDamage_Display(item_display.getItemJsons().getWeapon(), skillPoint, damage_boost, getTree(), powder_effects, id_display.getId_Numbers(), powderField);
     }
 
     public void updateIDs() {
         skillPoint.updateSkillPoint();
-        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), damage_boost, powderField, classes.getSelectedIndex(), true);
-        damage_display.setDamage_Display(item_display.getItemJsons().getWeapon(), skillPoint, damage_boost, getTree(), id_display.getId_Numbers(), powderField);
+        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), damage_boost, powder_effects, powderField, classes.getSelectedIndex(), true);
+        damage_display.setDamage_Display(item_display.getItemJsons().getWeapon(), skillPoint, damage_boost, getTree(), powder_effects, id_display.getId_Numbers(), powderField);
     }
 
     public void saveBuild() {
@@ -591,7 +599,7 @@ public class BuilderUI implements ActionListener {
 
         //Armors, Accessories, Weapon and Tomes
         for (int i = 0; 15 >= i; ++i) {
-            String s = "\"" + getItemName(i) + "\",";
+            String s = "\"" + getItemName(i).replaceAll("\"", "\\\\\"") + "\",";
             sb.append(s);
         }
         sb.deleteCharAt(sb.length() - 1);
@@ -626,7 +634,7 @@ public class BuilderUI implements ActionListener {
 
         //IDs
         sb.append("],\"ids\":[");
-        for (int i = 0; 48 >= i; ++i) {
+        for (int i = 0; 56 >= i; ++i) {
             String s = damage_ids.getID(i).getValue() + ",";
             sb.append(s);
         }
@@ -666,7 +674,7 @@ public class BuilderUI implements ActionListener {
         }
 
         //Set IDs
-        for (int i = 0; 48 >= i; ++i) {
+        for (int i = 0; 56 >= i; ++i) {
             damage_ids.getID(i).setTextValue(j.get("ids").getAsJsonArray().get(i).getAsInt());
         }
 

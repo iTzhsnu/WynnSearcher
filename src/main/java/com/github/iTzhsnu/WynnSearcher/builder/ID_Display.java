@@ -2,8 +2,10 @@ package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
 import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
+import com.github.iTzhsnu.WynnSearcher.SearchUI;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeBase;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeCheckBox;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
@@ -234,7 +236,7 @@ public class ID_Display {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(422, 385, 268, 400);
+        scrollPane.setBounds(422, 435, 268, 400);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);
@@ -242,7 +244,7 @@ public class ID_Display {
 
 
 
-    public void setIDs(ItemJsons itemJsons, Damage_IDs damage_ids, SkillPoint sp, TreeBase tree, Damage_Boosts damage_boosts, List<JTextField> powders, int classID, boolean updateOnly) {
+    public void setIDs(ItemJsons itemJsons, Damage_IDs damage_ids, SkillPoint sp, TreeBase tree, Damage_Boosts damage_boosts, Powder_Effects powder_effects, List<JTextField> powders, int classID, boolean updateOnly) {
         pane.removeAll();
         if (ids.size() > 0) {
             ids.subList(0, ids.size()).clear();
@@ -258,184 +260,70 @@ public class ID_Display {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 79 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //80 ~ 85 (ID), 89 (Weapon Tome Damage Bonus)
         };
+        int[] numbers_Sub = new int[] { //Using 0 ~ 79
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0 ~ 9 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //10 ~ 19 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //20 ~ 29 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //30 ~ 39 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //40 ~ 49 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //50 ~ 59 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //60 ~ 69 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 79 (ID)
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //80 ~ 85 (ID), 89 (Weapon Tome Damage Bonus)
+        };
         float def = 2F - CLASS_DEF.get(classID); //Base Defense
 
         float tomeResist = 1; //Tome Resistance
         //Tomes
         if (itemJsons.getArmourTomes().size() > 0) { //Armour Tomes
             for (JsonObject j : itemJsons.getArmourTomes()) {
-                tomeResist -= j.get("bonus").getAsInt() / 100F; //Armour Tome Resistance
-                for (int i = 0; 27 >= i; ++i) {
-                    if (i >= 3 && i <= 7) continue;
-                    Identifications id = Item_Display.TOME_IDS.get(i);
-                    if (j.get(id.getItemName()) != null) {
-                        if (id.isItemVariable()) { //Variable
-                            numbers[ID_INT.get(id)] += ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
-                        } else { //Not Variable
-                            numbers[ID_INT.get(id)] += j.get(id.getItemName()).getAsInt();
-                        }
-                    }
-                }
+                tomeResist -= j.get("base").getAsJsonObject().get("defenceToMobs").getAsInt() / 100F; //Armour Tome Resistance
+                setNumbers(j, numbers);
+                setNumbers(j, numbers_Sub);
             }
         }
         if (itemJsons.getWeaponTomes().size() > 0) { //Weapon Tomes
             for (JsonObject j : itemJsons.getWeaponTomes()) {
-                numbers[89] += j.get("bonus").getAsInt(); //Weapon Tome Damage Bonus
-                for (int i = 0; 27 >= i; ++i) {
-                    if (i >= 3 && i <= 7) continue;
-                    Identifications id = Item_Display.TOME_IDS.get(i);
-                    if (j.get(id.getItemName()) != null) {
-                        if (id.isItemVariable()) { //Variable
-                            numbers[ID_INT.get(id)] += ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
-                        } else { //Not Variable
-                            numbers[ID_INT.get(id)] += j.get(id.getItemName()).getAsInt();
-                        }
-                    }
-                }
+                numbers[89] += j.get("base").getAsJsonObject().get("damageToMobs").getAsInt(); //Weapon Tome Damage Bonus
+                setNumbers(j, numbers);
+                setNumbers(j, numbers_Sub);
             }
         }
         if (itemJsons.getGuildTome() != null) { //Guild Tome
-            JsonObject j = itemJsons.getGuildTome();
-            for (int i = 0; 27 >= i; ++i) {
-                if (i >= 3 && i <= 7) continue;
-                Identifications id = Item_Display.TOME_IDS.get(i);
-                if (j.get(id.getItemName()) != null) {
-                    if (id.isItemVariable()) { //Variable
-                        numbers[ID_INT.get(id)] += ItemUITemplate.getMaxInt(j.get(id.getItemName()).getAsInt());
-                    } else { //Not Variable
-                        numbers[ID_INT.get(id)] += j.get(id.getItemName()).getAsInt();
-                    }
-                }
-            }
+            setNumbers(itemJsons.getGuildTome(), numbers);
         }
 
         //Weapon, Armor, Accessory
         if (itemJsons.getJsonObjectList().size() > 0) {
             for (JsonObject j : itemJsons.getJsonObjectList()) {
-                for (int i = 0; 77 >= i; ++i) {
-                    if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
-                        if (!IDS.get(i).isItemVariable()) {
-                            numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                        } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                            numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                        } else {
-                            numbers[i] += ItemUITemplate.getMaxInt(j.get(IDS.get(i).getItemName()).getAsInt());
-                        }
-                    }
-                }
-                for (int i = 0; 7 >= i; ++i) {
-                    if (j.get(REVERSED_ID.get(i).getItemName()) != null && j.get(REVERSED_ID.get(i).getItemName()).getAsInt() != 0) {
-                        if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                            numbers[i + 78] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
-                        } else {
-                            numbers[i + 78] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
-                        }
-                    }
-                }
+                setNumbers(j, numbers);
             }
         }
 
         if (itemJsons.getWeapon() != null) {
-            JsonObject j = itemJsons.getWeapon();
-            for (int i = 1; 77 >= i; ++i) {
-                if (i >= 3 && i <= 7) continue;
-                if (j.get(IDS.get(i).getItemName()) != null && j.get(IDS.get(i).getItemName()).getAsInt() != 0) {
-                    if (!IDS.get(i).isItemVariable()) {
-                        numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                        numbers[i] += j.get(IDS.get(i).getItemName()).getAsInt();
-                    } else {
-                        numbers[i] += ItemUITemplate.getMaxInt(j.get(IDS.get(i).getItemName()).getAsInt());
-                    }
-                }
-            }
-            for (int i = 0; 7 >= i; ++i) {
-                if (j.get(REVERSED_ID.get(i).getItemName()) != null && j.get(REVERSED_ID.get(i).getItemName()).getAsInt() != 0) {
-                    if (j.get("identified") != null && j.get("identified").getAsBoolean()) {
-                        numbers[i + 78] += j.get(REVERSED_ID.get(i).getItemName()).getAsInt();
-                    } else {
-                        numbers[i + 78] += ItemUITemplate.getReversedMinInt(j.get(REVERSED_ID.get(i).getItemName()).getAsInt());
-                    }
-                }
-            }
+            setNumbers(itemJsons.getWeapon(), numbers);
         }
 
         JsonObject powderJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/powders.json")), StandardCharsets.UTF_8))).getAsJsonObject();
 
-        //Helmet Powder
-        if (itemJsons.getHelmet() != null && itemJsons.getHelmet().get("sockets") != null && itemJsons.getHelmet().get("sockets").getAsInt() > 0 && powders.get(0).getText().length() > 1) {
-            for (int i = 0; (int) Math.floor(powders.get(0).getText().length() / 2F) * 2 > i; i += 2) {
-                if (itemJsons.getHelmet().get("sockets").getAsInt() >= i / 2) {
-                    String name = String.valueOf(powders.get(0).getText().charAt(i)) + powders.get(0).getText().charAt(i + 1);
-                    if (powderJ.get(name) != null) {
-                        JsonObject j = powderJ.get(name).getAsJsonObject();
-                        if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
-                        if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
-                        if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
-                        if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
-                        if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
-                    }
-                } else {
-                    break;
-                }
-            }
+        //Powder
+        if (itemJsons.getHelmet() != null) {
+            setArmorPowder(itemJsons.getHelmet(), powderJ, powders.get(0), numbers);
         }
 
         //Chestplate Powder
-        if (itemJsons.getChestplate() != null && itemJsons.getChestplate().get("sockets") != null && itemJsons.getChestplate().get("sockets").getAsInt() > 0 && powders.get(1).getText().length() > 1) {
-            for (int i = 0; (int) Math.floor(powders.get(1).getText().length() / 2F) * 2 > i; i += 2) {
-                if (itemJsons.getChestplate().get("sockets").getAsInt() >= i / 2) {
-                    String name = String.valueOf(powders.get(1).getText().charAt(i)) + powders.get(1).getText().charAt(i + 1);
-                    if (powderJ.get(name) != null) {
-                        JsonObject j = powderJ.get(name).getAsJsonObject();
-                        if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
-                        if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
-                        if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
-                        if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
-                        if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
-                    }
-                } else {
-                    break;
-                }
-            }
+        if (itemJsons.getChestplate() != null) {
+            setArmorPowder(itemJsons.getChestplate(), powderJ, powders.get(1), numbers);
         }
 
         //Leggings Powder
-        if (itemJsons.getLeggings() != null && itemJsons.getLeggings().get("sockets") != null && itemJsons.getLeggings().get("sockets").getAsInt() > 0 && powders.get(2).getText().length() > 1) {
-            for (int i = 0; (int) Math.floor(powders.get(2).getText().length() / 2F) * 2 > i; i += 2) {
-                if (itemJsons.getLeggings().get("sockets").getAsInt() >= i / 2) {
-                    String name = String.valueOf(powders.get(2).getText().charAt(i)) + powders.get(2).getText().charAt(i + 1);
-                    if (powderJ.get(name) != null) {
-                        JsonObject j = powderJ.get(name).getAsJsonObject();
-                        if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
-                        if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
-                        if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
-                        if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
-                        if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
-                    }
-                } else {
-                    break;
-                }
-            }
+        if (itemJsons.getLeggings() != null) {
+            setArmorPowder(itemJsons.getLeggings(), powderJ, powders.get(2), numbers);
         }
 
         //Boots Powder
-        if (itemJsons.getBoots() != null && itemJsons.getBoots().get("sockets") != null && itemJsons.getBoots().get("sockets").getAsInt() > 0 && powders.get(3).getText().length() > 1) {
-            for (int i = 0; (int) Math.floor(powders.get(3).getText().length() / 2F) * 2 > i; i += 2) {
-                if (itemJsons.getBoots().get("sockets").getAsInt() >= i / 2) {
-                    String name = String.valueOf(powders.get(3).getText().charAt(i)) + powders.get(3).getText().charAt(i + 1);
-                    if (powderJ.get(name) != null) {
-                        JsonObject j = powderJ.get(name).getAsJsonObject();
-                        if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
-                        if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
-                        if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
-                        if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
-                        if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
-                    }
-                } else {
-                    break;
-                }
-            }
+        if (itemJsons.getBoots() != null) {
+            setArmorPowder(itemJsons.getBoots(), powderJ, powders.get(3), numbers);
         }
 
         if (updateOnly) { //Update Edited ID
@@ -458,67 +346,102 @@ public class ID_Display {
         if (damage_boosts.getBox().get(2).isSelected()) {
             for (int i = 1; 77 >= i; ++i) {
                 if (i >= 3 && i <= 7) continue;
-                if (numbers[i] > 0) numbers[i] = Math.round(numbers[i] * 1.2F);
+                if (i == ID_INT.get(Identifications.COMBAT_XP_BONUS) || i == ID_INT.get(Identifications.LOOT_BONUS) || i == ID_INT.get(Identifications.LOOT_QUALITY) || i == ID_INT.get(Identifications.GATHERING_XP_BONUS) || i == ID_INT.get(Identifications.GATHERING_SPEED_BONUS)) continue;
+                if (numbers[i] > 0) {
+                    numbers[i] -= numbers_Sub[i];
+                    numbers[i] = Math.round(numbers[i] * 1.2F);
+                    numbers[i] += numbers_Sub[i];
+                }
             }
             for (int i = 0; 7 >= i; ++i) {
                 if (0 > numbers[i + 78]) numbers[i + 78] = Math.round(numbers[i + 78] * 1.2F);
             }
         }
 
-        int[] numbers_Sub = new int[] { //Using 0 ~ 79
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0 ~ 9 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //10 ~ 19 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //20 ~ 29 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //30 ~ 39 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //40 ~ 49 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //50 ~ 59 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //60 ~ 69 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //70 ~ 79 (ID)
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //89 (Weapon Tome Damage Bonus)
-        };
+        for (int i = 0; 85 >= i; ++i) { //Reset Numbers Sub
+            numbers_Sub[i] = 0;
+        }
 
         //Ability Tree
         for (TreeCheckBox tcb : tree.getTcb()) {
             if (tcb.isSelected()) {
-                switch (tcb.getSkill()) {
-                    case EARTH_DAMAGE: numbers_Sub[ID_INT.get(Identifications.EARTH_DAMAGE_PERCENT)] += 20;
+                switch (tcb.getFixedTreeName()) {
+                    case "Earth Mastery":
+                        numbers_Sub[ID_INT.get(Identifications.EARTH_DAMAGE_PERCENT)] += 20;
                         break;
-                    case THUNDER_DAMAGE: numbers_Sub[ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)] += 10;
+                    case "Thunder Mastery":
+                        numbers_Sub[ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)] += 10;
                         break;
-                    case WATER_DAMAGE: numbers_Sub[ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] += 15;
+                    case "Water Mastery":
+                        numbers_Sub[ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] += 15;
                         break;
-                    case FIRE_DAMAGE: numbers_Sub[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += 15;
+                    case "Fire Mastery":
+                        numbers_Sub[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += 15;
                         break;
-                    case AIR_DAMAGE: numbers_Sub[ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)] += 15;
+                    case "Air Mastery":
+                        numbers_Sub[ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)] += 15;
                         break;
                 }
                 switch (tree.getClasses()) {
-                    case "Warrior": {
-                        switch (tcb.getSkill()) {
-                            case TOUGHER_SKIN:
-                            case MYTHRIL_SKIN:
+                    case "warrior": {
+                        switch (tcb.getFixedTreeName()) {
+                            case "Tougher Skin":
+                                numbers[ID_INT.get(Identifications.HEALTH_BONUS)] += Math.max(Math.min((numbers[ID_INT.get(Identifications.HEALTH_REGEN_PERCENT)] + numbers[ID_INT.get(Identifications.RAW_HEALTH_REGEN)]) * 10, 100), 0);
+                            case "Mythril Skin":
                                 def -= 0.05F;
                                 break;
-                            case VEHEMENT: numbers[ID_INT.get(Identifications.WALK_SPEED)] += Math.min((numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)] + numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)]) * 2, 20);
+                            case "Vehement": numbers[ID_INT.get(Identifications.WALK_SPEED)] += Math.max(Math.min((numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)] + numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)]) * 2, 20), 0);
                                 break;
-                            case BURNING_HEART: numbers[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.HEALTH_BONUS)] / 100F) * 2, 100);
+                            case "Burning Heart": numbers[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.HEALTH_BONUS)] / 100F) * 2, 100), 0);
                                 break;
-                            case RADIANT_DEVOTEE: numbers[ID_INT.get(Identifications.MANA_REGEN)] += Math.min(Math.floor(numbers[ID_INT.get(Identifications.REFLECTION)] / 4F), 10);
+                            case "Radiant Devotee": numbers[ID_INT.get(Identifications.MANA_REGEN)] += Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.REFLECTION)] / 4F), 10), 0);
                                 break;
                         }
                         break;
                     }
-                    case "Assassin": {
-                        //TODO Assassin Ability Tree
+                    case "assassin": {
+                        switch (tcb.getFixedTreeName()) {
+                            case "Poisoned Blade":
+                                numbers[ID_INT.get(Identifications.POISON)] += Math.max(Math.min(Math.floor((numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)] + numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)]) / 2F), 50), 0);
+                                break;
+                            case "Shenanigans":
+                                numbers[ID_INT.get(Identifications.MANA_STEAL)] += Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.STEALING)] / 2F), 8), 0);
+                                break;
+                            case "Psithurism":
+                                numbers[ID_INT.get(Identifications.WALK_SPEED)] += 20;
+                                numbers[ID_INT.get(Identifications.JUMP_HEIGHT)] += 1;
+                                break;
+                        }
+                        break;
                     }
-                    case "Archer": {
-                        //TODO Archer Ability Tree
+                    case "archer": {
+                        if (tcb.getFixedTreeName().equals("Traveler")) numbers[ID_INT.get(Identifications.RAW_SPELL_DAMAGE)] += Math.max(Math.min(numbers[ID_INT.get(Identifications.WALK_SPEED)], 100), 0);
+                        break;
                     }
-                    case "Mage": {
-                        //TODO Mage Ability Tree
+                    case "mage": {
+                        switch (tcb.getFixedTreeName()) {
+                            case "Wisdom":
+                                numbers[ID_INT.get(Identifications.MANA_REGEN)] += Math.max(Math.min(Math.floor((numbers[ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)] + numbers[ID_INT.get(Identifications.RAW_SPELL_DAMAGE)]) / 2F), 5), 0);
+                                break;
+                            case "Seance":
+                                numbers[ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)] += Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.LIFE_STEAL)] / 5F), 50), 0);
+                                break;
+                            case "Dynamic Faith":
+                                numbers[ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)] += Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.SPRINT_BONUS)] / 2F), 40), 0);
+                                break;
+                        }
+                        break;
                     }
-                    case "Shaman": {
-                        //TODO Shaman Ability Tree
+                    case "shaman": {
+                        switch (tcb.getFixedTreeName()) {
+                            case "Blood Moon":
+                                numbers[ID_INT.get(Identifications.LIFE_STEAL)] += Math.max(Math.min(numbers[ID_INT.get(Identifications.SOUL_POINT_REGEN)] * 5, 1000), 0);
+                                break;
+                            case "Mengjdu":
+                                numbers[ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] += Math.max(Math.min(numbers[ID_INT.get(Identifications.THORNS)], 40), 0);
+                                break;
+                        }
+                        break;
                     }
                 }
             }
@@ -528,28 +451,40 @@ public class ID_Display {
             numbers[i] += numbers_Sub[i];
         }
 
+        //Powder Effects
+        if (powder_effects.getPowderPanel("Earth").getValue() > 0) numbers[ID_INT.get(Identifications.EARTH_DAMAGE_PERCENT)] += powder_effects.getPowderPanel("Earth").getValue();
+        if (powder_effects.getPowderPanel("Thunder").getValue() > 0) numbers[ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)] += powder_effects.getPowderPanel("Thunder").getValue();
+        if (powder_effects.getPowderPanel("Water").getValue() > 0) numbers[ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] += powder_effects.getPowderPanel("Water").getValue();
+        if (powder_effects.getPowderPanel("Fire").getValue() > 0) numbers[ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)] += powder_effects.getPowderPanel("Fire").getValue();
+        if (powder_effects.getPowderPanel("Air").getValue() > 0) numbers[ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)] += powder_effects.getPowderPanel("Air").getValue();
+
         //War Scream
         if (damage_boosts.getBox().get(0).isSelected()) def *= 0.8F;
 
         //Check Boxes and Slider
         switch (tree.getClasses()) {
-            case "Warrior": {
-                if (damage_boosts.getBox().get(5).isSelected()) def *= 0.3F; //Mantle
-                if (damage_boosts.getBox().get(7).isSelected()) def *= 0.6F; //Brink of Madness
+            case "warrior": {
+                if (damage_boosts.getBox().get(7).isSelected()) def *= 0.3F; //Mantle
+                if (damage_boosts.getBox().get(8).isSelected()) def *= 0.6F; //Brink of Madness
                 break;
             }
-            case "Assassin": {
-                if (damage_boosts.getBox().get(11).isSelected()) def *= 0.2F; //Mirror Image
+            case "assassin": {
+                if (damage_boosts.getBox().get(12).isSelected()) def *= 0.4F; //Mirror Image
+                if (damage_boosts.getBox().get(16).isSelected()) def *= 0.6F; //Dissolution
                 break;
             }
-            case "Shaman": {
-                if (damage_boosts.getBox().get(13).isSelected()) numbers[ID_INT.get(Identifications.WALK_SPEED)] -= 35; //Mask of the Lunatic
-                if (damage_boosts.getBox().get(14).isSelected()) def *= 0.65F; //Mask of the Fanatic
-                if (damage_boosts.getBox().get(15).isSelected()) { //Mask of the Coward
+            case "shaman": {
+                if (damage_boosts.getBox().get(18).isSelected()) numbers[ID_INT.get(Identifications.WALK_SPEED)] -= 35; //Mask of the Lunatic
+                if (damage_boosts.getBox().get(19).isSelected()) def *= 0.65F; //Mask of the Fanatic
+                if (damage_boosts.getBox().get(20).isSelected()) { //Mask of the Coward
                     numbers[ID_INT.get(Identifications.WALK_SPEED)] += 80;
                     def *= 1.2F;
                 }
-                if (damage_boosts.getBox().get(16).isSelected()) def *= 0.3F; //Chant of the Fanatic
+                if (damage_boosts.getBox().get(21).isSelected()) def *= 0.3F; //Chant of the Fanatic
+                if (damage_boosts.getBox().get(25).isSelected()) { //Mask of the Awakened
+                    def *= 0.65F;
+                    numbers[ID_INT.get(Identifications.WALK_SPEED)] += 80;
+                }
                 break;
             }
         }
@@ -574,7 +509,7 @@ public class ID_Display {
         }
         ids.add(new JLabel(" "));
         if (numbers[1] != 0) ids.add(new JLabel(IDS.get(1).getDisplayName() + ": " + numbers[1] + IDS.get(1).getDisplaySp())); //Health Bonus
-        for (int i = 13; 77 >= i; ++i) { //Normal IDS
+        for (int i = 8; 77 >= i; ++i) { //Normal IDS
             if (numbers[i] != 0) ids.add(new JLabel(IDS.get(i).getDisplayName() + ": " + numbers[i] + IDS.get(i).getDisplaySp()));
         }
         for (int i = 0; 7 >= i; ++i) { //Reversed IDS
@@ -589,5 +524,90 @@ public class ID_Display {
 
     public int[] getId_Numbers() {
         return id_Numbers;
+    }
+
+    private static void setNumbers(JsonObject json, int[] numbers) {
+        if (json.get("base") != null) {
+            JsonObject j = json.get("base").getAsJsonObject();
+            if (j.get(Identifications.HEALTH.getItemName()) != null) {
+                JsonElement j2 = j.get(Identifications.HEALTH.getItemName());
+                if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) {
+                    numbers[ID_INT.get(Identifications.HEALTH)] += j2.getAsJsonObject().get("max").getAsInt();
+                } else if (j.get(Identifications.HEALTH.getItemName()).getAsInt() != 0) {
+                    numbers[ID_INT.get(Identifications.HEALTH)] += j2.getAsInt();
+                }
+            }
+
+            if (j.get(Identifications.EARTH_DEFENSE.getItemName()) != null && j.get(Identifications.EARTH_DEFENSE.getItemName()).getAsInt() != 0) {
+                numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get(Identifications.EARTH_DEFENSE.getItemName()).getAsInt();
+            }
+
+            if (j.get(Identifications.THUNDER_DEFENSE.getItemName()) != null && j.get(Identifications.THUNDER_DEFENSE.getItemName()).getAsInt() != 0) {
+                numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get(Identifications.THUNDER_DEFENSE.getItemName()).getAsInt();
+            }
+
+            if (j.get(Identifications.WATER_DEFENSE.getItemName()) != null && j.get(Identifications.WATER_DEFENSE.getItemName()).getAsInt() != 0) {
+                numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get(Identifications.WATER_DEFENSE.getItemName()).getAsInt();
+            }
+
+            if (j.get(Identifications.FIRE_DEFENSE.getItemName()) != null && j.get(Identifications.FIRE_DEFENSE.getItemName()).getAsInt() != 0) {
+                numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get(Identifications.FIRE_DEFENSE.getItemName()).getAsInt();
+            }
+
+            if (j.get(Identifications.AIR_DEFENSE.getItemName()) != null && j.get(Identifications.AIR_DEFENSE.getItemName()).getAsInt() != 0) {
+                numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get(Identifications.AIR_DEFENSE.getItemName()).getAsInt();
+            }
+        }
+
+        for (int i = 5; 76 >= i; ++i) {
+            Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+            if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
+                JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+                if (!j.isJsonObject()) {
+                    numbers[ID_INT.get(id)] += j.getAsInt();
+                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
+                    String minOrMax = "max";
+                    if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
+                    numbers[ID_INT.get(id)] += SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt());
+                } else if (id.isItemVariable() || json.get("tier").getAsString().equals("crafted")) {
+                    numbers[ID_INT.get(id)] += j.getAsJsonObject().get("max").getAsInt();
+                }
+            }
+        }
+
+        for (int i = 0; 7 >= i; ++i) {
+            Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
+            if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
+                JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+                if (!j.isJsonObject()) {
+                    numbers[ID_INT.get(id)] += j.getAsInt();
+                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
+                    numbers[ID_INT.get(id)] += SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
+                } else {
+                    int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
+                    numbers[ID_INT.get(id)] += ItemUITemplate.getReversedMinInt(base);
+                }
+            }
+        }
+    }
+
+    private static void setArmorPowder(JsonObject json, JsonObject powderJ, JTextField powder, int[] numbers) {
+        if (json.get(Identifications.POWDER_SLOTS.getItemName()) != null && json.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() > 0 && powder.getText().length() > 1) {
+            for (int i = 0; (int) Math.floor(powder.getText().length() / 2F) * 2 > i; i += 2) {
+                if (json.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() >= i / 2) {
+                    String name = String.valueOf(powder.getText().charAt(i)) + powder.getText().charAt(i + 1);
+                    if (powderJ.get(name) != null) {
+                        JsonObject j = powderJ.get(name).getAsJsonObject();
+                        if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
+                        if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
+                        if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
+                        if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
+                        if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
     }
 }

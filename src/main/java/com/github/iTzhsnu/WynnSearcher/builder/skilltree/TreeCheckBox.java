@@ -2,37 +2,48 @@ package com.github.iTzhsnu.WynnSearcher.builder.skilltree;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.Objects;
 
 public class TreeCheckBox extends JCheckBox {
     private final String name;
-    private final String[] description;
+    private final List<String> description;
     private final int cost;
     private final int minArchetype;
-    private final ArchetypeEnum archetype;
-    private final TreeCheckBox[] req;
-    private TreeCheckBox[] cantUse;
-    private final TreeCheckBox[] previous;
+    private final Archetype archetype;
+    private final String req;
+    private final List<String> cantUse;
+    private final List<String> link;
     private final int x;
     private final int y;
-    private final SkillEnum skill;
-    private SpPrevious[] spPrevious;
+    private final String apiName;
 
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] req, TreeCheckBox[] cantUse, TreeCheckBox[] previous, SpPrevious[] spPrevious, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
+    /**
+     * @param name Display Name
+     * @param description Display Description
+     * @param apiName API Name
+     * @param req Need Tree
+     * @param cantUse Can't Use Ability
+     * @param link Linked Ability
+     * @param archetype Need Archetype
+     * @param minArchetype Need Archetype Point Min
+     * @param cost Ability Point Min
+     * @param x Position X
+     * @param y Position Y
+     */
+    public TreeCheckBox(String name, List<String> description, String apiName, String req, List<String> cantUse, List<String> link, Archetype archetype, int minArchetype, int cost, int x, int y) {
         super();
-
         this.name = name;
         this.description = description;
+        this.cost = cost;
+        this.minArchetype = minArchetype;
+        this.archetype = archetype;
         this.req = req;
         this.cantUse = cantUse;
-        this.previous = previous;
-        this.archetype = archetype;
-        this.minArchetype = minArchetype;
-        this.cost = cost;
+        this.link = link;
         this.x = x;
         this.y = y;
-        this.skill = skill;
-        this.spPrevious = spPrevious;
+        this.apiName = apiName;
 
         setHorizontalAlignment(CENTER);
         setOpaque(false);
@@ -40,36 +51,18 @@ public class TreeCheckBox extends JCheckBox {
         setToolTip();
     }
 
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, int cost, SkillEnum skill, int x, int y) {
-        this(name, description, null, null, previous, null, null, 0, cost, skill, x, y);
-    }
-
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, int cost, ArchetypeEnum archetype, int minArchetype, SkillEnum skill, int x, int y) {
-        this(name, description, null, null, previous, null, archetype, minArchetype, cost, skill, x, y);
-    }
-
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] cantUse, int cost, ArchetypeEnum archetype, int minArchetype, SkillEnum skill, int x, int y) {
-        this(name, description, null, cantUse, previous, null, archetype, minArchetype, cost, skill, x, y);
-    }
-
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, SpPrevious[] spPrevious, int cost, SkillEnum skill, int x, int y) {
-        this(name, description, null, null, previous, spPrevious, null, 0, cost, skill, x, y);
-    }
-
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] req, SpPrevious[] spPrevious, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
-        this(name, description, req, null, previous, spPrevious, archetype, minArchetype, cost, skill, x, y);
-    }
-
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] req, ArchetypeEnum archetype, int minArchetype, int cost, SkillEnum skill, int x, int y) {
-        this(name, description, req, null, previous, null, archetype, minArchetype, cost, skill, x, y);
-    }
-
-    public TreeCheckBox(String name, String[] description, TreeCheckBox[] previous, TreeCheckBox[] req, int cost, SkillEnum skill, int x, int y) {
-        this(name, description, req, null, previous, null, null, 0, cost, skill, x, y);
-    }
-
     public String getTreeName() {
         return name;
+    }
+
+    public String getFixedTreeName() {
+        StringBuilder sb = new StringBuilder();
+        for (String s : name.split("&")) {
+            if (s.length() > 1) {
+                sb.append(s.substring(1));
+            }
+        }
+        return sb.toString();
     }
 
     public int getCost() {
@@ -80,105 +73,37 @@ public class TreeCheckBox extends JCheckBox {
         return this.minArchetype;
     }
 
-    public ArchetypeEnum getArchetype() {
+    public Archetype getArchetype() {
         return this.archetype;
     }
 
-    public SkillEnum getSkill() {
-        return skill;
+    public String getAPIName() {
+        return apiName;
     }
 
-    public TreeCheckBox[] getPrevious() {
-        return previous;
+    public List<String> getLink() {
+        return link;
     }
 
-    public SpPrevious[] getSpPrevious() {
-        return spPrevious;
+    public String getReq() {
+        return req;
     }
 
-    public void setCantUse(TreeCheckBox[] cantUse) {
-        this.cantUse = cantUse;
-        setToolTip();
-    }
-
-    public void setSpPrevious(SpPrevious[] spPrevious) {
-        this.spPrevious = spPrevious;
-    }
-
-    public boolean canUse() {
-        boolean reqB = true;
-        boolean cantUseB = true;
-        boolean previousB = false;
-        boolean specialPreviousB = false;
-
-        if (req != null) {
-            for (TreeCheckBox b : req) {
-                if (!b.isSelected()) reqB = false;
-            }
-        }
-        if (cantUse != null) {
-            for (TreeCheckBox b : cantUse) {
-                if (b.isSelected()) cantUseB = false;
-            }
-        }
-        if (previous != null) {
-            for (TreeCheckBox b : previous) {
-                if (b.isSelected()) previousB = true;
-            }
-        } else if (spPrevious == null) {
-            previousB = true;
-        }
-        if (spPrevious != null && !previousB) {
-            for (SpPrevious s : spPrevious) {
-                boolean spPreviousB = true;
-                for (TreeCheckBox b : s.getT()) {
-                    if (!b.isSelected()) spPreviousB = false;
-                }
-                if (spPreviousB) {
-                    specialPreviousB = true;
-                    break;
-                }
-            }
-        }
-
-        if (!previousB && spPrevious != null) {
-            return reqB && cantUseB && specialPreviousB;
-        }
-        return reqB && cantUseB && previousB;
+    public List<String> getCantUse() {
+        return cantUse;
     }
 
     private void setToolTip() {
         StringBuilder sb = new StringBuilder();
-        String nameS = "<html>" + name + "<br>";
+        String nameS = "<html>" + fixesText(name) + "<br>";
         sb.append(nameS);
-        for (String s : description) {
-            String ns = "<br>" + s;
+        for (int i = 0; description.size() > i; ++i) {
+            if (i == 0 && description.get(i).isEmpty()) {
+                continue;
+            }
+            String ns = "<br>" + fixesText(description.get(i));
             sb.append(ns);
         }
-        if (req != null) {
-            sb.append("<br><br>Requirement:");
-            for (TreeCheckBox t : req) {
-                String reqN = "<br>" + t.getTreeName();
-                sb.append(reqN);
-            }
-        }
-        if (cantUse != null) {
-            sb.append("<br><br>Unlocking will block:");
-            for (TreeCheckBox t : cantUse) {
-                String cantUseN = "<br>" + t.getTreeName();
-                sb.append(cantUseN);
-            }
-        }
-        if (archetype != null) {
-            String arcS = "<br><br>" + archetype.getName() + " Archetype";
-            sb.append(arcS);
-            if (minArchetype > 0) {
-                String arcM = "<br>" + archetype.getName() + " Min: " + minArchetype;
-                sb.append(arcM);
-            }
-        }
-        String point = "<br><br>" + "Ability Point: " + cost;
-        sb.append(point);
 
         setToolTipText(sb.toString());
     }
@@ -250,42 +175,172 @@ public class TreeCheckBox extends JCheckBox {
         return new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource(s))).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
     }
 
-    public enum ArchetypeEnum {
-        FALLEN("Fallen", 1),
-        BATTLE_MONK("Battle Monk", 2),
-        PALADIN("Paladin", 3),
+    public String fixesText(String text) {
+        if (!text.isEmpty()) {
+            String[] texts = text.split("&");
+            StringBuilder sb = new StringBuilder();
+            int type = 0;
+            if (text.charAt(0) != '&') {
+                String s = "<font color=\"#AAAAAA\">" + texts[0];
+                sb.append(s);
+                type = 1;
+            }
+            for (int i = 0; texts.length > i; ++i) {
+                if (text.charAt(0) != '&' && i == 0) continue;
+                String st = texts[i];
+                String s;
+                if (st.length() > 1) {
+                    if (st.charAt(0) != 'l' && st.charAt(0) != 'n') if (type == 1) sb.append("</font>");
+                    String output = texts[i].substring(1);
+                    switch (st.charAt(0)) {
+                        case '0':
+                            s = "<font color=\"#000000\">" + output;
+                            sb.append(s);
+                            break;
+                        case '1':
+                            s = "<font color=\"#0000AA\">" + output;
+                            sb.append(s);
+                            break;
+                        case '2':
+                            s = "<font color=\"#00AA00\">" + output;
+                            sb.append(s);
+                            break;
+                        case '3':
+                            s = "<font color=\"#00AAAA\">" + output;
+                            sb.append(s);
+                            break;
+                        case '4':
+                            s = "<font color=\"#AA0000\">" + output;
+                            sb.append(s);
+                            break;
+                        case '5':
+                            s = "<font color=\"#AA00AA\">" + output;
+                            sb.append(s);
+                            break;
+                        case '6':
+                            s = "<font color=\"#FFAA00\">" + output;
+                            sb.append(s);
+                            break;
+                        case '7':
+                            s = "<font color=\"#AAAAAA\">" + output;
+                            sb.append(s);
+                            break;
+                        case '8':
+                            s = "<font color=\"#555555\">" + output;
+                            sb.append(s);
+                            break;
+                        case '9':
+                            s = "<font color=\"#5555FF\">" + output;
+                            sb.append(s);
+                            break;
+                        case 'a':
+                            s = "<font color=\"#55FF55\">" + output;
+                            sb.append(s);
+                            break;
+                        case 'b':
+                            s = "<font color=\"#55FFFF\">" + output;
+                            sb.append(s);
+                            break;
+                        case 'c':
+                            s = "<font color=\"#FF5555\">" + output;
+                            sb.append(s);
+                            break;
+                        case 'd':
+                            s = "<font color=\"#FF55FF\">" + output;
+                            sb.append(s);
+                            break;
+                        case 'e':
+                            s = "<font color=\"#FFFF55\">" + output;
+                            sb.append(s);
+                            break;
+                        case 'f':
+                            s = "<font color=\"#FFFFFF\">" + output;
+                            sb.append(s);
+                            break;
+                        case 'l':
+                            s = "<b>" + output + "</b>";
+                            sb.append(s);
+                            break;
+                        case 'n':
+                            s = "<u>" + output + "</u>";
+                            sb.append(s);
+                            break;
+                    }
+                    if (type == 2) sb.append("</b>");
+                    if (type == 3) sb.append("</u>");
+                    type = 0;
+                } else if (st.length() == 1) {
+                    type = 1;
+                    switch (st.charAt(0)) {
+                        case '0':
+                            sb.append("<font color=\"#000000\">");
+                            break;
+                        case '1':
+                            sb.append("<font color=\"#0000AA\">");
+                            break;
+                        case '2':
+                            sb.append("<font color=\"#00AA00\">");
+                            break;
+                        case '3':
+                            sb.append("<font color=\"#00AAAA\">");
+                            break;
+                        case '4':
+                            sb.append("<font color=\"#AA0000\">");
+                            break;
+                        case '5':
+                            sb.append("<font color=\"#AA00AA\">");
+                            break;
+                        case '6':
+                            sb.append("<font color=\"#FFAA00\">");
+                            break;
+                        case '7':
+                            sb.append("<font color=\"#AAAAAA\">");
+                            break;
+                        case '8':
+                            sb.append("<font color=\"#555555\">");
+                            break;
+                        case '9':
+                            sb.append("<font color=\"#5555FF\">");
+                            break;
+                        case 'a':
+                            sb.append("<font color=\"#55FF55\">");
+                            break;
+                        case 'b':
+                            sb.append("<font color=\"#55FFFF\">");
+                            break;
+                        case 'c':
+                            sb.append("<font color=\"#FF5555\">");
+                            break;
+                        case 'd':
+                            sb.append("<font color=\"#FF55FF\">");
+                            break;
+                        case 'e':
+                            sb.append("<font color=\"#FFFF55\">");
+                            break;
+                        case 'f':
+                            sb.append("<font color=\"#FFFFFF\">");
+                            break;
+                        case 'l':
+                            sb.append("<b>");
+                            type = 2;
+                            break;
+                        case 'n':
+                            sb.append("<u>");
+                            type = 3;
+                            break;
+                    }
+                }
+            }
 
-        SHADESTEPPER("Shadestepper", 1),
-        TRICKSTER("Trickster", 2),
-        ACROBAT("Acrobat", 3),
-
-        BOLTSLINGER("Boltslinger", 1),
-        SHARPSHOOTER("Sharpshooter", 2),
-        TRAPPER("Trapper", 3),
-
-        RIFTWALKER("Riftwalker", 1),
-        LIGHT_BENDER("Light Bender", 2),
-        ARCANIST("Arcanist", 3),
-
-        SUMMONER("Summoner", 1),
-        RITUALIST("Ritualist", 2),
-        ACOLYTE("Acolyte", 3)
-        ;
-
-        private final int num;
-        private final String name;
-
-        ArchetypeEnum(String name, int num) {
-            this.num = num;
-            this.name = name;
+            return sb.toString().replaceAll("À", " ");
         }
+        return text;
+    }
 
-        public int getNum() {
-            return num;
-        }
-
-        public String getName() {
-            return name;
-        }
+    @Override
+    public JToolTip createToolTip() {
+        JToolTip toolTip = new JToolTip().createToolTip();
+        toolTip.setBackground(new Color(15, 1, 15));
+        return toolTip;
     }
 }

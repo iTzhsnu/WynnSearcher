@@ -1,7 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.CrafterUI;
-import com.github.iTzhsnu.WynnSearcher.Identifications;
 import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -9,57 +8,19 @@ import com.google.gson.JsonParser;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Item_Display {
     private final JPanel pane = new JPanel();
     private final List<JPanel> itemsPanel = new ArrayList<>();
     private ItemJsons itemJsons = new ItemJsons(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
-    public static Map<Integer, Identifications> TOME_IDS = new HashMap<Integer, Identifications>() {{
-        put(0, Identifications.HEALTH_BONUS);
-        put(1, Identifications.RAW_HEALTH_REGEN);
-        put(2, Identifications.LIFE_STEAL);
-
-        put(3, Identifications.STRENGTH);
-        put(4, Identifications.DEXTERITY);
-        put(5, Identifications.INTELLIGENCE);
-        put(6, Identifications.DEFENSE);
-        put(7, Identifications.AGILITY);
-
-        put(8, Identifications.MANA_REGEN);
-        put(9, Identifications.MANA_STEAL);
-
-        put(10, Identifications.MELEE_DAMAGE_PERCENT);
-        put(11, Identifications.SPELL_DAMAGE_PERCENT);
-        put(12, Identifications.EARTH_DAMAGE_PERCENT);
-        put(13, Identifications.THUNDER_DAMAGE_PERCENT);
-        put(14, Identifications.WATER_DAMAGE_PERCENT);
-        put(15, Identifications.FIRE_DAMAGE_PERCENT);
-        put(16, Identifications.AIR_DAMAGE_PERCENT);
-
-        put(17, Identifications.EARTH_DEFENSE_PERCENT);
-        put(18, Identifications.THUNDER_DEFENSE_PERCENT);
-        put(19, Identifications.WATER_DEFENSE_PERCENT);
-        put(20, Identifications.FIRE_DEFENSE_PERCENT);
-        put(21, Identifications.AIR_DEFENSE_PERCENT);
-
-        put(22, Identifications.WALK_SPEED);
-        put(23, Identifications.EXPLODING);
-        put(24, Identifications.THORNS);
-        put(25, Identifications.REFLECTION);
-        put(26, Identifications.EXPLODING);
-        put(27, Identifications.LOOT_BONUS);
-    }};
-
     public Item_Display(JPanel p) {
         pane.setPreferredSize(new Dimension(1045, 497));
         pane.setLayout(null);
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(1, 1355, 1063, 500); // Y + 70
+        scrollPane.setBounds(1, 1405, 1063, 500); // Y + 70
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);
@@ -116,17 +77,14 @@ public class Item_Display {
             helmetJson = JsonParser.parseString(helmet.replace("CI-", "")).getAsJsonObject();
             itemsPanel.add(new ItemUITemplate(helmetJson, "item", null, null, 1045, 0, true));
         } else if (helmet.contains("CR-")) {
-            if (helmet.contains("\"type\":\"Helmet\"")) {
+            if (helmet.contains("\"type\":\"helmet\"")) {
                 helmetJson = CrafterUI.getCraftItemJson(recipe, ing, helmet);
-                itemsPanel.add(CrafterUI.setDisplay(CrafterUI.getCraftItemJson(recipe, ing, helmet), helmetJson, null, null, 1045));
+                itemsPanel.add(new ItemUITemplate(helmetJson, "item", null, null, 1045, 0, true));
             }
         } else if (!helmet.isEmpty()) {
             JsonObject json = null;
             for (JsonObject j : helmetJ) {
-                if (j.get("displayName") != null && j.get("displayName").getAsString().equals(helmet)) {
-                    json = j;
-                    break;
-                } else if (j.get("name") != null && j.get("name").getAsString().equals(helmet)) {
+                if (j.get("name") != null && j.get("name").getAsString().equals(helmet)) {
                     json = j;
                     break;
                 }
@@ -144,17 +102,14 @@ public class Item_Display {
             chestplateJson = JsonParser.parseString(chestplate.replace("CI-", "")).getAsJsonObject();
             itemsPanel.add(new ItemUITemplate(chestplateJson, "item", previousC, null, 1045, 0, true));
         } else if (chestplate.contains("CR-")) {
-            if (chestplate.contains("\"type\":\"Chestplate\"")) {
+            if (chestplate.contains("\"type\":\"chestplate\"")) {
                 chestplateJson = CrafterUI.getCraftItemJson(recipe, ing, chestplate);
-                itemsPanel.add(CrafterUI.setDisplay(CrafterUI.getCraftItemJson(recipe, ing, chestplate), chestplateJson, previousC, null, 1045));
+                itemsPanel.add(new ItemUITemplate(chestplateJson, "item", previousC, null, 1045, 0, true));
             }
         } else if (!chestplate.isEmpty()) {
             JsonObject json = null;
             for (JsonObject j : chestplateJ) {
-                if (j.get("displayName") != null && j.get("displayName").getAsString().equals(chestplate)) {
-                    json = j;
-                    break;
-                } else if (j.get("name") != null && j.get("name").getAsString().equals(chestplate)) {
+                if (j.get("name") != null && j.get("name").getAsString().equals(chestplate)) {
                     json = j;
                     break;
                 }
@@ -172,17 +127,14 @@ public class Item_Display {
             leggingsJson = JsonParser.parseString(leggings.replace("CI-", "")).getAsJsonObject();
             itemsPanel.add(new ItemUITemplate(leggingsJson, "item", previousL, null, 1045, 0, true));
         } else if (leggings.contains("CR-")) {
-            if (leggings.contains("\"type\":\"Leggings\"")) {
+            if (leggings.contains("\"type\":\"leggings\"")) {
                 leggingsJson = CrafterUI.getCraftItemJson(recipe, ing, leggings);
-                itemsPanel.add(CrafterUI.setDisplay(CrafterUI.getCraftItemJson(recipe, ing, leggings), leggingsJson, previousL, null, 1045));
+                itemsPanel.add(new ItemUITemplate(leggingsJson, "item", previousL, null, 1045, 0, true));
             }
         } else if (!leggings.isEmpty()) {
             JsonObject json = null;
             for (JsonObject j : leggingsJ) {
-                if (j.get("displayName") != null && j.get("displayName").getAsString().equals(leggings)) {
-                    json = j;
-                    break;
-                } else if (j.get("name") != null && j.get("name").getAsString().equals(leggings)) {
+                if (j.get("name") != null && j.get("name").getAsString().equals(leggings)) {
                     json = j;
                     break;
                 }
@@ -200,17 +152,14 @@ public class Item_Display {
             bootsJson = JsonParser.parseString(boots.replace("CI-", "")).getAsJsonObject();
             itemsPanel.add(new ItemUITemplate(bootsJson, "item", previousB, null, 1045, 0, true));
         } else if (boots.contains("CR-")) {
-            if (boots.contains("\"type\":\"Boots\"")) {
+            if (boots.contains("\"type\":\"boots\"")) {
                 bootsJson = CrafterUI.getCraftItemJson(recipe, ing, boots);
-                itemsPanel.add(CrafterUI.setDisplay(CrafterUI.getCraftItemJson(recipe, ing, boots), bootsJson, previousB, null, 1045));
+                itemsPanel.add(new ItemUITemplate(bootsJson, "item", previousB, null, 1045, 0, true));
             }
         } else if (!boots.isEmpty()) {
             JsonObject json = null;
             for (JsonObject j : bootsJ) {
-                if (j.get("displayName") != null && j.get("displayName").getAsString().equals(boots)) {
-                    json = j;
-                    break;
-                } else if (j.get("name") != null && j.get("name").getAsString().equals(boots)) {
+                if (j.get("name") != null && j.get("name").getAsString().equals(boots)) {
                     json = j;
                     break;
                 }
@@ -230,17 +179,14 @@ public class Item_Display {
             ring1Json = JsonParser.parseString(ring1.replace("CI-", "")).getAsJsonObject();
             itemsPanel.add(new ItemUITemplate(ring1Json, "item", previousR1, aboveR1, 1045, 0, true));
         } else if (ring1.contains("CR-")) {
-            if (ring1.contains("\"type\":\"Ring\"")) {
+            if (ring1.contains("\"type\":\"ring\"")) {
                 ring1Json = CrafterUI.getCraftItemJson(recipe, ing, ring1);
-                itemsPanel.add(CrafterUI.setDisplay(CrafterUI.getCraftItemJson(recipe, ing, ring1), ring1Json, previousR1, aboveR1, 1045));
+                itemsPanel.add(new ItemUITemplate(ring1Json, "item", previousR1, aboveR1, 1045, 0, true));
             }
         } else if (!ring1.isEmpty()) {
             JsonObject json = null;
             for (JsonObject j : ringJ) {
-                if (j.get("displayName") != null && j.get("displayName").getAsString().equals(ring1)) {
-                    json = j;
-                    break;
-                } else if (j.get("name") != null && j.get("name").getAsString().equals(ring1)) {
+                if (j.get("name") != null && j.get("name").getAsString().equals(ring1)) {
                     json = j;
                     break;
                 }
@@ -260,17 +206,14 @@ public class Item_Display {
             ring2Json = JsonParser.parseString(ring2.replace("CI-", "")).getAsJsonObject();
             itemsPanel.add(new ItemUITemplate(ring2Json, "item", previousR2, aboveR2, 1045, 0, true));
         } else if (ring2.contains("CR-")) {
-            if (ring2.contains("\"type\":\"Ring\"")) {
+            if (ring2.contains("\"type\":\"ring\"")) {
                 ring2Json = CrafterUI.getCraftItemJson(recipe, ing, ring2);
-                itemsPanel.add(CrafterUI.setDisplay(CrafterUI.getCraftItemJson(recipe, ing, ring2), ring2Json, previousR2, aboveR2, 1045));
+                itemsPanel.add(new ItemUITemplate(ring2Json, "item", previousR2, aboveR2, 1045, 0, true));
             }
         } else if (!ring2.isEmpty()) {
             JsonObject json = null;
             for (JsonObject j : ringJ) {
-                if (j.get("displayName") != null && j.get("displayName").getAsString().equals(ring2)) {
-                    json = j;
-                    break;
-                } else if (j.get("name") != null && j.get("name").getAsString().equals(ring2)) {
+                if (j.get("name") != null && j.get("name").getAsString().equals(ring2)) {
                     json = j;
                     break;
                 }
@@ -290,17 +233,14 @@ public class Item_Display {
             braceletJson = JsonParser.parseString(bracelet.replace("CI-", "")).getAsJsonObject();
             itemsPanel.add(new ItemUITemplate(braceletJson, "item", previousBr, aboveBr, 1045, 0, true));
         } else if (bracelet.contains("CR-")) {
-            if (bracelet.contains("\"type\":\"Bracelet\"")) {
+            if (bracelet.contains("\"type\":\"bracelet\"")) {
                 braceletJson = CrafterUI.getCraftItemJson(recipe, ing, bracelet);
-                itemsPanel.add(CrafterUI.setDisplay(CrafterUI.getCraftItemJson(recipe, ing, bracelet), braceletJson, previousBr, aboveBr, 1045));
+                itemsPanel.add(new ItemUITemplate(braceletJson, "item", previousBr, aboveBr, 1045, 0, true));
             }
         } else if (!bracelet.isEmpty()) {
             JsonObject json = null;
             for (JsonObject j : braceletJ) {
-                if (j.get("displayName") != null && j.get("displayName").getAsString().equals(bracelet)) {
-                    json = j;
-                    break;
-                } else if (j.get("name") != null && j.get("name").getAsString().equals(bracelet)) {
+                if (j.get("name") != null && j.get("name").getAsString().equals(bracelet)) {
                     json = j;
                     break;
                 }
@@ -320,17 +260,14 @@ public class Item_Display {
             necklaceJson = JsonParser.parseString(necklace.replace("CI-", "")).getAsJsonObject();
             itemsPanel.add(new ItemUITemplate(necklaceJson, "item", previousN, aboveN, 1045, 0, true));
         } else if (necklace.contains("CR-")) {
-            if (necklace.contains("\"type\":\"Necklace\"")) {
+            if (necklace.contains("\"type\":\"necklace\"")) {
                 necklaceJson = CrafterUI.getCraftItemJson(recipe, ing, necklace);
-                itemsPanel.add(CrafterUI.setDisplay(CrafterUI.getCraftItemJson(recipe, ing, necklace), necklaceJson, previousN, aboveN, 1045));
+                itemsPanel.add(new ItemUITemplate(necklaceJson, "item", previousN, aboveN, 1045, 0, true));
             }
         } else if (!necklace.isEmpty()) {
             JsonObject json = null;
             for (JsonObject j : necklaceJ) {
-                if (j.get("displayName") != null && j.get("displayName").getAsString().equals(necklace)) {
-                    json = j;
-                    break;
-                } else if (j.get("name") != null && j.get("name").getAsString().equals(necklace)) {
+                if (j.get("name") != null && j.get("name").getAsString().equals(necklace)) {
                     json = j;
                     break;
                 }
@@ -350,17 +287,14 @@ public class Item_Display {
             weaponJson = JsonParser.parseString(weapon.replace("CI-", "")).getAsJsonObject();
             itemsPanel.add(new ItemUITemplate(weaponJson, "item", previousW, aboveW, 1045, 0, true));
         } else if (weapon.contains("CR-")) {
-            if (weapon.contains("\"type\":\"Spear\"") || weapon.contains("\"type\":\"Dagger\"") || weapon.contains("\"type\":\"Bow\"") || weapon.contains("\"type\":\"Wand\"") || weapon.contains("\"type\":\"Relik\"")) {
+            if (weapon.contains("\"type\":\"spear\"") || weapon.contains("\"type\":\"dagger\"") || weapon.contains("\"type\":\"bow\"") || weapon.contains("\"type\":\"wand\"") || weapon.contains("\"type\":\"relik\"")) {
                 weaponJson = CrafterUI.getCraftItemJson(recipe, ing, weapon);
-                itemsPanel.add(CrafterUI.setDisplay(CrafterUI.getCraftItemJson(recipe, ing, weapon), weaponJson, previousW, aboveW, 1045));
+                itemsPanel.add(new ItemUITemplate(weaponJson, "item", previousW, aboveW, 1045, 0, true));
             }
         } else if (!weapon.isEmpty()) {
             JsonObject json = null;
             for (JsonObject j : weaponJ) {
-                if (j.get("displayName") != null && j.get("displayName").getAsString().equals(weapon)) {
-                    json = j;
-                    break;
-                } else if (j.get("name") != null && j.get("name").getAsString().equals(weapon)) {
+                if (j.get("name") != null && j.get("name").getAsString().equals(weapon)) {
                     json = j;
                     break;
                 }
@@ -386,7 +320,7 @@ public class Item_Display {
             }
             if (json != null) {
                 armourTome1Json = json;
-                itemsPanel.add(setTomeDisplay(json, previousAT1, aboveAT1, 1045));
+                itemsPanel.add(new ItemUITemplate(json, "other", previousAT1, aboveAT1, 1045, 0, false));
             }
         }
 
@@ -405,7 +339,7 @@ public class Item_Display {
             }
             if (json != null) {
                 armourTome2Json = json;
-                itemsPanel.add(setTomeDisplay(json, previousAT2, aboveAT2, 1045));
+                itemsPanel.add(new ItemUITemplate(json, "other", previousAT2, aboveAT2, 1045, 0, false));
             }
         }
 
@@ -424,7 +358,7 @@ public class Item_Display {
             }
             if (json != null) {
                 armourTome3Json = json;
-                itemsPanel.add(setTomeDisplay(json, previousAT3, aboveAT3, 1045));
+                itemsPanel.add(new ItemUITemplate(json, "other", previousAT3, aboveAT3, 1045, 0, false));
             }
         }
 
@@ -443,7 +377,7 @@ public class Item_Display {
             }
             if (json != null) {
                 armourTome4Json = json;
-                itemsPanel.add(setTomeDisplay(json, previousAT4, aboveAT4, 1045));
+                itemsPanel.add(new ItemUITemplate(json, "other", previousAT4, aboveAT4, 1045, 0, false));
             }
         }
 
@@ -462,7 +396,7 @@ public class Item_Display {
             }
             if (json != null) {
                 guildTomeJson = json;
-                itemsPanel.add(setTomeDisplay(json, previousGT, aboveGT, 1045));
+                itemsPanel.add(new ItemUITemplate(json, "other", previousGT, aboveGT, 1045, 0, false));
             }
         }
 
@@ -481,7 +415,7 @@ public class Item_Display {
             }
             if (json != null) {
                 weaponTome1Json = json;
-                itemsPanel.add(setTomeDisplay(json, previousWT1, aboveWT1, 1045));
+                itemsPanel.add(new ItemUITemplate(json, "other", previousWT1, aboveWT1, 1045, 0, false));
             }
         }
 
@@ -500,7 +434,7 @@ public class Item_Display {
             }
             if (json != null) {
                 weaponTome2Json = json;
-                itemsPanel.add(setTomeDisplay(json, previousWT2, aboveWT2, 1045));
+                itemsPanel.add(new ItemUITemplate(json, "other", previousWT2, aboveWT2, 1045, 0, false));
             }
         }
 
@@ -522,84 +456,5 @@ public class Item_Display {
 
     public ItemJsons getItemJsons() {
         return itemJsons;
-    }
-
-    public static JPanel setTomeDisplay(JsonObject j, JPanel previous, JPanel above, int uiWidth) {
-        JPanel p = new JPanel();
-        List<JLabel> label = new ArrayList<>();
-
-        label.add(new JLabel(j.get("name").getAsString()));
-        label.add(new JLabel(" "));
-
-        if (j.get("type").getAsString().equals("Armour")) {
-            label.add(new JLabel("Mob Damage Resistance: +" + j.get("bonus").getAsInt() + "%"));
-            label.add(new JLabel(" "));
-        } else if (j.get("type").getAsString().equals("Weapon")) {
-            label.add(new JLabel("Damage to Mobs: +" + j.get("bonus").getAsInt() + "%"));
-            label.add(new JLabel(" "));
-        }
-
-        boolean hasID = false;
-        for (int i = 0; 27 >= i; ++i) {
-            Identifications id = TOME_IDS.get(i);
-            if (j.get(id.getItemName()) != null && j.get(id.getItemName()).getAsInt() != 0) {
-                hasID = true;
-                int num = j.get(id.getItemName()).getAsInt();
-                if (id.isItemVariable()) { //Variable
-                    label.add(new JLabel(ItemUITemplate.getMin(num) + id.getDisplaySp() + " " + id.getDisplayName() + " " + ItemUITemplate.getMax(num) + id.getDisplaySp()));
-                } else { //Not Variable
-                    if (j.get(id.getItemName()).getAsInt() > 0) {
-                        label.add(new JLabel(TOME_IDS.get(i).getDisplayName() + ": +" + num + id.getDisplaySp()));
-                    } else {
-                        label.add(new JLabel(id.getDisplayName() + ": " + num + id.getDisplaySp()));
-                    }
-                }
-            }
-        }
-
-        if (hasID) label.add(new JLabel(" "));
-
-        label.add(new JLabel("Rarity: " + j.get("tier").getAsString()));
-        label.add(new JLabel("Soulbound Item"));
-
-        for (JLabel jLabel : label) {
-            p.add(jLabel);
-        }
-
-        if (previous != null) {
-            Rectangle x = previous.getBounds();
-            boolean down = x.x + x.width + 10 > uiWidth - 255;
-
-            if (down) {
-                Rectangle y = above.getBounds();
-                p.setBounds(10, y.y + y.height + 10, 250, (label.size() + 1) * 16);
-            } else {
-                if (above != null) {
-                    Rectangle y = above.getBounds();
-                    p.setBounds(10 + x.x + x.width, y.y + y.height + 10, 250, (label.size() + 1) * 16);
-                } else {
-                    p.setBounds(10 + x.x + x.width, 10, 250, (label.size() + 1) * 16);
-                }
-            }
-        } else {
-            p.setBounds(10, 10, 250, (label.size() + 1) * 16);
-        }
-
-        switch (j.get("tier").getAsString()) {
-            case "Legendary":
-                p.setBackground(new Color(135, 206, 250));
-                break;
-            case "Fabled":
-                p.setBackground(new Color(220, 107, 154)); //OLD COLOR 255 81 81
-                break;
-            case "Mythic":
-                p.setBackground(new Color(145, 93, 163));
-                break;
-        }
-
-        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        p.setVisible(true);
-
-        return p;
     }
 }

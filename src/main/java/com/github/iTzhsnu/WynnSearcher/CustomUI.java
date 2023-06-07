@@ -562,7 +562,7 @@ public class CustomUI implements ActionListener {
                         notVariable.get(i).setText(String.valueOf(je.getAsInt()));
                     } else {
                         String getMinOrMax = "max";
-                        if (je.getAsJsonObject().get("max").getAsInt() < 0) getMinOrMax = "min";
+                        if (je.getAsJsonObject().get("max").getAsInt() < 0 && !SearchUI.isReversedID(id)) getMinOrMax = "min";
                         notVariable.get(i).setText(String.valueOf(SearchUI.getBaseID(je.getAsJsonObject().get(getMinOrMax).getAsInt())));
                     }
                 } else {

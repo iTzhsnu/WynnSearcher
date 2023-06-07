@@ -1,6 +1,8 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
+import com.github.iTzhsnu.WynnSearcher.SearchUI;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.swing.*;
@@ -44,156 +46,124 @@ public class SkillPoint {
 
         //Set Weapon Tomes and Guild Tome Skill Point
         if (items.getWeaponTomes().size() > 0) {
-            for (JsonObject j : items.getWeaponTomes()) {
-
-                //Strength
-                if (j.get(Identifications.STRENGTH.getItemName()) != null) {
-                    originalSP[0] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
-                    totalSP[0] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
-                }
-
-                //Dexterity
-                if (j.get(Identifications.DEXTERITY.getItemName()) != null) {
-                    originalSP[1] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
-                    totalSP[1] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
-                }
-
-                //Intelligence
-                if (j.get(Identifications.INTELLIGENCE.getItemName()) != null) {
-                    originalSP[0] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
-                    totalSP[0] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
-                }
-
-                //Defense
-                if (j.get(Identifications.DEFENSE.getItemName()) != null) {
-                    originalSP[0] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
-                    totalSP[0] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
-                }
-
-                //Agility
-                if (j.get(Identifications.AGILITY.getItemName()) != null) {
-                    originalSP[0] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
-                    totalSP[0] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
-                }
+            for (JsonObject json : items.getWeaponTomes()) {
+                getTomeSkillPoints(json, originalSP, totalSP);
             }
         }
         if (items.getGuildTome() != null) {
-            JsonObject j = items.getGuildTome();
-
-            //Strength
-            if (j.get(Identifications.STRENGTH.getItemName()) != null) {
-                originalSP[0] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
-                totalSP[0] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
-            }
-
-            //Dexterity
-            if (j.get(Identifications.DEXTERITY.getItemName()) != null) {
-                originalSP[1] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
-                totalSP[1] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
-            }
-
-            //Intelligence
-            if (j.get(Identifications.INTELLIGENCE.getItemName()) != null) {
-                originalSP[0] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
-                totalSP[0] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
-            }
-
-            //Defense
-            if (j.get(Identifications.DEFENSE.getItemName()) != null) {
-                originalSP[0] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
-                totalSP[0] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
-            }
-
-            //Agility
-            if (j.get(Identifications.AGILITY.getItemName()) != null) {
-                originalSP[0] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
-                totalSP[0] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
-            }
+            getTomeSkillPoints(items.getGuildTome(), originalSP, totalSP);
         }
 
         //Get Armor and Accessory Skill Point
         if (items.getJsonObjectList().size() > 0) {
             for (int i = 0; items.getJsonObjectList().size() > i; ++i) {
-                JsonObject j = items.getJsonObjectList().get(i);
+                if (items.getJsonObjectList().get(i).get("requirements") != null) {
+                    JsonObject j = items.getJsonObjectList().get(i).get("requirements").getAsJsonObject();
 
-                //Skill Point Req
-                if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {
-                    strR[i] = j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt();
-                    if (strR[i] > maxSPReq[0]) maxSPReq[0] = strR[i];
-                }
-                if (j.get(Identifications.DEXTERITY_REQ.getItemName()) != null && j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt() != 0) {
-                    dexR[i] = j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt();
-                    if (dexR[i] > maxSPReq[1]) maxSPReq[1] = dexR[i];
-                }
-                if (j.get(Identifications.INTELLIGENCE_REQ.getItemName()) != null && j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt() != 0) {
-                    intR[i] = j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt();
-                    if (intR[i] > maxSPReq[2]) maxSPReq[2] = intR[i];
-                }
-                if (j.get(Identifications.DEFENSE_REQ.getItemName()) != null && j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt() != 0) {
-                    defR[i] = j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt();
-                    if (defR[i] > maxSPReq[3]) maxSPReq[3] = defR[i];
-                }
-                if (j.get(Identifications.AGILITY_REQ.getItemName()) != null && j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt() != 0) {
-                    agiR[i] = j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt();
-                    if (agiR[i] > maxSPReq[4]) maxSPReq[4] = agiR[i];
+                    //Skill Point Req
+                    if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {
+                        strR[i] = j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt();
+                        if (strR[i] > maxSPReq[0]) maxSPReq[0] = strR[i];
+                    }
+                    if (j.get(Identifications.DEXTERITY_REQ.getItemName()) != null && j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt() != 0) {
+                        dexR[i] = j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt();
+                        if (dexR[i] > maxSPReq[1]) maxSPReq[1] = dexR[i];
+                    }
+                    if (j.get(Identifications.INTELLIGENCE_REQ.getItemName()) != null && j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt() != 0) {
+                        intR[i] = j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt();
+                        if (intR[i] > maxSPReq[2]) maxSPReq[2] = intR[i];
+                    }
+                    if (j.get(Identifications.DEFENSE_REQ.getItemName()) != null && j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt() != 0) {
+                        defR[i] = j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt();
+                        if (defR[i] > maxSPReq[3]) maxSPReq[3] = defR[i];
+                    }
+                    if (j.get(Identifications.AGILITY_REQ.getItemName()) != null && j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt() != 0) {
+                        agiR[i] = j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt();
+                        if (agiR[i] > maxSPReq[4]) maxSPReq[4] = agiR[i];
+                    }
                 }
 
-                //Skill Point Bonus
-                if (j.get(Identifications.STRENGTH.getItemName()) != null && j.get(Identifications.STRENGTH.getItemName()).getAsInt() != 0) {
-                    if (j.get("tier") != null && j.get("tier").getAsString().equals("Crafted")) {
-                        strI[i + 8] +=j.get(Identifications.STRENGTH.getItemName()).getAsInt();
-                    } else {
-                        strI[i] +=j.get(Identifications.STRENGTH.getItemName()).getAsInt();
-                    }
-                }
-                if (j.get(Identifications.DEXTERITY.getItemName()) != null && j.get(Identifications.DEXTERITY.getItemName()).getAsInt() != 0) {
-                    if (j.get("tier") != null && j.get("tier").getAsString().equals("Crafted")) {
-                        dexI[i + 8] +=j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
-                    } else {
-                        dexI[i] +=j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
-                    }
-                }
-                if (j.get(Identifications.INTELLIGENCE.getItemName()) != null && j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt() != 0) {
-                    if (j.get("tier") != null && j.get("tier").getAsString().equals("Crafted")) {
-                        intI[i + 8] +=j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
-                    } else {
-                        intI[i] +=j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
-                    }
-                }
-                if (j.get(Identifications.DEFENSE.getItemName()) != null && j.get(Identifications.DEFENSE.getItemName()).getAsInt() != 0) {
-                    if (j.get("tier") != null && j.get("tier").getAsString().equals("Crafted")) {
-                        defI[i + 8] +=j.get(Identifications.DEFENSE.getItemName()).getAsInt();
-                    } else {
-                        defI[i] +=j.get(Identifications.DEFENSE.getItemName()).getAsInt();
-                    }
-                }
-                if (j.get(Identifications.AGILITY.getItemName()) != null && j.get(Identifications.AGILITY.getItemName()).getAsInt() != 0) {
-                    if (j.get("tier") != null && j.get("tier").getAsString().equals("Crafted")) {
-                        agiI[i + 8] +=j.get(Identifications.AGILITY.getItemName()).getAsInt();
-                    } else {
-                        agiI[i] +=j.get(Identifications.AGILITY.getItemName()).getAsInt();
-                    }
+                if (items.getJsonObjectList().get(i).get("identifications") != null) {
+                    JsonObject j = items.getJsonObjectList().get(i);
+
+                    //Skill Point Bonus
+                    getSkillPoints(j, Identifications.STRENGTH, strI, i);
+                    getSkillPoints(j, Identifications.DEXTERITY, dexI, i);
+                    getSkillPoints(j, Identifications.INTELLIGENCE, intI, i);
+                    getSkillPoints(j, Identifications.DEFENSE, defI, i);
+                    getSkillPoints(j, Identifications.AGILITY, agiI, i);
                 }
             }
         }
 
         //Get Weapon Skill Point
         if (items.getWeapon() != null) {
-            JsonObject j = items.getWeapon();
+            JsonObject json = items.getWeapon();
 
             //Skill Point Req
-            if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) strR[8] = j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt();
-            if (j.get(Identifications.DEXTERITY_REQ.getItemName()) != null && j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt() != 0) dexR[8] = j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt();
-            if (j.get(Identifications.INTELLIGENCE_REQ.getItemName()) != null && j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt() != 0) intR[8] = j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt();
-            if (j.get(Identifications.DEFENSE_REQ.getItemName()) != null && j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt() != 0) defR[8] = j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt();
-            if (j.get(Identifications.AGILITY_REQ.getItemName()) != null && j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt() != 0) agiR[8] = j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt();
+            if (json.get("requirements") != null) {
+                JsonObject j = json.get("requirements").getAsJsonObject();
+                if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {
+                    strR[8] = j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt();
+                }
+                if (j.get(Identifications.DEXTERITY_REQ.getItemName()) != null && j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt() != 0) {
+                    dexR[8] = j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt();
+                }
+                if (j.get(Identifications.INTELLIGENCE_REQ.getItemName()) != null && j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt() != 0) {
+                    intR[8] = j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt();
+                }
+                if (j.get(Identifications.DEFENSE_REQ.getItemName()) != null && j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt() != 0) {
+                    defR[8] = j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt();
+                }
+                if (j.get(Identifications.AGILITY_REQ.getItemName()) != null && j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt() != 0) {
+                    agiR[8] = j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt();
+                }
+            }
 
             //Skill Point Bonus
-            if (j.get(Identifications.STRENGTH.getItemName()) != null && j.get(Identifications.STRENGTH.getItemName()).getAsInt() != 0) strI[16] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
-            if (j.get(Identifications.DEXTERITY.getItemName()) != null && j.get(Identifications.DEXTERITY.getItemName()).getAsInt() != 0) dexI[16] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
-            if (j.get(Identifications.INTELLIGENCE.getItemName()) != null && j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt() != 0) intI[16] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
-            if (j.get(Identifications.DEFENSE.getItemName()) != null && j.get(Identifications.DEFENSE.getItemName()).getAsInt() != 0) defI[16] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
-            if (j.get(Identifications.AGILITY.getItemName()) != null && j.get(Identifications.AGILITY.getItemName()).getAsInt() != 0) agiI[16] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
+            if (json.get("identifications") != null) {
+                JsonObject j = json.get("identifications").getAsJsonObject();
+                if (j.get(Identifications.STRENGTH.getItemName()) != null) {
+                    //Strength
+                    if (!j.get(Identifications.STRENGTH.getItemName()).isJsonObject()) {
+                        strI[16] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
+                    } else {
+                        strI[16] += j.get(Identifications.STRENGTH.getItemName()).getAsJsonObject().get("max").getAsInt();
+                    }
+                }
+                if (j.get(Identifications.DEXTERITY.getItemName()) != null) {
+                    //Dexterity
+                    if (!j.get(Identifications.DEXTERITY.getItemName()).isJsonObject()) {
+                        dexI[16] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
+                    } else {
+                        dexI[16] += j.get(Identifications.DEXTERITY.getItemName()).getAsJsonObject().get("max").getAsInt();
+                    }
+                }
+                if (j.get(Identifications.INTELLIGENCE.getItemName()) != null) {
+                    //Intelligence
+                    if (!j.get(Identifications.INTELLIGENCE.getItemName()).isJsonObject()) {
+                        intI[16] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
+                    } else {
+                        intI[16] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsJsonObject().get("max").getAsInt();
+                    }
+                }
+                if (j.get(Identifications.DEFENSE.getItemName()) != null) {
+                    //Defense
+                    if (!j.get(Identifications.DEFENSE.getItemName()).isJsonObject()) {
+                        defI[16] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
+                    } else {
+                        defI[16] += j.get(Identifications.DEFENSE.getItemName()).getAsJsonObject().get("max").getAsInt();
+                    }
+                }
+                if (j.get(Identifications.AGILITY.getItemName()) != null) {
+                    //Agility
+                    if (!j.get(Identifications.AGILITY.getItemName()).isJsonObject()) {
+                        agiI[16] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
+                    } else {
+                        agiI[16] += j.get(Identifications.AGILITY.getItemName()).getAsJsonObject().get("max").getAsInt();
+                    }
+                }
+            }
         }
 
         //Set Not Crafted and Have SP Bonus Armor and Accessory
@@ -480,6 +450,64 @@ public class SkillPoint {
                 return agility.getSPValue();
             default:
                 return strength.getSPValue();
+        }
+    }
+
+    private static void getTomeSkillPoints(JsonObject json, int[] originalSP, int[] totalSP) {
+        if (json.get("identifications") != null) {
+            JsonObject j = json.get("identifications").getAsJsonObject();
+
+            //Strength
+            if (j.get(Identifications.STRENGTH.getItemName()) != null) {
+                originalSP[0] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
+                totalSP[0] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
+            }
+
+            //Dexterity
+            if (j.get(Identifications.DEXTERITY.getItemName()) != null) {
+                originalSP[1] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
+                totalSP[1] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
+            }
+
+            //Intelligence
+            if (j.get(Identifications.INTELLIGENCE.getItemName()) != null) {
+                originalSP[0] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
+                totalSP[0] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
+            }
+
+            //Defense
+            if (j.get(Identifications.DEFENSE.getItemName()) != null) {
+                originalSP[0] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
+                totalSP[0] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
+            }
+
+            //Agility
+            if (j.get(Identifications.AGILITY.getItemName()) != null) {
+                originalSP[0] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
+                totalSP[0] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
+            }
+        }
+    }
+
+    private static void getSkillPoints(JsonObject json, Identifications id, int[] sps, int i) {
+        int sp = 0;
+        if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
+            JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+            if (!j.isJsonObject()) {
+                sp = j.getAsInt();
+            } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
+                String minOrMax = "max";
+                if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
+                sp = SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt());
+            } else if (id.isItemVariable() || json.get("tier").getAsString().equals("crafted")) {
+                sp = j.getAsJsonObject().get("max").getAsInt();
+            }
+        }
+
+        if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) {
+            sps[i + 8] += sp;
+        } else {
+            sps[i] += sp;
         }
     }
 
