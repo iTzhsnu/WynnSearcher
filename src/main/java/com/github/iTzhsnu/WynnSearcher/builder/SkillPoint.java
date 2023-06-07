@@ -471,20 +471,20 @@ public class SkillPoint {
 
             //Intelligence
             if (j.get(Identifications.INTELLIGENCE.getItemName()) != null) {
-                originalSP[0] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
-                totalSP[0] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
+                originalSP[2] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
+                totalSP[2] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
             }
 
             //Defense
             if (j.get(Identifications.DEFENSE.getItemName()) != null) {
-                originalSP[0] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
-                totalSP[0] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
+                originalSP[3] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
+                totalSP[3] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
             }
 
             //Agility
             if (j.get(Identifications.AGILITY.getItemName()) != null) {
-                originalSP[0] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
-                totalSP[0] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
+                originalSP[4] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
+                totalSP[4] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
             }
         }
     }

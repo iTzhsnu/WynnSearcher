@@ -6,7 +6,7 @@ compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
 group 'com.github.iTzhsnu'
-version '3.1.0'
+version '3.1.1'
 
 repositories {
     mavenCentral()
