@@ -34,6 +34,7 @@ public class CustomUI implements ActionListener {
     private final JScrollPane scroll;
     private final JComboBox<String> itemType = new JComboBox<>();
     private final JPanel textScroll = new JPanel();
+    private final JComboBox<String> rarity = new JComboBox<>();
 
     private static final Map<Integer, Identifications> ID_FROM_NOT_VARIABLE_INT = new HashMap<Integer, Identifications>() {{
         put(1, Identifications.STRENGTH_REQ);
@@ -311,12 +312,23 @@ public class CustomUI implements ActionListener {
         itemType.addItem("relik");
         itemType.addActionListener(this);
 
+        rarity.setBounds(410, 5, 100, 20);
+        rarity.addItem("normal");
+        rarity.addItem("unique");
+        rarity.addItem("rare");
+        rarity.addItem("legendary");
+        rarity.addItem("fabled");
+        rarity.addItem("mythic");
+        rarity.addItem("set");
+        rarity.addItem("crafted");
+
         pane.add(create);
         pane.add(load);
         pane.add(variable);
         pane.add(textScroll);
         pane.add(scroll);
         pane.add(itemType);
+        pane.add(rarity);
     }
 
     public static int getY(int i) {
@@ -341,6 +353,7 @@ public class CustomUI implements ActionListener {
         textScroll.setVisible(visible);
         scroll.setVisible(visible);
         itemType.setVisible(visible);
+        rarity.setVisible(visible);
 
         if (visible) {
             String selected = itemType.getItemAt(itemType.getSelectedIndex());
@@ -458,7 +471,7 @@ public class CustomUI implements ActionListener {
     public void createCustomItem() {
         display.removeAll();
 
-        JsonObject j = JsonParser.parseString("{\"tier\":\"custom\"}").getAsJsonObject();
+        JsonObject j = JsonParser.parseString("{\"tier\":\"" + rarity.getItemAt(rarity.getSelectedIndex()) + "\"}").getAsJsonObject();
         if (notVariable.get(0).getText().isEmpty()) {
             j.addProperty("name", "Custom Item");
         } else {
@@ -606,6 +619,7 @@ public class CustomUI implements ActionListener {
                 }
             }
             if (j.get("identified") != null) variable.setSelected(!j.get("identified").getAsBoolean());
+            if (j.get("tier") != null) rarity.setSelectedItem(j.get("tier").getAsString());
         }
         SwingUtilities.updateComponentTreeUI(display);
     }
