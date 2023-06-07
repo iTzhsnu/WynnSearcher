@@ -478,8 +478,12 @@ public class CustomUI implements ActionListener {
             j.addProperty("name", notVariable.get(0).getText());
         }
 
+        //Powder Slots
+        if (!notVariable.get(6).getText().isEmpty() && notVariable.get(6).getText().matches("[+-]?\\d*(\\.\\d+)?")) j.addProperty(Identifications.POWDER_SLOTS.getItemName(), Integer.parseInt(notVariable.get(6).getText()));
+
+        //IDs
         for (int i = 1; notVariable.size() > i; ++i) {
-            if (i >= 7 && i <= 12) continue;
+            if (i >= 6 && i <= 12) continue;
             if (!notVariable.get(i).getText().isEmpty()) {
                 Identifications id = ID_FROM_NOT_VARIABLE_INT.get(i);
                 if (notVariable.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?") && !notVariable.get(i).getText().equals("0")) {
@@ -520,13 +524,13 @@ public class CustomUI implements ActionListener {
                         }
 
                         if (j.get(id.getItemFieldPos()) == null) j.add(id.getItemFieldPos(), JsonParser.parseString("{}"));
-                        j.get(id.getItemFieldPos()).getAsJsonObject().add(id.getItemName(), JsonParser.parseString("{\"min\":" + minNum + "\"max\":" + maxNum + "}"));
+                        j.get(id.getItemFieldPos()).getAsJsonObject().add(id.getItemName(), JsonParser.parseString("{\"min\":" + minNum + ",\"max\":" + maxNum + "}"));
                     }
                 }
             }
 
             //Attack Speed
-            j.addProperty(Identifications.ATTACK_SPEED_BONUS.getItemName(), atkSpdBox.getItemAt(atkSpdBox.getSelectedIndex()));
+            j.addProperty(Identifications.ATTACK_SPEED.getItemName(), atkSpdBox.getItemAt(atkSpdBox.getSelectedIndex()));
         } else {
             //Health, Earth Defense, Thunder Defense, Water Defense, Fire Defense and Air Defense
             for (int i = 7; 12 >= i; ++i) {
@@ -566,8 +570,11 @@ public class CustomUI implements ActionListener {
                 display.setPreferredSize(new Dimension(270, 747));
             }
 
+            if (j.get("type") != null) itemType.setSelectedItem(j.get("type").getAsString());
             if (j.get("name") != null) notVariable.get(0).setText(j.get("name").getAsString());
+            if (j.get(Identifications.POWDER_SLOTS.getItemName()) != null) notVariable.get(6).setText(String.valueOf(j.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt()));
             for (int i = 1; notVariable.size() > i; ++i) {
+                if (i == 6) continue;
                 Identifications id = ID_FROM_NOT_VARIABLE_INT.get(i);
                 if (j.get(id.getItemFieldPos()) != null && j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
                     JsonElement je = j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
@@ -593,31 +600,7 @@ public class CustomUI implements ActionListener {
                     max.get(i).setText("");
                 }
             }
-            if (j.get("attackSpeed") != null) {
-                switch (j.get("attackSpeed").getAsString()) {
-                    case "super_fast":
-                        atkSpdBox.setSelectedIndex(0);
-                        break;
-                    case "very_fast":
-                        atkSpdBox.setSelectedIndex(1);
-                        break;
-                    case "fast":
-                        atkSpdBox.setSelectedIndex(2);
-                        break;
-                    case "normal":
-                        atkSpdBox.setSelectedIndex(3);
-                        break;
-                    case "slow":
-                        atkSpdBox.setSelectedIndex(4);
-                        break;
-                    case "very_slow":
-                        atkSpdBox.setSelectedIndex(5);
-                        break;
-                    case "super_slow":
-                        atkSpdBox.setSelectedIndex(6);
-                        break;
-                }
-            }
+            if (j.get(Identifications.ATTACK_SPEED.getItemName()) != null) atkSpdBox.setSelectedItem(j.get(Identifications.ATTACK_SPEED.getItemName()).getAsString());
             if (j.get("identified") != null) variable.setSelected(!j.get("identified").getAsBoolean());
             if (j.get("tier") != null) rarity.setSelectedItem(j.get("tier").getAsString());
         }

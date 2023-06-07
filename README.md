@@ -16,7 +16,8 @@ Java 8 or above
 ![](readme_pictures/how_to_use_3.png)
 
 ### Custom (Beta)
-![](readme_pictures/how_to_use_4.png)
+![](readme_pictures/how_to_use_4_1.png)
+![](readme_pictures/how_to_use_4_2.png)
 
 ## Screenshots
 ![](readme_pictures/search_1.png)
