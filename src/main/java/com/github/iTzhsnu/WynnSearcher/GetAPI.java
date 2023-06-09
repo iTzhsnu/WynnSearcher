@@ -122,7 +122,7 @@ public class GetAPI {
                                     saveOtherItemsJ.get("items").getAsJsonArray().add(j);
                                     break;
                             }
-                            System.out.println(entry.getKey());
+                            System.out.println("[Load] " + entry.getKey());
                         }
                     } else {
                         connect = false;

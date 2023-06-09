@@ -338,6 +338,8 @@ public class SearchUI extends JFrame implements ActionListener {
         setItemJson();
         setIngredientJson();
         setOtherItemsJson();
+        crafterUI.updateIngAPI();
+        builderUI.updateAPIs();
 
         updateAPI.setVisible(true);
     }

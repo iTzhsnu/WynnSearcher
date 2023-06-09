@@ -19,6 +19,7 @@ public class BuilderUI implements ActionListener {
     private final JScrollPane scrollPane;
 
     //Json
+    private final List<JsonObject> itemAPI;
     private final List<JsonObject> weaponJson = new ArrayList<>();
     private final List<JsonObject> helmetJson = new ArrayList<>();
     private final List<JsonObject> chestplateJson = new ArrayList<>();
@@ -67,6 +68,7 @@ public class BuilderUI implements ActionListener {
     private final TreeBase shaman;
 
     public BuilderUI(Container p, List<JsonObject> itemAPI, List<JsonObject> ingAPI, List<JsonObject> otherItemAPI, List<JsonObject> recipeAPI, JLabel itemAPIConnect, String recipeAPIConnect) {
+        this.itemAPI = itemAPI;
         this.ingAPI = ingAPI;
         this.recipeAPI = recipeAPI;
         this.otherItemAPI = otherItemAPI;
@@ -560,6 +562,100 @@ public class BuilderUI implements ActionListener {
         for (JTextField t : powderField) {
             pane.add(t);
         }
+    }
+
+    public void updateAPIs() {
+        if (weaponTomeJson.size() > 0) weaponTomeJson.clear();
+        if (helmetJson.size() > 0) helmetJson.clear();
+        if (chestplateJson.size() > 0) chestplateJson.clear();
+        if (leggingsJson.size() > 0) leggingsJson.clear();
+        if (bootsJson.size() > 0) bootsJson.clear();
+        if (ringJson.size() > 0) ringJson.clear();
+        if (braceletJson.size() > 0) braceletJson.clear();
+        if (necklaceJson.size() > 0) necklaceJson.clear();
+        setJson(itemAPI);
+        if (weaponTomeJson.size() > 0) weaponTomeJson.clear();
+        if (guildTomeJson.size() > 0) guildTomeJson.clear();
+        if (armourTomeJson.size() > 0) armourTomeJson.clear();
+        setTomeJson();
+        for (JComboBox<String> b : itemBox) b.removeAllItems();
+
+        JComboBox<String> helmetBox = itemBox.get(0);
+        JComboBox<String> chestplateBox = itemBox.get(1);
+        JComboBox<String> leggingsBox = itemBox.get(2);
+        JComboBox<String> bootsBox = itemBox.get(3);
+        JComboBox<String> ring1Box = itemBox.get(4);
+        JComboBox<String> ring2Box = itemBox.get(5);
+        JComboBox<String> braceletBox = itemBox.get(6);
+        JComboBox<String> necklaceBox = itemBox.get(7);
+        JComboBox<String> weaponBox = itemBox.get(8);
+
+        JComboBox<String> armourTome1Box = itemBox.get(9);
+        JComboBox<String> armourTome2Box = itemBox.get(10);
+        JComboBox<String> armourTome3Box = itemBox.get(11);
+        JComboBox<String> armourTome4Box = itemBox.get(12);
+        JComboBox<String> weaponTome1Box = itemBox.get(13);
+        JComboBox<String> weaponTome2Box = itemBox.get(14);
+        JComboBox<String> guildTomeBox = itemBox.get(15);
+
+        for (JsonObject j : helmetJson) {
+            if (j.get("name") != null) {
+                helmetBox.addItem(j.get("name").getAsString());
+            }
+        }
+        for (JsonObject j : chestplateJson) {
+            if (j.get("name") != null) {
+                chestplateBox.addItem(j.get("name").getAsString());
+            }
+        }
+        for (JsonObject j : leggingsJson) {
+            if (j.get("name") != null) {
+                leggingsBox.addItem(j.get("name").getAsString());
+            }
+        }
+        for (JsonObject j : bootsJson) {
+            if (j.get("name") != null) {
+                bootsBox.addItem(j.get("name").getAsString());
+            }
+        }
+        for (JsonObject j : ringJson) {
+            if (j.get("name") != null) {
+                ring1Box.addItem(j.get("name").getAsString());
+                ring2Box.addItem(j.get("name").getAsString());
+            }
+        }
+        for (JsonObject j : braceletJson) {
+            if (j.get("name") != null) {
+                braceletBox.addItem(j.get("name").getAsString());
+            }
+        }
+        for (JsonObject j : necklaceJson) {
+            if (j.get("name") != null) {
+                necklaceBox.addItem(j.get("name").getAsString());
+            }
+        }
+        for (JsonObject j : weaponJson) {
+            if (j.get("name") != null) {
+                weaponBox.addItem(j.get("name").getAsString());
+            }
+        }
+
+        for (JsonObject j : armourTomeJson) {
+            armourTome1Box.addItem(j.get("name").getAsString());
+            armourTome2Box.addItem(j.get("name").getAsString());
+            armourTome3Box.addItem(j.get("name").getAsString());
+            armourTome4Box.addItem(j.get("name").getAsString());
+        }
+        for (JsonObject j : weaponTomeJson) {
+            weaponTome1Box.addItem(j.get("name").getAsString());
+            weaponTome2Box.addItem(j.get("name").getAsString());
+        }
+        for (JsonObject j : guildTomeJson) {
+            guildTomeBox.addItem(j.get("name").getAsString());
+        }
+        for (JComboBox<String> b : itemBox) b.setSelectedIndex(-1);
+        itemConnect.setText("Item API Latest");
+        itemConnect.setForeground(new Color(0, 169, 104));
     }
 
     @Override

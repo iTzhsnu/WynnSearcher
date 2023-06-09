@@ -8,10 +8,7 @@ import com.google.gson.JsonParser;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 
@@ -236,6 +233,18 @@ public class CrafterUI implements ActionListener {
             ingBox.add(box);
             pane.add(ingBox.get(ingBox.size() - 1));
         }
+    }
+
+    public void updateIngAPI() {
+        for (JComboBox<String> b : ingBox) {
+            b.removeAllItems();
+            for (JsonObject j : ingJson) {
+                if (j.get("name") != null) b.addItem(j.get("name").getAsString());
+            }
+            b.setSelectedIndex(-1);
+        }
+        itemAPIConnect.setText("Item API Latest");
+        itemAPIConnect.setForeground(new Color(0, 169, 104));
     }
 
     public void setLevel() {
@@ -713,7 +722,7 @@ public class CrafterUI implements ActionListener {
 
     public static class Adapter extends KeyAdapter {
         private final JComboBox<String> box;
-        private final List<JsonObject> json;
+        private List<JsonObject> json;
 
         public Adapter(JComboBox<String> box, List<JsonObject> json) {
             super();
@@ -737,9 +746,7 @@ public class CrafterUI implements ActionListener {
             box.removeAllItems();
 
             for (JsonObject j : json) {
-                if (j.get("displayName") != null) {
-                    if (text.isEmpty() || j.get("displayName").getAsString().toLowerCase().contains(text.toLowerCase())) box.addItem(j.get("displayName").getAsString());
-                } else if (j.get("name") != null) {
+                if (j.get("name") != null) {
                     if (text.isEmpty() || j.get("name").getAsString().toLowerCase().contains(text.toLowerCase())) box.addItem(j.get("name").getAsString());
                 }
             }
