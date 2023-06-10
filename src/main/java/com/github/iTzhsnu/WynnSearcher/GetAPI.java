@@ -86,10 +86,10 @@ public class GetAPI {
                     JsonObject json = JsonParser.parseString(builder.toString()).getAsJsonObject();
                     if (json.get("results") != null) {
                         if (n == 1) endPos = json.get("controller").getAsJsonObject().get("pages").getAsInt();
-                        Set<Map.Entry<String, JsonElement>> entries = json.get("results").getAsJsonObject().entrySet();
-                        for (Map.Entry<String, JsonElement> entry : entries) {
+                        for (Map.Entry<String, JsonElement> entry : json.get("results").getAsJsonObject().entrySet()) {
                             JsonObject j = json.get("results").getAsJsonObject().get(entry.getKey()).getAsJsonObject();
                             j.addProperty("name", entry.getKey());
+                            if (j.get("tier") != null && j.get("tier").getAsString().equals("common")) j.addProperty("tier", "normal"); //Fixes Rarity Common => Normal
                             switch (i) {
                                 case 0: //Weapons
                                 case 1: //Armours

@@ -175,7 +175,7 @@ public class TreeCheckBox extends JCheckBox {
         return new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource(s))).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
     }
 
-    public String fixesText(String text) {
+    public static String fixesText(String text) {
         if (!text.isEmpty()) {
             String[] texts = text.split("&");
             StringBuilder sb = new StringBuilder();
