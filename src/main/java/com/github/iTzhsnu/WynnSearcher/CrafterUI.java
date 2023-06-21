@@ -722,7 +722,7 @@ public class CrafterUI implements ActionListener {
 
     public static class Adapter extends KeyAdapter {
         private final JComboBox<String> box;
-        private List<JsonObject> json;
+        private final List<JsonObject> json;
 
         public Adapter(JComboBox<String> box, List<JsonObject> json) {
             super();

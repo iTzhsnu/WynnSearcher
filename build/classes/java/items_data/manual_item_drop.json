@@ -1,0 +1,3040 @@
+{
+  "last_edit": "2023-06-19",
+  "unobtainable": [
+    "Pirate Queen's Ring of Rubies",
+    "GM's Helmet",
+    "GM's Breastplate",
+    "GM's Trousers",
+    "GM's Boots",
+    "Diving Boots I",
+    "Diving Boots II",
+    "Diving Boots III",
+    "Builder's Helmet",
+    "Builder's Breastplate",
+    "Builder's Trousers",
+    "Builder's Boots",
+    "Inhibitor֎",
+    "Gnomish Topper",
+    "Yellow Content Cap of Fame",
+    "Seekers Aid",
+    "Factory Helmet",
+    "Contest Wynner Cap",
+    "Bear Head",
+    "Pure Iron Helmet",
+    "Refined Chainmail Helmet",
+    "Flawed Leather Cap",
+    "Average Golden Helmet",
+    "Flawless Chain Helmet",
+    "Pure Diamond Chestplate",
+    "Average Golden Chestplate",
+    "Flawless Chain Chestplate",
+    "Flawed Golden Chestplate",
+    "Refined Iron Chainmail",
+    "Refined Iron Leggings",
+    "Flawless Chain Leggings",
+    "Flawed Golden Leggings",
+    "Pure Iron Leggings",
+    "Average Golden Leggings",
+    "Refined Iron Boots",
+    "Pure Iron Boots",
+    "Flawless Chain Boots",
+    "Impure Morph-Gold",
+    "Average Golden Boots",
+    "Flawed Leather Boots",
+    "Ba'al's Betrayal",
+    "Orc Mask",
+    "Cracked Oak Spear",
+    "Cracked Oak Dagger",
+    "Cracked Oak Wand",
+    "Cracked Oak Bow",
+    "Cracked Oak Relik",
+    "Oni Helm",
+    "Pumpkin Helmet",
+    "Helmet of Shimmering Light",
+    "Dull Ancient Helmet",
+    "Empowered Ancient Helmet",
+    "Restored Ancient Helmet"
+  ],
+  "forgery_chest": [
+    "Tisaun's Valor",
+    "Remikas' Authority",
+    "Ensa's Faith"
+  ],
+  "legendary_island": [
+    "Bronze Basic Ring",
+    "Bronze Basic Bracelet",
+    "Bronze Basic Necklace",
+    "Silver Fiber Ring",
+    "Gold Fiber Ring",
+    "Diamond Fiber Ring",
+    "Silver Fiber Bracelet",
+    "Gold Fiber Bracelet",
+    "Diamond Fiber Bracelet",
+    "Silver Fiber Necklace",
+    "Gold Fiber Necklace",
+    "Diamond Fiber Necklace",
+    "Silver Static Ring",
+    "Gold Static Ring",
+    "Diamond Static Ring",
+    "Silver Static Bracelet",
+    "Gold Static Bracelet",
+    "Diamond Static Bracelet",
+    "Silver Static Necklace",
+    "Gold Static Necklace",
+    "Diamond Static Necklace",
+    "Silver Hydro Ring",
+    "Gold Hydro Ring",
+    "Diamond Hydro Ring",
+    "Silver Hydro Bracelet",
+    "Gold Hydro Bracelet",
+    "Diamond Hydro Bracelet",
+    "Silver Hydro Necklace",
+    "Gold Hydro Necklace",
+    "Diamond Hydro Necklace",
+    "Silver Solar Ring",
+    "Gold Solar Ring",
+    "Diamond Solar Ring",
+    "Silver Solar Bracelet",
+    "Gold Solar Bracelet",
+    "Diamond Solar Bracelet",
+    "Silver Solar Necklace",
+    "Gold Solar Necklace",
+    "Diamond Solar Necklace",
+    "Silver Steam Ring",
+    "Gold Steam Ring",
+    "Diamond Steam Ring",
+    "Silver Steam Bracelet",
+    "Gold Steam Bracelet",
+    "Diamond Steam Bracelet",
+    "Silver Steam Necklace",
+    "Gold Steam Necklace",
+    "Diamond Steam Necklace",
+    "Silver Fusion Ring",
+    "Gold Fusion Ring",
+    "Diamond Fusion Ring",
+    "Silver Fusion Bracelet",
+    "Gold Fusion Bracelet",
+    "Diamond Fusion Bracelet",
+    "Silver Fusion Necklace",
+    "Gold Fusion Necklace",
+    "Diamond Fusion Necklace",
+    "Legendary Medallion"
+  ],
+  "merchant": {
+    "Cinfras Souvenir T-Shirt": {
+      "name": "Souvenir T-Shirt Merchant",
+      "pos": "Cinfras"
+    },
+    "Chipped Leather Cap": {
+      "name": "Ragni Armour Merchant",
+      "pos": "Ragni"
+    },
+    "Chipped Leather Tunic": {
+      "name": "Ragni Armour Merchant",
+      "pos": "Ragni"
+    },
+    "Chipped Leather Pants": {
+      "name": "Ragni Armour Merchant",
+      "pos": "Ragni"
+    },
+    "Chipped Leather Boots": {
+      "name": "Ragni Armour Merchant",
+      "pos": "Ragni"
+    },
+    "Ornate Shadow Cowl": {
+      "name": "Mysterious Merchant",
+      "pos": "Lutho",
+      "price": "1x Corrupted Soul Token (Quest Rewards: A Hunter's Calling)"
+    },
+    "Ornate Shadow Garb": {
+      "name": "Mysterious Merchant",
+      "pos": "Lutho",
+      "price": "1x Corrupted Soul Token (Quest Rewards: A Hunter's Calling)"
+    },
+    "Ornate Shadow Cover": {
+      "name": "Mysterious Merchant",
+      "pos": "Lutho",
+      "price": "1x Corrupted Soul Token (Quest Rewards: A Hunter's Calling)"
+    },
+    "Ornate Shadow Cloud": {
+      "name": "Mysterious Merchant",
+      "pos": "Lutho",
+      "price": "1x Corrupted Soul Token (Quest Rewards: A Hunter's Calling)"
+    },
+    "Thanos Legionnaire Helm": {
+      "name": "Thanos Armour Merchant",
+      "pos": "Thanos",
+      "price": "2496x Emerald (39EB), 10x Platinum Ingot"
+    },
+    "Thanos Legionnaire Plate": {
+      "name": "Thanos Armour Merchant",
+      "pos": "Thanos",
+      "price": "2496x Emerald (39EB), 10x Platinum Ingot"
+    },
+    "Thanos Legionnaire Leggings": {
+      "name": "Thanos Armour Merchant",
+      "pos": "Thanos",
+      "price": "2496x Emerald (39EB), 10x Platinum Ingot"
+    },
+    "Thanos Legionnaire Greaves": {
+      "name": "Thanos Armour Merchant",
+      "pos": "Thanos",
+      "price": "2496x Emerald (39EB), 10x Platinum Ingot"
+    },
+    "Saint's Shawl": {
+      "name": "Wynnter 2016 Armour Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "2240x Emeralds (35EB)"
+    },
+    "Saint's Tunic": {
+      "name": "Wynnter 2016 Armour Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "2240x Emeralds (35EB)"
+    },
+    "Saint's Leggings": {
+      "name": "Wynnter 2016 Armour Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "2240x Emeralds (35EB)"
+    },
+    "Saint's Sandals": {
+      "name": "Wynnter 2016 Armour Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "2240x Emeralds (35EB)"
+    },
+    "Yellow Ornament": {
+      "name": "Wynnter 2016 Accessory Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "640x Emeralds (10EB)"
+    },
+    "Blue Ornament": {
+      "name": "Wynnter 2016 Accessory Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "640x Emeralds (10EB)"
+    },
+    "Red Ornament": {
+      "name": "Wynnter 2016 Accessory Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "640x Emeralds (10EB)"
+    },
+    "Green Ornament": {
+      "name": "Wynnter 2016 Accessory Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "640x Emeralds (10EB)"
+    },
+    "Elf Cap": {
+      "name": "Wynnter 2016 Armour Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "640x Emeralds (10EB)"
+    },
+    "Elf Robe": {
+      "name": "Wynnter 2016 Armour Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "640x Emeralds (10EB)"
+    },
+    "Elf Pants": {
+      "name": "Wynnter 2016 Armour Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "640x Emeralds (10EB)"
+    },
+    "Elf Shoes": {
+      "name": "Wynnter 2016 Armour Merchant",
+      "pos": "Craftmas Island (Ice Islands)",
+      "price": "640x Emeralds (10EB)"
+    },
+    "Goblin Hood": {
+      "name": "Goblin Hideout Armour Merchant",
+      "pos": "Goblin Village (Regular Island)",
+      "price": "512x Emeralds (8EB), 3x Golden Teeth"
+    },
+    "Goblin Cloak": {
+      "name": "Goblin Hideout Armour Merchant",
+      "pos": "Goblin Village (Regular Island)",
+      "price": "640x Emeralds (10EB), 3x Golden Teeth"
+    },
+    "Goblin Runners": {
+      "name": "Goblin Hideout Armour Merchant",
+      "pos": "Goblin Village (Regular Island)",
+      "price": "576x Emeralds (9EB), 3x Golden Teeth"
+    },
+    "Blue Team Helmet": {
+      "name": "Pig Puck Merchant (Only during Wynnter Fair)",
+      "pos": "North Lusuco",
+      "price": "64x Emeralds (1EB)"
+    },
+    "Blue Team Chestplate": {
+      "name": "Pig Puck Merchant (Only during Wynnter Fair)",
+      "pos": "North Lusuco",
+      "price": "64x Emeralds (1EB)"
+    },
+    "Blue Team Leggings": {
+      "name": "Pig Puck Merchant (Only during Wynnter Fair)",
+      "pos": "North Lusuco",
+      "price": "64x Emeralds (1EB)"
+    },
+    "Blue Team Boots": {
+      "name": "Pig Puck Merchant (Only during Wynnter Fair)",
+      "pos": "North Lusuco",
+      "price": "64x Emeralds (1EB)"
+    },
+    "Red Team Helmet": {
+      "name": "Pig Puck Merchant (Only during Wynnter Fair)",
+      "pos": "North Lusuco",
+      "price": "64x Emeralds (1EB)"
+    },
+    "Red Team Chestplate": {
+      "name": "Pig Puck Merchant (Only during Wynnter Fair)",
+      "pos": "North Lusuco",
+      "price": "64x Emeralds (1EB)"
+    },
+    "Red Team Leggings": {
+      "name": "Pig Puck Merchant (Only during Wynnter Fair)",
+      "pos": "North Lusuco",
+      "price": "64x Emeralds (1EB)"
+    },
+    "Red Team Boots": {
+      "name": "Pig Puck Merchant (Only during Wynnter Fair)",
+      "pos": "North Lusuco",
+      "price": "64x Emeralds (1EB)"
+    },
+    "Tribal Cap": {
+      "name": "Bremminglar Armour Merchant",
+      "pos": "Bremminglar",
+      "price": "4x Ocelot Pelt"
+    },
+    "Tribal Tunic": {
+      "name": "Bremminglar Armour Merchant",
+      "pos": "Bremminglar",
+      "price": "8x Ocelot Pelt"
+    },
+    "Tribal Pants": {
+      "name": "Bremminglar Armour Merchant",
+      "pos": "Bremminglar",
+      "price": "7x Ocelot Pelt"
+    },
+    "Tribal Boots": {
+      "name": "Bremminglar Armour Merchant",
+      "pos": "Bremminglar",
+      "price": "5x Ocelot Pelt"
+    },
+    "Bear Mask": {
+      "name": "Bear Zoo Souvenir Merchant",
+      "pos": "The Bear Zoo",
+      "price": "64x Emeralds (1EB)"
+    },
+    "Bear Body": {
+      "name": "Bear Zoo Souvenir Merchant",
+      "pos": "The Bear Zoo",
+      "price": "64x Emeralds (1EB)"
+    },
+    "Thanos Stonesinger": {
+      "name": "Thanos Weapon Merchant",
+      "pos": "Thanos",
+      "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
+    },
+    "Thanos Ironstaff": {
+      "name": "Thanos Weapon Merchant",
+      "pos": "Thanos",
+      "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
+    },
+    "Thanos Warhammer": {
+      "name": "Thanos Weapon Merchant",
+      "pos": "Thanos",
+      "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
+    },
+    "Thanos Warsword": {
+      "name": "Thanos Weapon Merchant",
+      "pos": "Thanos",
+      "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
+    },
+    "Thanos Siege Bow": {
+      "name": "Thanos Weapon Merchant",
+      "pos": "Thanos",
+      "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
+    },
+    "Thanos Crest": {
+      "name": "Thanos Accessory Merchant",
+      "pos": "Thanos",
+      "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
+    },
+    "Thanos Banner": {
+      "name": "Thanos Accessory Merchant",
+      "pos": "Thanos",
+      "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
+    },
+    "Thanos Brand": {
+      "name": "Thanos Accessory Merchant",
+      "pos": "Thanos",
+      "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
+    },
+    "Gert Super Special Magic Ultistick": {
+      "name": "Gert Merchant",
+      "pos": "X: -46 Y: 58 Z: -5553",
+      "price": "20x Pig Meat"
+    },
+    "Gert Bangswing Manypointystick": {
+      "name": "Gert Merchant",
+      "pos": "X: -46 Y: 58 Z: -5553"
+    },
+    "Gert Whooshy Bonkpole": {
+      "name": "Gert Merchant",
+      "pos": "X: -46 Y: 58 Z: -5553",
+      "price": "15x Pig Meat"
+    },
+    "Gert Rock Smashbanger": {
+      "name": "Gert Merchant",
+      "pos": "X: -46 Y: 58 Z: -5553",
+      "price": "12x Pig Meat"
+    },
+    "Gert Swingpoke Cuttyrock": {
+      "name": "Gert Merchant",
+      "pos": "X: -46 Y: 58 Z: -5553",
+      "price": "15x Pig Meat"
+    },
+    "Gert Shootstick Tossflinger": {
+      "name": "Gert Merchant",
+      "pos": "X: -46 Y: 58 Z: -5553",
+      "price": "15x Pig Meat"
+    },
+    "Ancient Runic Relik": {
+      "name": "Temple of Legends Weapon Merchant",
+      "pos": "Temple of Legends",
+      "price": "1x Stone of Myths (Quest Rewards: Reincarnation)"
+    },
+    "Bob's Mythic Wand": {
+      "name": "Temple of Legends Weapon Merchant",
+      "pos": "Temple of Legends",
+      "price": "1x Stone of Myths (Quest Rewards: Reincarnation)"
+    },
+    "Bob's Mythic Spear": {
+      "name": "Temple of Legends Weapon Merchant",
+      "pos": "Temple of Legends",
+      "price": "1x Stone of Myths (Quest Rewards: Reincarnation)"
+    },
+    "Bob's Mythic Daggers": {
+      "name": "Temple of Legends Weapon Merchant",
+      "pos": "Temple of Legends",
+      "price": "1x Stone of Myths (Quest Rewards: Reincarnation)"
+    },
+    "Bob's Mythic Bow": {
+      "name": "Temple of Legends Weapon Merchant",
+      "pos": "Temple of Legends",
+      "price": "1x Stone of Myths (Quest Rewards: Reincarnation)"
+    },
+    "Royal Blazing Amulet": {
+      "name": "King's Merchant",
+      "pos": "Cinfras",
+      "price": "1x Royal Token Of Gratitude (Quest Rewards: WynnExcavation Site D)"
+    },
+    "Royal Cyclone Amulet": {
+      "name": "King's Merchant",
+      "pos": "Cinfras",
+      "price": "1x Royal Token Of Gratitude (Quest Rewards: WynnExcavation Site D)"
+    },
+    "Royal Dusty Amulet": {
+      "name": "King's Merchant",
+      "pos": "Cinfras",
+      "price": "1x Royal Token Of Gratitude (Quest Rewards: WynnExcavation Site D)"
+    },
+    "Royal Shocking Amulet": {
+      "name": "King's Merchant",
+      "pos": "Cinfras",
+      "price": "1x Royal Token Of Gratitude (Quest Rewards: WynnExcavation Site D)"
+    },
+    "Royal Stormy Amulet": {
+      "name": "King's Merchant",
+      "pos": "Cinfras",
+      "price": "1x Royal Token Of Gratitude (Quest Rewards: WynnExcavation Site D)"
+    },
+    "Cursed Jackboots": {
+      "name": "Pirate Cove Merchant",
+      "pos": "Pirate Cove"
+    },
+    "Pirate Luck": {
+      "name": "Pirate Cove Armour Merchant",
+      "pos": "Pirate Cove",
+      "price": "16384x Emeralds (4LE)"
+    },
+    "Mask of Enlightenment": {
+      "name": "Iboju Village Tribal Merchant",
+      "pos": "Iboju Village",
+      "price": "20x Antic Beads"
+    },
+    "Mask of Courage": {
+      "name": "Iboju Village Tribal Merchant",
+      "pos": "Iboju Village",
+      "price": "20x Antic Beads"
+    },
+    "Mask of Fear": {
+      "name": "Iboju Village Tribal Merchant",
+      "pos": "Iboju Village",
+      "price": "20x Antic Beads"
+    },
+    "Mask of Hate": {
+      "name": "Iboju Village Tribal Merchant",
+      "pos": "Iboju Village",
+      "price": "20x Antic Beads"
+    },
+    "Mask of Rage": {
+      "name": "Iboju Village Tribal Merchant",
+      "pos": "Iboju Village",
+      "price": "20x Antic Beads"
+    },
+    "Olux's Prized Relik": {
+      "name": "Olux Weapon Merchant",
+      "pos": "Olux",
+      "price": "1x Crushed Bigfoot Bone (Quest Rewards: The Shadow of The Beast)"
+    },
+    "Olux's Prized Wand": {
+      "name": "Olux Weapon Merchant",
+      "pos": "Olux",
+      "price": "1x Crushed Bigfoot Bone (Quest Rewards: The Shadow of The Beast)"
+    },
+    "Olux's Prized Spear": {
+      "name": "Olux Weapon Merchant",
+      "pos": "Olux",
+      "price": "1x Crushed Bigfoot Bone (Quest Rewards: The Shadow of The Beast)"
+    },
+    "Olux's Prized Dagger": {
+      "name": "Olux Weapon Merchant",
+      "pos": "Olux",
+      "price": "1x Crushed Bigfoot Bone (Quest Rewards: The Shadow of The Beast)"
+    },
+    "Olux's Prized Bow": {
+      "name": "Olux Weapon Merchant",
+      "pos": "Olux",
+      "price": "1x Crushed Bigfoot Bone (Quest Rewards: The Shadow of The Beast)"
+    },
+    "Dujgon Warrior Hammer": {
+      "name": "Dujgon Weapon Merchant",
+      "pos": "Dujgon Nation (Ice Islands)",
+      "price": "2240x Emeralds (35EB)"
+    },
+    "Nodguj Warrior Sword": {
+      "name": "Nodguj Weapon Merchant",
+      "pos": "Nodguj Nation (Ice Islands)",
+      "price": "2240x Emeralds (35EB)"
+    },
+    "Nodguj Warrior Chestplate": {
+      "name": "Nodguj Armour Merchant",
+      "pos": "Nodguj Nation (Ice Islands)",
+      "price": "2080x Emeralds (32EB 32E)"
+    },
+    "Dujgon Warrior Chestplate": {
+      "name": "Dujgon Armour Merchant",
+      "pos": "Dujgon Nation (Ice Islands)",
+      "price": "2080x Emeralds (32EB 32E)"
+    },
+    "Tempo Totem": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "9x Time Fragment"
+    },
+    "Tempo Ticker": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "9x Time Fragment"
+    },
+    "Tempo Trident": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "9x Time Fragment"
+    },
+    "Tempo Tanto": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "9x Time Fragment"
+    },
+    "Tempo Trebuchet": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "9x Time Fragment"
+    },
+    "Seal Breaker": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "7x Time Fragment"
+    },
+    "Diminution": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "5x Time Fragment"
+    },
+    "Trouble Tamer": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "7x Time Fragment"
+    },
+    "Hourslip": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "5x Time Fragment"
+    },
+    "Dilation": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "7x Time Fragment"
+    },
+    "Reversion": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "5x Time Fragment"
+    },
+    "Secondsaver": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "5x Time Fragment"
+    },
+    "Advancement": {
+      "name": "Mysterious Merchant",
+      "pos": "Tempo Town",
+      "price": "5x Time Fragment"
+    },
+    "Vagabond's Disgrace": {
+
+    },
+    "Restorator": {
+
+    },
+    "Stalactite": {
+
+    },
+    "Voidstone Elrik": {
+
+    },
+    "Voidstone Recteps": {
+
+    },
+    "Voidstone Arpes": {
+
+    },
+    "Voidstone Esbald": {
+
+    },
+    "Voidstone Lensing": {
+
+    },
+    "Stormcloud": {
+
+    },
+    "Iron Will": {
+
+    },
+    "Charcoal": {
+
+    },
+    "Fallbreakers": {
+
+    },
+    "Icejewel": {
+
+    },
+    "Shard of Sky": {
+
+    },
+    "Evapar": {
+
+    },
+    "Rodoroc's Guard": {
+
+    },
+    "Pride": {
+
+    },
+    "Tungsten": {
+
+    },
+    "Bane of War": {
+
+    },
+    "Comrade": {
+
+    },
+    "Ornamental Plate": {
+
+    },
+    "Jewelled Broach": {
+
+    },
+    "Low World Greaves": {
+
+    },
+    "Darkiron Aegis": {
+
+    },
+    "Warming Heart": {
+
+    },
+    "Ski Mask": {
+
+    },
+    "Emerald Pendant": {
+
+    },
+    "Silversplint": {
+
+    },
+    "Pressure Blaster": {
+
+    },
+    "Quicksilver": {
+
+    },
+    "Diamond Cuff": {
+
+    },
+    "The Modulator": {
+
+    },
+    "Genetor": {
+
+    },
+    "Solar Sword": {
+
+    },
+    "Doodad": {
+
+    },
+    "Latency": {
+
+    },
+    "Thermals": {
+
+    },
+    "Coolant": {
+
+    },
+    "Silent Night": {
+
+    },
+    "Wishing Star": {
+
+    },
+    "Sheet Ice": {
+
+    },
+    "Evergreen": {
+
+    },
+    "Pine Bow": {
+
+    },
+    "Sleet": {
+
+    },
+    "Filter Mask": {
+
+    },
+    "Shine Lamp": {
+
+    },
+    "Coal Duster": {
+
+    },
+    "Crook's March": {
+
+    },
+    "Plate Shock": {
+
+    },
+    "Double-Edge": {
+
+    },
+    "Shale Edge": {
+
+    },
+    "Dragonspit": {
+
+    },
+    "Ehoole Drakeskin": {
+
+    },
+    "Ironbody": {
+
+    },
+    "Brass Choker": {
+
+    },
+    "Fire Pearl": {
+
+    },
+    "Formation": {
+
+    },
+    "Steady Grip": {
+
+    },
+    "Rask": {
+
+    },
+    "Sterk": {
+
+    },
+    "Earthlink": {
+
+    },
+    "Mining Fever": {
+
+    },
+    "Fulminate Staff": {
+
+    },
+    "Amulet of Rejuvenation": {
+
+    },
+    "Gert Shakestomper Toefeet": {
+
+    },
+    "Gert Bumpstump Legcovercloth": {
+
+    },
+    "Gert Veryhard Chestclothes": {
+
+    },
+    "Destrortur": {
+
+    },
+    "Deark": {
+
+    },
+    "Entamyx": {
+
+    },
+    "Hembwal": {
+
+    },
+    "Kal Hei": {
+
+    },
+    "Fuunyet": {
+
+    },
+    "Zawah Jed": {
+
+    },
+    "Olit Vaniek": {
+
+    },
+    "Snowflake": {
+
+    },
+    "Blitzen": {
+
+    },
+    "Douglas Fir": {
+
+    },
+    "Stone Crunch": {
+
+    },
+    "Tragedy": {
+
+    },
+    "Vei Haon": {
+
+    },
+    "Calor": {
+
+    },
+    "Gysdep": {
+
+    },
+    "Torch": {
+
+    },
+    "Regar": {
+
+    },
+    "Solum": {
+
+    },
+    "Enerxia": {
+
+    },
+    "Acevro": {
+
+    },
+    "Letum": {
+
+    },
+    "Boomslang": {
+
+    },
+    "Vis": {
+
+    },
+    "Rocher": {
+
+    },
+    "Purity": {
+
+    },
+    "Growth": {
+
+    },
+    "Poinsettia": {
+
+    },
+    "North Pole": {
+
+    },
+    "Firewood": {
+
+    },
+    "Icicle": {
+
+    },
+    "Polar Star": {
+
+    },
+    "Fellowship": {
+
+    },
+    "Myrrh": {
+
+    },
+    "Sealskin Parka": {
+
+    },
+    "Lycanthropy": {
+
+    },
+    "Chaotic Amulet": {
+
+    },
+    "Barbaric Amulet": {
+
+    },
+    "Droughted Amulet": {
+
+    },
+    "Dark Band": {
+
+    },
+    "Scalding Band": {
+
+    },
+    "Opium": {
+
+    },
+    "Decay Burner": {
+
+    },
+    "Captain's Razor": {
+
+    },
+    "Grave Digger": {
+
+    },
+    "Tear of Pirate Cove": {
+
+    },
+    "Werepelt": {
+
+    },
+    "Vixen": {
+
+    },
+    "Reindeer Paws": {
+
+    },
+    "Dragster": {
+
+    },
+    "Zhight Weird Magic Necklace": {
+
+    },
+    "Zhight Coral Band": {
+
+    },
+    "Prancer": {
+
+    },
+    "Zhight Shiny Ring": {
+
+    },
+    "Frankincense": {
+
+    },
+    "Hurricane": {
+
+    },
+    "Warlord": {
+
+    },
+    "Vine Machete": {
+
+    },
+    "The Judge": {
+
+    },
+    "Wipe": {
+
+    },
+    "Foreword": {
+
+    },
+    "Sleigher": {
+
+    },
+    "Conifer": {
+
+    },
+    "Snowstorm": {
+
+    },
+    "Cupid": {
+
+    },
+    "Stagnant": {
+
+    },
+    "Stainless Steel": {
+
+    },
+    "Permafrosted Saxifrage": {
+
+    },
+    "Viking Breath": {
+
+    },
+    "Holly": {
+
+    },
+    "Flaming War Spear": {
+
+    },
+    "Hillich": {
+
+    },
+    "Splinter": {
+
+    },
+    "Sleigh Bell": {
+
+    },
+    "Wooly Cap": {
+
+    },
+    "Reciprocator": {
+
+    },
+    "Horseshoe": {
+
+    },
+    "Calamaro's Relik": {
+
+    },
+    "Calamaro's Staff": {
+
+    },
+    "Calamaro's Spear": {
+
+    },
+    "Calamaro's Sword": {
+
+    },
+    "Calamaro's Bow": {
+
+    },
+    "Goblin Luck Charm": {
+
+    },
+    "Strategist": {
+
+    },
+    "Greysmith": {
+
+    },
+    "Short Cutter": {
+
+    },
+    "Goblin Hex Focus": {
+
+    },
+    "Frozen Earth": {
+
+    },
+    "Shield": {
+
+    },
+    "Rusher": {
+
+    },
+    "Wynnter Scarf": {
+
+    },
+    "Upgraded Archpriest": {
+
+    },
+    "Sting-Glass Necklace": {
+
+    },
+    "Woljawh": {
+
+    },
+    "Enhanced Pickpockets": {
+
+    },
+    "Crystal-Blend Pendant": {
+
+    },
+    "Vagabond": {
+
+    },
+    "Longevity": {
+
+    },
+    "Slainte": {
+
+    },
+    "Intuition": {
+
+    },
+    "Practice": {
+
+    },
+    "Sea Legs": {
+
+    },
+    "Drywind": {
+
+    },
+    "Mage-Crafted Staff": {
+
+    },
+    "The Saltwater Rune": {
+
+    },
+    "Arcanic": {
+
+    },
+    "Blade of Instinct": {
+
+    },
+    "Savannah Wind": {
+
+    },
+    "Memorial": {
+
+    },
+    "White Ghost": {
+
+    },
+    "Black Mask": {
+
+    },
+    "Water Mask": {
+
+    },
+    "Ice Mask": {
+
+    },
+    "Nemract Waders": {
+
+    },
+    "Ragni Fatigues": {
+
+    },
+    "Nesaak Snowshoes": {
+
+    },
+    "Almuj Turban": {
+
+    },
+    "Tromsian Survival Knife": {
+
+    },
+    "The Naturalist": {
+
+    },
+    "Pike of Fury": {
+
+    },
+    "The Magician": {
+
+    },
+    "Reinforced Composite Bow": {
+
+    }
+  },
+  "the_qira_hive": {
+    "Infused Hive Relik": {
+      "pos": "Master Voucher"
+    },
+    "Infused Hive Wand": {
+      "pos": "Master Voucher"
+    },
+    "Infused Hive Spear": {
+      "pos": "Master Voucher"
+    },
+    "Infused Hive Dagger": {
+      "pos": "Master Voucher"
+    },
+    "Infused Hive Bow": {
+      "pos": "Master Voucher"
+    },
+    "Contrast": {
+      "pos": "Master Voucher"
+    },
+    "Prowess": {
+      "pos": "Master Voucher"
+    },
+    "Intensity": {
+      "pos": "Master Voucher"
+    },
+    "Gaea-Hewn Boots": {
+      "pos": "Master Voucher"
+    },
+    "Hephaestus-Forged Sabatons": {
+      "pos": "Master Voucher"
+    },
+    "Eden-Blessed Guards": {
+      "pos": "Master Voucher"
+    },
+    "Abyss-Imbued Leggings": {
+      "pos": "Master Voucher"
+    },
+    "Chaos-Woven Greaves": {
+      "pos": "Master Voucher"
+    },
+    "Anima-Infused Cuirass": {
+      "pos": "Master Voucher"
+    },
+    "Elysium-Engraved Aegis": {
+      "pos": "Master Voucher"
+    },
+    "Twilight-Gilded Cloak": {
+      "pos": "Master Voucher"
+    },
+    "Boreal-Patterned Crown": {
+      "pos": "Master Voucher"
+    },
+    "Obsidian-Framed Helmet": {
+      "pos": "Master Voucher"
+    },
+    "Soulflare": {
+      "pos": "Fire Voucher"
+    },
+    "Dupliblaze": {
+      "pos": "Fire Voucher"
+    },
+    "Cinderchain": {
+      "pos": "Fire Voucher"
+    },
+    "Clockwork": {
+      "pos": "Fire Voucher"
+    },
+    "Mantlewalkers": {
+      "pos": "Fire Voucher"
+    },
+    "Sparkweaver": {
+      "pos": "Fire Voucher"
+    },
+    "Stillwater Blue": {
+      "pos": "Water Voucher"
+    },
+    "Moon Pool Circlet": {
+      "pos": "Water Voucher"
+    },
+    "Trench Scourer": {
+      "pos": "Water Voucher"
+    },
+    "Coral Ring": {
+      "pos": "Water Voucher"
+    },
+    "Silt of the Seafloor": {
+      "pos": "Water Voucher"
+    },
+    "Whitecap Crown": {
+      "pos": "Water Voucher"
+    },
+    "Beetle Aegis": {
+      "pos": "Earth Voucher"
+    },
+    "Golemlus Core": {
+      "pos": "Earth Voucher"
+    },
+    "Elder Oak Roots": {
+      "pos": "Earth Voucher"
+    },
+    "Subur Clip": {
+      "pos": "Earth Voucher"
+    },
+    "Humbark Moccasins": {
+      "pos": "Earth Voucher"
+    },
+    "Ambertoise Shell": {
+      "pos": "Earth Voucher"
+    },
+    "Gale's Freedom": {
+      "pos": "Air Voucher"
+    },
+    "Vortex Bracer": {
+      "pos": "Air Voucher"
+    },
+    "Turbine Greaves": {
+      "pos": "Air Voucher"
+    },
+    "Breezehands": {
+      "pos": "Air Voucher"
+    },
+    "Flashstep": {
+      "pos": "Air Voucher"
+    },
+    "Pride of the Aerie": {
+      "pos": "Air Voucher"
+    },
+    "Insulated Plate Mail": {
+      "pos": "Thunder Voucher"
+    },
+    "Lightning Flash": {
+      "pos": "Thunder Voucher"
+    },
+    "Static-Charged Leggings": {
+      "pos": "Thunder Voucher"
+    },
+    "Bottled Thunderstorm": {
+      "pos": "Thunder Voucher"
+    },
+    "Thunderous Step": {
+      "pos": "Thunder Voucher"
+    },
+    "Sparkling Visor": {
+      "pos": "Thunder Voucher"
+    }
+  },
+  "secret_discovery": {
+    "Necklace of a Thousand Storms": {
+      "pos": "Secret Discovery: Necklace Chamber"
+    },
+    "Anya's Penumbra": {
+      "pos": "Secret Discovery: Fate of the Olm"
+    },
+    "Spiketop": {
+      "pos": "Secret Discovery: Far From the Roots"
+    },
+    "Clock Helm": {
+      "pos": "Secret Discovery: Clock Mystery"
+    },
+    "Clock Mail": {
+      "pos": "Secret Discovery: Clock Mystery"
+    },
+    "Clock Leggings": {
+      "pos": "Secret Discovery: Clock Mystery"
+    },
+    "Clock Boots": {
+      "pos": "Secret Discovery: Clock Mystery"
+    },
+    "Time Ring": {
+      "pos": "Secret Discovery: Clock Mystery"
+    },
+    "Clockwork Ring": {
+      "pos": "Secret Discovery: Clock Mystery"
+    },
+    "Watch Bracelet": {
+      "pos": "Secret Discovery: Clock Mystery"
+    },
+    "Clock Amulet": {
+      "pos": "Secret Discovery: Clock Mystery"
+    }
+  },
+  "quest": {
+    "Fiery Relik": {
+      "pos": "Elemental Exercise"
+    },
+    "Fiery Wand": {
+      "pos": "Elemental Exercise"
+    },
+    "Fiery Spear": {
+      "pos": "Elemental Exercise"
+    },
+    "Fiery Dagger": {
+      "pos": "Elemental Exercise"
+    },
+    "Fiery Bow": {
+      "pos": "Elemental Exercise"
+    },
+    "Dodegar's Ultimate Weapon": {
+      "pos": "The Ultimate Weapon"
+    },
+    "Dark Diadem": {
+      "pos": "The Dark Descent"
+    },
+    "Troms Kid Badge": {
+      "pos": "Out of My Mind"
+    },
+    "Mech Core": {
+      "pos": "Desperate Metal"
+    },
+    "Gernald's Amulet": {
+      "pos": "Underice"
+    },
+    "Abyssal Amulet": {
+      "pos": "Eye of the Storm"
+    },
+    "Altum Spatium": {
+      "pos": "???"
+    },
+    "Ominous Wind": {
+      "pos": "One Thousand Meters Under"
+    },
+    "Generator Amulet": {
+      "pos": "Heart of Llevigar"
+    },
+    "Renda Langit": {
+      "pos": "The Order of the Grook"
+    },
+    "Ragon's Bracelet": {
+      "pos": "Elemental Exercise"
+    },
+    "Pendant of Prosperity": {
+      "pos": "Fantastic Voyage"
+    },
+    "Vindicator": {
+      "pos": "The Mercenary"
+    },
+    "Ring of Rubies": {
+      "pos": "Flight in Distress"
+    },
+    "Double Vision": {
+      "pos": "Realm of Light V - The Realm of Light"
+    },
+    "Quartron's Eye": {
+      "pos": "Rise of the Quartron"
+    },
+    "Lazarus' Brace": {
+      "pos": "Lazarus Pit"
+    },
+    "Dragon's Eye Bracelet": {
+      "pos": "The Order of the Grook"
+    },
+    "Photon": {
+      "pos": "Realm of Light II - Taproot"
+    },
+    "Gnome's Ring": {
+      "pos": "The Bigger Picture"
+    },
+    "Giant's Ring": {
+      "pos": "The Bigger Picture"
+    },
+    "Detective's Ring": {
+      "pos": "Murder Mystery"
+    },
+    "Raging Wind": {
+      "pos": "Beyond the Grave"
+    },
+    "Ring of Generosity": {
+      "pos": "Memory Paranoia"
+    },
+    "Draoi Fair": {
+      "pos": "The Order of the Grook"
+    },
+    "The Queen's Headpiece": {
+      "pos": "Royal Trials"
+    },
+    "Sky Chef's Apron": {
+      "pos": "Recipe For Disaster"
+    },
+    "Smoldering Apron": {
+      "pos": "Recipe For Disaster"
+    },
+    "Chef Hamsey's Apron": {
+      "pos": "Recipe For Disaster"
+    },
+    "The Master's Gi": {
+      "pos": "Enter the Dojo"
+    },
+    "Veekhat's Udders": {
+      "pos": "Cowfusion"
+    },
+    "Veekhat's Horns": {
+      "pos": "Cowfusion"
+    },
+    "Electro Mage's Boots": {
+      "pos": "The Envoy Part II"
+    },
+    "Changeling's Chestplate": {
+      "pos": "General's Orders"
+    },
+    "Cosmic Walkers": {
+      "pos": "???"
+    },
+    "Cosmic Ward": {
+      "pos": "???"
+    },
+    "Cosmic Vest": {
+      "pos": "???"
+    },
+    "Dragon Hide Plate": {
+      "pos": "The Thanos Depository"
+    },
+    "Cosmic Visor": {
+      "pos": "???"
+    },
+    "Kaerynn's Body": {
+      "pos": "Aldorei's Secret Part II"
+    },
+    "Kaerynn's Mind": {
+      "pos": "Aldorei's Secret Part II"
+    },
+    "Gerten Ritual Mask": {
+      "pos": "The Hunger of Gerts Part 2"
+    },
+    "Confused Gert Mask": {
+      "pos": "The Hunger of Gerts Part 1"
+    },
+    "Happy Gert Mask": {
+      "pos": "The Hunger of Gerts Part 1"
+    },
+    "Hungry Gert Mask": {
+      "pos": "The Hunger of Gerts Part 1"
+    },
+    "Sad Gert Mask": {
+      "pos": "The Hunger of Gerts Part 1"
+    },
+    "Scared Gert Mask": {
+      "pos": "The Hunger of Gerts Part 1"
+    },
+    "Surprised Gert Mask": {
+      "pos": "The Hunger of Gerts Part 1"
+    },
+    "Sunblight Boots": {
+      "pos": "Aldorei's Secret Part I"
+    },
+    "Champion Helmet": {
+      "pos": "Tower Of Ascension"
+    },
+    "Champion Chestplate": {
+      "pos": "Tower of Ascension"
+    },
+    "Champion Leggings": {
+      "pos": "Tower of Ascension"
+    },
+    "Champion Boots": {
+      "pos": "Tower of Ascension"
+    },
+    "Psychomend Vest": {
+      "pos": "Shattered Minds"
+    },
+    "Clearsight Spectacles": {
+      "pos": "Realm of Light IV - Finding the Light"
+    },
+    "Guard's Uniform": {
+      "pos": "Forbidden Prison"
+    },
+    "Inmate Outfit": {
+      "pos": "Forbidden Prison"
+    },
+    "Sound Proof Earmuff": {
+      "pos": "Hollow Sirene"
+    },
+    "Helmet of Legends": {
+      "pos": "Temple of the Legends"
+    },
+    "Purified Helmet of the Legends": {
+      "pos": "Temple of the Legends"
+    },
+    "Cloak of Luminosity": {
+      "pos": "Realm of Light III - A Headless History"
+    },
+    "Fire Wire": {
+      "pos": "From The Mountains"
+    },
+    "Sodeta Boots": {
+      "pos": "Lost Soles"
+    },
+    "Shameful Greaves": {
+      "pos": "An Iron Heart Part II"
+    },
+    "Abysso Galoshes": {
+      "pos": "Beneath the Depths"
+    },
+    "Black Veil": {
+      "pos": "The Maiden Tower"
+    },
+    "Glaciate": {
+      "pos": "Frost Bite"
+    },
+    "Bob's Battle Chestplate": {
+      "pos": "Bob's Lost Soul"
+    },
+    "Greaves of Honor": {
+      "pos": "An Iron Heart Part II"
+    },
+    "Climbing Helmet": {
+      "pos": "Ice Nation"
+    },
+    "Mummy's Rag": {
+      "pos": "Wrath of the Mummy"
+    },
+    "Avalanche": {
+      "pos": "Fate of the Fallen"
+    },
+    "Aerolia Boots": {
+      "pos": "Suspended Flowers"
+    },
+    "Essren's Coat": {
+      "pos": "Potion Making"
+    },
+    "Skeletal Legs": {
+      "pos": "Pit of the Dead"
+    },
+    "Breathing Helmet I": {
+      "pos": "Underwater"
+    },
+    "Thoracic": {
+      "pos": "The Sewers of Ragni"
+    },
+    "Treasure Boots": {
+      "pos": "Underwater"
+    },
+    "First Steps": {
+      "pos": "Enzan's brother"
+    },
+    "Waist Apron": {
+      "pos": "Cook's assistant"
+    },
+    "The Siren's Call": {
+      "pos": "Hollow Serenity"
+    },
+    "Upgraded Orc Mask": {
+      "pos": "All Roads to Peace"
+    }
+  },
+  "specific": {
+    "Contamination": [
+      {"name": "Jungle Fetish",
+        "pos": [
+          "-662, 58, -815 | Radius: 13.5",
+          "-563, 65, -900 | Radius: 19.0"
+        ]
+      }
+    ],
+    "Matryoshka Shell": [
+      {
+        "name": "Matryoshaka Idol",
+        "pos": [
+          "Iboju Secret Library"
+        ]
+      }
+    ],
+    "Blood Moon": [
+      {
+        "name": "Werewolf",
+        "pos": [
+          "-849, 47, -5277 | Radius: 10.0",
+          "-831, 47, -5233 | Radius: 12.5",
+          "-805, 47, -5201 | Radius: 10.0",
+          "-794, 44, -5166 | Radius: 7.5",
+          "-771, 45, -5109 | Radius: 10.0",
+          "-721, 46, -5089 | Radius: 15.0",
+          "-678, 43, -5055 | Radius: 12.5",
+          "-752, 47, -5329 | Radius: 12.5",
+          "-719, 47, -5308 | Radius: 10.0",
+          "-559, 43, -5209 | Radius: 7.5",
+          "-593, 44, -5250 | Radius: 10.0"
+        ]
+      },
+      {
+        "name": "Enraged Werewolf"
+      }
+    ],
+    "Phoenix Prince's Crown": [
+      {
+        "name": "Phoenix Prince",
+        "pos": [
+          "-1518, 74, -3317 (Lost Avos City)"
+        ]
+      }
+    ],
+    "Mama Zomble's Memory": [
+      {
+        "name": "Mama Zomble",
+        "pos": [
+          "-655, 67, 780 | Radius: 10.0"
+        ]
+      }
+    ],
+    "Confusing Cap": [
+      {
+        "name": "Confused Zombie",
+        "pos": [
+          "719, 67, -1430 | Radius: 12.5"
+        ]
+      }
+    ],
+    "Digested Corpse": [
+      {
+        "name": "Tribal Cannibals",
+        "pos": [
+          "-976, 55, -492 | Radius: 1.0",
+          "-991, 82, -473 | Radius: 1.5",
+          "-995, 84, -486 | Radius: 1.5",
+          "-535, 42, -377 | Radius: 4.0",
+          "-550, 47, -379 | Radius: 4.0"
+        ]
+      }
+    ],
+    "Sreggad": [
+      {
+        "name": "Jinko Loco Assassino",
+        "pos": [
+          "530, 29, -4995"
+        ]
+      }
+    ],
+    "Relic Daggers": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      }
+    ],
+    "Earth Relic Daggers": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      }
+    ],
+    "Thunder Relic Daggers": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      }
+    ],
+    "Water Relic Daggers": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      }
+    ],
+    "Fire Relic Daggers": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      }
+    ],
+    "Air Relic Daggers": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      }
+    ],
+    "Relic Spear": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      }
+    ],
+    "Earth Relic Spear": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      }
+    ],
+    "Thunder Relic Spear": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      }
+    ],
+    "Water Relic Spear": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      }
+    ],
+    "Fire Relic Spear": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      }
+    ],
+    "Air Relic Spear": [
+      {
+        "name": "Relic Guardian Lv.65",
+        "pos": [
+          "-800, 18, -410",
+          "-765, 19, -395"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      }
+    ],
+    "Relic Wand": [
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Earth Relic Wand": [
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Thunder Relic Wand": [
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Water Relic Wand": [
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Fire Relic Wand": [
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Air Relic Wand": [
+      {
+        "name": "Relic Guardian Lv.60",
+        "pos": [
+          "-830, 13, -380",
+          "-830, 23, -425"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Relic Bow": [
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Earth Relic Bow": [
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Thunder Relic Bow": [
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Water Relic Bow": [
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Fire Relic Bow": [
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Air Relic Bow": [
+      {
+        "name": "Relic Guardian Lv.55",
+        "pos": [
+          "-695, 58, -680",
+          "-590, 61, -680",
+          "-670, 61, -780"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      }
+    ],
+    "Relic Relik": [
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Earth Relic Relik": [
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Thunder Relic Relik": [
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Water Relic Relik": [
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Fire Relic Relik": [
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Air Relic Relik": [
+      {
+        "name": "Relic Guardian Lv.50",
+        "pos": [
+          "-186, 67, -693"
+        ]
+      },
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Relic Leggings": [
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Earth Relic Leggings": [
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Thunder Relic Leggings": [
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Water Relic Leggings": [
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Fire Relic Leggings": [
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Air Relic Leggings": [
+      {
+        "name": "Relic Guardian Lv.40",
+        "pos": [
+          "-20, 69, -875"
+        ]
+      }
+    ],
+    "Relic Chestplate": [
+      {
+        "name": "Relic Guardian Lv.35",
+        "pos": [
+          "1195, 31, -1570",
+          "1190, 31, -1415"
+        ]
+      }
+    ],
+    "Earth Relic Chestplate": [
+      {
+        "name": "Relic Guardian Lv.35",
+        "pos": [
+          "1195, 31, -1570",
+          "1190, 31, -1415"
+        ]
+      }
+    ],
+    "Thunder Relic Chestplate": [
+      {
+        "name": "Relic Guardian Lv.35",
+        "pos": [
+          "1195, 31, -1570",
+          "1190, 31, -1415"
+        ]
+      }
+    ],
+    "Water Relic Chestplate": [
+      {
+        "name": "Relic Guardian Lv.35",
+        "pos": [
+          "1195, 31, -1570",
+          "1190, 31, -1415"
+        ]
+      }
+    ],
+    "Fire Relic Chestplate": [
+      {
+        "name": "Relic Guardian Lv.35",
+        "pos": [
+          "1195, 31, -1570",
+          "1190, 31, -1415"
+        ]
+      }
+    ],
+    "Air Relic Chestplate": [
+      {
+        "name": "Relic Guardian Lv.35",
+        "pos": [
+          "1195, 31, -1570",
+          "1190, 31, -1415"
+        ]
+      }
+    ],
+    "Relic Helmet": [
+      {
+        "name": "Relic Guardian Lv.30",
+        "pos": [
+          "1317, 77, -2021",
+          "1369, 90, -1967"
+        ]
+      }
+    ],
+    "Earth Relic Helmet": [
+      {
+        "name": "Relic Guardian Lv.30",
+        "pos": [
+          "1317, 77, -2021",
+          "1369, 90, -1967"
+        ]
+      }
+    ],
+    "Thunder Relic Helmet": [
+      {
+        "name": "Relic Guardian Lv.30",
+        "pos": [
+          "1317, 77, -2021",
+          "1369, 90, -1967"
+        ]
+      }
+    ],
+    "Water Relic Helmet": [
+      {
+        "name": "Relic Guardian Lv.30",
+        "pos": [
+          "1317, 77, -2021",
+          "1369, 90, -1967"
+        ]
+      }
+    ],
+    "Fire Relic Helmet": [
+      {
+        "name": "Relic Guardian Lv.30",
+        "pos": [
+          "1317, 77, -2021",
+          "1369, 90, -1967"
+        ]
+      }
+    ],
+    "Air Relic Helmet": [
+      {
+        "name": "Relic Guardian Lv.30",
+        "pos": [
+          "1317, 77, -2021",
+          "1369, 90, -1967"
+        ]
+      }
+    ],
+    "Relic Boots": [
+      {
+        "name": "Relic Guardian Lv.25",
+        "pos": [
+          "675 82 -1835",
+          "730 76 -1845",
+          "715 79 -1875",
+          "795 73 -1850"
+        ]
+      }
+    ],
+    "Earth Relic Boots": [
+      {
+        "name": "Relic Guardian Lv.25",
+        "pos": [
+          "675 82 -1835",
+          "730 76 -1845",
+          "715 79 -1875",
+          "795 73 -1850"
+        ]
+      }
+    ],
+    "Thunder Relic Boots": [
+      {
+        "name": "Relic Guardian Lv.25",
+        "pos": [
+          "675 82 -1835",
+          "730 76 -1845",
+          "715 79 -1875",
+          "795 73 -1850"
+        ]
+      }
+    ],
+    "Water Relic Boots": [
+      {
+        "name": "Relic Guardian Lv.25",
+        "pos": [
+          "675 82 -1835",
+          "730 76 -1845",
+          "715 79 -1875",
+          "795 73 -1850"
+        ]
+      }
+    ],
+    "Fire Relic Boots": [
+      {
+        "name": "Relic Guardian Lv.25",
+        "pos": [
+          "675 82 -1835",
+          "730 76 -1845",
+          "715 79 -1875",
+          "795 73 -1850"
+        ]
+      }
+    ],
+    "Air Relic Boots": [
+      {
+        "name": "Relic Guardian Lv.25",
+        "pos": [
+          "675 82 -1835",
+          "730 76 -1845",
+          "715 79 -1875",
+          "795 73 -1850"
+        ]
+      }
+    ],
+    "Bovine Cuff": [
+      {
+        "name": "Mooington",
+        "pos": [
+          "405, 7, -3465 (Skien's Island)"
+        ]
+      }
+    ],
+    "Howler Hide": [
+      {
+        "name": "Howler",
+        "pos": [
+          "1165, 13, -1460 (Howler's Cave)"
+        ]
+      }
+    ],
+    "Randall's Leg Plating": [
+      {
+        "name": "Sandstorm Vandals Leader Randall",
+        "pos": [
+          "1420, 72, -2005 (Desert Bandit Cave)"
+        ]
+      }
+    ],
+    "Vandalizer": [
+      {
+        "name": "Sandstorm Vandals Leader Randall",
+        "pos": [
+          "1420, 72, -2005 (Desert Bandit Cave)"
+        ]
+      }
+    ],
+    "Sandslasher": [
+      {
+        "name": "Sandstorm Vandals Bandit Bruno",
+        "pos": [
+          "1430, 84, -2023"
+        ]
+      },
+      {
+        "name": "Sandstorm Vandals Bandit Joe",
+        "pos": [
+          "1430, 84, -2023"
+        ]
+      },
+      {
+        "name": "Sandstorm Vandals Bandit Gertrude",
+        "pos": [
+          "1430, 84, -2023"
+        ]
+      }
+    ],
+    "Sandshooter": [
+      {
+        "name": "Sandstorm Vandals Bandit Michelle",
+        "pos": [
+          "1430, 84, -2023"
+        ]
+      },
+      {
+        "name": "Sandstorm Vandals Bandit Knox",
+        "pos": [
+          "1430, 84, -2023"
+        ]
+      },
+      {
+        "name": "Sandstorm Vandals Bandit Hilda",
+        "pos": [
+          "1430, 84, -2023"
+        ]
+      },
+      {
+        "name": "Sandstorm Vandals Bandit Daniel",
+        "pos": [
+          "1430, 84, -2023"
+        ]
+      }
+    ],
+    "Emerald Knife": [
+      {
+        "name": "Emerald Knives Bandit",
+        "pos": [
+          "1339, 75, -1703 (Cave)"
+        ]
+      }
+    ],
+    "Shadow Spear": [
+      {
+        "name": "Shadow Spears Bandit",
+        "pos": [
+          "1340, 31, -1550 (Invaded Barracks Cave)"
+        ]
+      }
+    ],
+    "The Juggernaut": [
+      {
+        "name": "Shadow Spears Juggernaut",
+        "pos": [
+          "Invaded Barracks Cave"
+        ]
+      }
+    ],
+    "Temporal Cage": [
+      {
+        "name": "Temporal Rift",
+        "pos": [
+          "-566, 126, -1358"
+        ]
+      }
+    ],
+    "Quicksand Crossers": [
+      {
+        "name": "Quicksand Carvers Bandit",
+        "pos": [
+          "975, 62, -2110"
+        ]
+      }
+    ],
+    "Mask of the Dark Curse": [
+      {
+        "name": "Cursed Cultist",
+        "pos": [
+          "-469, 76, -1452 (Cave)",
+          "-584, 105, -1343 (Cave)"
+        ]
+      }
+    ],
+    "Snow Helmet": [
+      {
+        "name": "Nesaak Forest Mobs",
+        "ismobname": false
+      }
+    ],
+    "Snow Tunic": [
+      {
+        "name": "Nesaak Forest Mobs",
+        "ismobname": false
+      }
+    ],
+    "Snow Pants": [
+      {
+        "name": "Nesaak Forest Mobs",
+        "ismobname": false
+      }
+    ],
+    "Snow Boots": [
+      {
+        "name": "Nesaak Forest Mobs",
+        "ismobname": false
+      }
+    ],
+    "Bandit's Ring": [
+      {
+        "name": "Shadow Spears Bandit",
+        "pos": [
+          "1340, 31, -1550 (Invaded Barracks Cave)"
+        ]
+      }
+    ],
+    "Bandit's Knuckle": [
+      {
+        "name": "Quicksand Carvers Bandit",
+        "pos": [
+          "975, 62, -2110"
+        ]
+      }
+    ],
+    "Bandit's Bangle": [
+      {
+        "name": "Emerald Knives Bandit",
+        "pos": [
+          "1339, 75, -1703 (Cave)"
+        ]
+      }
+    ],
+    "Bandit's Locket": [
+      {
+        "name": "Sandstorm Vandals Leader Randall",
+        "pos": [
+          "1420, 72, -2005 (Desert Bandit Cave)"
+        ]
+      }
+    ],
+    "Black Cap": [
+      {
+        "name": "Emerald Knives Bandit",
+        "pos": [
+          "1339, 75, -1703 (Cave)"
+        ]
+      },
+      {
+        "name": "Shadow Spears Bandit",
+        "pos": [
+          "1340, 31, -1550 (Invaded Barracks Cave)"
+        ]
+      }
+    ],
+    "Black Tunic": [
+      {
+        "name": "Emerald Knives Bandit",
+        "pos": [
+          "1339, 75, -1703 (Cave)"
+        ]
+      },
+      {
+        "name": "Shadow Spears Bandit",
+        "pos": [
+          "1340, 31, -1550 (Invaded Barracks Cave)"
+        ]
+      }
+    ],
+    "Black Pants": [
+      {
+        "name": "Emerald Knives Bandit",
+        "pos": [
+          "1339, 75, -1703 (Cave)"
+        ]
+      },
+      {
+        "name": "Shadow Spears Bandit",
+        "pos": [
+          "1340, 31, -1550 (Invaded Barracks Cave)"
+        ]
+      }
+    ],
+    "Black Boots": [
+      {
+        "name": "Emerald Knives Bandit",
+        "pos": [
+          "1339, 75, -1703 (Cave)"
+        ]
+      },
+      {
+        "name": "Shadow Spears Bandit",
+        "pos": [
+          "1340, 31, -1550 (Invaded Barracks Cave)"
+        ]
+      }
+    ],
+    "Nether Cap": [
+      {
+        "name": "Drop from mobs near the Nether Portal",
+        "ismobname": false
+      }
+    ],
+    "Nether Tunic": [
+      {
+        "name": "Drop from mobs near the Nether Portal",
+        "ismobname": false
+      }
+    ],
+    "Nether Pants": [
+      {
+        "name": "Drop from mobs near the Nether Portal",
+        "ismobname": false
+      }
+    ],
+    "Nether Boots": [
+      {
+        "name": "Drop from mobs near the Nether Portal",
+        "ismobname": false
+      }
+    ],
+    "Staff of the Dark Vexations": [
+      {
+        "name": "Sacrificial Altar (Spirit of Vexation)",
+        "pos": [
+          "-300, 38, -965 (Cave)"
+        ]
+      }
+    ],
+    "Mask of the Dark Vexations": [
+      {
+        "name": "Sacrificial Altar (Spirit of Vexation)",
+        "pos": [
+          "-300, 38, -965 (Cave)"
+        ]
+      }
+    ],
+    "Villager Mail": [
+      {
+        "name": "Angry Farmer",
+        "pos": [
+          "X: 370, Z: -1100 (Corrupted Village)"
+        ]
+      },
+      {
+        "name": "Angry Blacksmith",
+        "pos": [
+          "X: 370, Z: -1100 (Corrupted Village)"
+        ]
+      }
+    ],
+    "Villager Pants": [
+      {
+        "name": "Angry Farmer",
+        "pos": [
+          "X: 370, Z: -1100 (Corrupted Village)"
+        ]
+      },
+      {
+        "name": "Angry Blacksmith",
+        "pos": [
+          "X: 370, Z: -1100 (Corrupted Village)"
+        ]
+      }
+    ],
+    "Snail Helm": [
+      {
+        "name": "Sky Snail",
+        "pos": [
+          "996, 160, -4844 | Radius: 17.5"
+        ]
+      }
+    ],
+    "Snail Mail": [
+      {
+        "name": "Sky Snail",
+        "pos": [
+          "996, 160, -4844 | Radius: 17.5"
+        ]
+      }
+    ],
+    "Snail Leggings": [
+      {
+        "name": "Sky Snail",
+        "pos": [
+          "996, 160, -4844 | Radius: 17.5"
+        ]
+      }
+    ],
+    "Snail Boots": [
+      {
+        "name": "Sky Snail",
+        "pos": [
+          "996, 160, -4844 | Radius: 17.5"
+        ]
+      }
+    ],
+    "Visceral Skullcap": [
+      {
+        "name": "Drop from mobs in Flesh Cave",
+        "pos": [
+          "X: -990, Z: -5565"
+        ]
+      }
+    ],
+    "Visceral Chest": [
+      {
+        "name": "Drop from mobs in Flesh Cave",
+        "pos": [
+          "X: -990, Z: -5565"
+        ]
+      }
+    ],
+    "Visceral Legs": [
+      {
+        "name": "Drop from mobs in Flesh Cave",
+        "pos": [
+          "X: -990, Z: -5565"
+        ]
+      }
+    ],
+    "Visceral Toe": [
+      {
+        "name": "Drop from mobs in Flesh Cave",
+        "pos": [
+          "X: -990, Z: -5565"
+        ]
+      }
+    ],
+    "Ultramarine Crown": [
+      {
+        "name": "Locate: Seavale Reef",
+        "ismobname": false
+      }
+    ],
+    "Ultramarine Cape": [
+      {
+        "name": "Locate: Seavale Reef",
+        "ismobname": false
+      }
+    ],
+    "Ultramarine Belt": [
+      {
+        "name": "Locate: Seavale Reef",
+        "ismobname": false
+      }
+    ],
+    "Ultramarine Boots": [
+      {
+        "name": "Locate: Seavale Reef",
+        "ismobname": false
+      }
+    ],
+    "Skien's Fatigues": [
+      {
+        "name": "General Skien",
+        "pos": [
+          "Skien's Island"
+        ]
+      }
+    ],
+    "Skien Leggings": [
+      {
+        "name": "Skien's Scout",
+        "pos": [
+          "378, 63, -3523 | Radius: 5.0",
+          "383, 71, -3517 | Radius: 5.0",
+          "371, 79, -3529 | Radius: 5.0",
+          "385, 79, -3526 | Radius: 5.0"
+        ]
+      },
+      {
+        "name": "Skien's Footsoldier",
+        "pos": [
+          "378, 63, -3523 | Radius: 5.0",
+          "383, 71, -3517 | Radius: 5.0",
+          "371, 79, -3529 | Radius: 5.0",
+          "385, 79, -3526 | Radius: 5.0"
+        ]
+      },
+      {
+        "name": "Skien's Ravager",
+        "pos": [
+          "385, 50, -3523 | Radius: 2.5",
+          "369, 50, -3525 | Radius: 2.5",
+          "363, 50, -3544 | Radius: 2.5"
+        ]
+      },
+      {
+        "name": "Skien's Vanguard",
+        "pos": [
+          "385, 50, -3523 | Radius: 2.5",
+          "369, 50, -3525 | Radius: 2.5",
+          "363, 50, -3544 | Radius: 2.5"
+        ]
+      },
+      {
+        "name": "Skien's Prison Warden",
+        "pos": [
+          "Skien's Island"
+        ]
+      },
+      {
+        "name": "Skien's Elite",
+        "pos": [
+          "378,63,-3523 | Radius: 5",
+          "383,71,-3517 | Radius: 5",
+          "371,79,-3529 | Radius: 5",
+          "385,79,-3526 | Radius: 5"
+        ]
+      },
+      {
+        "name": "Skien's Commander",
+        "pos": [
+          "Skien's Island"
+        ]
+      },
+      {
+        "name": "Skien's Bomber",
+        "pos": [
+          "378, 63, -3523 | Radius: 5",
+          "383, 71, -3517 | Radius: 5",
+          "371, 79, -3529 | Radius: 5",
+          "385, 79, -3526 | Radius: 5"
+        ]
+      }
+    ],
+    "Skien Boots": [
+      {
+        "name": "Skien's Bowman",
+        "pos": [
+          "399, 70, -3574",
+          "373, 72, -3557",
+          "330, 69, -3566"
+        ]
+      },
+      {
+        "name": "Skien's Marksman",
+        "pos": [
+          "385, 50, -3523 | Radius: 2.5",
+          "369, 50, -3525 | Radius: 2.5",
+          "363, 50, -3544 | Radius: 2.5"
+        ]
+      },
+      {
+        "name": "Skien's Jailkeeper",
+        "pos": [
+          "343, 1, -3538 | Radius: 4.5"
+        ]
+      },
+      {
+        "name": "Skien's Elite",
+        "pos": [
+          "378,63,-3523 | Radius: 5",
+          "383,71,-3517 | Radius: 5",
+          "371,79,-3529 | Radius: 5",
+          "385,79,-3526 | Radius: 5"
+        ]
+      },
+      {
+        "name": "Skien's Commander",
+        "pos": [
+          "Skien's Island"
+        ]
+      },
+      {
+        "name": "Skien's Bomber",
+        "pos": [
+          "378, 63, -3523 | Radius: 5",
+          "383, 71, -3517 | Radius: 5",
+          "371, 79, -3529 | Radius: 5",
+          "385, 79, -3526 | Radius: 5"
+        ]
+      }
+    ]
+  },
+  "other": {
+    "Oak Wood Bow": {
+      "pos": "Skip Tutorial"
+    },
+    "Oak Wood Relik": {
+      "pos": "Skip Tutorial"
+    },
+    "Oak Wood Wand": {
+      "pos": "Skip Tutorial"
+    },
+    "Oak Wood Dagger": {
+      "pos": "Skip Tutorial"
+    },
+    "Oak Wood Spear": {
+      "pos": "Skip Tutorial"
+    },
+    "Hero's Mask": {
+      "pos": "Festival of the Heroes (2023)"
+    },
+    "Santa Earmuffs": {
+      "pos": "Wynnter Fair (2022)"
+    },
+    "Santa Hat": {
+      "pos": "Wynnter Fair (2014) (Quest Rewards: Craftmas Chaos)"
+    },
+    "Santa's Coat": {
+      "pos": "Wynnter Fair (2019) (Avalanche Mini-Game)"
+    },
+    "Santa's Pants": {
+      "pos": "Wynnter Fair (2013) (Quest Rewards: Craftmas Chaos)"
+    },
+    "Santa Boots": {
+      "pos": "Wynnter Fair (2016) (Quest Rewards: Meaningful Holiday)"
+    },
+    "Hallowynn Mask": {
+      "pos": "Hallowynn (2014) (Quest Rewards: Macabre Masquerade Hallowynn 2014)"
+    },
+    "Mask of the Spirits": {
+      "pos": "Festival of the Spirits (2021) (Drawing of the Spirits)"
+    },
+    "Wynnterfest 2016 Souvenir": {
+      "pos": "Wynnterfest (2016)"
+    },
+    "Wynnter Fair 2016 Souvenir": {
+      "pos": "Wynnter Fair (2016)"
+    },
+    "Wynnter Fair 2017 Souvenir": {
+      "pos": "Wynnter Fair (2017)"
+    },
+    "Treat": {
+      "pos": "Hallowynn (2016)"
+    },
+    "Trick": {
+      "pos": "Hallowynn (2016)"
+    }
+  }
+}

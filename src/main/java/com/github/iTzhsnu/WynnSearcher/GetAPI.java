@@ -312,10 +312,52 @@ public class GetAPI {
                 builder.append(line);
             }
             buffer.close();
-            return !builder.toString().equals(SearchUI.VERSION);
+
+            String[] latest = builder.toString().split("\\.");
+            String[] now = SearchUI.VERSION.split("\\.");
+            if (Integer.parseInt(latest[0]) > Integer.parseInt(now[0])) {
+                return true;
+            } else if (Integer.parseInt(latest[0]) == Integer.parseInt(now[0])) {
+                if (Integer.parseInt(latest[1]) > Integer.parseInt(now[1])) {
+                    return true;
+                } else if (Integer.parseInt(latest[1]) == Integer.parseInt(now[1]) && Integer.parseInt(latest[2]) > Integer.parseInt(now[2])) {
+                    return true;
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("This url not found.");
         }
         return false;
+    }
+
+    public JsonObject getHowToObtainItem() {
+        try {
+            return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/manual_item_drop.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("How to obtain item json file not found.");
+        }
+        return null;
+    }
+
+    public JsonObject getHowToObtainIng() {
+        try {
+            return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/manual_ingredient_drop.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("How to obtain ingredient json file not found.");
+        }
+        return null;
+    }
+
+    public JsonObject getHowToObtainOther() {
+        try {
+            return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/manual_other_drop.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("How to obtain other item file not found.");
+        }
+        return null;
     }
 }

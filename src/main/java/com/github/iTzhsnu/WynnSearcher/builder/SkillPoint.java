@@ -285,7 +285,7 @@ public class SkillPoint {
 
             //Not Crafted and Not Have SP Bonus Armor and Accessory
             for (int i = 0; items.getJsonObjectList().size() > i; ++i) {
-                if (items.getJsonObjectList().get(i).get("tier").isJsonNull() || !items.getJsonObjectList().get(i).get("tier").getAsString().equals("Crafted")) {
+                if (items.getJsonObjectList().get(i).get("tier").isJsonNull() || !items.getJsonObjectList().get(i).get("tier").getAsString().equals("crafted")) {
                     if (strR[i] > totalSP[0] && strR[i] != 0) { //Strength Req
                         manualSP[0] += strR[i] - totalSP[0]; //Manual Assign + (Req - Total)
                         originalSP[0] += strR[i] - totalSP[0]; //Original + (Req - Total)
@@ -316,7 +316,7 @@ public class SkillPoint {
 
             //Crafted Armor and Accessory Skill Point Req and Bonus
             for (int i = 0; items.getJsonObjectList().size() > i; ++i) {
-                if (items.getJsonObjectList().get(i).get("tier") != null && items.getJsonObjectList().get(i).get("tier").getAsString().equals("Crafted")) {
+                if (items.getJsonObjectList().get(i).get("tier") != null && items.getJsonObjectList().get(i).get("tier").getAsString().equals("crafted")) {
                     if (strR[i] != 0 || dexR[i] != 0 || intR[i] != 0 || defR[i] != 0 || agiR[i] != 0 || strI[i + 8] != 0 || dexI[i + 8] != 0 || intI[i + 8] != 0 || defI[i + 8] != 0 || agiI[i + 8] != 0) {
                         if (strR[i] > totalSP[0] && strR[i] != 0) { //Strength Req
                             manualSP[0] += strR[i] - totalSP[0]; //Manual Assign + (Req - Total)
@@ -344,11 +344,11 @@ public class SkillPoint {
                             totalSP[4] = agiR[i];
                         }
 
-                        if (strI[i] != 0) originalSP[0] += strI[i + 8]; //Strength Bonus
-                        if (dexI[i] != 0) originalSP[1] += dexI[i + 8]; //Dexterity Bonus
-                        if (intI[i] != 0) originalSP[2] += intI[i + 8]; //Intelligence Bonus
-                        if (defI[i] != 0) originalSP[3] += defI[i + 8]; //Defense Bonus
-                        if (agiI[i] != 0) originalSP[4] += agiI[i + 8]; //Agility Bonus
+                        if (strI[i + 8] != 0) originalSP[0] += strI[i + 8]; //Strength Bonus
+                        if (dexI[i + 8] != 0) originalSP[1] += dexI[i + 8]; //Dexterity Bonus
+                        if (intI[i + 8] != 0) originalSP[2] += intI[i + 8]; //Intelligence Bonus
+                        if (defI[i + 8] != 0) originalSP[3] += defI[i + 8]; //Defense Bonus
+                        if (agiI[i + 8] != 0) originalSP[4] += agiI[i + 8]; //Agility Bonus
                     }
                 }
             }

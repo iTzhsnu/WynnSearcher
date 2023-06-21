@@ -31,6 +31,8 @@ public class IDBoxAdapter extends KeyAdapter {
             "Raw Neutral Melee Damage", "Raw Earth Melee Damage", "Raw Thunder Melee Damage", "Raw Water Melee Damage",  "Raw Fire Melee Damage", "Raw Air Melee Damage",  "Raw Elemental Melee Damage",
             "Neutral Spell Damage %", "Earth Spell Damage %", "Thunder Spell Damage %", "Water Spell Damage %", "Fire Spell Damage %", "Air Spell Damage %", "Elemental Spell Damage %",
             "Raw Neutral Spell Damage", "Raw Earth Spell Damage", "Raw Thunder Spell Damage", "Raw Water Spell Damage", "Raw Fire Spell Damage", "Raw Air Spell Damage", "Raw Elemental Spell Damage",
+            "Drop Type: Normal", "Drop Type: Loot Chests", "Drop Type: Raid Rewards", "Drop Type: Dungeon Drop", "Drop Type: Dungeon Merchant", "Drop Type: Boss Altar", "Drop Type: Guild Rewards", "Drop Type: Unknown",
+            "Drop Type: Merchant", "Drop Type: Quest", "Drop Type: Unobtainable", "Drop Type: Specific Drop", "Drop Type: Secret Discovery", "Drop Type: The Qira Hive", "Drop Type: Legendary Island", "Drop Type: Other",
             "Durability", "Duration", "Charges", "Ingredient Effectiveness", "Ingredient Effectiveness (Above)", "Ingredient Effectiveness (Under)",
             "Ingredient Effectiveness (Right)", "Ingredient Effectiveness (Left)", "Ingredient Effectiveness (Touching)", "Ingredient Effectiveness (Not Touching)",
             "Sum (Total Health)", "Sum (Total Health Regen)", "Sum (Raw Defenses)", "Sum (Raw Rainbow Defenses)", "Sum (Defenses %)", "Sum (Rainbow Defenses %)",
@@ -181,6 +183,23 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Ingredient Effectiveness (Left)", Identifications.INGREDIENT_EFFECTIVENESS_LEFT);
         put("Ingredient Effectiveness (Touching)", Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING);
         put("Ingredient Effectiveness (Not Touching)", Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING);
+
+        put("Drop Type: Normal", Identifications.DROP_TYPE_NORMAL);
+        put("Drop Type: Loot Chests", Identifications.DROP_TYPE_LOOT_CHESTS);
+        put("Drop Type: Raid Rewards", Identifications.DROP_TYPE_RAID_REWARDS);
+        put("Drop Type: Dungeon Drop", Identifications.DROP_TYPE_DUNGEON_DROP);
+        put("Drop Type: Dungeon Merchant", Identifications.DROP_TYPE_DUNGEON_MERCHANT);
+        put("Drop Type: Boss Altar", Identifications.DROP_TYPE_BOSS_ALTAR);
+        put("Drop Type: Guild Rewards", Identifications.DROP_TYPE_GUILD_REWARDS);
+        put("Drop Type: Unknown", Identifications.DROP_TYPE_UNKNOWN);
+        put("Drop Type: Merchant", Identifications.DROP_TYPE_MERCHANT);
+        put("Drop Type: Quest", Identifications.DROP_TYPE_QUEST);
+        put("Drop Type: Unobtainable", Identifications.DROP_TYPE_UNOBTAINABLE);
+        put("Drop Type: Specific Drop", Identifications.DROP_TYPE_SPECIFIC_DROP);
+        put("Drop Type: Secret Discovery", Identifications.DROP_TYPE_SECRET_DISCOVERY);
+        put("Drop Type: The Qira Hive", Identifications.DROP_TYPE_THE_QIRA_HIVE);
+        put("Drop Type: Legendary Island", Identifications.DROP_TYPE_LEGENDARY_ISLAND);
+        put("Drop Type: Other", Identifications.DROP_TYPE_OTHER);
 
         put("Sum (Total Health)", Identifications.SUM_TOTAL_HEALTH);
         put("Sum (Total Health Regen)", Identifications.SUM_TOTAL_HP_REGEN);

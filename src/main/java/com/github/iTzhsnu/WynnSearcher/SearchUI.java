@@ -1,6 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.swing.*;
@@ -10,10 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
-    public static final String VERSION = "3.1.3";
+    public static final String VERSION = "3.1.4";
 
     //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
@@ -130,6 +132,11 @@ public class SearchUI extends JFrame implements ActionListener {
     private final BuilderUI builderUI;
     private final CustomUI customUI;
 
+    //How to Obtain
+    private final JsonObject how_to_obtain_item;
+    private final JsonObject how_to_obtain_ing;
+    private final JsonObject how_to_obtain_other;
+
     public static boolean isReversedID(Identifications id) {
         return id == Identifications.RAW_1ST_SPELL_COST || id == Identifications.RAW_2ND_SPELL_COST || id == Identifications.RAW_3RD_SPELL_COST || id == Identifications.RAW_4TH_SPELL_COST || id == Identifications.PERCENT_1ST_SPELL_COST || id == Identifications.PERCENT_2ND_SPELL_COST || id == Identifications.PERCENT_3RD_SPELL_COST || id == Identifications.PERCENT_4TH_SPELL_COST;
     }
@@ -140,6 +147,10 @@ public class SearchUI extends JFrame implements ActionListener {
         getAPI.loadArchiveV3API(wynnItems, wynnIngredients, wynnOtherItems, itemAPIConnect);
         List<JsonObject> wynnRecipes = new ArrayList<>();
         String recipeAPIConnect = getAPI.setRecipeData(wynnRecipes);
+
+        how_to_obtain_item = getAPI.getHowToObtainItem();
+        how_to_obtain_ing = getAPI.getHowToObtainIng();
+        how_to_obtain_other = getAPI.getHowToObtainOther();
 
         setItemJson();
         setIngredientJson();
@@ -996,7 +1007,37 @@ public class SearchUI extends JFrame implements ActionListener {
                                 if (notHaveItemID(id_0, j, num, 1) && notHaveItemID(id_1, j, num, 2) && notHaveItemID(id_2, j, num, 3)) {
                                     if (!Objects.equals(id.getIDType(), "sum")) {
                                         if (id.getItemFieldPos().equals("nothing") && j.get(id.getItemName()) != null) {
-                                            remove = false;
+                                            if (id.getItemName().equals(Identifications.DROP_TYPE.getItemName())) {
+                                                String s = j.get(id.getItemName()).getAsString();
+                                                if (j.get("dropMeta") != null) {
+                                                    if (j.get("dropMeta").getAsJsonObject().get("type").isJsonArray()) {
+                                                        s = "merchant";
+                                                    } else {
+                                                        s = j.get("dropMeta").getAsJsonObject().get("type").getAsString();
+                                                    }
+                                                }
+                                                if (ItemUITemplate.haveManualDrop(how_to_obtain_item, j.get("name").getAsString()) > 0) s = "";
+                                                if (how_to_obtain_item.get(id.getDisplayName()) != null) {
+                                                    if (how_to_obtain_item.get(id.getDisplayName()).isJsonArray()) {
+                                                        for (JsonElement je : how_to_obtain_item.get(id.getDisplayName()).getAsJsonArray()) {
+                                                            if (je.getAsString().equals(j.get("name").getAsString())) {
+                                                                s = id.getDisplayName();
+                                                                break;
+                                                            }
+                                                        }
+                                                    } else if (how_to_obtain_item.get(id.getDisplayName()).isJsonObject()) {
+                                                        for (Map.Entry<String, JsonElement> entry : how_to_obtain_item.get(id.getDisplayName()).getAsJsonObject().entrySet()) {
+                                                            if (entry.getKey().equals(j.get("name").getAsString())) {
+                                                                s = id.getDisplayName();
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                remove = !s.equals(id.getDisplayName());
+                                            } else {
+                                                remove = false;
+                                            }
                                         } else if (j.get(id.getItemFieldPos()) != null && j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
                                             remove = false;
                                         }
@@ -1055,7 +1096,42 @@ public class SearchUI extends JFrame implements ActionListener {
                     if (id2.getItemName() != null) {
                         if (id2.getItemFieldPos().equals("nothing")) {
                             if (j.get(id2.getItemName()) != null) {
-                                need = true;
+                                if (id2.getItemName().equals(Identifications.DROP_TYPE.getItemName())) {
+                                    //Drop Type
+                                    String s = j.get(id.getItemName()).getAsString();
+                                    if (j.get("dropMeta") != null) {
+                                        if (j.get("dropMeta").getAsJsonObject().get("type").isJsonArray()) {
+                                            s = "merchant";
+                                        } else {
+                                            s = j.get("dropMeta").getAsJsonObject().get("type").getAsString();
+                                        }
+                                    }
+                                    if (ItemUITemplate.haveManualDrop(how_to_obtain_item, j.get("name").getAsString()) > 0) s = "";
+                                    if (how_to_obtain_item.get(id.getDisplayName()) != null) {
+                                        if (how_to_obtain_item.get(id.getDisplayName()).isJsonArray()) {
+                                            for (JsonElement je : how_to_obtain_item.get(id.getDisplayName()).getAsJsonArray()) {
+                                                if (je.getAsString().equals(j.get("name").getAsString())) {
+                                                    s = id.getDisplayName();
+                                                    break;
+                                                }
+                                            }
+                                        } else if (how_to_obtain_item.get(id.getDisplayName()).isJsonObject()) {
+                                            for (Map.Entry<String, JsonElement> entry : how_to_obtain_item.get(id.getDisplayName()).getAsJsonObject().entrySet()) {
+                                                if (entry.getKey().equals(j.get("name").getAsString())) {
+                                                    s = id.getDisplayName();
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (s.equals(id.getDisplayName())) {
+                                        need = true;
+                                    } else {
+                                        needAll = false;
+                                    }
+                                } else {
+                                    need = true;
+                                }
                             } else {
                                 needAll = false;
                             }
@@ -1431,6 +1507,9 @@ public class SearchUI extends JFrame implements ActionListener {
                                             if (id.getIDType().equals("int")) {
                                                 total_min += j.get(id.getItemName()).getAsInt();
                                                 total_max += j.get(id.getItemName()).getAsInt();
+                                            } else if (id.getIDType().equals("string")) {
+                                                total_min += 1;
+                                                total_max += 1;
                                             }
                                         } else {
                                             if (j.get(id.getItemFieldPos()) != null && j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
@@ -1604,7 +1683,7 @@ public class SearchUI extends JFrame implements ActionListener {
                                     }
                                 }
                             }
-                        } else if (Objects.equals(id.getIDType(), "string") && Objects.equals(id.getItemName(), "attackSpeed") && j.get(id.getItemName()) != null) {
+                        } else if (Objects.equals(id, Identifications.ATTACK_SPEED) && j.get(id.getItemName()) != null) {
                             //Attack Speed
                             switch (j.get(id.getItemName()).getAsString()) {
                                 case "super_fast": total += 7;
@@ -1838,7 +1917,7 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public void removeAllSearchedItemOrIngredients() {
         if (searchedItems.size() > 0) {
-            searchedItems.subList(0, searchedItems.size()).clear();
+            searchedItems.clear();
         }
     }
 
