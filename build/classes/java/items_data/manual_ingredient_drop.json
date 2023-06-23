@@ -1,9 +1,182 @@
 {
   "last_edit": "2023-06-22",
   "normal": [
-
+    "Plane of Nonexistence",
+    "Doom Stone",
+    "Cursed Wings",
+    "Ocea Steel",
+    "Glacial Anomaly",
+    "Piquant Pork Fillet",
+    "Mega Fern",
+    "Major's Badge",
+    "Decaying Heart",
+    "Tungsten Chunk",
+    "Ancient Coins",
+    "The Grootslang's Heart",
+    "Large Lapis",
+    "Lunar Charm",
+    "Stolen Pearls",
+    "Lion Heart",
+    "Electroplasm",
+    "Unsettling Soul",
+    "Volatile Matter",
+    "Coastal Shell",
+    "Corrupted Fragment",
+    "Luxurious Silk",
+    "Sturdy Flesh",
+    
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
   ],
   "merchant": {
+    "Pride of the Heights": {
 
+    },
+    "Platinum Ingot": {
+
+    },
+    "Letvus Delight": {
+
+    },
+    "Wybel Taffy": {
+
+    },
+    "Sugar Stick": {
+
+    },
+    "Ice Cream Sandwich": {
+
+    },
+    "Cocoa Caps": {
+
+    },
+    "Licorice Ropes": {
+
+    },
+    "Candy Button": {
+
+    },
+    "Big Jawbreaker": {
+
+    },
+    "Zhight Weird Magic Rock": {
+
+    },
+    "Zhight Shiny Stone": {
+
+    },
+    "Zhight Coral Piece": {
+
+    },
+    "Zhight Herbal Mix": {
+
+    },
+    "Zombie Eye": {
+
+    },
+    "Gold Bar": {
+
+    },
+    "Bone Meal": {
+
+    },
+    "Soft Yellow Wool": {
+
+    },
+    "Soft Blue Wool": {
+
+    },
+    "Soft Green Wool": {
+
+    },
+    "Soft Red Wool": {
+
+    },
+    "Soft White Wool": {
+
+    },
+    "Apple": {
+
+    },
+    "Grook Feather": {
+
+    },
+    "Fresh Water": {
+
+    },
+    "Pink Wool": {
+
+    },
+    "Egg": {
+
+    },
+    "Wool": {
+
+    },
+    "Rotten Flesh": {
+
+    },
+    "Red Mushroom": {
+
+    },
+    "Potato": {
+
+    },
+    "Brown Mushroom": {
+
+    }
+  },
+  "quest": {
+    "Platinum Ingot": "From the Bottom",
+    "Weakening Catalyst": "Potion Making",
+    "Vibrant Augment": "Elemental Exercise",
+    "Shattered Memory Shard": "Recover the Past",
+    "Old Treasure": "Underwater",
+    "Cleaned Saccharum": "Infested Plants",
+    "Familiar Essence": "Deja Vu",
+    "Generator Chip": "Forbidden Prison"
+  },
+  "specific": {
+    "Panda King's Crown": [
+      {
+        "name": "Giant Panda King",
+        "pos": [
+          "208, 101, -4403 | Radius: 5",
+          "200, 95, -4381 | Radius: 7.5",
+          "213, 91, -4343 | Radius: 10",
+          "161, 79, -4354 | Radius: 10",
+          "115, 75, -4362 | Radius: 5",
+          "94, 79, -4345 | Radius: 7.5",
+          "62, 86, -4349 | Radius: 7.5",
+          "40, 87, -4367 | Radius: 5",
+          "13, 86, -4359 | Radius: 5",
+          "-28, 92, -4342 | Radius: 7.5",
+          "-80, 98, -4337 | Radius: 7.5",
+          "-88, 111, -4387 | Radius: 7.5",
+          "169, 74, -4410 | Radius: 5",
+          "140, 56, -4392 | Radius: 7.5",
+          "-47, 75, -4381 | Radius: 5",
+          "0, 64, -4414 | Radius: 5",
+          "-10, 43, -4378 | Radius: 5",
+          "10, 43, -4391 | Radius: 5",
+          "65, 44, -4425 | Radius: 15",
+          "57, 58, -4387 | Radius: 10",
+          "94, 48, -4385 | Radius: 10",
+          "126, 43, -4419 | Radius: 10",
+          "64, 43, -4502 | Radius: 15",
+          "103, 44, -4525 | Radius: 7.5",
+          "56, 44, -4547 | Radius: 7.5",
+          "81, 43, -4565 | Radius: 5"
+        ]
+      }
+    ]
   }
 }

@@ -7,14 +7,15 @@ import com.google.gson.JsonObject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemUITemplate extends JPanel {
     private final JsonObject json;
@@ -430,52 +431,82 @@ public class ItemUITemplate extends JPanel {
                 l.setOpaque(false);
                 l.setBackground(Color.WHITE);
                 l.setForeground(Color.BLUE);
+
+                StringBuilder sb = new StringBuilder();
+                sb.append("&fThis item can be obtained by<br>");
+
                 JsonObject manual = new GetAPI().getHowToObtainItem();
                 int p = haveManualDrop(manual, itemName);
                 if (p > 0) {
-                    switch (p) {
-                        case 1: //Unobtainable
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can't be obtained."));
-                            break;
-                        case 2: //Forgery Chest
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Forgery Chest Rewards"));
-                            break;
-                        case 3: //Legendary Island
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Legendary Island"));
-                            break;
-                        case 4: {//Merchant
-                            StringBuilder sb = new StringBuilder();
-                            sb.append("&fThis item can be obtained by");
-                            if (manual.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject().get("name") != null) {
-                                sb.append("<br>Merchant: ");
-                                sb.append(manual.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject().get("name").getAsString());
+                    if (p == 1) {
+                        //Unobtainable
+                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can't be obtained."));
+                    } else {
+                        if (manual.get("normal") != null) { //Normal
+                            for (JsonElement je : manual.get("normal").getAsJsonArray()) {
+                                if (je.getAsString().equals(itemName)) {
+                                    String s = "Hostile Mob and Any Loot Chests<br>Level " + Math.max((lv - 4), 1) + " to " + (lv + 4) + "<br><br>";
+                                    sb.append(s);
+                                    break;
+                                }
                             }
-                            if (manual.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject().get("pos") != null) {
-                                sb.append("<br>Locate: ");
-                                sb.append(manual.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString());
-                            }
-                            if (manual.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject().get("price") != null) {
-                                sb.append("<br>Price: ");
-                                sb.append(manual.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject().get("price").getAsString());
-                            }
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.toString()));
-                            break;
                         }
-                        case 5: //The Qira Hive
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>The Qira Hive: " + manual.get("the_qira_hive").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                            break;
-                        case 6: //Secret Discovery
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>" + manual.get("secret_discovery").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                            break;
-                        case 7: //Quest
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Quest: " + manual.get("quest").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                            break;
-                        case 8: {//Specific Mobs Drop
-                            StringBuilder sb = new StringBuilder();
-                            sb.append("&fThis item can be obtained by<br>Specific Mobs:<br>");
+                        if (manual.get("forgery_chest") != null) { //Forgery Chest
+                            for (JsonElement je : manual.get("forgery_chest").getAsJsonArray()) {
+                                if (je.getAsString().equals(itemName)) {
+                                    sb.append("Forgery Chest Rewards<br><br>");
+                                    break;
+                                }
+                            }
+                        }
+                        if (manual.get("legendary_island") != null) { //Legendary Island
+                            for (JsonElement je : manual.get("legendary_island").getAsJsonArray()) {
+                                if (je.getAsString().equals(itemName)) {
+                                    sb.append("Legendary Island<br><br>");
+                                    break;
+                                }
+                            }
+                        }
+                        if (manual.get("merchant") != null && manual.get("merchant").getAsJsonObject().get(itemName) != null) { //Merchant
+                            JsonObject merchant = manual.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject();
+                            if (merchant.get("name") != null) {
+                                String s = "Merchant: " + merchant.get("name").getAsString() + "<br>";
+                                sb.append(s);
+                            }
+                            if (merchant.get("pos") != null) {
+                                String s = "Locate: " + merchant.get("pos").getAsString() + "<br>";
+                                sb.append(s);
+                            }
+                            if (merchant.get("price") != null) {
+                                String s = "Price: " + merchant.get("price").getAsString() + "<br>";
+                                sb.append(s);
+                            }
+                            sb.append("<br>");
+                        }
+                        if (manual.get("the_qira_hive") != null && manual.get("the_qira_hive").getAsJsonObject().get(itemName) != null) { //The Qira Hive
+                            String s = "The Qira Hive: " + manual.get("the_qira_hive").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString() + "<br><br>";
+                            sb.append(s);
+                        }
+                        if (manual.get("secret_discovery") != null && manual.get("secret_discovery").getAsJsonObject().get(itemName) != null) { //Secret Discovery
+                            String s = manual.get("secret_discovery").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString() + "<br><br>";
+                            sb.append(s);
+                        }
+                        if (manual.get("quest") != null && manual.get("quest").getAsJsonObject().get(itemName) != null) { //Quest
+                            String s = "Quest: " + manual.get("quest").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString() + "<br><br>";
+                            sb.append(s);
+                        }
+                        if (manual.get("raid") != null && manual.get("raid").getAsJsonObject().get(itemName) != null) { //Raid Rewards
+                            String s = "Raid Rewards: " + manual.get("raid").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString() + "<br><br>";
+                            sb.append(s);
+                        }
+                        if (manual.get("other") != null && manual.get("other").getAsJsonObject().get(itemName) != null) { //Other
+                            String s = manual.get("other").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString() + "<br><br>";
+                            sb.append(s);
+                        }
+                        if (manual.get("specific") != null && manual.get("specific").getAsJsonObject().get(itemName) != null) { //Specific
                             for (JsonElement je : manual.get("specific").getAsJsonObject().get(itemName).getAsJsonArray()) {
                                 JsonObject jsp = je.getAsJsonObject();
-                                if (jsp.get("ismobname") != null && !jsp.get("ismobname").getAsBoolean())
+                                if (jsp.get("ismobname") == null || jsp.get("ismobname").getAsBoolean())
                                     sb.append("Mob Name: ");
                                 sb.append(jsp.get("name").getAsString());
                                 if (jsp.get("pos") != null) {
@@ -486,21 +517,12 @@ public class ItemUITemplate extends JPanel {
                                 }
                                 sb.append("<br><br>");
                             }
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.toString()));
-                            break;
                         }
-                        case 9:
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>" + manual.get("raid").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                            break;
-                        case 10:
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>" + manual.get("other").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                            break;
+                        l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.substring(0, sb.toString().length() - 4)));
                     }
-                } else if (json.get("dropMeta") != null) {
-                    if (json.get("dropMeta").isJsonObject()) {
+                } else {
+                    if (json.get("dropMeta") != null) {
                         JsonObject j = json.get("dropMeta").getAsJsonObject();
-                        StringBuilder sb = new StringBuilder();
-                        sb.append("&fThis item can be obtained by<br>");
                         if (j.get("name") != null) sb.append(j.get("name").getAsString());
                         if (j.get("type") != null) {
                             if (j.get("type").isJsonArray() && j.get("event") != null) {
@@ -523,7 +545,7 @@ public class ItemUITemplate extends JPanel {
                                     default:
                                         String s = " " + j.get("type").getAsString();
                                         sb.append(s);
-                                        System.out.println(itemName + " this item drop type unknown:" + s);
+                                        System.out.println(itemName + " this item drop type unknown: " + s);
                                         break;
                                 }
                             }
@@ -532,30 +554,33 @@ public class ItemUITemplate extends JPanel {
                             String s = "<br>Locate: " + j.get("coordinates").getAsJsonArray().get(0).getAsInt() + ", " + j.get("coordinates").getAsJsonArray().get(1).getAsInt() + ", " + j.get("coordinates").getAsJsonArray().get(2).getAsInt();
                             sb.append(s);
                         }
-
                         l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.toString()));
-                    }
-                } else if (json.get("dropRestriction") != null) {
-                    switch (json.get("dropRestriction").getAsString()) {
-                        case "normal":
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Hostile Mob and Any Loot Chests<br>Level " + (lv - 4) + " to " + (lv + 4)));
-                            break;
-                        case "lootchest":
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Tier 3 and 4 Loot Chests<br>Level " + (lv - 4) + " to " + (lv + 4)));
-                            break;
-                        case "never":
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fUnknown"));
-                            break;
-                        case "dungeon":
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Dungeon Drop"));
-                            break;
-                        default:
-                            l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>" + json.get("dropRestriction").getAsString()));
-                            System.out.println(itemName + " this drop type unknown:" + json.get("dropRestriction").getAsString());
-                            break;
+                    } else if (json.get("dropRestriction") != null) {
+                        switch (json.get("dropRestriction").getAsString()) {
+                            case "normal": {
+                                l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + "Hostile Mob and Any Loot Chests<br>Level " + Math.max((lv - 4), 1) + " to " + (lv + 4)));
+                                break;
+                            }
+                            case "lootchest": {
+                                l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + "Tier 3 and 4 Loot Chests<br>Level " + Math.max((lv - 4), 1) + " to " + (lv + 4)));
+                                break;
+                            }
+                            case "never": {
+                                l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fUnknown"));
+                                break;
+                            }
+                            case "dungeon": {
+                                l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + "Dungeon Drop"));
+                                break;
+                            }
+                            default: {
+                                l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + json.get("dropRestriction").getAsString()));
+                                System.out.println(itemName + " this drop type unknown:" + json.get("dropRestriction").getAsString());
+                                break;
+                            }
+                        }
                     }
                 }
-
                 l.addActionListener(new FullMessageAction());
             }
         }
@@ -592,17 +617,21 @@ public class ItemUITemplate extends JPanel {
         dataButton.setForeground(Color.BLUE);
         dataButton.addActionListener(new OpenURLAction());
 
+        String itemName = "";
         if (json.get("name") != null) {
-            label.add(new JLabel(json.get("name").getAsString()));
-            dataButton.setToolTipText("https://www.wynndata.tk/i/" + json.get("name").getAsString().replaceAll(" ", "%20"));
+            itemName = json.get("name").getAsString();
+            label.add(new JLabel(itemName));
+            dataButton.setToolTipText("https://www.wynndata.tk/i/" + itemName.replaceAll(" ", "%20"));
         }
 
         if (json.get("tier") != null) {
             label.add(new JLabel("Star: " + json.get("tier").getAsInt()));
         }
 
+        int lv = 0;
         if (json.get("requirements") != null && json.get("requirements").getAsJsonObject().get("level") != null) {
-            label.add(new JLabel("Lv. Min: " + json.get("requirements").getAsJsonObject().get("level").getAsInt()));
+            lv = json.get("requirements").getAsJsonObject().get("level").getAsInt();
+            label.add(new JLabel("Lv. Min: " + lv));
         }
 
         label.add(new JLabel(" "));
@@ -733,8 +762,37 @@ public class ItemUITemplate extends JPanel {
             JsonObject j = json.get("droppedBy").getAsJsonObject();
             StringBuilder sb = new StringBuilder();
             sb.append("&fThis ingredient can be dropped by:<br>");
+            JsonObject manual = new GetAPI().getHowToObtainIng();
+            int haveManualDrop = haveManualDrop(manual, itemName);
+            if (haveManualDrop > 0) {
+                if (haveManualDrop == 11) {
+                    String s = "Any Loot Chests<br>" + "Level " + Math.max((lv - 4), 1) + " to " + (lv + 4) + "<br><br>";
+                    sb.append(s);
+                }
+                if (manual.get("merchant") != null && manual.get("merchant").getAsJsonObject().get(itemName) != null) {
+                    JsonObject jo = manual.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject();
+                    if (jo.get("name") != null) {
+                        String s = "Merchant: " + jo.get("name").getAsString() + "<br>";
+                        sb.append(s);
+                    }
+                    if (jo.get("pos") != null) {
+                        String s = "Location: " + jo.get("name").getAsString() + "<br>";
+                        sb.append(s);
+                    }
+                    if (jo.get("price") != null) {
+                        String s = "Price: " + jo.get("price").getAsString() + "<br>";
+                        sb.append(s);
+                    }
+                    sb.append("<br>");
+                }
+                if (manual.get("quest") != null && manual.get("quest").getAsJsonObject().get(itemName) != null) {
+                    String s = "Quest Rewards: " + manual.get("quest").getAsJsonObject().get(itemName).getAsString() + "<br><br>";
+                    sb.append(s);
+                }
+            }
             for (Map.Entry<String, JsonElement> entry : json.get("droppedBy").getAsJsonObject().entrySet()) {
                 if (j.get(entry.getKey()).isJsonArray()) {
+                    if (entry.getKey().equals("Ingredient Dummy")) continue;
                     String s = "Mob Name: " + entry.getKey() + "<br>";
                     sb.append(s);
                     if (j.get(entry.getKey()).getAsJsonArray().get(0).isJsonArray()) {
@@ -750,8 +808,25 @@ public class ItemUITemplate extends JPanel {
                         sb.append(s1);
                     }
                 } else {
+                    if (entry.getKey().equals("Ingredient Dummy")) continue;
                     String s = "Mob Name: " + entry.getKey() + "<br><br>";
                     sb.append(s);
+                }
+            }
+
+            if (manual.get("specific") != null && manual.get("specific").getAsJsonObject().get(itemName) != null) {
+                for (JsonElement je : manual.get("specific").getAsJsonObject().get(itemName).getAsJsonArray()) {
+                    JsonObject jsp = je.getAsJsonObject();
+                    if (jsp.get("ismobname") == null || jsp.get("ismobname").getAsBoolean()) sb.append("Mob Name: ");
+                    sb.append(jsp.get("name").getAsString());
+                    sb.append("<br>");
+                    if (jsp.get("pos") != null) {
+                        for (JsonElement je1 : jsp.get("pos").getAsJsonArray()) {
+                            String s = "Locate: " + je1.getAsString() + "<br>";
+                            sb.append(s);
+                        }
+                    }
+                    sb.append("<br>");
                 }
             }
             l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.substring(0, sb.toString().length() - 4)));
@@ -947,123 +1022,166 @@ public class ItemUITemplate extends JPanel {
         }
 
         JButton_Custom l = null;
-        if (json.get("dropRestriction") != null || json.get("dropMeta") != null) {
-            l = new JButton_Custom("How to Obtain (Not Perfect)");
-            l.setBorderPainted(false);
-            l.setOpaque(false);
-            l.setBackground(Color.WHITE);
-            l.setForeground(Color.BLUE);
-            JsonObject manual = new GetAPI().getHowToObtainOther();
-            int p = haveManualDrop(manual, itemName);
-            if (p > 0) {
-                switch (p) {
-                    case 1: //Unobtainable
+        if (!isCustom) {
+            if (json.get("dropRestriction") != null || json.get("dropMeta") != null) {
+                label.add(new JLabel(" "));
+                l = new JButton_Custom("How to Obtain (Not Perfect)");
+                l.setBorderPainted(false);
+                l.setOpaque(false);
+                l.setBackground(Color.WHITE);
+                l.setForeground(Color.BLUE);
+
+                StringBuilder sb = new StringBuilder();
+                sb.append("&fThis item can be obtained by<br>");
+
+                JsonObject manual = new GetAPI().getHowToObtainItem();
+                int p = haveManualDrop(manual, itemName);
+                if (p > 0) {
+                    if (p == 1) {
+                        //Unobtainable
                         l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can't be obtained."));
-                        break;
-                    case 2: //Forgery Chest
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Forgery Chest Rewards"));
-                        break;
-                    case 3: //Legendary Island
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Legendary Island"));
-                        break;
-                    case 4: //Merchant
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Merchant: " + manual.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                        break;
-                    case 5: //The Qira Hive
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>The Qira Hive: " + manual.get("the_qira_hive").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                        break;
-                    case 6: //Secret Discovery
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>" + manual.get("secret_discovery").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                        break;
-                    case 7: //Quest
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Quest: " + manual.get("quest").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                        break;
-                    case 8: //Specific Mobs Drop
-                        StringBuilder sb = new StringBuilder();
-                        sb.append("&fThis item can be obtained by<br>Specific Mobs:");
-                        for (JsonElement je : manual.get("specific").getAsJsonObject().get(itemName).getAsJsonArray()) {
-                            JsonObject jsp = je.getAsJsonObject();
-                            sb.append(jsp.get("name").getAsString());
-                            if (jsp.get("pos") != null) {
-                                for (JsonElement je1 : jsp.get("pos").getAsJsonArray()) {
-                                    String s = "<br>Locate: " + je1.getAsString();
+                    } else {
+                        if (manual.get("normal") != null) { //Normal
+                            for (JsonElement je : manual.get("normal").getAsJsonArray()) {
+                                if (je.getAsString().equals(itemName)) {
+                                    String s = "Hostile Mob and Any Loot Chests<br>Level " + Math.max((lv - 4), 1) + " to " + (lv + 4) + "<br><br>";
                                     sb.append(s);
+                                    break;
                                 }
                             }
-                            sb.append("<br><br>");
+                        }
+                        if (manual.get("forgery_chest") != null) { //Forgery Chest
+                            for (JsonElement je : manual.get("forgery_chest").getAsJsonArray()) {
+                                if (je.getAsString().equals(itemName)) {
+                                    sb.append("Forgery Chest Rewards<br><br>");
+                                    break;
+                                }
+                            }
+                        }
+                        if (manual.get("legendary_island") != null) { //Legendary Island
+                            for (JsonElement je : manual.get("legendary_island").getAsJsonArray()) {
+                                if (je.getAsString().equals(itemName)) {
+                                    sb.append("Legendary Island<br><br>");
+                                    break;
+                                }
+                            }
+                        }
+                        if (manual.get("merchant") != null && manual.get("merchant").getAsJsonObject().get(itemName) != null) { //Merchant
+                            JsonObject merchant = manual.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject();
+                            if (merchant.get("name") != null) {
+                                String s = "Merchant: " + merchant.get("name").getAsString() + "<br>";
+                                sb.append(s);
+                            }
+                            if (merchant.get("pos") != null) {
+                                String s = "Locate: " + merchant.get("pos").getAsString() + "<br>";
+                                sb.append(s);
+                            }
+                            if (merchant.get("price") != null) {
+                                String s = "Price: " + merchant.get("price").getAsString() + "<br>";
+                                sb.append(s);
+                            }
+                            sb.append("<br>");
+                        }
+                        if (manual.get("the_qira_hive") != null && manual.get("the_qira_hive").getAsJsonObject().get(itemName) != null) { //The Qira Hive
+                            String s = "The Qira Hive: " + manual.get("the_qira_hive").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString() + "<br><br>";
+                            sb.append(s);
+                        }
+                        if (manual.get("secret_discovery") != null && manual.get("secret_discovery").getAsJsonObject().get(itemName) != null) { //Secret Discovery
+                            String s = manual.get("secret_discovery").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString() + "<br><br>";
+                            sb.append(s);
+                        }
+                        if (manual.get("quest") != null && manual.get("quest").getAsJsonObject().get(itemName) != null) { //Quest
+                            String s = "Quest: " + manual.get("quest").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString() + "<br><br>";
+                            sb.append(s);
+                        }
+                        if (manual.get("raid") != null && manual.get("raid").getAsJsonObject().get(itemName) != null) { //Raid Rewards
+                            String s = "Raid Rewards: " + manual.get("raid").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString() + "<br><br>";
+                            sb.append(s);
+                        }
+                        if (manual.get("other") != null && manual.get("other").getAsJsonObject().get(itemName) != null) { //Other
+                            String s = manual.get("other").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString() + "<br><br>";
+                            sb.append(s);
+                        }
+                        if (manual.get("specific") != null && manual.get("specific").getAsJsonObject().get(itemName) != null) { //Specific
+                            for (JsonElement je : manual.get("specific").getAsJsonObject().get(itemName).getAsJsonArray()) {
+                                JsonObject jsp = je.getAsJsonObject();
+                                if (jsp.get("ismobname") == null || jsp.get("ismobname").getAsBoolean())
+                                    sb.append("Mob Name: ");
+                                sb.append(jsp.get("name").getAsString());
+                                if (jsp.get("pos") != null) {
+                                    for (JsonElement je1 : jsp.get("pos").getAsJsonArray()) {
+                                        String s = "<br>Locate: " + je1.getAsString();
+                                        sb.append(s);
+                                    }
+                                }
+                                sb.append("<br><br>");
+                            }
+                        }
+                        l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.substring(0, sb.toString().length() - 4)));
+                    }
+                } else {
+                    if (json.get("dropMeta") != null) {
+                        JsonObject j = json.get("dropMeta").getAsJsonObject();
+                        if (j.get("name") != null) sb.append(j.get("name").getAsString());
+                        if (j.get("type") != null) {
+                            if (j.get("type").isJsonArray() && j.get("event") != null) {
+                                String s = " Merchant and " + j.get("event").getAsString() + " Event";
+                                sb.append(s);
+                            } else {
+                                switch (j.get("type").getAsString()) {
+                                    case "dungeonMerchant":
+                                        sb.append(" Dungeon Merchant");
+                                        break;
+                                    case "raid":
+                                        sb.append(" Raid Rewards");
+                                        break;
+                                    case "altar":
+                                        sb.append(" Altar");
+                                        break;
+                                    case "dungeon":
+                                        sb.append(" Dungeon Drop");
+                                        break;
+                                    default:
+                                        String s = " " + j.get("type").getAsString();
+                                        sb.append(s);
+                                        System.out.println(itemName + " this item drop type unknown: " + s);
+                                        break;
+                                }
+                            }
+                        }
+                        if (j.get("coordinates") != null) {
+                            String s = "<br>Locate: " + j.get("coordinates").getAsJsonArray().get(0).getAsInt() + ", " + j.get("coordinates").getAsJsonArray().get(1).getAsInt() + ", " + j.get("coordinates").getAsJsonArray().get(2).getAsInt();
+                            sb.append(s);
                         }
                         l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.toString()));
-                        break;
-                    case 9: //Raid
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>" + manual.get("raid").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                        break;
-                    case 10: //Other
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>" + manual.get("other").getAsJsonObject().get(itemName).getAsJsonObject().get("pos").getAsString()));
-                        break;
-                }
-            } else if (json.get("dropMeta") != null) {
-                if (json.get("dropMeta").isJsonObject()) {
-                    JsonObject j = json.get("dropMeta").getAsJsonObject();
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("&fThis item can be obtained by<br>");
-                    if (j.get("name") != null) sb.append(j.get("name").getAsString());
-                    if (j.get("type") != null) {
-                        if (j.get("type").isJsonArray() && j.get("event") != null) {
-                            String s = " Merchant and " + j.get("event").getAsString() + " Event";
-                            sb.append(s);
-                        } else {
-                            switch (j.get("type").getAsString()) {
-                                case "dungeonMerchant":
-                                    sb.append(" Dungeon Merchant");
-                                    break;
-                                case "raid":
-                                    sb.append(" Raid Rewards");
-                                    break;
-                                case "altar":
-                                    sb.append(" Altar");
-                                    break;
-                                case "dungeon":
-                                    sb.append(" Dungeon Drop");
-                                    break;
-                                case "guild":
-                                    break;
-                                default:
-                                    String s = " " + j.get("type").getAsString();
-                                    sb.append(s);
-                                    System.out.println(j.get("name").getAsString() + " this item drop type unknown:" + s);
-                                    break;
+                    } else if (json.get("dropRestriction") != null) {
+                        switch (json.get("dropRestriction").getAsString()) {
+                            case "normal": {
+                                l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + "Hostile Mob and Any Loot Chests<br>Level " + Math.max((lv - 4), 1) + " to " + (lv + 4)));
+                                break;
+                            }
+                            case "lootchest": {
+                                l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + "Tier 3 and 4 Loot Chests<br>Level " + Math.max((lv - 4), 1) + " to " + (lv + 4)));
+                                break;
+                            }
+                            case "never": {
+                                l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fUnknown"));
+                                break;
+                            }
+                            case "dungeon": {
+                                l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + "Dungeon Drop"));
+                                break;
+                            }
+                            default: {
+                                l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + json.get("dropRestriction").getAsString()));
+                                System.out.println(itemName + " this drop type unknown:" + json.get("dropRestriction").getAsString());
+                                break;
                             }
                         }
                     }
-                    if (j.get("coordinates") != null) {
-                        String s = "<br>Locate: " + j.get("coordinates").getAsJsonArray().get(0).getAsInt() + ", " + j.get("coordinates").getAsJsonArray().get(1).getAsInt() + ", " + j.get("coordinates").getAsJsonArray().get(2).getAsInt();
-                        sb.append(s);
-                    }
-
-                    l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.toString()));
                 }
-            } else if (json.get("dropRestriction") != null) {
-                switch (json.get("dropRestriction").getAsString()) {
-                    case "normal":
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Hostile Mob and Any Loot Chests<br>Level " + (lv - 4) + " to " + (lv + 4)));
-                        break;
-                    case "lootchest":
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Tier 3 and 4 Loot Chests<br>Level " + (lv - 4) + " to " + (lv + 4)));
-                        break;
-                    case "never":
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fUnknown"));
-                        break;
-                    case "dungeon":
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>Dungeon Drop"));
-                        break;
-                    default:
-                        l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can be obtained by<br>" + json.get("dropRestriction").getAsString()));
-                        System.out.println(json.get("name").getAsString() + " this drop type unknown:" + json.get("dropRestriction").getAsString());
-                        break;
-                }
+                l.addActionListener(new FullMessageAction());
             }
-
-            l.addActionListener(new FullMessageAction());
         }
 
         for (JLabel jLabel : label) {
@@ -1161,6 +1279,11 @@ public class ItemUITemplate extends JPanel {
    }
 
    public static int haveManualDrop(JsonObject j, String itemName) {
+        if (j.get("normal") != null) { //Normal
+            for (JsonElement je : j.get("normal").getAsJsonArray()) {
+                if (je.getAsString().equals(itemName)) return 11;
+            }
+        }
         if (j.get("unobtainable") != null) { //Unobtainable
             for (JsonElement je : j.get("unobtainable").getAsJsonArray()) {
                 if (je.getAsString().equals(itemName)) return 1;
@@ -1176,41 +1299,27 @@ public class ItemUITemplate extends JPanel {
                 if (je.getAsString().equals(itemName)) return 3;
             }
         }
-        if (j.get("merchant") != null) { //Merchant
-            for (Map.Entry<String, JsonElement> entry : j.get("merchant").getAsJsonObject().entrySet()) {
-                if (entry.getKey().equals(itemName)) return 4;
-            }
-        }
-       if (j.get("the_qira_hive") != null) { //The Qira Hive
-           for (Map.Entry<String, JsonElement> entry : j.get("the_qira_hive").getAsJsonObject().entrySet()) {
-               if (entry.getKey().equals(itemName)) return 5;
-           }
-       }
-       if (j.get("secret_discovery") != null) { //Secret Discovery
-           for (Map.Entry<String, JsonElement> entry : j.get("secret_discovery").getAsJsonObject().entrySet()) {
-               if (entry.getKey().equals(itemName)) return 6;
-           }
-       }
-       if (j.get("quest") != null) { //Quest Rewards
-           for (Map.Entry<String, JsonElement> entry : j.get("quest").getAsJsonObject().entrySet()) {
-               if (entry.getKey().equals(itemName)) return 7;
-           }
-       }
-       if (j.get("specific") != null) { //Specific Mobs or Specific Area
-           for (Map.Entry<String, JsonElement> entry : j.get("specific").getAsJsonObject().entrySet()) {
-               if (entry.getKey().equals(itemName)) return 8;
-           }
-       }
-       if (j.get("raid") != null) { //Raid Rewards
-           for (Map.Entry<String, JsonElement> entry : j.get("raid").getAsJsonObject().entrySet()) {
-               if (entry.getKey().equals(itemName)) return 9;
-           }
-       }
-       if (j.get("other") != null) { //Other
-           for (Map.Entry<String, JsonElement> entry : j.get("other").getAsJsonObject().entrySet()) {
-               if (entry.getKey().equals(itemName)) return 10;
-           }
-       }
+        //Merchant
+        if (j.get("merchant") != null && j.get("merchant").getAsJsonObject().get(itemName) != null) return 4;
+
+        //The Qira Hive
+       if (j.get("the_qira_hive") != null && j.get("the_qira_hive").getAsJsonObject().get(itemName) != null) return 5;
+
+       //Secret Discovery
+       if (j.get("secret_discovery") != null && j.get("secret_discovery").getAsJsonObject().get(itemName) != null) return 6;
+
+       //Quest Rewards
+       if (j.get("quest") != null && j.get("quest").getAsJsonObject().get(itemName) != null) return 7;
+
+       //Specific
+       if (j.get("specific") != null && j.get("specific").getAsJsonObject().get(itemName) != null) return 8;
+
+       //Raid Rewards
+       if (j.get("raid") != null && j.get("raid").getAsJsonObject().get(itemName) != null) return 9;
+
+       //Other
+       if (j.get("other") != null && j.get("other").getAsJsonObject().get(itemName) != null) return 10;
+
         return 0;
    }
 
