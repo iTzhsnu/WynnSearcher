@@ -1946,8 +1946,8 @@ public class Damage_Display {
         return percent;
     }
 
-    private float calc_Spell_Cost(int base, float intelligence, int id_Raw, int id_Percent) {
-        return Math.max((base * intelligence + id_Raw) * (1F + id_Percent / 100F), 1);
+    private int calc_Spell_Cost(int base, float intelligence, int id_Raw, int id_Percent) {
+        return Math.max((int) Math.floor((base * intelligence + id_Raw) * (1F + id_Percent / 100F)), 1);
     }
 
     private float calc(float damage, float boosts, float sp_Boost, int... id_Boosts) {
@@ -2390,7 +2390,7 @@ public class Damage_Display {
         private final boolean crit_boost;
         private final JPanel pane;
 
-        private Damage_Template(String name, float mana_Cost, JPanel pane, Damage_Template previous, SkillPoint sp, boolean crit_boost, boolean needTotal) {
+        private Damage_Template(String name, int mana_Cost, JPanel pane, Damage_Template previous, SkillPoint sp, boolean crit_boost, boolean needTotal) {
             this.sp  = sp;
             this.crit_boost = crit_boost;
             this.pane = pane;
