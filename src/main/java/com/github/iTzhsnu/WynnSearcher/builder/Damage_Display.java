@@ -2431,7 +2431,7 @@ public class Damage_Display {
 
         private void addHeal(String name, int[] id_Numbers, float healPercent, boolean isCanBoost) {
             float heal = (id_Numbers[ID_Display.ID_INT.get(Identifications.HEALTH)] + id_Numbers[ID_Display.ID_INT.get(Identifications.HEALTH_BONUS)]) * healPercent;
-            if (isCanBoost) heal *= 1F + (id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] / 100F);
+            if (isCanBoost) heal *= 1F + ((id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] * 0.3F) / 100F);
             JLabel n = new JLabel(name);
             JLabel h = new JLabel(String.valueOf(heal));
             n.setAlignmentX(Component.CENTER_ALIGNMENT);
