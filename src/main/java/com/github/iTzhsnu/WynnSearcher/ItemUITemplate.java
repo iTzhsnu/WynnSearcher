@@ -753,13 +753,12 @@ public class ItemUITemplate extends JPanel {
         }
 
         JButton_Custom l = null;
-        if (json.get("droppedBy") != null) {
+        if (!isCustom) {
             l = new JButton_Custom("How to Obtain (Not Perfect)");
             l.setBorderPainted(false);
             l.setOpaque(false);
             l.setBackground(Color.WHITE);
             l.setForeground(Color.BLUE);
-            JsonObject j = json.get("droppedBy").getAsJsonObject();
             StringBuilder sb = new StringBuilder();
             sb.append("&fThis ingredient can be dropped by:<br>");
             JsonObject manual = new GetAPI().getHowToObtainIng();
@@ -776,7 +775,7 @@ public class ItemUITemplate extends JPanel {
                         sb.append(s);
                     }
                     if (jo.get("pos") != null) {
-                        String s = "Location: " + jo.get("name").getAsString() + "<br>";
+                        String s = "Location: " + jo.get("pos").getAsString() + "<br>";
                         sb.append(s);
                     }
                     if (jo.get("price") != null) {
@@ -790,27 +789,31 @@ public class ItemUITemplate extends JPanel {
                     sb.append(s);
                 }
             }
-            for (Map.Entry<String, JsonElement> entry : json.get("droppedBy").getAsJsonObject().entrySet()) {
-                if (j.get(entry.getKey()).isJsonArray()) {
-                    if (entry.getKey().equals("Ingredient Dummy")) continue;
-                    String s = "Mob Name: " + entry.getKey() + "<br>";
-                    sb.append(s);
-                    if (j.get(entry.getKey()).getAsJsonArray().get(0).isJsonArray()) {
-                        for (int i = 0; j.get(entry.getKey()).getAsJsonArray().size() > i; ++i) {
-                            JsonArray ja = j.get(entry.getKey()).getAsJsonArray().get(i).getAsJsonArray();
-                            String s1 = "Locate " + (i + 1) + ": " + ja.get(0).getAsInt() + ", " + ja.get(1).getAsInt() + ", " + ja.get(2).getAsInt() + " | Radius: " + (ja.get(3).getAsInt() / 2F) + "<br>";
+
+            if (json.get("droppedBy") != null) {
+                JsonObject j = json.get("droppedBy").getAsJsonObject();
+                for (Map.Entry<String, JsonElement> entry : json.get("droppedBy").getAsJsonObject().entrySet()) {
+                    if (j.get(entry.getKey()).isJsonArray()) {
+                        if (entry.getKey().equals("Ingredient Dummy")) continue;
+                        String s = "Mob Name: " + entry.getKey() + "<br>";
+                        sb.append(s);
+                        if (j.get(entry.getKey()).getAsJsonArray().get(0).isJsonArray()) {
+                            for (int i = 0; j.get(entry.getKey()).getAsJsonArray().size() > i; ++i) {
+                                JsonArray ja = j.get(entry.getKey()).getAsJsonArray().get(i).getAsJsonArray();
+                                String s1 = "Locate " + (i + 1) + ": " + ja.get(0).getAsInt() + ", " + ja.get(1).getAsInt() + ", " + ja.get(2).getAsInt() + " | Radius: " + (ja.get(3).getAsInt() / 2F) + "<br>";
+                                sb.append(s1);
+                                if (i == j.get(entry.getKey()).getAsJsonArray().size() - 1) sb.append("<br>");
+                            }
+                        } else {
+                            JsonArray ja = j.get(entry.getKey()).getAsJsonArray();
+                            String s1 = "Locate: " + ja.get(0).getAsInt() + ", " + ja.get(1).getAsInt() + ", " + ja.get(2).getAsInt() + " | Radius: " + (ja.get(3).getAsInt() / 2F) + "<br><br>";
                             sb.append(s1);
-                            if (i == j.get(entry.getKey()).getAsJsonArray().size() - 1) sb.append("<br>");
                         }
                     } else {
-                        JsonArray ja = j.get(entry.getKey()).getAsJsonArray();
-                        String s1 = "Locate: " + ja.get(0).getAsInt() + ", " + ja.get(1).getAsInt() + ", " + ja.get(2).getAsInt() + " | Radius: " + (ja.get(3).getAsInt() / 2F) + "<br><br>";
-                        sb.append(s1);
+                        if (entry.getKey().equals("Ingredient Dummy")) continue;
+                        String s = "Mob Name: " + entry.getKey() + "<br><br>";
+                        sb.append(s);
                     }
-                } else {
-                    if (entry.getKey().equals("Ingredient Dummy")) continue;
-                    String s = "Mob Name: " + entry.getKey() + "<br><br>";
-                    sb.append(s);
                 }
             }
 

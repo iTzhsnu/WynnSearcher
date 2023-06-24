@@ -98,6 +98,7 @@ public class GetAPI {
                                     saveEquipAndWeaponJ.get("items").getAsJsonArray().add(j);
                                     break;
                                 case 6: //Ingredients
+                                    if (j.get("droppedBy") == null) j.add("droppedBy", JsonParser.parseString("{\"Ingredient Dummy\":null}"));
                                     ingredients.add(j);
                                     saveIngredientJ.get("items").getAsJsonArray().add(j);
                                     break;
