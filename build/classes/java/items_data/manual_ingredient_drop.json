@@ -444,100 +444,164 @@
   ],
   "merchant": {
     "Pride of the Heights": {
-
+      "name": "Ingredient Merchant",
+      "pos": "1486, 45, -5278 (Maex)",
+      "price": "1x Unrefined Mysterious Metal"
     },
     "Platinum Ingot": {
-
+      "name": "Platinum Dealer Merchant",
+      "pos": "159, 6, -5218 (Thanos)",
+      "price": "16x Emeralds (16E)"
     },
     "Letvus Delight": {
-
+      "name": "Confectionary Merchant",
+      "pos": "-251, 57, -4956 (Letvus Airbase)",
+      "price": "224x Emeralds (3EB 32E)"
     },
     "Wybel Taffy": {
-
+      "name": "Confectionary Merchant",
+      "pos": "-251, 57, -4956 (Letvus Airbase)",
+      "price": "10x Emeralds (10E)"
     },
     "Sugar Stick": {
-
+      "name": "Confectionary Merchant",
+      "pos": "-251, 57, -4956 (Letvus Airbase)",
+      "price": "14x Emeralds (14E)"
     },
     "Ice Cream Sandwich": {
-
+      "name": "Confectionary Merchant",
+      "pos": "-251, 57, -4956 (Letvus Airbase)",
+      "price": "10x Emeralds (10E)"
     },
     "Cocoa Caps": {
-
+      "name": "Confectionary Merchant",
+      "pos": "-251, 57, -4956 (Letvus Airbase)",
+      "price": "12x Emeralds (12E)"
     },
     "Licorice Ropes": {
-
+      "name": "Confectionary Merchant",
+      "pos": "-251, 57, -4956 (Letvus Airbase)",
+      "price": "12x Emeralds (12E)"
     },
     "Candy Button": {
-
+      "name": "Confectionary Merchant",
+      "pos": "-251, 57, -4956 (Letvus Airbase)",
+      "price": "12x Emeralds (12E)"
     },
     "Big Jawbreaker": {
-
+      "name": "Confectionary Merchant",
+      "pos": "-251, 57, -4956 (Letvus Airbase)",
+      "price": "14x Emeralds (14E)"
     },
     "Zhight Weird Magic Rock": {
-
+      "name": "Treasure Prize Merchant",
+      "pos": "-640, 42, -2660 (Zhight Island)",
+      "price": "10x Zhight Gold"
     },
     "Zhight Shiny Stone": {
-
+      "name": "Treasure Prize Merchant",
+      "pos": "-640, 42, -2660 (Zhight Island)",
+      "price": "4x Zhight Gold"
     },
     "Zhight Coral Piece": {
-
+      "name": "Treasure Prize Merchant",
+      "pos": "-640, 42, -2660 (Zhight Island)",
+      "price": "4x Zhight Gold"
     },
     "Zhight Herbal Mix": {
-
+      "name": "Treasure Prize Merchant",
+      "pos": "-640, 42, -2660 (Zhight Island)",
+      "price": "1x Zhight Gold"
     },
     "Zombie Eye": {
-
+      "name": "Necromancy Merchant",
+      "pos": "159, 6, -5194 (Thanos)",
+      "price": "12x Emeralds (12E)"
     },
     "Gold Bar": {
-
+      "name": "Rymek Dealer Merchant",
+      "pos": "X: 1296, Z: -1311 (Rymek Bank)",
+      "price": "16x Emeralds (16E)"
     },
     "Bone Meal": {
-
+      "name": "Necromancy Merchant",
+      "pos": "159, 6, -5194 (Thanos)",
+      "price": "6x Emeralds (6E)"
     },
     "Soft Yellow Wool": {
-
+      "name": "Fabrics Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Soft Blue Wool": {
-
+      "name": "Fabrics Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Soft Green Wool": {
-
+      "name": "Fabrics Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Soft Red Wool": {
-
+      "name": "Fabrics Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Soft White Wool": {
-
+      "name": "Fabrics Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Apple": {
-
+      "name": "Apple Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Grook Feather": {
-
+      "name": "Feather Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "4x Gold Bar (16E)"
     },
     "Fresh Water": {
-
+      "name": "Water Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Pink Wool": {
-
+      "name": "Pink Wool Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "32x Gold Bar (16E)"
     },
     "Egg": {
-
+      "name": "Egg Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Wool": {
-
+      "name": "Fabrics Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Rotten Flesh": {
-
+      "name": "Necromancy Merchant",
+      "pos": "159, 6, -5194 (Thanos)",
+      "price": "3x Emeralds (3E)"
     },
     "Red Mushroom": {
-
+      "name": "Mushroom Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Potato": {
-
+      "name": "Potato Merchant",
+      "pos": "650, 62, -2086 (Bremminglar) | 180, 6, -5288 (Thanos) | 1296, 31, -1273 (Rymek Market)",
+      "price": "2x Emeralds (2E) | 4x Emeralds (4E) | 1x Gold Bar (16E)"
     },
     "Brown Mushroom": {
-
+      "name": "Mushroom Merchant",
+      "pos": "1296, 31, -1273 (Rymek Market)",
+      "price": "1x Gold Bar (16E)"
     },
     "Ice Fishing Bait": {
       "name": "Fish Merchant",
@@ -637,6 +701,20 @@
         "name": "Darkened Squid",
         "pos": [
           "X: 754 Z: -3957 (Dead Island Shores)"
+        ]
+      }
+    ],
+    "Pride of the Heights": [
+      {
+        "name": "Pyroclastic Hydra",
+        "pos": [
+          "1462, 136, -5256 (Upper Molten Heights)"
+        ]
+      },
+      {
+        "name": "Lava Spitting Limus",
+        "pos": [
+          "1422, 13, -5130 | Radius: 27.5"
         ]
       }
     ]
