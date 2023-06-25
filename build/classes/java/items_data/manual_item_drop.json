@@ -1,5 +1,5 @@
 {
-  "last_edit": "2023-06-22",
+  "last_edit": "2023-06-25",
   "unobtainable": [
     "Pirate Queen's Ring of Rubies",
     "GM's Helmet",
@@ -527,7 +527,7 @@
     "Tempo Totem": {
       "name": "Mysterious Merchant",
       "pos": "Tempo Town",
-      "price": "9x Time Fragment"
+      "price": "7x Time Fragment"
     },
     "Tempo Ticker": {
       "name": "Mysterious Merchant",
@@ -537,17 +537,17 @@
     "Tempo Trident": {
       "name": "Mysterious Merchant",
       "pos": "Tempo Town",
-      "price": "9x Time Fragment"
+      "price": "7x Time Fragment"
     },
     "Tempo Tanto": {
       "name": "Mysterious Merchant",
       "pos": "Tempo Town",
-      "price": "9x Time Fragment"
+      "price": "7x Time Fragment"
     },
     "Tempo Trebuchet": {
       "name": "Mysterious Merchant",
       "pos": "Tempo Town",
-      "price": "9x Time Fragment"
+      "price": "7x Time Fragment"
     },
     "Seal Breaker": {
       "name": "Mysterious Merchant",
@@ -1064,7 +1064,9 @@
 
     },
     "Upgraded Archpriest": {
-
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "42x Gold Bar (10EB 32E)"
     },
     "Sting-Glass Necklace": {
 
@@ -1073,7 +1075,9 @@
 
     },
     "Enhanced Pickpockets": {
-
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "40x Gold Bar (10EB)"
     },
     "Crystal-Blend Pendant": {
 
@@ -1665,7 +1669,9 @@
 
     },
     "Enhanced Duskshield": {
-
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "22x Gold Bar (5EB 32E)"
     },
     "Foehn Wind": {
 
@@ -1692,25 +1698,39 @@
 
     },
     "Upgraded Whisper": {
-
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "18x Gold Bar (4EB 32E)"
     },
     "Broken Sandust": {
-
+      "name": "Accessory Merchant",
+      "pos": "1261, 31, -1274 (Rymek)",
+      "price": "18x Gold Bar (4EB 32E)"
     },
     "Cracked Stonehall": {
-
+      "name": "Accessory Merchant",
+      "pos": "1261, 31, -1274 (Rymek)",
+      "price": "16x Gold Bar (4EB)"
     },
     "Enhanced Copper Plate": {
-
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "16x Gold Bar (4EB)"
     },
     "Upgraded Steel Buster": {
-
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "15x Gold Bar (3EB 48E)"
     },
     "Upgraded Radiance": {
-
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "15x Gold Bar (3EB 48E)"
     },
     "Chipped Glitz": {
-
+      "name": "Accessory Merchant",
+      "pos": "1261, 31, -1274 (Rymek)",
+      "price": "15x Gold Bar (3EB 48E)"
     },
     "Crocodile": {
 
@@ -1746,7 +1766,9 @@
 
     },
     "Enhanced Coalwalkers": {
-
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "14x Gold Bar (3EB 32E)"
     },
     "Ablution": {
 
@@ -1755,13 +1777,17 @@
 
     },
     "Used Wolf Paw": {
-
+      "name": "Accessory Merchant",
+      "pos": "1261, 31, -1274 (Rymek)",
+      "price": "13x Gold Bar (3EB 16E)"
     },
     "Spider Silk Carduroys": {
 
     },
     "Upgraded Dark Needle": {
-
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "16x Gold Bar (4EB)"
     },
     "Timelocked Stone": {
 
@@ -1922,10 +1948,141 @@
     "Plains Runner": {
 
     },
+
     "Ice Fishing Spear": {
       "name": "Fish Merchant",
       "pos": "84, 73, -819",
       "price": "166x Emeralds (2EB 38E)"
+    },
+    "Diluted Vitriol": {
+      "name": "Accessory Merchant",
+      "pos": "1261, 31, -1274 (Rymek)",
+      "price": "19x Gold Bar (4EB 48E)"
+    },
+    "Weighted Nimble Fingers": {
+      "name": "Accessory Merchant",
+      "pos": "1261, 31, -1274 (Rymek)",
+      "price": "21x Gold Bar (5EB 16E)"
+    },
+    "Dulled Amethyst Ring": {
+      "name": "Accessory Merchant",
+      "pos": "1261, 31, -1274 (Rymek)",
+      "price": "33x Gold Bar (8EB 16E)"
+    },
+    "Sticky Decoder Ring": {
+      "name": "Accessory Merchant",
+      "pos": "1261, 31, -1274 (Rymek)",
+      "price": "40x Gold Bar (10EB)"
+    },
+    "Enhanced Hilltop": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "15x Gold Bar (3EB 48E)"
+    },
+    "Enhanced Panorama": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "13x Gold Bar (3EB 16E)"
+    },
+    "Enhanced Umbrella Hat": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "30x Gold Bar (7EB 32E)"
+    },
+    "Enhanced Icarus": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "17x Gold Bar (4EB 16E)"
+    },
+    "Enhanced Meditation Robe": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "16x Gold Bar (4EB)"
+    },
+    "Enhanced Oxford": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "16x Gold Bar (4EB)"
+    },
+    "Enhanced Salience": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "18x Gold Bar (4EB 32E)"
+    },
+    "Enhanced Zeal": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "18x Gold Bar (4EB 32E)"
+    },
+    "Enhanced Skeleton Boots": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "17x Gold Bar (4EB 16E)"
+    },
+    "Enhanced Assassin's Hood": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "21x Gold Bar (5EB 16E)"
+    },
+    "Enhanced Phosphene": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "39x Gold Bar (9EB 48E)"
+    },
+    "Enhanced Gypsum": {
+      "name": "Armour Merchant",
+      "pos": "1255, 31, -1357 (Rymek)",
+      "price": "34x Gold Bar (8EB 32E)"
+    },
+    "Upgraded Scalpel": {
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "29x Gold Bar (7EB 16E)"
+    },
+    "Upgraded Vartija": {
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "15x Gold Bar (3EB 48E)"
+    },
+    "Upgraded Melange": {
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "14x Gold Bar (3EB 32E)"
+    },
+    "Upgraded Lullaby": {
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "20x Gold Bar (5EB)"
+    },
+    "Upgraded Cursed Bow": {
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "40x Gold Bar (10EB)"
+    },
+    "Upgraded Echolocation": {
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "16x Gold Bar (4EB)"
+    },
+    "Upgraded HellRaiser": {
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "18x Gold Bar (4EB 32E)"
+    },
+    "Upgraded Phoenix": {
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "41x Gold Bar (10EB 16E)"
+    },
+    "Upgraded Long Bow": {
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "18x Gold Bar (4EB 32E)"
+    },
+    "Upgraded Flare Blitz": {
+      "name": "Weapon Merchant",
+      "pos": "1262, 31, -1362 (Rymek)",
+      "price": "40x Gold Bar (10EB)"
     }
   },
   "the_qira_hive": {

@@ -1,5 +1,5 @@
 {
-  "last_edit": "2023-06-22",
+  "last_edit": "2023-06-25",
   "normal": [
     "Plane of Nonexistence",
     "Doom Stone",
@@ -621,35 +621,43 @@
     },
     "Contraband Absinthe": {
       "name": "Illicit Herb Merchant",
-      "pos": "1235, 31, -1277 (Rymek)"
+      "pos": "1235, 31, -1277 (Rymek)",
+      "price": "24x Gold Bar (6EB)"
     },
     "Contraband Hibiscus": {
       "name": "Illicit Herb Merchant",
-      "pos": "1235, 31, -1277 (Rymek)"
+      "pos": "1235, 31, -1277 (Rymek)",
+      "price": "24x Gold Bar (6EB)"
     },
     "Contraband Miracle Berry": {
       "name": "Illicit Herb Merchant",
-      "pos": "1235, 31, -1277 (Rymek)"
+      "pos": "1235, 31, -1277 (Rymek)",
+      "price": "24x Gold Bar (6EB)"
     },
     "Illicit Hemlock": {
       "name": "Illicit Herb Merchant",
-      "pos": "1235, 31, -1277 (Rymek)"
+      "pos": "1235, 31, -1277 (Rymek)",
+      "price": "15x Gold Bar (3EB 48E)"
     },
     "Illicit Quince": {
       "name": "Illicit Herb Merchant",
-      "pos": "1235, 31, -1277 (Rymek)"
+      "pos": "1235, 31, -1277 (Rymek)",
+      "price": "15x Gold Bar (3EB 48E)"
     },
     "Illicit Tingflower": {
       "name": "Illicit Herb Merchant",
-      "pos": "1235, 31, -1277 (Rymek)"
+      "pos": "1235, 31, -1277 (Rymek)",
+      "price": "15x Gold Bar (3EB 48E)"
     },
     "Illicit Whitethorn": {
       "name": "Illicit Herb Merchant",
-      "pos": "1235, 31, -1277 (Rymek)"
+      "pos": "1235, 31, -1277 (Rymek)",
+      "price": "15x Gold Bar (3EB 48E)"
     },
     "Illicit Yarrow": {
       "name": "Illicit Herb Merchant",
-      "pos": "1235, 31, -1277 (Rymek)"
+      "pos": "1235, 31, -1277 (Rymek)",
+      "price": "15x Gold Bar (3EB 48E)"
     }
   },
   "quest": {
