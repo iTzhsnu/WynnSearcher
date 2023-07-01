@@ -121,24 +121,49 @@
     "Legendary Medallion"
   ],
   "merchant": {
+    "Oak Wood Spear": {
+      "name": "Weapon Merchant",
+      "pos": "Ragni",
+      "price": "2x Emeralds (2E)"
+    },
+    "Oak Wood Dagger": {
+      "name": "Weapon Merchant",
+      "pos": "Ragni",
+      "price": "2x Emeralds (2E)"
+    },
+    "Oak Wood Bow": {
+      "name": "Weapon Merchant",
+      "pos": "Ragni",
+      "price": "2x Emeralds (2E)"
+    },
+    "Oak Wood Wand": {
+      "name": "Weapon Merchant",
+      "pos": "Ragni",
+      "price": "2x Emeralds (2E)"
+    },
+    "Oak Wood Relik": {
+      "name": "Weapon Merchant",
+      "pos": "Ragni",
+      "price": "2x Emeralds (2E)"
+    },
     "Cinfras Souvenir T-Shirt": {
       "name": "Souvenir T-Shirt Merchant",
       "pos": "Cinfras"
     },
     "Chipped Leather Cap": {
-      "name": "Ragni Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Ragni"
     },
     "Chipped Leather Tunic": {
-      "name": "Ragni Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Ragni"
     },
     "Chipped Leather Pants": {
-      "name": "Ragni Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Ragni"
     },
     "Chipped Leather Boots": {
-      "name": "Ragni Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Ragni"
     },
     "Ornate Shadow Cowl": {
@@ -162,22 +187,22 @@
       "price": "1x Corrupted Soul Token (Quest Rewards: A Hunter's Calling)"
     },
     "Thanos Legionnaire Helm": {
-      "name": "Thanos Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Thanos",
       "price": "2496x Emerald (39EB), 10x Platinum Ingot"
     },
     "Thanos Legionnaire Plate": {
-      "name": "Thanos Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Thanos",
       "price": "2496x Emerald (39EB), 10x Platinum Ingot"
     },
     "Thanos Legionnaire Leggings": {
-      "name": "Thanos Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Thanos",
       "price": "2496x Emerald (39EB), 10x Platinum Ingot"
     },
     "Thanos Legionnaire Greaves": {
-      "name": "Thanos Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Thanos",
       "price": "2496x Emerald (39EB), 10x Platinum Ingot"
     },
@@ -242,17 +267,17 @@
       "price": "640x Emeralds (10EB)"
     },
     "Goblin Hood": {
-      "name": "Goblin Hideout Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Goblin Village (Regular Island)",
       "price": "512x Emeralds (8EB), 3x Golden Teeth"
     },
     "Goblin Cloak": {
-      "name": "Goblin Hideout Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Goblin Village (Regular Island)",
       "price": "640x Emeralds (10EB), 3x Golden Teeth"
     },
     "Goblin Runners": {
-      "name": "Goblin Hideout Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Goblin Village (Regular Island)",
       "price": "576x Emeralds (9EB), 3x Golden Teeth"
     },
@@ -297,22 +322,22 @@
       "price": "64x Emeralds (1EB)"
     },
     "Tribal Cap": {
-      "name": "Bremminglar Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Bremminglar",
       "price": "4x Ocelot Pelt"
     },
     "Tribal Tunic": {
-      "name": "Bremminglar Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Bremminglar",
       "price": "8x Ocelot Pelt"
     },
     "Tribal Pants": {
-      "name": "Bremminglar Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Bremminglar",
       "price": "7x Ocelot Pelt"
     },
     "Tribal Boots": {
-      "name": "Bremminglar Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Bremminglar",
       "price": "5x Ocelot Pelt"
     },
@@ -327,42 +352,42 @@
       "price": "64x Emeralds (1EB)"
     },
     "Thanos Stonesinger": {
-      "name": "Thanos Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Thanos",
       "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
     },
     "Thanos Ironstaff": {
-      "name": "Thanos Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Thanos",
       "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
     },
     "Thanos Warhammer": {
-      "name": "Thanos Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Thanos",
       "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
     },
     "Thanos Warsword": {
-      "name": "Thanos Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Thanos",
       "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
     },
     "Thanos Siege Bow": {
-      "name": "Thanos Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Thanos",
       "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
     },
     "Thanos Crest": {
-      "name": "Thanos Accessory Merchant",
+      "name": "Accessory Merchant",
       "pos": "Thanos",
       "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
     },
     "Thanos Banner": {
-      "name": "Thanos Accessory Merchant",
+      "name": "Accessory Merchant",
       "pos": "Thanos",
       "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
     },
     "Thanos Brand": {
-      "name": "Thanos Accessory Merchant",
+      "name": "Accessory Merchant",
       "pos": "Thanos",
       "price": "8192x Emeralds (2LE), 10x Platinum Ingot"
     },
@@ -396,27 +421,27 @@
       "price": "15x Pig Meat"
     },
     "Ancient Runic Relik": {
-      "name": "Temple of Legends Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Temple of Legends",
       "price": "1x Stone of Myths (Quest Rewards: Reincarnation)"
     },
     "Bob's Mythic Wand": {
-      "name": "Temple of Legends Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Temple of Legends",
       "price": "1x Stone of Myths (Quest Rewards: Reincarnation)"
     },
     "Bob's Mythic Spear": {
-      "name": "Temple of Legends Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Temple of Legends",
       "price": "1x Stone of Myths (Quest Rewards: Reincarnation)"
     },
     "Bob's Mythic Daggers": {
-      "name": "Temple of Legends Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Temple of Legends",
       "price": "1x Stone of Myths (Quest Rewards: Reincarnation)"
     },
     "Bob's Mythic Bow": {
-      "name": "Temple of Legends Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Temple of Legends",
       "price": "1x Stone of Myths (Quest Rewards: Reincarnation)"
     },
@@ -450,7 +475,7 @@
       "pos": "Pirate Cove"
     },
     "Pirate Luck": {
-      "name": "Pirate Cove Armour Merchant",
+      "name": "Armour Merchant",
       "pos": "Pirate Cove",
       "price": "16384x Emeralds (4LE)"
     },
@@ -480,27 +505,27 @@
       "price": "20x Antic Beads"
     },
     "Olux's Prized Relik": {
-      "name": "Olux Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Olux",
       "price": "1x Crushed Bigfoot Bone (Quest Rewards: The Shadow of The Beast)"
     },
     "Olux's Prized Wand": {
-      "name": "Olux Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Olux",
       "price": "1x Crushed Bigfoot Bone (Quest Rewards: The Shadow of The Beast)"
     },
     "Olux's Prized Spear": {
-      "name": "Olux Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Olux",
       "price": "1x Crushed Bigfoot Bone (Quest Rewards: The Shadow of The Beast)"
     },
     "Olux's Prized Dagger": {
-      "name": "Olux Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Olux",
       "price": "1x Crushed Bigfoot Bone (Quest Rewards: The Shadow of The Beast)"
     },
     "Olux's Prized Bow": {
-      "name": "Olux Weapon Merchant",
+      "name": "Weapon Merchant",
       "pos": "Olux",
       "price": "1x Crushed Bigfoot Bone (Quest Rewards: The Shadow of The Beast)"
     },

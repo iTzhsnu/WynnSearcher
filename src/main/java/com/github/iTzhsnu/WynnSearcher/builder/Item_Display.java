@@ -78,7 +78,7 @@ public class Item_Display {
             itemsPanel.add(new ItemUITemplate(helmetJson, "item", null, null, 1045, 0, true));
         } else if (helmet.contains("CR-")) {
             if (helmet.contains("\"type\":\"helmet\"")) {
-                helmetJson = CrafterUI.getCraftItemJson(recipe, ing, helmet);
+                helmetJson = CrafterUI.getCraftItemJson(recipe, ing, helmet, false);
                 itemsPanel.add(new ItemUITemplate(helmetJson, "item", null, null, 1045, 0, true));
             }
         } else if (!helmet.isEmpty()) {
@@ -103,7 +103,7 @@ public class Item_Display {
             itemsPanel.add(new ItemUITemplate(chestplateJson, "item", previousC, null, 1045, 0, true));
         } else if (chestplate.contains("CR-")) {
             if (chestplate.contains("\"type\":\"chestplate\"")) {
-                chestplateJson = CrafterUI.getCraftItemJson(recipe, ing, chestplate);
+                chestplateJson = CrafterUI.getCraftItemJson(recipe, ing, chestplate, false);
                 itemsPanel.add(new ItemUITemplate(chestplateJson, "item", previousC, null, 1045, 0, true));
             }
         } else if (!chestplate.isEmpty()) {
@@ -128,7 +128,7 @@ public class Item_Display {
             itemsPanel.add(new ItemUITemplate(leggingsJson, "item", previousL, null, 1045, 0, true));
         } else if (leggings.contains("CR-")) {
             if (leggings.contains("\"type\":\"leggings\"")) {
-                leggingsJson = CrafterUI.getCraftItemJson(recipe, ing, leggings);
+                leggingsJson = CrafterUI.getCraftItemJson(recipe, ing, leggings, false);
                 itemsPanel.add(new ItemUITemplate(leggingsJson, "item", previousL, null, 1045, 0, true));
             }
         } else if (!leggings.isEmpty()) {
@@ -153,7 +153,7 @@ public class Item_Display {
             itemsPanel.add(new ItemUITemplate(bootsJson, "item", previousB, null, 1045, 0, true));
         } else if (boots.contains("CR-")) {
             if (boots.contains("\"type\":\"boots\"")) {
-                bootsJson = CrafterUI.getCraftItemJson(recipe, ing, boots);
+                bootsJson = CrafterUI.getCraftItemJson(recipe, ing, boots, false);
                 itemsPanel.add(new ItemUITemplate(bootsJson, "item", previousB, null, 1045, 0, true));
             }
         } else if (!boots.isEmpty()) {
@@ -180,7 +180,7 @@ public class Item_Display {
             itemsPanel.add(new ItemUITemplate(ring1Json, "item", previousR1, aboveR1, 1045, 0, true));
         } else if (ring1.contains("CR-")) {
             if (ring1.contains("\"type\":\"ring\"")) {
-                ring1Json = CrafterUI.getCraftItemJson(recipe, ing, ring1);
+                ring1Json = CrafterUI.getCraftItemJson(recipe, ing, ring1, false);
                 itemsPanel.add(new ItemUITemplate(ring1Json, "item", previousR1, aboveR1, 1045, 0, true));
             }
         } else if (!ring1.isEmpty()) {
@@ -207,7 +207,7 @@ public class Item_Display {
             itemsPanel.add(new ItemUITemplate(ring2Json, "item", previousR2, aboveR2, 1045, 0, true));
         } else if (ring2.contains("CR-")) {
             if (ring2.contains("\"type\":\"ring\"")) {
-                ring2Json = CrafterUI.getCraftItemJson(recipe, ing, ring2);
+                ring2Json = CrafterUI.getCraftItemJson(recipe, ing, ring2, false);
                 itemsPanel.add(new ItemUITemplate(ring2Json, "item", previousR2, aboveR2, 1045, 0, true));
             }
         } else if (!ring2.isEmpty()) {
@@ -234,7 +234,7 @@ public class Item_Display {
             itemsPanel.add(new ItemUITemplate(braceletJson, "item", previousBr, aboveBr, 1045, 0, true));
         } else if (bracelet.contains("CR-")) {
             if (bracelet.contains("\"type\":\"bracelet\"")) {
-                braceletJson = CrafterUI.getCraftItemJson(recipe, ing, bracelet);
+                braceletJson = CrafterUI.getCraftItemJson(recipe, ing, bracelet, false);
                 itemsPanel.add(new ItemUITemplate(braceletJson, "item", previousBr, aboveBr, 1045, 0, true));
             }
         } else if (!bracelet.isEmpty()) {
@@ -261,7 +261,7 @@ public class Item_Display {
             itemsPanel.add(new ItemUITemplate(necklaceJson, "item", previousN, aboveN, 1045, 0, true));
         } else if (necklace.contains("CR-")) {
             if (necklace.contains("\"type\":\"necklace\"")) {
-                necklaceJson = CrafterUI.getCraftItemJson(recipe, ing, necklace);
+                necklaceJson = CrafterUI.getCraftItemJson(recipe, ing, necklace, false);
                 itemsPanel.add(new ItemUITemplate(necklaceJson, "item", previousN, aboveN, 1045, 0, true));
             }
         } else if (!necklace.isEmpty()) {
@@ -288,7 +288,7 @@ public class Item_Display {
             itemsPanel.add(new ItemUITemplate(weaponJson, "item", previousW, aboveW, 1045, 0, true));
         } else if (weapon.contains("CR-")) {
             if (weapon.contains("\"type\":\"spear\"") || weapon.contains("\"type\":\"dagger\"") || weapon.contains("\"type\":\"bow\"") || weapon.contains("\"type\":\"wand\"") || weapon.contains("\"type\":\"relik\"")) {
-                weaponJson = CrafterUI.getCraftItemJson(recipe, ing, weapon);
+                weaponJson = CrafterUI.getCraftItemJson(recipe, ing, weapon, false);
                 itemsPanel.add(new ItemUITemplate(weaponJson, "item", previousW, aboveW, 1045, 0, true));
             }
         } else if (!weapon.isEmpty()) {

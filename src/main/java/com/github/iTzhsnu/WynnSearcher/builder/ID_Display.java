@@ -501,7 +501,11 @@ public class ID_Display {
         ids.add(new JLabel("Health: " + health)); //Total Health
         ids.add(new JLabel("EHP: " + ehp)); //Effective Health
         ids.add(new JLabel("EHP (No Agi): " + (health / ((1F - defSP) * def)))); //Effective Health (No Agility)
-        ids.add(new JLabel("HPR: " + (numbers[29] * ((100F + numbers[30]) / 100F)))); //Total Health Regen
+        if (numbers[ID_Display.ID_INT.get(Identifications.RAW_HEALTH_REGEN)] < 0) {
+            ids.add(new JLabel("HPR: " + Math.min(Math.round(numbers[29] * ((100F + (numbers[30] * -1)) / 100F)), 0))); //Total Health Regen
+        } else {
+            ids.add(new JLabel("HPR: " + (Math.round(numbers[29] * ((100F + numbers[30]) / 100F))))); //Total Health Regen
+        }
         ids.add(new JLabel("Life Steal: " + numbers[2] + "/3s")); //Life Steal
         ids.add(new JLabel(" "));
         for (int i = 3; 7 >= i; ++i) { //Defenses

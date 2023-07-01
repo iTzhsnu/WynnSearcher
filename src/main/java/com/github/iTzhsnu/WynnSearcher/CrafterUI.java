@@ -155,7 +155,7 @@ public class CrafterUI implements ActionListener {
         ingScroll.getVerticalScrollBar().setUnitIncrement(20);
         createdScroll.getVerticalScrollBar().setUnitIncrement(20);
         ingScroll.setBounds(10, 160, 548, 598);
-        createdScroll.setBounds(730, 10, 288, 748);
+        createdScroll.setBounds(790, 10, 288, 748);
 
         texts.add(recipeConnect);
         texts.add(typeText);
@@ -309,9 +309,9 @@ public class CrafterUI implements ActionListener {
 
         String s = output.getText();
         if (s.contains("CR-")) {
-            setIngDisplay(JsonParser.parseString(s.replace("CR-", "")).getAsJsonObject().get("ing").getAsJsonArray());
-
-            ItemUITemplate itemUI = new ItemUITemplate(getCraftItemJson(recipeJson, ingJson, s), "item", null, null, 270, 0, true);
+            List<JsonObject> ingJsonCopy = new ArrayList<>(ingJson);
+            ItemUITemplate itemUI = new ItemUITemplate(getCraftItemJson(recipeJson, ingJsonCopy, s, true), "item", null, null, 270, 0, true);
+            setIngDisplay(ingJsonCopy);
             created.add(itemUI);
             if (itemUI.getBounds().y + itemUI.getBounds().height > 745) {
                 created.setPreferredSize(new Dimension(270, itemUI.getBounds().y + itemUI.getBounds().height));
@@ -337,20 +337,8 @@ public class CrafterUI implements ActionListener {
         }
     }
 
-    public void setIngDisplay(JsonArray ing) {
+    public void setIngDisplay(List<JsonObject> lj) {
         List<JPanel> lp = new ArrayList<>();
-        List<JsonObject> lj = new ArrayList<>();
-
-        for (JsonElement je : ing) {
-            if (!je.getAsString().isEmpty()) {
-                for (JsonObject jo : ingJson) {
-                    if (jo.get("name") != null && jo.get("name").getAsString().equals(je.getAsString())) {
-                        lj.add(jo);
-                        break;
-                    }
-                }
-            }
-        }
 
         for (int i = 0; lj.size() > i; ++i) {
             JsonObject j = lj.get(i);
@@ -395,7 +383,7 @@ public class CrafterUI implements ActionListener {
         SwingUtilities.updateComponentTreeUI(ingPanel);
     }
 
-    public static JsonObject getCraftItemJson(List<JsonObject> recipes, List<JsonObject> ing, String s) {
+    public static JsonObject getCraftItemJson(List<JsonObject> recipes, List<JsonObject> ing, String s, boolean isCopiedIngs) {
         if (s.contains("CR-")) {
             String sJ = s.replace("CR-", "");
             JsonObject itemJ = JsonParser.parseString(sJ).getAsJsonObject();
@@ -464,7 +452,7 @@ public class CrafterUI implements ActionListener {
             output.addProperty("type", itemJ.get("type").getAsString());
 
             List<JsonObject> lJ = new ArrayList<>();
-            float[] ingEffective = new float[] {1F, 1F, 1F, 1F, 1F, 1F};
+            int[] ingEffective = new int[] {100, 100, 100, 100, 100, 100};
             int charges = 1;
 
             if (!ingEmpty) {
@@ -505,32 +493,32 @@ public class CrafterUI implements ActionListener {
                         if (j.get("ingredientPositionModifiers") != null) {
                             JsonObject jo = j.get("ingredientPositionModifiers").getAsJsonObject();
                             if (jo.get("above") != null && jo.get("above").getAsInt() != 0) {
-                                if (i == 2 || i == 3 || i == 4 || i == 5) ingEffective[i - 2] += (jo.get("above").getAsInt() / 100F);
-                                if (i == 4 || i == 5) ingEffective[i - 4] += (jo.get("above").getAsInt() / 100F);
+                                if (i == 2 || i == 3 || i == 4 || i == 5) ingEffective[i - 2] += jo.get("above").getAsInt();
+                                if (i == 4 || i == 5) ingEffective[i - 4] += jo.get("above").getAsInt();
                             }
                             if (jo.get("under") != null && jo.get("under").getAsInt() != 0) {
-                                if (i == 0 || i == 1 || i == 2 | i == 3) ingEffective[i + 2] += (jo.get("under").getAsInt() / 100F);
-                                if (i == 0 || i == 1) ingEffective[i + 4] += (jo.get("under").getAsInt() / 100F);
+                                if (i == 0 || i == 1 || i == 2 | i == 3) ingEffective[i + 2] += jo.get("under").getAsInt();
+                                if (i == 0 || i == 1) ingEffective[i + 4] += jo.get("under").getAsInt();
                             }
                             if (jo.get("right") != null && jo.get("right").getAsInt() != 0) {
                                 int pos = i + 1;
                                 if (pos == 1 || pos == 3 || pos == 5)
-                                    ingEffective[pos] += (jo.get("right").getAsInt() / 100F);
+                                    ingEffective[pos] += jo.get("right").getAsInt();
                             }
                             if (jo.get("left") != null && jo.get("left").getAsInt() != 0) {
                                 int pos = i - 1;
                                 if (pos == 0 || pos == 2 || pos == 4)
-                                    ingEffective[pos] += (jo.get("left").getAsInt() / 100F);
+                                    ingEffective[pos] += jo.get("left").getAsInt();
                             }
                             if (jo.get("touching") != null && jo.get("touching").getAsInt() != 0) {
-                                float touching = jo.get("touching").getAsInt() / 100F;
+                                float touching = jo.get("touching").getAsInt();
                                 if (i == 2 || i == 3 || i == 4 || i == 5) ingEffective[i - 2] += touching; //Above
                                 if (i == 0 || i == 1 || i == 2 || i == 3) ingEffective[i + 2] += touching; //Under
                                 if (i == 0 || i == 2 || i == 4) ingEffective[i + 1] += touching; //Right
                                 if (i == 1 || i == 3 || i == 5) ingEffective[i - 1] += touching; //Left
                             }
                             if (jo.get("notTouching") != null && jo.get("notTouching").getAsInt() != 0) {
-                                float notTouching = jo.get("notTouching").getAsInt() / 100F;
+                                float notTouching = jo.get("notTouching").getAsInt();
                                 if (i >= 3) ingEffective[0] += notTouching; //0
                                 if (i == 2 || i >= 4) ingEffective[1] += notTouching; //1
                                 if (i == 1 || i == 5) ingEffective[2] += notTouching; //2
@@ -564,7 +552,7 @@ public class CrafterUI implements ActionListener {
                 for (int n = 0; lJ.size() > n; ++n) {
                     JsonObject j = lJ.get(n);
                     if (id.getIngName() != null && j.get("itemOnlyIDs") != null && j.get("itemOnlyIDs").getAsJsonObject().get(id.getIngName()) != null) {
-                        total += (int) Math.floor(j.get("itemOnlyIDs").getAsJsonObject().get(id.getIngName()).getAsInt() * ingEffective[n]);
+                        total += (int) Math.floor(j.get("itemOnlyIDs").getAsJsonObject().get(id.getIngName()).getAsInt() * ingEffective[n] / 100F);
                     }
                 }
                 if (total != 0) {
@@ -581,11 +569,11 @@ public class CrafterUI implements ActionListener {
                     if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get("identifications") != null && j.get("identifications").getAsJsonObject().get(id.getIngName()) != null) {
                         JsonElement je = j.get("identifications").getAsJsonObject().get(id.getIngName());
                         if (!je.isJsonObject()) {
-                            total_Min += (int) Math.floor(je.getAsInt() * ingEffective[n]);
-                            total_Max += (int) Math.floor(je.getAsInt() * ingEffective[n]);
+                            total_Min += (int) Math.floor(je.getAsInt() * ingEffective[n] / 100F);
+                            total_Max += (int) Math.floor(je.getAsInt() * ingEffective[n] / 100F);
                         } else {
-                            total_Min += (int) Math.floor(je.getAsJsonObject().get("min").getAsInt() * ingEffective[n]);
-                            total_Max += (int) Math.floor(je.getAsJsonObject().get("max").getAsInt() * ingEffective[n]);
+                            total_Min += (int) Math.floor(je.getAsJsonObject().get("min").getAsInt() * ingEffective[n] / 100F);
+                            total_Max += (int) Math.floor(je.getAsJsonObject().get("max").getAsInt() * ingEffective[n] / 100F);
                         }
                     }
                 }
@@ -636,6 +624,13 @@ public class CrafterUI implements ActionListener {
                 }
                 output.addProperty(Identifications.POWDER_SLOTS.getItemName(), powderSlots);
                 if (itemJ.get("attackSpeed") != null) output.addProperty(Identifications.ATTACK_SPEED.getItemName(), itemJ.get("attackSpeed").getAsString());
+            }
+
+            if (isCopiedIngs) {
+                ing.clear();
+                for (int i = 0; lJ.size() > i; ++i) {
+                    if (lJ.get(i).get("name") != null) ing.add(customIngredient(lJ.get(i), ingEffective[i]));
+                }
             }
 
             return output;
@@ -718,6 +713,45 @@ public class CrafterUI implements ActionListener {
                 break;
         }
         return total;
+    }
+
+    public static JsonObject customIngredient(JsonObject json, int percent) {
+        JsonObject j = json.deepCopy();
+        j.addProperty("displayName", j.get("name").getAsString() + " (" + percent + "%)");
+        for (int i = 0; 4 >= i; ++i) { //SP Requests
+            Identifications id = SP_REQ.get(i);
+            int total = 0;
+            if (id.getIngName() != null && j.get("itemOnlyIDs") != null && j.get("itemOnlyIDs").getAsJsonObject().get(id.getIngName()) != null) {
+                total += (int) Math.floor(j.get("itemOnlyIDs").getAsJsonObject().get(id.getIngName()).getAsInt() * percent / 100F);
+            }
+            if (total != 0) {
+                j.get("itemOnlyIDs").getAsJsonObject().addProperty(id.getIngName(), total);
+            }
+        }
+
+        for (int i = 0; 76 >= i; ++i) { //IDs
+            Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+            int total_Min = 0;
+            int total_Max = 0;
+            if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get("identifications") != null && j.get("identifications").getAsJsonObject().get(id.getIngName()) != null) {
+                JsonElement je = j.get("identifications").getAsJsonObject().get(id.getIngName());
+                if (!je.isJsonObject()) {
+                    total_Min += (int) Math.floor(je.getAsInt() * percent / 100F);
+                    total_Max += (int) Math.floor(je.getAsInt() * percent / 100F);
+                } else {
+                    total_Min += (int) Math.floor(je.getAsJsonObject().get("min").getAsInt() * percent / 100F);
+                    total_Max += (int) Math.floor(je.getAsJsonObject().get("max").getAsInt() * percent / 100F);
+                }
+            }
+            if (total_Min != 0 || total_Max != 0) {
+                if (j.get("identifications") != null) {
+                    j.get("identifications").getAsJsonObject().add(id.getItemName(), JsonParser.parseString("{\"min\":" + total_Min + ",\"max\":" + total_Max + "}"));
+                } else {
+                    j.add("identifications", JsonParser.parseString("{\"" + id.getItemName() + "\":{\"min\":" + total_Min + ",\"max\":" + total_Max + "}}"));
+                }
+            }
+        }
+        return j;
     }
 
     public static class Adapter extends KeyAdapter {

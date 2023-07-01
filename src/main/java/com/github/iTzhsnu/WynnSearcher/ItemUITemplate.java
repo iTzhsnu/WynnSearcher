@@ -620,7 +620,11 @@ public class ItemUITemplate extends JPanel {
         String itemName = "";
         if (json.get("name") != null) {
             itemName = json.get("name").getAsString();
-            label.add(new JLabel(itemName));
+            if (json.get("displayName") != null) {
+                label.add(new JLabel(json.get("displayName").getAsString()));
+            } else {
+                label.add(new JLabel(itemName));
+            }
             dataButton.setToolTipText("https://www.wynndata.tk/i/" + itemName.replaceAll(" ", "%20"));
         }
 
