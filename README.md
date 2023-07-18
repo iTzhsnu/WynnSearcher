@@ -6,6 +6,7 @@ Java 8 or above
 
 ## How to Use
 ### Searcher
+This description is old. sorry.  
 ![](readme_pictures/how_to_use.png)
 
 ### Builder (Beta)
