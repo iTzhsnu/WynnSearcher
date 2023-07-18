@@ -19,6 +19,9 @@ Java 8 or above
 ![](readme_pictures/how_to_use_4_1.png)
 ![](readme_pictures/how_to_use_4_2.png)
 
+### Changes (Release Soon)
+can search item changes.
+
 ## Screenshots
 ![](readme_pictures/search_1.png)
 ![](readme_pictures/search_2.png)
