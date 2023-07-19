@@ -725,6 +725,15 @@
           "1422, 13, -5130 | Radius: 27.5"
         ]
       }
+    ],
+    "Bamboo": [
+      {
+        "name": "Cut Bamboo",
+        "pos": [
+          "Near 150, 75, -4370"
+        ],
+        "ismobname": false
+      }
     ]
   }
 }
