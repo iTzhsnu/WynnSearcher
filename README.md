@@ -22,6 +22,8 @@ This description is old. sorry.
 
 ### Changes (Release Soon)
 can search item changes.
+![](readme_pictures/how_to_use_5_1.png)
+![](readme_pictures/how_to_use_5_2.png)
 
 ## Screenshots
 ![](readme_pictures/search_1.png)
