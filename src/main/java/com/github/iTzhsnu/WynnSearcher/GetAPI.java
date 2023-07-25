@@ -40,7 +40,7 @@ public class GetAPI {
         JsonObject saveOtherItemsJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
         try {
             //Load Items (1m20s Slow)
-            for (int i = 0; 8 > i; ++i) {
+            for (int i = 0; 9 > i; ++i) {
                 String s = "\"weapons\"";
                 switch (i) {
                     case 1:
@@ -67,6 +67,7 @@ public class GetAPI {
                 }
 
                 String post = "{\"query\":null,\"type\":[" + s + "],\"tier\":[],\"attackSpeed\":[],\"levelRange\":[0,110],\"professions\":[],\"identifications\":[]}";
+                if (i == 8) post = "{\"query\":\"Tome Of Lootrun Mastery\",\"type\":[],\"tier\":[],\"attackSpeed\":[],\"levelRange\":[0,110],\"professions\":[],\"identifications\":[]}"; //Lootrun Tomes
                 int endPos = 1;
                 for (int n = 1; endPos >= n; ++n) {
                     URLConnection urlConn = new URL(WYNN_ITEM_V3_API + "?page=" + n).openConnection();
@@ -103,6 +104,7 @@ public class GetAPI {
                                     saveIngredientJ.get("items").getAsJsonArray().add(j);
                                     break;
                                 case 3: //Tomes
+                                case 8: //Lootrun Tomes
                                     j.addProperty("type", "tome");
                                     otherItems.add(j);
                                     saveOtherItemsJ.get("items").getAsJsonArray().add(j);
@@ -301,6 +303,18 @@ public class GetAPI {
         connect.setText("Load Failed");
         connect.setForeground(new Color(255, 0, 0));
         return null;
+    }
+
+    public File getOldItemFile() {
+        return getFilePath("/items_data/old_data/item");
+    }
+
+    public File getOldIngFile() {
+        return getFilePath("/items_data/old_data/ing");
+    }
+
+    public File getOldOtherFile() {
+        return getFilePath("/items_data/old_data/other");
     }
 
     public static boolean getUpdate() {

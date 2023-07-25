@@ -1,7 +1,6 @@
 {
-  "last_edit": "2023-06-25",
+  "last_edit": "2023-07-25",
   "unobtainable": [
-    "Pirate Queen's Ring of Rubies",
     "GM's Helmet",
     "GM's Breastplate",
     "GM's Trousers",
@@ -14,12 +13,9 @@
     "Builder's Trousers",
     "Builder's Boots",
     "Inhibitor֎",
-    "Gnomish Topper",
     "Yellow Content Cap of Fame",
     "Seekers Aid",
-    "Factory Helmet",
     "Contest Wynner Cap",
-    "Bear Head",
     "Pure Iron Helmet",
     "Refined Chainmail Helmet",
     "Flawed Leather Cap",
@@ -38,28 +34,28 @@
     "Refined Iron Boots",
     "Pure Iron Boots",
     "Flawless Chain Boots",
-    "Impure Morph-Gold",
     "Average Golden Boots",
     "Flawed Leather Boots",
-    "Ba'al's Betrayal",
-    "Orc Mask",
     "Cracked Oak Spear",
     "Cracked Oak Dagger",
     "Cracked Oak Wand",
     "Cracked Oak Bow",
-    "Cracked Oak Relik",
-    "Oni Helm",
-    "Pumpkin Helmet",
-    "Helmet of Shimmering Light",
-    "Dull Ancient Helmet",
-    "Empowered Ancient Helmet",
-    "Restored Ancient Helmet"
+    "Cracked Oak Relik"
   ],
-  "forgery_chest": [
-    "Tisaun's Valor",
-    "Remikas' Authority",
-    "Ensa's Faith"
-  ],
+  "dungeon": {
+    "Tisaun's Valor": {
+      "pos": "Forgery Chest Reward"
+    },
+    "Remikas' Authority": {
+      "pos": "Forgery Chest Reward"
+    },
+    "Ensa's Faith": {
+      "pos": "Forgery Chest Reward"
+    },
+    "Gale's Sight": {
+      "pos": "Forgery Chest Reward"
+    }
+  },
   "legendary_island": [
     "Bronze Basic Ring",
     "Bronze Basic Bracelet",
@@ -2292,19 +2288,19 @@
     }
   },
   "quest": {
-    "Fiery Relik": {
+    "Elemental Training Spear": {
       "pos": "Elemental Exercise"
     },
-    "Fiery Wand": {
+    "Elemental Training Dagger": {
       "pos": "Elemental Exercise"
     },
-    "Fiery Spear": {
+    "Elemental Training Bow": {
       "pos": "Elemental Exercise"
     },
-    "Fiery Dagger": {
+    "Elemental Training Wand": {
       "pos": "Elemental Exercise"
     },
-    "Fiery Bow": {
+    "Elemental Training Relik": {
       "pos": "Elemental Exercise"
     },
     "Dodegar's Ultimate Weapon": {
@@ -2396,12 +2392,6 @@
     },
     "The Master's Gi": {
       "pos": "Enter the Dojo"
-    },
-    "Veekhat's Udders": {
-      "pos": "Cowfusion"
-    },
-    "Veekhat's Horns": {
-      "pos": "Cowfusion"
     },
     "Electro Mage's Boots": {
       "pos": "The Envoy Part II"
@@ -2552,6 +2542,9 @@
     },
     "Upgraded Orc Mask": {
       "pos": "All Roads to Peace"
+    },
+    "Hide of Poxper": {
+      "pos": "Blazing Retribution"
     }
   },
   "specific": {
@@ -4041,22 +4034,72 @@
       "pos": "Nest of the Grootslangs Raid Rewards<br>Locate: -1977, 63, -5615"
     }
   },
-  "other": {
-    "Oak Wood Bow": {
-      "pos": "Skip Tutorial"
+  "dungeonMerchant": {
+    "Corrupted Nii Shako": {
+      "name": "Corrupted Decrepit Sewers",
+      "pos": "-861, 123, -4896",
+      "price": "3x Corrupted Witherhead's Rib"
     },
-    "Oak Wood Relik": {
-      "pos": "Skip Tutorial"
+    "Void": {
+      "name": "Corrupted Decrepit Sewers",
+      "pos": "-861, 123, -4896",
+      "price": "4x Corrupted Witherhead's Rib"
     },
-    "Oak Wood Wand": {
-      "pos": "Skip Tutorial"
+    "Sorrow": {
+      "name": "Corrupted Decrepit Sewers",
+      "pos": "-861, 123, -4896",
+      "price": "4x Corrupted Witherhead's Rib"
     },
-    "Oak Wood Dagger": {
-      "pos": "Skip Tutorial"
+    "Bane": {
+      "name": "Corrupted Decrepit Sewers",
+      "pos": "-861, 123, -4896",
+      "price": "4x Corrupted Witherhead's Rib"
     },
-    "Oak Wood Spear": {
-      "pos": "Skip Tutorial"
+    "Demonio": {
+      "name": "Corrupted Decrepit Sewers",
+      "pos": "-861, 123, -4896",
+      "price": "4x Corrupted Witherhead's Rib"
     },
+    "Wall Breaker": {
+      "name": "Corrupted Decrepit Sewers",
+      "pos": "-861, 123, -4896",
+      "price": "6x Corrupted Witherhead's Rib"
+    },
+    "Destructor": {
+      "name": "Corrupted Decrepit Sewers",
+      "pos": "-861, 123, -4896",
+      "price": "6x Corrupted Witherhead's Rib"
+    },
+    "Nightmare": {
+      "name": "Corrupted Decrepit Sewers",
+      "pos": "-861, 123, -4896",
+      "price": "6x Corrupted Witherhead's Rib"
+    },
+    "Depth": {
+      "name": "Corrupted Decrepit Sewers",
+      "pos": "-861, 123, -4896",
+      "price": "6x Corrupted Witherhead's Rib"
+    },
+    "Corrupted Witherhead's Bow": {
+      "name": "Corrupted Decrepit Sewers",
+      "pos": "-861, 123, -4896",
+      "price": "6x Corrupted Witherhead's Rib"
+    },
+    "Widow": {
+      "name": "Corrupted Infested Pit",
+      "pos": "-861, 123, -4896",
+      "price": "4x Corrupted Arakadicus' Eye"
+    },
+    "Azotar": {
+      "name": "Galleon Graveyard",
+      "pos": "-581, 30, -3545"
+    },
+    "Kindled Orchid": {
+      "name": "Corrupted Undergrowth Ruins",
+      "pos": "-861, 123, -4896"
+    }
+  },
+  "discontinued": {
     "Hero's Mask": {
       "pos": "Festival of the Heroes (2023)"
     },
@@ -4126,11 +4169,151 @@
     "Cerulean Wynnter Sweater": {
       "pos": "Festival of the Blizzard (2022)"
     },
+    "Snowtread Boots": {
+      "pos": "Festival of the Blizzard (2021)"
+    },
+    "Fiery Relik": {
+      "pos": "Quest: Elemental Exercise (Wynncraft Ver 2.0.2 and before)"
+    },
+    "Fiery Wand": {
+      "pos": "Quest: Elemental Exercise (Wynncraft Ver 2.0.2 and before)"
+    },
+    "Fiery Spear": {
+      "pos": "Quest: Elemental Exercise (Wynncraft Ver 2.0.2 and before)"
+    },
+    "Fiery Dagger": {
+      "pos": "Quest: Elemental Exercise (Wynncraft Ver 2.0.2 and before)"
+    },
+    "Fiery Bow": {
+      "pos": "Quest: Elemental Exercise (Wynncraft Ver 2.0.2 and before)"
+    },
+    "Veekhat's Udders": {
+      "pos": "Quest: Cowfusion (Wynncraft Ver 1.20.4 and before)"
+    },
+    "Veekhat's Horns": {
+      "pos": "Quest: Cowfusion (Wynncraft Ver 1.20.4 and before)"
+    },
+    "Pirate Queen's Ring of Rubies": {
+      "pos": "Replaced to Ring of Rubies"
+    },
+    "Factory Helmet": {
+      "pos": "Quest: An Iron Heart Part I (Wynncraft Ver 1.19.5 and before)"
+    },
+    "Bear Head": {
+      "pos": "Replaced to Bear Mask"
+    },
+    "Impure Morph-Gold": {
+      "pos": "Replaced to Morph-Gold"
+    },
+    "Ba'al's Betrayal": {
+      "pos": "Replaced to Takan's Treachery"
+    },
+    "Oni Helm": {
+      "pos": "Drop from Death Oni (Removed in Wynncraft Ver 1.18)"
+    },
+    "Pumpkin Helmet": {
+      "pos": "Drop from Pumpkin Zombie (Removed)"
+    },
+    "Orc Mask": {
+      "pos": "Quest: A Fighting Species (Replaced to All Roads to Peace)"
+    },
+    "Helmet of Shimmering Light": {
+      "pos": "Quest: The Realm of Light (Replaced to Realm of Light V - The Realm of Light)"
+    },
+    "Dull Ancient Helmet":  {
+      "pos": "Quest: Purple and Blue (Wynncraft Ver 1.20.4 and before)"
+    },
+    "Empowered Ancient Helmet": {
+      "pos": "Quest: Purple and Blue (Wynncraft Ver 1.20.4 and before)"
+    },
+    "Restored Ancient Helmet": {
+      "pos": "Quest: Purple and Blue (Wynncraft Ver 1.20.4 and before)"
+    }
+  },
+  "other": {
     "Bow Of Wisdom": {
       "pos": "This item wrong name."
     },
-    "Snowtread Boots": {
-      "pos": "Festival of the Blizzard (2021)"
+    "Oak Wood Bow": {
+      "pos": "Skip Tutorial"
+    },
+    "Oak Wood Relik": {
+      "pos": "Skip Tutorial"
+    },
+    "Oak Wood Wand": {
+      "pos": "Skip Tutorial"
+    },
+    "Oak Wood Dagger": {
+      "pos": "Skip Tutorial"
+    },
+    "Oak Wood Spear": {
+      "pos": "Skip Tutorial"
+    },
+    "Empyreal Emberplate": {
+      "pos": "Lootrun End Reward (Lutho)"
+    },
+    "Third Wish": {
+      "pos": "Lootrun End Reward (Lutho)"
+    },
+    "Pyrrhic Respite": {
+      "pos": "Lootrun End Reward (Lutho?)"
+    },
+    "Ysengrim": {
+      "pos": "Lootrun End Reward (Lutho?)"
+    },
+    "Marionette": {
+      "pos": "Lootrun End Reward (Lutho)"
+    },
+    "Cytotoxic Striders": {
+      "pos": "Lootrun End Reward (Lutho)"
+    },
+    "Briars' Embrace": {
+      "pos": "Lootrun End Reward (Lutho)"
+    },
+    "Veritas": {
+      "pos": "Lootrun End Reward (Lutho)"
+    },
+    "Apex": {
+      "pos": "Lootrun End Reward (Corkus)"
+    },
+    "Keeper of Souls": {
+      "pos": "Lootrun End Reward (Corkus?)"
+    },
+    "Anti-Causality": {
+      "pos": "Lootrun End Reward (Corkus?)"
+    },
+    "Gnossis": {
+      "pos": "Lootrun End Reward (Corkus)"
+    },
+    "Tachyon": {
+      "pos": "Lootrun End Reward (Corkus)"
+    },
+    "Azeotrope": {
+      "pos": "Lootrun End Reward (Lutho)"
+    },
+    "Gravitron": {
+      "pos": "Lootrun End Reward (Lutho)"
+    },
+    "Resplendence": {
+      "pos": "Lootrun End Reward (?)"
+    },
+    "Valence": {
+      "pos": "Lootrun End Reward (?)"
+    },
+    "Cinnamon": {
+      "pos": "Lootrun End Reward (Corkus)"
+    },
+    "Payment Day": {
+      "pos": "Lootrun End Reward (Corkus)"
+    },
+    "Fluffwind": {
+      "pos": "Lootrun End Reward (Corkus?)"
+    },
+    "Sourscratch": {
+      "pos": "Lootrun End Reward (Corkus)"
+    },
+    "Lazuli": {
+      "pos": "Lootrun End Reward (Corkus)"
     }
   }
 }

@@ -31,7 +31,8 @@ public class IDBoxAdapter extends KeyAdapter {
             "Raw Neutral Melee Damage", "Raw Earth Melee Damage", "Raw Thunder Melee Damage", "Raw Water Melee Damage",  "Raw Fire Melee Damage", "Raw Air Melee Damage",  "Raw Elemental Melee Damage",
             "Neutral Spell Damage %", "Earth Spell Damage %", "Thunder Spell Damage %", "Water Spell Damage %", "Fire Spell Damage %", "Air Spell Damage %", "Elemental Spell Damage %",
             "Raw Neutral Spell Damage", "Raw Earth Spell Damage", "Raw Thunder Spell Damage", "Raw Water Spell Damage", "Raw Fire Spell Damage", "Raw Air Spell Damage", "Raw Elemental Spell Damage",
-            "Drop Type: Normal", "Drop Type: Loot Chests", "Drop Type: Raid Rewards", "Drop Type: Dungeon Drop", "Drop Type: Dungeon Merchant", "Drop Type: Boss Altar", "Drop Type: Guild Rewards", "Drop Type: Unknown",
+            "Knockback", "Healing Efficiency", "Weaken Enemy", "Slow Enemy", "Elemental Defense %",
+            "Drop Type: Normal", "Drop Type: Loot Chests", "Drop Type: Raid Rewards", "Drop Type: Dungeon Drop", "Drop Type: Dungeon Merchant", "Drop Type: Boss Altar", "Drop Type: Discontinued", "Drop Type: Unknown",
             "Drop Type: Merchant", "Drop Type: Quest", "Drop Type: Unobtainable", "Drop Type: Specific Drop", "Drop Type: Secret Discovery", "Drop Type: The Qira Hive", "Drop Type: Legendary Island", "Drop Type: Other",
             "Durability", "Duration", "Charges", "Ingredient Effectiveness", "Ingredient Effectiveness (Above)", "Ingredient Effectiveness (Under)",
             "Ingredient Effectiveness (Right)", "Ingredient Effectiveness (Left)", "Ingredient Effectiveness (Touching)", "Ingredient Effectiveness (Not Touching)",
@@ -173,6 +174,12 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Raw Air Spell Damage", Identifications.RAW_AIR_SPELL_DAMAGE);
         put("Raw Elemental Spell Damage", Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
 
+        put("Knockback", Identifications.KNOCKBACK);
+        put("Healing Efficiency", Identifications.HEALING_EFFICIENCY);
+        put("Weaken Enemy", Identifications.WEAKEN_ENEMY);
+        put("Slow Enemy", Identifications.SLOW_ENEMY);
+        put("Elemental Defense %", Identifications.ELEMENTAL_DEFENSE);
+
         put("Durability", Identifications.DURABILITY);
         put("Duration", Identifications.DURATION);
         put("Charges", Identifications.CHARGES);
@@ -190,7 +197,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Drop Type: Dungeon Drop", Identifications.DROP_TYPE_DUNGEON_DROP);
         put("Drop Type: Dungeon Merchant", Identifications.DROP_TYPE_DUNGEON_MERCHANT);
         put("Drop Type: Boss Altar", Identifications.DROP_TYPE_BOSS_ALTAR);
-        put("Drop Type: Guild Rewards", Identifications.DROP_TYPE_GUILD_REWARDS);
+        put("Drop Type: Discontinued", Identifications.DROP_TYPE_DISCONTINUED);
         put("Drop Type: Unknown", Identifications.DROP_TYPE_UNKNOWN);
         put("Drop Type: Merchant", Identifications.DROP_TYPE_MERCHANT);
         put("Drop Type: Quest", Identifications.DROP_TYPE_QUEST);

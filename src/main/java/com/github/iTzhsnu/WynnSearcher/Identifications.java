@@ -130,6 +130,12 @@ public enum Identifications {
     RAW_AIR_SPELL_DAMAGE("Raw Air Spell Damage", "rawAirSpellDamage", "rawAirSpellDamage", "", "int", null, "identifications", "identifications", true),
     RAW_ELEMENTAL_SPELL_DAMAGE("Raw Elem. Spell Damage", "rawElementalSpellDamage", "rawElementalSpellDamage", "", "int", null, "identifications", "identifications", true),
 
+    KNOCKBACK("Knockback", "knockback", null, "%", "int", null, "identifications", null, true),
+    HEALING_EFFICIENCY("Healing Efficiency", "healingEfficiency", null, "%", "int", null, "identifications", null, true),
+    WEAKEN_ENEMY("Weaken Enemy", "weakenEnemy", null, "%", "int", null, "identifications", null, true),
+    SLOW_ENEMY("Slow Enemy", "slowEnemy", null, "%", "int", null, "identifications", null, true),
+    ELEMENTAL_DEFENSE("Elemental Defense", "bonusElementalDefense", null, "%", "int", null, "identifications", null, true),
+
     DURABILITY("Durability", null, "durabilityModifier", "", "int", null, null, "itemOnlyIDs", false),
     DURATION("Duration", null, "duration", "", "int", null, null, "consumableOnlyIDs", false),
     CHARGES("Charges", null, "charges", "", "int", null, null, "consumableOnlyIDs", false),
@@ -148,7 +154,7 @@ public enum Identifications {
     DROP_TYPE_DUNGEON_DROP("dungeon", "dropRestriction", "droppedBy", "", "string", null, "nothing", "nothing", false),
     DROP_TYPE_DUNGEON_MERCHANT("dungeonMerchant", "dropRestriction", "droppedBy", "", "string", null, "nothing", "nothing", false),
     DROP_TYPE_BOSS_ALTAR("altar", "dropRestriction", "droppedBy", "", "string", null, "nothing", "nothing", false),
-    DROP_TYPE_GUILD_REWARDS("guild", "dropRestriction", "droppedBy", "", "string", null, "nothing", "nothing", false),
+    DROP_TYPE_DISCONTINUED("discontinued", "dropRestriction", "droppedBy", "", "string", null, "nothing", "nothing", false),
     DROP_TYPE_UNKNOWN("never", "dropRestriction", "droppedBy", "", "string", null, "nothing", "nothing", false),
     DROP_TYPE_MERCHANT("merchant", "dropRestriction", "droppedBy", "", "string", null, "nothing", "nothing", false),
     DROP_TYPE_QUEST("quest", "dropRestriction", "droppedBy", "", "string", null, "nothing", "nothing", false),

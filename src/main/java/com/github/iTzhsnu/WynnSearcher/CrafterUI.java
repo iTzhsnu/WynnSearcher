@@ -1,6 +1,5 @@
 package com.github.iTzhsnu.WynnSearcher;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -8,9 +7,14 @@ import com.google.gson.JsonParser;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CrafterUI implements ActionListener {
     private final Container pane;
@@ -105,6 +109,7 @@ public class CrafterUI implements ActionListener {
         attackSpeed.addItem("slow");
         attackSpeed.addItem("normal");
         attackSpeed.addItem("fast");
+        attackSpeed.setSelectedIndex(2);
 
         //Level
         JLabel lvText = new JLabel("Lv.");
@@ -261,12 +266,14 @@ public class CrafterUI implements ActionListener {
                 max += 2;
             }
         }
+        level.setSelectedIndex(level.getItemCount() - 1);
     }
 
     public void setMaterial(JComboBox<String> box) {
         box.addItem("1");
         box.addItem("2");
         box.addItem("3");
+        box.setSelectedIndex(2);
     }
 
     public void createCraftItem() {

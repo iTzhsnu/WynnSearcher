@@ -1,5 +1,5 @@
 {
-  "last_edit": "2023-06-25",
+  "last_edit": "2023-07-25",
   "normal": [
     "Plane of Nonexistence",
     "Doom Stone",
@@ -661,14 +661,30 @@
     }
   },
   "quest": {
-    "Platinum Ingot": "From the Bottom",
-    "Weakening Catalyst": "Potion Making",
-    "Vibrant Augment": "Elemental Exercise",
-    "Shattered Memory Shard": "Recover the Past",
-    "Old Treasure": "Underwater",
-    "Cleaned Saccharum": "Infested Plants",
-    "Familiar Essence": "Deja Vu",
-    "Generator Chip": "Forbidden Prison"
+    "Platinum Ingot": {
+      "pos": "From the Bottom"
+    },
+    "Weakening Catalyst": {
+      "pos": "Potion Making"
+    },
+    "Vibrant Augment": {
+      "pos": "Elemental Exercise"
+    },
+    "Shattered Memory Shard": {
+      "pos": "Recover the Past"
+    },
+    "Old Treasure": {
+      "pos": "Underwater"
+    },
+    "Cleaned Saccharum": {
+      "pos": "Infested Plants"
+    },
+    "Familiar Essence": {
+      "pos": "Deja Vu"
+    },
+    "Generator Chip": {
+      "pos": "Forbidden Prison"
+    }
   },
   "specific": {
     "Panda King's Crown": [
