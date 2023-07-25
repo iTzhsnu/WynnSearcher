@@ -20,8 +20,7 @@ This description is old. sorry.
 ![](readme_pictures/how_to_use_4_1.png)
 ![](readme_pictures/how_to_use_4_2.png)
 
-### Changes (Release Soon)
-can search item changes.
+### Changes (Beta)
 ![](readme_pictures/how_to_use_5_1.png)
 ![](readme_pictures/how_to_use_5_2.png)
 
