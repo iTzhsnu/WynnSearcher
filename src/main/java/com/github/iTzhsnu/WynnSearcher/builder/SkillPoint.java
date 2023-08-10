@@ -17,32 +17,68 @@ public class SkillPoint {
     private final SkillPointPanel defense;
     private final SkillPointPanel agility;
     private final JLabel spText = new JLabel("Using Skill Point: 0");
+    private List<Integer> equipOrder = null;
 
     public SkillPoint(JPanel p) {
-        this.strength = new SkillPointPanel("Strength", 182, 175, p);
-        this.dexterity = new SkillPointPanel("Dexterity", 312, 175, p);
-        this.intelligence = new SkillPointPanel("Intelligence", 442, 175, p);
-        this.defense = new SkillPointPanel("Defense", 572, 175, p);
-        this.agility = new SkillPointPanel("Agility", 702, 175, p);
-        spText.setBounds(10, 210, 200, 20);
+        int y = 230; //old: 175
+        this.strength = new SkillPointPanel("Strength", 182, y, p);
+        this.dexterity = new SkillPointPanel("Dexterity", 312, y, p);
+        this.intelligence = new SkillPointPanel("Intelligence", 442, y, p);
+        this.defense = new SkillPointPanel("Defense", 572, y, p);
+        this.agility = new SkillPointPanel("Agility", 702, y, p);
+        spText.setBounds(10, 265, 200, 20);
         p.add(spText);
     }
 
-    public void setSkillPoint(ItemJsons items) {
-        int[] strI = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //Strength Skill Point Bonus
-        int[] dexI = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //Dexterity Skill Point Bonus
-        int[] intI = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //Intelligence Skill Point Bonus
-        int[] defI = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //Defense Skill Point Bonus
-        int[] agiI = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //Agility Skill Point Bonus
+    public void setSkillPoint(ItemJsons items, List<SetBonus> setBonuses) {
+        List<SetBonus> haveSPBSets = new ArrayList<>();
+        List<Integer> crafted = new ArrayList<>();
+        List<Integer> set = new ArrayList<>();
+        List<Integer> checked = new ArrayList<>();
+        int[] strI = new int[] {0, 0, 0, 0, 0, 0, 0, 0}; //Strength Skill Point Bonus
+        int[] dexI = new int[] {0, 0, 0, 0, 0, 0, 0, 0}; //Dexterity Skill Point Bonus
+        int[] intI = new int[] {0, 0, 0, 0, 0, 0, 0, 0}; //Intelligence Skill Point Bonus
+        int[] defI = new int[] {0, 0, 0, 0, 0, 0, 0, 0}; //Defense Skill Point Bonus
+        int[] agiI = new int[] {0, 0, 0, 0, 0, 0, 0, 0}; //Agility Skill Point Bonus
         int[] strR = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Strength Req
         int[] dexR = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Dexterity Req
         int[] intR = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Intelligence Req
         int[] defR = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Defense Req
         int[] agiR = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Agility Req
-        int[] maxSPReq = new int[] {0, 0, 0, 0, 0}; //Max Skill Point Req
+        int[] maxSPReq = new int[] {Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE}; //Max Skill Point Req (Strength, Dexterity...)
         int[] originalSP = new int[] {0, 0, 0, 0, 0}; //Original Skill Point
         int[] totalSP = new int[] {0, 0, 0, 0, 0}; //Total (Non Crafted and Weapon) Skill Point
-        int[] manualSP = new int[] {0, 0, 0, 0, 0}; //Manual (Assign) Skill Point
+        int[] assignSP = new int[] {0, 0, 0, 0, 0}; //Assign Skill Point
+
+        //Set Bonus
+        for (SetBonus setBonus : setBonuses) {
+            int[] ids = setBonus.getId_Numbers(true);
+            int[] sps = new int[] {ids[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids[ID_Display.ID_INT.get(Identifications.AGILITY)]};
+            //Have SP Bonus
+            if (sps[0] > 0 || sps[1] > 0 || sps[2] > 0 || sps[3] > 0 || sps[4] > 0) haveSPBSets.add(setBonus);
+
+            //Set Minus SP Bonus
+            if (sps[0] < 0) { //Strength
+                originalSP[0] += sps[0];
+                totalSP[0] += sps[0];
+            }
+            if (sps[1] < 0) { //Dexterity
+                originalSP[1] += sps[1];
+                totalSP[1] += sps[1];
+            }
+            if (sps[2] < 0) { //Intelligence
+                originalSP[2] += sps[2];
+                totalSP[2] += sps[2];
+            }
+            if (sps[3] < 0) { //Defense
+                originalSP[3] += sps[3];
+                totalSP[3] += sps[3];
+            }
+            if (sps[4] < 0) { //Agility
+                originalSP[4] += sps[4];
+                totalSP[4] += sps[4];
+            }
+        }
 
         //Set Weapon Tomes and Guild Tome Skill Point
         if (items.getWeaponTomes().size() > 0) {
@@ -54,13 +90,62 @@ public class SkillPoint {
             getTomeSkillPoints(items.getGuildTome(), originalSP, totalSP);
         }
 
-        //Get Armor and Accessory Skill Point
+        //Get Weapon SP Req
+        if (items.getWeapon() != null && items.getWeapon().get("requirements") != null) {
+            JsonObject j = items.getWeapon().get("requirements").getAsJsonObject();
+            //Strength Req
+            if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {
+                strR[8] = j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt();
+                if (strR[8] > maxSPReq[0]) maxSPReq[0] = strR[8]; //Strength Req > Max SP Req
+            }
+
+            //Dexterity Req
+            if (j.get(Identifications.DEXTERITY_REQ.getItemName()) != null && j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt() != 0) {
+                dexR[8] = j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt();
+                if (dexR[8] > maxSPReq[1]) maxSPReq[1] = dexR[8];
+            }
+
+            //Intelligence Req
+            if (j.get(Identifications.INTELLIGENCE_REQ.getItemName()) != null && j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt() != 0) {
+                intR[8] = j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt();
+                if (intR[8] > maxSPReq[2]) maxSPReq[2] = intR[8];
+            }
+
+            //Defense Req
+            if (j.get(Identifications.DEFENSE_REQ.getItemName()) != null && j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt() != 0) {
+                defR[8] = j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt();
+                if (defR[8] > maxSPReq[3]) maxSPReq[3] = defR[8];
+            }
+
+            //Agility Req
+            if (j.get(Identifications.AGILITY_REQ.getItemName()) != null && j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt() != 0) {
+                agiR[8] = j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt();
+                if (agiR[8] > maxSPReq[4]) maxSPReq[4] = agiR[8];
+            }
+        }
+
+        //Armor and Accessory Skill Points
         if (items.getJsonObjectList().size() > 0) {
+            //Get Armor and Accessory Skill Point Req and Bonus
             for (int i = 0; items.getJsonObjectList().size() > i; ++i) {
+                //Item Tier
+                if (items.getJsonObjectList().get(i).get("tier") != null) {
+                    String s = items.getJsonObjectList().get(i).get("tier").getAsString();
+                    if (s.equals("crafted")) { //is Crafted Item
+                        crafted.add(i);
+                    } else if (s.equals("set")) { //is Set Item and this Set Bonus have SP Bonus
+                        for (SetBonus setBonus : haveSPBSets) {
+                            if (setBonus.getEquippedItems().contains(items.getJsonObjectList().get(i).get("name").getAsString())) {
+                                set.add(i);
+                            }
+                        }
+                    }
+                }
+
+                //Skill Point Req
                 if (items.getJsonObjectList().get(i).get("requirements") != null) {
                     JsonObject j = items.getJsonObjectList().get(i).get("requirements").getAsJsonObject();
 
-                    //Skill Point Req
                     if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {
                         strR[i] = j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt();
                         if (strR[i] > maxSPReq[0]) maxSPReq[0] = strR[i];
@@ -83,319 +168,578 @@ public class SkillPoint {
                     }
                 }
 
+                //Skill Point Bonus
                 if (items.getJsonObjectList().get(i).get("identifications") != null) {
                     JsonObject j = items.getJsonObjectList().get(i);
 
-                    //Skill Point Bonus
-                    getSkillPoints(j, Identifications.STRENGTH, strI, i);
-                    getSkillPoints(j, Identifications.DEXTERITY, dexI, i);
-                    getSkillPoints(j, Identifications.INTELLIGENCE, intI, i);
-                    getSkillPoints(j, Identifications.DEFENSE, defI, i);
-                    getSkillPoints(j, Identifications.AGILITY, agiI, i);
+                    getSkillPoints(j, Identifications.STRENGTH, strI, i, totalSP, originalSP);
+                    getSkillPoints(j, Identifications.DEXTERITY, dexI, i, totalSP, originalSP);
+                    getSkillPoints(j, Identifications.INTELLIGENCE, intI, i, totalSP, originalSP);
+                    getSkillPoints(j, Identifications.DEFENSE, defI, i, totalSP, originalSP);
+                    getSkillPoints(j, Identifications.AGILITY, agiI, i, totalSP, originalSP);
                 }
             }
+
+            //Set Armor and Accessory SP and Get Equip Order
+            //Set Not Have SP Req Armor and Accessory
+            for (int i = 0; items.getJsonObjectList().size() > i; ++i) {
+                if (strR[i] == 0 && dexR[i] == 0 && intR[i] == 0 && defR[i] == 0 && agiR[i] == 0) {
+                    if (!crafted.contains(i)) { //Not Crafted Item
+                        //Strength
+                        totalSP[0] += strI[i];
+                        originalSP[0] += strI[i];
+
+                        //Dexterity
+                        totalSP[1] += dexI[i];
+                        originalSP[1] += dexI[i];
+
+                        //Intelligence
+                        totalSP[2] += intI[i];
+                        originalSP[2] += intI[i];
+
+                        //Defense
+                        totalSP[3] += defI[i];
+                        originalSP[3] += defI[i];
+
+                        //Agility
+                        totalSP[4] += agiI[i];
+                        originalSP[4] += agiI[i];
+                    }
+
+                    //Apply Set Bonus (Set Items Only)
+                    setSetBonus(set, i, haveSPBSets, items, totalSP, originalSP);
+
+                    checked.add(i);
+                }
+            }
+
+            //Set Have SP Req, Not Crafted and Have SP Bonus Armor and Accessory
+            int checkedSize = checked.size(); //Checked Size
+            SET: for (int i = 0; items.getJsonObjectList().size() - checkedSize > i; ++i) {
+                //Get Min Req
+                int[] minSPReq = new int[] {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE}; //Min Skill Point Req
+                for (int n = 0; items.getJsonObjectList().size() > n; ++n) {
+                    if (!crafted.contains(n) && !checked.contains(n)) {
+                        if (strR[n] != 0 && minSPReq[0] > strR[n]) minSPReq[0] = strR[n]; //Strength Req
+                        if (dexR[n] != 0 && minSPReq[1] > dexR[n]) minSPReq[1] = dexR[n]; //Dexterity Req
+                        if (intR[n] != 0 && minSPReq[2] > intR[n]) minSPReq[2] = intR[n]; //Intelligence Req
+                        if (defR[n] != 0 && minSPReq[3] > defR[n]) minSPReq[3] = defR[n]; //Defense Req
+                        if (agiR[n] != 0 && minSPReq[4] > agiR[n]) minSPReq[4] = agiR[n]; //Agility Req
+                    }
+                }
+
+                //Search can Equip Item
+                for (int n = 0; items.getJsonObjectList().size() > n; ++n) {
+                    //Not Crafted, Not Equipped, Can Equip
+                    if (!crafted.contains(n) && !checked.contains(n) && (totalSP[0] >= strR[n] || strR[n] == 0) && (totalSP[1] >= dexR[n] || dexR[n] == 0) && (totalSP[2] >= intR[n] || intR[n] == 0) && (totalSP[3] >= defR[n] || defR[n] == 0) && (totalSP[4] >= agiR[n] || agiR[n] == 0)) {
+                        //Strength
+                        originalSP[0] += strI[n];
+                        totalSP[0] += strI[n];
+
+                        //Dexterity
+                        originalSP[1] += dexI[n];
+                        totalSP[1] += dexI[n];
+
+                        //Intelligence
+                        originalSP[2] += intI[n];
+                        totalSP[2] += intI[n];
+
+                        //Defense
+                        originalSP[3] += defI[n];
+                        totalSP[3] += defI[n];
+
+                        //Agility
+                        originalSP[4] += agiI[n];
+                        totalSP[4] += agiI[n];
+
+                        //Apply Set Bonus (Set Item Only)
+                        setSetBonus(set, n, haveSPBSets, items, totalSP, originalSP);
+
+                        checked.add(n);
+
+                        continue SET;
+                    }
+                }
+
+                //Search Min Req
+                int min = Integer.MAX_VALUE;
+                int pos = -1;
+                int[] temp_strB = strI.clone();
+                int[] temp_dexB = dexI.clone();
+                int[] temp_intB = intI.clone();
+                int[] temp_defB = defI.clone();
+                int[] temp_agiB = agiI.clone();
+                int[] maxSPReq_2 = new int[] {0, 0, 0, 0, 0, 0, 0, 0}; //Max SP Req (Helm, Chest, Leg...)
+                for (int n = 0; items.getJsonObjectList().size() > n; ++n) {
+                    if (!crafted.contains(n) && !checked.contains(n) && (strI[n] > 0 || dexI[n] > 0 || intI[n] > 0 || defI[n] > 0 || agiI[n] > 0 || set.contains(n))) {
+                        //Get Set Bonus
+                        int strength = 0;
+                        int dexterity = 0;
+                        int intelligence = 0;
+                        int defense = 0;
+                        int agility = 0;
+                        if (set.contains(n)) {
+                            for (SetBonus setBonus : setBonuses) {
+                                if (setBonus.getEquippedItems().contains(items.getJsonObjectList().get(n).get("name").getAsString()) && setBonus.getEquippedSize() > 0) {
+                                    int[] ids = setBonus.getId_Numbers(setBonus.getEquippedSize() + 1);
+                                    if (ids[ID_Display.ID_INT.get(Identifications.STRENGTH)] > 0) { //Strength
+                                        strength = ids[ID_Display.ID_INT.get(Identifications.STRENGTH)];
+                                        temp_strB[n] += strength;
+                                    }
+                                    if (ids[ID_Display.ID_INT.get(Identifications.DEXTERITY)] > 0) { //Dexterity
+                                        dexterity = ids[ID_Display.ID_INT.get(Identifications.DEXTERITY)];
+                                        temp_dexB[n] += dexterity;
+                                    }
+                                    if (ids[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)] > 0) {  //Intelligence
+                                        intelligence = ids[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)];
+                                        temp_intB[n] += intelligence;
+                                    }
+                                    if (ids[ID_Display.ID_INT.get(Identifications.DEFENSE)] > 0) { //Defense
+                                        defense = ids[ID_Display.ID_INT.get(Identifications.DEFENSE)];
+                                        temp_defB[n] += defense;
+                                    }
+                                    if (ids[ID_Display.ID_INT.get(Identifications.AGILITY)] > 0) { //Agility
+                                        agility = ids[ID_Display.ID_INT.get(Identifications.AGILITY)];
+                                        temp_agiB[n] += agility;
+                                    }
+
+                                    if (setBonus.getEquippedSize() > 1) { //Remove Previous Skill Point Bonus
+                                        int[] ids_previous = setBonus.getId_Numbers(setBonus.getEquippedSize());
+                                        if (ids_previous[ID_Display.ID_INT.get(Identifications.STRENGTH)] > 0) { //Strength
+                                            strength -= ids_previous[ID_Display.ID_INT.get(Identifications.STRENGTH)];
+                                            temp_strB[n] -= strength;
+                                        }
+                                        if (ids_previous[ID_Display.ID_INT.get(Identifications.DEXTERITY)] > 0) { //Dexterity
+                                            dexterity -= ids_previous[ID_Display.ID_INT.get(Identifications.DEXTERITY)];
+                                            temp_dexB[n] -= dexterity;
+                                        }
+                                        if (ids_previous[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)] > 0) {  //Intelligence
+                                            intelligence -= ids_previous[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)];
+                                            temp_intB[n] -= intelligence;
+                                        }
+                                        if (ids_previous[ID_Display.ID_INT.get(Identifications.DEFENSE)] > 0) { //Defense
+                                            defense -= ids_previous[ID_Display.ID_INT.get(Identifications.DEFENSE)];
+                                            temp_defB[n] -= defense;
+                                        }
+                                        if (ids_previous[ID_Display.ID_INT.get(Identifications.AGILITY)] > 0) { //Agility
+                                            agility -= ids_previous[ID_Display.ID_INT.get(Identifications.AGILITY)];
+                                            temp_agiB[n] -= agility;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        //Get Total Req
+                        int totalReq = (strR[n] + dexR[n] + intR[n] + defR[n] + agiR[n]);
+                        //Strength
+                        if (strR[n] == 0) { //Not have Strength Req
+                            totalReq -= Math.min(strI[n] + strength, Math.max(maxSPReq[0] - totalSP[0], 0));
+                        } else if (strR[n] > maxSPReq_2[n]) { //Strength Req > This Max Req
+                            maxSPReq_2[n] = strR[n];
+                        }
+
+                        //Dexterity
+                        if (dexR[n] == 0) { //Not have Dexterity Req
+                            totalReq -= Math.min(dexI[n] + dexterity, Math.max(maxSPReq[1] - totalSP[1], 0));
+                        } else if (dexR[n] > maxSPReq_2[n]) { //Dexterity Req > This Max Req
+                            maxSPReq_2[n] = dexR[n];
+                        }
+
+                        //Intelligence
+                        if (intR[n] == 0) { //Not have Intelligence Req
+                            totalReq -= Math.min(intI[n] + intelligence, Math.max(maxSPReq[2] - totalSP[2], 0));
+                        } else if (intR[n] > maxSPReq_2[n]) { //Intelligence Req > This Max Req
+                            maxSPReq_2[n] = intR[n];
+                        }
+
+                        //Defense
+                        if (defR[n] == 0) { //Not have Defense Req
+                            totalReq -= Math.min(defI[n] + defense, Math.max(maxSPReq[3] - totalSP[3], 0));
+                        } else if (defR[n] > maxSPReq_2[n]) { //Defense Req > This Max Req
+                            maxSPReq_2[n] = defR[n];
+                        }
+
+                        //Agility
+                        if (agiR[n] == 0) { //Not have Agility Req
+                            totalReq -= Math.min(agiI[n] + agility, Math.max(maxSPReq[4] - agiR[n] - totalSP[4], 0));
+                        } else if (agiR[n] > maxSPReq_2[n]) { //Agility Req > This Max Req
+                            maxSPReq_2[n] = agiR[n];
+                        }
+
+                        //Sort
+                        if (min > totalReq) { //Now Min Total SP Req > This Total Req
+                            min = totalReq; //Now Min Total SP Req = This Total Req
+                            pos = n; //Position = This Position
+                        }
+                    }
+                }
+
+                if (pos != -1) {
+                    int[] sps_now = totalSP.clone();
+                    if (strR[pos] > sps_now[0] && strR[pos] != 0) sps_now[0] = strR[pos]; //Str Req
+                    if (dexR[pos] > sps_now[1] && dexR[pos] != 0) sps_now[1] = dexR[pos]; //Dex Req
+                    if (intR[pos] > sps_now[2] && intR[pos] != 0) sps_now[2] = intR[pos]; //Int Req
+                    if (defR[pos] > sps_now[3] && defR[pos] != 0) sps_now[3] = defR[pos]; //Def Req
+                    if (agiR[pos] > sps_now[4] && agiR[pos] != 0) sps_now[4] = agiR[pos]; //Agi Req
+                    //Check SP Req Lowercase
+                    for (int n = 0; items.getJsonObjectList().size() > n; ++n) {
+                        if (pos != n && !crafted.contains(n) && !checked.contains(n) && (strI[n] > 0 || dexI[n] > 0 || intI[n] > 0 || defI[n] > 0 || agiI[n] > 0 || set.contains(n))) {
+                            boolean[] isLower = new boolean[] {false, false, false, false, false};
+                            //Strength Req
+                            if (strR[pos] == 0 && temp_strB[pos] == 0) { //Not Have Req
+                                if (strR[n] == 0 || (maxSPReq_2[pos] >= strR[n] && strR[n] == minSPReq[0])) isLower[0] = true;
+                            } else { //Have Req or Have Bonus
+                                if (strR[n] == 0 || (sps_now[0] >= strR[n] && strR[n] == minSPReq[0])) isLower[0] = true;
+                            }
+
+                            //Dexterity Req
+                            if (dexR[pos] == 0 && temp_dexB[pos] == 0) { //Not Have Req
+                                if (dexR[n] == 0 || (maxSPReq_2[pos] >= dexR[n] && dexR[n] == minSPReq[1])) isLower[1] = true;
+                            } else { //Have Req or Have Bonus
+                                if (dexR[n] == 0 || (sps_now[1] >= dexR[n] && dexR[n] == minSPReq[1])) isLower[1] = true;
+                            }
+
+                            //Intelligence Req
+                            if (intR[pos] == 0 && temp_intB[pos] == 0) { //Not Have Req
+                                if (intR[n] == 0 || (maxSPReq_2[pos] >= intR[n] && intR[n] == minSPReq[2])) isLower[2] = true;
+                            } else { //Have Req or Have Bonus
+                                if (intR[n] == 0 || (sps_now[2] >= intR[n] && intR[n] == minSPReq[2])) isLower[2] = true;
+                            }
+
+                            //Defense Req
+                            if (defR[pos] == 0 && temp_defB[pos] == 0) { //Not Have Req
+                                if (defR[n] == 0 || (maxSPReq_2[pos] >= defR[n] && defR[n] == minSPReq[3])) isLower[3] = true;
+                            } else { //Have Req or Have Bonus
+                                if (defR[n] == 0 || (sps_now[3] >= defR[n] && defR[n] == minSPReq[3])) isLower[3] = true;
+                            }
+
+                            //Agility Req
+                            if (agiR[pos] == 0 && temp_agiB[pos] == 0) { //Not Have Req
+                                if (agiR[n] == 0 || (maxSPReq_2[pos] >= agiR[n] && agiR[n] == minSPReq[4])) isLower[4] = true;
+                            } else { //Have Req or Have Bonus
+                                if (agiR[n] == 0 || (sps_now[4] >= agiR[n] && agiR[n] == minSPReq[4])) isLower[4] = true;
+                            }
+
+                            //is Lower Req
+                            if (isLower[0] && isLower[1] && isLower[2] && isLower[3] && isLower[4]) {
+                                //Set Skill Point Req
+                                if (strR[n] > totalSP[0] && strR[n] != 0) { //Strength Req
+                                    assignSP[0] += strR[n] - totalSP[0]; //Assign + (Req - Total)
+                                    originalSP[0] += strR[n] - totalSP[0]; //Original + (Req - Total + Bonus)
+                                    totalSP[0] = strR[n]; //Total (No Crafted Item and Weapon Total Skill Point) = Req
+                                }
+                                if (dexR[n] > totalSP[1] && dexR[n] != 0) { //Dexterity Req
+                                    assignSP[1] += dexR[n] - totalSP[1];
+                                    originalSP[1] += dexR[n] - totalSP[1];
+                                    totalSP[1] = dexR[n];
+                                }
+                                if (intR[n] > totalSP[2] && intR[n] != 0) { //Intelligence Req
+                                    assignSP[2] += intR[n] - totalSP[2];
+                                    originalSP[2] += intR[n] - totalSP[2];
+                                    totalSP[2] = intR[n];
+                                }
+                                if (defR[n] > totalSP[3] && defR[n] != 0) { //Defense Req
+                                    assignSP[3] += defR[n] - totalSP[3];
+                                    originalSP[3] += defR[n] - totalSP[3];
+                                    totalSP[3] = defR[n];
+                                }
+                                if (agiR[n] > totalSP[4] && agiR[n] != 0) { //Agility Req
+                                    assignSP[4] += agiR[n] - totalSP[4];
+                                    originalSP[4] += agiR[n] - totalSP[4];
+                                    totalSP[4] = agiR[n];
+                                }
+
+                                //Set Skill Point Bonus
+                                if (strI[n] > 0) { //Strength
+                                    originalSP[0] += strI[n];
+                                    totalSP[0] += strI[n];
+                                }
+                                if (dexI[n] > 0) { //Dexterity
+                                    originalSP[1] += dexI[n];
+                                    totalSP[1] += dexI[n];
+                                }
+                                if (intI[n] > 0) { //Intelligence
+                                    originalSP[2] += intI[n];
+                                    totalSP[2] += intI[n];
+                                }
+                                if (defI[n] > 0) { //Defense
+                                    originalSP[3] += defI[n];
+                                    totalSP[3] += defI[n];
+                                }
+                                if (agiI[n] > 0) { //Agility
+                                    originalSP[4] += agiI[n];
+                                    totalSP[4] += agiI[n];
+                                }
+
+                                //Apply Set Bonus (Set Item Only)
+                                setSetBonus(set, n, haveSPBSets, items, totalSP, originalSP);
+
+                                checked.add(n);
+
+                                continue SET;
+                            }
+                        }
+                    }
+
+                    //Set "pos" Item
+                    //Set Skill Point Req
+                    if (strR[pos] > totalSP[0] && strR[pos] != 0) { //Strength Req
+                        assignSP[0] += strR[pos] - totalSP[0]; //Assign + (Req - Total)
+                        originalSP[0] += strR[pos] - totalSP[0]; //Original + (Req - Total + Bonus)
+                        totalSP[0] = strR[pos]; //Total (No Crafted Item and Weapon Total Skill Point) = Req
+                    }
+                    if (dexR[pos] > totalSP[1] && dexR[pos] != 0) { //Dexterity Req
+                        assignSP[1] += dexR[pos] - totalSP[1];
+                        originalSP[1] += dexR[pos] - totalSP[1];
+                        totalSP[1] = dexR[pos];
+                    }
+                    if (intR[pos] > totalSP[2] && intR[pos] != 0) { //Intelligence Req
+                        assignSP[2] += intR[pos] - totalSP[2];
+                        originalSP[2] += intR[pos] - totalSP[2];
+                        totalSP[2] = intR[pos];
+                    }
+                    if (defR[pos] > totalSP[3] && defR[pos] != 0) { //Defense Req
+                        assignSP[3] += defR[pos] - totalSP[3];
+                        originalSP[3] += defR[pos] - totalSP[3];
+                        totalSP[3] = defR[pos];
+                    }
+                    if (agiR[pos] > totalSP[4] && agiR[pos] != 0) { //Agility Req
+                        assignSP[4] += agiR[pos] - totalSP[4];
+                        originalSP[4] += agiR[pos] - totalSP[4];
+                        totalSP[4] = agiR[pos];
+                    }
+
+                    //Set Skill Point Bonus
+                    if (strI[pos] > 0) { //Strength
+                        originalSP[0] += strI[pos];
+                        totalSP[0] += strI[pos];
+                    }
+                    if (dexI[pos] > 0) { //Dexterity
+                        originalSP[1] += dexI[pos];
+                        totalSP[1] += dexI[pos];
+                    }
+                    if (intI[pos] > 0) { //Intelligence
+                        originalSP[2] += intI[pos];
+                        totalSP[2] += intI[pos];
+                    }
+                    if (defI[pos] > 0) { //Defense
+                        originalSP[3] += defI[pos];
+                        totalSP[3] += defI[pos];
+                    }
+                    if (agiI[pos] > 0) { //Agility
+                        originalSP[4] += agiI[pos];
+                        totalSP[4] += agiI[pos];
+                    }
+
+                    //Apply Set Bonus (Set Item Only)
+                    setSetBonus(set, pos, haveSPBSets, items, totalSP, originalSP);
+
+                    checked.add(pos);
+                }
+            }
+
+            //Set Not Have SP Bonus or Crafted Armor and Accessory
+            for (int i = 0; items.getJsonObjectList().size() > i; ++i) {
+                if (!checked.contains(i)) {
+                    if (strR[i] > totalSP[0] && strR[i] != 0) { //Strength Req
+                        assignSP[0] += strR[i] - totalSP[0]; //Assign + (Req - Total)
+                        originalSP[0] += strR[i] - totalSP[0]; //Original + (Req - Total + Bonus)
+                        totalSP[0] = strR[i]; //Total (No Crafted Item and Weapon Total Skill Point) = Req
+                    }
+                    if (dexR[i] > totalSP[1] && dexR[i] != 0) { //Dexterity Req
+                        assignSP[1] += dexR[i] - totalSP[1];
+                        originalSP[1] += dexR[i] - totalSP[1];
+                        totalSP[1] = dexR[i];
+                    }
+                    if (intR[i] > totalSP[2] && intR[i] != 0) { //Intelligence Req
+                        assignSP[2] += intR[i] - totalSP[2];
+                        originalSP[2] += intR[i] - totalSP[2];
+                        totalSP[2] = intR[i];
+                    }
+                    if (defR[i] > totalSP[3] && defR[i] != 0) { //Defense Req
+                        assignSP[3] += defR[i] - totalSP[3];
+                        originalSP[3] += defR[i] - totalSP[3];
+                        totalSP[3] = defR[i];
+                    }
+                    if (agiR[i] > totalSP[4] && agiR[i] != 0) { //Agility Req
+                        assignSP[4] += agiR[i] - totalSP[4];
+                        originalSP[4] += agiR[i] - totalSP[4];
+                        totalSP[4] = agiR[i];
+                    }
+
+                    if (crafted.contains(i)) { //is Crafted
+                        originalSP[0] += strI[i]; //Strength
+                        originalSP[1] += dexI[i]; //Dexterity
+                        originalSP[2] += intI[i]; //Intelligence
+                        originalSP[3] += defI[i]; //Defense
+                        originalSP[4] += agiI[i]; //Agility
+                    }
+
+                    checked.add(i);
+                }
+            }
+
+            equipOrder = checked;
         }
 
-        //Get Weapon Skill Point
+        //Set Weapon Skill Point
         if (items.getWeapon() != null) {
             JsonObject json = items.getWeapon();
 
             //Skill Point Req
-            if (json.get("requirements") != null) {
-                JsonObject j = json.get("requirements").getAsJsonObject();
-                if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {
-                    strR[8] = j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt();
-                }
-                if (j.get(Identifications.DEXTERITY_REQ.getItemName()) != null && j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt() != 0) {
-                    dexR[8] = j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt();
-                }
-                if (j.get(Identifications.INTELLIGENCE_REQ.getItemName()) != null && j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt() != 0) {
-                    intR[8] = j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt();
-                }
-                if (j.get(Identifications.DEFENSE_REQ.getItemName()) != null && j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt() != 0) {
-                    defR[8] = j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt();
-                }
-                if (j.get(Identifications.AGILITY_REQ.getItemName()) != null && j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt() != 0) {
-                    agiR[8] = j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt();
-                }
+            //Strength Req
+            if (strR[8] > totalSP[0] && strR[8] != 0) { //Req > Total SP
+                assignSP[0] += strR[8] - totalSP[0]; //Assign + Strength Req - Total (No Crafted Item and Weapon SP Bonus Skill Point)
+                originalSP[0] += strR[8] - totalSP[0]; //Original + Req - Total (No Crafted Item and Weapon SP Bonus Skill Point)
+                totalSP[0] = strR[8]; //Total (No Crafted Item and Weapon SP Bonus Skill Point) = Req
+            }
+
+            //Dexterity Req
+            if (dexR[8] > totalSP[1] && dexR[8] != 0) {
+                assignSP[1] += dexR[8] - totalSP[1];
+                originalSP[1] += dexR[8] - totalSP[1];
+                totalSP[1] = dexR[8];
+            }
+
+            //Intelligence Req
+            if (intR[8] > totalSP[2] && intR[8] != 0) {
+                assignSP[2] += intR[8] - totalSP[2];
+                originalSP[2] += intR[8] - totalSP[2];
+                totalSP[2] = intR[8];
+            }
+
+            //Defense Req
+            if (defR[8] > totalSP[3] && defR[8] != 0) {
+                assignSP[3] += defR[8] - totalSP[3];
+                originalSP[3] += defR[8] - totalSP[3];
+                totalSP[3] = defR[8];
+            }
+
+            //Agility Req
+            if (agiR[8] > totalSP[4] && agiR[8] != 0) {
+                assignSP[4] += agiR[8] - totalSP[4];
+                originalSP[4] += agiR[8] - totalSP[4];
+                totalSP[4] = agiR[8];
             }
 
             //Skill Point Bonus
             if (json.get("identifications") != null) {
                 JsonObject j = json.get("identifications").getAsJsonObject();
+                //Strength
                 if (j.get(Identifications.STRENGTH.getItemName()) != null) {
-                    //Strength
                     if (!j.get(Identifications.STRENGTH.getItemName()).isJsonObject()) {
-                        strI[16] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
+                        originalSP[0] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
                     } else {
-                        strI[16] += j.get(Identifications.STRENGTH.getItemName()).getAsJsonObject().get("max").getAsInt();
+                        originalSP[0] += j.get(Identifications.STRENGTH.getItemName()).getAsJsonObject().get("max").getAsInt();
                     }
                 }
+
+                //Dexterity
                 if (j.get(Identifications.DEXTERITY.getItemName()) != null) {
-                    //Dexterity
                     if (!j.get(Identifications.DEXTERITY.getItemName()).isJsonObject()) {
-                        dexI[16] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
+                        originalSP[1] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
                     } else {
-                        dexI[16] += j.get(Identifications.DEXTERITY.getItemName()).getAsJsonObject().get("max").getAsInt();
+                        originalSP[1] += j.get(Identifications.DEXTERITY.getItemName()).getAsJsonObject().get("max").getAsInt();
                     }
                 }
+
+                //Intelligence
                 if (j.get(Identifications.INTELLIGENCE.getItemName()) != null) {
-                    //Intelligence
                     if (!j.get(Identifications.INTELLIGENCE.getItemName()).isJsonObject()) {
-                        intI[16] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
+                        originalSP[2] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
                     } else {
-                        intI[16] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsJsonObject().get("max").getAsInt();
+                        originalSP[2] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsJsonObject().get("max").getAsInt();
                     }
                 }
+
+                //Defense
                 if (j.get(Identifications.DEFENSE.getItemName()) != null) {
-                    //Defense
                     if (!j.get(Identifications.DEFENSE.getItemName()).isJsonObject()) {
-                        defI[16] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
+                        originalSP[3] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
                     } else {
-                        defI[16] += j.get(Identifications.DEFENSE.getItemName()).getAsJsonObject().get("max").getAsInt();
+                        originalSP[3] += j.get(Identifications.DEFENSE.getItemName()).getAsJsonObject().get("max").getAsInt();
                     }
                 }
+
+                //Agility
                 if (j.get(Identifications.AGILITY.getItemName()) != null) {
-                    //Agility
                     if (!j.get(Identifications.AGILITY.getItemName()).isJsonObject()) {
-                        agiI[16] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
+                        originalSP[4] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
                     } else {
-                        agiI[16] += j.get(Identifications.AGILITY.getItemName()).getAsJsonObject().get("max").getAsInt();
+                        originalSP[4] += j.get(Identifications.AGILITY.getItemName()).getAsJsonObject().get("max").getAsInt();
                     }
                 }
             }
         }
 
-        //Set Not Crafted and Have SP Bonus Armor and Accessory
-        if (items.getJsonObjectList().size() > 0) {
-            List<Integer> strChecked = new ArrayList<>();
-            List<Integer> dexChecked = new ArrayList<>();
-            List<Integer> intChecked = new ArrayList<>();
-            List<Integer> defChecked = new ArrayList<>();
-            List<Integer> agiChecked = new ArrayList<>();
-            for (int i = 0; items.getJsonObjectList().size() > i; ++i) {
-                if (items.getJsonObjectList().get(i).get("tier").isJsonNull() || !items.getJsonObjectList().get(i).get("tier").getAsString().equals("Crafted")) {
-                    int[] pos = new int[] {9, 9, 9, 9, 9};
-                    int[] min = new int[] {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
-                    for (int n = 0; items.getJsonObjectList().size() > n; ++n) {
-                        if (items.getJsonObjectList().get(n).get("tier").isJsonNull() || !items.getJsonObjectList().get(n).get("tier").getAsString().equals("Crafted")) {
-                            //Strength Req Sort
-                            if (strI[n] != 0 && min[0] > strR[n] && !strChecked.contains(n)) {
-                                pos[0] = n;
-                                min[0] = strR[n];
+        strength.setValue(originalSP[0], assignSP[0], totalSP[0]);
+        dexterity.setValue(originalSP[1], assignSP[1], totalSP[1]);
+        intelligence.setValue(originalSP[2], assignSP[2], totalSP[2]);
+        defense.setValue(originalSP[3], assignSP[3], totalSP[3]);
+        agility.setValue(originalSP[4], assignSP[4], totalSP[4]);
+        spText.setText("Using Skill Point: " + (assignSP[0] + assignSP[1] + assignSP[2] + assignSP[3] + assignSP[4]));
+    }
+
+    public void setSetBonus(List<Integer> set, int i, List<SetBonus> haveSPBSets, ItemJsons items, int[] totalSP, int[] originalSP) {
+        if (set.contains(i) && set.size() > 1) {
+            for (SetBonus setBonus : haveSPBSets) {
+                if (setBonus.getEquippedItems().size() > 1 && setBonus.getEquippedItems().contains(items.getJsonObjectList().get(i).get("name").getAsString())) {
+                    setBonus.addEquipped();
+                    //Add Set Bonus
+                    if (setBonus.getEquippedSize() > 1) {
+                        int[] ids_now = setBonus.getId_Numbers(setBonus.getEquippedSize());
+                        int[] sps_now = new int[] {ids_now[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids_now[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids_now[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids_now[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids_now[ID_Display.ID_INT.get(Identifications.AGILITY)]};
+                        if (sps_now[0] > 0) { //Strength
+                            totalSP[0] += sps_now[0];
+                            originalSP[0] += sps_now[0];
+                        }
+                        if (sps_now[1] > 0) { //Dexterity
+                            totalSP[1] += sps_now[1];
+                            originalSP[1] += sps_now[1];
+                        }
+                        if (sps_now[2] > 0) { //Intelligence
+                            totalSP[2] += sps_now[2];
+                            originalSP[2] += sps_now[2];
+                        }
+                        if (sps_now[3] > 0) { //Defense
+                            totalSP[3] += sps_now[3];
+                            originalSP[3] += sps_now[3];
+                        }
+                        if (sps_now[4] > 0) { //Agility
+                            totalSP[4] += sps_now[4];
+                            originalSP[4] += sps_now[4];
+                        }
+
+                        //Remove Previous Set Bonus
+                        if (setBonus.getEquippedSize() > 2) {
+                            int[] ids_previous = setBonus.getId_Numbers(setBonus.getEquippedSize() - 1);
+                            int[] sps_previous = new int[] {ids_previous[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids_previous[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids_previous[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids_previous[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids_previous[ID_Display.ID_INT.get(Identifications.AGILITY)]};
+                            if (sps_previous[0] > 0) { //Strength
+                                totalSP[0] -= sps_previous[0];
+                                originalSP[0] -= sps_previous[0];
                             }
-
-                            //Dexterity Req Sort
-                            if (dexI[n] != 0 && min[1] > dexR[n] && !dexChecked.contains(n)) {
-                                pos[1] = n;
-                                min[1] = dexR[n];
+                            if (sps_previous[1] > 0) { //Dexterity
+                                totalSP[1] -= sps_previous[1];
+                                originalSP[1] -= sps_previous[1];
                             }
-
-                            //Intelligence Req Sort
-                            if (intI[n] != 0 && min[2] > intR[n] && !intChecked.contains(n)) {
-                                pos[2] = n;
-                                min[2] = intR[n];
+                            if (sps_previous[2] > 0) { //Intelligence
+                                totalSP[2] -= sps_previous[2];
+                                originalSP[2] -= sps_previous[2];
                             }
-
-                            //Defense Req Sort
-                            if (defI[n] != 0 && min[3] > defR[n] && !defChecked.contains(n)) {
-                                pos[3] = n;
-                                min[3] = defR[n];
+                            if (sps_previous[3] > 0) { //Defense
+                                totalSP[3] -= sps_previous[3];
+                                originalSP[3] -= sps_previous[3];
                             }
-
-                            //Agility Req Sort
-                            if (agiI[n] != 0 && min[4] > agiR[n] && !agiChecked.contains(n)) {
-                                pos[4] = n;
-                                min[4] = agiR[n];
+                            if (sps_previous[4] > 0) { //Agility
+                                totalSP[4] -= sps_previous[4];
+                                originalSP[4] -= sps_previous[4];
                             }
                         }
-                    }
-
-                    //Strength
-                    if (9 > pos[0]) {
-                        strChecked.add(pos[0]); //Add Strength Checked Pos
-                        if (strR[pos[0]] <= 0 || strR[pos[0]] <= totalSP[0]) { //Req = 0 or Total >= Req
-                            originalSP[0] += strI[pos[0]];
-                            totalSP[0] += strI[pos[0]];
-                        } else if (strR[pos[0]] > totalSP[0]) { //Req > Total
-                            int reqPlusBonus = strR[pos[0]] + strI[pos[0]];
-                            manualSP[0] += strR[pos[0]] - totalSP[0];
-                            originalSP[0] = reqPlusBonus;
-                            totalSP[0] = reqPlusBonus;
-                        }
-                    }
-
-                    //Dexterity
-                    if (9 > pos[1]) {
-                        dexChecked.add(pos[1]);
-                        if (dexR[pos[1]] <= 0 || dexR[pos[1]] <= totalSP[1]) { //Req = 0 or Total >= Req
-                            originalSP[1] += dexI[pos[1]];
-                            totalSP[1] += dexI[pos[1]];
-                        } else if (dexR[pos[1]] > totalSP[1]) { //Req > Total
-                            int reqPlusBonus = dexR[pos[1]] + dexI[pos[1]];
-                            manualSP[1] += dexR[pos[1]] - totalSP[1];
-                            originalSP[1] = reqPlusBonus;
-                            totalSP[1] = reqPlusBonus;
-                        }
-                    }
-
-                    //Intelligence
-                    if (9 > pos[2]) {
-                        intChecked.add(pos[2]);
-                        if (intR[pos[2]] <= 0 || intR[pos[2]] <= totalSP[2]) { //Req = 0 or Total >= Req
-                            originalSP[2] += intI[pos[2]];
-                            totalSP[2] += intI[pos[2]];
-                        } else if (intR[pos[2]] > totalSP[2]) { //Req > Total
-                            int reqPlusBonus = intR[pos[2]] + intI[pos[2]];
-                            manualSP[2] += intR[pos[2]] - totalSP[2];
-                            originalSP[2] = reqPlusBonus;
-                            totalSP[2] = reqPlusBonus;
-                        }
-                    }
-
-                    //Defense
-                    if (9 > pos[3]) {
-                        defChecked.add(pos[3]);
-                        if (defR[pos[3]] <= 0 || defR[pos[3]] <= totalSP[3]) { //Req = 0 or Total >= Req
-                            originalSP[3] += defI[pos[3]];
-                            totalSP[3] += defI[pos[3]];
-                        } else if (defR[pos[3]] > totalSP[3]) { //Req > Total
-                            int reqPlusBonus = defR[pos[3]] + defI[pos[3]];
-                            manualSP[3] += defR[pos[3]] - totalSP[3];
-                            originalSP[3] = reqPlusBonus;
-                            totalSP[3] = reqPlusBonus;
-                        }
-                    }
-
-                    //Agility
-                    if (9 > pos[4]) {
-                        agiChecked.add(pos[4]);
-                        if (agiR[pos[4]] <= 0 || agiR[pos[4]] <= totalSP[4]) { //Req = 0 or Total >= Req
-                            originalSP[4] += agiI[pos[4]];
-                            totalSP[4] += agiI[pos[4]];
-                        } else if (agiR[pos[4]] > totalSP[4]) { //Req > Total
-                            int reqPlusBonus = agiR[pos[4]] + agiI[pos[4]];
-                            manualSP[4] += agiR[pos[4]] - totalSP[4];
-                            originalSP[4] = reqPlusBonus;
-                            totalSP[4] = reqPlusBonus;
-                        }
-                    }
-                }
-            }
-
-            //Not Crafted and Not Have SP Bonus Armor and Accessory
-            for (int i = 0; items.getJsonObjectList().size() > i; ++i) {
-                if (items.getJsonObjectList().get(i).get("tier").isJsonNull() || !items.getJsonObjectList().get(i).get("tier").getAsString().equals("crafted")) {
-                    if (strR[i] > totalSP[0] && strR[i] != 0) { //Strength Req
-                        manualSP[0] += strR[i] - totalSP[0]; //Manual Assign + (Req - Total)
-                        originalSP[0] += strR[i] - totalSP[0]; //Original + (Req - Total)
-                        totalSP[0] = strR[i]; //Total (No Crafted Item and Weapon Total Skill Point) = Req
-                    }
-                    if (dexR[i] > totalSP[1] && dexR[i] != 0) { //Dexterity Req
-                        manualSP[1] += dexR[i] - totalSP[1];
-                        originalSP[1] += dexR[i] - totalSP[1];
-                        totalSP[1] = dexR[i];
-                    }
-                    if (intR[i] > totalSP[2] && intR[i] != 0) { //Intelligence Req
-                        manualSP[2] += intR[i] - totalSP[2];
-                        originalSP[2] += intR[i] - totalSP[2];
-                        totalSP[2] = intR[i];
-                    }
-                    if (defR[i] > totalSP[3] && defR[i] != 0) { //Defense Req
-                        manualSP[3] += defR[i] - totalSP[3];
-                        originalSP[3] += defR[i] - totalSP[3];
-                        totalSP[3] = defR[i];
-                    }
-                    if (agiR[i] > totalSP[4] && agiR[i] != 0) { //Agility Req
-                        manualSP[4] += agiR[i] - totalSP[4];
-                        originalSP[4] += agiR[i] - totalSP[4];
-                        totalSP[4] = agiR[i];
-                    }
-                }
-            }
-
-            //Crafted Armor and Accessory Skill Point Req and Bonus
-            for (int i = 0; items.getJsonObjectList().size() > i; ++i) {
-                if (items.getJsonObjectList().get(i).get("tier") != null && items.getJsonObjectList().get(i).get("tier").getAsString().equals("crafted")) {
-                    if (strR[i] != 0 || dexR[i] != 0 || intR[i] != 0 || defR[i] != 0 || agiR[i] != 0 || strI[i + 8] != 0 || dexI[i + 8] != 0 || intI[i + 8] != 0 || defI[i + 8] != 0 || agiI[i + 8] != 0) {
-                        if (strR[i] > totalSP[0] && strR[i] != 0) { //Strength Req
-                            manualSP[0] += strR[i] - totalSP[0]; //Manual Assign + (Req - Total)
-                            originalSP[0] += strR[i] - totalSP[0]; //Original + (Req - Total + Bonus)
-                            totalSP[0] = strR[i]; //Total (No Crafted Item and Weapon Total Skill Point) = Req
-                        }
-                        if (dexR[i] > totalSP[1] && dexR[i] != 0) { //Dexterity Req
-                            manualSP[1] += dexR[i] - totalSP[1];
-                            originalSP[1] += dexR[i] - totalSP[1];
-                            totalSP[1] = dexR[i];
-                        }
-                        if (intR[i] > totalSP[2] && intR[i] != 0) { //Intelligence Req
-                            manualSP[2] += intR[i] - totalSP[2];
-                            originalSP[2] += intR[i] - totalSP[2];
-                            totalSP[2] = intR[i];
-                        }
-                        if (defR[i] > totalSP[3] && defR[i] != 0) { //Defense Req
-                            manualSP[3] += defR[i] - totalSP[3];
-                            originalSP[3] += defR[i] - totalSP[3];
-                            totalSP[3] = defR[i];
-                        }
-                        if (agiR[i] > totalSP[4] && agiR[i] != 0) { //Agility Req
-                            manualSP[4] += agiR[i] - totalSP[4];
-                            originalSP[4] += agiR[i] - totalSP[4];
-                            totalSP[4] = agiR[i];
-                        }
-
-                        if (strI[i + 8] != 0) originalSP[0] += strI[i + 8]; //Strength Bonus
-                        if (dexI[i + 8] != 0) originalSP[1] += dexI[i + 8]; //Dexterity Bonus
-                        if (intI[i + 8] != 0) originalSP[2] += intI[i + 8]; //Intelligence Bonus
-                        if (defI[i + 8] != 0) originalSP[3] += defI[i + 8]; //Defense Bonus
-                        if (agiI[i + 8] != 0) originalSP[4] += agiI[i + 8]; //Agility Bonus
                     }
                 }
             }
         }
-
-        //Set Weapon Skill Point
-        if (items.getWeapon() != null) {
-            if (strR[8] != 0 || dexR[8] != 0 || intR[8] != 0 || defR[8] != 0 || agiR[8] != 0 || strI[16] != 0 || dexI[16] != 0 || intI[16] != 0 || defI[16] != 0 || agiI[16] != 0) {
-                if (strR[8] > totalSP[0] && strR[8] != 0) { //Strength Req
-                    manualSP[0] += strR[8] - totalSP[0]; //Manual Assign + Strength Req - Total (No Crafted Item and Weapon SP Bonus Skill Point)
-                    originalSP[0] += strR[8] - totalSP[0]; //Original + Req - Total (No Crafted Item and Weapon SP Bonus Skill Point)
-                    totalSP[0] = strR[8]; //Total (No Crafted Item and Weapon SP Bonus Skill Point) = Req
-                }
-                if (dexR[8] > totalSP[1] && dexR[8] != 0) { //Dexterity Req
-                    manualSP[1] += dexR[8] - totalSP[1];
-                    originalSP[1] += dexR[8] - totalSP[1];
-                    totalSP[1] = dexR[8];
-                }
-                if (intR[8] > totalSP[2] && intR[8] != 0) { //Intelligence Req
-                    manualSP[2] += intR[8] - totalSP[2];
-                    originalSP[2] += intR[8] - totalSP[2];
-                    totalSP[2] = intR[8];
-                }
-                if (defR[8] > totalSP[3] && defR[8] != 0) { //Defense Req
-                    manualSP[3] += defR[8] - totalSP[3];
-                    originalSP[3] += defR[8] - totalSP[3];
-                    totalSP[3] = defR[8];
-                }
-                if (agiR[8] > totalSP[4] && agiR[8] != 0) { //Agility Req
-                    manualSP[4] += agiR[8] - totalSP[4];
-                    originalSP[4] += agiR[8] - totalSP[4];
-                    totalSP[4] = agiR[8];
-                }
-                if (strI[16] != 0) originalSP[0] += strI[16]; //Strength Bonus
-                if (dexI[16] != 0) originalSP[1] += dexI[16]; //Dexterity Bonus
-                if (intI[16] != 0) originalSP[2] += intI[16]; //Intelligence Bonus
-                if (defI[16] != 0) originalSP[3] += defI[16]; //Defense Bonus
-                if (agiI[16] != 0) originalSP[4] += agiI[16]; //Agility Bonus
-            }
-        }
-
-        strength.setValue(originalSP[0], manualSP[0], totalSP[0], strI);
-        dexterity.setValue(originalSP[1], manualSP[1], totalSP[1], dexI);
-        intelligence.setValue(originalSP[2], manualSP[2], totalSP[2], intI);
-        defense.setValue(originalSP[3], manualSP[3], totalSP[3], defI);
-        agility.setValue(originalSP[4], manualSP[4], totalSP[4], agiI);
-        spText.setText("Using Skill Point: " + (manualSP[0] + manualSP[1] + manualSP[2] + manualSP[3] + manualSP[4]));
     }
 
     public void updateSkillPoint() {
@@ -404,7 +748,11 @@ public class SkillPoint {
         intelligence.updateValue();
         defense.updateValue();
         agility.updateValue();
-        spText.setText("Using Skill Point: " + (strength.getTotalManual() + dexterity.getTotalManual() + intelligence.getTotalManual() + defense.getTotalManual() + agility.getTotalManual()));
+        spText.setText("Using Skill Point: " + (strength.getTotalAssign() + dexterity.getTotalAssign() + intelligence.getTotalAssign() + defense.getTotalAssign() + agility.getTotalAssign()));
+    }
+
+    public List<Integer> getEquipOrder() {
+        return equipOrder;
     }
 
     public SkillPointPanel getSkillPoint(SkillPointType spType) {
@@ -489,7 +837,7 @@ public class SkillPoint {
         }
     }
 
-    private static void getSkillPoints(JsonObject json, Identifications id, int[] sps, int i) {
+    private static void getSkillPoints(JsonObject json, Identifications id, int[] sps, int i, int[] total, int[] original) {
         int sp = 0;
         if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
             JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
@@ -505,9 +853,29 @@ public class SkillPoint {
         }
 
         if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) {
-            sps[i + 8] += sp;
-        } else {
             sps[i] += sp;
+        } else {
+            if (sp < 0) { //SP Bonus Minus
+                int pos = 0; //Default: Strength
+                switch (id) {
+                    case DEXTERITY:
+                        pos = 1;
+                        break;
+                    case INTELLIGENCE:
+                        pos = 2;
+                        break;
+                    case DEFENSE:
+                        pos = 3;
+                        break;
+                    case AGILITY:
+                        pos = 4;
+                        break;
+                }
+                total[pos] += sp;
+                original[pos] += sp;
+            } else { //SP Bonus Plus
+                sps[i] += sp;
+            }
         }
     }
 
@@ -525,9 +893,8 @@ public class SkillPoint {
         private final JLabel boost = new JLabel();
         private final JLabel total = new JLabel("(0)");
         private final JLabel original = new JLabel("Original: 0");
-        private final JLabel manual = new JLabel("Manual: 0");
-        private final JLabel items = new JLabel("Items: 0");
-        private int manualBase = 0;
+        private final JLabel assign = new JLabel("Assign: 0");
+        private int assignBase = 0;
 
         private static final float[] STR_AND_DEX = new float[] {
                 1F, 1.01F, 1.02F, 1.029F, 1.039F, 1.049F, 1.058F, 1.067F, 1.077F, 1.086F, //0 ~ 9
@@ -603,23 +970,21 @@ public class SkillPoint {
             pane.setBounds(x, y, 120, 100);
             pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
             this.name.setText(name);
-            setValue(0, 0, 0, new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+            setValue(0, 0, 0);
 
             this.name.setAlignmentX(Component.CENTER_ALIGNMENT);
             textField.setAlignmentX(Component.CENTER_ALIGNMENT);
             total.setAlignmentX(Component.CENTER_ALIGNMENT);
             boost.setAlignmentX(Component.CENTER_ALIGNMENT);
             original.setAlignmentX(Component.CENTER_ALIGNMENT);
-            manual.setAlignmentX(Component.CENTER_ALIGNMENT);
-            items.setAlignmentX(Component.CENTER_ALIGNMENT);
+            assign.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             pane.add(this.name);
             pane.add(textField);
             pane.add(total);
             pane.add(boost);
             pane.add(original);
-            pane.add(manual);
-            pane.add(items);
+            pane.add(assign);
 
             p.add(pane);
         }
@@ -683,13 +1048,12 @@ public class SkillPoint {
             return 1F;
         }
 
-        public void setValue(int originalSP, int manualSP, int totalSP, int[] itemsSP) {
+        public void setValue(int originalSP, int assignSP, int totalSP) {
             total.setText("(" + totalSP + ")");
             original.setText("Original: " + originalSP);
-            manual.setText("Manual: " + manualSP);
-            items.setText("Items: " + (itemsSP[0] + itemsSP[1] + itemsSP[2] + itemsSP[3] + itemsSP[4] + itemsSP[5] + itemsSP[6] + itemsSP[7]) + " (" + (itemsSP[0] + itemsSP[1] + itemsSP[2] + itemsSP[3] + itemsSP[4] + itemsSP[5] + itemsSP[6] + itemsSP[7] + itemsSP[8] + itemsSP[9] + itemsSP[10] + itemsSP[11] + itemsSP[12] + itemsSP[13] + itemsSP[14] + itemsSP[15] + itemsSP[16]) + ")");
+            assign.setText("Assign: " + assignSP);
             textField.setText(String.valueOf(originalSP));
-            manualBase = manualSP;
+            assignBase = assignSP;
             updateValue();
         }
 
@@ -712,7 +1076,7 @@ public class SkillPoint {
                     break;
             }
             total.setText("(" + (getSPValue() - getOriginal() + getTotal()) + ")");
-            manual.setText("Manual: " + getTotalManual());
+            assign.setText("Assign: " + getTotalAssign());
         }
 
         public int getOriginal() {
@@ -723,8 +1087,8 @@ public class SkillPoint {
             return Integer.parseInt(total.getText().replace("(", "").replace(")", ""));
         }
 
-        public int getTotalManual() {
-            return getSPValue() - getOriginal() + manualBase;
+        public int getTotalAssign() {
+            return getSPValue() - getOriginal() + assignBase;
         }
 
         public void setTextValue(int value) {

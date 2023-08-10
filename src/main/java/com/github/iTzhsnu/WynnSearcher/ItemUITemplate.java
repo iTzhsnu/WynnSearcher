@@ -43,83 +43,83 @@ public class ItemUITemplate extends JPanel {
         put(13, Identifications.WATER_DEFENSE_PERCENT);
         put(14, Identifications.FIRE_DEFENSE_PERCENT);
         put(15, Identifications.AIR_DEFENSE_PERCENT);
+        put(16, Identifications.ELEMENTAL_DEFENSE);
 
-        put(16, Identifications.SPELL_DAMAGE_PERCENT);
-        put(17, Identifications.MELEE_DAMAGE_PERCENT);
-        put(18, Identifications.EARTH_DAMAGE_PERCENT);
-        put(19, Identifications.THUNDER_DAMAGE_PERCENT);
-        put(20, Identifications.WATER_DAMAGE_PERCENT);
-        put(21, Identifications.FIRE_DAMAGE_PERCENT);
-        put(22, Identifications.AIR_DAMAGE_PERCENT);
-        put(23, Identifications.ELEMENTAL_DAMAGE_PERCENT);
+        put(17, Identifications.SPELL_DAMAGE_PERCENT);
+        put(18, Identifications.MELEE_DAMAGE_PERCENT);
+        put(19, Identifications.EARTH_DAMAGE_PERCENT);
+        put(20, Identifications.THUNDER_DAMAGE_PERCENT);
+        put(21, Identifications.WATER_DAMAGE_PERCENT);
+        put(22, Identifications.FIRE_DAMAGE_PERCENT);
+        put(23, Identifications.AIR_DAMAGE_PERCENT);
+        put(24, Identifications.ELEMENTAL_DAMAGE_PERCENT);
 
-        put(24, Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT);
-        put(25, Identifications.EARTH_SPELL_DAMAGE_PERCENT);
-        put(26, Identifications.THUNDER_SPELL_DAMAGE_PERCENT);
-        put(27, Identifications.WATER_SPELL_DAMAGE_PERCENT);
-        put(28, Identifications.FIRE_SPELL_DAMAGE_PERCENT);
-        put(29, Identifications.AIR_SPELL_DAMAGE_PERCENT);
-        put(30, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT);
+        put(25, Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT);
+        put(26, Identifications.EARTH_SPELL_DAMAGE_PERCENT);
+        put(27, Identifications.THUNDER_SPELL_DAMAGE_PERCENT);
+        put(28, Identifications.WATER_SPELL_DAMAGE_PERCENT);
+        put(29, Identifications.FIRE_SPELL_DAMAGE_PERCENT);
+        put(30, Identifications.AIR_SPELL_DAMAGE_PERCENT);
+        put(31, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT);
 
-        put(31, Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT);
-        put(32, Identifications.EARTH_MELEE_DAMAGE_PERCENT);
-        put(33, Identifications.THUNDER_MELEE_DAMAGE_PERCENT);
-        put(34, Identifications.WATER_MELEE_DAMAGE_PERCENT);
-        put(35, Identifications.FIRE_MELEE_DAMAGE_PERCENT);
-        put(36, Identifications.AIR_MELEE_DAMAGE_PERCENT);
-        put(37, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT);
+        put(32, Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT);
+        put(33, Identifications.EARTH_MELEE_DAMAGE_PERCENT);
+        put(34, Identifications.THUNDER_MELEE_DAMAGE_PERCENT);
+        put(35, Identifications.WATER_MELEE_DAMAGE_PERCENT);
+        put(36, Identifications.FIRE_MELEE_DAMAGE_PERCENT);
+        put(37, Identifications.AIR_MELEE_DAMAGE_PERCENT);
+        put(38, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT);
 
-        put(38, Identifications.RAW_SPELL_DAMAGE);
-        put(39, Identifications.RAW_MELEE_DAMAGE);
+        put(39, Identifications.RAW_SPELL_DAMAGE);
+        put(40, Identifications.RAW_MELEE_DAMAGE);
 
-        put(40, Identifications.RAW_NEUTRAL_DAMAGE);
-        put(41, Identifications.RAW_EARTH_DAMAGE);
-        put(42, Identifications.RAW_THUNDER_DAMAGE);
-        put(43, Identifications.RAW_WATER_DAMAGE);
-        put(44, Identifications.RAW_FIRE_DAMAGE);
-        put(45, Identifications.RAW_AIR_DAMAGE);
-        put(46, Identifications.RAW_ELEMENTAL_DAMAGE);
+        put(41, Identifications.RAW_NEUTRAL_DAMAGE);
+        put(42, Identifications.RAW_EARTH_DAMAGE);
+        put(43, Identifications.RAW_THUNDER_DAMAGE);
+        put(44, Identifications.RAW_WATER_DAMAGE);
+        put(45, Identifications.RAW_FIRE_DAMAGE);
+        put(46, Identifications.RAW_AIR_DAMAGE);
+        put(47, Identifications.RAW_ELEMENTAL_DAMAGE);
 
-        put(47, Identifications.RAW_NEUTRAL_SPELL_DAMAGE);
-        put(48, Identifications.RAW_EARTH_SPELL_DAMAGE);
-        put(49, Identifications.RAW_THUNDER_SPELL_DAMAGE);
-        put(50, Identifications.RAW_WATER_SPELL_DAMAGE);
-        put(51, Identifications.RAW_FIRE_SPELL_DAMAGE);
-        put(52, Identifications.RAW_AIR_SPELL_DAMAGE);
-        put(53, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
+        put(48, Identifications.RAW_NEUTRAL_SPELL_DAMAGE);
+        put(49, Identifications.RAW_EARTH_SPELL_DAMAGE);
+        put(50, Identifications.RAW_THUNDER_SPELL_DAMAGE);
+        put(51, Identifications.RAW_WATER_SPELL_DAMAGE);
+        put(52, Identifications.RAW_FIRE_SPELL_DAMAGE);
+        put(53, Identifications.RAW_AIR_SPELL_DAMAGE);
+        put(54, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
 
-        put(54, Identifications.RAW_NEUTRAL_MELEE_DAMAGE);
-        put(55, Identifications.RAW_EARTH_MELEE_DAMAGE);
-        put(56, Identifications.RAW_THUNDER_MELEE_DAMAGE);
-        put(57, Identifications.RAW_WATER_MELEE_DAMAGE);
-        put(58, Identifications.RAW_FIRE_MELEE_DAMAGE);
-        put(59, Identifications.RAW_AIR_MELEE_DAMAGE);
-        put(60, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE);
+        put(55, Identifications.RAW_NEUTRAL_MELEE_DAMAGE);
+        put(56, Identifications.RAW_EARTH_MELEE_DAMAGE);
+        put(57, Identifications.RAW_THUNDER_MELEE_DAMAGE);
+        put(58, Identifications.RAW_WATER_MELEE_DAMAGE);
+        put(59, Identifications.RAW_FIRE_MELEE_DAMAGE);
+        put(60, Identifications.RAW_AIR_MELEE_DAMAGE);
+        put(61, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE);
 
-        put(61, Identifications.POISON);
-        put(62, Identifications.ATTACK_SPEED_BONUS);
+        put(62, Identifications.POISON);
+        put(63, Identifications.ATTACK_SPEED_BONUS);
 
-        put(63, Identifications.WALK_SPEED);
-        put(64, Identifications.SPRINT_BONUS);
-        put(65, Identifications.SPRINT_REGEN);
-        put(66, Identifications.JUMP_HEIGHT);
+        put(64, Identifications.WALK_SPEED);
+        put(65, Identifications.SPRINT_BONUS);
+        put(66, Identifications.SPRINT_REGEN);
+        put(67, Identifications.JUMP_HEIGHT);
 
-        put(67, Identifications.THORNS);
-        put(68, Identifications.REFLECTION);
-        put(69, Identifications.EXPLODING);
-        put(70, Identifications.STEALING);
-        put(71, Identifications.COMBAT_XP_BONUS);
-        put(72, Identifications.GATHERING_XP_BONUS);
-        put(73, Identifications.GATHERING_SPEED_BONUS);
-        put(74, Identifications.LOOT_BONUS);
-        put(75, Identifications.LOOT_QUALITY);
-        put(76, Identifications.SOUL_POINT_REGEN);
+        put(68, Identifications.THORNS);
+        put(69, Identifications.REFLECTION);
+        put(70, Identifications.EXPLODING);
+        put(71, Identifications.STEALING);
+        put(72, Identifications.COMBAT_XP_BONUS);
+        put(73, Identifications.GATHERING_XP_BONUS);
+        put(74, Identifications.GATHERING_SPEED_BONUS);
+        put(75, Identifications.LOOT_BONUS);
+        put(76, Identifications.LOOT_QUALITY);
+        put(77, Identifications.SOUL_POINT_REGEN);
 
-        put(77, Identifications.KNOCKBACK);
-        put(78, Identifications.HEALING_EFFICIENCY);
-        put(79, Identifications.WEAKEN_ENEMY);
-        put(80, Identifications.SLOW_ENEMY);
-        put(81, Identifications.ELEMENTAL_DEFENSE);
+        put(78, Identifications.KNOCKBACK);
+        put(79, Identifications.HEALING_EFFICIENCY);
+        put(80, Identifications.WEAKEN_ENEMY);
+        put(81, Identifications.SLOW_ENEMY);
     }};
 
     public static final Map<Integer, Identifications> REVERSED_ITEM_IDS = new HashMap<Integer, Identifications>() {{
@@ -366,33 +366,37 @@ public class ItemUITemplate extends JPanel {
 
         label.add(new JLabel(" "));
 
-        for (int i = 0; 81 >= i; ++i) {
+        for (int i = 0; ITEM_IDS.size() > i; ++i) {
             Identifications id = ITEM_IDS.get(i);
             if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
                 JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
-                if (!j.isJsonObject()) {
+                if (!j.isJsonObject()) { //Constant Value
                     label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
-                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
+                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) { //Identified Items
                     String minOrMax = "max";
                     if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
                     label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt())) + id.getDisplaySp()));
-                } else if (id.isItemVariable() || json.get("tier").getAsString().equals("crafted")) {
+                } else if (id.isItemVariable() || json.get("tier").getAsString().equals("crafted")) { //Crafted Items or Variable ID
                     label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                 }
             }
         }
 
-        for (int i = 0; 7 >= i; ++i) {
+        for (int i = 0; REVERSED_ITEM_IDS.size() > i; ++i) {
             Identifications id = REVERSED_ITEM_IDS.get(i);
             if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
                 JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
-                if (!j.isJsonObject()) {
+                if (!j.isJsonObject()) { //Constant Value
                     label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
-                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
+                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) { //Identified Items
                     label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt())) + id.getDisplaySp()));
                 } else {
-                    int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
-                    label.add(new JLabel(getReversedMax(base) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(base) + id.getDisplaySp()));
+                    if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) { //Crafted Items
+                        label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                    } else { //Normal Items
+                        int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
+                        label.add(new JLabel(getReversedMax(base) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(base) + id.getDisplaySp()));
+                    }
                 }
             }
         }
@@ -443,7 +447,7 @@ public class ItemUITemplate extends JPanel {
 
                 JsonObject manual = new GetAPI().getHowToObtainItem();
                 int p = haveManualDrop(manual, itemName);
-                if (p > 0) {
+                if (p > 0 && (p != 14 || json.get("dropMeta") == null)) {
                     if (p == 1) {
                         //Unobtainable
                         l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can't be obtained."));
@@ -514,6 +518,9 @@ public class ItemUITemplate extends JPanel {
                                         break;
                                     case "dungeon":
                                         sb.append(" Dungeon Drop");
+                                        break;
+                                    case "merchant":
+                                        sb.append(" Merchant");
                                         break;
                                     default:
                                         String s = " " + j.get("type").getAsString();
@@ -691,7 +698,7 @@ public class ItemUITemplate extends JPanel {
             JsonObject j = json.get("identifications").getAsJsonObject();
             boolean run = false;
 
-            for (int i = 0; 81 >= i; ++i) {
+            for (int i = 0; ITEM_IDS.size() > i; ++i) {
                 Identifications id = ITEM_IDS.get(i);
                 if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
                     JsonElement je = j.get(id.getIngName());
@@ -704,7 +711,7 @@ public class ItemUITemplate extends JPanel {
                 }
             }
 
-            for (int i = 0; 7 >= i; ++i) {
+            for (int i = 0; REVERSED_ITEM_IDS.size() > i; ++i) {
                 Identifications id = REVERSED_ITEM_IDS.get(i);
                 if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
                     JsonElement je = j.get(id.getIngName());
@@ -962,7 +969,7 @@ public class ItemUITemplate extends JPanel {
         }
 
         if (type.equals("tome") || type.equals("charm")) { //IDs
-            for (int i = 0; 81 >= i; ++i) {
+            for (int i = 0; ITEM_IDS.size() > i; ++i) {
                 Identifications id = ITEM_IDS.get(i);
                 if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
                     JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
@@ -978,7 +985,7 @@ public class ItemUITemplate extends JPanel {
                 }
             }
 
-            for (int i = 0; 7 >= i; ++i) {
+            for (int i = 0; REVERSED_ITEM_IDS.size() > i; ++i) {
                 Identifications id = REVERSED_ITEM_IDS.get(i);
                 if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
                     JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
@@ -1019,7 +1026,7 @@ public class ItemUITemplate extends JPanel {
 
                 JsonObject manual = new GetAPI().getHowToObtainOther();
                 int p = haveManualDrop(manual, itemName);
-                if (p > 0) {
+                if (p > 0 && p != 14) {
                     if (p == 1) {
                         //Unobtainable
                         l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can't be obtained."));
@@ -1090,6 +1097,9 @@ public class ItemUITemplate extends JPanel {
                                         break;
                                     case "dungeon":
                                         sb.append(" Dungeon Drop");
+                                        break;
+                                    case "merchant":
+                                        sb.append(" Merchant");
                                         break;
                                     default:
                                         String s = " " + j.get("type").getAsString();
@@ -1274,7 +1284,13 @@ public class ItemUITemplate extends JPanel {
             }
         }
         //Merchant
-        if (j.get("merchant") != null && j.get("merchant").getAsJsonObject().get(itemName) != null) return 4;
+        if (j.get("merchant") != null && j.get("merchant").getAsJsonObject().get(itemName) != null) {
+            if (j.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject().entrySet().size() > 0) {
+                return 4;
+            } else {
+                return 14;
+            }
+        }
 
         //The Qira Hive
        if (j.get("the_qira_hive") != null && j.get("the_qira_hive").getAsJsonObject().get(itemName) != null) return 5;

@@ -34,6 +34,7 @@ public class BuilderUI implements ActionListener {
     private final List<JsonObject> armourTomeJson = new ArrayList<>();
     private final List<JsonObject> weaponTomeJson = new ArrayList<>();
     private final List<JsonObject> guildTomeJson = new ArrayList<>();
+    private final List<JsonObject> lootrunTomeJson = new ArrayList<>();
 
     //UIs
     private final List<JLabel> texts = new ArrayList<>();
@@ -57,10 +58,11 @@ public class BuilderUI implements ActionListener {
     private final Damage_Display damage_display;
     private final Item_Display item_display;
     private final Powder_Effects powder_effects;
+    private final Comprehensive_Display comprehensive_Display;
 
     //Ability Tree
     private final JComboBox<String> classes = new JComboBox<>();
-    private final Damage_Boosts damage_boost;
+    private final Ability_Buffs abilityBuffs;
     private final TreeBase warrior;
     private final TreeBase assassin;
     private final TreeBase archer;
@@ -75,7 +77,7 @@ public class BuilderUI implements ActionListener {
         setJson(itemAPI);
         setTomeJson();
 
-        pane.setPreferredSize(new Dimension(1064, 1910));
+        pane.setPreferredSize(new Dimension(1064, 1965));
         pane.setLayout(null);
 
         scrollPane = new JScrollPane(pane);
@@ -101,15 +103,15 @@ public class BuilderUI implements ActionListener {
         update.setBounds(950, 10, 80, 40);
         update.addActionListener(this);
 
-        save.setBounds(860, 280, 80, 40);
+        save.setBounds(860, 335, 80, 40); //old: 280
         save.addActionListener(this);
 
-        load.setBounds(950, 280, 80, 40);
+        load.setBounds(950, 335, 80, 40); //old: 280
         load.addActionListener(this);
 
         JPanel outputP = new JPanel();
         JScrollBar outputB = new JScrollBar(JScrollBar.HORIZONTAL);
-        outputP.setBounds(800, 330, 250, 40);
+        outputP.setBounds(800, 385, 250, 40); //old: 330
         outputP.setLayout(new BoxLayout(outputP, BoxLayout.Y_AXIS));
         outputB.setUnitIncrement(20);
         outputB.setModel(output.getHorizontalVisibility());
@@ -122,8 +124,9 @@ public class BuilderUI implements ActionListener {
         damage_display = new Damage_Display(pane);
         item_display = new Item_Display(pane);
         powder_effects = new Powder_Effects(pane);
+        comprehensive_Display = new Comprehensive_Display(pane);
 
-        classes.setBounds(10, 185, 80, 20);
+        classes.setBounds(10, 240, 80, 20); //old: 185
         classes.addItem("Warrior");
         classes.addItem("Assassin");
         classes.addItem("Mage");
@@ -131,7 +134,7 @@ public class BuilderUI implements ActionListener {
         classes.addItem("Shaman");
         classes.addActionListener(this);
 
-        damage_boost = new Damage_Boosts(pane);
+        abilityBuffs = new Ability_Buffs(pane);
 
         treeConnect.setForeground(new Color(0, 169, 104));
         treeConnect.setBounds(800, 5, 150, 20);
@@ -170,6 +173,9 @@ public class BuilderUI implements ActionListener {
                         break;
                     case "mobdefence":
                         armourTomeJson.add(j);
+                        break;
+                    case "lootrun":
+                        lootrunTomeJson.add(j);
                         break;
                 }
             }
@@ -247,42 +253,43 @@ public class BuilderUI implements ActionListener {
                 break;
         }
         warrior.setTreeVisible(warriorB);
-        damage_boost.getSlider().get(1).setDamage_Boost_Slider_Visible(warriorB); //Corrupted
-        damage_boost.getSlider().get(2).setDamage_Boost_Slider_Visible(warriorB); //Discombobulate
-        damage_boost.getBox().get(7).setVisible(warriorB); //Mantle
-        damage_boost.getBox().get(8).setVisible(warriorB); //Brink of Madness
+        abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).setSlider_Visible(warriorB); //Corrupted
+        abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).setSlider_Visible(warriorB); //Discombobulate
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.MANTLE.getPos()).setVisible(warriorB); //Mantle
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.BRINK_OF_MADNESS.getPos()).setVisible(warriorB); //Brink of Madness
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.SACRED_SURGE.getPos()).setVisible(warriorB); //Sacred Surge
 
         assassin.setTreeVisible(assassinB);
-        damage_boost.getSlider().get(3).setDamage_Boost_Slider_Visible(assassinB); //Clones
-        damage_boost.getSlider().get(4).setDamage_Boost_Slider_Visible(assassinB); //Nightcloak Knife
-        damage_boost.getBox().get(9).setVisible(assassinB); //Backstab
-        damage_boost.getBox().get(10).setVisible(assassinB); //Surprise Strike
-        damage_boost.getBox().get(11).setVisible(assassinB); //Derilious Gas
-        damage_boost.getBox().get(12).setVisible(assassinB); //Mirror Image
-        damage_boost.getBox().get(13).setVisible(assassinB); //Satsujin
-        damage_boost.getBox().get(14).setVisible(assassinB); //Flow State
-        damage_boost.getBox().get(15).setVisible(assassinB); //Parry
-        damage_boost.getBox().get(16).setVisible(assassinB); //Dissolution
+        abilityBuffs.getSlider().get(Ability_Buffs_Enum.CLONES.getPos()).setSlider_Visible(assassinB); //Clones
+        abilityBuffs.getSlider().get(Ability_Buffs_Enum.NIGHTCLOAK_KNIFE.getPos()).setSlider_Visible(assassinB); //Nightcloak Knife
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.BACKSTAB.getPos()).setVisible(assassinB); //Backstab
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.SURPRISE_STRIKE.getPos()).setVisible(assassinB); //Surprise Strike
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.DELIRIOUS_GAS.getPos()).setVisible(assassinB); //Derilious Gas
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.MIRROR_IMAGE.getPos()).setVisible(assassinB); //Mirror Image
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.SATSUJIN.getPos()).setVisible(assassinB); //Satsujin
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.FLOW_STATE.getPos()).setVisible(assassinB); //Flow State
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.PARRY.getPos()).setVisible(assassinB); //Parry
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.DISSOLUTION.getPos()).setVisible(assassinB); //Dissolution
 
         archer.setTreeVisible(archerB);
-        damage_boost.getSlider().get(5).setDamage_Boost_Slider_Visible(archerB); //Focus
-        damage_boost.getSlider().get(6).setDamage_Boost_Slider_Visible(archerB); //Patient Hunter
-        damage_boost.getSlider().get(7).setDamage_Boost_Slider_Visible(archerB); //Decimator
-        damage_boost.getBox().get(17).setVisible(archerB); //Initiator
+        abilityBuffs.getSlider().get(Ability_Buffs_Enum.FOCUS.getPos()).setSlider_Visible(archerB); //Focus
+        abilityBuffs.getSlider().get(Ability_Buffs_Enum.PATIENT_HUNTER.getPos()).setSlider_Visible(archerB); //Patient Hunter
+        abilityBuffs.getSlider().get(Ability_Buffs_Enum.DECIMATOR.getPos()).setSlider_Visible(archerB); //Decimator
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.INITIATOR.getPos()).setVisible(archerB); //Initiator
 
         mage.setTreeVisible(mageB);
-        damage_boost.getSlider().get(8).setDamage_Boost_Slider_Visible(mageB); //Winded
+        abilityBuffs.getSlider().get(Ability_Buffs_Enum.WINDED.getPos()).setSlider_Visible(mageB); //Winded
 
         shaman.setTreeVisible(shamanB);
-        damage_boost.getSlider().get(9).setDamage_Boost_Slider_Visible(shamanB); //Shepherd
-        damage_boost.getBox().get(18).setVisible(shamanB); //Mask of the Lunatic
-        damage_boost.getBox().get(19).setVisible(shamanB); //Mask of the Fanatic
-        damage_boost.getBox().get(20).setVisible(shamanB); //Mask of the Coward
-        damage_boost.getBox().get(21).setVisible(shamanB); //Chant of the Fanatic
-        damage_boost.getBox().get(22).setVisible(shamanB); //Bullwhip
-        damage_boost.getBox().get(23).setVisible(shamanB); //Invigorating Wave
-        damage_boost.getBox().get(24).setVisible(shamanB); //Sacrificial Shrine
-        damage_boost.getBox().get(25).setVisible(shamanB); //Mask of the Awakened
+        abilityBuffs.getSlider().get(Ability_Buffs_Enum.SHEPHERD.getPos()).setSlider_Visible(shamanB); //Shepherd
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_LUNATIC.getPos()).setVisible(shamanB); //Mask of the Lunatic
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_FANATIC.getPos()).setVisible(shamanB); //Mask of the Fanatic
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_COWARD.getPos()).setVisible(shamanB); //Mask of the Coward
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.CHANT_OF_THE_FANATIC.getPos()).setVisible(shamanB); //Chant of the Fanatic
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.BULLWHIP.getPos()).setVisible(shamanB); //Bullwhip
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.INVIGORATING_WAVE.getPos()).setVisible(shamanB); //Invigorating Wave
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.SACRIFICIAL_SHRINE.getPos()).setVisible(shamanB); //Sacrificial Shrine
+        abilityBuffs.getBox().get(Ability_Buffs_Enum.AWAKENED.getPos()).setVisible(shamanB); //Awakened
     }
 
     private TreeBase getTree() {
@@ -318,6 +325,7 @@ public class BuilderUI implements ActionListener {
         JComboBox<String> weaponTome1Box = new JComboBox<>();
         JComboBox<String> weaponTome2Box = new JComboBox<>();
         JComboBox<String> guildTomeBox = new JComboBox<>();
+        JComboBox<String> lootrunTomeBox = new JComboBox<>();
 
         for (JsonObject j : helmetJson) {
             if (j.get("name") != null) {
@@ -373,6 +381,9 @@ public class BuilderUI implements ActionListener {
         }
         for (JsonObject j : guildTomeJson) {
             guildTomeBox.addItem(j.get("name").getAsString());
+        }
+        for (JsonObject j : lootrunTomeJson) {
+            lootrunTomeBox.addItem(j.get("name").getAsString());
         }
 
         //Helmet
@@ -486,21 +497,28 @@ public class BuilderUI implements ActionListener {
         guildTomeBox.setEditable(true);
         guildTomeBox.setSelectedIndex(-1);
         guildTomeBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(guildTomeBox, guildTomeJson));
-        guildTomeBox.setBounds(850, 120, 200, 20);
+        guildTomeBox.setBounds(640, 175, 200, 20);
         itemBox.add(guildTomeBox);
 
         //Weapon Tomes
         weaponTome1Box.setEditable(true);
         weaponTome1Box.setSelectedIndex(-1);
         weaponTome1Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(weaponTome1Box, weaponTomeJson));
-        weaponTome1Box.setBounds(850, 175, 200, 20);
+        weaponTome1Box.setBounds(10, 175, 200, 20);
         itemBox.add(weaponTome1Box);
 
         weaponTome2Box.setEditable(true);
         weaponTome2Box.setSelectedIndex(-1);
         weaponTome2Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(weaponTome2Box, weaponTomeJson));
-        weaponTome2Box.setBounds(850, 230, 200, 20);
+        weaponTome2Box.setBounds(220, 175, 200, 20);
         itemBox.add(weaponTome2Box);
+
+        //Lootrun Tome
+        lootrunTomeBox.setEditable(true);
+        lootrunTomeBox.setSelectedIndex(-1);
+        lootrunTomeBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(lootrunTomeBox, lootrunTomeJson));
+        lootrunTomeBox.setBounds(430, 175, 200, 20);
+        itemBox.add(lootrunTomeBox);
 
         JLabel helmetText = new JLabel("Helmet");
         JLabel chestplateText = new JLabel("Chestplate");
@@ -519,6 +537,7 @@ public class BuilderUI implements ActionListener {
         JLabel guildTomeText = new JLabel("Guild Tome");
         JLabel weaponTome1Text = new JLabel("Weapon Tome");
         JLabel weaponTome2Text = new JLabel("Weapon Tome");
+        JLabel lootrunTomeText = new JLabel("Lootrun Tome");
 
         helmetText.setBounds(20, 35, 100, 20);
         chestplateText.setBounds(230, 35, 100, 20);
@@ -534,9 +553,10 @@ public class BuilderUI implements ActionListener {
         armourTome2Text.setBounds(230, 145, 100, 20);
         armourTome3Text.setBounds(440, 145, 100, 20);
         armourTome4Text.setBounds(650, 145, 100, 20);
-        guildTomeText.setBounds(860, 145, 100, 20);
-        weaponTome1Text.setBounds(860, 200, 100, 20);
-        weaponTome2Text.setBounds(860, 255, 100, 20);
+        guildTomeText.setBounds(650, 200, 100, 20);
+        weaponTome1Text.setBounds(20, 200, 100, 20);
+        weaponTome2Text.setBounds(230, 200, 100, 20);
+        lootrunTomeText.setBounds(440, 200, 100, 20);
 
         texts.add(helmetText);
         texts.add(chestplateText);
@@ -555,6 +575,7 @@ public class BuilderUI implements ActionListener {
         texts.add(guildTomeText);
         texts.add(weaponTome1Text);
         texts.add(weaponTome2Text);
+        texts.add(lootrunTomeText);
 
         for (JComboBox<String> c : itemBox) {
             pane.add(c);
@@ -577,6 +598,7 @@ public class BuilderUI implements ActionListener {
         if (weaponTomeJson.size() > 0) weaponTomeJson.clear();
         if (guildTomeJson.size() > 0) guildTomeJson.clear();
         if (armourTomeJson.size() > 0) armourTomeJson.clear();
+        if (lootrunTomeJson.size() > 0) lootrunTomeJson.clear();
         setTomeJson();
         for (JComboBox<String> b : itemBox) b.removeAllItems();
 
@@ -594,9 +616,10 @@ public class BuilderUI implements ActionListener {
         JComboBox<String> armourTome2Box = itemBox.get(10);
         JComboBox<String> armourTome3Box = itemBox.get(11);
         JComboBox<String> armourTome4Box = itemBox.get(12);
-        JComboBox<String> weaponTome1Box = itemBox.get(13);
-        JComboBox<String> weaponTome2Box = itemBox.get(14);
-        JComboBox<String> guildTomeBox = itemBox.get(15);
+        JComboBox<String> weaponTome1Box = itemBox.get(14);
+        JComboBox<String> weaponTome2Box = itemBox.get(15);
+        JComboBox<String> guildTomeBox = itemBox.get(13);
+        JComboBox<String> lootrunTomeBox = itemBox.get(16);
 
         for (JsonObject j : helmetJson) {
             if (j.get("name") != null) {
@@ -653,6 +676,9 @@ public class BuilderUI implements ActionListener {
         for (JsonObject j : guildTomeJson) {
             guildTomeBox.addItem(j.get("name").getAsString());
         }
+        for (JsonObject j : lootrunTomeJson) {
+            lootrunTomeBox.addItem(j.get("name").getAsString());
+        }
         for (JComboBox<String> b : itemBox) b.setSelectedIndex(-1);
         itemConnect.setText("Item API Latest");
         itemConnect.setForeground(new Color(0, 169, 104));
@@ -674,16 +700,18 @@ public class BuilderUI implements ActionListener {
     }
 
     public void getItemID_And_Display() {
-        item_display.setItem_Display(itemBox, ingAPI, recipeAPI, helmetJson, chestplateJson, leggingsJson, bootsJson, ringJson, braceletJson, necklaceJson, weaponJson, armourTomeJson, weaponTomeJson, guildTomeJson);
-        skillPoint.setSkillPoint(item_display.getItemJsons());
-        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), damage_boost ,powder_effects, powderField, classes.getSelectedIndex(), false);
-        damage_display.setDamage_Display(item_display.getItemJsons().getWeapon(), skillPoint, damage_boost, getTree(), powder_effects, id_display.getId_Numbers(), powderField);
+        comprehensive_Display.reset();
+        item_display.setItem_Display(itemBox, ingAPI, recipeAPI, helmetJson, chestplateJson, leggingsJson, bootsJson, ringJson, braceletJson, necklaceJson, weaponJson, armourTomeJson, weaponTomeJson, guildTomeJson, lootrunTomeJson, classes.getSelectedIndex());
+        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), abilityBuffs ,powder_effects, powderField, classes.getSelectedIndex(), false);
+        skillPoint.setSkillPoint(item_display.getItemJsons(), id_display.getSetBonuses());
+        damage_display.setDamage_Display(item_display.getItemJsons(), skillPoint, abilityBuffs, getTree(), powder_effects, id_display.getId_Numbers(), powderField);
+        comprehensive_Display.setDisplay(item_display.getItemJsons(), id_display.getSetBonuses(), skillPoint.getEquipOrder());
     }
 
     public void updateIDs() {
         skillPoint.updateSkillPoint();
-        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), damage_boost, powder_effects, powderField, classes.getSelectedIndex(), true);
-        damage_display.setDamage_Display(item_display.getItemJsons().getWeapon(), skillPoint, damage_boost, getTree(), powder_effects, id_display.getId_Numbers(), powderField);
+        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), abilityBuffs, powder_effects, powderField, classes.getSelectedIndex(), true);
+        damage_display.setDamage_Display(item_display.getItemJsons(), skillPoint, abilityBuffs, getTree(), powder_effects, id_display.getId_Numbers(), powderField);
     }
 
     public void saveBuild() {
@@ -694,7 +722,7 @@ public class BuilderUI implements ActionListener {
         sb.append(base);
 
         //Armors, Accessories, Weapon and Tomes
-        for (int i = 0; 15 >= i; ++i) {
+        for (int i = 0; itemBox.size() > i; ++i) {
             String s = "\"" + getItemName(i).replaceAll("\"", "\\\\\"") + "\",";
             sb.append(s);
         }
@@ -702,7 +730,7 @@ public class BuilderUI implements ActionListener {
 
         //Powders
         sb.append("],\"powders\":[");
-        for (int i = 0; 4 >= i; ++i) {
+        for (int i = 0; powderField.size() > i; ++i) {
             String s = "\"" + powderField.get(i).getText() + "\",";
             sb.append(s);
         }
@@ -730,7 +758,7 @@ public class BuilderUI implements ActionListener {
 
         //IDs
         sb.append("],\"ids\":[");
-        for (int i = 0; 56 >= i; ++i) {
+        for (int i = 0; damage_ids.size() > i; ++i) {
             String s = damage_ids.getID(i).getValue() + ",";
             sb.append(s);
         }
@@ -747,12 +775,12 @@ public class BuilderUI implements ActionListener {
         classes.setSelectedIndex(j.get("class").getAsInt());
 
         //Set Armor, Accessory, Weapon and Tome
-        for (int i = 0; 15 >= i; ++i) {
+        for (int i = 0; itemBox.size() > i; ++i) {
             setItemName(i, j.get("items").getAsJsonArray().get(i).getAsString());
         }
 
         //Set Powders
-        for (int i = 0; 4 >= i; ++i) {
+        for (int i = 0; powderField.size() > i; ++i) {
             powderField.get(i).setText(j.get("powders").getAsJsonArray().get(i).getAsString());
         }
 
@@ -770,7 +798,7 @@ public class BuilderUI implements ActionListener {
         }
 
         //Set IDs
-        for (int i = 0; 56 >= i; ++i) {
+        for (int i = 0; damage_ids.size() > i; ++i) {
             damage_ids.getID(i).setTextValue(j.get("ids").getAsJsonArray().get(i).getAsInt());
         }
 

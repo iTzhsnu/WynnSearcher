@@ -3939,101 +3939,6 @@
       }
     ]
   },
-  "raid": {
-    "Collection": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Simulacrum": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Forbearance": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Ingress": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Breakthrough": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Detachment": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Nonexistence": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Aleph Null": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Recursion": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Fractal": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Continuum": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Infinitesimal": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Divergence": {
-      "pos": "The Nameless Anomaly Raid Rewards<br>Locate: 1193, 64, -947"
-    },
-    "Abrasion": {
-      "pos": "The Cannyon Colossus Raid Rewards<br>Locate: 662, 49, -4448"
-    },
-    "Recalcitrance": {
-      "pos": "The Cannyon Colossus Raid Rewards<br>Locate: 662, 49, -4448"
-    },
-    "Dispersion": {
-      "pos": "The Cannyon Colossus Raid Rewards<br>Locate: 662, 49, -4448"
-    },
-    "Obstinance": {
-      "pos": "The Cannyon Colossus Raid Rewards<br>Locate: 662, 49, -4448"
-    },
-    "Compliance": {
-      "pos": "The Cannyon Colossus Raid Rewards<br>Locate: 662, 49, -4448"
-    },
-    "Succession": {
-      "pos": "The Cannyon Colossus Raid Rewards<br>Locate: 662, 49, -4448"
-    },
-    "Metamorphosis": {
-      "pos": "Orphion's Nexus of the Light Raid Rewards<br>Locate: -732, 100, -6412"
-    },
-    "Reckoning": {
-      "pos": "Orphion's Nexus of the Light Raid Rewards<br>Locate: -732, 100, -6412"
-    },
-    "Athanasia": {
-      "pos": "Orphion's Nexus of the Light Raid Rewards<br>Locate: -732, 100, -6412"
-    },
-    "Cacophony": {
-      "pos": "Orphion's Nexus of the Light Raid Rewards<br>Locate: -732, 100, -6412"
-    },
-    "Provenance": {
-      "pos": "Orphion's Nexus of the Light Raid Rewards<br>Locate: -732, 100, -6412"
-    },
-    "Veneration": {
-      "pos": "Orphion's Nexus of the Light Raid Rewards<br>Locate: -732, 100, -6412"
-    },
-    "Eyes on All": {
-      "pos": "Nest of the Grootslangs Raid Rewards<br>Locate: -1977, 63, -5615"
-    },
-    "Homeorhesis": {
-      "pos": "Nest of the Grootslangs Raid Rewards<br>Locate: -1977, 63, -5615"
-    },
-    "Apex Predator": {
-      "pos": "Nest of the Grootslangs Raid Rewards<br>Locate: -1977, 63, -5615"
-    },
-    "Extinction": {
-      "pos": "Nest of the Grootslangs Raid Rewards<br>Locate: -1977, 63, -5615"
-    },
-    "Symbiont": {
-      "pos": "Nest of the Grootslangs Raid Rewards<br>Locate: -1977, 63, -5615"
-    },
-    "Atavistic": {
-      "pos": "Nest of the Grootslangs Raid Rewards<br>Locate: -1977, 63, -5615"
-    }
-  },
   "dungeonMerchant": {
     "Corrupted Nii Shako": {
       "name": "Corrupted Decrepit Sewers",
@@ -4256,10 +4161,10 @@
       "pos": "Lootrun End Reward (Lutho)"
     },
     "Pyrrhic Respite": {
-      "pos": "Lootrun End Reward (Lutho?)"
+      "pos": "Lootrun End Reward (Lutho)"
     },
     "Ysengrim": {
-      "pos": "Lootrun End Reward (Lutho?)"
+      "pos": "Lootrun End Reward (Lutho)"
     },
     "Marionette": {
       "pos": "Lootrun End Reward (Lutho)"
@@ -4277,7 +4182,7 @@
       "pos": "Lootrun End Reward (Corkus)"
     },
     "Keeper of Souls": {
-      "pos": "Lootrun End Reward (Corkus?)"
+      "pos": "Lootrun End Reward (?)"
     },
     "Anti-Causality": {
       "pos": "Lootrun End Reward (Corkus?)"
@@ -4307,7 +4212,7 @@
       "pos": "Lootrun End Reward (Corkus)"
     },
     "Fluffwind": {
-      "pos": "Lootrun End Reward (Corkus?)"
+      "pos": "Lootrun End Reward (Corkus)"
     },
     "Sourscratch": {
       "pos": "Lootrun End Reward (Corkus)"

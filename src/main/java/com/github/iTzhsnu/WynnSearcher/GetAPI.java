@@ -317,6 +317,15 @@ public class GetAPI {
         return getFilePath("/items_data/old_data/other");
     }
 
+    public JsonObject getMajorIDJson() {
+        try {
+            return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/major_ids.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static boolean getUpdate() {
         try {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL("https://raw.githubusercontent.com/iTzhsnu/WynnSearcher/master/version.txt").openStream()));
@@ -372,6 +381,26 @@ public class GetAPI {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("How to obtain other item file not found.");
+        }
+        return null;
+    }
+
+    public JsonObject getSetBonus() {
+        try {
+            return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/set_bonus.json")), StandardCharsets.UTF_8))).getAsJsonObject().get("set_bonus").getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Set Bonus file not found.");
+        }
+        return null;
+    }
+
+    public JsonObject getSetItems() {
+        try {
+            return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/set_items.json")), StandardCharsets.UTF_8))).getAsJsonObject().get("items").getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Set Items file not found.");
         }
         return null;
     }

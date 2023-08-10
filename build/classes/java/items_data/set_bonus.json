@@ -1,0 +1,113 @@
+{
+  "last_edit": "2023/08/06",
+  "set_bonus": {
+    "Boundless": {
+      "size": 3,
+      "2": {
+        "manaSteal": 15,
+        "lifeSteal": 250,
+        "walkSpeed": 25,
+        "stealing": 10
+      },
+      "3": {
+        "healthRegenRaw": 150,
+        "healthRegen": 50,
+        "manaRegen": 25,
+        "walkSpeed": 35,
+        "soulPointRegen": 50
+      }
+    },
+
+    "Morph": {
+      "size": 8,
+      "2": {
+        "xpBonus": 5,
+        "lootBonus": 5
+      },
+      "3": {
+        "rawHealth": 125,
+        "manaRegen": 6,
+        "raw2ndSpellCost": -5,
+        "xpBonus": 10,
+        "lootBonus": 10
+      },
+      "4": {
+        "rawHealth": 425,
+        "manaRegen": 6,
+        "raw2ndSpellCost": -5,
+        "xpBonus": 15,
+        "lootBonus": 15
+      },
+      "5": {
+        "rawHealth": 1325,
+        "manaRegen": 12,
+        "raw2ndSpellCost": -5,
+        "raw4thSpellCost": -5,
+        "xpBonus": 35,
+        "lootBonus": 35
+      },
+      "6": {
+        "rawHealth": 2275,
+        "manaRegen": 12,
+        "raw2ndSpellCost": -5,
+        "raw4thSpellCost": -5,
+        "xpBonus": 55,
+        "lootBonus": 55
+      },
+      "7": {
+        "rawHealth": 3850,
+        "manaRegen": 18,
+        "raw1stSpellCost": -5,
+        "raw2ndSpellCost": -5,
+        "raw4thSpellCost": -5,
+        "xpBonus": 80,
+        "lootBonus": 80
+      },
+      "8": {
+        "rawStrength": 15,
+        "rawDexterity": 15,
+        "rawIntelligence": 15,
+        "rawDefence": 15,
+        "rawAgility": 15,
+        "rawHealth": 6110,
+        "manaRegen": 24,
+        "raw1stSpellCost": -5,
+        "raw2ndSpellCost": -5,
+        "raw3rdSpellCost": -5,
+        "raw4thSpellCost": -5,
+        "xpBonus": 100,
+        "lootBonus": 100
+      }
+    },
+
+    "Snail": {
+      "2": {
+        "rawStrength": 7,
+        "rawAgility": -5,
+        "rawHealth": 1100,
+        "healthRegenRaw": 125,
+        "thorns": 10,
+        "poison": 880,
+        "walkSpeed": -5
+      },
+      "3": {
+        "rawStrength": 14,
+        "rawAgility": -10,
+        "rawHealth": 2675,
+        "healthRegenRaw": 275,
+        "thorns": 20,
+        "poison": 2650,
+        "walkSpeed": -10
+      },
+      "4": {
+        "rawStrength": 21,
+        "rawAgility": -15,
+        "rawHealth": 5500,
+        "healthRegenRaw": 575,
+        "thorns": 40,
+        "poison": 5500,
+        "walkSpeed": -15
+      }
+    }
+  }
+}

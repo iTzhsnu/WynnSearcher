@@ -12,6 +12,10 @@ import java.util.Map;
 public class Damage_IDs {
     private final List<Damage_IDs_Panel> damage_ID_Panels = new ArrayList<>();
 
+    public int size() {
+        return 58;
+    }
+
     public static final Map<Identifications, Integer> GET_DAMAGE_ID_NUM_FROM_ID = new HashMap<Identifications, Integer>() {{
         put(Identifications.EARTH_DAMAGE_PERCENT, 0);
         put(Identifications.THUNDER_DAMAGE_PERCENT, 1);
@@ -80,6 +84,8 @@ public class Damage_IDs {
         put(Identifications.RAW_WATER_DAMAGE, 54);
         put(Identifications.RAW_FIRE_DAMAGE, 55);
         put(Identifications.RAW_AIR_DAMAGE, 56);
+
+        put(Identifications.HEALING_EFFICIENCY, 57);
     }};
 
     public Damage_IDs(JPanel p) {
@@ -150,6 +156,8 @@ public class Damage_IDs {
         damage_ID_Panels.add(new Damage_IDs_Panel("Raw Water Dam", getX(3), getY(1), p));
         damage_ID_Panels.add(new Damage_IDs_Panel("Raw Fire Dam", getX(4), getY(1), p));
         damage_ID_Panels.add(new Damage_IDs_Panel("Raw Air Dam", getX(5), getY(1), p));
+
+        damage_ID_Panels.add(new Damage_IDs_Panel("Healing Efficiency", getX(6), getY(0), p));
     }
 
     public Damage_IDs_Panel getID(int num) {
@@ -161,7 +169,7 @@ public class Damage_IDs {
     }
 
     public static int getY(int i) {
-        return 855 + i * 60;
+        return 910 + i * 60;
     }
 
     public static class Damage_IDs_Panel {

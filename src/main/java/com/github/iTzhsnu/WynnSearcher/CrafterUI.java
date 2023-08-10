@@ -567,7 +567,7 @@ public class CrafterUI implements ActionListener {
                 }
             }
 
-            for (int i = 0; 76 >= i; ++i) { //IDs
+            for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) { //IDs
                 Identifications id = ItemUITemplate.ITEM_IDS.get(i);
                 int total_Min = 0;
                 int total_Max = 0;
@@ -593,7 +593,31 @@ public class CrafterUI implements ActionListener {
                 }
             }
 
-            //TODO Reversed IDs
+            for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) { //Reversed IDs
+                Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
+                int total_Min = 0;
+                int total_Max = 0;
+                for (int n = 0; lJ.size() > n; ++n) {
+                    JsonObject j = lJ.get(n);
+                    if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get("identifications") != null && j.get("identifications").getAsJsonObject().get(id.getIngName()) != null) {
+                        JsonElement je = j.get("identifications").getAsJsonObject().get(id.getIngName());
+                        if (!je.isJsonObject()) {
+                            total_Min += (int) Math.floor(je.getAsInt() * ingEffective[n] / 100F);
+                            total_Max += (int) Math.floor(je.getAsInt() * ingEffective[n] / 100F);
+                        } else {
+                            total_Min += (int) Math.floor(je.getAsJsonObject().get("min").getAsInt() * ingEffective[n] / 100F);
+                            total_Max += (int) Math.floor(je.getAsJsonObject().get("max").getAsInt() * ingEffective[n] / 100F);
+                        }
+                    }
+                }
+                if (total_Min != 0 || total_Max != 0) {
+                    if (output.get("identifications") != null) {
+                        output.get("identifications").getAsJsonObject().add(id.getItemName(), JsonParser.parseString("{\"min\":" + total_Min + ",\"max\":" + total_Max + "}"));
+                    } else {
+                        output.add("identifications", JsonParser.parseString("{\"" + id.getItemName() + "\":{\"min\":" + total_Min + ",\"max\":" + total_Max + "}}"));
+                    }
+                }
+            }
 
             if (itemJ.get("type").getAsString().equals("scroll") || itemJ.get("type").getAsString().equals("potion") || itemJ.get("type").getAsString().equals("food")) {
                 if (ingEmpty) {

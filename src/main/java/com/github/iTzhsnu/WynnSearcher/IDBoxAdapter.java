@@ -14,7 +14,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Health", "Health Bonus", "Raw Health Regen", "Health Regen %", "Life Steal",
             "Strength", "Dexterity", "Intelligence", "Defense", "Agility",
             "Earth Defense", "Thunder Defense", "Water Defense", "Fire Defense", "Air Defense",
-            "Earth Defense %", "Thunder Defense %", "Water Defense %", "Fire Defense %", "Air Defense %",
+            "Earth Defense %", "Thunder Defense %", "Water Defense %", "Fire Defense %", "Air Defense %", "Elemental Defense %",
             "Neutral Damage", "Earth Damage", "Thunder Damage", "Water Damage", "Fire Damage", "Air Damage",
             "Earth Damage %", "Thunder Damage %", "Water Damage %", "Fire Damage %", "Air Damage %", "Elemental Damage %",
             "Raw Spell Damage", "Raw Melee Damage", "Spell Damage %", "Melee Damage %", "Poison",
@@ -31,7 +31,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Raw Neutral Melee Damage", "Raw Earth Melee Damage", "Raw Thunder Melee Damage", "Raw Water Melee Damage",  "Raw Fire Melee Damage", "Raw Air Melee Damage",  "Raw Elemental Melee Damage",
             "Neutral Spell Damage %", "Earth Spell Damage %", "Thunder Spell Damage %", "Water Spell Damage %", "Fire Spell Damage %", "Air Spell Damage %", "Elemental Spell Damage %",
             "Raw Neutral Spell Damage", "Raw Earth Spell Damage", "Raw Thunder Spell Damage", "Raw Water Spell Damage", "Raw Fire Spell Damage", "Raw Air Spell Damage", "Raw Elemental Spell Damage",
-            "Knockback", "Healing Efficiency", "Weaken Enemy", "Slow Enemy", "Elemental Defense %",
+            "Knockback", "Healing Efficiency", "Weaken Enemy", "Slow Enemy",
             "Drop Type: Normal", "Drop Type: Loot Chests", "Drop Type: Raid Rewards", "Drop Type: Dungeon Drop", "Drop Type: Dungeon Merchant", "Drop Type: Boss Altar", "Drop Type: Discontinued", "Drop Type: Unknown",
             "Drop Type: Merchant", "Drop Type: Quest", "Drop Type: Unobtainable", "Drop Type: Specific Drop", "Drop Type: Secret Discovery", "Drop Type: The Qira Hive", "Drop Type: Legendary Island", "Drop Type: Other",
             "Durability", "Duration", "Charges", "Ingredient Effectiveness", "Ingredient Effectiveness (Above)", "Ingredient Effectiveness (Under)",
@@ -79,6 +79,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Water Defense %", Identifications.WATER_DEFENSE_PERCENT);
         put("Fire Defense %", Identifications.FIRE_DEFENSE_PERCENT);
         put("Air Defense %", Identifications.AIR_DEFENSE_PERCENT);
+        put("Elemental Defense %", Identifications.ELEMENTAL_DEFENSE);
 
         put("Neutral Damage", Identifications.NEUTRAL_DAMAGE);
         put("Earth Damage", Identifications.EARTH_DAMAGE);
@@ -178,7 +179,6 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Healing Efficiency", Identifications.HEALING_EFFICIENCY);
         put("Weaken Enemy", Identifications.WEAKEN_ENEMY);
         put("Slow Enemy", Identifications.SLOW_ENEMY);
-        put("Elemental Defense %", Identifications.ELEMENTAL_DEFENSE);
 
         put("Durability", Identifications.DURABILITY);
         put("Duration", Identifications.DURATION);

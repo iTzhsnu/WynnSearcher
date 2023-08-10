@@ -22,8 +22,10 @@ public class ItemJsons {
     private final JsonObject weaponTome1;
     private final JsonObject weaponTome2;
     private final JsonObject guildTome;
+    private final JsonObject lootrunTome;
 
-    public ItemJsons(JsonObject helmet, JsonObject chestplate, JsonObject leggings, JsonObject boots, JsonObject ring1, JsonObject ring2, JsonObject bracelet, JsonObject necklace, JsonObject weapon, JsonObject armourTome1, JsonObject armourTome2, JsonObject armourTome3, JsonObject armourTome4, JsonObject weaponTome1, JsonObject weaponTome2, JsonObject guildTome) {
+    public ItemJsons(JsonObject helmet, JsonObject chestplate, JsonObject leggings, JsonObject boots, JsonObject ring1, JsonObject ring2, JsonObject bracelet, JsonObject necklace, JsonObject weapon
+            , JsonObject armourTome1, JsonObject armourTome2, JsonObject armourTome3, JsonObject armourTome4, JsonObject weaponTome1, JsonObject weaponTome2, JsonObject guildTome, JsonObject lootrunTome) {
         this.helmet = helmet;
         this.chestplate = chestplate;
         this.leggings = leggings;
@@ -40,6 +42,7 @@ public class ItemJsons {
         this.weaponTome1 = weaponTome1;
         this.weaponTome2 = weaponTome2;
         this.guildTome = guildTome;
+        this.lootrunTome = lootrunTome;
     }
 
     public JsonObject getHelmet() {
@@ -99,5 +102,45 @@ public class ItemJsons {
         if (necklace != null) list.add(necklace);
 
         return list;
+    }
+
+    public JsonObject getLootrunTome() {
+        return lootrunTome;
+    }
+
+    public List<MajorIDEnum> getMajorIDList() {
+        List<MajorIDEnum> l = new ArrayList<>();
+        if (getJsonObjectList().size() > 0) {
+            for (JsonObject j : getJsonObjectList()) {
+                if (j.get("majorIds") != null) {
+                    MajorIDEnum majorID = MajorIDEnum.GET_MAJOR_IDS.getOrDefault(j.get("majorIds").getAsJsonObject().get("name").getAsString(), MajorIDEnum.EMPTY);
+                    if (majorID != MajorIDEnum.EMPTY && !l.contains(majorID)) l.add(majorID);
+                }
+            }
+        }
+        if (getWeapon() != null && getWeapon().get("majorIds") != null) {
+            MajorIDEnum majorID = MajorIDEnum.GET_MAJOR_IDS.getOrDefault(getWeapon().get("majorIds").getAsJsonObject().get("name").getAsString(), MajorIDEnum.EMPTY);
+            if (majorID != MajorIDEnum.EMPTY && !l.contains(majorID)) l.add(majorID);
+        }
+        return l;
+    }
+
+    public List<String> getMajorIDNameList() {
+        List<String> l = new ArrayList<>();
+        if (getJsonObjectList().size() > 0) {
+            for (JsonObject j : getJsonObjectList()) {
+                if (j.get("majorIds") != null) {
+                    String s = j.get("majorIds").getAsJsonObject().get("name").getAsString();
+                    if (!l.contains(s)) l.add(s);
+                }
+            }
+        }
+        if (getWeapon() != null && getWeapon().get("majorIds") != null) {
+            if (getWeapon().get("majorIds") != null) {
+                String s = getWeapon().get("majorIds").getAsJsonObject().get("name").getAsString();
+                if (!l.contains(s)) l.add(s);
+            }
+        }
+        return l;
     }
 }

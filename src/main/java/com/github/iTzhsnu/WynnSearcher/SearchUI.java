@@ -1062,8 +1062,8 @@ public class SearchUI extends JFrame implements ActionListener {
                                 if (notHaveItemID(id_0, j, num, 1, how_to_obtain) && notHaveItemID(id_1, j, num, 2, how_to_obtain) && notHaveItemID(id_2, j, num, 3, how_to_obtain)) {
                                     if (!Objects.equals(id.getIDType(), "sum")) {
                                         if (id.getItemFieldPos().equals("nothing") && j.get(id.getItemName()) != null) {
-                                            if (id.getItemName().equals(Identifications.DROP_TYPE.getItemName())) {
-                                                if (ItemUITemplate.haveManualDrop(how_to_obtain, j.get("name").getAsString()) > 0) {
+                                            if (id.getItemName().equals(Identifications.DROP_TYPE.getItemName())) { //Drop Type
+                                                if (ItemUITemplate.haveManualDrop(how_to_obtain, j.get("name").getAsString()) > 0) { //Manual Drop Type
                                                     if (how_to_obtain.get(id.getDisplayName()) != null) {
                                                         if (how_to_obtain.get(id.getDisplayName()).isJsonArray()) {
                                                             for (JsonElement je : how_to_obtain.get(id.getDisplayName()).getAsJsonArray()) {
@@ -1079,17 +1079,25 @@ public class SearchUI extends JFrame implements ActionListener {
                                                         }
                                                     }
                                                 } else {
-                                                    if (j.get("dropMeta") != null) {
+                                                    if (j.get("dropMeta") != null) { //Meta Drop Type
                                                         if (j.get("dropMeta").getAsJsonObject().get("type").isJsonArray()) {
                                                             if (id == Identifications.DROP_TYPE_MERCHANT) remove = false;
                                                         } else {
                                                             if (id.getDisplayName().equals(j.get("dropMeta").getAsJsonObject().get("type").getAsString())) remove = false;
                                                         }
-                                                    } else if (j.get("dropRestriction") != null && j.get("dropRestriction").getAsString().equals(id.getDisplayName())) {
+                                                    } else if (j.get("dropRestriction") != null && j.get("dropRestriction").getAsString().equals(id.getDisplayName())) { //Restriction Drop Type
                                                         remove = false;
                                                     }
                                                 }
-                                            } else {
+                                            } else if (id.equals(Identifications.MAJOR_IDS)) { //Major ID
+                                                if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
+                                                    String s = max.getText();
+                                                    if (!min.getText().isEmpty()) s = min.getText();
+                                                    if (j.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString().toLowerCase().contains(s.toLowerCase())) remove = false;
+                                                } else { //has No Text (Major ID)
+                                                    remove = false;
+                                                }
+                                            } else { //Other
                                                 remove = false;
                                             }
                                         } else if (j.get(id.getItemFieldPos()) != null && j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
@@ -1453,10 +1461,10 @@ public class SearchUI extends JFrame implements ActionListener {
 
             if (iu > 0) p = itemDisplays.get(si - iu);
 
-            if (10 + p.getBounds().y + p.getBounds().height > scrollPane.getHeight()) {
+            if (10 + p.getBounds().y + p.getBounds().height > scrollPane.getHeight() - 3) {
                 searched.setPreferredSize(new Dimension(scrollPane.getWidth() - 18, 10 + p.getBounds().y + p.getBounds().height));
             } else {
-                searched.setPreferredSize(new Dimension(scrollPane.getWidth() - 18, scrollPane.getHeight()));
+                searched.setPreferredSize(new Dimension(scrollPane.getWidth() - 18, scrollPane.getHeight() - 3));
             }
         }
 
