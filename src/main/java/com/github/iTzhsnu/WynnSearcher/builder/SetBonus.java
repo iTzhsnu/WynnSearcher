@@ -58,7 +58,7 @@ public class SetBonus {
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //100 ~ 108 (ID), 109 (Weapon Tome Damage Bonus)
         };
 
-        if (size > 1) {
+        if (size > 0) {
             JsonElement jo = new GetAPI().getSetBonus().get(setName);
             if (jo != null && jo.getAsJsonObject().get(String.valueOf(size)) != null) {
                 JsonObject j = jo.getAsJsonObject().get(String.valueOf(size)).getAsJsonObject();

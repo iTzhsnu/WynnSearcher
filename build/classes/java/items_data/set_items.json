@@ -21,7 +21,205 @@
     "Snail Helm": "Snail",
     "Snail Mail": "Snail",
     "Snail Leggings": "Snail",
-    "Snail Boots": "Snail"
+    "Snail Boots": "Snail",
 
+    "Flashfire Knuckle": "Flashfire",
+    "Flashfire Gauntlet": "Flashfire",
+
+    "Corrupted Uth Plume": "Corrupted Uth",
+    "Corrupted Uth Belt": "Corrupted Uth",
+    "Corrupted Uth Sandals": "Corrupted Uth",
+
+    "Veekhat's Horns": "Veekhat's",
+    "Veekhat's Udders": "Veekhat's",
+
+    "Hustle Core": "Synch Core",
+    "Harden Core": "Synch Core",
+    "Dodge Core": "Synch Core",
+    "Synchro Core": "Synch Core",
+    "Overload Core": "synch Core",
+
+    "Clock Helm": "Clock",
+    "Clock Mail": "Clock",
+    "Clock Leggings": "Clock",
+    "Clock Boots": "Clock",
+    "Time Ring": "Clock",
+    "Clockwork Ring": "Clock",
+    "Watch Bracelet": "Clock",
+    "Clock Amulet": "Clock",
+
+    "Black Catalyst": "Black Catalyst",
+
+    "Thanos Legionnaire Helm": "Thanos Legionnaire",
+    "Thanos Legionnaire Plate": "Thanos Legionnaire",
+    "Thanos Legionnaire Leggings": "Thanos Legionnaire",
+    "Thanos Legionnaire Greaves": "Thanos Legionnaire",
+
+    "Cosmic Visor": "Cosmic",
+    "Cosmic Vest": "Cosmic",
+    "Cosmic Ward": "Cosmic",
+    "Cosmic Walkers": "Cosmic",
+
+    "Kaerynn's Mind": "Kaerynn's",
+    "Kaerynn's Body": "Kaerynn's",
+
+    "Corrupted Nii Shako": "Corrupted Nii",
+    "Corrupted Nii Plate": "Corrupted Nii",
+    "Corrupted Nii Mukluk": "Corrupted Nii",
+
+    "Champion Helmet": "Champion",
+    "Champion Chestplate": "Champion",
+    "Champion Leggings": "Champion",
+    "Champion Boots": "Champion",
+
+    "Jester Ring": "Jester",
+    "Jester Bracelet": "Jester",
+    "Jester Necklace": "Jester",
+
+    "Saint's Shawl": "Saint's",
+    "Saint's Tunic": "Saint's",
+    "Saint's Leggings": "Saint's",
+    "Saint's Sandals": "Saint's",
+
+    "Visceral Skullcap": "Visceral",
+    "Visceral Chest": "Visceral",
+    "Visceral Legs": "Visceral",
+    "Visceral Toe": "Visceral",
+
+    "Ultramarine Crown": "Ultramarine",
+    "Ultramarine Cape": "Ultramarine",
+    "Ultramarine Belt": "Ultramarine",
+    "Ultramarine Boots": "Ultramarine",
+
+    "Skien's Fatigues": "Skien's",
+    "Skien Leggings": "Skien's",
+    "Skien Boots": "Skien's",
+
+    "Slime Plate": "Slime",
+    "Slime Boots": "Slime",
+
+    "Ghostly Cap": "Ghostly",
+    "Ghostly Tunic": "Ghostly",
+    "Ghostly Pants": "Ghostly",
+    "Ghostly Boots": "Ghostly",
+
+    "Yellow Ornament": "Wynnterfest 2016",
+    "Blue Ornament": "Wynnterfest 2016",
+    "Red Ornament": "Wynnterfest 2016",
+    "Green Ornament": "Wynnterfest 2016",
+
+    "Treat": "Hallowynn 2016",
+    "Trick": "Hallowynn 2016",
+
+    "Elf Cap": "Elf",
+    "Elf Robe": "Elf",
+    "Elf Pants": "Elf",
+    "Elf Shoes": "Elf",
+
+    "Snow Helmet": "Snow",
+    "Snow Tunic": "Snow",
+    "Snow Pants": "Snow",
+    "Snow Boots": "Snow",
+
+    "Goblin Hood": "Goblin",
+    "Goblin Cloak": "Goblin",
+    "Goblin Runners": "Goblin",
+
+    "Horse Mask": "Horse",
+    "Horse Hoof": "Horse",
+
+    "Earth Relic Helmet": "Earth Relic",
+    "Earth Relic Chestplate": "Earth Relic",
+    "Earth Relic Leggings": "Earth Relic",
+    "Earth Relic Boots": "Earth Relic",
+
+    "Thunder Relic Helmet": "Thunder Relic",
+    "Thunder Relic Chestplate": "Thunder Relic",
+    "Thunder Relic Leggings": "Thunder Relic",
+    "Thunder Relic Boots": "Thunder Relic",
+
+    "Water Relic Helmet": "Water Relic",
+    "Water Relic Chestplate": "Water Relic",
+    "Water Relic Leggings": "Water Relic",
+    "Water Relic Boots": "Water Relic",
+
+    "Fire Relic Helmet": "Fire Relic",
+    "Fire Relic Chestplate": "Fire Relic",
+    "Fire Relic Leggings": "Fire Relic",
+    "Fire Relic Boots": "Fire Relic",
+
+    "Air Relic Helmet": "Air Relic",
+    "Air Relic Chestplate": "Air Relic",
+    "Air Relic Leggings": "Air Relic",
+    "Air Relic Boots": "Air Relic",
+
+    "Relic Helmet": "Relic",
+    "Relic Chestplate": "Relic",
+    "Relic Leggings": "Relic",
+    "Relic Boots": "Relic",
+
+    "Outlaw Cap": "Outlaw",
+    "Outlaw Tunic": "Outlaw",
+    "Outlaw Pants": "Outlaw",
+    "Outlaw Boots": "Outlaw",
+
+    "Bandit's Ring": "Bandit's",
+    "Bandit's Knuckle": "Bandit's",
+    "Bandit's Bangle": "Bandit's",
+    "Bandit's Locket": "Bandit's",
+
+    "Silverfish Helm": "Silverfish",
+    "Silverfish Boots": "Silverfish",
+
+    "Black Cap": "Black",
+    "Black Tunic": "Black",
+    "Black Pants": "Black",
+    "Black Boots": "Black",
+
+    "Adventurer's Cap": "Adventurer's",
+    "Adventurer's Tunic": "Adventurer's",
+    "Adventurer's Pants": "Adventurer's",
+    "Adventurer's Boots": "Adventurer's",
+
+    "Nether Cap": "Nether",
+    "Nether Tunic": "Nether",
+    "Nether Pants": "Nether",
+    "Nether Boots": "Nether",
+
+    "Villager Mail": "Villager",
+    "Villager Pants": "Villager",
+
+    "Bony Bow": "Bony",
+    "Bony Circlet": "Bony",
+
+    "Staff of the Dark Vexations": "Vexing",
+    "Mask of the Dark Vexations": "Vexing",
+
+    "Cephalothorax": "Spider",
+    "Abdomen": "Spider",
+    "Spinneret": "Spider",
+
+    "Tribal Cap": "Tribal",
+    "Tribal Tunic": "Tribal",
+    "Tribal Pants": "Tribal",
+    "Tribal Boots": "Tribal",
+
+    "Beachside Conch": "Beachside",
+    "Beachside Headwrap": "Beachside",
+
+    "Bear Head": "Bear",
+    "Bear Mask": "Bear",
+    "Bear Body": "Bear",
+
+    "Pigman Battle Hammer": "Pigman",
+    "Pigman Helmet": "Pigman",
+
+    "Spore Shortsword": "Spore",
+    "Spore Cap": "Spore",
+
+    "Leaf ": "Leaf",
+    "Leaf ": "Leaf",
+    "Leaf ": "Leaf",
+    "Leaf ": "Leaf"
   }
 }
