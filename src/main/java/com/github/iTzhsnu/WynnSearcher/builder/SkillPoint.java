@@ -55,7 +55,9 @@ public class SkillPoint {
             int[] ids = setBonus.getId_Numbers(true);
             int[] sps = new int[] {ids[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids[ID_Display.ID_INT.get(Identifications.AGILITY)]};
             //Have SP Bonus
-            if (sps[0] > 0 || sps[1] > 0 || sps[2] > 0 || sps[3] > 0 || sps[4] > 0) haveSPBSets.add(setBonus);
+            int[] ids_In_Weapon = setBonus.getId_Numbers(false);
+            int[] sps_In_Weapon = new int[] {ids_In_Weapon[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids_In_Weapon[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids_In_Weapon[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids_In_Weapon[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids_In_Weapon[ID_Display.ID_INT.get(Identifications.AGILITY)]};
+            if (sps_In_Weapon[0] > 0 || sps_In_Weapon[1] > 0 || sps_In_Weapon[2] > 0 || sps_In_Weapon[3] > 0 || sps_In_Weapon[4] > 0) haveSPBSets.add(setBonus);
 
             //Set Minus SP Bonus
             if (sps[0] < 0) { //Strength
@@ -671,6 +673,39 @@ public class SkillPoint {
                     }
                 }
             }
+
+            //Apply Set Bonus
+            if (json.get("tier") != null && json.get("tier").getAsString().equals("set") && set.size() > 0) {
+                for (SetBonus setBonus : haveSPBSets) {
+                    if (setBonus.getEquippedItems().size() > 1 && setBonus.getEquippedItems().contains(json.get("name").getAsString())) {
+                        setBonus.addEquipped();
+
+                        //Add Set Bonus
+                        if (setBonus.getEquippedSize() > 1) {
+                            int[] ids_now = setBonus.getId_Numbers(setBonus.getEquippedSize());
+                            int[] sps_now = new int[] {ids_now[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids_now[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids_now[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids_now[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids_now[ID_Display.ID_INT.get(Identifications.AGILITY)]};
+
+                            if (sps_now[0] > 0) originalSP[0] += sps_now[0]; //Strength
+                            if (sps_now[1] > 0) originalSP[1] += sps_now[1]; //Dexterity
+                            if (sps_now[2] > 0) originalSP[2] += sps_now[2]; //Intelligence
+                            if (sps_now[3] > 0) originalSP[3] += sps_now[3]; //Defense
+                            if (sps_now[4] > 0) originalSP[4] += sps_now[4]; //Agility
+                        }
+
+                        //Remove Previous Set Bonus
+                        if (setBonus.getEquippedSize() > 2) {
+                            int[] ids_previous = setBonus.getId_Numbers(setBonus.getEquippedSize() - 1);
+                            int[] sps_previous = new int[] {ids_previous[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids_previous[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids_previous[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids_previous[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids_previous[ID_Display.ID_INT.get(Identifications.AGILITY)]};
+
+                            if (sps_previous[0] > 0) originalSP[0] -= sps_previous[0]; //Strength
+                            if (sps_previous[1] > 0) originalSP[1] -= sps_previous[1]; //Dexterity
+                            if (sps_previous[2] > 0) originalSP[2] -= sps_previous[2]; //Intelligence
+                            if (sps_previous[3] > 0) originalSP[3] -= sps_previous[3]; //Defense
+                            if (sps_previous[4] > 0) originalSP[4] -= sps_previous[4]; //Agility
+                        }
+                    }
+                }
+            }
         }
 
         strength.setValue(originalSP[0], assignSP[0], totalSP[0]);
@@ -682,7 +717,7 @@ public class SkillPoint {
     }
 
     public void setSetBonus(List<Integer> set, int i, List<SetBonus> haveSPBSets, ItemJsons items, int[] totalSP, int[] originalSP) {
-        if (set.contains(i) && set.size() > 1) {
+        if (set.contains(i)) {
             for (SetBonus setBonus : haveSPBSets) {
                 if (setBonus.getEquippedItems().size() > 1 && setBonus.getEquippedItems().contains(items.getJsonObjectList().get(i).get("name").getAsString())) {
                     setBonus.addEquipped();
