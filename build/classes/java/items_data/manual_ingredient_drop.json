@@ -750,6 +750,446 @@
         ],
         "ismobname": false
       }
+    ],
+    "Chunky Ash": [
+      {
+        "name": "Refine Unrefined Smouldering Wood",
+        "pos": [
+          "1442 40 -5264"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Cut Flerisi Tree",
+        "pos": [
+          "Molten Heights (Lower Area)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Charcoal Lump": [
+      {
+        "name": "Refine Unrefined Smouldering Wood",
+        "pos": [
+          "1442 40 -5264"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Cut Flerisi Tree",
+        "pos": [
+          "Molten Heights (Lower Area)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Igneous Thread": [
+      {
+        "name": "Refine Unrefined Smouldering Wood",
+        "pos": [
+          "1442 40 -5264"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Cut Flerisi Tree",
+        "pos": [
+          "Molten Heights (Lower Area)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Obsidian Shards": [
+      {
+        "name": "Refine Unrefined Smouldering Wood",
+        "pos": [
+          "1442 40 -5264"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Cut Flerisi Tree",
+        "pos": [
+          "Molten Heights (Lower Area)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Flerisi Bark": [
+      {
+        "name": "Refine Unrefined Smouldering Wood",
+        "pos": [
+          "1442 40 -5264"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Cut Flerisi Tree",
+        "pos": [
+          "Molten Heights (Lower Area)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Searing Heartwood": [
+      {
+        "name": "Refine Unrefined Smouldering Wood",
+        "pos": [
+          "1442 40 -5264"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Cut Flerisi Tree",
+        "pos": [
+          "Molten Heights (Lower Area)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Amber-Encased Fleris": [
+      {
+        "name": "Refine Unrefined Smouldering Wood",
+        "pos": [
+          "1442 40 -5264"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Cut Flerisi Tree",
+        "pos": [
+          "Molten Heights (Lower Area)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Twisted Coral": [
+      {
+        "name": "Collet Abyssal Matter (Fishing)",
+        "pos": [
+          "Jofash Dock (In the water)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Sunken Scales": [
+      {
+        "name": "Collet Abyssal Matter (Fishing)",
+        "pos": [
+          "Jofash Dock (In the water)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Deepborn Scavenger": [
+      {
+        "name": "Collet Abyssal Matter (Fishing)",
+        "pos": [
+          "Jofash Dock (In the water)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Angler's Light": [
+      {
+        "name": "Collet Abyssal Matter (Fishing)",
+        "pos": [
+          "Jofash Dock (In the water)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Epipelagic Eye": [
+      {
+        "name": "Collet Abyssal Matter (Fishing)",
+        "pos": [
+          "Jofash Dock (In the water)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Bioluminescent Blood": [
+      {
+        "name": "Collet Abyssal Matter (Fishing)",
+        "pos": [
+          "Jofash Dock (In the water)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Fathomflooded Flesh": [
+      {
+        "name": "Collet Abyssal Matter (Fishing)",
+        "pos": [
+          "Jofash Dock (In the water)"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Withered Root": [
+      {
+        "name": "The Hoarder (Trade with Gloomy Rose)",
+        "pos": [
+          "14074 125 -4235 (The Void)"
+        ]
+      },
+      {
+        "name": "Collect Voidgloom (Farming)",
+        "pos": [
+          "The Void"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Impure Nullity": [
+      {
+        "name": "The Hoarder (Trade with Gloomy Rose)",
+        "pos": [
+          "14074 125 -4235 (The Void)"
+        ]
+      },
+      {
+        "name": "Collect Voidgloom (Farming)",
+        "pos": [
+          "The Void"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Essence of Dissolution": [
+      {
+        "name": "The Hoarder (Trade with Gloomy Rose)",
+        "pos": [
+          "14074 125 -4235 (The Void)"
+        ]
+      },
+      {
+        "name": "Collect Voidgloom (Farming)",
+        "pos": [
+          "The Void"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Psionic Quill": [
+      {
+        "name": "The Hoarder (Trade with Gloomy Rose)",
+        "pos": [
+          "14074 125 -4235 (The Void)"
+        ]
+      },
+      {
+        "name": "Collect Voidgloom (Farming)",
+        "pos": [
+          "The Void"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Peculiar Oddity": [
+      {
+        "name": "The Hoarder (Trade with Gloomy Rose)",
+        "pos": [
+          "14074 125 -4235 (The Void)"
+        ]
+      },
+      {
+        "name": "Collect Voidgloom (Farming)",
+        "pos": [
+          "The Void"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Remnant of the Ruined": [
+      {
+        "name": "The Hoarder (Trade with Gloomy Rose)",
+        "pos": [
+          "14074 125 -4235 (The Void)"
+        ]
+      },
+      {
+        "name": "Collect Voidgloom (Farming)",
+        "pos": [
+          "The Void"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Voidtossed Memory": [
+      {
+        "name": "The Hoarder (Trade with Gloomy Rose)",
+        "pos": [
+          "14074 125 -4235 (The Void)"
+        ]
+      },
+      {
+        "name": "Collect Voidgloom (Farming)",
+        "pos": [
+          "The Void"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Toxic Lumps": [
+      {
+        "name": "Refine Foul Larbonic Shell",
+        "pos": [
+          "1085 92 -478"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Mining Larbonic Geode",
+        "pos": [
+          "Toxic Wastes"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Cystic Lard": [
+      {
+        "name": "Refine Foul Larbonic Shell",
+        "pos": [
+          "1085 92 -478"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Mining Larbonic Geode",
+        "pos": [
+          "Toxic Wastes"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Crystallized Organ": [
+      {
+        "name": "Refine Foul Larbonic Shell",
+        "pos": [
+          "1085 92 -478"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Mining Larbonic Geode",
+        "pos": [
+          "Toxic Wastes"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Lactic Acid Crystal": [
+      {
+        "name": "Refine Foul Larbonic Shell",
+        "pos": [
+          "1085 92 -478"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Mining Larbonic Geode",
+        "pos": [
+          "Toxic Wastes"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Larbonic Sheddings": [
+      {
+        "name": "Refine Foul Larbonic Shell",
+        "pos": [
+          "1085 92 -478"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Mining Larbonic Geode",
+        "pos": [
+          "Toxic Wastes"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Vile Stone": [
+      {
+        "name": "Refine Foul Larbonic Shell",
+        "pos": [
+          "1085 92 -478"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Mining Larbonic Geode",
+        "pos": [
+          "Toxic Wastes"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Giant Teratoma": [
+      {
+        "name": "Refine Foul Larbonic Shell",
+        "pos": [
+          "1085 92 -478"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Mining Larbonic Geode",
+        "pos": [
+          "Toxic Wastes"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Pluripotent Tissue": [
+      {
+        "name": "Refine Foul Larbonic Shell",
+        "pos": [
+          "1085 92 -478"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Mining Larbonic Geode",
+        "pos": [
+          "Toxic Wastes"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Depurinated Genome": [
+      {
+        "name": "Refine Foul Larbonic Shell",
+        "pos": [
+          "1085 92 -478"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Mining Larbonic Geode",
+        "pos": [
+          "Toxic Wastes"
+        ],
+        "ismobname": false
+      }
+    ],
+    "Rejected Geode": [
+      {
+        "name": "Refine Foul Larbonic Shell",
+        "pos": [
+          "1085 92 -478"
+        ],
+        "ismobname": false
+      },
+      {
+        "name": "Mining Larbonic Geode",
+        "pos": [
+          "Toxic Wastes"
+        ],
+        "ismobname": false
+      }
     ]
   }
 }
