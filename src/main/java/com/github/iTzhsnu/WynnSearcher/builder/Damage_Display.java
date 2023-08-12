@@ -2589,7 +2589,7 @@ public class Damage_Display {
         }
 
         private void addDamage(float total_Min, float total_Max) {
-            JLabel l = new JLabel(total_Min + " to" + total_Max);
+            JLabel l = new JLabel(total_Min + " to " + total_Max);
             l.setAlignmentX(Component.CENTER_ALIGNMENT);
             p.add(new JLabel(" ")); //+20
             p.add(l); //+16

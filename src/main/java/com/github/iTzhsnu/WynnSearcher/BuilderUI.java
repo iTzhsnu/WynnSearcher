@@ -586,7 +586,7 @@ public class BuilderUI implements ActionListener {
     }
 
     public void updateAPIs() {
-        if (weaponTomeJson.size() > 0) weaponTomeJson.clear();
+        if (weaponJson.size() > 0) weaponJson.clear();
         if (helmetJson.size() > 0) helmetJson.clear();
         if (chestplateJson.size() > 0) chestplateJson.clear();
         if (leggingsJson.size() > 0) leggingsJson.clear();
