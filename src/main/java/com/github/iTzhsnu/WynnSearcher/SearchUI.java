@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
-    public static final String VERSION = "3.2.2";
+    public static final String VERSION = "3.2.3";
 
     //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
