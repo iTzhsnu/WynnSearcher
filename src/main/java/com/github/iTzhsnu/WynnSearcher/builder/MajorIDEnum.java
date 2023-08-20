@@ -7,7 +7,7 @@ public enum MajorIDEnum {
     EMPTY,
 
     DIVINE_HONOR,
-    GENTLE_GLOW, //TODO
+    GENTLE_GLOW,
     FURIOUS_EFFIGY,
     STRINGS_OF_FATE,
     RALLY,

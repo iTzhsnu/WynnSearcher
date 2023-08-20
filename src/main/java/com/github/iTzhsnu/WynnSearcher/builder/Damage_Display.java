@@ -1260,8 +1260,8 @@ public class Damage_Display {
         if (tbd[AbilityIDEnum.CHARGE.pos]) {
             list.add(new Damage_Template("Charge", calc_Spell_Cost(25 + spell_cost_2, intelligence, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_2ND_SPELL_COST)], id_Numbers[ID_Display.ID_INT.get(Identifications.PERCENT_2ND_SPELL_COST)]), pane, list.get(list.size() - 1), sp, crit_boost, false));
             if (itemJsons.getMajorIDList().contains(MajorIDEnum.RALLY)) { //Rally (Major ID)
-                list.get(list.size() - 1).addHeal("Heal", id_Numbers, 0.1F, false);
-                list.get(list.size() - 1).addHeal("Heal to Allies", id_Numbers, 0.15F, false);
+                list.get(list.size() - 1).addHeal("Heal", id_Numbers, 0.1F, false, false);
+                list.get(list.size() - 1).addHeal("Heal to Allies", id_Numbers, 0.15F, false, false);
             } else {
                 if (tbd[AbilityIDEnum.HEAVY_IMPACT.pos]) calcSpell("Heavy Impact", list.size() - 1, calc_raw, list, spell_total, id_Numbers, set_Damage_Percent(SpellEnum.HEAVY_IMPACT), sp, false, false);
                 if (tbd[AbilityIDEnum.FLYBY_JAB.pos]) calcSpell("Flyby Jab", list.size() - 1, calc_raw, list, spell_total, id_Numbers, set_Damage_Percent(SpellEnum.FLYBY_JAB), sp, false, false);
@@ -1724,18 +1724,29 @@ public class Damage_Display {
         calcMelee("DPS", list.size() - 1, calc_raw, list, melee_total, id_Numbers, melee, atkSpd, sp, false, true, false);
         calcMelee("Single Hit", list.size() - 1, calc_raw, list, melee_total, id_Numbers, melee, atkSpd, sp, true, false, false);
 
-        //Heal TODO apply Gentle Glow (Major ID)
+        //Heal
         if (tbd[AbilityIDEnum.HEAL.pos]) {
             if (tbd[AbilityIDEnum.ARCANE_TRANSFER.pos]) {
                 list.add(new Damage_Template("Arcane Transfer", 0, pane, list.get(list.size() - 1), sp, crit_boost, false));
             } else {
                 list.add(new Damage_Template("Heal", calc_Spell_Cost(35 + spell_cost_1, intelligence, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_1ST_SPELL_COST)], id_Numbers[ID_Display.ID_INT.get(Identifications.PERCENT_1ST_SPELL_COST)]), pane, list.get(list.size() - 1), sp, crit_boost, false));
                 if (tbd[AbilityIDEnum.ORPHIONS_PULSE.pos]) { //Orphion's Pulse
-                    list.get(list.size() - 1).addHeal("Total Heal", id_Numbers, 0.55F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos]);
-                    list.get(list.size() - 1).addHeal("First Heal", id_Numbers, 0.15F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos]);
-                    list.get(list.size() - 1).addHeal("Second and Third Heal Pulses", id_Numbers, 0.2F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos]);
+                    if (itemJsons.getMajorIDList().contains(MajorIDEnum.GENTLE_GLOW)) { //Gentle Glow
+                        list.get(list.size() - 1).addHeal("Total Heal", id_Numbers, 0.6F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
+                        list.get(list.size() - 1).addHeal("per Heal", id_Numbers, 0.2F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
+                        list.get(list.size() - 1).addHeal("per Heal to Allies", id_Numbers, 0.15F * 1.6F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
+                    } else {
+                        list.get(list.size() - 1).addHeal("Total Heal", id_Numbers, 0.55F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], false);
+                        list.get(list.size() - 1).addHeal("First Heal", id_Numbers, 0.15F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], false);
+                        list.get(list.size() - 1).addHeal("Second and Third Heal Pulses", id_Numbers, 0.2F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], false);
+                    }
                 } else {
-                    list.get(list.size() - 1).addHeal("Heal", id_Numbers, 0.15F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos]);
+                    if (itemJsons.getMajorIDList().contains(MajorIDEnum.GENTLE_GLOW)) { //Gentle Glow
+                        list.get(list.size() - 1).addHeal("Heal", id_Numbers, 0.15F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
+                        list.get(list.size() - 1).addHeal("Heal to Allies", id_Numbers, 0.15F * 1.6F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
+                    } else {
+                        list.get(list.size() - 1).addHeal("Heal", id_Numbers, 0.15F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], false);
+                    }
                 }
             }
 
@@ -1857,7 +1868,7 @@ public class Damage_Display {
                 totem_count = 2;
             }
             if (itemJsons.getMajorIDList().contains(MajorIDEnum.FURIOUS_EFFIGY)) furious_effigy = 2; //Has Furious Effigy (x2 Time)
-            if (tbd[AbilityIDEnum.REGENERATION.pos]) list.get(list.size() - 1).addHeal("Heal", id_Numbers, 0.01F * furious_effigy, false);
+            if (tbd[AbilityIDEnum.REGENERATION.pos]) list.get(list.size() - 1).addHeal("Heal", id_Numbers, 0.01F * furious_effigy, false, false);
             calcSpell("DPS", list.size() - 1, calc_raw, list, totem_percent, id_Numbers, calc_Total_Damage_Percent_Manual(totem, 2.5F * totem_count * furious_effigy), sp, false, false);
             calcSpell("Single Hit", list.size() - 1, calc_raw, list, totem_percent, id_Numbers, totem, sp, false, false);
         }
@@ -1887,6 +1898,7 @@ public class Damage_Display {
             float aura_percent = spell_total;
             int totem_count = 1;
             float heal = 1F;
+            boolean gentle_Glow = itemJsons.getMajorIDList().contains(MajorIDEnum.GENTLE_GLOW); //Gentle Glow
             if (tbd[AbilityIDEnum.SHOCKING_AURA.pos]) add_Damage_Percent(aura, SpellEnum.SHOCKING_AURA);
             if (tbd[AbilityIDEnum.STORM_DANCE.pos]) add_Damage_Percent(aura, SpellEnum.STORM_DANCE);
             if (tbd[AbilityIDEnum.TRIPLE_TOTEM.pos]) {
@@ -1904,16 +1916,18 @@ public class Damage_Display {
             if (tbd[AbilityIDEnum.REBOUND.pos]) {
                 //Rebound
                 if (tbd[AbilityIDEnum.SACRIFICIAL_SHRINE.pos] && abilityBuffs.getBox().get(Ability_Buffs_Enum.SACRIFICIAL_SHRINE.getPos()).isSelected()) { //Sacrificial Shrine
-                    list.get(list.size() - 1).addHeal("Total Heal", id_Numbers, 0.5F * heal * totem_count * 0.6F, tbd[AbilityIDEnum.FLUID_HEALING_SHAMAN.pos]);
-                    list.get(list.size() - 1).addHeal("Single Heal", id_Numbers, 0.25F * heal * 0.6F, tbd[AbilityIDEnum.FLUID_HEALING_SHAMAN.pos]);
+                    list.get(list.size() - 1).addHeal("Total Heal", id_Numbers, 0.5F * heal * totem_count * 0.6F, tbd[AbilityIDEnum.FLUID_HEALING_SHAMAN.pos], gentle_Glow);
+                    list.get(list.size() - 1).addHeal("Single Heal", id_Numbers, 0.25F * heal * 0.6F, tbd[AbilityIDEnum.FLUID_HEALING_SHAMAN.pos], gentle_Glow);
+                    if (gentle_Glow) list.get(list.size() - 1).addHeal("Heal to Allies", id_Numbers, 0.25F * heal * 0.6F * 1.6F, tbd[AbilityIDEnum.FLUID_HEALING_SHAMAN.pos], true);
                     aura_percent *= 1.35F;
                 }
                 calcSpell("Single Hit", list.size() - 1, calc_raw, list, aura_percent, id_Numbers, aura, sp, false, false);
                 calcSpell("Total Damage", list.size() - 1, calc_raw, list, aura_percent, id_Numbers, calc_Total_Damage_Percent_Manual(aura, totem_count * 2), sp, true, false);
             } else {
                 if (tbd[AbilityIDEnum.SACRIFICIAL_SHRINE.pos] && abilityBuffs.getBox().get(Ability_Buffs_Enum.SACRIFICIAL_SHRINE.getPos()).isSelected()) {
-                    list.get(list.size() - 1).addHeal("Total Heal", id_Numbers, 0.25F * heal * totem_count, tbd[AbilityIDEnum.FLUID_HEALING_SHAMAN.pos]);
-                    list.get(list.size() - 1).addHeal("Single Heal", id_Numbers, 0.25F * heal, tbd[AbilityIDEnum.FLUID_HEALING_SHAMAN.pos]);
+                    list.get(list.size() - 1).addHeal("Total Heal", id_Numbers, 0.25F * heal * totem_count, tbd[AbilityIDEnum.FLUID_HEALING_SHAMAN.pos], gentle_Glow);
+                    list.get(list.size() - 1).addHeal("Single Heal", id_Numbers, 0.25F * heal, tbd[AbilityIDEnum.FLUID_HEALING_SHAMAN.pos], gentle_Glow);
+                    if (gentle_Glow) list.get(list.size() - 1).addHeal("Heal to Allies", id_Numbers, 0.25F * heal * 1.6F, tbd[AbilityIDEnum.FLUID_HEALING_SHAMAN.pos], true);
                     aura_percent *= 1.35F;
                 }
                 calcSpell("Single Hit", list.size() - 1, calc_raw, list, aura_percent, id_Numbers, aura, sp, false, false);
@@ -2568,11 +2582,17 @@ public class Damage_Display {
             pane.add(p);
         }
 
-        private void addHeal(String name, int[] id_Numbers, float healPercent, boolean isCanBoost) {
+        private void addHeal(String name, int[] id_Numbers, float healPercent, boolean isCanBoost, boolean useGentleGlow) {
             float heal = (id_Numbers[ID_Display.ID_INT.get(Identifications.HEALTH)] + id_Numbers[ID_Display.ID_INT.get(Identifications.HEALTH_BONUS)]) * healPercent * (1F + (id_Numbers[ID_Display.ID_INT.get(Identifications.HEALING_EFFICIENCY)] / 100F));
-            if (isCanBoost) heal *= 1F + ((id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] * 0.3F) / 100F);
+            if (isCanBoost) {
+                if (useGentleGlow) {
+                    heal *= 1F + ((id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] * 0.75F) / 100F);
+                } else {
+                    heal *= 1F + ((id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] * 0.3F) / 100F);
+                }
+            }
             JLabel n = new JLabel(name);
-            JLabel h = new JLabel(String.valueOf(heal));
+            JLabel h = new JLabel(String.valueOf((int) Math.floor(heal)));
             n.setAlignmentX(Component.CENTER_ALIGNMENT);
             h.setAlignmentX(Component.CENTER_ALIGNMENT);
             p.add(new JLabel(" ")); //+20
