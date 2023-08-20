@@ -1,5 +1,5 @@
 {
-  "last_edit": "2023-07-25",
+  "last_edit": "2023-08-20",
   "unobtainable": [
     "GM's Helmet",
     "GM's Breastplate",
@@ -12,7 +12,6 @@
     "Builder's Breastplate",
     "Builder's Trousers",
     "Builder's Boots",
-    "Inhibitor֎",
     "Yellow Content Cap of Fame",
     "Seekers Aid",
     "Contest Wynner Cap",
@@ -2549,7 +2548,8 @@
   },
   "specific": {
     "Contamination": [
-      {"name": "Jungle Fetish",
+      {
+        "name": "Jungle Fetish",
         "pos": [
           "-662, 58, -815 | Radius: 13.5",
           "-563, 65, -900 | Radius: 19.0"
@@ -3935,6 +3935,14 @@
           "1004, 05, -2579 (from Official Wiki)",
           "696, 88, -2468 (from Official Wiki)",
           "861, 80, -2600 (from Official Wiki)"
+        ]
+      }
+    ],
+    "Inhibitor֎": [
+      {
+        "name": "Qira, Mistress of the Hive (Very Rare Drop)",
+        "pos": [
+          "The Qira Hive"
         ]
       }
     ]
