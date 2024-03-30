@@ -966,14 +966,14 @@ public class ItemUITemplate extends JPanel {
             label.add(new JLabel(" "));
         }
 
-        if (type.equals("charm") && json.get("base") != null && json.get("requirements") != null) {
-            JsonObject j = json.get("base").getAsJsonObject();
+        if (type.equals("charm") && json.get(Identifications.LEVELED_XP_BONUS.getItemFieldPos()) != null && json.get("requirements") != null) {
+            JsonObject j = json.get(Identifications.LEVELED_XP_BONUS.getItemFieldPos()).getAsJsonObject();
             int min = json.get("requirements").getAsJsonObject().get("levelRange").getAsJsonObject().get("min").getAsInt();
             int max = json.get("requirements").getAsJsonObject().get("levelRange").getAsJsonObject().get("max").getAsInt();
 
-            if (j.get("leveledXpBonus") != null) label.add(new JLabel(getMin(j.get("leveledXpBonus").getAsInt()) + "% XP from Lv." + min + "-" + max + " contents " + getMax(j.get("leveledXpBonus").getAsInt()) + "%"));
-            if (j.get("damageFromMobs") != null) label.add(new JLabel(getMin(j.get("damageFromMobs").getAsInt()) + "% Damage taken from mobs " + getMax(j.get("damageFromMobs").getAsInt()) + "%"));
-            if (j.get("leveledLootBonus") != null) label.add(new JLabel(getMin(j.get("leveledLootBonus").getAsInt()) + "% Loot from Lv." + min + "-" + max + " contents " + getMax(j.get("leveledLootBonus").getAsInt()) + "%"));
+            if (j.get(Identifications.LEVELED_XP_BONUS.getItemName()) != null) label.add(new JLabel(setPlus(j.get(Identifications.LEVELED_XP_BONUS.getItemName()).getAsJsonObject().get("min").getAsInt()) + "% XP from Lv." + min + "-" + max + " contents " + setPlus(j.get(Identifications.LEVELED_XP_BONUS.getItemName()).getAsJsonObject().get("max").getAsInt()) + "%"));
+            if (j.get(Identifications.DAMAGE_FROM_MOBS.getItemName()) != null) label.add(new JLabel(setPlus(j.get(Identifications.DAMAGE_FROM_MOBS.getItemName()).getAsJsonObject().get("min").getAsInt()) + "% Damage taken from mobs " + setPlus(j.get(Identifications.DAMAGE_FROM_MOBS.getItemName()).getAsJsonObject().get("max").getAsInt()) + "%"));
+            if (j.get(Identifications.LEVELED_LOOT_BONUS.getItemName()) != null) label.add(new JLabel(setPlus(j.get(Identifications.LEVELED_LOOT_BONUS.getItemName()).getAsJsonObject().get("min").getAsInt()) + "% Loot from Lv." + min + "-" + max + " contents " + setPlus(j.get(Identifications.LEVELED_LOOT_BONUS.getItemName()).getAsJsonObject().get("max").getAsInt()) + "%"));
         }
 
         if (type.equals("tome") || type.equals("charm")) { //IDs

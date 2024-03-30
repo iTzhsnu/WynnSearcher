@@ -40,7 +40,7 @@ public class GetAPI {
         JsonObject saveOtherItemsJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
         try {
             //Load Items (1m20s Slow)
-            for (int i = 0; 9 > i; ++i) {
+            for (int i = 0; 8 > i; ++i) {
                 String s = "\"weapons\"";
                 switch (i) {
                     case 1:
@@ -67,7 +67,7 @@ public class GetAPI {
                 }
 
                 String post = "{\"query\":null,\"type\":[" + s + "],\"tier\":[],\"attackSpeed\":[],\"levelRange\":[0,110],\"professions\":[],\"identifications\":[]}";
-                if (i == 8) post = "{\"query\":\"Tome Of Lootrun Mastery\",\"type\":[],\"tier\":[],\"attackSpeed\":[],\"levelRange\":[0,110],\"professions\":[],\"identifications\":[]}"; //Lootrun Tomes
+                //if (i == 8) post = "{\"query\":\"Tome Of Lootrun Mastery\",\"type\":[],\"tier\":[],\"attackSpeed\":[],\"levelRange\":[0,110],\"professions\":[],\"identifications\":[]}"; //Lootrun Tomes
                 int endPos = 1;
                 for (int n = 1; endPos >= n; ++n) {
                     URLConnection urlConn = new URL(WYNN_ITEM_V3_API + "?page=" + n).openConnection();

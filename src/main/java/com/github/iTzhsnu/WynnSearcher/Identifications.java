@@ -136,6 +136,10 @@ public enum Identifications {
     SLOW_ENEMY("Slow Enemy", "slowEnemy", null, "%", "int", null, "identifications", null, true),
     ELEMENTAL_DEFENSE("Elemental Defense", "bonusElementalDefense", null, "%", "int", null, "identifications", null, true),
 
+    DAMAGE_FROM_MOBS("Damage From Mobs", "damageFromMobs", null, "%", "int", null, "identifications", null, false),
+    LEVELED_LOOT_BONUS("Leveled Loot Bonus", "leveledLootBonus", null, "%", "int", null, "identifications", null, false),
+    LEVELED_XP_BONUS("Leveled XP Bonus", "leveledXpBonus", null, "%", "int", null, "identifications", null, false),
+
     DURABILITY("Durability", null, "durabilityModifier", "", "int", null, null, "itemOnlyIDs", false),
     DURATION("Duration", null, "duration", "", "int", null, null, "consumableOnlyIDs", false),
     CHARGES("Charges", null, "charges", "", "int", null, null, "consumableOnlyIDs", false),
