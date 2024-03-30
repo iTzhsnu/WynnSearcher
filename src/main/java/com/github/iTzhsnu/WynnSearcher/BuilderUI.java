@@ -730,8 +730,8 @@ public class BuilderUI implements ActionListener {
 
         //Powders
         sb.append("],\"powders\":[");
-        for (int i = 0; powderField.size() > i; ++i) {
-            String s = "\"" + powderField.get(i).getText() + "\",";
+        for (JTextField t : powderField) {
+            String s = "\"" + t.getText() + "\",";
             sb.append(s);
         }
         sb.deleteCharAt(sb.length() - 1);

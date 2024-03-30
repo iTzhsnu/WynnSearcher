@@ -19,8 +19,8 @@ import java.util.*;
 
 public class GetAPI {
     public static final String WYNN_RECIPE_API = "https://api.wynncraft.com/v2/recipe/search/skill/";
-    public static final String WYNN_ITEM_V3_API = "https://web-api.wynncraft.com/api/v3/item/search";
-    public static final String WYNN_ABILITY_TREE_API = "https://web-api.wynncraft.com/api/v3/ability/"; // map/[class], tree/[class]
+    public static final String WYNN_ITEM_V3_API = "https://api.wynncraft.com/v3/item/search";
+    public static final String WYNN_ABILITY_TREE_API = "https://api.wynncraft.com/v3/ability/"; // map/[class], tree/[class]
 
     public GetAPI() {}
 
@@ -147,15 +147,17 @@ public class GetAPI {
                 ingW.close();
                 oItemsW.close();
             }
+
+            if (connect) {
+                label.setText("Item API Latest");
+                label.setForeground(new Color(0, 169, 104));
+            } else {
+                label.setText("Update Failed");
+                label.setForeground(new Color(255, 255, 0));
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        if (connect) {
-            label.setText("Item API Latest");
-            label.setForeground(new Color(0, 169, 104));
-        } else {
-            label.setText("Update Failed");
+            label.setText(e.getMessage());
             label.setForeground(new Color(255, 255, 0));
         }
     }
@@ -262,7 +264,7 @@ public class GetAPI {
             JsonObject json = JsonParser.parseString(mapBuilder.toString()).getAsJsonObject();
             if (json.get("map") != null) {
                 for (JsonElement je : json.get("map").getAsJsonArray()) {
-                    if (je.getAsJsonObject().get("TYPE") != null && je.getAsJsonObject().get("TYPE").getAsString().equals("CONNECTOR")) {
+                    if (je.getAsJsonObject().get("type") != null && je.getAsJsonObject().get("type").getAsString().equals("connector")) {
                         treeMap.add(je.getAsJsonObject());
                     }
                 }
@@ -289,7 +291,7 @@ public class GetAPI {
             //Tree Map
             if (mapJ.get("map") != null) {
                 for (JsonElement je : mapJ.get("map").getAsJsonArray()) {
-                    if (je.getAsJsonObject().get("TYPE") != null && je.getAsJsonObject().get("TYPE").getAsString().equals("CONNECTOR")) {
+                    if (je.getAsJsonObject().get("type") != null && je.getAsJsonObject().get("type").getAsString().equals("connector")) {
                         treeMap.add(je.getAsJsonObject());
                     }
                 }

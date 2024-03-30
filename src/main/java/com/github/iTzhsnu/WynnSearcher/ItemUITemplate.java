@@ -389,13 +389,21 @@ public class ItemUITemplate extends JPanel {
                 if (!j.isJsonObject()) { //Constant Value
                     label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
                 } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) { //Identified Items
-                    label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt())) + id.getDisplaySp()));
+                    if (j.getAsJsonObject().get("raw") == null) {
+                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt())) + id.getDisplaySp()));
+                    } else {
+                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("raw").getAsInt()) + id.getDisplaySp()));
+                    }
                 } else {
                     if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) { //Crafted Items
                         label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                     } else { //Normal Items
-                        int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
-                        label.add(new JLabel(getReversedMax(base) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(base) + id.getDisplaySp()));
+                        if (j.getAsJsonObject().get("raw") == null) {
+                            int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
+                            label.add(new JLabel(getReversedMax(base) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(base) + id.getDisplaySp()));
+                        } else {
+                            label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                        }
                     }
                 }
             }
@@ -992,10 +1000,18 @@ public class ItemUITemplate extends JPanel {
                     if (!j.isJsonObject()) {
                         label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
                     } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
-                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt())) + id.getDisplaySp()));
+                        if (j.getAsJsonObject().get("raw") == null) {
+                            label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt())) + id.getDisplaySp()));
+                        } else {
+                            label.add(new JLabel(id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("raw").getAsInt()) + id.getDisplaySp()));
+                        }
                     } else {
-                        int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
-                        label.add(new JLabel(getReversedMax(base) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(base) + id.getDisplaySp()));
+                        if (j.getAsJsonObject().get("raw") == null) {
+                            int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
+                            label.add(new JLabel(getReversedMax(base) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(base) + id.getDisplaySp()));
+                        } else {
+                            label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                        }
                     }
                 }
             }

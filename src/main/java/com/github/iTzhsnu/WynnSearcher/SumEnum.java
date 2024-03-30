@@ -9,7 +9,7 @@ public enum SumEnum {
     TOTAL_HEALTH_REGEN(create_ID_List(Identifications.RAW_HEALTH_REGEN), null, create_ID_List(Identifications.HEALTH_REGEN_PERCENT), null, false, false, false),
     RAW_DEFENSES(raw_Defenses(), null, null, null, false, false, false),
     RAW_RAINBOW_DEFENSES(raw_Defenses(), null, null, null, false, false, true),
-    DEFENSES_PERCENT(defenses_Percent(), null, null, null, false, false, false),
+    DEFENSES_PERCENT(elem_Defenses_Percent(), null, null, null, false, false, false),
     RAINBOW_DEFENSES_PERCENT(defenses_Percent(), null, null, null, false, false, true),
     SKILL_POINT_BONUS(skill_Points(), null, null, null, false, false, false),
     RAINBOW_SKILL_POINT_BONUS(skill_Points(), null, null, null, false, false, true),
@@ -24,7 +24,7 @@ public enum SumEnum {
 
     RAW_DAMAGES(damages(), null, null, null, false, false, false),
     RAW_RAINBOW_DAMAGES(rainbow_damages(), null, null, null, false, false, true),
-    DAMAGES_PERCENT(damages_Percent(), null, null, null, false, false, false),
+    DAMAGES_PERCENT(elem_Damage_Percent(), null, null, null, false, false, false),
     RAINBOW_DAMAGES_PERCENT(damages_Percent(), null, null, null, false, false, true),
     AVERAGE_RAINBOW_DAMAGE_PERCENT(null, null, null, null, false, false, true), //TODO Add Average Rainbow Damage %
 
@@ -153,6 +153,14 @@ public enum SumEnum {
         return ids;
     }
 
+    private static List<Identifications> elem_Defenses_Percent() {
+        List<Identifications> ids = defenses_Percent();
+
+        ids.add(Identifications.ELEMENTAL_DEFENSE);
+
+        return ids;
+    }
+
     private static List<Identifications> skill_Points() {
         List<Identifications> ids = new ArrayList<>();
 
@@ -246,6 +254,14 @@ public enum SumEnum {
         ids.add(Identifications.WATER_DAMAGE_PERCENT);
         ids.add(Identifications.FIRE_DAMAGE_PERCENT);
         ids.add(Identifications.AIR_DAMAGE_PERCENT);
+
+        return ids;
+    }
+
+    private static List<Identifications> elem_Damage_Percent() {
+        List<Identifications> ids = damages_Percent();
+
+        ids.add(Identifications.ELEMENTAL_DAMAGE_PERCENT);
 
         return ids;
     }

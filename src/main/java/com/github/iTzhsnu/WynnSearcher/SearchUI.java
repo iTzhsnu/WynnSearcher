@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
-    public static final String VERSION = "3.2.3";
+    public static final String VERSION = "3.2.4";
 
     //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
@@ -1676,7 +1676,9 @@ public class SearchUI extends JFrame implements ActionListener {
                                                     total_max += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsInt();
                                                 } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && id.isItemVariable()) {
                                                     if (isReversedID(id)) {
-                                                        int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
+                                                        String rawOrMax = "raw";
+                                                        if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("raw") == null) rawOrMax = "max";
+                                                        int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get(rawOrMax).getAsInt());
                                                         total_min += base;
                                                         total_max += base;
                                                     } else {
@@ -1691,9 +1693,14 @@ public class SearchUI extends JFrame implements ActionListener {
                                                         total_min += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsInt();
                                                         total_max += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsInt();
                                                     } else if (isReversedID(id)) {
-                                                        int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
-                                                        total_min += ItemUITemplate.getReversedMinInt(base);
-                                                        total_max += ItemUITemplate.getReversedMaxInt(base);
+                                                        if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("raw") == null) {
+                                                            int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
+                                                            total_min += ItemUITemplate.getReversedMinInt(base);
+                                                            total_max += ItemUITemplate.getReversedMaxInt(base);
+                                                        } else {
+                                                            total_min += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("min").getAsInt();
+                                                            total_max += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt();
+                                                        }
                                                     } else {
                                                         total_min += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("min").getAsInt();
                                                         total_max += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt();
@@ -2078,7 +2085,11 @@ public class SearchUI extends JFrame implements ActionListener {
                                         total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsInt();
                                     } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && id.isItemVariable()) {
                                         if (isReversedID(id)) {
-                                            total += getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
+                                            if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("raw") == null) {
+                                                total += getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
+                                            } else {
+                                                total += getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("raw").getAsInt());
+                                            }
                                         } else {
                                             String minOrMax = "max";
                                             if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
@@ -2086,11 +2097,19 @@ public class SearchUI extends JFrame implements ActionListener {
                                         }
                                     } else if (id.isItemVariable()) { //Item ID Variable
                                         if (isReversedID(id)) {
-                                            int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
-                                            if (bSortType) {
-                                                total += ItemUITemplate.getReversedMinInt(base);
+                                            if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("raw") == null) {
+                                                int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
+                                                if (bSortType) {
+                                                    total += ItemUITemplate.getReversedMinInt(base);
+                                                } else {
+                                                    total += ItemUITemplate.getReversedMaxInt(base);
+                                                }
                                             } else {
-                                                total += ItemUITemplate.getReversedMaxInt(base);
+                                                if (bSortType) {
+                                                    total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("min").getAsInt();
+                                                } else {
+                                                    total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt();
+                                                }
                                             }
                                         } else {
                                             if (bSortType) {
@@ -2326,7 +2345,11 @@ public class SearchUI extends JFrame implements ActionListener {
                         sum_total += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsInt();
                     } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && ids.isItemVariable() && !sum.isDPS()) {
                         if (isReversedID(ids)) {
-                            sum_total += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
+                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) {
+                                sum_total += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
+                            } else {
+                                sum_total += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw").getAsInt());
+                            }
                         } else {
                             String minOrMax = "max";
                             if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
@@ -2337,11 +2360,19 @@ public class SearchUI extends JFrame implements ActionListener {
                             float total_Damage = j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt() + j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
                             sum_total += total_Damage / 2F;
                         } else if (isReversedID(ids)) {
-                            int base = getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
-                            if (getMin) {
-                                sum_total += ItemUITemplate.getReversedMinInt(base);
+                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) {
+                                int base = getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
+                                if (getMin) {
+                                    sum_total += ItemUITemplate.getReversedMinInt(base);
+                                } else {
+                                    sum_total += ItemUITemplate.getReversedMaxInt(base);
+                                }
                             } else {
-                                sum_total += ItemUITemplate.getReversedMaxInt(base);
+                                if (getMin) {
+                                    sum_total += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt();
+                                } else {
+                                    sum_total += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
+                                }
                             }
                         } else {
                             if (getMin) {
@@ -2363,7 +2394,9 @@ public class SearchUI extends JFrame implements ActionListener {
                         sum_total_sub += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsInt();
                     } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && ids.isItemVariable()) {
                         if (isReversedID(ids)) {
-                            sum_total_sub += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
+                            String rawOrMax = "raw";
+                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) rawOrMax = "max";
+                            sum_total_sub += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get(rawOrMax).getAsInt());
                         } else {
                             String minOrMax = "max";
                             if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
@@ -2371,11 +2404,19 @@ public class SearchUI extends JFrame implements ActionListener {
                         }
                     } else if (ids.isItemVariable()) { //Item ID Variable
                         if (isReversedID(ids)) {
-                            int base = getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
-                            if (getMin) {
-                                sum_total_sub += ItemUITemplate.getReversedMinInt(base);
+                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) {
+                                int base = getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
+                                if (getMin) {
+                                    sum_total_sub += ItemUITemplate.getReversedMinInt(base);
+                                } else {
+                                    sum_total_sub += ItemUITemplate.getReversedMaxInt(base);
+                                }
                             } else {
-                                sum_total_sub += ItemUITemplate.getReversedMaxInt(base);
+                                if (getMin) {
+                                    sum_total_sub += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt();
+                                } else {
+                                    sum_total_sub += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
+                                }
                             }
                         } else {
                             if (getMin) {
@@ -2406,7 +2447,11 @@ public class SearchUI extends JFrame implements ActionListener {
                         t += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsInt();
                     } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && ids.isItemVariable()) {
                         if (isReversedID(ids)) {
-                            t += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
+                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) {
+                                t += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
+                            } else {
+                                t += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw").getAsInt();
+                            }
                         } else {
                             String minOrMax = "max";
                             if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
@@ -2414,11 +2459,19 @@ public class SearchUI extends JFrame implements ActionListener {
                         }
                     } else if (ids.isItemVariable()) { //Item ID Variable
                         if (isReversedID(ids)) {
-                            int base = getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
-                            if (getMin) {
-                                t += ItemUITemplate.getReversedMinInt(base);
+                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) {
+                                int base = getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
+                                if (getMin) {
+                                    t += ItemUITemplate.getReversedMinInt(base);
+                                } else {
+                                    t += ItemUITemplate.getReversedMaxInt(base);
+                                }
                             } else {
-                                t += ItemUITemplate.getReversedMaxInt(base);
+                                if (getMin) {
+                                    t += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt();
+                                } else {
+                                    t += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
+                                }
                             }
                         } else {
                             if (getMin) {

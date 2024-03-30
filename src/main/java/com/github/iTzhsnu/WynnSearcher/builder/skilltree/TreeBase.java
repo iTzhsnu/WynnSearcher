@@ -34,14 +34,14 @@ public class TreeBase implements ActionListener {
             int x = -1;
             int y = -1;
 
-            if (json.get("COORDINATES") != null) {
-                JsonObject j = json.get("COORDINATES").getAsJsonObject();
-                x += j.get("X").getAsInt();
-                y += j.get("Y").getAsInt();
+            if (json.get("coordinates") != null) {
+                JsonObject j = json.get("coordinates").getAsJsonObject();
+                x += j.get("x").getAsInt();
+                y += j.get("y").getAsInt();
             }
 
-            if (x != -1 && y != -1 && json.get("META") != null && json.get("META").getAsJsonObject().get("ICON") != null) {
-                switch (json.get("META").getAsJsonObject().get("ICON").getAsString()) {
+            if (x != -1 && y != -1 && json.get("meta") != null && json.get("meta").getAsJsonObject().get("icon") != null) {
+                switch (json.get("meta").getAsJsonObject().get("icon").getAsString()) {
                     case "connector_up_right_down_left":
                         new TreeIcon(posWidth(x, 0), posHeight(y, 0), getPane()).all();
                         break;
@@ -205,10 +205,6 @@ public class TreeBase implements ActionListener {
             pane.add(b);
             pane.setLayer(b, 1);
         }
-    }
-
-    public void manualFixes(String name) {
-        //TODO
     }
 
     public void setTreeVisible(boolean visible) {
