@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.List;
 
 public class SearchUI extends JFrame implements ActionListener {
-    public static final String VERSION = "3.2.5";
+    public static final String VERSION = "3.2.6";
 
     //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
