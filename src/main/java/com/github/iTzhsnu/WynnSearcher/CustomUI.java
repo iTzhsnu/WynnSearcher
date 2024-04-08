@@ -399,8 +399,10 @@ public class CustomUI implements ActionListener {
     public void setMajorIDBox(int posX, int posY) {
         majorIDBox.setBounds(posX + 60, posY, 200, 20);
         majorIDBox.addItem("None");
-        for (Map.Entry<String, JsonElement> entry : majorIDJson.get("major_ids").getAsJsonObject().entrySet()) {
-            majorIDBox.addItem(entry.getKey());
+        if (majorIDJson.get("major_ids") != null) {
+            for (Map.Entry<String, JsonElement> entry : majorIDJson.get("major_ids").getAsJsonObject().entrySet()) {
+                majorIDBox.addItem(entry.getKey());
+            }
         }
 
         majorIDText.setBounds(posX, posY, 50, 20);
@@ -505,7 +507,7 @@ public class CustomUI implements ActionListener {
         j.addProperty("type", selectedType);
         j.addProperty("identified", !variable.isSelected());
 
-        ItemUITemplate itemUI = new ItemUITemplate(j, "item", null, null, 270, 0, true);
+        ItemUITemplate itemUI = new ItemUITemplate(j, ItemType.ITEM, null, null, 270, 0, true);
         display.add(itemUI);
         if (itemUI.getBounds().y + itemUI.getBounds().height > 497) {
             display.setPreferredSize(new Dimension(270, itemUI.getBounds().y + itemUI.getBounds().height));
@@ -520,7 +522,7 @@ public class CustomUI implements ActionListener {
         display.removeAll();
         if (itemText.getText().contains("CI-")) {
             JsonObject j = JsonParser.parseString(itemText.getText().replace("CI-", "")).getAsJsonObject();
-            ItemUITemplate itemUI = new ItemUITemplate(j, "item", null, null, 270, 0, true);
+            ItemUITemplate itemUI = new ItemUITemplate(j, ItemType.ITEM, null, null, 270, 0, true);
             display.add(itemUI);
             if (itemUI.getBounds().y + itemUI.getBounds().height > 497) {
                 display.setPreferredSize(new Dimension(270, itemUI.getBounds().y + itemUI.getBounds().height));

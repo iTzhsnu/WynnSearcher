@@ -16,7 +16,7 @@ public class Damage_IDs {
         return 58;
     }
 
-    public static final Map<Identifications, Integer> GET_DAMAGE_ID_NUM_FROM_ID = new HashMap<Identifications, Integer>() {{
+    public static final Map<Identifications, Integer> GET_DAMAGE_ID_NUM_FROM_ID = new HashMap<Identifications, Integer>(58, 2) {{
         put(Identifications.EARTH_DAMAGE_PERCENT, 0);
         put(Identifications.THUNDER_DAMAGE_PERCENT, 1);
         put(Identifications.WATER_DAMAGE_PERCENT, 2);

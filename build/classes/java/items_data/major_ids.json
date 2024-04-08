@@ -39,6 +39,14 @@
     "Cavalryman": "&b+Cavalryman: &3You may cast spells and attack with a -70% damage penalty while on a horse",
     "Snowy Steps": "&b+Snowy Steps: &3Leaves a trail of snow behind you",
     "Festive Spirit": "&b+Festive Spirit: &3Plays wintery tunes",
-    "Overwhelm": "&b+Overwhelm: &3Bash will hit +2 times"
+    "Overwhelm": "&b+Overwhelm: &3Bash will hit +2 times",
+
+    "Gruesome Knots": "&b+Gruesome Knots: &3Twisted Tether spends twice as much of your &bBlood Pool &4&l⚕ &3to deal triple damage",
+    "Coagulate": "&b+Coagulate: &3Blood Connection launches you further and higher upon teleporting to a nearby totem",
+    "Dead Weight": "&b+Dead Weight: &3Totem's horizontal velocity is greatly increased at the cost of vertical movement",
+    "Expunge": "&b+Expunge: &3When using Heal, cast one instant pulse that heals 20% of your max health",
+    "Hellfire": "&b+Hellfire: &3Boiling Blood always activates and becomes much stronger, but does not slow enemies and steals Bash's power",
+    "Lunge": "&b+Lunge: &3Hop's horizontal velocity is greatly increased",
+    "Windsurf": "&b+Windsurf: &3Righting Reflex lasts twice as long and is affected stronger by movement speed"
   }
 }

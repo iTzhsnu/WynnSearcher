@@ -2,7 +2,6 @@ package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
 import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
-import com.google.gson.JsonObject;
 
 import javax.swing.*;
 import java.awt.*;

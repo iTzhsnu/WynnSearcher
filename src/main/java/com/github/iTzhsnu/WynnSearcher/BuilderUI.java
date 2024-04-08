@@ -775,7 +775,7 @@ public class BuilderUI implements ActionListener {
         classes.setSelectedIndex(j.get("class").getAsInt());
 
         //Set Armor, Accessory, Weapon and Tome
-        for (int i = 0; itemBox.size() > i; ++i) {
+        for (int i = 0; j.get("items").getAsJsonArray().size() > i; ++i) {
             setItemName(i, j.get("items").getAsJsonArray().get(i).getAsString());
         }
 
@@ -798,7 +798,7 @@ public class BuilderUI implements ActionListener {
         }
 
         //Set IDs
-        for (int i = 0; damage_ids.size() > i; ++i) {
+        for (int i = 0; j.get("ids").getAsJsonArray().size() > i; ++i) {
             damage_ids.getID(i).setTextValue(j.get("ids").getAsJsonArray().get(i).getAsInt());
         }
 

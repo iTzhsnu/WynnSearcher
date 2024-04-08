@@ -24,7 +24,7 @@ public class ItemUITemplate extends JPanel {
     private final boolean isCustom;
     private int urlSize = 0;
 
-    public static final Map<Integer, Identifications> ITEM_IDS = new HashMap<Integer, Identifications>() {{
+    public static final Map<Integer, Identifications> ITEM_IDS = new HashMap<Integer, Identifications>(82, 2) {{
         put(0, Identifications.STRENGTH);
         put(1, Identifications.DEXTERITY);
         put(2, Identifications.INTELLIGENCE);
@@ -122,7 +122,7 @@ public class ItemUITemplate extends JPanel {
         put(81, Identifications.SLOW_ENEMY);
     }};
 
-    public static final Map<Integer, Identifications> REVERSED_ITEM_IDS = new HashMap<Integer, Identifications>() {{
+    public static final Map<Integer, Identifications> REVERSED_ITEM_IDS = new HashMap<Integer, Identifications>(8, 2) {{
        put(0, Identifications.PERCENT_1ST_SPELL_COST);
        put(1, Identifications.PERCENT_2ND_SPELL_COST);
        put(2, Identifications.PERCENT_3RD_SPELL_COST);
@@ -134,7 +134,7 @@ public class ItemUITemplate extends JPanel {
        put(7, Identifications.RAW_4TH_SPELL_COST);
     }};
 
-    public static final Map<Integer, Identifications> DAMAGE_IDS = new HashMap<Integer, Identifications>() {{
+    public static final Map<Integer, Identifications> DAMAGE_IDS = new HashMap<Integer, Identifications>(6, 2) {{
         put(0, Identifications.NEUTRAL_DAMAGE);
         put(1, Identifications.EARTH_DAMAGE);
         put(2, Identifications.THUNDER_DAMAGE);
@@ -143,21 +143,47 @@ public class ItemUITemplate extends JPanel {
         put(5, Identifications.AIR_DAMAGE);
     }};
 
-    public ItemUITemplate(JsonObject json, String type, JPanel previous, JPanel above, int uiWidth, float totalValue, boolean isCustom) {
+    public static final Map<Integer, Identifications> DEFENSE_IDS = new HashMap<Integer, Identifications>(6, 2) {{
+        put(0, Identifications.HEALTH);
+        put(1, Identifications.EARTH_DEFENSE);
+        put(2, Identifications.THUNDER_DEFENSE);
+        put(3, Identifications.WATER_DEFENSE);
+        put(4, Identifications.FIRE_DEFENSE);
+        put(5, Identifications.AIR_DEFENSE);
+    }};
+
+    public static final Map<Integer, Identifications> SP_REQUESTS = new HashMap<Integer, Identifications>(5, 2) {{
+        put(0, Identifications.STRENGTH_REQ);
+        put(1, Identifications.DEXTERITY_REQ);
+        put(2, Identifications.INTELLIGENCE_REQ);
+        put(3, Identifications.DEFENSE_REQ);
+        put(4, Identifications.AGILITY_REQ);
+    }};
+
+    public static final Map<Integer, Identifications> INGREDIENT_EFFECTIVENESS = new HashMap<Integer, Identifications>(6, 2) {{
+        put(0, Identifications.INGREDIENT_EFFECTIVENESS_ABOVE);
+        put(1, Identifications.INGREDIENT_EFFECTIVENESS_UNDER);
+        put(2, Identifications.INGREDIENT_EFFECTIVENESS_LEFT);
+        put(3, Identifications.INGREDIENT_EFFECTIVENESS_RIGHT);
+        put(4, Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING);
+        put(5, Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING);
+    }};
+
+    public ItemUITemplate(JsonObject json, ItemType type, JPanel previous, JPanel above, int uiWidth, float totalValue, boolean isCustom) {
         this.json = json;
         this.totalValue = totalValue;
         this.isCustom = isCustom;
 
         switch (type) {
-            case "item":
+            case ITEM:
                 if (!isCustom) urlSize = 56;
                 setItemDisplay();
                 break;
-            case "ingredient":
+            case INGREDIENT:
                 if (!isCustom) urlSize = 32;
                 setIngDisplay();
                 break;
-            case "other":
+            case OTHER:
                 if (!isCustom && !json.get("type").getAsString().equals("charm") && !json.get("type").getAsString().equals("tome")) urlSize = 32;
                 setOtherDisplay();
                 break;
@@ -353,6 +379,11 @@ public class ItemUITemplate extends JPanel {
 
             if (j.get(Identifications.DEFENSE_REQ.getItemName()) != null && j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt() != 0) {
                 label.add(new JLabel("Defense Req: " + j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt()));
+            }
+
+            //OLD DEFENSE REQ
+            if (j.get("defense") != null && j.get("defense").getAsInt() != 0) {
+                label.add(new JLabel("Defense Req: " + j.get("defense").getAsInt()));
             }
 
             if (j.get(Identifications.AGILITY_REQ.getItemName()) != null && j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt() != 0) {
@@ -621,8 +652,8 @@ public class ItemUITemplate extends JPanel {
         }
 
         int lv = 0;
-        if (json.get("requirements") != null && json.get("requirements").getAsJsonObject().get("level") != null) {
-            lv = json.get("requirements").getAsJsonObject().get("level").getAsInt();
+        if (json.get("requirements") != null && json.get("requirements").getAsJsonObject().get(Identifications.LEVEL.getIngName()) != null) {
+            lv = json.get("requirements").getAsJsonObject().get(Identifications.LEVEL.getIngName()).getAsInt();
             label.add(new JLabel("Lv. Min: " + lv));
         }
 
@@ -631,28 +662,28 @@ public class ItemUITemplate extends JPanel {
         if (json.get("itemOnlyIDs") != null) {
             JsonObject j = json.getAsJsonObject("itemOnlyIDs").getAsJsonObject();
             boolean run = false;
-            if (j.get("durabilityModifier") != null && j.get("durabilityModifier").getAsInt() != 0) {
-                label.add(new JLabel("Durability: " + setPlus(j.get("durabilityModifier").getAsInt() / 1000)));
+            if (j.get(Identifications.DURABILITY.getIngName()) != null && j.get(Identifications.DURABILITY.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Durability: " + setPlus(j.get(Identifications.DURABILITY.getIngName()).getAsInt() / 1000)));
                 run = true;
             }
-            if (j.get("strengthRequirement") != null && j.get("strengthRequirement").getAsInt() != 0) {
-                label.add(new JLabel("Strength Req: " + setPlus(j.get("strengthRequirement").getAsInt())));
+            if (j.get(Identifications.STRENGTH_REQ.getIngName()) != null && j.get(Identifications.STRENGTH_REQ.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Strength Req: " + setPlus(j.get(Identifications.STRENGTH_REQ.getIngName()).getAsInt())));
                 run = true;
             }
-            if (j.get("dexterityRequirement") != null && j.get("dexterityRequirement").getAsInt() != 0) {
-                label.add(new JLabel("Dexterity Req: " + setPlus(j.get("dexterityRequirement").getAsInt())));
+            if (j.get(Identifications.DEXTERITY_REQ.getIngName()) != null && j.get(Identifications.DEXTERITY_REQ.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Dexterity Req: " + setPlus(j.get(Identifications.DEXTERITY_REQ.getIngName()).getAsInt())));
                 run = true;
             }
-            if (j.get("intelligenceRequirement") != null && j.get("intelligenceRequirement").getAsInt() != 0) {
-                label.add(new JLabel("Intelligence Req: " + setPlus(j.get("intelligenceRequirement").getAsInt())));
+            if (j.get(Identifications.INTELLIGENCE_REQ.getIngName()) != null && j.get(Identifications.INTELLIGENCE_REQ.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Intelligence Req: " + setPlus(j.get(Identifications.INTELLIGENCE_REQ.getIngName()).getAsInt())));
                 run = true;
             }
-            if (j.get("defenceRequirement") != null && j.get("defenceRequirement").getAsInt() != 0) {
-                label.add(new JLabel("Defense Req: " + setPlus(j.get("defenceRequirement").getAsInt())));
+            if (j.get(Identifications.DEFENSE_REQ.getIngName()) != null && j.get(Identifications.DEFENSE_REQ.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Defense Req: " + setPlus(j.get(Identifications.DEFENSE_REQ.getIngName()).getAsInt())));
                 run = true;
             }
-            if (j.get("agilityRequirement") != null && j.get("agilityRequirement").getAsInt() != 0) {
-                label.add(new JLabel("Agility Req: " + setPlus(j.get("agilityRequirement").getAsInt())));
+            if (j.get(Identifications.AGILITY_REQ.getIngName()) != null && j.get(Identifications.AGILITY_REQ.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Agility Req: " + setPlus(j.get(Identifications.AGILITY_REQ.getIngName()).getAsInt())));
                 run = true;
             }
             if (run) label.add(new JLabel(" "));
@@ -661,12 +692,12 @@ public class ItemUITemplate extends JPanel {
         if (json.get("consumableOnlyIDs") != null) {
             JsonObject j = json.get("consumableOnlyIDs").getAsJsonObject();
             boolean run = false;
-            if (j.get("duration") != null && j.get("duration").getAsInt() != 0) {
-                label.add(new JLabel("Duration: " + setPlus(j.get("duration").getAsInt())));
+            if (j.get(Identifications.DURATION.getIngName()) != null && j.get(Identifications.DURATION.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Duration: " + setPlus(j.get(Identifications.DURATION.getIngName()).getAsInt())));
                 run = true;
             }
-            if (j.get("charges") != null && j.get("charges").getAsInt() != 0) {
-                label.add(new JLabel("Charges: " + setPlus(j.get("charges").getAsInt())));
+            if (j.get(Identifications.CHARGES.getIngName()) != null && j.get(Identifications.CHARGES.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Charges: " + setPlus(j.get(Identifications.CHARGES.getIngName()).getAsInt())));
                 run = true;
             }
             if (run) label.add(new JLabel(" "));
@@ -675,28 +706,28 @@ public class ItemUITemplate extends JPanel {
         if (json.get("ingredientPositionModifiers") != null) {
             JsonObject j = json.get("ingredientPositionModifiers").getAsJsonObject();
             boolean run = false;
-            if (j.get("above") != null && j.get("above").getAsInt() != 0) {
-                label.add(new JLabel("Ingredient Effectiveness (Above): " + setPlus(j.get("above").getAsInt()) + "%"));
+            if (j.get(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE.getIngName()) != null && j.get(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Ingredient Effectiveness (Above): " + setPlus(j.get(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE.getIngName()).getAsInt()) + "%"));
                 run = true;
             }
-            if (j.get("under") != null && j.get("under").getAsInt() != 0) {
-                label.add(new JLabel("Ingredient Effectiveness (Under): " + setPlus(j.get("under").getAsInt()) + "%"));
+            if (j.get(Identifications.INGREDIENT_EFFECTIVENESS_UNDER.getIngName()) != null && j.get(Identifications.INGREDIENT_EFFECTIVENESS_UNDER.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Ingredient Effectiveness (Under): " + setPlus(j.get(Identifications.INGREDIENT_EFFECTIVENESS_UNDER.getIngName()).getAsInt()) + "%"));
                 run = true;
             }
-            if (j.get("right") != null && j.get("right").getAsInt() != 0) {
-                label.add(new JLabel("Ingredient Effectiveness (Right): " + setPlus(j.get("right").getAsInt()) + "%"));
+            if (j.get(Identifications.INGREDIENT_EFFECTIVENESS_RIGHT.getIngName()) != null && j.get(Identifications.INGREDIENT_EFFECTIVENESS_RIGHT.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Ingredient Effectiveness (Right): " + setPlus(j.get(Identifications.INGREDIENT_EFFECTIVENESS_RIGHT.getIngName()).getAsInt()) + "%"));
                 run = true;
             }
-            if (j.get("left") != null && j.get("left").getAsInt() != 0) {
-                label.add(new JLabel("Ingredient Effectiveness (Left): " + setPlus(j.get("left").getAsInt()) + "%"));
+            if (j.get(Identifications.INGREDIENT_EFFECTIVENESS_LEFT.getIngName()) != null && j.get(Identifications.INGREDIENT_EFFECTIVENESS_LEFT.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Ingredient Effectiveness (Left): " + setPlus(j.get(Identifications.INGREDIENT_EFFECTIVENESS_LEFT.getIngName()).getAsInt()) + "%"));
                 run = true;
             }
-            if (j.get("touching") != null && j.get("touching").getAsInt() != 0) {
-                label.add(new JLabel("Ingredient Effectiveness (Touch): " + setPlus(j.get("touching").getAsInt()) + "%"));
+            if (j.get(Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING.getIngName()) != null && j.get(Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Ingredient Effectiveness (Touch): " + setPlus(j.get(Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING.getIngName()).getAsInt()) + "%"));
                 run = true;
             }
-            if (j.get("notTouching") != null && j.get("notTouching").getAsInt() != 0) {
-                label.add(new JLabel("Ingredient Effectiveness (Not Touch): " + setPlus(j.get("notTouching").getAsInt()) + "%"));
+            if (j.get(Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING.getIngName()) != null && j.get(Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING.getIngName()).getAsInt() != 0) {
+                label.add(new JLabel("Ingredient Effectiveness (Not Touch): " + setPlus(j.get(Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING.getIngName()).getAsInt()) + "%"));
                 run = true;
             }
             if (run) label.add(new JLabel(" "));

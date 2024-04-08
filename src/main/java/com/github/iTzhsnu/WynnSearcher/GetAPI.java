@@ -104,7 +104,7 @@ public class GetAPI {
                                     saveIngredientJ.get("items").getAsJsonArray().add(j);
                                     break;
                                 case 3: //Tomes
-                                case 8: //Lootrun Tomes
+                                //case 8: //Lootrun Tomes
                                     j.addProperty("type", "tome");
                                     otherItems.add(j);
                                     saveOtherItemsJ.get("items").getAsJsonArray().add(j);

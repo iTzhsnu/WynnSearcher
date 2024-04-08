@@ -119,7 +119,8 @@ public class TreeBase implements ActionListener {
                             if (jo.get("ABILITY_POINTS") != null) { //Requirements Ability Points
                                 cost = jo.get("ABILITY_POINTS").getAsInt();
                             }
-                            if (jo.get("ARCHETYPE") != null) { //Archetype Min
+                            if (jo.get("ARCHETYPE") != null) { //Archetype Min / Req
+                                archetype = Archetype.GET.getOrDefault(jo.get("ARCHETYPE").getAsJsonObject().get("name").getAsString(), Archetype.NONE);
                                 minArchetype = jo.get("ARCHETYPE").getAsJsonObject().get("amount").getAsInt();
                             }
                         }
@@ -135,8 +136,62 @@ public class TreeBase implements ActionListener {
                                 link.add(je.getAsString());
                             }
                         }
-                        if (j.get("archetype") != null && !j.get("archetype").isJsonNull()) { //Archetype
-                            archetype = Archetype.GET.getOrDefault(j.get("archetype").getAsString(), Archetype.NONE);
+                        //if (j.get("archetype") != null && !j.get("archetype").isJsonNull()) { //Archetype
+                        //    archetype = Archetype.GET.getOrDefault(j.get("archetype").getAsString(), Archetype.NONE);
+                        //}
+                        if (archetype == Archetype.NONE && description != null) {
+                            switch (classes) {
+                                case "warrior": {
+                                    if (description.contains("&c&lFallen Archetype")) {
+                                        archetype = Archetype.FALLEN;
+                                    } else if (description.contains("&e&lBattle Monk Archetype")) {
+                                        archetype = Archetype.BATTLE_MONK;
+                                    } else if (description.contains("&b&lPaladin Archetype")) {
+                                        archetype = Archetype.PALADIN;
+                                    }
+                                    break;
+                                }
+                                case "assassin": {
+                                    if (description.contains("&4&lShadestepper Archetype")) {
+                                        archetype = Archetype.SHADESTEPPER;
+                                    } else if (description.contains("&d&lTrickster Archetype")) {
+                                        archetype = Archetype.TRICKSTER;
+                                    } else if (description.contains("&f&lAcrobat Archetype")) {
+                                        archetype = Archetype.ACROBAT;
+                                    }
+                                    break;
+                                }
+                                case "archer": {
+                                    if (description.contains("&e&lBoltslinger Archetype")) {
+                                        archetype = Archetype.BOLTSLINGER;
+                                    } else if (description.contains("&2&lTrapper Archetype")) {
+                                        archetype = Archetype.TRAPPER;
+                                    } else if (description.contains("&d&lSharpshooter Archetype")) {
+                                        archetype = Archetype.SHARPSHOOTER;
+                                    }
+                                    break;
+                                }
+                                case "mage": {
+                                    if (description.contains("&b&lRiftwalker Archetype")) {
+                                        archetype = Archetype.RIFTWALKER;
+                                    } else if (description.contains("&f&lLight Bender Archetype")) {
+                                        archetype = Archetype.LIGHT_BENDER;
+                                    } else if (description.contains("&5&lArcanist Archetype")) {
+                                        archetype = Archetype.ARCANIST;
+                                    }
+                                    break;
+                                }
+                                case "shaman": {
+                                    if (description.contains("&6&lSummoner Archetype")) {
+                                        archetype = Archetype.SUMMONER;
+                                    } else if (description.contains("&a&lRitualist Archetype")) {
+                                        archetype = Archetype.RITUALIST;
+                                    } else if (description.contains("&c&lAcolyte Archetype")) {
+                                        archetype = Archetype.ACOLYTE;
+                                    }
+                                    break;
+                                }
+                            }
                         }
 
                         if (j.get("icon") != null) {

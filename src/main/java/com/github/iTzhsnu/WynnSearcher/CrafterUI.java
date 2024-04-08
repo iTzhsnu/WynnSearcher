@@ -41,7 +41,7 @@ public class CrafterUI implements ActionListener {
     private final JPanel ingPanel = new JPanel();
     private final JScrollPane ingScroll;
 
-    private static final Map<Integer, Identifications> SP_REQ = new HashMap<Integer, Identifications>() {{
+    private static final Map<Integer, Identifications> SP_REQ = new HashMap<Integer, Identifications>(5, 2) {{
         put(0, Identifications.STRENGTH_REQ);
         put(1, Identifications.DEXTERITY_REQ);
         put(2, Identifications.INTELLIGENCE_REQ);
@@ -49,7 +49,7 @@ public class CrafterUI implements ActionListener {
         put(4, Identifications.AGILITY_REQ);
     }};
 
-    private static final Map<String, String> TYPE_TO_SKILL = new HashMap<String, String>() {{
+    private static final Map<String, String> TYPE_TO_SKILL = new HashMap<String, String>(15, 2) {{
         put("helmet", "armouring");
         put("chestplate", "armouring");
         put("leggings", "tailoring");
@@ -317,7 +317,7 @@ public class CrafterUI implements ActionListener {
         String s = output.getText();
         if (s.contains("CR-")) {
             List<JsonObject> ingJsonCopy = new ArrayList<>(ingJson);
-            ItemUITemplate itemUI = new ItemUITemplate(getCraftItemJson(recipeJson, ingJsonCopy, s, true), "item", null, null, 270, 0, true);
+            ItemUITemplate itemUI = new ItemUITemplate(getCraftItemJson(recipeJson, ingJsonCopy, s, true), ItemType.ITEM, null, null, 270, 0, true);
             setIngDisplay(ingJsonCopy);
             created.add(itemUI);
             if (itemUI.getBounds().y + itemUI.getBounds().height > 745) {
@@ -350,13 +350,13 @@ public class CrafterUI implements ActionListener {
         for (int i = 0; lj.size() > i; ++i) {
             JsonObject j = lj.get(i);
             if (i == 0) {
-                ItemUITemplate p = new ItemUITemplate(j, "ingredient", null, null, 530, 0, false);
+                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, null, null, 530, 0, false);
                 lp.add(p);
             } else if (i == 1) {
-                ItemUITemplate p = new ItemUITemplate(j, "ingredient", lp.get(0), null, 530, 0, false);
+                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, lp.get(0), null, 530, 0, false);
                 lp.add(p);
             } else {
-                ItemUITemplate p = new ItemUITemplate(j, "ingredient", lp.get(i - 1), lp.get(i - 2), 530, 0, false);
+                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, lp.get(i - 1), lp.get(i - 2), 530, 0, false);
                 lp.add(p);
             }
         }

@@ -1730,7 +1730,9 @@ public class Damage_Display {
                 list.add(new Damage_Template("Arcane Transfer", 0, pane, list.get(list.size() - 1), sp, crit_boost, false));
             } else {
                 list.add(new Damage_Template("Heal", calc_Spell_Cost(35 + spell_cost_1, intelligence, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_1ST_SPELL_COST)], id_Numbers[ID_Display.ID_INT.get(Identifications.PERCENT_1ST_SPELL_COST)]), pane, list.get(list.size() - 1), sp, crit_boost, false));
-                if (tbd[AbilityIDEnum.ORPHIONS_PULSE.pos]) { //Orphion's Pulse
+                if (itemJsons.getMajorIDList().contains(MajorIDEnum.EXPUNGE)) {
+                    list.get(list.size() - 1).addHeal("Heal (Instant)", id_Numbers, 0.2F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], false);
+                } else if (tbd[AbilityIDEnum.ORPHIONS_PULSE.pos]) { //Orphion's Pulse
                     if (itemJsons.getMajorIDList().contains(MajorIDEnum.GENTLE_GLOW)) { //Gentle Glow
                         list.get(list.size() - 1).addHeal("Total Heal", id_Numbers, 0.6F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
                         list.get(list.size() - 1).addHeal("per Heal", id_Numbers, 0.2F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);

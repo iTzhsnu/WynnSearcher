@@ -9,10 +9,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class SearchUI extends JFrame implements ActionListener {
     public static final String VERSION = "3.2.5";
@@ -1847,7 +1845,7 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    public void sortItems(List<String> sortItemList) {
+    public void sortItems(Set<String> sortItemList) {
         int si = searchedItems.size() - 1;
         int iu = 0;
         float max = Integer.MIN_VALUE;
@@ -1949,9 +1947,7 @@ public class SearchUI extends JFrame implements ActionListener {
         }
 
         if (sortItemList != null) {
-            if (!sortItemList.contains(searchedItems.get(iu).get("name").getAsString())) {
-                sortItemList.add(searchedItems.get(iu).get("name").getAsString());
-            }
+            sortItemList.add(searchedItems.get(iu).get("name").getAsString());
         } else {
             JPanel previous = null;
             JPanel above = null;
@@ -1961,13 +1957,13 @@ public class SearchUI extends JFrame implements ActionListener {
             if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
                 above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
             }
-            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), "item", previous, above, scrollPane.getWidth(), max, false));
+            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), ItemType.ITEM, previous, above, scrollPane.getWidth(), max, false));
             searched.add(itemDisplays.get(itemDisplays.size() - 1));
         }
         searchedItems.remove(iu);
     }
 
-    public void sortIngredients(List<String> sortIngList) {
+    public void sortIngredients(Set<String> sortIngList) {
         int si = searchedItems.size() - 1;
         int iu = 0;
         int max = Integer.MIN_VALUE;
@@ -2048,13 +2044,13 @@ public class SearchUI extends JFrame implements ActionListener {
             if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
                 above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
             }
-            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), "ingredient", previous, above, scrollPane.getWidth(), max, false));
+            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), ItemType.INGREDIENT, previous, above, scrollPane.getWidth(), max, false));
             searched.add(itemDisplays.get(itemDisplays.size() - 1));
         }
         searchedItems.remove(iu);
     }
 
-    public void sortOtherItems(List<String> sortOtherList) {
+    public void sortOtherItems(Set<String> sortOtherList) {
         int si = searchedItems.size() - 1;
         int iu = 0;
         float max = Integer.MIN_VALUE;
@@ -2162,7 +2158,7 @@ public class SearchUI extends JFrame implements ActionListener {
             if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
                 above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
             }
-            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), "other", previous, above, scrollPane.getWidth(), max, false));
+            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), ItemType.OTHER, previous, above, scrollPane.getWidth(), max, false));
             searched.add(itemDisplays.get(itemDisplays.size() - 1));
         }
         searchedItems.remove(iu);
@@ -2602,6 +2598,10 @@ public class SearchUI extends JFrame implements ActionListener {
             setCustomVisible(false);
         }
         changesUI.setChangesVisible(visible);
+    }
+
+    public void setProcessTime(long startTime, long midTime) {
+        displayTime.setText((midTime - startTime) + "ms, " + (System.currentTimeMillis() - midTime) + "ms");
     }
 
     public static int getBaseID(int i) {

@@ -46,7 +46,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Sum (Raw Spell Costs)", "Sum (Spell Costs %)"
     };
 
-    public static final Map<String, Identifications> ID_LIST = new HashMap<String, Identifications>(){{
+    public static final Map<String, Identifications> ID_LIST = new HashMap<String, Identifications>(181, 2){{
         put("Level", Identifications.LEVEL);
         put("Strength Req", Identifications.STRENGTH_REQ);
         put("Dexterity Req", Identifications.DEXTERITY_REQ);

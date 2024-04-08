@@ -1,6 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.CrafterUI;
+import com.github.iTzhsnu.WynnSearcher.ItemType;
 import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -35,14 +36,14 @@ public class Item_Display {
         }
 
         //Item Json
-        JsonObject helmetJson = setItemData(((JTextField) box.get(0).getEditor().getEditorComponent()).getText(), helmetJ, "helmet", recipe, ing, "item");
-        JsonObject chestplateJson = setItemData(((JTextField) box.get(1).getEditor().getEditorComponent()).getText(), chestplateJ, "chestplate", recipe, ing, "item");
-        JsonObject leggingsJson = setItemData(((JTextField) box.get(2).getEditor().getEditorComponent()).getText(), leggingsJ, "leggings", recipe, ing, "item");
-        JsonObject bootsJson = setItemData(((JTextField) box.get(3).getEditor().getEditorComponent()).getText(), bootsJ, "boots", recipe, ing, "item");
-        JsonObject ring1Json = setItemData(((JTextField) box.get(4).getEditor().getEditorComponent()).getText(), ringJ, "ring", recipe, ing, "item");
-        JsonObject ring2Json = setItemData(((JTextField) box.get(5).getEditor().getEditorComponent()).getText(), ringJ, "ring", recipe, ing, "item");
-        JsonObject braceletJson = setItemData(((JTextField) box.get(6).getEditor().getEditorComponent()).getText(), braceletJ, "bracelet", recipe, ing, "item");
-        JsonObject necklaceJson = setItemData(((JTextField) box.get(7).getEditor().getEditorComponent()).getText(), necklaceJ, "necklace", recipe, ing, "item");
+        JsonObject helmetJson = setItemData(((JTextField) box.get(0).getEditor().getEditorComponent()).getText(), helmetJ, "helmet", recipe, ing, ItemType.ITEM);
+        JsonObject chestplateJson = setItemData(((JTextField) box.get(1).getEditor().getEditorComponent()).getText(), chestplateJ, "chestplate", recipe, ing, ItemType.ITEM);
+        JsonObject leggingsJson = setItemData(((JTextField) box.get(2).getEditor().getEditorComponent()).getText(), leggingsJ, "leggings", recipe, ing, ItemType.ITEM);
+        JsonObject bootsJson = setItemData(((JTextField) box.get(3).getEditor().getEditorComponent()).getText(), bootsJ, "boots", recipe, ing, ItemType.ITEM);
+        JsonObject ring1Json = setItemData(((JTextField) box.get(4).getEditor().getEditorComponent()).getText(), ringJ, "ring", recipe, ing, ItemType.ITEM);
+        JsonObject ring2Json = setItemData(((JTextField) box.get(5).getEditor().getEditorComponent()).getText(), ringJ, "ring", recipe, ing, ItemType.ITEM);
+        JsonObject braceletJson = setItemData(((JTextField) box.get(6).getEditor().getEditorComponent()).getText(), braceletJ, "bracelet", recipe, ing, ItemType.ITEM);
+        JsonObject necklaceJson = setItemData(((JTextField) box.get(7).getEditor().getEditorComponent()).getText(), necklaceJ, "necklace", recipe, ing, ItemType.ITEM);
 
         String weaponType = "spear";
         switch (classID) {
@@ -59,16 +60,16 @@ public class Item_Display {
                 weaponType = "relik";
                 break;
         }
-        JsonObject weaponJson = setItemData(((JTextField) box.get(8).getEditor().getEditorComponent()).getText(), weaponJ, weaponType, recipe, ing, "item");
+        JsonObject weaponJson = setItemData(((JTextField) box.get(8).getEditor().getEditorComponent()).getText(), weaponJ, weaponType, recipe, ing, ItemType.ITEM);
 
-        JsonObject armourTome1Json = setItemData(((JTextField) box.get(9).getEditor().getEditorComponent()).getText(), armourTomeJ, "tome", recipe, ing, "other");
-        JsonObject armourTome2Json = setItemData(((JTextField) box.get(10).getEditor().getEditorComponent()).getText(), armourTomeJ, "tome", recipe, ing, "other");
-        JsonObject armourTome3Json = setItemData(((JTextField) box.get(11).getEditor().getEditorComponent()).getText(), armourTomeJ, "tome", recipe, ing, "other");
-        JsonObject armourTome4Json = setItemData(((JTextField) box.get(12).getEditor().getEditorComponent()).getText(), armourTomeJ, "tome", recipe, ing, "other");
-        JsonObject guildTomeJson = setItemData(((JTextField) box.get(13).getEditor().getEditorComponent()).getText(), guildTomeJ, "tome", recipe, ing, "other");
-        JsonObject weaponTome1Json = setItemData(((JTextField) box.get(14).getEditor().getEditorComponent()).getText(), weaponTomeJ, "tome", recipe, ing, "other");
-        JsonObject weaponTome2Json = setItemData(((JTextField) box.get(15).getEditor().getEditorComponent()).getText(), weaponTomeJ, "tome", recipe, ing, "other");
-        JsonObject lootrunTomeJson = setItemData(((JTextField) box.get(16).getEditor().getEditorComponent()).getText(), lootrunTomeJ, "tome", recipe, ing, "other");
+        JsonObject armourTome1Json = setItemData(((JTextField) box.get(9).getEditor().getEditorComponent()).getText(), armourTomeJ, "tome", recipe, ing, ItemType.OTHER);
+        JsonObject armourTome2Json = setItemData(((JTextField) box.get(10).getEditor().getEditorComponent()).getText(), armourTomeJ, "tome", recipe, ing, ItemType.OTHER);
+        JsonObject armourTome3Json = setItemData(((JTextField) box.get(11).getEditor().getEditorComponent()).getText(), armourTomeJ, "tome", recipe, ing, ItemType.OTHER);
+        JsonObject armourTome4Json = setItemData(((JTextField) box.get(12).getEditor().getEditorComponent()).getText(), armourTomeJ, "tome", recipe, ing, ItemType.OTHER);
+        JsonObject guildTomeJson = setItemData(((JTextField) box.get(13).getEditor().getEditorComponent()).getText(), guildTomeJ, "tome", recipe, ing, ItemType.OTHER);
+        JsonObject weaponTome1Json = setItemData(((JTextField) box.get(14).getEditor().getEditorComponent()).getText(), weaponTomeJ, "tome", recipe, ing, ItemType.OTHER);
+        JsonObject weaponTome2Json = setItemData(((JTextField) box.get(15).getEditor().getEditorComponent()).getText(), weaponTomeJ, "tome", recipe, ing, ItemType.OTHER);
+        JsonObject lootrunTomeJson = setItemData(((JTextField) box.get(16).getEditor().getEditorComponent()).getText(), lootrunTomeJ, "tome", recipe, ing, ItemType.OTHER);
 
         itemJsons = new ItemJsons(helmetJson, chestplateJson, leggingsJson, bootsJson, ring1Json, ring2Json, braceletJson, necklaceJson, weaponJson, armourTome1Json, armourTome2Json, armourTome3Json, armourTome4Json, weaponTome1Json, weaponTome2Json, guildTomeJson, lootrunTomeJson);
 
@@ -86,7 +87,7 @@ public class Item_Display {
         SwingUtilities.updateComponentTreeUI(pane);
     }
 
-    public JsonObject setItemData(String itemName, List<JsonObject> itemJ, String itemType, List<JsonObject> recipe, List<JsonObject> ing, String type) {
+    public JsonObject setItemData(String itemName, List<JsonObject> itemJ, String itemType, List<JsonObject> recipe, List<JsonObject> ing, ItemType type) {
         JsonObject json = null;
         JPanel previous = null;
         JPanel above = null;

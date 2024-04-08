@@ -7,7 +7,7 @@ public enum Identifications {
     STRENGTH_REQ("Strength Req", "strength", "strengthRequirement", "", "int", null, "requirements", "itemOnlyIDs", false),
     DEXTERITY_REQ("Dexterity Req", "dexterity", "dexterityRequirement", "", "int", null, "requirements", "itemOnlyIDs", false),
     INTELLIGENCE_REQ("Intelligence Req", "intelligence", "intelligenceRequirement", "", "int", null, "requirements", "itemOnlyIDs", false),
-    DEFENSE_REQ("Defense Req", "defense", "defenceRequirement", "", "int", null, "requirements", "itemOnlyIDs", false),
+    DEFENSE_REQ("Defense Req", "defence", "defenceRequirement", "", "int", null, "requirements", "itemOnlyIDs", false),
     AGILITY_REQ("Agility Req", "agility", "agilityRequirement", "", "int", null, "requirements", "itemOnlyIDs", false),
     QUEST_REQ("Quest Req", "quest", null, "", "string", null, "requirements", null, false),
     UNTRADABLE("Untradable", "restrictions", null, "", "string", null, "nothing", null, false),
@@ -134,7 +134,7 @@ public enum Identifications {
     HEALING_EFFICIENCY("Healing Efficiency", "healingEfficiency", null, "%", "int", null, "identifications", null, true),
     WEAKEN_ENEMY("Weaken Enemy", "weakenEnemy", null, "%", "int", null, "identifications", null, true),
     SLOW_ENEMY("Slow Enemy", "slowEnemy", null, "%", "int", null, "identifications", null, true),
-    ELEMENTAL_DEFENSE("Elemental Defense", "bonusElementalDefense", null, "%", "int", null, "identifications", null, true),
+    ELEMENTAL_DEFENSE("Elemental Defense", "elementalDefence", null, "%", "int", null, "identifications", null, true),
 
     DAMAGE_FROM_MOBS("Damage From Mobs", "damageFromMobs", null, "%", "int", null, "identifications", null, false),
     LEVELED_LOOT_BONUS("Leveled Loot Bonus", "leveledLootBonus", null, "%", "int", null, "identifications", null, false),
