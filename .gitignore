@@ -9,3 +9,8 @@
 /build/test-results/
 /build/tmp/
 /.idea/
+/build/classes/java/items_data/old_save_not_used/
+/build/classes/java/items_data/old_data/
+/build/classes/java/items_data/manual_item_drop.json
+/build/classes/java/items_data/manual_ingredient_drop.json
+/build/classes/java/items_data/manual_other_drop.json
