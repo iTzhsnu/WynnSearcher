@@ -2032,9 +2032,7 @@ public class SearchUI extends JFrame implements ActionListener {
         }
 
         if (sortIngList != null) {
-            if (!sortIngList.contains(searchedItems.get(iu).get("name").getAsString())) {
-                sortIngList.add(searchedItems.get(iu).get("name").getAsString());
-            }
+            sortIngList.add(searchedItems.get(iu).get("name").getAsString());
         } else {
             JPanel previous = null;
             JPanel above = null;
@@ -2146,9 +2144,7 @@ public class SearchUI extends JFrame implements ActionListener {
         }
 
         if (sortOtherList != null) {
-            if (!sortOtherList.contains(searchedItems.get(iu).get("name").getAsString())) {
-                sortOtherList.add(searchedItems.get(iu).get("name").getAsString());
-            }
+            sortOtherList.add(searchedItems.get(iu).get("name").getAsString());
         } else {
             JPanel previous = null;
             JPanel above = null;

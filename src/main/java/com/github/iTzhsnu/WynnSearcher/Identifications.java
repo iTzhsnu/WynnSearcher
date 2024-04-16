@@ -130,11 +130,11 @@ public enum Identifications {
     RAW_AIR_SPELL_DAMAGE("Raw Air Spell Damage", "rawAirSpellDamage", "rawAirSpellDamage", "", "int", null, "identifications", "identifications", true),
     RAW_ELEMENTAL_SPELL_DAMAGE("Raw Elem. Spell Damage", "rawElementalSpellDamage", "rawElementalSpellDamage", "", "int", null, "identifications", "identifications", true),
 
-    KNOCKBACK("Knockback", "knockback", null, "%", "int", null, "identifications", null, true),
-    HEALING_EFFICIENCY("Healing Efficiency", "healingEfficiency", null, "%", "int", null, "identifications", null, true),
-    WEAKEN_ENEMY("Weaken Enemy", "weakenEnemy", null, "%", "int", null, "identifications", null, true),
-    SLOW_ENEMY("Slow Enemy", "slowEnemy", null, "%", "int", null, "identifications", null, true),
-    ELEMENTAL_DEFENSE("Elemental Defense", "elementalDefence", null, "%", "int", null, "identifications", null, true),
+    KNOCKBACK("Knockback", "knockback", "knockback", "%", "int", null, "identifications", "identifications", true),
+    HEALING_EFFICIENCY("Healing Efficiency", "healingEfficiency", "healingEfficiency", "%", "int", null, "identifications", "identifications", true),
+    WEAKEN_ENEMY("Weaken Enemy", "weakenEnemy", "weakenEnemy", "%", "int", null, "identifications", "identifications", true),
+    SLOW_ENEMY("Slow Enemy", "slowEnemy", "slowEnemy", "%", "int", null, "identifications", "identifications", true),
+    ELEMENTAL_DEFENSE("Elemental Defense", "elementalDefence", "elementalDefence", "%", "int", null, "identifications", "identifications", true),
 
     DAMAGE_FROM_MOBS("Damage From Mobs", "damageFromMobs", null, "%", "int", null, "identifications", null, false),
     LEVELED_LOOT_BONUS("Leveled Loot Bonus", "leveledLootBonus", null, "%", "int", null, "identifications", null, false),

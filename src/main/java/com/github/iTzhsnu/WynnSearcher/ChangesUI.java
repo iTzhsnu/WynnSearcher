@@ -258,8 +258,19 @@ public class ChangesUI implements ActionListener {
         return checkIDDiff(Identifications.MAJOR_IDS, before, after, ItemType.ITEM);
     }
 
-    public boolean checkObtainDiff(JsonObject before, JsonObject after) {
-        //return checkIDDiff(Identifications.DROP_TYPE, before, after);
+    public boolean checkObtainDiff(JsonObject before, JsonObject after, ItemType itemType) {
+        if (itemType == ItemType.INGREDIENT) {
+            return checkObtainDiff_Ing(before, after);
+        } else {
+            return checkObtainDiff_Item(before, after);
+        }
+    }
+
+    public boolean checkObtainDiff_Item(JsonObject before, JsonObject after) {
+        return false;
+    }
+
+    public boolean checkObtainDiff_Ing(JsonObject before, JsonObject after) {
         return false;
     }
 
@@ -452,7 +463,10 @@ public class ChangesUI implements ActionListener {
                 }
 
                 if (check_type.getItemAt(check_type.getSelectedIndex()).equals("Check Obtain") || check_type.getItemAt(check_type.getSelectedIndex()).equals("Check IDs and Obtain")) {
-
+                    //if (checkObtainDiff(before, after, itemType)) {
+                    //    changedL.add(name);
+                    //    continue;
+                    //}
                 }
 
                 if (itemType != ItemType.INGREDIENT) {
