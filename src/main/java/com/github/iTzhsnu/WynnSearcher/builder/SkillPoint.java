@@ -924,12 +924,14 @@ public class SkillPoint {
 
     public static class SkillPointPanel {
         private final JTextField textField = new JTextField("0");
-        private final JLabel name = new JLabel();
-        private final JLabel boost = new JLabel();
-        private final JLabel total = new JLabel("(0)");
-        private final JLabel original = new JLabel("Original: 0");
-        private final JLabel assign = new JLabel("Assign: 0");
+        private final JLabel name_label = new JLabel();
+        private final JLabel boost_label = new JLabel();
+        private final JLabel total_label = new JLabel("(0)");
+        private final JLabel original_label = new JLabel("Original: 0");
+        private final JLabel assign_label = new JLabel("Assign: 0");
         private int assignBase = 0;
+        private int totalBase = 0;
+        private int original = 0;
 
         private static final float[] STR_AND_DEX = new float[] {
                 1F, 1.01F, 1.02F, 1.029F, 1.039F, 1.049F, 1.058F, 1.067F, 1.077F, 1.086F, //0 ~ 9
@@ -1004,22 +1006,22 @@ public class SkillPoint {
             JPanel pane = new JPanel();
             pane.setBounds(x, y, 120, 100);
             pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-            this.name.setText(name);
+            name_label.setText(name);
             setValue(0, 0, 0);
 
-            this.name.setAlignmentX(Component.CENTER_ALIGNMENT);
+            name_label.setAlignmentX(Component.CENTER_ALIGNMENT);
             textField.setAlignmentX(Component.CENTER_ALIGNMENT);
-            total.setAlignmentX(Component.CENTER_ALIGNMENT);
-            boost.setAlignmentX(Component.CENTER_ALIGNMENT);
-            original.setAlignmentX(Component.CENTER_ALIGNMENT);
-            assign.setAlignmentX(Component.CENTER_ALIGNMENT);
+            total_label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            boost_label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            original_label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            assign_label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            pane.add(this.name);
+            pane.add(name_label);
             pane.add(textField);
-            pane.add(total);
-            pane.add(boost);
-            pane.add(original);
-            pane.add(assign);
+            pane.add(total_label);
+            pane.add(boost_label);
+            pane.add(original_label);
+            pane.add(assign_label);
 
             p.add(pane);
         }
@@ -1035,7 +1037,7 @@ public class SkillPoint {
         public float getSPBoost() {
             float value = 1F;
             int sp = getSPValue();
-            switch (name.getText()) {
+            switch (name_label.getText()) {
                 case "Strength":
                 case "Dexterity":
                     if (sp > 0 && sp < 150) {
@@ -1072,7 +1074,7 @@ public class SkillPoint {
         }
 
         public float getIntDamageBonus() {
-            if (name.getText().equals("Intelligence")) {
+            if (name_label.getText().equals("Intelligence")) {
                 int sp = getSPValue();
                 if (sp > 0 && sp < 150) {
                     return STR_AND_DEX[sp];
@@ -1084,46 +1086,40 @@ public class SkillPoint {
         }
 
         public void setValue(int originalSP, int assignSP, int totalSP) {
-            total.setText("(" + totalSP + ")");
-            original.setText("Original: " + originalSP);
-            assign.setText("Assign: " + assignSP);
+            total_label.setText("(" + totalSP + ")");
+            original_label.setText("Original: " + originalSP);
+            assign_label.setText("Assign: " + assignSP);
             textField.setText(String.valueOf(originalSP));
             assignBase = assignSP;
+            totalBase = totalSP;
+            original = originalSP;
             updateValue();
         }
 
         public void updateValue() {
-            switch (name.getText()) {
+            switch (name_label.getText()) {
                 case "Strength":
-                    boost.setText("Damage: +" + (Math.round((getSPBoost() - 1) * 1000F) / 10F) + "%");
+                    boost_label.setText("Damage: +" + (Math.round((getSPBoost() - 1) * 1000F) / 10F) + "%");
                     break;
                 case "Dexterity":
-                    boost.setText("Crit: " + (Math.round((getSPBoost() - 1) * 1000F) / 10F) + "%");
+                    boost_label.setText("Crit: " + (Math.round((getSPBoost() - 1) * 1000F) / 10F) + "%");
                     break;
                 case "Intelligence":
-                    boost.setText("SP Cost: -" + (Math.round(getSPBoost() * 10000F) / 100F) + "%");
+                    boost_label.setText("SP Cost: -" + (Math.round(getSPBoost() * 10000F) / 100F) + "%");
                     break;
                 case "Defense":
-                    boost.setText("Resist: +" + (Math.round((getSPBoost() - 1) * 10000F) / 100F) + "%");
+                    boost_label.setText("Resist: +" + (Math.round((getSPBoost() - 1) * 10000F) / 100F) + "%");
                     break;
                 case "Agility":
-                    boost.setText("Dodge: " + (Math.round((getSPBoost() - 1) * 10000F) / 100F) + "%");
+                    boost_label.setText("Dodge: " + (Math.round((getSPBoost() - 1) * 10000F) / 100F) + "%");
                     break;
             }
-            total.setText("(" + (getSPValue() - getOriginal() + getTotal()) + ")");
-            assign.setText("Assign: " + getTotalAssign());
-        }
-
-        public int getOriginal() {
-            return Integer.parseInt(original.getText().replace("Original: ", ""));
-        }
-
-        public int getTotal() {
-            return Integer.parseInt(total.getText().replace("(", "").replace(")", ""));
+            total_label.setText("(" + (getSPValue() - original + totalBase) + ")");
+            assign_label.setText("Assign: " + getTotalAssign());
         }
 
         public int getTotalAssign() {
-            return getSPValue() - getOriginal() + assignBase;
+            return getSPValue() - original + assignBase;
         }
 
         public void setTextValue(int value) {
