@@ -23,6 +23,9 @@ public class Damage_Display {
     private JsonObject weapon = null;
     private TotalMaxDamage totalMaxDamage = null;
 
+
+    private boolean[] have_mastery;
+
     public Damage_Display(JPanel p) {
 
         pane.setPreferredSize(new Dimension(300, 397));
@@ -255,41 +258,52 @@ public class Damage_Display {
               0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0 ~ 9
               0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //10 ~ 19
             };
+            have_mastery = new boolean[] {false, false, false, false, false, false};
 
             for (TreeCheckBox tcb : tree.getTcb()) {
                 if (tcb.isSelected()) {
                     //All Classes
                     switch (tcb.getFixedTreeName()) {
-                        case "Earth Mastery":
+                        case "Earth Mastery": {
+                            have_mastery[Damage_Type.EARTH.id] = true;
                             if (earth_min != 0 || earth_max != 0) {
                                 earth_min += 2;
                                 earth_max += 4;
                             }
                             break;
-                        case "Thunder Mastery":
+                        }
+                        case "Thunder Mastery": {
+                            have_mastery[Damage_Type.THUNDER.id] = true;
                             if (thunder_min != 0 || thunder_max != 0) {
                                 thunder_min += 1;
                                 thunder_max += 8;
                             }
                             break;
-                        case "Water Mastery":
+                        }
+                        case "Water Mastery": {
+                            have_mastery[Damage_Type.WATER.id] = true;
                             if (water_min != 0 || water_max != 0) {
                                 water_min += 2;
                                 water_max += 4;
                             }
                             break;
-                        case "Fire Mastery":
+                        }
+                        case "Fire Mastery": {
+                            have_mastery[Damage_Type.FIRE.id] = true;
                             if (fire_min != 0 || fire_max != 0) {
                                 fire_min += 3;
                                 fire_max += 5;
                             }
                             break;
-                        case "Air Mastery":
+                        }
+                        case "Air Mastery": {
+                            have_mastery[Damage_Type.AIR.id] = true;
                             if (air_min != 0 || air_max != 0) {
                                 air_min += 3;
                                 air_max += 4;
                             }
                             break;
+                        }
                         case "Precise Strike":
                             crit_boost = true;
                             break;
@@ -367,7 +381,7 @@ public class Damage_Display {
             id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)] += raw_Damage; //Raw Melee Damage += Raw Damage
             id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)] += raw_Elem_Damage; //Raw Elemental Damage += Raw Elem Damage
 
-            Calc_Raw calc_raw = new Calc_Raw(neutral_min, earth_min, thunder_min, water_min, fire_min, air_min, neutral_max, earth_max, thunder_max, water_max, fire_max, air_max);
+            Calc_Raw calc_raw = new Calc_Raw(neutral_min, earth_min, thunder_min, water_min, fire_min, air_min, neutral_max, earth_max, thunder_max, water_max, fire_max, air_max, null, null);
 
             float intelligence = 1F - sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getSPBoost();
 
@@ -552,7 +566,7 @@ public class Damage_Display {
                         tbd[AbilityIDEnum.AXE_KICK.pos] = true;
                         buffI[Buff.SPELL_COST_3.pos] += 15;
                         break;
-                    case "Discombobulate":
+                    case "Discombobulate": //Maybe Raw ** Damage
                         if (abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue() > 0) {
                             if (buffF[Buff.NEUTRAL_MIN.pos] != 0 || buffF[Buff.NEUTRAL_MAX.pos] != 0) {
                                 buffF[Buff.NEUTRAL_MIN.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
@@ -2204,51 +2218,51 @@ public class Damage_Display {
         float fire_max = calc(fire_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.FIRE_MELEE_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)]);
         float air_max = calc(air_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.AIR_MELEE_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)]);
 
-        Calc_Raw calc_raw = new Calc_Raw(neutral_min, earth_min, thunder_min, water_min, fire_min, air_min, neutral_max, earth_max, thunder_max, water_max, fire_max, air_max);
+        Calc_Raw calc_raw = new Calc_Raw(neutral_min, earth_min, thunder_min, water_min, fire_min, air_min, neutral_max, earth_max, thunder_max, water_max, fire_max, air_max, percent, null);
 
         if (neutral_min != 0 || neutral_max != 0) {
-            neutral_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Neutral", false, true) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            neutral_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Neutral", true, true) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            neutral_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.NEUTRAL, false, true) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            neutral_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.NEUTRAL, true, true) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
 
             neutral_min *= tomeBonus;
             neutral_max *= tomeBonus;
         }
 
         if (earth_min != 0 || earth_max != 0) {
-            earth_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Earth", false, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Earth", false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            earth_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Earth", true, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Earth", true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            earth_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.EARTH, false, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], Damage_Type.EARTH, false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            earth_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.EARTH, true, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], Damage_Type.EARTH, true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
 
             earth_min *= tomeBonus;
             earth_max *= tomeBonus;
         }
 
         if (thunder_min != 0 || thunder_max != 0) {
-            thunder_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Thunder", false, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Thunder", false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            thunder_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Thunder", true, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Thunder", true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            thunder_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.THUNDER, false, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], Damage_Type.THUNDER, false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            thunder_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.THUNDER, true, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], Damage_Type.THUNDER, true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
 
             thunder_min *= tomeBonus;
             thunder_max *= tomeBonus;
         }
 
         if (water_min != 0 || water_max != 0) {
-            water_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Water", false, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Water", false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            water_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Water", true, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Water", true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            water_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.WATER, false, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], Damage_Type.WATER, false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            water_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.WATER, true, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], Damage_Type.WATER, true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
 
             water_min *= tomeBonus;
             water_max *= tomeBonus;
         }
 
         if (fire_min != 0 || fire_max != 0) {
-            fire_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Fire", false, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Fire", false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            fire_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Fire", true, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Fire", true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            fire_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.FIRE, false, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], Damage_Type.FIRE, false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            fire_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.FIRE, true, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], Damage_Type.FIRE, true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
 
             fire_min *= tomeBonus;
             fire_max *= tomeBonus;
         }
 
         if (air_min != 0 || air_max != 0) {
-            air_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Air", false, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Air", false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            air_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], "Air", true, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Air", true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            air_min += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.AIR, false, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], Damage_Type.AIR, false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            air_max += (calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_MELEE_DAMAGE)], Damage_Type.AIR, true, true) + calc_raw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], Damage_Type.AIR, true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_MELEE_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
 
             air_min *= tomeBonus;
             air_max *= tomeBonus;
@@ -2342,33 +2356,24 @@ public class Damage_Display {
         //Earth Base
         if (earth_min_base != 0) earth_min_base *= percent[0];
         if (earth_max_base != 0) earth_max_base *= percent[0];
-        earth_min_base += total_min * percent[1];
-        earth_max_base += total_max * percent[1];
 
         //Thunder Base
         if (thunder_min_base != 0) thunder_min_base *= percent[0];
         if (thunder_max_base != 0) thunder_max_base *= percent[0];
-        thunder_min_base += total_min * percent[2];
-        thunder_max_base += total_max * percent[2];
 
         //Water Base
         if (water_min_base != 0) water_min_base *= percent[0];
         if (water_max_base != 0) water_max_base *= percent[0];
-        water_min_base += total_min * percent[3];
-        water_max_base += total_max * percent[3];
 
         //Fire Base
         if (fire_min_base != 0) fire_min_base *= percent[0];
         if (fire_max_base != 0) fire_max_base *= percent[0];
-        fire_min_base += total_min * percent[4];
-        fire_max_base += total_max * percent[4];
 
         //Air Base
         if (air_min_base != 0) air_min_base *= percent[0];
         if (air_max_base != 0) air_max_base *= percent[0];
-        air_min_base += total_min * percent[5];
-        air_max_base += total_max * percent[5];
 
+        //Base Damage * ID (%)
         float neutral_min = calc(neutral_min_base, boost, 1F, id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT)]) * atkSpd;
         float earth_min = calc(earth_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.EARTH_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.EARTH_DAMAGE_PERCENT)]) * atkSpd;
         float thunder_min = calc(thunder_min_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.THUNDER_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)]) * atkSpd;
@@ -2383,46 +2388,64 @@ public class Damage_Display {
         float fire_max = calc(fire_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.FIRE_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)]) * atkSpd;
         float air_max = calc(air_max_base, boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.AIR_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)]) * atkSpd;
 
-        Calc_Raw calcRaw = new Calc_Raw(neutral_min, earth_min, thunder_min, water_min, fire_min, air_min, neutral_max, earth_max, thunder_max, water_max, fire_max, air_max);
 
+        //Raw Damage Calc Save
+        Calc_Raw calcRaw = new Calc_Raw(neutral_min, earth_min, thunder_min, water_min, fire_min, air_min, neutral_max, earth_max, thunder_max, water_max, fire_max, air_max, percent, have_mastery);
+        calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)]);
+
+        earth_min += calc(total_min * percent[Damage_Type.EARTH.id], boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.EARTH_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.EARTH_DAMAGE_PERCENT)]) * atkSpd;
+        thunder_min += calc(total_min * percent[Damage_Type.THUNDER.id], boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.THUNDER_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)]) * atkSpd;
+        water_min += calc(total_min * percent[Damage_Type.WATER.id], boost, sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getIntDamageBonus(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)]) * atkSpd;
+        fire_min += calc(total_min * percent[Damage_Type.FIRE.id], boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.FIRE_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)]) * atkSpd;
+        air_min += calc(total_min * percent[Damage_Type.AIR.id], boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.AIR_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)]) * atkSpd;
+
+        earth_max += calc(total_max * percent[Damage_Type.EARTH.id], boost, sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.EARTH_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.EARTH_DAMAGE_PERCENT)]) * atkSpd;
+        thunder_max += calc(total_max * percent[Damage_Type.THUNDER.id], boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.THUNDER_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)]) * atkSpd;
+        water_max += calc(total_max * percent[Damage_Type.WATER.id], boost, sp.getSkillPoint(SkillPoint.SkillPointType.INTELLIGENCE).getIntDamageBonus(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)]) * atkSpd;
+        fire_max += calc(total_max * percent[Damage_Type.FIRE.id], boost, sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.FIRE_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.FIRE_DAMAGE_PERCENT)]) * atkSpd;
+        air_max += calc(total_max * percent[Damage_Type.AIR.id], boost, sp.getSkillPoint(SkillPoint.SkillPointType.AGILITY).getSPBoost(), id_Numbers[ID_Display.ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.AIR_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.ELEMENTAL_DAMAGE_PERCENT)], id_Numbers[ID_Display.ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)]) * atkSpd;
+
+
+        //Raw Damage Calc and Calc Tome Bonus
         if (neutral_min != 0 || neutral_max != 0) {
-            neutral_min += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Neutral", false, true) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_SPELL_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            neutral_max += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Neutral", true, true) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_SPELL_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            neutral_min += calcRawDamage(calcRaw, false, Damage_Type.NEUTRAL, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_SPELL_DAMAGE)]);
+            neutral_max += calcRawDamage(calcRaw, true, Damage_Type.NEUTRAL, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_NEUTRAL_SPELL_DAMAGE)]);
 
             neutral_min *= tomeBonus;
             neutral_max *= tomeBonus;
         }
+
         if (earth_min != 0 || earth_max != 0) {
-            earth_min += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Earth", false, true) + calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Earth", false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            earth_max += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Earth", true, true) + calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Earth", true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            earth_min += calcRawDamage(calcRaw, false, Damage_Type.EARTH, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)]);
+            earth_max += calcRawDamage(calcRaw, true, Damage_Type.EARTH, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_EARTH_DAMAGE)]);
 
             earth_min *= tomeBonus;
             earth_max *= tomeBonus;
         }
         if (thunder_min != 0 || thunder_max != 0) {
-            thunder_min += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Thunder", false, true) + calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Thunder", false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            thunder_max += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Thunder", true, true) + calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Thunder", true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            thunder_min += calcRawDamage(calcRaw, false, Damage_Type.THUNDER, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)]);
+            thunder_max += calcRawDamage(calcRaw, true, Damage_Type.THUNDER, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_THUNDER_DAMAGE)]);
 
             thunder_min *= tomeBonus;
             thunder_max *= tomeBonus;
         }
         if (water_min != 0 || water_max != 0) {
-            water_min += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Water", false, true) + calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Water", false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            water_max += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Water", true, true) + calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Water", true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            water_min += calcRawDamage(calcRaw, false, Damage_Type.WATER, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)]);
+            water_max += calcRawDamage(calcRaw, true, Damage_Type.WATER, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_WATER_DAMAGE)]);
 
             water_min *= tomeBonus;
             water_max *= tomeBonus;
         }
         if (fire_min != 0 || fire_max != 0) {
-            fire_min += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Fire", false, true) + calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Fire", false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            fire_max += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Fire", true, true) + calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Fire", true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            fire_min += calcRawDamage(calcRaw, false, Damage_Type.FIRE, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)]);
+            fire_max += calcRawDamage(calcRaw, true, Damage_Type.FIRE, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_FIRE_DAMAGE)]);
 
             fire_min *= tomeBonus;
             fire_max *= tomeBonus;
         }
         if (air_min != 0 || air_max != 0) {
-            air_min += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Air", false, true) + calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Air", false, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
-            air_max += (calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)], "Air", true, true) + calcRaw.calc(id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_ELEMENTAL_DAMAGE)], "Air", true, false) + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)]) * (percent[0] + percent[1] + percent[2] + percent[3] + percent[4] + percent[5]) * boost;
+            air_min += calcRawDamage(calcRaw, false, Damage_Type.AIR, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)]);
+            air_max += calcRawDamage(calcRaw, true, Damage_Type.AIR, percent, boost, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_SPELL_DAMAGE)] + id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_AIR_DAMAGE)]);
 
             air_min *= tomeBonus;
             air_max *= tomeBonus;
@@ -2447,334 +2470,33 @@ public class Damage_Display {
                 , isTotal);
     }
 
-    private static class Calc_Raw {
-        private final float neutral_min;
-        private final float earth_min;
-        private final float thunder_min;
-        private final float water_min;
-        private final float fire_min;
-        private final float air_min;
+    public float calcRawDamage(Calc_Raw calc_raw, boolean isMax, Damage_Type damage_type, float[] percent, float boost, int others_Raw) {
+        float calc_total = others_Raw * (percent[Damage_Type.NEUTRAL.id] + percent[Damage_Type.EARTH.id] + percent[Damage_Type.THUNDER.id] + percent[Damage_Type.WATER.id] + percent[Damage_Type.FIRE.id] + percent[Damage_Type.AIR.id]);
 
-        private final float neutral_max;
-        private final float earth_max;
-        private final float thunder_max;
-        private final float water_max;
-        private final float fire_max;
-        private final float air_max;
-
-        private Calc_Raw(float neutral_min, float earth_min, float thunder_min, float water_min, float fire_min, float air_min
-                , float neutral_max, float earth_max, float thunder_max, float water_max, float fire_max, float air_max) {
-            this.neutral_min = neutral_min;
-            this.earth_min = earth_min;
-            this.thunder_min = thunder_min;
-            this.water_min = water_min;
-            this.fire_min = fire_min;
-            this.air_min = air_min;
-
-            this.neutral_max = neutral_max;
-            this.earth_max = earth_max;
-            this.thunder_max = thunder_max;
-            this.water_max = water_max;
-            this.fire_max = fire_max;
-            this.air_max = air_max;
-        }
-
-        public float calc(int raw, String elem, boolean max, boolean isNotElem) {
-            if (raw == 0) return 0;
-
-            float total_min = earth_min + thunder_min + water_min + fire_min + air_min;
-            float total_max = earth_max + thunder_max + water_max + fire_max + air_max;
-
-            if (isNotElem) {
-                total_min += neutral_min;
-                total_max += neutral_max;
-            }
-
-            float elemMin_OR_Max;
-            if (max) {
-                switch (elem) {
-                    case "Earth": elemMin_OR_Max = earth_max;
-                        break;
-                    case "Thunder": elemMin_OR_Max = thunder_max;
-                        break;
-                    case "Water": elemMin_OR_Max = water_max;
-                        break;
-                    case "Fire": elemMin_OR_Max = fire_max;
-                        break;
-                    case "Air": elemMin_OR_Max = air_max;
-                        break;
-                    default: elemMin_OR_Max = neutral_max;
-                        break;
-                }
-                if (elemMin_OR_Max != 0) {
-                    return raw * (elemMin_OR_Max / total_max);
-                } else {
-                    return 0;
-                }
-            } else {
-                switch (elem) {
-                    case "Earth": elemMin_OR_Max = earth_min;
-                        break;
-                    case "Thunder": elemMin_OR_Max = thunder_min;
-                        break;
-                    case "Water": elemMin_OR_Max = water_min;
-                        break;
-                    case "Fire": elemMin_OR_Max = fire_min;
-                        break;
-                    case "Air": elemMin_OR_Max = air_min;
-                        break;
-                    default: elemMin_OR_Max = neutral_min;
-                        break;
-                }
-
-                if (elemMin_OR_Max != 0) {
-                    return raw * (elemMin_OR_Max / total_min);
-                } else {
-                    return 0;
-                }
-            }
+        if (isMax) {
+            return (calc_total + calc_raw.raw_damages_max[damage_type.id]) * boost;
+        } else {
+            return (calc_total + calc_raw.raw_damages_min[damage_type.id]) * boost;
         }
     }
 
-    private static class Damage_Template {
-        private final JPanel p = new JPanel();
-        private int y_size = 25;
-        private int y = 10;
-        private final JLabel avg_total = new JLabel("Total Average: 0");
-        private final SkillPoint sp;
-        private final boolean crit_boost;
-        private final JPanel pane;
+    public void calcPowderDamages() {
 
-        private Damage_Template(String name, int mana_Cost, JPanel pane, Damage_Template previous, SkillPoint sp, boolean crit_boost, boolean needTotal) {
-            this.sp  = sp;
-            this.crit_boost = crit_boost;
-            this.pane = pane;
-            if (previous != null) {
-                p.setBounds(10, previous.y + previous.y_size + 10, 280, 30);
-                y = previous.y + previous.y_size + 10;
-            } else {
-                p.setBounds(10, 10, 280, 30);
-            }
-            p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-            JLabel nameL = new JLabel();
-            if (mana_Cost > 0) {
-                nameL.setText(name + " (" + mana_Cost + ")");
-            } else {
-                nameL.setText(name);
-            }
-            nameL.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
-            nameL.setAlignmentX(Component.CENTER_ALIGNMENT);
-            avg_total.setAlignmentX(Component.CENTER_ALIGNMENT);
-            p.add(nameL);
-            if (needTotal) { //Blank
-                p.add(new JLabel(" ")); // +20
-                y_size += 20;
-            }
-            if (needTotal) { //Avg Total Damage
-                p.add(avg_total); // +16
-                y_size += 16;
-            }
-            if (y + y_size + 10 > 397) {
-                pane.setPreferredSize(new Dimension(300, y + y_size + 10));
-            } else {
-                pane.setPreferredSize(new Dimension(300, 397));
-            }
+    }
 
-            p.setBackground(new Color(200, 200, 200));
-            pane.add(p);
-        }
+    public enum Damage_Type {
+        NEUTRAL("Neutral", 0),
+        EARTH("Earth", 1),
+        THUNDER("Thunder", 2),
+        WATER("Water", 3),
+        FIRE("Fire", 4),
+        AIR("Air", 5);
 
-        private void addHeal(String name, int[] id_Numbers, float healPercent, boolean isCanBoost, boolean useGentleGlow) {
-            float heal = (id_Numbers[ID_Display.ID_INT.get(Identifications.HEALTH)] + id_Numbers[ID_Display.ID_INT.get(Identifications.HEALTH_BONUS)]) * healPercent * (1F + (id_Numbers[ID_Display.ID_INT.get(Identifications.HEALING_EFFICIENCY)] / 100F));
-            if (isCanBoost) {
-                if (useGentleGlow) {
-                    heal *= 1F + ((id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] * 0.75F) / 100F);
-                } else {
-                    heal *= 1F + ((id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] * 0.3F) / 100F);
-                }
-            }
-            JLabel n = new JLabel(name);
-            JLabel h = new JLabel(String.valueOf((int) Math.floor(heal)));
-            n.setAlignmentX(Component.CENTER_ALIGNMENT);
-            h.setAlignmentX(Component.CENTER_ALIGNMENT);
-            p.add(new JLabel(" ")); //+20
-            if (!name.isEmpty()) p.add(n); //+16
-            p.add(h); //+16
-
-            y_size += 52;
-            p.setBounds(10, y, 280, y_size);
-            if (y + y_size + 10 > 397) {
-                pane.setPreferredSize(new Dimension(300, y + y_size + 10));
-            } else {
-                pane.setPreferredSize(new Dimension(300, 397));
-            }
-        }
-
-        private void addDamage(float total_Min, float total_Max) {
-            JLabel l = new JLabel(total_Min + " to " + total_Max);
-            l.setAlignmentX(Component.CENTER_ALIGNMENT);
-            p.add(new JLabel(" ")); //+20
-            p.add(l); //+16
-            y_size += 36;
-            p.setBounds(10, y, 280, y_size);
-            if (y + y_size + 10 > 397) {
-                pane.setPreferredSize(new Dimension(300, y + y_size + 10));
-            } else {
-                pane.setPreferredSize(new Dimension(300, 397));
-            }
-        }
-
-        private void addDamage(String name, float neutral_min, float earth_min, float thunder_min, float water_min, float fire_min, float air_min
-                , float neutral_max, float earth_max, float thunder_max, float water_max, float fire_max, float air_max
-                , boolean isTotal) {
-
-            float crit_boost = 1F;
-            if (this.crit_boost) crit_boost = 1.15F;
-
-            float crit_neutral_min = neutral_min * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_earth_min = earth_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_thunder_min = thunder_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_water_min = water_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_fire_min = fire_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_air_min = air_min  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-
-            float crit_neutral_max = neutral_max * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_earth_max = earth_max  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_thunder_max = thunder_max  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_water_max = water_max  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_fire_max = fire_max  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-            float crit_air_max = air_max  * (crit_boost + sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost());
-
-            neutral_min *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-            earth_min *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-            thunder_min *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-            water_min *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-            fire_min *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-            air_min *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-
-            neutral_max *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-            earth_max *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-            thunder_max *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-            water_max *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-            fire_max *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-            air_max *= sp.getSkillPoint(SkillPoint.SkillPointType.STRENGTH).getSPBoost();
-
-            float damage = neutral_min + earth_min + thunder_min + water_min + fire_min + air_min + neutral_max + earth_max + thunder_max + water_max + fire_max + air_max;
-            float crit_damage = crit_neutral_min + crit_earth_min + crit_thunder_min + crit_water_min + crit_fire_min + crit_air_min + crit_neutral_max + crit_earth_max + crit_thunder_max + crit_water_max + crit_fire_max + crit_air_max;
-            float crit_chance = sp.getSkillPoint(SkillPoint.SkillPointType.DEXTERITY).getSPBoost();
-            float total_average = damage / 2F * (2F - crit_chance) + crit_damage / 2F * (crit_chance - 1F);
-
-            JLabel nameL = new JLabel(name);
-            JLabel avg = new JLabel("Average: " + total_average);
-            JLabel no_crit_avg = new JLabel("Non-Crit Average: " + (damage / 2F));
-            JLabel neutral = new JLabel(neutral_min + " Neutral " + neutral_max);
-            JLabel earth = new JLabel(earth_min + " Earth " + earth_max);
-            JLabel thunder = new JLabel(thunder_min + " Thunder " + thunder_max);
-            JLabel water = new JLabel(water_min + " Water " + water_max);
-            JLabel fire = new JLabel(fire_min + " Fire " + fire_max);
-            JLabel air = new JLabel(air_min + " Air " + air_max);
-
-            JLabel critical_avg = new JLabel("Crit Average: " + (crit_damage / 2F));
-            JLabel critical_neutral = new JLabel(crit_neutral_min + " Neutral " + crit_neutral_max);
-            JLabel critical_earth = new JLabel(crit_earth_min + " Earth " + crit_earth_max);
-            JLabel critical_thunder = new JLabel(crit_thunder_min + " Thunder " + crit_thunder_max);
-            JLabel critical_water = new JLabel(crit_water_min + " Water " + crit_water_max);
-            JLabel critical_fire = new JLabel(crit_fire_min + " Fire " + crit_fire_max);
-            JLabel critical_air = new JLabel(crit_air_min + " Air " + crit_air_max);
-
-            nameL.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
-
-            nameL.setAlignmentX(Component.CENTER_ALIGNMENT);
-            avg.setAlignmentX(Component.CENTER_ALIGNMENT);
-            no_crit_avg.setAlignmentX(Component.CENTER_ALIGNMENT);
-            neutral.setAlignmentX(Component.CENTER_ALIGNMENT);
-            earth.setAlignmentX(Component.CENTER_ALIGNMENT);
-            thunder.setAlignmentX(Component.CENTER_ALIGNMENT);
-            water.setAlignmentX(Component.CENTER_ALIGNMENT);
-            fire.setAlignmentX(Component.CENTER_ALIGNMENT);
-            air.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            critical_avg.setAlignmentX(Component.CENTER_ALIGNMENT);
-            critical_neutral.setAlignmentX(Component.CENTER_ALIGNMENT);
-            critical_earth.setAlignmentX(Component.CENTER_ALIGNMENT);
-            critical_thunder.setAlignmentX(Component.CENTER_ALIGNMENT);
-            critical_water.setAlignmentX(Component.CENTER_ALIGNMENT);
-            critical_fire.setAlignmentX(Component.CENTER_ALIGNMENT);
-            critical_air.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            p.add(new JLabel(" ")); // +20
-
-            if (!name.isEmpty()) {
-                p.add(nameL);
-                y_size += 20;
-            }
-            p.add(avg); // +16
-            p.add(no_crit_avg); // +16
-            if (neutral_min != 0 || neutral_max != 0) {
-                p.add(neutral);
-                y_size += 16;
-            }
-            if (earth_min != 0 || earth_max != 0) {
-                p.add(earth);
-                y_size += 16;
-            }
-            if (thunder_min != 0 || thunder_max != 0) {
-                p.add(thunder);
-                y_size += 16;
-            }
-            if (water_min != 0 || water_max != 0) {
-                p.add(water);
-                y_size += 16;
-            }
-            if (fire_min != 0 || fire_max != 0) {
-                p.add(fire);
-                y_size += 16;
-            }
-            if (air_min != 0 || air_max != 0) {
-                p.add(air);
-                y_size += 16;
-            }
-
-            p.add(new JLabel(" ")); // +16
-
-            //Critical
-            p.add(critical_avg); // +16
-            if (neutral_min != 0 || neutral_max != 0) {
-                p.add(critical_neutral);
-                y_size += 16;
-            }
-            if (earth_min != 0 || earth_max != 0) {
-                p.add(critical_earth);
-                y_size += 16;
-            }
-            if (thunder_min != 0 || thunder_max != 0) {
-                p.add(critical_thunder);
-                y_size += 16;
-            }
-            if (water_min != 0 || water_max != 0) {
-                p.add(critical_water);
-                y_size += 16;
-            }
-            if (fire_min != 0 || fire_max != 0) {
-                p.add(critical_fire);
-                y_size += 16;
-            }
-            if (air_min != 0 || air_max != 0) {
-                p.add(critical_air);
-                y_size += 16;
-            }
-
-            y_size += 84;
-            p.setBounds(10, y, 280, y_size);
-            if (y + y_size + 10 > 397) {
-                pane.setPreferredSize(new Dimension(300, y + y_size + 10));
-            } else {
-                pane.setPreferredSize(new Dimension(300, 397));
-            }
-
-            if (isTotal) {
-                avg_total.setText("Total Average: " + total_average);
-            }
+        String name;
+        int id;
+        Damage_Type(String name, int id) {
+            this.name = name;
+            this.id = id;
         }
     }
 
