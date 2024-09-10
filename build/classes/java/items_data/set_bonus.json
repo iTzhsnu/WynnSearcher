@@ -1125,6 +1125,21 @@
         "healthRegen": 25,
         "thorns": 35
       }
+    },
+
+    "Desert": {
+      "size": 4,
+      "2": {
+        "rawHealth": 50
+      },
+      "3": {
+        "rawHealth": 60,
+        "walkSpeed": 10
+      },
+      "4": {
+        "rawHealth": 70,
+        "walkSpeed": 20
+      }
     }
   }
 }

@@ -217,9 +217,15 @@
     "Spore Shortsword": "Spore",
     "Spore Cap": "Spore",
 
-    "Leaf ": "Leaf",
-    "Leaf ": "Leaf",
-    "Leaf ": "Leaf",
-    "Leaf ": "Leaf"
+    "Leaf Cap": "Leaf",
+    "Leaf Tunic": "Leaf",
+    "Leaf Pants": "Leaf",
+    "Leaf Boots": "Leaf",
+
+    "Desert Winds": "Desert",
+    "Desert Wretch": "Desert",
+    "Desert Seplucher": "Desert",
+    "Desert Sands": "Desert",
+    "Desert Stalker": "Desert"
   }
 }
