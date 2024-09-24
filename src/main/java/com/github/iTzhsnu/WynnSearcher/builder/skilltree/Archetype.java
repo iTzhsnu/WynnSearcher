@@ -43,7 +43,7 @@ public enum Archetype {
         return name;
     }
 
-    public static Map<String, Archetype> GET = new HashMap<String, Archetype>(15, 2) {{
+    public static final Map<String, Archetype> GET = new HashMap<String, Archetype>(15, 2) {{
         //Warrior
         put("berserker", FALLEN);
         put("monk", BATTLE_MONK);

@@ -57,7 +57,7 @@ public enum MajorIDEnum {
 
     ;
 
-    public static Map<String, MajorIDEnum> GET_MAJOR_IDS = new HashMap<String, MajorIDEnum>() {{
+    public static final Map<String, MajorIDEnum> GET_MAJOR_IDS = new HashMap<String, MajorIDEnum>() {{
         put("Divine Honor", DIVINE_HONOR);
         put("Gentle Glow", GENTLE_GLOW);
         put("Furious Effigy", FURIOUS_EFFIGY);

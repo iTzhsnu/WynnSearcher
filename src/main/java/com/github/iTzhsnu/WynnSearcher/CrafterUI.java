@@ -520,14 +520,14 @@ public class CrafterUI implements ActionListener {
                                     ingEffective[pos] += jo.get("left").getAsInt();
                             }
                             if (jo.get("touching") != null && jo.get("touching").getAsInt() != 0) {
-                                float touching = jo.get("touching").getAsInt();
+                                int touching = jo.get("touching").getAsInt();
                                 if (i == 2 || i == 3 || i == 4 || i == 5) ingEffective[i - 2] += touching; //Above
                                 if (i == 0 || i == 1 || i == 2 || i == 3) ingEffective[i + 2] += touching; //Under
                                 if (i == 0 || i == 2 || i == 4) ingEffective[i + 1] += touching; //Right
                                 if (i == 1 || i == 3 || i == 5) ingEffective[i - 1] += touching; //Left
                             }
                             if (jo.get("notTouching") != null && jo.get("notTouching").getAsInt() != 0) {
-                                float notTouching = jo.get("notTouching").getAsInt();
+                                int notTouching = jo.get("notTouching").getAsInt();
                                 if (i >= 3) ingEffective[0] += notTouching; //0
                                 if (i == 2 || i >= 4) ingEffective[1] += notTouching; //1
                                 if (i == 1 || i == 5) ingEffective[2] += notTouching; //2
@@ -547,7 +547,7 @@ public class CrafterUI implements ActionListener {
                             if (j.get("itemOnlyIDs") != null) {
                                 JsonObject jo = j.get("itemOnlyIDs").getAsJsonObject();
                                 if (jo.get("durabilityModifier") != null) {
-                                    durabilityOrDuration += jo.get("durabilityModifier").getAsInt() / 1000F;
+                                    durabilityOrDuration += (int) (jo.get("durabilityModifier").getAsInt() / 1000F);
                                 }
                             }
                         }

@@ -2492,8 +2492,8 @@ public class Damage_Display {
         FIRE("Fire", 4),
         AIR("Air", 5);
 
-        String name;
-        int id;
+        final String name;
+        final int id;
         Damage_Type(String name, int id) {
             this.name = name;
             this.id = id;

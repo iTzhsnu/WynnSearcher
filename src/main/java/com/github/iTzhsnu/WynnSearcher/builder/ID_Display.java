@@ -230,7 +230,7 @@ public class ID_Display {
                                 break;
                             case "Vehement": numbers[ID_INT.get(Identifications.WALK_SPEED)] += Math.max(Math.min((numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)] + numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)]) * 2, 20), 0);
                                 break;
-                            case "Radiant Devotee": numbers[ID_INT.get(Identifications.MANA_REGEN)] += Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.REFLECTION)] / 4F), 10), 0);
+                            case "Radiant Devotee": numbers[ID_INT.get(Identifications.MANA_REGEN)] += (int) Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.REFLECTION)] / 4F), 10), 0);
                                 break;
                         }
                         break;
@@ -238,10 +238,10 @@ public class ID_Display {
                     case "assassin": {
                         switch (tcb.getFixedTreeName()) {
                             case "Poisoned Blade":
-                                numbers[ID_INT.get(Identifications.POISON)] += Math.max(Math.min(Math.floor((numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)] + numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)]) / 2F), 50), 0);
+                                numbers[ID_INT.get(Identifications.POISON)] += (int) Math.max(Math.min(Math.floor((numbers[ID_INT.get(Identifications.MELEE_DAMAGE_PERCENT)] + numbers[ID_INT.get(Identifications.RAW_MELEE_DAMAGE)]) / 2F), 50), 0);
                                 break;
                             case "Shenanigans":
-                                numbers[ID_INT.get(Identifications.MANA_STEAL)] += Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.STEALING)] / 2F), 8), 0);
+                                numbers[ID_INT.get(Identifications.MANA_STEAL)] += (int) Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.STEALING)] / 2F), 8), 0);
                                 break;
                             case "Psithurism":
                                 numbers[ID_INT.get(Identifications.WALK_SPEED)] += 20;
@@ -257,13 +257,13 @@ public class ID_Display {
                     case "mage": {
                         switch (tcb.getFixedTreeName()) {
                             case "Wisdom":
-                                numbers[ID_INT.get(Identifications.MANA_REGEN)] += Math.max(Math.min(Math.floor((numbers[ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)] + numbers[ID_INT.get(Identifications.RAW_SPELL_DAMAGE)]) / 2F), 5), 0);
+                                numbers[ID_INT.get(Identifications.MANA_REGEN)] += (int) Math.max(Math.min(Math.floor((numbers[ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)] + numbers[ID_INT.get(Identifications.RAW_SPELL_DAMAGE)]) / 2F), 5), 0);
                                 break;
                             case "Seance":
-                                numbers[ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)] += Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.LIFE_STEAL)] / 5F), 50), 0);
+                                numbers[ID_INT.get(Identifications.SPELL_DAMAGE_PERCENT)] += (int) Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.LIFE_STEAL)] / 5F), 50), 0);
                                 break;
                             case "Dynamic Faith":
-                                numbers[ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)] += Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.SPRINT_BONUS)] / 2F), 40), 0);
+                                numbers[ID_INT.get(Identifications.THUNDER_DAMAGE_PERCENT)] += (int) Math.max(Math.min(Math.floor(numbers[ID_INT.get(Identifications.SPRINT_BONUS)] / 2F), 40), 0);
                                 break;
                         }
                         break;
