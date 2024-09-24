@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.List;
 
 public class SearchUI extends JFrame implements ActionListener {
-    public static final String VERSION = "3.2.6";
+    public static final String VERSION = "3.3.2";
 
     //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
@@ -50,9 +50,23 @@ public class SearchUI extends JFrame implements ActionListener {
     private final List<JsonObject> charmJson = new ArrayList<>();
     private final List<JsonObject> toolJson = new ArrayList<>();
     private final List<JsonObject> materialJson = new ArrayList<>();
+    private final List<JsonObject> armourTomeJson = new ArrayList<>();
+    private final List<JsonObject> guildTomeJson = new ArrayList<>();
+    private final List<JsonObject> weaponTomeJson = new ArrayList<>();
+    private final List<JsonObject> marathonTomeJson = new ArrayList<>();
+    private final List<JsonObject> lootrunTomeJson = new ArrayList<>();
+    private final List<JsonObject> expertiseTomeJson = new ArrayList<>();
+    private final List<JsonObject> mysticismTomeJson = new ArrayList<>();
+
+    //Aspect Json
+    private final List<JsonObject> warriorAspectJson = new ArrayList<>();
+    private final List<JsonObject> assassinAspectJson = new ArrayList<>();
+    private final List<JsonObject> mageAspectJson = new ArrayList<>();
+    private final List<JsonObject> archerAspectJson = new ArrayList<>();
+    private final List<JsonObject> shamanAspectJson = new ArrayList<>();
 
     //Item or Ingredient
-    private final JComboBox<String> itemOrIngredient = new JComboBox<>();
+    private final JComboBox<String> itemType = new JComboBox<>();
 
     //Sort Min or Max
     private final JComboBox<String> sortType = new JComboBox<>();
@@ -88,6 +102,20 @@ public class SearchUI extends JFrame implements ActionListener {
     private final JCheckBox charm = new JCheckBox("Charm");
     private final JCheckBox tool = new JCheckBox("Tool");
     private final JCheckBox material = new JCheckBox("Material");
+    private final JCheckBox armourTome = new JCheckBox("Armour");
+    private final JCheckBox guildTome = new JCheckBox("Guild");
+    private final JCheckBox weaponTome = new JCheckBox("Weapon");
+    private final JCheckBox marathonTome = new JCheckBox("Marathon");
+    private final JCheckBox lootrunTome = new JCheckBox("Lootrun");
+    private final JCheckBox expertiseTome = new JCheckBox("Expertise");
+    private final JCheckBox mysticismTome = new JCheckBox("Mysticism");
+
+    //Aspect Check Boxes
+    private final JComboBox<String> aspectType = new JComboBox<>();
+    private final JCheckBox archetype1Aspect = new JCheckBox();
+    private final JCheckBox archetype2Aspect = new JCheckBox();
+    private final JCheckBox archetype3Aspect = new JCheckBox();
+    private final JCheckBox otherTypeAspect = new JCheckBox("Other");
 
     //Search Button and Text
     private final JLabel name = new JLabel("Name:");
@@ -145,7 +173,13 @@ public class SearchUI extends JFrame implements ActionListener {
         GetAPI getAPI = new GetAPI();
         getAPI.loadArchiveV3API(wynnItems, wynnIngredients, wynnOtherItems, itemAPIConnect);
         List<JsonObject> wynnRecipes = new ArrayList<>();
-        String recipeAPIConnect = getAPI.setRecipeData(wynnRecipes);
+        String recipeAPIConnect = getAPI.loadRecipeData(wynnRecipes);
+
+        getAPI.loadWynnAspectAPI("warrior", warriorAspectJson);
+        getAPI.loadWynnAspectAPI("assassin", assassinAspectJson);
+        getAPI.loadWynnAspectAPI("mage", mageAspectJson);
+        getAPI.loadWynnAspectAPI("archer", archerAspectJson);
+        getAPI.loadWynnAspectAPI("shaman", shamanAspectJson);
 
         how_to_obtain_item = getAPI.getHowToObtainItem();
         how_to_obtain_ing = getAPI.getHowToObtainIng();
@@ -176,17 +210,20 @@ public class SearchUI extends JFrame implements ActionListener {
         searchB.addActionListener(this);
 
         //Item or Ingredient
-        itemOrIngredient.setBounds(320, 15, 170, 20);
-        itemOrIngredient.addItem("Type: Armor and Weapon");
-        itemOrIngredient.addItem("Type: Ingredient");
-        itemOrIngredient.addItem("Type: Other Items");
-        itemOrIngredient.addActionListener(this);
+        itemType.setBounds(320, 15, 170, 20);
+        itemType.addItem("Type: Armor and Weapon");
+        itemType.addItem("Type: Ingredient");
+        itemType.addItem("Type: Other Items");
+        itemType.addItem("Type: Aspect");
+        itemType.addActionListener(this);
 
         typeItemDataSet();
         typeIngredientDataSet();
         typeOtherItemsDataSet();
+        typeAspectDataSet();
         setVisibleIngredient(false);
         setVisibleOther(false);
+        setVisibleAspect(false);
         setVisibleItem(true);
 
         //ID Search Setting Bar
@@ -236,7 +273,7 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(name);
         contentPane.add(searchB);
         contentPane.add(searchF);
-        contentPane.add(itemOrIngredient);
+        contentPane.add(itemType);
         contentPane.add(scrollPane);
         contentPane.add(sortType);
         contentPane.add(searchedItemCount);
@@ -261,81 +298,113 @@ public class SearchUI extends JFrame implements ActionListener {
         tipManager.setReshowDelay(100);
     }
 
-    public static void main(String[] args) {
-        new SearchUI().setVisible(true);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == searchB) {
-            for (int i = itemDisplays.size() - 1; i >= 0; --i) {
-                    searched.remove(itemDisplays.get(i));
-                    itemDisplays.remove(i);
-            }
-            if (canSearchItem()) {
-                if (type.getSelectedIndex() == 4) {
-                    changesUI.searchItems();
-                } else {
-                    searchItems(null);
-                }
-            } else if (canSearchIngredient()) {
-                if (type.getSelectedIndex() == 4) {
-                    changesUI.searchIng();
-                } else {
-                    searchIngredient(null);
-                }
-            } else if (canSearchOtherItems()) {
-                if (type.getSelectedIndex() == 4) {
-                    changesUI.searchOther();
-                } else {
-                    searchOtherItems(null);
-                }
-            } else {
-                searchedItemCount.setText("Search Failed");
-            }
-        } else if (e.getSource() == itemOrIngredient) {
-            if (type.getSelectedIndex() == 4) {
-                changesUI.setFileList(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()));
-            }
-            if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Armor and Weapon")) {
-                setVisibleIngredient(false);
-                setVisibleOther(false);
-                setVisibleItem(true);
-            } else if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Ingredient")) {
-                setVisibleItem(false);
-                setVisibleOther(false);
-                setVisibleIngredient(true);
-            } else if (itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()).equals("Type: Other Items")) {
-                setVisibleItem(false);
-                setVisibleIngredient(false);
-                setVisibleOther(true);
-            }
+            search();
+        } else if (e.getSource() == itemType) {
+            changeItemType();
         } else if (e.getSource() == updateSize) {
             scrollPane.setSize(getWidth() - 25, getHeight() - 315);
             SwingUtilities.updateComponentTreeUI(searched);
         } else if (e.getSource() == type) {
-            switch (type.getSelectedIndex()) {
-                case 0:
-                    setSearcherVisible(true);
-                    break;
-                case 1:
-                    setCrafterVisible(true);
-                    break;
-                case 2:
-                    setBuilderVisible(true);
-                    break;
-                case 3:
-                    setCustomVisible(true);
-                    break;
-                case 4:
-                    setChangesVisible(true);
-                    break;
-            }
+            changeUIType();
         } else if (e.getSource() == updateAPI) {
             updateAPI.setVisible(false);
             itemAPIConnect.setText("Updating");
             itemAPIConnect.setForeground(new Color(255, 255, 0));
             updateAPI();
+        } else if (e.getSource() == tome) {
+            armourTome.setVisible(tome.isSelected());
+            guildTome.setVisible(tome.isSelected());
+            weaponTome.setVisible(tome.isSelected());
+            marathonTome.setVisible(tome.isSelected());
+            lootrunTome.setVisible(tome.isSelected());
+            expertiseTome.setVisible(tome.isSelected());
+            mysticismTome.setVisible(tome.isSelected());
+        } else if (e.getSource() == aspectType) {
+            changeAspectType();
+        }
+    }
+
+    public void search() {
+        for (int i = itemDisplays.size() - 1; i >= 0; --i) {
+            searched.remove(itemDisplays.get(i));
+            itemDisplays.remove(i);
+        }
+        if (canSearchItem()) {
+            if (type.getSelectedIndex() == 4) {
+                changesUI.searchItems();
+            } else {
+                searchItems(null);
+            }
+        } else if (canSearchIngredient()) {
+            if (type.getSelectedIndex() == 4) {
+                changesUI.searchIng();
+            } else {
+                searchIngredient(null);
+            }
+        } else if (canSearchOtherItems()) {
+            if (type.getSelectedIndex() == 4) {
+                changesUI.searchOther();
+            } else {
+                searchOtherItems(null);
+            }
+        } else if (canSearchAspects()) {
+            if (type.getSelectedIndex() == 4) {
+                searchedItemCount.setText("Changes can't search Aspect");
+            } else {
+                searchAspects();
+            }
+        } else {
+            searchedItemCount.setText("Search Failed");
+        }
+    }
+
+    public void changeItemType() {
+        if (type.getSelectedIndex() == 4) {
+            changesUI.setFileList(itemType.getItemAt(itemType.getSelectedIndex()));
+        }
+        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Armor and Weapon")) {
+            setVisibleIngredient(false);
+            setVisibleOther(false);
+            setVisibleAspect(false);
+            setVisibleItem(true);
+        } else if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Ingredient")) {
+            setVisibleItem(false);
+            setVisibleOther(false);
+            setVisibleAspect(false);
+            setVisibleIngredient(true);
+        } else if (itemType.getItemAt(itemType.getSelectedIndex()).equals("Type: Other Items")) {
+            setVisibleItem(false);
+            setVisibleIngredient(false);
+            setVisibleAspect(false);
+            setVisibleOther(true);
+        } else if (itemType.getItemAt(itemType.getSelectedIndex()).equals("Type: Aspect")) {
+            setVisibleItem(false);
+            setVisibleIngredient(false);
+            setVisibleOther(false);
+            setVisibleAspect(true);
+        }
+    }
+
+    public void changeUIType() {
+        switch (type.getSelectedIndex()) {
+            case 0:
+                setSearcherVisible(true);
+                break;
+            case 1:
+                setCrafterVisible(true);
+                break;
+            case 2:
+                setBuilderVisible(true);
+                break;
+            case 3:
+                setCustomVisible(true);
+                break;
+            case 4:
+                setChangesVisible(true);
+                break;
         }
     }
 
@@ -368,7 +437,19 @@ public class SearchUI extends JFrame implements ActionListener {
         if (toolJson.size() > 0) toolJson.clear();
         if (materialJson.size() > 0) materialJson.clear();
 
-        new GetAPI().getWynnAPIV3(wynnItems, wynnIngredients, wynnOtherItems, itemAPIConnect);
+        new GetAPI().getWynnAPIV3_3(wynnItems, wynnIngredients, wynnOtherItems, itemAPIConnect);
+
+        new GetAPI().setWynnAbilityTreeAPI("warrior");
+        new GetAPI().setWynnAbilityTreeAPI("assassin");
+        new GetAPI().setWynnAbilityTreeAPI("mage");
+        new GetAPI().setWynnAbilityTreeAPI("archer");
+        new GetAPI().setWynnAbilityTreeAPI("shaman");
+
+        new GetAPI().getWynnAspectAPI("warrior");
+        new GetAPI().getWynnAspectAPI("assassin");
+        new GetAPI().getWynnAspectAPI("mage");
+        new GetAPI().getWynnAspectAPI("archer");
+        new GetAPI().getWynnAspectAPI("shaman");
 
         setItemJson();
         setIngredientJson();
@@ -516,10 +597,129 @@ public class SearchUI extends JFrame implements ActionListener {
         tool.setBounds(645, 10, 50, 20);
         material.setBounds(705, 10, 75, 20);
 
+        armourTome.setBounds(500, 35, 70, 20);
+        guildTome.setBounds(575, 35, 55, 20);
+        weaponTome.setBounds(635, 35, 75, 20);
+        marathonTome.setBounds(715, 35, 80, 20);
+        lootrunTome.setBounds(800, 35, 70, 20);
+        expertiseTome.setBounds(785, 10, 80, 20);
+        mysticismTome.setBounds(870, 10, 85, 20);
+
         contentPane.add(tome);
         contentPane.add(charm);
         contentPane.add(tool);
         contentPane.add(material);
+
+        contentPane.add(armourTome);
+        contentPane.add(guildTome);
+        contentPane.add(weaponTome);
+        contentPane.add(marathonTome);
+        contentPane.add(lootrunTome);
+        contentPane.add(expertiseTome);
+        contentPane.add(mysticismTome);
+
+        tome.addActionListener(this);
+
+        armourTome.setSelected(true);
+        guildTome.setSelected(true);
+        weaponTome.setSelected(true);
+        marathonTome.setSelected(true);
+        lootrunTome.setSelected(true);
+        expertiseTome.setSelected(true);
+        mysticismTome.setSelected(true);
+    }
+
+    public void typeAspectDataSet() {
+        aspectType.setBounds(490, 15, 100, 20);
+        aspectType.addItem("Warrior");
+        aspectType.addItem("Assassin");
+        aspectType.addItem("Mage");
+        aspectType.addItem("Archer");
+        aspectType.addItem("Shaman");
+        aspectType.addActionListener(this);
+
+        warriorAspectUI();
+
+        contentPane.add(aspectType);
+        contentPane.add(archetype1Aspect);
+        contentPane.add(archetype2Aspect);
+        contentPane.add(archetype3Aspect);
+        contentPane.add(otherTypeAspect);
+    }
+
+    public void changeAspectType() {
+        switch (aspectType.getSelectedIndex()) {
+            case 0:
+                warriorAspectUI();
+                break;
+            case 1:
+                assassinAspectUI();
+                break;
+            case 2:
+                mageAspectUI();
+                break;
+            case 3:
+                archerAspectUI();
+                break;
+            case 4:
+                shamanAspectUI();
+                break;
+        }
+    }
+
+    public void warriorAspectUI() {
+        archetype1Aspect.setText("Fallen");
+        archetype2Aspect.setText("Battle Monk");
+        archetype3Aspect.setText("Paladin");
+
+        archetype1Aspect.setBounds(600, 10, 60, 20);
+        archetype2Aspect.setBounds(670, 10, 95, 20);
+        archetype3Aspect.setBounds(775, 10, 70, 20);
+        otherTypeAspect.setBounds(855, 10, 60, 20);
+    }
+
+    public void assassinAspectUI() {
+        archetype1Aspect.setText("Shadestepper");
+        archetype2Aspect.setText("Trickster");
+        archetype3Aspect.setText("Acrobat");
+
+        archetype1Aspect.setBounds(600, 10, 110, 20);
+        archetype2Aspect.setBounds(720, 10, 80, 20);
+        archetype3Aspect.setBounds(810, 10, 70, 20);
+        otherTypeAspect.setBounds(890, 10, 60, 20);
+    }
+
+    public void mageAspectUI() {
+        archetype1Aspect.setText("Riftwalker");
+        archetype2Aspect.setText("Light Bender");
+        archetype3Aspect.setText("Arcanist");
+
+        archetype1Aspect.setBounds(600, 10, 85, 20);
+        archetype2Aspect.setBounds(695, 10, 100, 20);
+        archetype3Aspect.setBounds(805, 10, 75, 20);
+        otherTypeAspect.setBounds(890, 10, 60, 20);
+    }
+
+    public void archerAspectUI() {
+        archetype1Aspect.setText("Boltslinger");
+        archetype2Aspect.setText("Trapper");
+        archetype3Aspect.setText("Sharpshooter");
+
+        archetype1Aspect.setBounds(600, 10, 90, 20);
+        archetype2Aspect.setBounds(700, 10, 70, 20);
+        archetype3Aspect.setBounds(780, 10, 105, 20);
+        otherTypeAspect.setBounds(895, 10, 60, 20);
+    }
+
+    public void shamanAspectUI() {
+        archetype1Aspect.setText("Summoner");
+        archetype2Aspect.setText("Ritualist");
+        archetype3Aspect.setText("Acolyte");
+
+        archetype1Aspect.setBounds(600, 10, 90, 20);
+        archetype2Aspect.setBounds(700, 10, 75, 20);
+        archetype3Aspect.setBounds(785, 10, 70, 20);
+        otherTypeAspect.setBounds(865, 10, 60, 20);
     }
 
     public void setVisibleItem(boolean visible) {
@@ -561,10 +761,40 @@ public class SearchUI extends JFrame implements ActionListener {
         charm.setVisible(visible);
         tool.setVisible(visible);
         material.setVisible(visible);
+
+        if (visible && tome.isSelected()) {
+            armourTome.setVisible(true);
+            guildTome.setVisible(true);
+            weaponTome.setVisible(true);
+            marathonTome.setVisible(true);
+            lootrunTome.setVisible(true);
+            expertiseTome.setVisible(true);
+            mysticismTome.setVisible(true);
+        }
+
+        if (!visible) {
+            armourTome.setVisible(false);
+            guildTome.setVisible(false);
+            weaponTome.setVisible(false);
+            marathonTome.setVisible(false);
+            lootrunTome.setVisible(false);
+            expertiseTome.setVisible(false);
+            mysticismTome.setVisible(false);
+        }
+    }
+
+    public void setVisibleAspect(boolean visible) {
+        itemTier.setBounds(320, 35, 170, 20);
+        itemTier.setVisible(visible);
+        aspectType.setVisible(visible);
+        archetype1Aspect.setVisible(visible);
+        archetype2Aspect.setVisible(visible);
+        archetype3Aspect.setVisible(visible);
+        otherTypeAspect.setVisible(visible);
     }
 
     public boolean canSearchItem() {
-        if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Armor and Weapon")) {
+        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Armor and Weapon")) {
             if (bow.isSelected() || spear.isSelected() || wand.isSelected() || dagger.isSelected() || relik.isSelected() || helmet.isSelected() || chestplate.isSelected() || leggings.isSelected() || boots.isSelected() || ring.isSelected() || bracelet.isSelected() || necklace.isSelected()) {
                 boolean hasText = false;
                 for (JComboBox<String> box : idBoxes_1) {
@@ -577,7 +807,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public boolean canSearchIngredient() {
-        if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Ingredient")) {
+        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Ingredient")) {
             if (armouring.isSelected() || tailoring.isSelected() || weaponsmithing.isSelected() || woodworking.isSelected() || jeweling.isSelected() || scribing.isSelected() || cooking.isSelected() || alchemism.isSelected()) {
                 boolean hasText = false;
                 for (JComboBox<String> box : idBoxes_1) {
@@ -590,8 +820,21 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public boolean canSearchOtherItems() {
-        if (Objects.equals(itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex()), "Type: Other Items")) {
+        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Other Items")) {
             if (tome.isSelected() || charm.isSelected() || tool.isSelected() || material.isSelected()) {
+                boolean hasText = false;
+                for (JComboBox<String> box : idBoxes_1) {
+                    if (notEmpty(box)) hasText = true;
+                }
+                return hasText;
+            }
+        }
+        return false;
+    }
+
+    public boolean canSearchAspects() {
+        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Aspect")) {
+            if (archetype1Aspect.isSelected() || archetype2Aspect.isSelected() || archetype3Aspect.isSelected() || otherTypeAspect.isSelected()) {
                 boolean hasText = false;
                 for (JComboBox<String> box : idBoxes_1) {
                     if (notEmpty(box)) hasText = true;
@@ -656,10 +899,10 @@ public class SearchUI extends JFrame implements ActionListener {
         Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 2), Identifications.EMPTY);
         Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 3), Identifications.EMPTY);
         if (id_0.getItemName() == null && id_1.getItemName() == null && id_2.getItemName() == null && id_3.getItemName() == null) {
-            removeAllSearchedItemOrIngredients();
+            removeAllSearchedItems();
         }
 
-        searchItemFromTier();
+        searchFromTier();
 
         searchFromName();
 
@@ -831,7 +1074,7 @@ public class SearchUI extends JFrame implements ActionListener {
         searchIngFromIDs(idBoxes_3, idMin_3, idMax_3);
         searchIngFromIDs(idBoxes_4, idMin_4, idMax_4);
 
-        searchIngFromTier();
+        searchFromTier();
 
         searchFromName();
 
@@ -869,7 +1112,19 @@ public class SearchUI extends JFrame implements ActionListener {
             if (tome.isSelected() && charm.isSelected() && tool.isSelected() && material.isSelected()) {
                 searchedItems.addAll(wynnOtherItems);
             } else {
-                if (tome.isSelected()) searchedItems.addAll(tomeJson);
+                if (tome.isSelected()) {
+                    if (armourTome.isSelected() && guildTome.isSelected() && weaponTome.isSelected() && marathonTome.isSelected() && lootrunTome.isSelected() && expertiseTome.isSelected() && mysticismTome.isSelected()) {
+                        searchedItems.addAll(tomeJson);
+                    } else {
+                        if (armourTome.isSelected()) searchedItems.addAll(armourTomeJson);
+                        if (guildTome.isSelected()) searchedItems.addAll(guildTomeJson);
+                        if (weaponTome.isSelected()) searchedItems.addAll(weaponTomeJson);
+                        if (marathonTome.isSelected()) searchedItems.addAll(marathonTomeJson);
+                        if (lootrunTome.isSelected()) searchedItems.addAll(lootrunTomeJson);
+                        if (expertiseTome.isSelected()) searchedItems.addAll(expertiseTomeJson);
+                        if (mysticismTome.isSelected()) searchedItems.addAll(mysticismTomeJson);
+                    }
+                }
                 if (charm.isSelected()) searchedItems.addAll(charmJson);
                 if (tool.isSelected()) searchedItems.addAll(toolJson);
                 if (material.isSelected()) searchedItems.addAll(materialJson);
@@ -886,10 +1141,10 @@ public class SearchUI extends JFrame implements ActionListener {
         Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 2), Identifications.EMPTY);
         Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 3), Identifications.EMPTY);
         if (id_0.getItemName() == null && id_1.getItemName() == null && id_2.getItemName() == null && id_3.getItemName() == null) {
-            removeAllSearchedItemOrIngredients();
+            removeAllSearchedItems();
         }
 
-        searchOtherFromTier();
+        searchFromTier();
 
         searchFromName();
 
@@ -897,6 +1152,46 @@ public class SearchUI extends JFrame implements ActionListener {
         filterItemFromSize(idBoxes_2, idMin_2, idMax_2);
         filterItemFromSize(idBoxes_3, idMin_3, idMax_3);
         filterItemFromSize(idBoxes_4, idMin_4, idMax_4);
+
+        searchedItemCount.setText("Searched Item: " + searchedItems.size());
+    }
+
+    public void searchAspects() {
+        long startTime = System.currentTimeMillis();
+
+        filterAspects();
+
+        sortAspects();
+
+        setDisplaySize();
+
+        displayTime.setText((System.currentTimeMillis() - startTime) + "ms");
+    }
+
+    public void filterAspects() {
+        searchedItems.clear();
+
+        switch (aspectType.getSelectedIndex()) {
+            case 0:
+                searchedItems.addAll(warriorAspectJson);
+                break;
+            case 1:
+                searchedItems.addAll(assassinAspectJson);
+                break;
+            case 2:
+                searchedItems.addAll(mageAspectJson);
+                break;
+            case 3:
+                searchedItems.addAll(archerAspectJson);
+                break;
+            case 4:
+                searchedItems.addAll(shamanAspectJson);
+                break;
+        }
+
+        searchFromTier();
+
+        searchFromName();
 
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
     }
@@ -933,8 +1228,8 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public void setItemJson() {
         for (JsonObject item : wynnItems) {
-            if (item.get("type") != null) {
-                switch (item.get("type").getAsString()) {
+            if (item.get("weaponType") != null) {
+                switch (item.get("weaponType").getAsString()) {
                     case "bow":
                         bowJson.add(item);
                         break;
@@ -950,6 +1245,9 @@ public class SearchUI extends JFrame implements ActionListener {
                     case "relik":
                         relikJson.add(item);
                         break;
+                }
+            } else if (item.get("armourType") != null) {
+                switch (item.get("armourType").getAsString()) {
                     case "helmet":
                         helmetJson.add(item);
                         break;
@@ -1017,6 +1315,29 @@ public class SearchUI extends JFrame implements ActionListener {
             switch (j.get("type").getAsString()) {
                 case "tome":
                     tomeJson.add(j);
+                    switch (j.get("tomeType").getAsString()) {
+                        case "guild_tome": //x1 Slots
+                            guildTomeJson.add(j);
+                            break;
+                        case "marathon_tome": //x2 Slots
+                            marathonTomeJson.add(j);
+                            break;
+                        case "expertise_tome": //x2 Slots
+                            expertiseTomeJson.add(j);
+                            break;
+                        case "lootrun_tome": //x1 Slots
+                            lootrunTomeJson.add(j);
+                            break;
+                        case "mysticism_tome": //x2 Slots
+                            mysticismTomeJson.add(j);
+                            break;
+                        case "weapon_tome": //x2 Slots
+                            weaponTomeJson.add(j);
+                            break;
+                        case "armour_tome": //x4 Slots
+                            armourTomeJson.add(j);
+                            break;
+                    }
                     break;
                 case "charm":
                     charmJson.add(j);
@@ -1091,7 +1412,13 @@ public class SearchUI extends JFrame implements ActionListener {
                                                 if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
                                                     String s = max.getText();
                                                     if (!min.getText().isEmpty()) s = min.getText();
-                                                    if (j.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString().toLowerCase().contains(s.toLowerCase())) remove = false;
+                                                    //if (j.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString().toLowerCase().contains(s.toLowerCase())) remove = false;
+                                                    for (Map.Entry<String, JsonElement> entry : j.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().entrySet()) {
+                                                        if (entry.getKey().toLowerCase().contains(s.toLowerCase())) {
+                                                            remove = false;
+                                                            break;
+                                                        }
+                                                    }
                                                 } else { //has No Text (Major ID)
                                                     remove = false;
                                                 }
@@ -1262,8 +1589,8 @@ public class SearchUI extends JFrame implements ActionListener {
                                                 switch (id) {
                                                     case DROP_TYPE_UNKNOWN: {
                                                         boolean isObtainable = false;
-                                                        for (Map.Entry<String, JsonElement> entry : j.get("droppedBy").getAsJsonObject().entrySet()) {
-                                                            if (!entry.getKey().equals("Ingredient Dummy")) {
+                                                        for (JsonElement je : j.get("droppedBy").getAsJsonArray()) {
+                                                            if (je.getAsJsonObject().get("name") != null && !je.getAsJsonObject().get("name").getAsString().equals("Ingredient Dummy")) {
                                                                 isObtainable = true;
                                                                 break;
                                                             }
@@ -1274,8 +1601,8 @@ public class SearchUI extends JFrame implements ActionListener {
                                                         break;
                                                     }
                                                     case DROP_TYPE_SPECIFIC_DROP: {
-                                                        for (Map.Entry<String, JsonElement> entry : j.get("droppedBy").getAsJsonObject().entrySet()) {
-                                                            if (!entry.getKey().equals("Ingredient Dummy")) {
+                                                        for (JsonElement je : j.get("droppedBy").getAsJsonArray()) {
+                                                            if (je.getAsJsonObject().get("name") != null && !je.getAsJsonObject().get("name").getAsString().equals("Ingredient Dummy")) {
                                                                 remove = false;
                                                                 break;
                                                             }
@@ -1297,6 +1624,9 @@ public class SearchUI extends JFrame implements ActionListener {
                                                         break;
                                                     case DROP_TYPE_MERCHANT:
                                                     case DROP_TYPE_QUEST:
+                                                    case DROP_TYPE_RAID_REWARDS:
+                                                    case DROP_TYPE_WORLD_EVENT:
+                                                    case DROP_TYPE_LOOTRUN:
                                                         if (how_to_obtain_ing.get(id.getDisplayName()) != null && how_to_obtain_ing.get(id.getDisplayName()).getAsJsonObject().get(j.get("name").getAsString()) != null) remove = false;
                                                         break;
                                                 }
@@ -1392,6 +1722,9 @@ public class SearchUI extends JFrame implements ActionListener {
                                     break;
                                 case DROP_TYPE_MERCHANT:
                                 case DROP_TYPE_QUEST:
+                                case DROP_TYPE_RAID_REWARDS:
+                                case DROP_TYPE_WORLD_EVENT:
+                                case DROP_TYPE_LOOTRUN:
                                     if (how_to_obtain_ing.get(id.getDisplayName()) != null && how_to_obtain_ing.get(id.getDisplayName()).getAsJsonObject().get(json.get("name").getAsString()) != null) return false;
                                     break;
                             }
@@ -1469,115 +1802,12 @@ public class SearchUI extends JFrame implements ActionListener {
         SwingUtilities.updateComponentTreeUI(searched);
     }
 
-    public void searchItemFromTier() {
-        if (!itemTier.getItemAt(itemTier.getSelectedIndex()).equals("All")) {
-            for (int i = searchedItems.size() - 1; i >= 0; --i) {
-                String s = searchedItems.get(i).get("tier").getAsString();
-                switch (itemTier.getItemAt(itemTier.getSelectedIndex())) {
-                    case "No Normal":
-                        if (s.equals("normal")) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                    case "Mythic":
-                        if (!s.equals("mythic")) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                    case "Fabled":
-                        if (!s.equals("fabled")) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                    case "Legendary":
-                        if (!s.equals("legendary")) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                    case "Rare":
-                        if (!s.equals("rare")) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                    case "Unique":
-                        if (!s.equals("unique")) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                    case "Set":
-                        if (!s.equals("set")) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                    case "Normal":
-                        if (!s.equals("normal")) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                }
-            }
-        }
-    }
-
-    public void searchIngFromTier() {
-        if (!tier.getItemAt(tier.getSelectedIndex()).equals("All")) {
-            for (int i = searchedItems.size() - 1; i >= 0; --i) {
-                int t = searchedItems.get(i).get("tier").getAsInt();
-                switch (tier.getItemAt(tier.getSelectedIndex())) {
-                    case "0 Star":
-                        if (t != 0) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                    case "1 Star":
-                        if (t != 1) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                    case "2 Star":
-                        if (t != 2) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                    case "3 Star":
-                        if (t != 3) {
-                            searchedItems.remove(i);
-                        }
-                        break;
-                }
-            }
-        }
-    }
-
-    public void searchOtherFromTier() {
+    public void searchFromTier() {
         if (!itemTier.getItemAt(itemTier.getSelectedIndex()).equals("All") || !tier.getItemAt(tier.getSelectedIndex()).equals("All")) {
             for (int i = searchedItems.size() - 1; i >= 0; --i) {
-                try {
-                    int t = searchedItems.get(i).get("tier").getAsInt();
-                    switch (tier.getItemAt(tier.getSelectedIndex())) {
-                        case "0 Star":
-                            if (t != 0) {
-                                searchedItems.remove(i);
-                            }
-                            break;
-                        case "1 Star":
-                            if (t != 1) {
-                                searchedItems.remove(i);
-                            }
-                            break;
-                        case "2 Star":
-                            if (t != 2) {
-                                searchedItems.remove(i);
-                            }
-                            break;
-                        case "3 Star":
-                            if (t != 3) {
-                                searchedItems.remove(i);
-                            }
-                            break;
-                    }
-                } catch (NumberFormatException e) {
-                    String s = searchedItems.get(i).get("tier").getAsString();
+                JsonObject j = searchedItems.get(i);
+                if (j.get(Identifications.RARITY.getItemName()) != null) {
+                    String s = j.get(Identifications.RARITY.getItemName()).getAsString();
                     switch (itemTier.getItemAt(itemTier.getSelectedIndex())) {
                         case "No Normal":
                             if (s.equals("normal")) {
@@ -1616,6 +1846,30 @@ public class SearchUI extends JFrame implements ActionListener {
                             break;
                         case "Normal":
                             if (!s.equals("normal")) {
+                                searchedItems.remove(i);
+                            }
+                            break;
+                    }
+                } else if (j.get(Identifications.RARITY.getIngName()) != null) {
+                    int t = j.get(Identifications.RARITY.getIngName()).getAsInt();
+                    switch (tier.getItemAt(tier.getSelectedIndex())) {
+                        case "0 Star":
+                            if (t != 0) {
+                                searchedItems.remove(i);
+                            }
+                            break;
+                        case "1 Star":
+                            if (t != 1) {
+                                searchedItems.remove(i);
+                            }
+                            break;
+                        case "2 Star":
+                            if (t != 2) {
+                                searchedItems.remove(i);
+                            }
+                            break;
+                        case "3 Star":
+                            if (t != 3) {
                                 searchedItems.remove(i);
                             }
                             break;
@@ -1799,6 +2053,7 @@ public class SearchUI extends JFrame implements ActionListener {
                                                     break;
                                                 case DROP_TYPE_MERCHANT:
                                                 case DROP_TYPE_QUEST:
+                                                case DROP_TYPE_RAID_REWARDS:
                                                     if (how_to_obtain_ing.get(id.getDisplayName()) != null && how_to_obtain_ing.get(id.getDisplayName()).getAsJsonObject().get(j.get("name").getAsString()) != null) {
                                                         total_min += 1;
                                                         total_max += 1;
@@ -2160,7 +2415,24 @@ public class SearchUI extends JFrame implements ActionListener {
         searchedItems.remove(iu);
     }
 
-    public void removeAllSearchedItemOrIngredients() {
+    public void sortAspects() {
+        for (int i = searchedItems.size() - 1; i >= 0; --i) {
+            JPanel previous = null;
+            JPanel above = null;
+            if (itemDisplays.size() >= 1) {
+                previous = itemDisplays.get(itemDisplays.size() - 1);
+            }
+            if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
+                above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
+            }
+            itemDisplays.add(new ItemUITemplate(searchedItems.get(i), ItemType.ASPECT, previous, above, scrollPane.getWidth(), 0, false));
+            searched.add(itemDisplays.get(itemDisplays.size() - 1));
+
+            searchedItems.remove(i);
+        }
+    }
+
+    public void removeAllSearchedItems() {
         if (searchedItems.size() > 0) {
             searchedItems.clear();
         }
@@ -2198,8 +2470,12 @@ public class SearchUI extends JFrame implements ActionListener {
         if (necklace.isSelected()) l.add("necklace");
         if (l.size() != 12) {
             for (int i = json.size() - 1; i >= 0; --i) {
-                if (json.get(i).get("type") != null) {
-                    if (!l.contains(json.get(i).get("type").getAsString())) {
+                if (json.get(i).get("weaponType") != null) {
+                    if (!l.contains(json.get(i).get("weaponType").getAsString())) {
+                        json.remove(i);
+                    }
+                } else if (json.get(i).get("armourType") != null) {
+                    if (!l.contains(json.get(i).get("armourType").getAsString())) {
                         json.remove(i);
                     }
                 } else if (json.get(i).get("accessoryType") != null) {
@@ -2226,8 +2502,10 @@ public class SearchUI extends JFrame implements ActionListener {
         if (bracelet.isSelected()) l.add("bracelet");
         if (necklace.isSelected()) l.add("necklace");
         if (l.size() != 12) {
-            if (j.get("type") != null) {
-                return l.contains(j.get("type").getAsString());
+            if (j.get("weaponType") != null) {
+                return l.contains(j.get("weaponType").getAsString());
+            } else if (j.get("armourType") != null) {
+                return l.contains(j.get("armourType").getAsString());
             } else if (j.get("accessoryType") != null) {
                 return l.contains(j.get("accessoryType").getAsString());
             }
@@ -2506,8 +2784,8 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void setSearcherVisible(boolean visible) {
-        itemOrIngredient.setVisible(visible);
-        switch (itemOrIngredient.getItemAt(itemOrIngredient.getSelectedIndex())) {
+        itemType.setVisible(visible);
+        switch (itemType.getItemAt(itemType.getSelectedIndex())) {
             case "Type: Armor and Weapon":
                 setVisibleItem(visible);
                 break;

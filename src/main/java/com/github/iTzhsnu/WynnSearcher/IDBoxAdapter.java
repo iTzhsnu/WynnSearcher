@@ -16,24 +16,25 @@ public class IDBoxAdapter extends KeyAdapter {
             "Earth Defense", "Thunder Defense", "Water Defense", "Fire Defense", "Air Defense",
             "Earth Defense %", "Thunder Defense %", "Water Defense %", "Fire Defense %", "Air Defense %", "Elemental Defense %",
             "Neutral Damage", "Earth Damage", "Thunder Damage", "Water Damage", "Fire Damage", "Air Damage",
-            "Earth Damage %", "Thunder Damage %", "Water Damage %", "Fire Damage %", "Air Damage %", "Elemental Damage %",
-            "Raw Spell Damage", "Raw Melee Damage", "Spell Damage %", "Melee Damage %", "Poison",
+            "Damage %", "Neutral Damage %", "Earth Damage %", "Thunder Damage %", "Water Damage %", "Fire Damage %", "Air Damage %", "Elemental Damage %",
             "Attack Speed", "Attack Speed Bonus",
             "Mana Regen", "Mana Steal",
             "Walk Speed", "Sprint Bonus", "Sprint Regen", "Jump Height",
-            "Thorns", "Reflection", "Exploding", "Stealing",
-            "Combat XP Bonus", "Gathering XP Bonus", "Gathering Speed Bonus", "Loot Bonus", "Loot Quality",
+            "Poison", "Thorns", "Reflection", "Exploding",  "Critical Damage %",
+            "Stealing", "Combat XP Bonus", "Gathering XP Bonus", "Gathering Speed Bonus", "Loot Bonus", "Loot Quality",
             "Soul Point Regen", "Powder Slots", "Major ID",
             "1st Spell Cost Raw", "2nd Spell Cost Raw", "3rd Spell Cost Raw", "4th Spell Cost Raw",
             "1st Spell Cost %", "2nd Spell Cost %", "3rd Spell Cost %", "4th Spell Cost %",
-            "Raw Neutral Damage", "Raw Earth Damage", "Raw Thunder Damage", "Raw Water Damage", "Raw Fire Damage", "Raw Air Damage", "Raw Elemental Damage",
-            "Neutral Melee Damage %", "Earth Melee Damage %", "Thunder Melee Damage %", "Water Melee Damage %", "Fire Melee Damage %", "Air Melee Damage %", "Elemental Melee Damage %",
-            "Raw Neutral Melee Damage", "Raw Earth Melee Damage", "Raw Thunder Melee Damage", "Raw Water Melee Damage",  "Raw Fire Melee Damage", "Raw Air Melee Damage",  "Raw Elemental Melee Damage",
-            "Neutral Spell Damage %", "Earth Spell Damage %", "Thunder Spell Damage %", "Water Spell Damage %", "Fire Spell Damage %", "Air Spell Damage %", "Elemental Spell Damage %",
-            "Raw Neutral Spell Damage", "Raw Earth Spell Damage", "Raw Thunder Spell Damage", "Raw Water Spell Damage", "Raw Fire Spell Damage", "Raw Air Spell Damage", "Raw Elemental Spell Damage",
+            "Raw Damage", "Raw Neutral Damage", "Raw Earth Damage", "Raw Thunder Damage", "Raw Water Damage", "Raw Fire Damage", "Raw Air Damage", "Raw Elemental Damage",
+            "Melee Damage %", "Neutral Melee Damage %", "Earth Melee Damage %", "Thunder Melee Damage %", "Water Melee Damage %", "Fire Melee Damage %", "Air Melee Damage %", "Elemental Melee Damage %",
+            "Raw Melee Damage", "Raw Neutral Melee Damage", "Raw Earth Melee Damage", "Raw Thunder Melee Damage", "Raw Water Melee Damage",  "Raw Fire Melee Damage", "Raw Air Melee Damage",  "Raw Elemental Melee Damage",
+            "Spell Damage %", "Neutral Spell Damage %", "Earth Spell Damage %", "Thunder Spell Damage %", "Water Spell Damage %", "Fire Spell Damage %", "Air Spell Damage %", "Elemental Spell Damage %",
+            "Raw Spell Damage", "Raw Neutral Spell Damage", "Raw Earth Spell Damage", "Raw Thunder Spell Damage", "Raw Water Spell Damage", "Raw Fire Spell Damage", "Raw Air Spell Damage", "Raw Elemental Spell Damage",
             "Knockback", "Healing Efficiency", "Weaken Enemy", "Slow Enemy",
-            "Drop Type: Normal", "Drop Type: Loot Chests", "Drop Type: Raid Rewards", "Drop Type: Dungeon Drop", "Drop Type: Dungeon Merchant", "Drop Type: Boss Altar", "Drop Type: Discontinued", "Drop Type: Unknown",
-            "Drop Type: Merchant", "Drop Type: Quest", "Drop Type: Unobtainable", "Drop Type: Specific Drop", "Drop Type: Secret Discovery", "Drop Type: The Qira Hive", "Drop Type: Legendary Island", "Drop Type: Other",
+            "Drop Type: Normal", "Drop Type: Loot Chests", "Drop Type: Raid Rewards", "Drop Type: Dungeon Drop", "Drop Type: Dungeon Merchant",
+            "Drop Type: Boss Altar", "Drop Type: Discontinued", "Drop Type: Unknown", "Drop Type: Merchant", "Drop Type: Quest",
+            "Drop Type: Unobtainable", "Drop Type: Specific Drop", "Drop Type: Secret Discovery", "Drop Type: The Qira Hive", "Drop Type: Legendary Island",
+            "Drop Type: World Event", "Drop Type: Lootrun", "Drop Type: Other",
             "Durability", "Duration", "Charges", "Ingredient Effectiveness", "Ingredient Effectiveness (Above)", "Ingredient Effectiveness (Under)",
             "Ingredient Effectiveness (Right)", "Ingredient Effectiveness (Left)", "Ingredient Effectiveness (Touching)", "Ingredient Effectiveness (Not Touching)",
             "Sum (Total Health)", "Sum (Total Health Regen)", "Sum (Raw Defenses)", "Sum (Raw Rainbow Defenses)", "Sum (Defenses %)", "Sum (Rainbow Defenses %)",
@@ -46,7 +47,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Sum (Raw Spell Costs)", "Sum (Spell Costs %)"
     };
 
-    public static final Map<String, Identifications> ID_LIST = new HashMap<String, Identifications>(181, 2){{
+    public static final Map<String, Identifications> ID_LIST = new HashMap<String, Identifications>(183, 2){{
         put("Level", Identifications.LEVEL);
         put("Strength Req", Identifications.STRENGTH_REQ);
         put("Dexterity Req", Identifications.DEXTERITY_REQ);
@@ -79,7 +80,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Water Defense %", Identifications.WATER_DEFENSE_PERCENT);
         put("Fire Defense %", Identifications.FIRE_DEFENSE_PERCENT);
         put("Air Defense %", Identifications.AIR_DEFENSE_PERCENT);
-        put("Elemental Defense %", Identifications.ELEMENTAL_DEFENSE);
+        put("Elemental Defense %", Identifications.ELEMENTAL_DEFENSE_PERCENT);
 
         put("Neutral Damage", Identifications.NEUTRAL_DAMAGE);
         put("Earth Damage", Identifications.EARTH_DAMAGE);
@@ -88,18 +89,14 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Fire Damage", Identifications.FIRE_DAMAGE);
         put("Air Damage", Identifications.AIR_DAMAGE);
 
+        put("Damage %", Identifications.DAMAGE_PERCENT);
+        put("Neutral Damage %", Identifications.NEUTRAL_DAMAGE_PERCENT);
         put("Earth Damage %", Identifications.EARTH_DAMAGE_PERCENT);
         put("Thunder Damage %", Identifications.THUNDER_DAMAGE_PERCENT);
         put("Water Damage %", Identifications.WATER_DAMAGE_PERCENT);
         put("Fire Damage %", Identifications.FIRE_DAMAGE_PERCENT);
         put("Air Damage %", Identifications.AIR_DAMAGE_PERCENT);
         put("Elemental Damage %", Identifications.ELEMENTAL_DAMAGE_PERCENT);
-
-        put("Raw Spell Damage", Identifications.RAW_SPELL_DAMAGE);
-        put("Raw Melee Damage", Identifications.RAW_MELEE_DAMAGE);
-        put("Spell Damage %", Identifications.SPELL_DAMAGE_PERCENT);
-        put("Melee Damage %", Identifications.MELEE_DAMAGE_PERCENT);
-        put("Poison", Identifications.POISON);
 
         put("Attack Speed", Identifications.ATTACK_SPEED);
         put("Attack Speed Bonus", Identifications.ATTACK_SPEED_BONUS);
@@ -112,9 +109,12 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Sprint Regen", Identifications.SPRINT_REGEN);
         put("Jump Height", Identifications.JUMP_HEIGHT);
 
+        put("Poison", Identifications.POISON);
         put("Thorns", Identifications.THORNS);
         put("Reflection", Identifications.REFLECTION);
         put("Exploding", Identifications.EXPLODING);
+        put("Critical Damage %", Identifications.CRITICAL_DAMAGE_PERCENT);
+
         put("Stealing", Identifications.STEALING);
         put("Combat XP Bonus", Identifications.COMBAT_XP_BONUS);
         put("Gathering XP Bonus", Identifications.GATHERING_XP_BONUS);
@@ -135,6 +135,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("3rd Spell Cost %", Identifications.PERCENT_3RD_SPELL_COST);
         put("4th Spell Cost %", Identifications.PERCENT_4TH_SPELL_COST);
 
+        put("Raw Damage", Identifications.RAW_DAMAGE);
         put("Raw Neutral Damage", Identifications.RAW_NEUTRAL_DAMAGE);
         put("Raw Earth Damage", Identifications.RAW_EARTH_DAMAGE);
         put("Raw Thunder Damage", Identifications.RAW_THUNDER_DAMAGE);
@@ -143,6 +144,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Raw Air Damage", Identifications.RAW_AIR_DAMAGE);
         put("Raw Elemental Damage", Identifications.RAW_ELEMENTAL_DAMAGE);
 
+        put("Melee Damage %", Identifications.MELEE_DAMAGE_PERCENT);
         put("Neutral Melee Damage %", Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT);
         put("Earth Melee Damage %", Identifications.EARTH_MELEE_DAMAGE_PERCENT);
         put("Thunder Melee Damage %", Identifications.THUNDER_MELEE_DAMAGE_PERCENT);
@@ -151,6 +153,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Air Melee Damage %", Identifications.AIR_MELEE_DAMAGE_PERCENT);
         put("Elemental Melee Damage %", Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT);
 
+        put("Raw Melee Damage", Identifications.RAW_MELEE_DAMAGE);
         put("Raw Neutral Melee Damage", Identifications.RAW_NEUTRAL_MELEE_DAMAGE);
         put("Raw Earth Melee Damage", Identifications.RAW_EARTH_MELEE_DAMAGE);
         put("Raw Thunder Melee Damage", Identifications.RAW_THUNDER_MELEE_DAMAGE);
@@ -159,6 +162,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Raw Air Melee Damage", Identifications.RAW_AIR_MELEE_DAMAGE);
         put("Raw Elemental Melee Damage", Identifications.RAW_ELEMENTAL_MELEE_DAMAGE);
 
+        put("Spell Damage %", Identifications.SPELL_DAMAGE_PERCENT);
         put("Neutral Spell Damage %", Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT);
         put("Earth Spell Damage %", Identifications.EARTH_SPELL_DAMAGE_PERCENT);
         put("Thunder Spell Damage %", Identifications.THUNDER_SPELL_DAMAGE_PERCENT);
@@ -167,6 +171,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Air Spell Damage %", Identifications.AIR_SPELL_DAMAGE_PERCENT);
         put("Elemental Spell Damage %", Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT);
 
+        put("Raw Spell Damage", Identifications.RAW_SPELL_DAMAGE);
         put("Raw Neutral Spell Damage", Identifications.RAW_NEUTRAL_SPELL_DAMAGE);
         put("Raw Earth Spell Damage", Identifications.RAW_EARTH_SPELL_DAMAGE);
         put("Raw Thunder Spell Damage", Identifications.RAW_THUNDER_SPELL_DAMAGE);
@@ -206,6 +211,8 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Drop Type: Secret Discovery", Identifications.DROP_TYPE_SECRET_DISCOVERY);
         put("Drop Type: The Qira Hive", Identifications.DROP_TYPE_THE_QIRA_HIVE);
         put("Drop Type: Legendary Island", Identifications.DROP_TYPE_LEGENDARY_ISLAND);
+        put("Drop Type: World Event", Identifications.DROP_TYPE_WORLD_EVENT);
+        put("Drop Type: Lootrun", Identifications.DROP_TYPE_LOOTRUN);
         put("Drop Type: Other", Identifications.DROP_TYPE_OTHER);
 
         put("Sum (Total Health)", Identifications.SUM_TOTAL_HEALTH);

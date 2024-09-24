@@ -10,7 +10,7 @@ Java 16 or above (WynnSearcher 3.3.1 or above) (Next WynnSearcher Version)
 This description is old. sorry.  
 ![](readme_pictures/how_to_use.png)
 
-### Builder (Updating...)
+### Builder (Not Working)
 ![](readme_pictures/how_to_use_2_1.png)
 ![](readme_pictures/how_to_use_2_2.png)
 

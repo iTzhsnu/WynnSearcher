@@ -80,6 +80,8 @@ public class CrafterUI implements ActionListener {
         recipeConnect.setBounds(530, 30, 150, 20);
         if (recipeAPIConnect.equals("Recipe API Connected")) {
             recipeConnect.setForeground(new Color(0, 169, 104));
+        } else if (recipeAPIConnect.equals("Archive Loaded")) {
+            recipeConnect.setForeground(new Color(0, 169, 104));
         } else {
             recipeConnect.setForeground(new Color(255, 0, 0));
         }
@@ -398,7 +400,7 @@ public class CrafterUI implements ActionListener {
             String[] lvs = itemJ.get("level").getAsString().split("-");
             float matTB = getMatTB(itemJ.get("type").getAsString(), itemJ.get("material1").getAsInt(), itemJ.get("material2").getAsInt());
             int durabilityOrDuration = 0;
-            JsonObject output = JsonParser.parseString("{\"name\":\"crafted " + itemJ.get("type").getAsString() + "\",\"base\":{},\"requirements\":{},\"tier\":\"crafted\"}").getAsJsonObject();
+            JsonObject output = JsonParser.parseString("{\"name\":\"crafted " + itemJ.get("type").getAsString() + "\",\"base\":{},\"requirements\":{},\"rarity\":\"crafted\"}").getAsJsonObject();
 
             boolean ingEmpty = true;
             for (JsonElement je : itemJ.get("ing").getAsJsonArray()) {

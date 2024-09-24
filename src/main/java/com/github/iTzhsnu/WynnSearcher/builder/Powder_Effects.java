@@ -20,7 +20,7 @@ public class Powder_Effects implements ActionListener {
         powderType.addItem("Water Powder");
         powderType.addItem("Fire Powder");
         powderType.addItem("Air Powder");
-        powderType.setBounds(600, 445, 120, 20);
+        powderType.setBounds(600, 665, 120, 20);
         powderType.addActionListener(this);
 
         earth = new PowderPanel(p, 300);
@@ -90,7 +90,7 @@ public class Powder_Effects implements ActionListener {
 
         public PowderPanel(JPanel p, int max) {
             boost = new JSlider(0, max);
-            boost.setBounds(840, 455, 200, 20);
+            boost.setBounds(840, 675, 200, 20);
             boost.setValue(0);
             boost.addChangeListener(this);
 
@@ -100,9 +100,9 @@ public class Powder_Effects implements ActionListener {
             specialLv.addItem("Special Lv.3");
             specialLv.addItem("Special Lv.4");
             specialLv.addItem("Special Lv.5");
-            specialLv.setBounds(730, 445, 100, 20);
+            specialLv.setBounds(730, 665, 100, 20);
 
-            text.setBounds(870, 435, 140, 20);
+            text.setBounds(870, 655, 140, 20);
 
             p.add(specialLv);
             p.add(text);

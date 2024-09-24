@@ -17,7 +17,7 @@ public class Comprehensive_Display {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(850, 120, 200, 205);
+        scrollPane.setBounds(850, 340, 200, 205);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);
@@ -31,7 +31,7 @@ public class Comprehensive_Display {
             label.add(new JLabel("Equip Order"));
 
             for (int i = 0; itemJsons.getJsonObjectList().size() > i; ++i) {
-                label.add(new JLabel(itemJsons.getJsonObjectList().get(equipOrder.get(i)).get("name").getAsString()));
+                label.add(new JLabel(itemJsons.getEquipments().get(equipOrder.get(i)).get("name").getAsString()));
             }
 
             label.add(new JLabel(" "));

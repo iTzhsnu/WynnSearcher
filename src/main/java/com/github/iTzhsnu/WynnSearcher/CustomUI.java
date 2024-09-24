@@ -414,7 +414,7 @@ public class CustomUI implements ActionListener {
     public void createCustomItem() {
         display.removeAll();
 
-        JsonObject j = JsonParser.parseString("{\"tier\":\"" + rarity.getItemAt(rarity.getSelectedIndex()) + "\"}").getAsJsonObject();
+        JsonObject j = JsonParser.parseString("{\"rarity\":\"" + rarity.getItemAt(rarity.getSelectedIndex()) + "\"}").getAsJsonObject();
         if (notVariable.get(0).getText().isEmpty()) {
             j.addProperty("name", "Custom Item");
         } else {

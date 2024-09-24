@@ -12,10 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class ItemUITemplate extends JPanel {
     private final JsonObject json;
@@ -24,103 +22,7 @@ public class ItemUITemplate extends JPanel {
     private final boolean isCustom;
     private int urlSize = 0;
 
-    public static final Map<Integer, Identifications> ITEM_IDS = new HashMap<Integer, Identifications>(82, 2) {{
-        put(0, Identifications.STRENGTH);
-        put(1, Identifications.DEXTERITY);
-        put(2, Identifications.INTELLIGENCE);
-        put(3, Identifications.DEFENSE);
-        put(4, Identifications.AGILITY);
-
-        put(5, Identifications.HEALTH_BONUS);
-        put(6, Identifications.RAW_HEALTH_REGEN);
-        put(7, Identifications.HEALTH_REGEN_PERCENT);
-        put(8, Identifications.LIFE_STEAL);
-        put(9, Identifications.MANA_STEAL);
-        put(10, Identifications.MANA_REGEN);
-
-        put(11, Identifications.EARTH_DEFENSE_PERCENT);
-        put(12, Identifications.THUNDER_DEFENSE_PERCENT);
-        put(13, Identifications.WATER_DEFENSE_PERCENT);
-        put(14, Identifications.FIRE_DEFENSE_PERCENT);
-        put(15, Identifications.AIR_DEFENSE_PERCENT);
-        put(16, Identifications.ELEMENTAL_DEFENSE);
-
-        put(17, Identifications.SPELL_DAMAGE_PERCENT);
-        put(18, Identifications.MELEE_DAMAGE_PERCENT);
-        put(19, Identifications.EARTH_DAMAGE_PERCENT);
-        put(20, Identifications.THUNDER_DAMAGE_PERCENT);
-        put(21, Identifications.WATER_DAMAGE_PERCENT);
-        put(22, Identifications.FIRE_DAMAGE_PERCENT);
-        put(23, Identifications.AIR_DAMAGE_PERCENT);
-        put(24, Identifications.ELEMENTAL_DAMAGE_PERCENT);
-
-        put(25, Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT);
-        put(26, Identifications.EARTH_SPELL_DAMAGE_PERCENT);
-        put(27, Identifications.THUNDER_SPELL_DAMAGE_PERCENT);
-        put(28, Identifications.WATER_SPELL_DAMAGE_PERCENT);
-        put(29, Identifications.FIRE_SPELL_DAMAGE_PERCENT);
-        put(30, Identifications.AIR_SPELL_DAMAGE_PERCENT);
-        put(31, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT);
-
-        put(32, Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT);
-        put(33, Identifications.EARTH_MELEE_DAMAGE_PERCENT);
-        put(34, Identifications.THUNDER_MELEE_DAMAGE_PERCENT);
-        put(35, Identifications.WATER_MELEE_DAMAGE_PERCENT);
-        put(36, Identifications.FIRE_MELEE_DAMAGE_PERCENT);
-        put(37, Identifications.AIR_MELEE_DAMAGE_PERCENT);
-        put(38, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT);
-
-        put(39, Identifications.RAW_SPELL_DAMAGE);
-        put(40, Identifications.RAW_MELEE_DAMAGE);
-
-        put(41, Identifications.RAW_NEUTRAL_DAMAGE);
-        put(42, Identifications.RAW_EARTH_DAMAGE);
-        put(43, Identifications.RAW_THUNDER_DAMAGE);
-        put(44, Identifications.RAW_WATER_DAMAGE);
-        put(45, Identifications.RAW_FIRE_DAMAGE);
-        put(46, Identifications.RAW_AIR_DAMAGE);
-        put(47, Identifications.RAW_ELEMENTAL_DAMAGE);
-
-        put(48, Identifications.RAW_NEUTRAL_SPELL_DAMAGE);
-        put(49, Identifications.RAW_EARTH_SPELL_DAMAGE);
-        put(50, Identifications.RAW_THUNDER_SPELL_DAMAGE);
-        put(51, Identifications.RAW_WATER_SPELL_DAMAGE);
-        put(52, Identifications.RAW_FIRE_SPELL_DAMAGE);
-        put(53, Identifications.RAW_AIR_SPELL_DAMAGE);
-        put(54, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
-
-        put(55, Identifications.RAW_NEUTRAL_MELEE_DAMAGE);
-        put(56, Identifications.RAW_EARTH_MELEE_DAMAGE);
-        put(57, Identifications.RAW_THUNDER_MELEE_DAMAGE);
-        put(58, Identifications.RAW_WATER_MELEE_DAMAGE);
-        put(59, Identifications.RAW_FIRE_MELEE_DAMAGE);
-        put(60, Identifications.RAW_AIR_MELEE_DAMAGE);
-        put(61, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE);
-
-        put(62, Identifications.POISON);
-        put(63, Identifications.ATTACK_SPEED_BONUS);
-
-        put(64, Identifications.WALK_SPEED);
-        put(65, Identifications.SPRINT_BONUS);
-        put(66, Identifications.SPRINT_REGEN);
-        put(67, Identifications.JUMP_HEIGHT);
-
-        put(68, Identifications.THORNS);
-        put(69, Identifications.REFLECTION);
-        put(70, Identifications.EXPLODING);
-        put(71, Identifications.STEALING);
-        put(72, Identifications.COMBAT_XP_BONUS);
-        put(73, Identifications.GATHERING_XP_BONUS);
-        put(74, Identifications.GATHERING_SPEED_BONUS);
-        put(75, Identifications.LOOT_BONUS);
-        put(76, Identifications.LOOT_QUALITY);
-        put(77, Identifications.SOUL_POINT_REGEN);
-
-        put(78, Identifications.KNOCKBACK);
-        put(79, Identifications.HEALING_EFFICIENCY);
-        put(80, Identifications.WEAKEN_ENEMY);
-        put(81, Identifications.SLOW_ENEMY);
-    }};
+    public static final Map<Integer, Identifications> ITEM_IDS = new HashMap<Integer, Identifications>(82, 2);
 
     public static final Map<Integer, Identifications> REVERSED_ITEM_IDS = new HashMap<Integer, Identifications>(8, 2) {{
        put(0, Identifications.PERCENT_1ST_SPELL_COST);
@@ -187,6 +89,9 @@ public class ItemUITemplate extends JPanel {
                 if (!isCustom && !json.get("type").getAsString().equals("charm") && !json.get("type").getAsString().equals("tome")) urlSize = 32;
                 setOtherDisplay();
                 break;
+            case ASPECT:
+                setAspectDisplay(4);
+                break;
         }
 
         if (previous != null) {
@@ -209,9 +114,36 @@ public class ItemUITemplate extends JPanel {
         }
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        if (json.get("tier") != null) {
+        if (json.get(Identifications.RARITY.getItemName()) != null) {
+            switch (json.get(Identifications.RARITY.getItemName()).getAsString()) {
+                case "unique":
+                    setBackground(new Color(252, 242, 99));
+                    break;
+                case "rare":
+                    setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
+                    break;
+                case "legendary":
+                    setBackground(new Color(135, 206, 250));
+                    break;
+                case "fabled":
+                    setBackground(new Color(220, 107, 154)); //OLD COLOR 255 81 81
+                    break;
+                case "mythic":
+                    setBackground(new Color(145, 93, 163));
+                    break;
+                case "set":
+                    setBackground(new Color(121, 192, 110)); //OLD COLOR 85 255 85
+                    break;
+                case "crafted":
+                    setBackground(new Color(0, 175, 204));
+                    break;
+                default:
+                    setBackground(new Color(230, 230, 230));
+                    break;
+            }
+        } else if (json.get(Identifications.RARITY.getIngName()) != null) {
             try {
-                switch (json.get("tier").getAsInt()) {
+                switch (json.get(Identifications.RARITY.getIngName()).getAsInt()) {
                     case 1:
                         setBackground(new Color(252, 242, 99));
                         break;
@@ -226,32 +158,7 @@ public class ItemUITemplate extends JPanel {
                         break;
                 }
             } catch (NumberFormatException e) {
-                switch (json.get("tier").getAsString()) {
-                    case "unique":
-                        setBackground(new Color(252, 242, 99));
-                        break;
-                    case "rare":
-                        setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
-                        break;
-                    case "legendary":
-                        setBackground(new Color(135, 206, 250));
-                        break;
-                    case "fabled":
-                        setBackground(new Color(220, 107, 154)); //OLD COLOR 255 81 81
-                        break;
-                    case "mythic":
-                        setBackground(new Color(145, 93, 163));
-                        break;
-                    case "set":
-                        setBackground(new Color(121, 192, 110)); //OLD COLOR 85 255 85
-                        break;
-                    case "crafted":
-                        setBackground(new Color(0, 175, 204));
-                        break;
-                    default:
-                        setBackground(new Color(230, 230, 230));
-                        break;
-                }
+                System.out.println("old item found.");
             }
         }
         setVisible(true);
@@ -282,8 +189,10 @@ public class ItemUITemplate extends JPanel {
             builderButton.setToolTipText("https://hppeng-wynn.github.io/item/#" + name);
         }
 
-        if (json.get("type") != null) {
-            label.add(new JLabel("Type: " + json.get("type").getAsString().substring(0, 1).toUpperCase() + json.get("type").getAsString().substring(1)));
+        if (json.get("weaponType") != null) {
+            label.add(new JLabel("Type: " + json.get("weaponType").getAsString().substring(0, 1).toUpperCase() + json.get("weaponType").getAsString().substring(1)));
+        } else if (json.get("armourType") != null) {
+            label.add(new JLabel("Type: " + json.get("armourType").getAsString().substring(0, 1).toUpperCase() + json.get("armourType").getAsString().substring(1)));
         } else if (json.get("accessoryType") != null) {
             label.add(new JLabel("Type: " + json.get("accessoryType").getAsString().substring(0, 1).toUpperCase() + json.get("accessoryType").getAsString().substring(1)));
         }
@@ -310,7 +219,7 @@ public class ItemUITemplate extends JPanel {
             JsonObject j = json.get("base").getAsJsonObject();
             if (j.get(Identifications.HEALTH.getItemName()) != null) {
                 JsonElement j2 = j.get(Identifications.HEALTH.getItemName());
-                if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) {
+                if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
                     label.add(new JLabel("Health: " + j2.getAsJsonObject().get("min").getAsInt() + "-" + j2.getAsJsonObject().get("max").getAsInt()));
                 } else if (j.get(Identifications.HEALTH.getItemName()).getAsInt() != 0) {
                     label.add(new JLabel("Health: " + setPlus(j2.getAsInt())));
@@ -341,7 +250,7 @@ public class ItemUITemplate extends JPanel {
                 Identifications id = DAMAGE_IDS.get(i);
                 if (j.get(id.getItemName()) != null) {
                     JsonObject j2 = j.get(id.getItemName()).getAsJsonObject();
-                    if (json.get("tier") != null && !json.get("tier").getAsString().equals("crafted")) {
+                    if (json.get(Identifications.RARITY.getItemName()) != null && !json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
                         label.add(new JLabel(id.getDisplayName() + ": " + j2.get("min").getAsInt() + "-" + j2.getAsJsonObject().get("max").getAsInt()));
                     } else {
                         label.add(new JLabel(id.getDisplayName() + ": " + j2.get("min").getAsString() + " to " + j2.getAsJsonObject().get("max").getAsString()));
@@ -357,7 +266,7 @@ public class ItemUITemplate extends JPanel {
             JsonObject j = json.get("requirements").getAsJsonObject();
             if (j.get(Identifications.LEVEL.getItemName()) != null) {
                 JsonElement j2 = j.get(Identifications.LEVEL.getItemName());
-                if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) {
+                if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
                     label.add(new JLabel("Combat Lv. Min: " + j2.getAsJsonObject().get("min").getAsInt() + "-" + j2.getAsJsonObject().get("max").getAsInt()));
                 } else {
                     label.add(new JLabel("Combat Lv. Min: " + j2.getAsInt()));
@@ -407,7 +316,7 @@ public class ItemUITemplate extends JPanel {
                     String minOrMax = "max";
                     if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
                     label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt())) + id.getDisplaySp()));
-                } else if (id.isItemVariable() || json.get("tier").getAsString().equals("crafted")) { //Crafted Items or Variable ID
+                } else if (id.isItemVariable() || json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) { //Crafted Items or Variable ID
                     label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                 }
             }
@@ -426,7 +335,7 @@ public class ItemUITemplate extends JPanel {
                         label.add(new JLabel(id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("raw").getAsInt()) + id.getDisplaySp()));
                     }
                 } else {
-                    if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) { //Crafted Items
+                    if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) { //Crafted Items
                         label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
                     } else { //Normal Items
                         if (j.getAsJsonObject().get("raw") == null) {
@@ -446,13 +355,21 @@ public class ItemUITemplate extends JPanel {
         }
 
         if (json.get(Identifications.MAJOR_IDS.getItemName()) != null) {
-            JLabel_Custom l = new JLabel_Custom("Major ID: " + json.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString());
-            l.setToolTipText("<html>" + TreeCheckBox.fixesText(json.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("description").getAsString()));
-            label.add(l);
+            if (json.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name") != null) { //OLD
+                JLabel_Custom l = new JLabel_Custom("Major ID: " + json.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString());
+                l.setToolTipText("<html>" + TreeCheckBox.fixesText(json.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("description").getAsString()));
+                label.add(l);
+            } else { //NEWER
+                for (Map.Entry<String, JsonElement> entry : json.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().entrySet()) {
+                    JLabel_Custom l = new JLabel_Custom("Major ID: " + entry.getKey());
+                    l.setToolTipText("<html>" + TreeCheckBox.fixesText(json.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get(entry.getKey()).getAsString()));
+                    label.add(l);
+                }
+            }
         }
 
-        if (json.get("tier") != null) {
-            label.add(new JLabel("Rarity: " + json.get("tier").getAsString().substring(0, 1).toUpperCase() + json.get("tier").getAsString().substring(1)));
+        if (json.get(Identifications.RARITY.getItemName()) != null) {
+            label.add(new JLabel("Rarity: " + json.get(Identifications.RARITY.getItemName()).getAsString().substring(0, 1).toUpperCase() + json.get(Identifications.RARITY.getItemName()).getAsString().substring(1)));
         }
 
         if (json.get("durability") != null) {
@@ -519,6 +436,8 @@ public class ItemUITemplate extends JPanel {
                         setPosOnlyType(manual, sb, itemName, "quest", "Quest: "); //Quest
                         setPosOnlyType(manual, sb, itemName, "raid", "Raid Rewards: "); //Raid Rewards
                         setPosOnlyType(manual, sb, itemName, "other", ""); //Other
+                        setPosOnlyType(manual, sb, itemName, "world_event", "World Event: "); //World Event
+                        setPosOnlyType(manual, sb, itemName, "lootrun", ""); //Lootrun
                         if (manual.get("specific") != null && manual.get("specific").getAsJsonObject().get(itemName) != null) { //Specific
                             for (JsonElement je : manual.get("specific").getAsJsonObject().get(itemName).getAsJsonArray()) {
                                 JsonObject jsp = je.getAsJsonObject();
@@ -539,6 +458,7 @@ public class ItemUITemplate extends JPanel {
                 } else {
                     if (json.get("dropMeta") != null) {
                         JsonObject j = json.get("dropMeta").getAsJsonObject();
+                        boolean skipLocate = false;
                         if (j.get("name") != null) sb.append(j.get("name").getAsString());
                         if (j.get("type") != null) {
                             if (j.get("type").isJsonArray() && j.get("event") != null) {
@@ -561,15 +481,18 @@ public class ItemUITemplate extends JPanel {
                                     case "merchant":
                                         sb.append(" Merchant");
                                         break;
+                                    case "lootrun":
+                                        skipLocate = true;
+                                        break;
                                     default:
                                         String s = " " + j.get("type").getAsString();
                                         sb.append(s);
-                                        System.out.println(itemName + " this item drop type unknown: " + s);
+                                        System.out.println(itemName + " has unknown drop type: " + s);
                                         break;
                                 }
                             }
                         }
-                        if (j.get("coordinates") != null) {
+                        if (j.get("coordinates") != null && !skipLocate) {
                             String s = "<br>Locate: " + j.get("coordinates").getAsJsonArray().get(0).getAsInt() + ", " + j.get("coordinates").getAsJsonArray().get(1).getAsInt() + ", " + j.get("coordinates").getAsJsonArray().get(2).getAsInt();
                             sb.append(s);
                         }
@@ -594,7 +517,7 @@ public class ItemUITemplate extends JPanel {
                             }
                             default: {
                                 l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + json.get("dropRestriction").getAsString()));
-                                System.out.println(itemName + " this drop type unknown:" + json.get("dropRestriction").getAsString());
+                                System.out.println(itemName + " has unknown drop type:" + json.get("dropRestriction").getAsString());
                                 break;
                             }
                         }
@@ -808,33 +731,59 @@ public class ItemUITemplate extends JPanel {
                     sb.append("<br>");
                 }
                 setPosOnlyType(manual, sb, itemName, "quest", "Quest: "); //Quest
+                setPosOnlyType(manual, sb, itemName, "raid", "Raid Rewards: "); //Raid Rewards
+                setPosOnlyType(manual, sb, itemName, "world_event", "World Event: "); //World Event
+                setPosOnlyType(manual, sb, itemName, "lootrun", "Lootrun End Rewards: "); //Lootrun
             }
 
             if (json.get("droppedBy") != null) {
-                JsonObject j = json.get("droppedBy").getAsJsonObject();
-                for (Map.Entry<String, JsonElement> entry : json.get("droppedBy").getAsJsonObject().entrySet()) {
-                    if (j.get(entry.getKey()).isJsonArray()) {
-                        if (entry.getKey().equals("Ingredient Dummy")) continue;
-                        String s = "Mob Name: " + entry.getKey() + "<br>";
+                for (JsonElement je : json.get("droppedBy").getAsJsonArray()) {
+                    JsonObject j = je.getAsJsonObject();
+                    if (j.get("name") != null) {
+                        if (j.get("name").getAsString().equals("Ingredient Dummy")) continue;
+                        String s = "Mob Name: " + j.get("name").getAsString() + "<br>";
                         sb.append(s);
-                        if (j.get(entry.getKey()).getAsJsonArray().get(0).isJsonArray()) {
-                            for (int i = 0; j.get(entry.getKey()).getAsJsonArray().size() > i; ++i) {
-                                JsonArray ja = j.get(entry.getKey()).getAsJsonArray().get(i).getAsJsonArray();
-                                String s1 = "Locate " + (i + 1) + ": " + ja.get(0).getAsInt() + ", " + ja.get(1).getAsInt() + ", " + ja.get(2).getAsInt() + " | Radius: " + (ja.get(3).getAsInt() / 2F) + "<br>";
+                        if (j.get("coords") != null && j.get("coords").isJsonArray()) {
+                            if (j.get("coords").getAsJsonArray().get(0).isJsonArray()) {
+                                for (int i = 0; j.get("coords").getAsJsonArray().size() > i; ++i) {
+                                    JsonArray ja = j.get("coords").getAsJsonArray().get(i).getAsJsonArray();
+                                    String s1 = "Locate " + (i + 1) + ": " + ja.get(0).getAsInt() + ", " + ja.get(1).getAsInt() + ", " + ja.get(2).getAsInt() + " | Radius: " + (ja.get(3).getAsInt() / 2F) + "<br>";
+                                    sb.append(s1);
+                                    if (i == j.get("coords").getAsJsonArray().size() - 1) sb.append("<br>");
+                                }
+                            } else {
+                                JsonArray ja = j.get("coords").getAsJsonArray();
+                                String s1 = "Locate: " + ja.get(0).getAsInt() + ", " + ja.get(1).getAsInt() + ", " + ja.get(2).getAsInt() + " | Radius: " + (ja.get(3).getAsInt() / 2F) + "<br><br>";
                                 sb.append(s1);
-                                if (i == j.get(entry.getKey()).getAsJsonArray().size() - 1) sb.append("<br>");
                             }
-                        } else {
-                            JsonArray ja = j.get(entry.getKey()).getAsJsonArray();
-                            String s1 = "Locate: " + ja.get(0).getAsInt() + ", " + ja.get(1).getAsInt() + ", " + ja.get(2).getAsInt() + " | Radius: " + (ja.get(3).getAsInt() / 2F) + "<br><br>";
-                            sb.append(s1);
                         }
-                    } else {
-                        if (entry.getKey().equals("Ingredient Dummy")) continue;
-                        String s = "Mob Name: " + entry.getKey() + "<br><br>";
-                        sb.append(s);
                     }
                 }
+
+                //JsonObject j = json.get("droppedBy").getAsJsonObject();
+                //for (Map.Entry<String, JsonElement> entry : json.get("droppedBy").getAsJsonObject().entrySet()) {
+                //    if (j.get(entry.getKey()).isJsonArray()) {
+                //        if (entry.getKey().equals("Ingredient Dummy")) continue;
+                //        String s = "Mob Name: " + entry.getKey() + "<br>";
+                //        sb.append(s);
+                //        if (j.get(entry.getKey()).getAsJsonArray().get(0).isJsonArray()) {
+                //            for (int i = 0; j.get(entry.getKey()).getAsJsonArray().size() > i; ++i) {
+                //                JsonArray ja = j.get(entry.getKey()).getAsJsonArray().get(i).getAsJsonArray();
+                //                String s1 = "Locate " + (i + 1) + ": " + ja.get(0).getAsInt() + ", " + ja.get(1).getAsInt() + ", " + ja.get(2).getAsInt() + " | Radius: " + (ja.get(3).getAsInt() / 2F) + "<br>";
+                //                sb.append(s1);
+                //                if (i == j.get(entry.getKey()).getAsJsonArray().size() - 1) sb.append("<br>");
+                //            }
+                //        } else {
+                //            JsonArray ja = j.get(entry.getKey()).getAsJsonArray();
+                //            String s1 = "Locate: " + ja.get(0).getAsInt() + ", " + ja.get(1).getAsInt() + ", " + ja.get(2).getAsInt() + " | Radius: " + (ja.get(3).getAsInt() / 2F) + "<br><br>";
+                //            sb.append(s1);
+                //        }
+                //    } else {
+                //        if (entry.getKey().equals("Ingredient Dummy")) continue;
+                //        String s = "Mob Name: " + entry.getKey() + "<br><br>";
+                //         sb.append(s);
+                //    }
+                //}
             }
 
             if (manual.get("specific") != null && manual.get("specific").getAsJsonObject().get(itemName) != null) {
@@ -891,9 +840,7 @@ public class ItemUITemplate extends JPanel {
             itemName = json.get("name").getAsString();
             label.add(new JLabel(json.get("name").getAsString()));
             String s = json.get("name").getAsString().replaceAll(" ", "%20");
-            if (type.equals("tool")) {
-                s = s.substring(4);
-            } else if (type.equals("material")) {
+            if (type.equals("material")) {
                 s = "Refined%20" + json.get("name").getAsString().replaceAll(" ", "%20");
             }
             dataButton.setToolTipText("https://www.wynndata.tk/i/" + s);
@@ -902,25 +849,32 @@ public class ItemUITemplate extends JPanel {
         label.add(new JLabel("Type: " + type.substring(0, 1).toUpperCase() + type.substring(1)));
 
         if (json.get("tomeType") != null) {
-            String s = "Armour";
+            String s;
             switch (json.get("tomeType").getAsString()) {
-                case "mobdamage":
-                    s = "Weapon";
-                    break;
-                case "guildtome":
+                case "guild_tome": //x1 Slots
                     s = "Guild";
                     break;
-                case "slayingxp":
-                    s = "Slaying";
+                case "marathon_tome": //x2 Slots
+                    s = "Marathon";
                     break;
-                case "dungeonxp":
-                    s = "Dungeon";
+                case "expertise_tome": //x2 Slots
+                    s = "Expertise";
                     break;
-                case "gatheringxp":
-                    s = "Gathering";
-                    break;
-                case "lootrun":
+                case "lootrun_tome": //x1 Slots
                     s = "Lootrun";
+                    break;
+                case "mysticism_tome": //x2 Slots
+                    s = "Mysticism";
+                    break;
+                case "weapon_tome": //x2 Slots
+                    s = "Weapon";
+                    break;
+                case "armour_tome": //x4 Slots
+                    s = "Armour";
+                    break;
+                default:
+                    s = json.get("tomeType").getAsString();
+                    System.out.println(itemName + " has unknown tome type: " + s);
                     break;
             }
             label.add(new JLabel("Tome Type: " + s));
@@ -987,15 +941,16 @@ public class ItemUITemplate extends JPanel {
             }
         }
 
-        if (type.equals("tome") && json.get("base") != null) { //Tome
-            JsonObject j = json.get("base").getAsJsonObject();
-            if (j.get("damageToMobs") != null) label.add(new JLabel("+" + j.get("damageToMobs").getAsInt() + "% Damage to Mobs"));
-            if (j.get("defenceToMobs") != null) label.add(new JLabel("+" + j.get("defenceToMobs").getAsInt() + "% Mob Damage Resistance"));
-            if (j.get("dungeonXP") != null) label.add(new JLabel("+" + j.get("dungeonXP").getAsInt() + "% Dungeon XP"));
-            if (j.get("gatheringXP") != null) label.add(new JLabel("+" + j.get("gatheringXP").getAsInt() + "% Gathering XP"));
-            if (j.get("slayingXP") != null) label.add(new JLabel("+" + j.get("slayingXP").getAsInt() + "% Slaying XP"));
-            label.add(new JLabel(" "));
-        }
+        //DELETED
+        //if (type.equals("tome") && json.get("base") != null) { //Tome
+        //    JsonObject j = json.get("base").getAsJsonObject();
+        //    if (j.get("damageToMobs") != null) label.add(new JLabel("+" + j.get("damageToMobs").getAsInt() + "% Damage to Mobs"));
+        //    if (j.get("defenceToMobs") != null) label.add(new JLabel("+" + j.get("defenceToMobs").getAsInt() + "% Mob Damage Resistance"));
+        //    if (j.get("dungeonXP") != null) label.add(new JLabel("+" + j.get("dungeonXP").getAsInt() + "% Dungeon XP"));
+        //    if (j.get("gatheringXP") != null) label.add(new JLabel("+" + j.get("gatheringXP").getAsInt() + "% Gathering XP"));
+        //    if (j.get("slayingXP") != null) label.add(new JLabel("+" + j.get("slayingXP").getAsInt() + "% Slaying XP"));
+        //    label.add(new JLabel(" "));
+        //}
 
         if (type.equals("charm") && json.get(Identifications.LEVELED_XP_BONUS.getItemFieldPos()) != null && json.get("requirements") != null) {
             JsonObject j = json.get(Identifications.LEVELED_XP_BONUS.getItemFieldPos()).getAsJsonObject();
@@ -1105,6 +1060,7 @@ public class ItemUITemplate extends JPanel {
                         setPosOnlyType(manual, sb, itemName, "secret_discovery", ""); //Secret Discovery
                         setPosOnlyType(manual, sb, itemName, "quest", "Quest: "); //Quest
                         setPosOnlyType(manual, sb, itemName, "raid", "Raid Rewards: "); //Raid Rewards
+                        setPosOnlyType(manual, sb, itemName, "lootrun", ""); //Lootrun
                         setPosOnlyType(manual, sb, itemName, "other", ""); //Other
                         if (manual.get("specific") != null && manual.get("specific").getAsJsonObject().get(itemName) != null) { //Specific
                             for (JsonElement je : manual.get("specific").getAsJsonObject().get(itemName).getAsJsonArray()) {
@@ -1126,6 +1082,7 @@ public class ItemUITemplate extends JPanel {
                 } else {
                     if (json.get("dropMeta") != null) {
                         JsonObject j = json.get("dropMeta").getAsJsonObject();
+                        boolean skipLocate = false;
                         if (j.get("name") != null) sb.append(j.get("name").getAsString());
                         if (j.get("type") != null) {
                             if (j.get("type").isJsonArray() && j.get("event") != null) {
@@ -1148,15 +1105,18 @@ public class ItemUITemplate extends JPanel {
                                     case "merchant":
                                         sb.append(" Merchant");
                                         break;
+                                    case "lootrun":
+                                        skipLocate = true;
+                                        break;
                                     default:
                                         String s = " " + j.get("type").getAsString();
                                         sb.append(s);
-                                        System.out.println(itemName + " this item drop type unknown: " + s);
+                                        System.out.println(itemName + "has unknown drop type: " + s);
                                         break;
                                 }
                             }
                         }
-                        if (j.get("coordinates") != null) {
+                        if (j.get("coordinates") != null && !skipLocate) {
                             String s = "<br>Locate: " + j.get("coordinates").getAsJsonArray().get(0).getAsInt() + ", " + j.get("coordinates").getAsJsonArray().get(1).getAsInt() + ", " + j.get("coordinates").getAsJsonArray().get(2).getAsInt();
                             sb.append(s);
                         }
@@ -1181,7 +1141,7 @@ public class ItemUITemplate extends JPanel {
                             }
                             default: {
                                 l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + json.get("dropRestriction").getAsString()));
-                                System.out.println(itemName + " this drop type unknown:" + json.get("dropRestriction").getAsString());
+                                System.out.println(itemName + " has unknown drop type:" + json.get("dropRestriction").getAsString());
                                 break;
                             }
                         }
@@ -1211,6 +1171,75 @@ public class ItemUITemplate extends JPanel {
         JLabel sortValue = new JLabel("Sort Value: " + totalValue);
         sortValue.setForeground(Color.DARK_GRAY);
         add(sortValue);
+    }
+
+    public void setAspectDisplay(int tier) {
+        int maxTier = 4;
+        if (tier > 3) {
+            tier = 4;
+            if (json.get(Identifications.RARITY.getItemName()) != null && !json.get(Identifications.RARITY.getItemName()).getAsString().equals("legendary")) {
+                tier = 3;
+                maxTier = 3;
+            }
+        }
+
+        String itemName = "";
+        if (json.get("name") != null) {
+            itemName = json.get("name").getAsString();
+            label.add(new JLabel("<html>" + itemName + "</html>"));
+        }
+
+        label.add(new JLabel("Tier: "+ tier + "/" + maxTier));
+
+        label.add(new JLabel(" "));
+
+        if (json.get("tiers") != null && json.get("tiers").getAsJsonObject().get(String.valueOf(tier)) != null && json.get("tiers").getAsJsonObject().get(String.valueOf(tier)).getAsJsonObject().get("description") != null) {
+            for (JsonElement je : json.get("tiers").getAsJsonObject().get(String.valueOf(tier)).getAsJsonObject().get("description").getAsJsonArray()) {
+                label.add(new JLabel("<html>" + je.getAsString().replaceAll("#AAAAAA", "#333333").replaceAll("#555555", "#333333").replaceAll("#FFFFFF", "#333333").replaceAll("#FF5555", "#333333").replaceAll(" style='text-decoration: underline'", "") + "</html>"));
+            }
+        }
+
+        label.add(new JLabel(" "));
+
+        //TODO TIER CHANGE BUTTON
+
+        for (JLabel l : label) {
+            add(l);
+        }
+
+        fixesSize(itemName);
+    }
+
+    public void fixesSize(String name) {
+        switch (name) {
+            case "Paladin's Embodiment of Undying Determination":
+            case "Aspect of Overflowing Hope":
+            case "Aspect of Unquenching Flames":
+            case "Shadestepper's Embodiment of Unseen Execution":
+            case "Aspect of Sleight-Of-Hand":
+            case "Light Bender's Embodiment of Celestial Brilliance":
+            case "Aspect of Undercrank":
+            case "Ritualist's Embodiment of the Ancestral Avatar":
+            case "Acolyte's Embodiment of Unwavering Adherence":
+            case "Aspect of Motivation":
+            case "Aspect of the Channeler":
+            case "Aspect of Exsanguination":
+                urlSize += 16;
+                break;
+            case "Fallen's Embodiment of Blind Fury":
+            case "Battle Monk's Embodiment of Complete Synchrony":
+            case "Aspect of Deafening Echoes":
+            case "Trickster's Embodiment of the Ultimate Show":
+            case "Arcanist's Embodiment of Total Obliteration":
+            case "Aspect of Fatal Fulguration":
+            case "Trapper's Embodiment of Persistence Predation":
+            case "Sharpshooter's Embodiment of Laser Precision":
+            case "Summoner's Embodiment of the Omnipotent Overseer":
+            case "Aspect of Lashing Fire":
+            case "Aspect of Stances":
+                urlSize += 32;
+                break;
+        }
     }
 
     public void setMerchant(JsonObject manual, StringBuilder sb, String itemName, String path) {
@@ -1362,6 +1391,12 @@ public class ItemUITemplate extends JPanel {
 
        //Discontinued
        if (j.get("discontinued") != null && j.get("discontinued").getAsJsonObject().get(itemName) != null) return 13;
+
+       //World Event
+       if (j.get("world_event") != null && j.get("world_event").getAsJsonObject().get(itemName) != null) return 15;
+
+       //Lootrun
+       if (j.get("lootrun") != null && j.get("lootrun").getAsJsonObject().get(itemName) != null) return 16;
 
         return 0;
    }

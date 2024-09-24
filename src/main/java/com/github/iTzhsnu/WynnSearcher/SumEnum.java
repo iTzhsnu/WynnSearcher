@@ -156,7 +156,7 @@ public enum SumEnum {
     private static List<Identifications> elem_Defenses_Percent() {
         List<Identifications> ids = defenses_Percent();
 
-        ids.add(Identifications.ELEMENTAL_DEFENSE);
+        ids.add(Identifications.ELEMENTAL_DEFENSE_PERCENT);
 
         return ids;
     }
@@ -261,6 +261,7 @@ public enum SumEnum {
     private static List<Identifications> elem_Damage_Percent() {
         List<Identifications> ids = damages_Percent();
 
+        ids.add(Identifications.DAMAGE_PERCENT);
         ids.add(Identifications.ELEMENTAL_DAMAGE_PERCENT);
 
         return ids;

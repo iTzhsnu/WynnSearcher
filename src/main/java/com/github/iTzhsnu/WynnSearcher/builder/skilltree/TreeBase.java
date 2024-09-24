@@ -29,7 +29,8 @@ public class TreeBase implements ActionListener {
         this.classes = classes;
 
         List<JsonObject> map = new ArrayList<>();
-        JsonObject tree = new GetAPI().setWynnAbilityTreeAPI(classes, map, connect);
+        JsonObject tree = new GetAPI().loadWynnAbilityTreeAPI(classes, map, connect);
+        //JsonObject tree = new GetAPI().setWynnAbilityTreeAPI(classes, map, connect);
         for (JsonObject json : map) { //Connector
             int x = -1;
             int y = -1;
@@ -140,84 +141,86 @@ public class TreeBase implements ActionListener {
                         //    archetype = Archetype.GET.getOrDefault(j.get("archetype").getAsString(), Archetype.NONE);
                         //}
                         if (archetype == Archetype.NONE && description != null) {
-                            switch (classes) {
-                                case "warrior": {
-                                    if (description.contains("&c&lFallen Archetype")) {
-                                        archetype = Archetype.FALLEN;
-                                    } else if (description.contains("&e&lBattle Monk Archetype")) {
-                                        archetype = Archetype.BATTLE_MONK;
-                                    } else if (description.contains("&b&lPaladin Archetype")) {
-                                        archetype = Archetype.PALADIN;
+                            for (String s : description) {
+                                switch (classes) {
+                                    case "warrior": {
+                                        if (s.contains("Fallen Archetype")) {
+                                            archetype = Archetype.FALLEN;
+                                        } else if (s.contains("Battle Monk Archetype")) {
+                                            archetype = Archetype.BATTLE_MONK;
+                                        } else if (s.contains("Paladin Archetype")) {
+                                            archetype = Archetype.PALADIN;
+                                        }
+                                        break;
                                     }
-                                    break;
-                                }
-                                case "assassin": {
-                                    if (description.contains("&4&lShadestepper Archetype")) {
-                                        archetype = Archetype.SHADESTEPPER;
-                                    } else if (description.contains("&d&lTrickster Archetype")) {
-                                        archetype = Archetype.TRICKSTER;
-                                    } else if (description.contains("&f&lAcrobat Archetype")) {
-                                        archetype = Archetype.ACROBAT;
+                                    case "assassin": {
+                                        if (s.contains("Shadestepper Archetype")) {
+                                            archetype = Archetype.SHADESTEPPER;
+                                        } else if (s.contains("Trickster Archetype")) {
+                                            archetype = Archetype.TRICKSTER;
+                                        } else if (s.contains("Acrobat Archetype")) {
+                                            archetype = Archetype.ACROBAT;
+                                        }
+                                        break;
                                     }
-                                    break;
-                                }
-                                case "archer": {
-                                    if (description.contains("&e&lBoltslinger Archetype")) {
-                                        archetype = Archetype.BOLTSLINGER;
-                                    } else if (description.contains("&2&lTrapper Archetype")) {
-                                        archetype = Archetype.TRAPPER;
-                                    } else if (description.contains("&d&lSharpshooter Archetype")) {
-                                        archetype = Archetype.SHARPSHOOTER;
+                                    case "archer": {
+                                        if (s.contains("Boltslinger Archetype")) {
+                                            archetype = Archetype.BOLTSLINGER;
+                                        } else if (s.contains("Trapper Archetype")) {
+                                            archetype = Archetype.TRAPPER;
+                                        } else if (s.contains("Sharpshooter Archetype")) {
+                                            archetype = Archetype.SHARPSHOOTER;
+                                        }
+                                        break;
                                     }
-                                    break;
-                                }
-                                case "mage": {
-                                    if (description.contains("&b&lRiftwalker Archetype")) {
-                                        archetype = Archetype.RIFTWALKER;
-                                    } else if (description.contains("&f&lLight Bender Archetype")) {
-                                        archetype = Archetype.LIGHT_BENDER;
-                                    } else if (description.contains("&5&lArcanist Archetype")) {
-                                        archetype = Archetype.ARCANIST;
+                                    case "mage": {
+                                        if (s.contains("Riftwalker Archetype")) {
+                                            archetype = Archetype.RIFTWALKER;
+                                        } else if (s.contains("Light Bender Archetype")) {
+                                            archetype = Archetype.LIGHT_BENDER;
+                                        } else if (s.contains("Arcanist Archetype")) {
+                                            archetype = Archetype.ARCANIST;
+                                        }
+                                        break;
                                     }
-                                    break;
-                                }
-                                case "shaman": {
-                                    if (description.contains("&6&lSummoner Archetype")) {
-                                        archetype = Archetype.SUMMONER;
-                                    } else if (description.contains("&a&lRitualist Archetype")) {
-                                        archetype = Archetype.RITUALIST;
-                                    } else if (description.contains("&c&lAcolyte Archetype")) {
-                                        archetype = Archetype.ACOLYTE;
+                                    case "shaman": {
+                                        if (s.contains("Summoner Archetype")) {
+                                            archetype = Archetype.SUMMONER;
+                                        } else if (s.contains("Ritualist Archetype")) {
+                                            archetype = Archetype.RITUALIST;
+                                        } else if (s.contains("Acolyte Archetype")) {
+                                            archetype = Archetype.ACOLYTE;
+                                        }
+                                        break;
                                     }
-                                    break;
                                 }
                             }
                         }
 
-                        if (j.get("icon") != null) {
-                            switch (j.get("icon").getAsString()) {
-                                case "275:49": //Yellow Ability Icon (4)
+                        if (j.get("icon") != null && j.get("icon").getAsJsonObject().get("value").getAsJsonObject() != null && j.get("icon").getAsJsonObject().get("value").getAsJsonObject().get("name") != null) {
+                            switch (j.get("icon").getAsJsonObject().get("value").getAsJsonObject().get("name").getAsString()) {
+                                case "abilityTree.nodeYellow": //Yellow Ability Icon (4)
                                     getTcb().add(new TreeCheckBox(name, description, entry.getKey(), req, cantUse, link, archetype, minArchetype, cost, posWidth(x, 4), posHeight(y, 4)).yellowIcon());
                                     break;
-                                case "275:53": //Purple Ability Icon (6)
+                                case "abilityTree.nodePurple": //Purple Ability Icon (6)
                                     getTcb().add(new TreeCheckBox(name, description, entry.getKey(), req, cantUse, link, archetype, minArchetype, cost, posWidth(x, 6), posHeight(y, 6)).purpleIcon());
                                     break;
-                                case "275:57": //Red Ability Icon (10)
+                                case "abilityTree.nodeRed": //Red Ability Icon (10)
                                     getTcb().add(new TreeCheckBox(name, description, entry.getKey(), req, cantUse, link, archetype, minArchetype, cost, posWidth(x, 10), posHeight(y, 10)).redIcon());
                                     break;
-                                case "275:61": //Warrior Ability Icon (6)
+                                case "abilityTree.nodeWarrior": //Warrior Ability Icon (6)
                                     getTcb().add(new TreeCheckBox(name, description, entry.getKey(), req, cantUse, link, archetype, minArchetype, cost, posWidth(x, 6), posHeight(y, 6)).warriorIcon());
                                     break;
-                                case "275:67": //Assassin Ability Icon (6)
+                                case "abilityTree.nodeAssassin": //Assassin Ability Icon (6)
                                     getTcb().add(new TreeCheckBox(name, description, entry.getKey(), req, cantUse, link, archetype, minArchetype, cost, posWidth(x, 6), posHeight(y, 6)).assassinIcon());
                                     break;
-                                case "275:64": //Archer Ability Icon (6)
+                                case "abilityTree.nodeArcher": //Archer Ability Icon (6)
                                     getTcb().add(new TreeCheckBox(name, description, entry.getKey(), req, cantUse, link, archetype, minArchetype, cost, posWidth(x, 6), posHeight(y, 6)).archerIcon());
                                     break;
-                                case "275:70": //Mage Ability Icon (6)
+                                case "abilityTree.nodeMage": //Mage Ability Icon (6)
                                     getTcb().add(new TreeCheckBox(name, description, entry.getKey(), req, cantUse, link, archetype, minArchetype, cost, posWidth(x, 6), posHeight(y, 6)).mageIcon());
                                     break;
-                                case "275:73": //Shaman Ability Icon (6)
+                                case "abilityTree.nodeShaman": //Shaman Ability Icon (6)
                                     getTcb().add(new TreeCheckBox(name, description, entry.getKey(), req, cantUse, link, archetype, minArchetype, cost, posWidth(x, 6), posHeight(y, 6)).shamanIcon());
                                     break;
                                 default: //White Ability Icon (275:45) (2)
@@ -236,10 +239,10 @@ public class TreeBase implements ActionListener {
         pane.setLayout(null);
 
         scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(18, 490, 386, 400);
+        scrollPane.setBounds(18, 710, 386, 400);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
-        text.setBounds(20, 465, 400, 20);
+        text.setBounds(20, 685, 400, 20);
         text.setText(this.archetype1 + ": 0 | " + this.archetype2 + ": 0 | " + this.archetype3 + ": 0 | Ability Point: 0/45");
 
         p.add(scrollPane);

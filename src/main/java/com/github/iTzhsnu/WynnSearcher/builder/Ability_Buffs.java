@@ -42,7 +42,7 @@ public class Ability_Buffs {
         box.add(new Damage_Boost_CheckBox("Fortitude", 440, getY_Boxes(0), 75)); //3
         box.add(new Damage_Boost_CheckBox("Vengeful Spirit", 525, getY_Boxes(0), 110)); //4
         box.add(new Damage_Boost_CheckBox("Armour Breaker", 645, getY_Boxes(0), 120)); //5
-        box.add(new Damage_Boost_CheckBox("10%", 75, 305, 50)); //6
+        box.add(new Damage_Boost_CheckBox("10%", 75, 415, 50)); //6
         box.add(new Damage_Boost_CheckBox("Coursing Restraints", 140, getY_Boxes(1), 140)); //7
         box.add(new Damage_Boost_CheckBox("Ivyroot Mamba", 290, getY_Boxes(1), 110)); //8
         box.add(new Damage_Boost_CheckBox("Haunting Memory (Lunatic)", 410, getY_Boxes(1), 180)); //9
@@ -88,11 +88,11 @@ public class Ability_Buffs {
     }
 
     public static int getY_Boxes(int pos) {
-        return 340 + pos * 25;
+        return 450 + pos * 25;
     }
 
     public static int getY_Slider(int pos) {
-        return 290 + pos * 40;
+        return 400 + pos * 40;
     }
 
     public List<Damage_Boost_CheckBox> getBox() {

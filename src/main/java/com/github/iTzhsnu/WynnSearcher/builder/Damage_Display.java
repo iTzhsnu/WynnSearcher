@@ -23,7 +23,48 @@ public class Damage_Display {
     private JsonObject weapon = null;
     private TotalMaxDamage totalMaxDamage = null;
 
+    private float neutral_min = 0;
+    private float earth_min = 0;
+    private float thunder_min = 0;
+    private float water_min = 0;
+    private float fire_min = 0;
+    private float air_min = 0;
 
+    private float neutral_max = 0;
+    private float earth_max = 0;
+    private float thunder_max = 0;
+    private float water_max = 0;
+    private float fire_max = 0;
+    private float air_max = 0;
+
+    private final List<Damage_Template> list = new ArrayList<>();
+
+    private int raw_Damage = 0;
+    private int raw_Elem_Damage = 0;
+    private float percent = 1F;
+    private float multiple = 1F;
+    private float melee_percent = 0F;
+    private float melee_multiple = 1F;
+    private float spell_percent = 0F;
+    private float spell_multiple = 1F;
+    private int spell_cost_1 = 0;
+    private int spell_cost_2 = 0;
+    private int spell_cost_3 = 0;
+    private int spell_cost_4 = 0;
+    private float proficiency = 1F;
+    private int atkSpd = 0;
+    private boolean crit_boost = false;
+
+    private boolean[] tb = {
+            false, false, false, false, false, false, false, false, false, false //0 ~ 9
+    };
+    private boolean[] tbd = new boolean[] {
+            false, false, false, false, false, false, false, false, false, false, //0 ~ 9
+            false, false, false, false, false, false, false, false, false, false, //10 ~ 19
+            false, false, false, false, false, false, false, false, false, false, //20 ~ 29
+            false, false, false, false, false, false, false, false, false, false, //30 ~ 39
+            false, false, false, false, false, false, false, false, false, false //40 ~ 49
+    };
     private boolean[] have_mastery;
 
     public Damage_Display(JPanel p) {
@@ -32,7 +73,7 @@ public class Damage_Display {
         pane.setLayout(null);
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(708, 490, 318, 400);
+        scrollPane.setBounds(708, 710, 318, 400);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);
@@ -42,23 +83,52 @@ public class Damage_Display {
         this.itemJsons = itemJsons;
         this.weapon = itemJsons.getWeapon();
         pane.removeAll();
+
+        if (list.size() > 0) list.clear();
+
+        neutral_min = 0;
+        earth_min = 0;
+        thunder_min = 0;
+        water_min = 0;
+        fire_min = 0;
+        air_min = 0;
+
+        neutral_max = 0;
+        earth_max = 0;
+        thunder_max = 0;
+        water_max = 0;
+        fire_max = 0;
+        air_max = 0;
+
+        raw_Damage = 0;
+        raw_Elem_Damage = 0;
+        percent = 1F;
+        multiple = 1F;
+        melee_percent = 0F;
+        melee_multiple = 1F;
+        spell_percent = 0F;
+        spell_multiple = 1F;
+        spell_cost_1 = 0;
+        spell_cost_2 = 0;
+        spell_cost_3 = 0;
+        spell_cost_4 = 0;
+        proficiency = 1F;
+        atkSpd = 0;
+        crit_boost = false;
+
+        tb = new boolean[] {
+                false, false, false, false, false, false, false, false, false, false //0 ~ 9
+        };
+        tbd = new boolean[] {
+                false, false, false, false, false, false, false, false, false, false, //0 ~ 9
+                false, false, false, false, false, false, false, false, false, false, //10 ~ 19
+                false, false, false, false, false, false, false, false, false, false, //20 ~ 29
+                false, false, false, false, false, false, false, false, false, false, //30 ~ 39
+                false, false, false, false, false, false, false, false, false, false //40 ~ 49
+        };
+        have_mastery = new boolean[] {false, false, false, false, false, false};
+
         if (weapon != null) {
-            float neutral_min = 0;
-            float earth_min = 0;
-            float thunder_min = 0;
-            float water_min = 0;
-            float fire_min = 0;
-            float air_min = 0;
-
-            float neutral_max = 0;
-            float earth_max = 0;
-            float thunder_max = 0;
-            float water_max = 0;
-            float fire_max = 0;
-            float air_max = 0;
-
-            List<Damage_Template> list = new ArrayList<>();
-
             if (weapon.get("base") != null) {
                 JsonObject json = weapon.get("base").getAsJsonObject();
                 //Neutral Damage
@@ -88,124 +158,10 @@ public class Damage_Display {
 
 
             //Powder
-            JsonObject powderJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/powders.json")), StandardCharsets.UTF_8))).getAsJsonObject();
-            if (weapon.get(Identifications.POWDER_SLOTS.getItemName()) != null && weapon.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() > 0 && powders.get(4).getText().length() > 1) {
-                String[] turn = new String[] {"", "", "", "", ""};
-                int[] convert = new int[] {0, 0, 0, 0, 0};
-                for (int i = 0; (int) Math.floor(powders.get(4).getText().length() / 2F) * 2 > i; i += 2) {
-                    if (weapon.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() >= i / 2) {
-                        String name = String.valueOf(powders.get(4).getText().charAt(i)) + powders.get(4).getText().charAt(i + 1);
-                        if (powderJ.get(name) != null) {
-                            JsonObject j = powderJ.get(name).getAsJsonObject();
-                            String[] ss = j.get("damage").getAsString().split("-");
-                            switch (j.get("type").getAsString()) {
-                                case "earth": { //Earth Powder Damage
-                                    earth_min += Integer.parseInt(ss[0]);
-                                    earth_max += Integer.parseInt(ss[1]);
-                                    break;
-                                }
-                                case "thunder": { //Thunder Powder Damage
-                                    thunder_min += Integer.parseInt(ss[0]);
-                                    thunder_max += Integer.parseInt(ss[1]);
-                                    break;
-                                }
-                                case "water": { //Water Powder Damage
-                                    water_min += Integer.parseInt(ss[0]);
-                                    water_max += Integer.parseInt(ss[1]);
-                                    break;
-                                }
-                                case "fire": { //Fire Powder Damage
-                                    fire_min += Integer.parseInt(ss[0]);
-                                    fire_max += Integer.parseInt(ss[1]);
-                                    break;
-                                }
-                                case "air": { //Air Powder Damage
-                                    air_min += Integer.parseInt(ss[0]);
-                                    air_max += Integer.parseInt(ss[1]);
-                                    break;
-                                }
-                            }
-                            for (int n = 0; 5 > n; ++n) { //Powder Convert
-                                if (turn[n].isEmpty()) {
-                                    turn[n] = j.get("type").getAsString();
-                                    convert[n] += j.get("convert").getAsInt();
-                                    break;
-                                } else if (turn[n].equals(j.get("type").getAsString())) {
-                                    convert[n] += j.get("convert").getAsInt();
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
-                        break;
-                    }
-                }
+            calcPowderDamages(powders);
 
-                for (int i = 0; 5 > i; ++i) { //Powder Convert (Math.round)
-                    if (turn[i].isEmpty()) {
-                        break;
-                    } else if (neutral_min > 0 || neutral_max > 0) {
-                        if (convert[i] > 100) { //Convert 101%+ => 100%
-                            convert[i] = 100;
-                        }
-
-                        float convertCalcMin = neutral_min * (convert[i] / 100F);
-                        float convertCalcMax = neutral_max * (convert[i] / 100F);
-
-                        if (neutral_min == 0) convertCalcMin = 0;
-                        if (neutral_max == 0) convertCalcMax = 0;
-
-                        //Add Elemental
-                        switch (turn[i]) {
-                            case "earth": {
-                                earth_min += convertCalcMin; //Neutral Damage Min * (Convert % / 100)
-                                earth_max += convertCalcMax; //Neutral Damage Max * (Convert % / 100)
-                                break;
-                            }
-                            case "thunder": {
-                                thunder_min += convertCalcMin;
-                                thunder_max += convertCalcMax;
-                                break;
-                            }
-                            case "water": {
-                                water_min += convertCalcMin;
-                                water_max += convertCalcMax;
-                                break;
-                            }
-                            case "fire": {
-                                fire_min += convertCalcMin;
-                                fire_max += convertCalcMax;
-                                break;
-                            }
-                            case "air": {
-                                air_min += convertCalcMin;
-                                air_max += convertCalcMax;
-                                break;
-                            }
-                        }
-
-                        //Remove Neutral
-                        neutral_min -= convertCalcMin;
-                        neutral_max -= convertCalcMax;
-                    }
-                }
-            }
-
-            int raw_Damage = 0;
-            int raw_Elem_Damage = 0;
-            float percent = 1F;
-            float multiple = 1F;
-            float melee_percent = 0F;
-            float melee_multiple = 1F;
-            float spell_percent = 0F;
-            float spell_multiple = 1F;
-            int spell_cost_1 = 0;
-            int spell_cost_2 = 0;
-            int spell_cost_3 = 0;
-            int spell_cost_4 = 0;
-            float proficiency = 1F;
-            int atkSpd = id_Numbers[ID_Display.ID_INT.get(Identifications.ATTACK_SPEED_BONUS)];
-            boolean crit_boost = false;
+            //Attack Speed
+            atkSpd = id_Numbers[ID_Display.ID_INT.get(Identifications.ATTACK_SPEED_BONUS)];
             if (weapon.get(Identifications.ATTACK_SPEED.getItemName()) != null) {
                 switch (weapon.get(Identifications.ATTACK_SPEED.getItemName()).getAsString()) {
                     case "very_slow": atkSpd += 1;
@@ -223,158 +179,8 @@ public class Damage_Display {
                 }
             }
 
-            if (abilityBuffs.getBox().get(Ability_Buffs_Enum.RAGNAROKKR.getPos()).isSelected()) percent += 0.2F; //Ragnarokkr (+20%)
-            if (abilityBuffs.getBox().get(Ability_Buffs_Enum.FORTITUDE.getPos()).isSelected()) percent += 0.6F; //Fortitude (+60%)
-            if (abilityBuffs.getBox().get(Ability_Buffs_Enum.VENGEFUL_SPIRIT.getPos()).isSelected()) percent += 0.2F; //Vengeful Spirit (+20%)
-            if (abilityBuffs.getSlider().get(Ability_Buffs_Enum.MARKED.getPos()).getValue() > 0) { //Marked
-                if (abilityBuffs.getBox().get(Ability_Buffs_Enum.MARKED_10PERCENT.getPos()).isSelected()) { //is 10%
-                    multiple *= 1F + abilityBuffs.getSlider().get(Ability_Buffs_Enum.MARKED.getPos()).getValue() * 0.1F;
-                } else { //is 6%
-                    multiple *= 1F + abilityBuffs.getSlider().get(Ability_Buffs_Enum.MARKED.getPos()).getValue() * 0.06F;
-                }
-            }
-            if (abilityBuffs.getBox().get(Ability_Buffs_Enum.ARMOUR_BREAKER.getPos()).isSelected()) {
-                multiple /= 0.7F; //Armour Breaker (-30% Def)
-            } else if (abilityBuffs.getBox().get(Ability_Buffs_Enum.COURSING_RESTRAINTS.getPos()).isSelected() || abilityBuffs.getBox().get(Ability_Buffs_Enum.HAUNTING_MEMORY_FANATIC.getPos()).isSelected() || abilityBuffs.getBox().get(Ability_Buffs_Enum.CHANT_OF_THE_LUNATIC.getPos()).isSelected()) {
-                multiple /= 0.85F; //Coursing Restraints, Haunting Memory (from Fanatic), Chant of the Lunatic (-15% Def)
-            }
-            if (abilityBuffs.getBox().get(Ability_Buffs_Enum.SAVIOURS_SACRIFICE.getPos()).isSelected()) multiple *= 1.2F; //Saviour's Sacrifice (+20%)
-
-            boolean[] tb = {
-                    false, false, false, false, false, false, false, false, false, false //0 ~ 9
-            };
-            boolean[] tbd = new boolean[] {
-                    false, false, false, false, false, false, false, false, false, false, //0 ~ 9
-                    false, false, false, false, false, false, false, false, false, false, //10 ~ 19
-                    false, false, false, false, false, false, false, false, false, false, //20 ~ 29
-                    false, false, false, false, false, false, false, false, false, false, //30 ~ 39
-                    false, false, false, false, false, false, false, false, false, false //40 ~ 49
-            };
-            int[] buffI = new int[] {
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0 ~ 9
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //10 ~ 19
-            };
-            float[] buffF = new float[] {
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0 ~ 9
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //10 ~ 19
-            };
-            have_mastery = new boolean[] {false, false, false, false, false, false};
-
-            for (TreeCheckBox tcb : tree.getTcb()) {
-                if (tcb.isSelected()) {
-                    //All Classes
-                    switch (tcb.getFixedTreeName()) {
-                        case "Earth Mastery": {
-                            have_mastery[Damage_Type.EARTH.id] = true;
-                            if (earth_min != 0 || earth_max != 0) {
-                                earth_min += 2;
-                                earth_max += 4;
-                            }
-                            break;
-                        }
-                        case "Thunder Mastery": {
-                            have_mastery[Damage_Type.THUNDER.id] = true;
-                            if (thunder_min != 0 || thunder_max != 0) {
-                                thunder_min += 1;
-                                thunder_max += 8;
-                            }
-                            break;
-                        }
-                        case "Water Mastery": {
-                            have_mastery[Damage_Type.WATER.id] = true;
-                            if (water_min != 0 || water_max != 0) {
-                                water_min += 2;
-                                water_max += 4;
-                            }
-                            break;
-                        }
-                        case "Fire Mastery": {
-                            have_mastery[Damage_Type.FIRE.id] = true;
-                            if (fire_min != 0 || fire_max != 0) {
-                                fire_min += 3;
-                                fire_max += 5;
-                            }
-                            break;
-                        }
-                        case "Air Mastery": {
-                            have_mastery[Damage_Type.AIR.id] = true;
-                            if (air_min != 0 || air_max != 0) {
-                                air_min += 3;
-                                air_max += 4;
-                            }
-                            break;
-                        }
-                        case "Precise Strike":
-                            crit_boost = true;
-                            break;
-                    }
-                }
-            }
-
-            buffF[Buff.NEUTRAL_MIN.pos] = neutral_min;
-            buffF[Buff.EARTH_MIN.pos] = earth_min;
-            buffF[Buff.THUNDER_MIN.pos] = thunder_min;
-            buffF[Buff.WATER_MIN.pos] = water_min;
-            buffF[Buff.FIRE_MIN.pos] = fire_min;
-            buffF[Buff.AIR_MIN.pos] = air_min;
-
-            buffF[Buff.NEUTRAL_MAX.pos] = neutral_max;
-            buffF[Buff.EARTH_MAX.pos] = earth_max;
-            buffF[Buff.THUNDER_MAX.pos] = thunder_max;
-            buffF[Buff.WATER_MAX.pos] = water_max;
-            buffF[Buff.FIRE_MAX.pos] = fire_max;
-            buffF[Buff.AIR_MAX.pos] = air_max;
-
-            switch (tree.getClasses()) {
-                case "warrior": {
-                    setWarrior(tree, tb, tbd, buffI, buffF, abilityBuffs);
-                    break;
-                }
-                case "assassin": {
-                    setAssassin(tree, tb, tbd, buffI, buffF, abilityBuffs);
-                    break;
-                }
-                case "archer": {
-                    setArcher(tree, tb, tbd, buffI, buffF, abilityBuffs);
-                    break;
-                }
-                case "mage": {
-                    setMage(tree, tb, tbd, buffI, buffF, abilityBuffs);
-                    break;
-                }
-                case "shaman": {
-                    setShaman(tree, tb, tbd, buffI, buffF, abilityBuffs);
-                    break;
-                }
-            }
-
-            raw_Damage += buffI[Buff.RAW_DAMAGE.pos];
-            raw_Elem_Damage += buffI[Buff.RAW_ELEM_DAMAGE.pos];
-            percent += buffF[Buff.PERCENT.pos];
-            multiple += buffF[Buff.MULTIPLE.pos];
-            melee_percent += buffF[Buff.MELEE_PERCENT.pos];
-            melee_multiple += buffF[Buff.MELEE_MULTIPLE.pos];
-            spell_percent += buffF[Buff.SPELL_PERCENT.pos];
-            spell_multiple += buffF[Buff.SPELL_MULTIPLE.pos];
-            spell_cost_1 += buffI[Buff.SPELL_COST_1.pos];
-            spell_cost_2 += buffI[Buff.SPELL_COST_2.pos];
-            spell_cost_3 += buffI[Buff.SPELL_COST_3.pos];
-            spell_cost_4 += buffI[Buff.SPELL_COST_4.pos];
-            proficiency += buffF[Buff.PROFICIENCY.pos];
-
-            neutral_min = buffF[Buff.NEUTRAL_MIN.pos];
-            earth_min = buffF[Buff.EARTH_MIN.pos];
-            thunder_min = buffF[Buff.THUNDER_MIN.pos];
-            water_min = buffF[Buff.WATER_MIN.pos];
-            fire_min = buffF[Buff.FIRE_MIN.pos];
-            air_min = buffF[Buff.AIR_MIN.pos];
-
-            neutral_max = buffF[Buff.NEUTRAL_MAX.pos];
-            earth_max = buffF[Buff.EARTH_MAX.pos];
-            thunder_max = buffF[Buff.THUNDER_MAX.pos];
-            water_max = buffF[Buff.WATER_MAX.pos];
-            fire_max = buffF[Buff.FIRE_MAX.pos];
-            air_max = buffF[Buff.AIR_MAX.pos];
+            //Ability Tree
+            setAbilityData(tree, abilityBuffs);
 
             melee_multiple *= proficiency; //Melee Multiple * Proficiency (5% or 10%)
             id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_SPELL_DAMAGE)] += raw_Damage; //Raw Spell Damage += Raw Damage
@@ -496,7 +302,7 @@ public class Damage_Display {
         SwingUtilities.updateComponentTreeUI(pane);
     }
 
-    public void setWarrior(TreeBase tree, boolean[] tb, boolean[] tbd, int[] buffI, float[] buffF, Ability_Buffs abilityBuffs) {
+    public void setWarrior(TreeBase tree, Ability_Buffs abilityBuffs) {
         for (TreeCheckBox tcb : tree.getTcb()) {
             if (tcb.isSelected()) {
                 switch (tcb.getFixedTreeName()) {
@@ -514,83 +320,83 @@ public class Damage_Display {
             if (tcb.isSelected()) {
                 switch (tcb.getAPIName()) {
                     case "bashCost1":
-                        buffI[Buff.SPELL_COST_1.pos] -= 10;
+                        spell_cost_1 -= 10;
                         break;
                     case "bashCost2":
-                        buffI[Buff.SPELL_COST_1.pos] -= 5;
+                        spell_cost_1 -= 5;
                         break;
                 }
 
                 switch (tcb.getFixedTreeName()) {
                     case "Spear Proficiency I":
                     case "Spear Proficiency II":
-                        buffF[Buff.PROFICIENCY.pos] += 0.05F;
+                        proficiency += 0.05F;
                         break;
                     case "Vehement":
-                        buffI[Buff.RAW_DAMAGE.pos] += 5;
+                        raw_Damage += 5;
                         break;
                     case "Cheaper Charge":
                     case "Spirit of the Rabbit":
-                        buffI[Buff.SPELL_COST_2.pos] -= 5;
+                        spell_cost_2 -= 5;
                         break;
                     case "Bak'al's Grasp": //Corrupted
                         if (abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).getValue() > 1) {
                             if (tb[AbilityIDEnum.UNOBTAINABLE_CORRUPTION.pos]) { //Uncontainable Corruption
-                                buffI[Buff.RAW_DAMAGE.pos] += Math.min((int) Math.floor(abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).getValue() / 2F) * 5, 120);
+                                raw_Damage += Math.min((int) Math.floor(abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).getValue() / 2F) * 5, 120);
                             } else {
-                                buffI[Buff.RAW_DAMAGE.pos] += Math.min((int) Math.floor(abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).getValue() / 2F) * 4, 120);
+                                raw_Damage += Math.min((int) Math.floor(abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).getValue() / 2F) * 4, 120);
                             }
                         }
                         break;
                     case "Half-Moon Swipe":
                         tbd[AbilityIDEnum.HALF_MOON_SWIPE.pos] = true;
                     case "Cheaper Uppercut":
-                        buffI[Buff.SPELL_COST_3.pos] -= 5;
+                        spell_cost_3 -= 5;
                         break;
                     case "Enraged Blow": //Corrupted
                         if (abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).getValue() > 0) {
                             if (tb[AbilityIDEnum.BETTER_ENRAGED_BLOW.pos]) { //Better Enraged Blow
-                                buffF[Buff.MULTIPLE.pos] *= Math.min(1F + abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).getValue() * 0.015F, 2.4F);
+                                multiple *= Math.min(1F + abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).getValue() * 0.015F, 2.4F);
                             } else {
-                                buffF[Buff.MULTIPLE.pos] *= Math.min(1F + abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).getValue() * 0.015F, 1.8F);
+                                multiple *= Math.min(1F + abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).getValue() * 0.015F, 1.8F);
                             }
                         }
                         break;
                     case "Ragnarokkr":
-                        buffI[Buff.SPELL_COST_4.pos] += 10;
+                        spell_cost_4 += 10;
                         break;
                     case "Cheaper War Scream":
-                        buffI[Buff.SPELL_COST_4.pos] -= 5;
+                        spell_cost_4 -= 5;
                         break;
                     case "Axe Kick":
                         tbd[AbilityIDEnum.AXE_KICK.pos] = true;
-                        buffI[Buff.SPELL_COST_3.pos] += 15;
+                        spell_cost_3 += 15;
                         break;
                     case "Discombobulate": //Maybe Raw ** Damage
                         if (abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue() > 0) {
-                            if (buffF[Buff.NEUTRAL_MIN.pos] != 0 || buffF[Buff.NEUTRAL_MAX.pos] != 0) {
-                                buffF[Buff.NEUTRAL_MIN.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
-                                buffF[Buff.NEUTRAL_MAX.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                            if (neutral_min != 0 || neutral_max != 0) {
+                                neutral_min += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                                neutral_max += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
                             }
-                            if (buffF[Buff.EARTH_MIN.pos] != 0 || buffF[Buff.EARTH_MAX.pos] != 0) {
-                                buffF[Buff.EARTH_MIN.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
-                                buffF[Buff.EARTH_MAX.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                            if (earth_min != 0 || earth_max != 0) {
+                                earth_min += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                                earth_max += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
                             }
-                            if (buffF[Buff.THUNDER_MIN.pos] != 0 || buffF[Buff.THUNDER_MAX.pos] != 0) {
-                                buffF[Buff.THUNDER_MIN.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
-                                buffF[Buff.THUNDER_MAX.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                            if (thunder_min != 0 || thunder_max != 0) {
+                                thunder_min += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                                thunder_max += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
                             }
-                            if (buffF[Buff.WATER_MIN.pos] != 0 || buffF[Buff.WATER_MAX.pos] != 0) {
-                                buffF[Buff.WATER_MIN.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
-                                buffF[Buff.WATER_MAX.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                            if (water_min != 0 || water_max != 0) {
+                                water_min += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                                water_max += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
                             }
-                            if (buffF[Buff.FIRE_MIN.pos] != 0 || buffF[Buff.FIRE_MAX.pos] != 0) {
-                                buffF[Buff.FIRE_MIN.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
-                                buffF[Buff.FIRE_MAX.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                            if (fire_min != 0 || fire_max != 0) {
+                                fire_min += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                                fire_max += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
                             }
-                            if (buffF[Buff.AIR_MIN.pos] != 0 || buffF[Buff.AIR_MAX.pos] != 0) {
-                                buffF[Buff.AIR_MIN.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
-                                buffF[Buff.AIR_MAX.pos] += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                            if (air_min != 0 || air_max != 0) {
+                                air_min += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
+                                air_max += abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).getValue();
                             }
                         }
                         break;
@@ -674,7 +480,7 @@ public class Damage_Display {
         }
     }
 
-    public void setAssassin(TreeBase tree, boolean[] tb, boolean[] tbd, int[] buffI, float[] buffF, Ability_Buffs abilityBuffs) {
+    public void setAssassin(TreeBase tree, Ability_Buffs abilityBuffs) {
         for (TreeCheckBox tcb : tree.getTcb()) {
             if (tcb.isSelected()) {
                 if (tcb.getFixedTreeName().equals("Ambush")) {
@@ -693,47 +499,47 @@ public class Damage_Display {
             if (tcb.isSelected()) {
                 switch (tcb.getAPIName()) {
                     case "spinAttackCost1":
-                        buffI[Buff.SPELL_COST_1.pos] -= 10;
+                        spell_cost_1 -= 10;
                         break;
                     case "spinAttackCost2":
-                        buffI[Buff.SPELL_COST_1.pos] -= 5;
+                        spell_cost_1 -= 5;
                         break;
                 }
                 switch (tcb.getFixedTreeName()) {
                     case "Dagger Proficiency I":
-                        buffF[Buff.PROFICIENCY.pos] += 0.05F;
+                        proficiency += 0.05F;
                         break;
                     case "Cheaper Dash":
-                        buffI[Buff.SPELL_COST_2.pos] -= 5;
+                        spell_cost_2 -= 5;
                         break;
                     case "Backstab":
                         tbd[AbilityIDEnum.BACKSTAB.pos] = true;
                     case "Cheaper Multihit":
-                        buffI[Buff.SPELL_COST_3.pos] -= 5;
+                        spell_cost_3 -= 5;
                         break;
                     case "Dagger Proficiency II":
-                        buffI[Buff.RAW_DAMAGE.pos] += 5;
+                        raw_Damage += 5;
                         break;
                     case "Cheaper Smoke Bomb":
-                        buffI[Buff.SPELL_COST_4.pos] -= 5;
+                        spell_cost_4 -= 5;
                         break;
                     case "Surprise Strike":
                         if (abilityBuffs.getBox().get(Ability_Buffs_Enum.SURPRISE_STRIKE.getPos()).isSelected()) {
                             if (tb[AbilityIDEnum.AMBUSH.pos]) { //Ambush
-                                buffF[Buff.MULTIPLE.pos] *= 2.2F;
+                                multiple *= 2.2F;
                             } else {
-                                buffF[Buff.MULTIPLE.pos] *= 1.8F;
+                                multiple *= 1.8F;
                             }
                         }
                         break;
                     case "Delirious Gas":
                         if (abilityBuffs.getBox().get(Ability_Buffs_Enum.DELIRIOUS_GAS.getPos()).isSelected()) {
-                            buffF[Buff.MULTIPLE.pos] *= 1.4F;
+                            multiple *= 1.4F;
                         }
                         break;
                     case "Flow State":
                         if (abilityBuffs.getBox().get(Ability_Buffs_Enum.FLOW_STATE.getPos()).isSelected()) {
-                            buffF[Buff.MULTIPLE.pos] *= 1.5F;
+                            multiple *= 1.5F;
                         }
                         break;
                     case "Echo":
@@ -741,12 +547,12 @@ public class Damage_Display {
                         break;
                     case "Parry":
                         if (abilityBuffs.getBox().get(Ability_Buffs_Enum.PARRY.getPos()).isSelected()) {
-                            buffF[Buff.MULTIPLE.pos] *= 1.3F;
+                            multiple *= 1.3F;
                         }
                         break;
                     case "Nightcloak Knife":
                         if (abilityBuffs.getSlider().get(Ability_Buffs_Enum.NIGHTCLOAK_KNIFE.getPos()).getValue() > 0) {
-                            buffF[Buff.MULTIPLE.pos] *= 1F + (abilityBuffs.getSlider().get(Ability_Buffs_Enum.NIGHTCLOAK_KNIFE.getPos()).getValue() * 0.04F);
+                            multiple *= 1F + (abilityBuffs.getSlider().get(Ability_Buffs_Enum.NIGHTCLOAK_KNIFE.getPos()).getValue() * 0.04F);
                         }
                         break;
                     case "Spin Attack":
@@ -834,41 +640,41 @@ public class Damage_Display {
         }
     }
 
-    public void setArcher(TreeBase tree, boolean[] tb, boolean[] tbd, int[] buffI, float[] buffF, Ability_Buffs abilityBuffs) {
+    public void setArcher(TreeBase tree,  Ability_Buffs abilityBuffs) {
         for (TreeCheckBox tcb : tree.getTcb()) {
             if (tcb.isSelected()) {
                 switch (tcb.getAPIName()) {
                     case "arrowBombCost1":
-                        buffI[Buff.SPELL_COST_3.pos] -= 10;
+                        spell_cost_3 -= 10;
                         break;
                     case "arrowBombCost2":
-                        buffI[Buff.SPELL_COST_3.pos] -= 5;
+                        spell_cost_3 -= 5;
                         break;
                 }
                 switch (tcb.getFixedTreeName()) {
                     case "Bow Proficiency I":
-                        buffF[Buff.PROFICIENCY.pos] += 0.05F;
+                        proficiency += 0.05F;
                         break;
                     case "Cheaper Escape":
-                        buffI[Buff.SPELL_COST_2.pos] -= 5;
+                        spell_cost_2 -= 5;
                         break;
                     case "Cheaper Arrow Storm":
-                        buffI[Buff.SPELL_COST_1.pos] -= 5;
+                        spell_cost_1 -= 5;
                         break;
                     case "Mana Trap":
-                        buffI[Buff.SPELL_COST_3.pos] += 10;
+                        spell_cost_3 += 10;
                         break;
                     case "Cheaper Arrow Shield":
-                        buffI[Buff.SPELL_COST_4.pos] -= 5;
+                        spell_cost_4 -= 5;
                         break;
                     case "Focus":
                         tbd[AbilityIDEnum.FOCUS.pos] = true;
                         if (abilityBuffs.getSlider().get(Ability_Buffs_Enum.FOCUS.getPos()).getValue() > 0)
-                            buffF[Buff.MULTIPLE.pos] *= 1F + abilityBuffs.getSlider().get(Ability_Buffs_Enum.FOCUS.getPos()).getValue() * 0.15F;
+                            multiple *= 1F + abilityBuffs.getSlider().get(Ability_Buffs_Enum.FOCUS.getPos()).getValue() * 0.15F;
                         break;
                     case "Initiator":
                         if (abilityBuffs.getBox().get(Ability_Buffs_Enum.INITIATOR.getPos()).isSelected()) {
-                            buffF[Buff.MULTIPLE.pos] *= 1.6F;
+                            multiple *= 1.6F;
                         }
                         break;
                     case "Arrow Bomb":
@@ -999,33 +805,33 @@ public class Damage_Display {
         }
     }
 
-    public void setMage(TreeBase tree, boolean[] tb, boolean[] tbd, int[] buffI, float[] buffF, Ability_Buffs abilityBuffs) {
+    public void setMage(TreeBase tree, Ability_Buffs abilityBuffs) {
         for (TreeCheckBox tcb : tree.getTcb()) {
             if (tcb.isSelected()) {
                 switch (tcb.getAPIName()) {
                     case "meteorCost1":
-                        buffI[Buff.SPELL_COST_3.pos] -= 10;
+                        spell_cost_3 -= 10;
                         break;
                     case "meteorCost2":
-                        buffI[Buff.SPELL_COST_3.pos] -= 5;
+                        spell_cost_3 -= 5;
                         break;
                 }
                 switch (tcb.getFixedTreeName()) {
                     case "Wand Proficiency I":
                     case "Wand Proficiency II":
-                        buffF[Buff.PROFICIENCY.pos] += 0.05F;
+                        proficiency += 0.05F;
                         break;
                     case "Cheaper Teleport":
-                        buffI[Buff.SPELL_COST_2.pos] -= 5;
+                        spell_cost_2 -= 5;
                         break;
                     case "Cheaper Heal":
-                        buffI[Buff.SPELL_COST_1.pos] -= 5;
+                        spell_cost_1 -= 5;
                         break;
                     case "Cheaper Ice Snake":
-                        buffI[Buff.SPELL_COST_4.pos] -= 5;
+                        spell_cost_4 -= 5;
                         break;
                     case "Ophanim":
-                        buffI[Buff.SPELL_COST_3.pos] += 30;
+                        spell_cost_3 += 30;
                         tbd[AbilityIDEnum.OPHANIM.pos] = true;
                         break;
                     case "Meteor":
@@ -1105,15 +911,15 @@ public class Damage_Display {
         }
     }
 
-    public void setShaman(TreeBase tree, boolean[] tb, boolean[] tbd, int[] buffI, float[] buffF, Ability_Buffs abilityBuffs) {
+    public void setShaman(TreeBase tree, Ability_Buffs abilityBuffs) {
         for (TreeCheckBox tcb : tree.getTcb()) {
             if (tcb.isSelected()) {
                 switch (tcb.getAPIName()) {
                     case "totemCost1":
-                        buffI[Buff.SPELL_COST_1.pos] -= 10;
+                        spell_cost_1 -= 10;
                         break;
                     case "totemCost2":
-                        buffI[Buff.SPELL_COST_1.pos] -= 5;
+                        spell_cost_1 -= 5;
                         break;
                     case "morePuppets":
                         tbd[AbilityIDEnum.MORE_PUPPETS_1.pos] = true;
@@ -1124,32 +930,32 @@ public class Damage_Display {
                 }
                 switch (tcb.getFixedTreeName()) {
                     case "Relik Proficiency I":
-                        buffF[Buff.PROFICIENCY.pos] += 0.05F;
+                        proficiency += 0.05F;
                         break;
                     case "Cheaper Haul":
-                        buffI[Buff.SPELL_COST_2.pos] -= 5;
+                        spell_cost_2 -= 5;
                         break;
                     case "Cheaper Uproot":
-                        buffI[Buff.SPELL_COST_4.pos] -= 5;
+                        spell_cost_4 -= 5;
                         break;
                     case "Cheaper Aura":
-                        buffI[Buff.SPELL_COST_3.pos] -= 5;
+                        spell_cost_3 -= 5;
                         break;
                     case "Mask of the Lunatic":
                         tbd[AbilityIDEnum.MASKS.pos] = true;
                         if (abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_LUNATIC.getPos()).isSelected()) {
-                            buffF[Buff.MULTIPLE.pos] *= 1.35F;
+                            multiple *= 1.35F;
                         }
                         break;
                     case "Mask of the Coward":
                         tbd[AbilityIDEnum.MASKS.pos] = true;
                         if (abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_COWARD.getPos()).isSelected()) {
-                            buffF[Buff.MULTIPLE.pos] *= 0.9F;
+                            multiple *= 0.9F;
                         }
                         break;
                     case "Awakened":
                         if (abilityBuffs.getBox().get(Ability_Buffs_Enum.AWAKENED.getPos()).isSelected()) {
-                            buffF[Buff.MULTIPLE.pos] *= 1.35F;
+                            multiple *= 1.35F;
                         }
                         break;
                     case "Totem":
@@ -2480,8 +2286,202 @@ public class Damage_Display {
         }
     }
 
-    public void calcPowderDamages() {
+    public void calcPowderDamages(List<JTextField> powders) {
+        JsonObject powderJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/powders.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+        if (weapon.get(Identifications.POWDER_SLOTS.getItemName()) != null && weapon.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() > 0 && powders.get(4).getText().length() > 1) {
+            String[] turn = new String[] {"", "", "", "", ""};
+            int[] convert = new int[] {0, 0, 0, 0, 0};
+            for (int i = 0; (int) Math.floor(powders.get(4).getText().length() / 2F) * 2 > i; i += 2) {
+                if (weapon.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() >= i / 2) {
+                    String name = String.valueOf(powders.get(4).getText().charAt(i)) + powders.get(4).getText().charAt(i + 1);
+                    if (powderJ.get(name) != null) {
+                        JsonObject j = powderJ.get(name).getAsJsonObject();
+                        String[] ss = j.get("damage").getAsString().split("-");
+                        switch (j.get("type").getAsString()) {
+                            case "earth": { //Earth Powder Damage
+                                earth_min += Integer.parseInt(ss[0]);
+                                earth_max += Integer.parseInt(ss[1]);
+                                break;
+                            }
+                            case "thunder": { //Thunder Powder Damage
+                                thunder_min += Integer.parseInt(ss[0]);
+                                thunder_max += Integer.parseInt(ss[1]);
+                                break;
+                            }
+                            case "water": { //Water Powder Damage
+                                water_min += Integer.parseInt(ss[0]);
+                                water_max += Integer.parseInt(ss[1]);
+                                break;
+                            }
+                            case "fire": { //Fire Powder Damage
+                                fire_min += Integer.parseInt(ss[0]);
+                                fire_max += Integer.parseInt(ss[1]);
+                                break;
+                            }
+                            case "air": { //Air Powder Damage
+                                air_min += Integer.parseInt(ss[0]);
+                                air_max += Integer.parseInt(ss[1]);
+                                break;
+                            }
+                        }
+                        for (int n = 0; 5 > n; ++n) { //Powder Convert
+                            if (turn[n].isEmpty()) {
+                                turn[n] = j.get("type").getAsString();
+                                convert[n] += j.get("convert").getAsInt();
+                                break;
+                            } else if (turn[n].equals(j.get("type").getAsString())) {
+                                convert[n] += j.get("convert").getAsInt();
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
 
+            for (int i = 0; 5 > i; ++i) { //Powder Convert (Math.round)
+                if (turn[i].isEmpty()) {
+                    break;
+                } else if (neutral_min > 0 || neutral_max > 0) {
+                    if (convert[i] > 100) { //Convert 101%+ => 100%
+                        convert[i] = 100;
+                    }
+
+                    float convertCalcMin = neutral_min * (convert[i] / 100F);
+                    float convertCalcMax = neutral_max * (convert[i] / 100F);
+
+                    if (neutral_min == 0) convertCalcMin = 0;
+                    if (neutral_max == 0) convertCalcMax = 0;
+
+                    //Add Elemental
+                    switch (turn[i]) {
+                        case "earth": {
+                            earth_min += convertCalcMin; //Neutral Damage Min * (Convert % / 100)
+                            earth_max += convertCalcMax; //Neutral Damage Max * (Convert % / 100)
+                            break;
+                        }
+                        case "thunder": {
+                            thunder_min += convertCalcMin;
+                            thunder_max += convertCalcMax;
+                            break;
+                        }
+                        case "water": {
+                            water_min += convertCalcMin;
+                            water_max += convertCalcMax;
+                            break;
+                        }
+                        case "fire": {
+                            fire_min += convertCalcMin;
+                            fire_max += convertCalcMax;
+                            break;
+                        }
+                        case "air": {
+                            air_min += convertCalcMin;
+                            air_max += convertCalcMax;
+                            break;
+                        }
+                    }
+
+                    //Remove Neutral
+                    neutral_min -= convertCalcMin;
+                    neutral_max -= convertCalcMax;
+                }
+            }
+        }
+    }
+
+    public void setAbilityData(TreeBase tree, Ability_Buffs abilityBuffs) {
+        if (abilityBuffs.getBox().get(Ability_Buffs_Enum.RAGNAROKKR.getPos()).isSelected()) percent += 0.2F; //Ragnarokkr (+20%)
+        if (abilityBuffs.getBox().get(Ability_Buffs_Enum.FORTITUDE.getPos()).isSelected()) percent += 0.6F; //Fortitude (+60%)
+        if (abilityBuffs.getBox().get(Ability_Buffs_Enum.VENGEFUL_SPIRIT.getPos()).isSelected()) percent += 0.2F; //Vengeful Spirit (+20%)
+        if (abilityBuffs.getSlider().get(Ability_Buffs_Enum.MARKED.getPos()).getValue() > 0) { //Marked
+            if (abilityBuffs.getBox().get(Ability_Buffs_Enum.MARKED_10PERCENT.getPos()).isSelected()) { //is 10%
+                multiple *= 1F + abilityBuffs.getSlider().get(Ability_Buffs_Enum.MARKED.getPos()).getValue() * 0.1F;
+            } else { //is 6%
+                multiple *= 1F + abilityBuffs.getSlider().get(Ability_Buffs_Enum.MARKED.getPos()).getValue() * 0.06F;
+            }
+        }
+        if (abilityBuffs.getBox().get(Ability_Buffs_Enum.ARMOUR_BREAKER.getPos()).isSelected()) {
+            multiple /= 0.7F; //Armour Breaker (-30% Def)
+        } else if (abilityBuffs.getBox().get(Ability_Buffs_Enum.COURSING_RESTRAINTS.getPos()).isSelected() || abilityBuffs.getBox().get(Ability_Buffs_Enum.HAUNTING_MEMORY_FANATIC.getPos()).isSelected() || abilityBuffs.getBox().get(Ability_Buffs_Enum.CHANT_OF_THE_LUNATIC.getPos()).isSelected()) {
+            multiple /= 0.85F; //Coursing Restraints, Haunting Memory (from Fanatic), Chant of the Lunatic (-15% Def)
+        }
+        if (abilityBuffs.getBox().get(Ability_Buffs_Enum.SAVIOURS_SACRIFICE.getPos()).isSelected()) multiple *= 1.2F; //Saviour's Sacrifice (+20%)
+
+        for (TreeCheckBox tcb : tree.getTcb()) {
+            if (tcb.isSelected()) {
+                //All Classes
+                switch (tcb.getFixedTreeName()) {
+                    case "Earth Mastery": {
+                        have_mastery[Damage_Type.EARTH.id] = true;
+                        if (earth_min != 0 || earth_max != 0) {
+                            earth_min += 2;
+                            earth_max += 4;
+                        }
+                        break;
+                    }
+                    case "Thunder Mastery": {
+                        have_mastery[Damage_Type.THUNDER.id] = true;
+                        if (thunder_min != 0 || thunder_max != 0) {
+                            thunder_min += 1;
+                            thunder_max += 8;
+                        }
+                        break;
+                    }
+                    case "Water Mastery": {
+                        have_mastery[Damage_Type.WATER.id] = true;
+                        if (water_min != 0 || water_max != 0) {
+                            water_min += 2;
+                            water_max += 4;
+                        }
+                        break;
+                    }
+                    case "Fire Mastery": {
+                        have_mastery[Damage_Type.FIRE.id] = true;
+                        if (fire_min != 0 || fire_max != 0) {
+                            fire_min += 3;
+                            fire_max += 5;
+                        }
+                        break;
+                    }
+                    case "Air Mastery": {
+                        have_mastery[Damage_Type.AIR.id] = true;
+                        if (air_min != 0 || air_max != 0) {
+                            air_min += 3;
+                            air_max += 4;
+                        }
+                        break;
+                    }
+                    case "Precise Strike":
+                        crit_boost = true;
+                        break;
+                }
+            }
+        }
+
+        switch (tree.getClasses()) {
+            case "warrior": {
+                setWarrior(tree, abilityBuffs);
+                break;
+            }
+            case "assassin": {
+                setAssassin(tree, abilityBuffs);
+                break;
+            }
+            case "archer": {
+                setArcher(tree, abilityBuffs);
+                break;
+            }
+            case "mage": {
+                setMage(tree, abilityBuffs);
+                break;
+            }
+            case "shaman": {
+                setShaman(tree, abilityBuffs);
+                break;
+            }
+        }
     }
 
     public enum Damage_Type {
@@ -2527,43 +2527,6 @@ public class Damage_Display {
 
         private int getMaxDamage() {
             return maxDamage;
-        }
-    }
-
-    private enum Buff {
-        //Integer
-        RAW_DAMAGE(0),
-        RAW_ELEM_DAMAGE(1),
-        SPELL_COST_1(2),
-        SPELL_COST_2(3),
-        SPELL_COST_3(4),
-        SPELL_COST_4(5),
-
-        //Float
-        PERCENT(0),
-        MULTIPLE(1),
-        MELEE_PERCENT(2),
-        MELEE_MULTIPLE(3),
-        SPELL_PERCENT(4),
-        SPELL_MULTIPLE(5),
-        PROFICIENCY(6),
-        NEUTRAL_MIN(7),
-        NEUTRAL_MAX(8),
-        EARTH_MIN(9),
-        EARTH_MAX(10),
-        THUNDER_MIN(11),
-        THUNDER_MAX(12),
-        WATER_MIN(13),
-        WATER_MAX(14),
-        FIRE_MIN(15),
-        FIRE_MAX(16),
-        AIR_MIN(17),
-        AIR_MAX(18)
-        ;
-
-        private final int pos;
-        Buff(int pos) {
-            this.pos = pos;
         }
     }
 }

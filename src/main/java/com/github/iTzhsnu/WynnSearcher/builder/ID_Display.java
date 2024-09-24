@@ -48,7 +48,7 @@ public class ID_Display {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(422, 490, 268, 400);
+        scrollPane.setBounds(422, 710, 268, 400);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);
@@ -100,40 +100,24 @@ public class ID_Display {
         };
         float def = 2F - CLASS_DEF.get(classID); //Base Defense
 
-        float tomeResist = 1; //Tome Resistance
         //Tomes
-        if (itemJsons.getArmourTomes().size() > 0) { //Armour Tomes
-            for (JsonObject j : itemJsons.getArmourTomes()) {
-                tomeResist -= j.get("base").getAsJsonObject().get("defenceToMobs").getAsInt() / 100F; //Armour Tome Resistance
+        if (itemJsons.getTomes() != null) { //Tomes
+            for (JsonObject j : itemJsons.getTomes()) {
                 setNumbers(j, numbers);
-                setNumbers(j, numbers_Sub);
             }
-        }
-        if (itemJsons.getWeaponTomes().size() > 0) { //Weapon Tomes
-            for (JsonObject j : itemJsons.getWeaponTomes()) {
-                numbers[109] += j.get("base").getAsJsonObject().get("damageToMobs").getAsInt(); //Weapon Tome Damage Bonus
-                setNumbers(j, numbers);
-                setNumbers(j, numbers_Sub);
-            }
-        }
-        if (itemJsons.getGuildTome() != null) { //Guild Tome
-            setNumbers(itemJsons.getGuildTome(), numbers);
-        }
-        if (itemJsons.getLootrunTome() != null) { //Lootrun Tome
-            setNumbers(itemJsons.getLootrunTome(), numbers);
         }
 
         //Weapon, Armor, Accessory
         if (itemJsons.getJsonObjectList().size() > 0) {
             for (JsonObject j : itemJsons.getJsonObjectList()) {
                 setNumbers(j, numbers);
-                if (j.get("tier") != null && j.get("tier").getAsString().equals("set")) setSetBonuses(j.get("name").getAsString(), false);
+                if (j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals("set")) setSetBonuses(j.get("name").getAsString(), false);
             }
         }
 
         if (itemJsons.getWeapon() != null) {
             setNumbers(itemJsons.getWeapon(), numbers);
-            if (itemJsons.getWeapon().get("tier") != null && itemJsons.getWeapon().get("tier").getAsString().equals("set")) setSetBonuses(itemJsons.getWeapon().get("name").getAsString(), true);
+            if (itemJsons.getWeapon().get(Identifications.RARITY.getItemName()) != null && itemJsons.getWeapon().get(Identifications.RARITY.getItemName()).getAsString().equals("set")) setSetBonuses(itemJsons.getWeapon().get("name").getAsString(), true);
         }
 
         //Set Bonus
@@ -345,8 +329,6 @@ public class ID_Display {
 
         id_Numbers = numbers; //Copy ID Numbers
 
-        def *= tomeResist; //Defense * Tome Resistance
-
         int health = numbers[ID_INT.get(Identifications.HEALTH)] + numbers[ID_INT.get(Identifications.HEALTH_BONUS)]; //Health + Health Bonus
         if (health < 5) health = 5;
         float defSP = sp.getSkillPoint(SkillPoint.SkillPointType.DEFENSE).getSPBoost() - 1F; //Defense Skill Point
@@ -363,7 +345,7 @@ public class ID_Display {
         ids.add(new JLabel("Life Steal: " + numbers[ID_INT.get(Identifications.LIFE_STEAL)] + "/3s")); //Life Steal
         ids.add(new JLabel(" "));
         for (int i = 1; IDS_.size() > i; ++i) { //Defenses
-            ids.add(new JLabel(IDS_.get(i).getDisplayName() + ": " + (int) Math.floor(numbers[ID_INT.get(IDS_.get(i))] * ((100F + numbers[ID_INT.get(Identifications.EARTH_DEFENSE_PERCENT) + i - 1] + numbers[ID_INT.get(Identifications.ELEMENTAL_DEFENSE)]) / 100F))));
+            ids.add(new JLabel(IDS_.get(i).getDisplayName() + ": " + (int) Math.floor(numbers[ID_INT.get(IDS_.get(i))] * ((100F + numbers[ID_INT.get(Identifications.EARTH_DEFENSE_PERCENT) + i - 1] + numbers[ID_INT.get(Identifications.ELEMENTAL_DEFENSE_PERCENT)]) / 100F))));
         }
         ids.add(new JLabel(" "));
         for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) { //Normal IDS
@@ -415,9 +397,9 @@ public class ID_Display {
             JsonObject j = json.get("base").getAsJsonObject();
             if (j.get(Identifications.HEALTH.getItemName()) != null) {
                 JsonElement j2 = j.get(Identifications.HEALTH.getItemName());
-                if (json.get("tier") != null && json.get("tier").getAsString().equals("crafted")) {
+                if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted") && j2.isJsonObject()) {
                     numbers[ID_INT.get(Identifications.HEALTH)] += j2.getAsJsonObject().get("max").getAsInt();
-                } else if (j.get(Identifications.HEALTH.getItemName()).getAsInt() != 0) {
+                } else if (j2.getAsInt() != 0) {
                     numbers[ID_INT.get(Identifications.HEALTH)] += j2.getAsInt();
                 }
             }
