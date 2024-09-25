@@ -203,7 +203,7 @@ public class ChangesUI implements ActionListener {
     public void setChangesDisplayPos() {
         List<JPanel> l = search.getItemDisplays();
         int y = 0;
-        if (l.size() > 0) {
+        if (!l.isEmpty()) {
             for (int i = 0; l.size() - 1 > i; i += 2) {
                 JPanel before = l.get(i);
                 JPanel after = l.get(i + 1);
@@ -412,7 +412,7 @@ public class ChangesUI implements ActionListener {
             }
         }
 
-        if (afterL.size() > 0) {
+        if (!afterL.isEmpty()) {
             switch (itemType) {
                 case INGREDIENT:
                     search.searchIngredient(afterL);
@@ -550,7 +550,7 @@ public class ChangesUI implements ActionListener {
             }
         }
 
-        if (beforeL.size() > 0) {
+        if (!beforeL.isEmpty()) {
             switch (itemType) {
                 case INGREDIENT:
                     search.searchIngredient(beforeL);

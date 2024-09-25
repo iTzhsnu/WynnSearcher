@@ -70,8 +70,8 @@ public class ID_Display {
 
     public void setIDs(ItemJsons itemJsons, Damage_IDs damage_ids, SkillPoint sp, TreeBase tree, Ability_Buffs abilityBuffs, Powder_Effects powder_effects, List<JTextField> powders, int classID, boolean updateOnly) {
         pane.removeAll();
-        if (ids.size() > 0) ids.clear();
-        if (setBonuses.size() > 0) setBonuses.clear();
+        if (!ids.isEmpty()) ids.clear();
+        if (!setBonuses.isEmpty()) setBonuses.clear();
         int[] numbers = new int[] {
                 535, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0 ~ 9 (ID)
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //10 ~ 19 (ID)
@@ -108,7 +108,7 @@ public class ID_Display {
         }
 
         //Weapon, Armor, Accessory
-        if (itemJsons.getJsonObjectList().size() > 0) {
+        if (!itemJsons.getJsonObjectList().isEmpty()) {
             for (JsonObject j : itemJsons.getJsonObjectList()) {
                 setNumbers(j, numbers);
                 if (j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals("set")) setSetBonuses(j.get("name").getAsString(), false);
@@ -121,7 +121,7 @@ public class ID_Display {
         }
 
         //Set Bonus
-        if (setBonuses.size() > 0) {
+        if (!setBonuses.isEmpty()) {
             for (SetBonus setBonus : setBonuses) {
                 setBonus.add_to_ID_Numbers(numbers);
             }
@@ -367,7 +367,7 @@ public class ID_Display {
         JsonObject j = new GetAPI().getSetItems();
         if (j.get(itemName) != null) {
             String s = j.get(itemName).getAsString();
-            if (setBonuses.size() > 0) {
+            if (!setBonuses.isEmpty()) {
                 boolean hasThisSetBonus = false;
                 for (SetBonus setBonus : setBonuses) {
                     if (setBonus.getSetName().equals(s)) {

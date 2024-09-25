@@ -363,7 +363,7 @@ public class CrafterUI implements ActionListener {
             }
         }
 
-        if (lp.size() > 0) {
+        if (!lp.isEmpty()) {
             int si = lp.size() - 1;
             int iu = -1;
             int max = 0;

@@ -84,7 +84,7 @@ public class Damage_Display {
         this.weapon = itemJsons.getWeapon();
         pane.removeAll();
 
-        if (list.size() > 0) list.clear();
+        if (!list.isEmpty()) list.clear();
 
         neutral_min = 0;
         earth_min = 0;
@@ -224,7 +224,7 @@ public class Damage_Display {
             }
             if (powder_effects.getPowderPanel("Earth").getSpecial() != 0) {
                 Damage_Template previous = null;
-                if (list.size() > 0) previous = list.get(list.size() - 1);
+                if (!list.isEmpty()) previous = list.get(list.size() - 1);
                 list.add(new Damage_Template("Earth Powder Special", 0, pane, previous, sp, crit_boost, false));
                 SpellEnum earth = SpellEnum.EARTH_1;
                 switch (powder_effects.getPowderPanel("Earth").getSpecial()) {
@@ -245,7 +245,7 @@ public class Damage_Display {
             }
             if (powder_effects.getPowderPanel("Thunder").getSpecial() != 0) {
                 Damage_Template previous = null;
-                if (list.size() > 0) previous = list.get(list.size() - 1);
+                if (!list.isEmpty()) previous = list.get(list.size() - 1);
                 list.add(new Damage_Template("Thunder Powder Special", 0, pane, previous, sp, crit_boost, false));
                 SpellEnum thunder = SpellEnum.THUNDER_1;
                 switch (powder_effects.getPowderPanel("Thunder").getSpecial()) {
@@ -267,7 +267,7 @@ public class Damage_Display {
 
             //Melee
             Damage_Template previousM = null;
-            if (list.size() > 0) previousM = list.get(list.size() - 1);
+            if (!list.isEmpty()) previousM = list.get(list.size() - 1);
             list.add(new Damage_Template("Melee", 0, pane, previousM, sp, crit_boost, true));
             float[] melee = set_Damage_Percent(SpellEnum.MELEE);
 

@@ -409,33 +409,33 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void updateAPI() {
-        if (wynnItems.size() > 0) wynnItems.clear();
-        if (wynnIngredients.size() > 0) wynnIngredients.clear();
-        if (wynnOtherItems.size() > 0) wynnOtherItems.clear();
-        if (bowJson.size() > 0) bowJson.clear();
-        if (spearJson.size() > 0) spearJson.clear();
-        if (wandJson.size() > 0) wandJson.clear();
-        if (daggerJson.size() > 0) daggerJson.clear();
-        if (relikJson.size() > 0) relikJson.clear();
-        if (helmetJson.size() > 0) helmetJson.clear();
-        if (chestplateJson.size() > 0) chestplateJson.clear();
-        if (leggingsJson.size() > 0) leggingsJson.clear();
-        if (bootsJson.size() > 0) bootsJson.clear();
-        if (ringJson.size() > 0) ringJson.clear();
-        if (braceletJson.size() > 0) braceletJson.clear();
-        if (necklaceJson.size() > 0) necklaceJson.clear();
-        if (armouringJson.size() > 0) armouringJson.clear();
-        if (tailoringJson.size() > 0) tailoringJson.clear();
-        if (weaponsmithingJson.size() > 0) weaponsmithingJson.clear();
-        if (woodworkingJson.size() > 0) woodworkingJson.clear();
-        if (jewelingJson.size() > 0) jewelingJson.clear();
-        if (scribingJson.size() > 0) scribingJson.clear();
-        if (cookingJson.size() > 0) cookingJson.clear();
-        if (alchemismJson.size() > 0) alchemismJson.clear();
-        if (tomeJson.size() > 0) tomeJson.clear();
-        if (charmJson.size() > 0) charmJson.clear();
-        if (toolJson.size() > 0) toolJson.clear();
-        if (materialJson.size() > 0) materialJson.clear();
+        if (!wynnItems.isEmpty()) wynnItems.clear();
+        if (!wynnIngredients.isEmpty()) wynnIngredients.clear();
+        if (!wynnOtherItems.isEmpty()) wynnOtherItems.clear();
+        if (!bowJson.isEmpty()) bowJson.clear();
+        if (!spearJson.isEmpty()) spearJson.clear();
+        if (!wandJson.isEmpty()) wandJson.clear();
+        if (!daggerJson.isEmpty()) daggerJson.clear();
+        if (!relikJson.isEmpty()) relikJson.clear();
+        if (!helmetJson.isEmpty()) helmetJson.clear();
+        if (!chestplateJson.isEmpty()) chestplateJson.clear();
+        if (!leggingsJson.isEmpty()) leggingsJson.clear();
+        if (!bootsJson.isEmpty()) bootsJson.clear();
+        if (!ringJson.isEmpty()) ringJson.clear();
+        if (!braceletJson.isEmpty()) braceletJson.clear();
+        if (!necklaceJson.isEmpty()) necklaceJson.clear();
+        if (!armouringJson.isEmpty()) armouringJson.clear();
+        if (!tailoringJson.isEmpty()) tailoringJson.clear();
+        if (!weaponsmithingJson.isEmpty()) weaponsmithingJson.clear();
+        if (!woodworkingJson.isEmpty()) woodworkingJson.clear();
+        if (!jewelingJson.isEmpty()) jewelingJson.clear();
+        if (!scribingJson.isEmpty()) scribingJson.clear();
+        if (!cookingJson.isEmpty()) cookingJson.clear();
+        if (!alchemismJson.isEmpty()) alchemismJson.clear();
+        if (!tomeJson.isEmpty()) tomeJson.clear();
+        if (!charmJson.isEmpty()) charmJson.clear();
+        if (!toolJson.isEmpty()) toolJson.clear();
+        if (!materialJson.isEmpty()) materialJson.clear();
 
         new GetAPI().getWynnAPIV3_3(wynnItems, wynnIngredients, wynnOtherItems, itemAPIConnect);
 
@@ -867,7 +867,7 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public void filterItems(List<JsonObject> modify) {
         searchedItems.clear();
-        if (modify != null && modify.size() > 0) {
+        if (modify != null && !modify.isEmpty()) {
             searchedItems.addAll(modify);
         } else {
             //Search Item Type
@@ -933,7 +933,7 @@ public class SearchUI extends JFrame implements ActionListener {
     public void filterIng(List<JsonObject> modify) {
         searchedItems.clear();
 
-        if (modify != null && modify.size() > 0) {
+        if (modify != null && !modify.isEmpty()) {
             searchedItems.addAll(modify);
         } else {
             //Search Can Craft Type
@@ -1106,7 +1106,7 @@ public class SearchUI extends JFrame implements ActionListener {
         searchedItems.clear();
 
         //Search Item Type
-        if (modify != null && modify.size() > 0) {
+        if (modify != null && !modify.isEmpty()) {
             searchedItems.addAll(modify);
         } else {
             if (tome.isSelected() && charm.isSelected() && tool.isSelected() && material.isSelected()) {
@@ -1777,7 +1777,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void setDisplaySize() {
-        if (itemDisplays.size() > 0) {
+        if (!itemDisplays.isEmpty()) {
             int si = itemDisplays.size() - 1;
             int iu = -1;
             int max = 0;
@@ -2206,7 +2206,7 @@ public class SearchUI extends JFrame implements ActionListener {
         } else {
             JPanel previous = null;
             JPanel above = null;
-            if (itemDisplays.size() >= 1) {
+            if (!itemDisplays.isEmpty()) {
                 previous = itemDisplays.get(itemDisplays.size() - 1);
             }
             if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
@@ -2291,7 +2291,7 @@ public class SearchUI extends JFrame implements ActionListener {
         } else {
             JPanel previous = null;
             JPanel above = null;
-            if (itemDisplays.size() >= 1) {
+            if (!itemDisplays.isEmpty()) {
                 previous = itemDisplays.get(itemDisplays.size() - 1);
             }
             if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
@@ -2403,7 +2403,7 @@ public class SearchUI extends JFrame implements ActionListener {
         } else {
             JPanel previous = null;
             JPanel above = null;
-            if (itemDisplays.size() >= 1) {
+            if (!itemDisplays.isEmpty()) {
                 previous = itemDisplays.get(itemDisplays.size() - 1);
             }
             if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
@@ -2419,7 +2419,7 @@ public class SearchUI extends JFrame implements ActionListener {
         for (int i = searchedItems.size() - 1; i >= 0; --i) {
             JPanel previous = null;
             JPanel above = null;
-            if (itemDisplays.size() >= 1) {
+            if (!itemDisplays.isEmpty()) {
                 previous = itemDisplays.get(itemDisplays.size() - 1);
             }
             if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
@@ -2433,7 +2433,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void removeAllSearchedItems() {
-        if (searchedItems.size() > 0) {
+        if (!searchedItems.isEmpty()) {
             searchedItems.clear();
         }
     }
@@ -2468,6 +2468,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (ring.isSelected()) l.add("ring");
         if (bracelet.isSelected()) l.add("bracelet");
         if (necklace.isSelected()) l.add("necklace");
+
         if (l.size() != 12) {
             for (int i = json.size() - 1; i >= 0; --i) {
                 if (json.get(i).get("weaponType") != null) {
@@ -2501,6 +2502,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (ring.isSelected()) l.add("ring");
         if (bracelet.isSelected()) l.add("bracelet");
         if (necklace.isSelected()) l.add("necklace");
+
         if (l.size() != 12) {
             if (j.get("weaponType") != null) {
                 return l.contains(j.get("weaponType").getAsString());
@@ -2523,6 +2525,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (scribing.isSelected()) l.add("scribing");
         if (cooking.isSelected()) l.add("cooking");
         if (alchemism.isSelected()) l.add("alchemism");
+
         if (l.size() != 8) {
             for (int i = json.size() - 1; i >= 0; --i) {
                 JsonObject j = json.get(i);

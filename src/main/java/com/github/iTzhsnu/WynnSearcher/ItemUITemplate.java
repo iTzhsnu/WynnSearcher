@@ -1361,7 +1361,7 @@ public class ItemUITemplate extends JPanel {
         }
         //Merchant
         if (j.get("merchant") != null && j.get("merchant").getAsJsonObject().get(itemName) != null) {
-            if (j.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject().entrySet().size() > 0) {
+            if (!j.get("merchant").getAsJsonObject().get(itemName).getAsJsonObject().entrySet().isEmpty()) {
                 return 4;
             } else {
                 return 14;

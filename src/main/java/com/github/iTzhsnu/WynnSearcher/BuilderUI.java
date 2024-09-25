@@ -744,22 +744,22 @@ public class BuilderUI implements ActionListener {
     }
 
     public void updateAPIs() {
-        if (weaponJson.size() > 0) weaponJson.clear();
-        if (helmetJson.size() > 0) helmetJson.clear();
-        if (chestplateJson.size() > 0) chestplateJson.clear();
-        if (leggingsJson.size() > 0) leggingsJson.clear();
-        if (bootsJson.size() > 0) bootsJson.clear();
-        if (ringJson.size() > 0) ringJson.clear();
-        if (braceletJson.size() > 0) braceletJson.clear();
-        if (necklaceJson.size() > 0) necklaceJson.clear();
+        if (!weaponJson.isEmpty()) weaponJson.clear();
+        if (!helmetJson.isEmpty()) helmetJson.clear();
+        if (!chestplateJson.isEmpty()) chestplateJson.clear();
+        if (!leggingsJson.isEmpty()) leggingsJson.clear();
+        if (!bootsJson.isEmpty()) bootsJson.clear();
+        if (!ringJson.isEmpty()) ringJson.clear();
+        if (!braceletJson.isEmpty()) braceletJson.clear();
+        if (!necklaceJson.isEmpty()) necklaceJson.clear();
         setJson(itemAPI);
-        if (weaponTomeJson.size() > 0) weaponTomeJson.clear();
-        if (guildTomeJson.size() > 0) guildTomeJson.clear();
-        if (armourTomeJson.size() > 0) armourTomeJson.clear();
-        if (lootrunTomeJson.size() > 0) lootrunTomeJson.clear();
-        if (marathonTomeJson.size() > 0) marathonTomeJson.clear();
-        if (expertiseTomeJson.size() > 0) expertiseTomeJson.clear();
-        if (mysticismTomeJson.size() > 0) mysticismTomeJson.clear();
+        if (!weaponTomeJson.isEmpty()) weaponTomeJson.clear();
+        if (!guildTomeJson.isEmpty()) guildTomeJson.clear();
+        if (!armourTomeJson.isEmpty()) armourTomeJson.clear();
+        if (!lootrunTomeJson.isEmpty()) lootrunTomeJson.clear();
+        if (!marathonTomeJson.isEmpty()) marathonTomeJson.clear();
+        if (!expertiseTomeJson.isEmpty()) expertiseTomeJson.clear();
+        if (!mysticismTomeJson.isEmpty()) mysticismTomeJson.clear();
         setTomeJson();
         for (JComboBox<String> b : itemBox) b.removeAllItems();
 

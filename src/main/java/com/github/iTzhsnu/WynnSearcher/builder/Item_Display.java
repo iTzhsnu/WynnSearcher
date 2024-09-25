@@ -31,7 +31,7 @@ public class Item_Display {
                                 List<JsonObject> helmetJ, List<JsonObject> chestplateJ, List<JsonObject> leggingsJ, List<JsonObject> bootsJ, List<JsonObject> ringJ, List<JsonObject> braceletJ, List<JsonObject> necklaceJ, List<JsonObject> weaponJ,
                                 List<JsonObject> armourTomeJ, List<JsonObject> guildTomeJ, List<JsonObject> weaponTomeJ, List<JsonObject> marathonTomeJ, List<JsonObject> lootrunTomeJ, List<JsonObject> expertiseTomeJ, List<JsonObject> mysticismTomeJ, int classID) {
         pane.removeAll();
-        if (itemsPanel.size() > 0) {
+        if (!itemsPanel.isEmpty()) {
             itemsPanel.subList(0, itemsPanel.size()).clear();
         }
 
@@ -102,7 +102,7 @@ public class Item_Display {
         JsonObject json = null;
         JPanel previous = null;
         JPanel above = null;
-        if (itemsPanel.size() > 0) previous = itemsPanel.get(itemsPanel.size() - 1);
+        if (!itemsPanel.isEmpty()) previous = itemsPanel.get(itemsPanel.size() - 1);
         if (itemsPanel.size() > 3) above = itemsPanel.get(itemsPanel.size() - 4);
         if (itemName.contains("CI-")) {
             json = JsonParser.parseString(itemName.replace("CI-", "")).getAsJsonObject();

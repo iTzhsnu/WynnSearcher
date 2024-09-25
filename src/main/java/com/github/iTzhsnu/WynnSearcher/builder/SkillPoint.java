@@ -340,7 +340,7 @@ public class SkillPoint {
     }
 
     private static void checkSet(JsonObject j, List<SetBonus> setBonuses, int[] originalSP, int[] totalSP) {
-        if (setBonuses.size() > 0) {
+        if (!setBonuses.isEmpty()) {
             for (SetBonus set : setBonuses) {
                 if (set.getEquippedItems().contains(j.get("name").getAsString())) {
                     set.addEquipped();

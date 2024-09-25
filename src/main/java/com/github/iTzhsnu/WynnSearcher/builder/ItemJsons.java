@@ -170,7 +170,7 @@ public class ItemJsons {
 
     public List<MajorIDEnum> getMajorIDList() {
         List<MajorIDEnum> l = new ArrayList<>();
-        if (getJsonObjectList().size() > 0) {
+        if (!getJsonObjectList().isEmpty()) {
             for (JsonObject j : getJsonObjectList()) {
                 if (j.get("majorIds") != null) {
                     for (Map.Entry<String, JsonElement> entry : j.get("majorIds").getAsJsonObject().entrySet()) {
@@ -191,7 +191,7 @@ public class ItemJsons {
 
     public List<String> getMajorIDNameList() {
         List<String> l = new ArrayList<>();
-        if (getJsonObjectList().size() > 0) {
+        if (!getJsonObjectList().isEmpty()) {
             for (JsonObject j : getJsonObjectList()) {
                 if (j.get("majorIds") != null) {
                     for (Map.Entry<String, JsonElement> entry : j.get("majorIds").getAsJsonObject().entrySet()) {

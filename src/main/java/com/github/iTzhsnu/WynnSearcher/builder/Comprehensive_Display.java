@@ -27,7 +27,7 @@ public class Comprehensive_Display {
         int size = 0;
 
         //Equip Order
-        if (itemJsons.getJsonObjectList().size() > 0) {
+        if (!itemJsons.getJsonObjectList().isEmpty()) {
             label.add(new JLabel("Equip Order"));
 
             for (int i = 0; itemJsons.getJsonObjectList().size() > i; ++i) {
@@ -42,7 +42,7 @@ public class Comprehensive_Display {
         }
 
         //Set Bonuses
-        if (setBonuses.size() > 0) {
+        if (!setBonuses.isEmpty()) {
             label.add(new JLabel("Set Bonuses"));
             for (SetBonus setBonus : setBonuses) {
                 label.add(new JLabel(setBonus.getName()));
@@ -69,7 +69,7 @@ public class Comprehensive_Display {
 
 
         //Major IDs
-        if (itemJsons.getMajorIDNameList().size() > 0) {
+        if (!itemJsons.getMajorIDNameList().isEmpty()) {
             label.add(new JLabel("Major IDs"));
             for (String s : itemJsons.getMajorIDNameList()) {
                 label.add(new JLabel(s));
@@ -84,7 +84,7 @@ public class Comprehensive_Display {
     }
 
     public void reset() {
-        if (label.size() > 0) {
+        if (!label.isEmpty()) {
             for (JLabel l : label) {
                 pane.remove(l);
             }
