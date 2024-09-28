@@ -736,7 +736,7 @@ public class ItemUITemplate extends JPanel {
                 setPosOnlyType(manual, sb, itemName, "lootrun", "Lootrun End Rewards: "); //Lootrun
             }
 
-            if (json.get("droppedBy") != null) {
+            if (json.get("droppedBy") != null && json.get("droppedBy").isJsonArray()) {
                 for (JsonElement je : json.get("droppedBy").getAsJsonArray()) {
                     JsonObject j = je.getAsJsonObject();
                     if (j.get("name") != null) {

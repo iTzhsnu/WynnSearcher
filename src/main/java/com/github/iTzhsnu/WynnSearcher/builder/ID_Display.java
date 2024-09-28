@@ -435,7 +435,7 @@ public class ID_Display {
                     String minOrMax = "max";
                     if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
                     numbers[ID_INT.get(id)] += SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt());
-                } else if (id.isItemVariable() || json.get("tier").getAsString().equals("crafted")) {
+                } else if (id.isItemVariable() || json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
                     numbers[ID_INT.get(id)] += j.getAsJsonObject().get("max").getAsInt();
                 }
             }

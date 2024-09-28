@@ -105,7 +105,7 @@ public class ItemJsons {
         if (armourTome2 != null) list.add(armourTome2);
         if (armourTome3 != null) list.add(armourTome3);
         if (armourTome4 != null) list.add(armourTome4);
-        if (armourTome1 != null) list.add(guildTome);
+        if (guildTome != null) list.add(guildTome);
 
         if (weaponTome1 != null) list.add(weaponTome1);
         if (weaponTome2 != null) list.add(weaponTome2);
