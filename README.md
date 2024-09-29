@@ -2,12 +2,11 @@
 Can Easily Search Wynncraft Item and Ingredients
 
 ## Requirement
-Java 8 or above (WynnSearcher 3.2.6 or before) (Not Working...)  
-Java 16 or above (WynnSearcher 3.3.1 or above) (Next WynnSearcher Version)
+Java 16 or above  
 
 ## How to Use
-### Searcher
-This description is old. sorry.  
+This description is old. sorry.
+### Searcher 
 ![](readme_pictures/how_to_use.png)
 
 ### Builder (Not Working)
