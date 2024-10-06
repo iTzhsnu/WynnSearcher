@@ -40,7 +40,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Sum (Total Health)", "Sum (Total Health Regen)", "Sum (Raw Defenses)", "Sum (Raw Rainbow Defenses)", "Sum (Defenses %)", "Sum (Rainbow Defenses %)",
             "Sum (Skill Point Bonus)", "Sum (Rainbow Skill Point Bonus)",
             "Sum (Base DPS)", "Sum (Neutral DPS)", "Sum (Earth DPS)", "Sum (Thunder DPS)", "Sum (Water DPS)", "Sum (Fire DPS)", "Sum (Air DPS)",
-            "Sum (Damages Raw)", "Sum (Rainbow Damages Raw)", "Sum (Damages %)", "Sum (Rainbow Damages %)",
+            "Sum (Base Damages)", "Sum (Base Rainbow Damages)", "Sum (Raw Damages)", "Sum (Raw Spell Damages)", "Sum (Raw Melee Damages)", "Sum (Damages %)", "Sum (Rainbow Damages %)",
             "Sum (Total Melee Damage)", "Sum (Total Neutral Melee Damage)", "Sum (Total Earth Melee Damage)", "Sum (Total Thunder Melee Damage)", "Sum (Total Water Melee Damage)", "Sum (Total Fire Melee Damage)", "Sum (Total Air Melee Damage)",
             "Sum (Total Melee DPS)", "Sum (Total Neutral Melee DPS)", "Sum (Total Earth Melee DPS)", "Sum (Total Thunder Melee DPS)", "Sum (Total Water Melee DPS)", "Sum (Total Fire Melee DPS)", "Sum (Total Air Melee DPS)",
             "Sum (Total Spell DPS)", "Sum (Total Neutral Spell DPS)", "Sum (Total Earth Spell DPS)", "Sum (Total Thunder Spell DPS)", "Sum (Total Water Spell DPS)", "Sum (Total Fire Spell DPS)", "Sum (Total Air Spell DPS)",
@@ -232,8 +232,11 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Sum (Fire DPS)", Identifications.SUM_FIRE_DPS);
         put("Sum (Air DPS)", Identifications.SUM_AIR_DPS);
 
-        put("Sum (Damages Raw)", Identifications.SUM_RAW_DAMAGES);
-        put("Sum (Rainbow Damages Raw)", Identifications.SUM_RAW_RAINBOW_DAMAGES);
+        put("Sum (Base Damages)", Identifications.SUM_BASE_DAMAGES);
+        put("Sum (Base Rainbow Damages)", Identifications.SUM_BASE_RAINBOW_DAMAGES);
+        put("Sum (Raw Damages)", Identifications.SUM_RAW_DAMAGES);
+        put("Sum (Raw Spell Damages)", Identifications.SUM_RAW_SPELL_DAMAGES);
+        put("Sum (Raw Melee Damages)", Identifications.SUM_RAW_MELEE_DAMAGES);
         put("Sum (Damages %)", Identifications.SUM_DAMAGES_PERCENT);
         put("Sum (Rainbow Damages %)", Identifications.SUM_RAINBOW_DAMAGES_PERCENT);
 

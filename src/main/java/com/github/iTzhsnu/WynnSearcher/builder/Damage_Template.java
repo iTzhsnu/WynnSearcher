@@ -57,9 +57,9 @@ public class Damage_Template {
         float heal = (id_Numbers[ID_Display.ID_INT.get(Identifications.HEALTH)] + id_Numbers[ID_Display.ID_INT.get(Identifications.HEALTH_BONUS)]) * healPercent * (1F + (id_Numbers[ID_Display.ID_INT.get(Identifications.HEALING_EFFICIENCY)] / 100F));
         if (isCanBoost) {
             if (useGentleGlow) {
-                heal *= 1F + ((id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] * 0.75F) / 100F);
+                heal *= 1F + (Math.min(id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] * 0.75F, 100) / 100F); //TODO: NEED CHECK
             } else {
-                heal *= 1F + ((id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] * 0.3F) / 100F);
+                heal *= 1F + (Math.min(id_Numbers[ID_Display.ID_INT.get(Identifications.WATER_DAMAGE_PERCENT)] * 0.3F, 75) / 100F);
             }
         }
         JLabel n = new JLabel(name);

@@ -59,6 +59,7 @@ public class SearchUI extends JFrame implements ActionListener {
     private final List<JsonObject> mysticismTomeJson = new ArrayList<>();
 
     //Aspect Json
+    private final List<JsonObject> aspects = new ArrayList<>();
     private final List<JsonObject> warriorAspectJson = new ArrayList<>();
     private final List<JsonObject> assassinAspectJson = new ArrayList<>();
     private final List<JsonObject> mageAspectJson = new ArrayList<>();
@@ -180,6 +181,11 @@ public class SearchUI extends JFrame implements ActionListener {
         getAPI.loadWynnAspectAPI("mage", mageAspectJson);
         getAPI.loadWynnAspectAPI("archer", archerAspectJson);
         getAPI.loadWynnAspectAPI("shaman", shamanAspectJson);
+        aspects.addAll(warriorAspectJson);
+        aspects.addAll(assassinAspectJson);
+        aspects.addAll(mageAspectJson);
+        aspects.addAll(archerAspectJson);
+        aspects.addAll(shamanAspectJson);
 
         how_to_obtain_item = getAPI.getHowToObtainItem();
         how_to_obtain_ing = getAPI.getHowToObtainIng();
@@ -283,7 +289,7 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(updateAPI);
 
         this.crafterUI = new CrafterUI(contentPane, wynnIngredients, wynnRecipes, recipeAPIConnect, itemAPIConnect);
-        this.builderUI = new BuilderUI(contentPane, wynnItems, wynnIngredients, wynnOtherItems, wynnRecipes, itemAPIConnect, recipeAPIConnect);
+        this.builderUI = new BuilderUI(contentPane, wynnItems, wynnIngredients, wynnOtherItems, aspects, wynnRecipes, itemAPIConnect, recipeAPIConnect);
         this.customUI = new CustomUI(contentPane);
         this.changesUI = new ChangesUI(this, wynnItems, wynnIngredients, wynnOtherItems);
 

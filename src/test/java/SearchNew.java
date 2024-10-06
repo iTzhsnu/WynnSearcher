@@ -86,7 +86,12 @@ public class SearchNew {
         for (String s : unknownIDs) {
             System.out.println("Unknown ID: " + s);
         }
-        if (majorID_SB.length() > 2) System.out.println("{\n" + majorID_SB.substring(0, majorID_SB.length() - 2) + "\n}");
+        if (majorID_SB.length() > 2) {
+            for (String s : majorIDs) {
+                System.out.println(s.toUpperCase().replaceAll(" ", "_") + ",");
+            }
+            //System.out.println("{\n" + majorID_SB.substring(0, majorID_SB.length() - 2) + "\n}");
+        }
     }
 
     private static void searchUnknownIDs_ING() {

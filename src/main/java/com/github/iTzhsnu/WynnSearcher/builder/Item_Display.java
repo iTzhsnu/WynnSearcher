@@ -21,15 +21,17 @@ public class Item_Display {
         pane.setLayout(null);
 
         JScrollPane scrollPane = new JScrollPane(pane);
-        scrollPane.setBounds(1, 1680, 1063, 500); // Y + 70
+        scrollPane.setBounds(1, 1120, 1063, 500); // Y + 70 (OLD: 1680)
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         p.add(scrollPane);
     }
 
     public void setItem_Display(List<JComboBox<String>> box, List<JsonObject> ing, List<JsonObject> recipe,
-                                List<JsonObject> helmetJ, List<JsonObject> chestplateJ, List<JsonObject> leggingsJ, List<JsonObject> bootsJ, List<JsonObject> ringJ, List<JsonObject> braceletJ, List<JsonObject> necklaceJ, List<JsonObject> weaponJ,
-                                List<JsonObject> armourTomeJ, List<JsonObject> guildTomeJ, List<JsonObject> weaponTomeJ, List<JsonObject> marathonTomeJ, List<JsonObject> lootrunTomeJ, List<JsonObject> expertiseTomeJ, List<JsonObject> mysticismTomeJ, int classID) {
+                                List<JsonObject> helmetJ, List<JsonObject> chestplateJ, List<JsonObject> leggingsJ, List<JsonObject> bootsJ,
+                                List<JsonObject> ringJ, List<JsonObject> braceletJ, List<JsonObject> necklaceJ, List<JsonObject> weaponJ,
+                                List<JsonObject> armourTomeJ, List<JsonObject> guildTomeJ, List<JsonObject> weaponTomeJ, List<JsonObject> marathonTomeJ, List<JsonObject> lootrunTomeJ,
+                                List<JsonObject> expertiseTomeJ, List<JsonObject> mysticismTomeJ, List<JsonObject> aspectJ, int classID) {
         pane.removeAll();
         if (!itemsPanel.isEmpty()) {
             itemsPanel.subList(0, itemsPanel.size()).clear();
@@ -80,9 +82,13 @@ public class Item_Display {
         JsonObject mysticismTome2Json = setItemData(((JTextField) box.get(22).getEditor().getEditorComponent()).getText(), mysticismTomeJ, "tome", recipe, ing, ItemType.OTHER);
 
         //Aspects (TODO)
+        JsonObject aspect1Json = setItemData(((JTextField) box.get(23).getEditor().getEditorComponent()).getText(), aspectJ, "aspect", recipe, ing, ItemType.ASPECT);
+        JsonObject aspect2Json = setItemData(((JTextField) box.get(24).getEditor().getEditorComponent()).getText(), aspectJ, "aspect", recipe, ing, ItemType.ASPECT);
+        JsonObject aspect3Json = setItemData(((JTextField) box.get(25).getEditor().getEditorComponent()).getText(), aspectJ, "aspect", recipe, ing, ItemType.ASPECT);
+        JsonObject aspect4Json = setItemData(((JTextField) box.get(26).getEditor().getEditorComponent()).getText(), aspectJ, "aspect", recipe, ing, ItemType.ASPECT);
+        JsonObject aspect5Json = setItemData(((JTextField) box.get(27).getEditor().getEditorComponent()).getText(), aspectJ, "aspect", recipe, ing, ItemType.ASPECT);
 
-
-        itemJsons = new ItemJsons(helmetJson, chestplateJson, leggingsJson, bootsJson, ring1Json, ring2Json, braceletJson, necklaceJson, weaponJson, armourTome1Json, armourTome2Json, armourTome3Json, armourTome4Json, guildTomeJson, weaponTome1Json, weaponTome2Json, marathonTome1Json, marathonTome2Json, lootrunTomeJson, expertiseTome1Json, expertiseTome2Json, mysticismTome1Json, mysticismTome2Json, null, null, null, null, null);
+        itemJsons = new ItemJsons(helmetJson, chestplateJson, leggingsJson, bootsJson, ring1Json, ring2Json, braceletJson, necklaceJson, weaponJson, armourTome1Json, armourTome2Json, armourTome3Json, armourTome4Json, guildTomeJson, weaponTome1Json, weaponTome2Json, marathonTome1Json, marathonTome2Json, lootrunTomeJson, expertiseTome1Json, expertiseTome2Json, mysticismTome1Json, mysticismTome2Json, aspect1Json, aspect2Json, aspect3Json, aspect4Json, aspect5Json);
 
         //Display Size
         int height = 0;

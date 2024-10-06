@@ -38,7 +38,8 @@ public class BuilderUI implements ActionListener {
     private final List<JsonObject> marathonTomeJson = new ArrayList<>();
     private final List<JsonObject> expertiseTomeJson = new ArrayList<>();
     private final List<JsonObject> mysticismTomeJson = new ArrayList<>();
-    private final List<JsonObject> aspects = new ArrayList<>();
+
+    private final List<JsonObject> aspectJson;
 
     //UIs
     private final List<JLabel> texts = new ArrayList<>();
@@ -73,11 +74,12 @@ public class BuilderUI implements ActionListener {
     private final TreeBase mage;
     private final TreeBase shaman;
 
-    public BuilderUI(Container p, List<JsonObject> itemAPI, List<JsonObject> ingAPI, List<JsonObject> otherItemAPI, List<JsonObject> recipeAPI, JLabel itemAPIConnect, String recipeAPIConnect) {
+    public BuilderUI(Container p, List<JsonObject> itemAPI, List<JsonObject> ingAPI, List<JsonObject> otherItemAPI, List<JsonObject> aspectAPI, List<JsonObject> recipeAPI, JLabel itemAPIConnect, String recipeAPIConnect) {
         this.itemAPI = itemAPI;
         this.ingAPI = ingAPI;
         this.recipeAPI = recipeAPI;
         this.otherItemAPI = otherItemAPI;
+        this.aspectJson = aspectAPI;
         setJson(itemAPI);
         setTomeJson();
 
@@ -422,7 +424,7 @@ public class BuilderUI implements ActionListener {
             mysticismTome1Box.addItem(j.get("name").getAsString());
             mysticismTome2Box.addItem(j.get("name").getAsString());
         }
-        for (JsonObject j : aspects) {
+        for (JsonObject j : aspectJson) {
             aspect1Box.addItem(j.get("name").getAsString());
             aspect2Box.addItem(j.get("name").getAsString());
             aspect3Box.addItem(j.get("name").getAsString());
@@ -606,31 +608,31 @@ public class BuilderUI implements ActionListener {
         //Aspects
         aspect1Box.setEditable(true);
         aspect1Box.setSelectedIndex(-1);
-        aspect1Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect1Box, aspects));
+        aspect1Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect1Box, aspectJson));
         aspect1Box.setBounds(10, 285, 200, 20);
         itemBox.add(aspect1Box);
 
         aspect2Box.setEditable(true);
         aspect2Box.setSelectedIndex(-1);
-        aspect2Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect2Box, aspects));
+        aspect2Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect2Box, aspectJson));
         aspect2Box.setBounds(220, 285, 200, 20);
         itemBox.add(aspect2Box);
 
         aspect3Box.setEditable(true);
         aspect3Box.setSelectedIndex(-1);
-        aspect3Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect3Box, aspects));
+        aspect3Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect3Box, aspectJson));
         aspect3Box.setBounds(430, 285, 200, 20);
         itemBox.add(aspect3Box);
 
         aspect4Box.setEditable(true);
         aspect4Box.setSelectedIndex(-1);
-        aspect4Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect4Box, aspects));
+        aspect4Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect4Box, aspectJson));
         aspect4Box.setBounds(640, 285, 200, 20);
         itemBox.add(aspect4Box);
 
         aspect5Box.setEditable(true);
         aspect5Box.setSelectedIndex(-1);
-        aspect5Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect5Box, aspects));
+        aspect5Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect5Box, aspectJson));
         aspect5Box.setBounds(850, 285, 200, 20);
         itemBox.add(aspect5Box);
 
@@ -886,7 +888,7 @@ public class BuilderUI implements ActionListener {
 
     public void getItemID_And_Display() {
         comprehensive_Display.reset();
-        item_display.setItem_Display(itemBox, ingAPI, recipeAPI, helmetJson, chestplateJson, leggingsJson, bootsJson, ringJson, braceletJson, necklaceJson, weaponJson, armourTomeJson, guildTomeJson, weaponTomeJson, marathonTomeJson, lootrunTomeJson, expertiseTomeJson, mysticismTomeJson, classes.getSelectedIndex());
+        item_display.setItem_Display(itemBox, ingAPI, recipeAPI, helmetJson, chestplateJson, leggingsJson, bootsJson, ringJson, braceletJson, necklaceJson, weaponJson, armourTomeJson, guildTomeJson, weaponTomeJson, marathonTomeJson, lootrunTomeJson, expertiseTomeJson, mysticismTomeJson, aspectJson, classes.getSelectedIndex());
         id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), abilityBuffs ,powder_effects, powderField, classes.getSelectedIndex(), false);
         skillPoint.setSkillPoint(item_display.getItemJsons(), id_display.getSetBonuses());
         damage_display.setDamage_Display(item_display.getItemJsons(), skillPoint, abilityBuffs, getTree(), powder_effects, id_display.getId_Numbers(), powderField);

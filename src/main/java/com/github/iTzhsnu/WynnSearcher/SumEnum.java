@@ -22,8 +22,13 @@ public enum SumEnum {
     FIRE_DPS(fire_Damage(), null, null, null, true, false, false),
     AIR_DPS(air_Damage(), null, null, null, true, false, false),
 
-    RAW_DAMAGES(damages(), null, null, null, false, false, false),
-    RAW_RAINBOW_DAMAGES(rainbow_damages(), null, null, null, false, false, true),
+    BASE_DAMAGES(damages(), null, null, null, false, false, false),
+    BASE_RAINBOW_DAMAGES(rainbow_damages(), null, null, null, false, false, true),
+
+    RAW_DAMAGES(raw_Damages(), null, null, null, false, false, false),
+    RAW_SPELL_DAMAGES(raw_Spell_Damages(), null, null, null, false, false, false),
+    RAW_MELEE_DAMAGES(raw_Melee_Damages(), null, null, null, false, false, false),
+
     DAMAGES_PERCENT(elem_Damage_Percent(), null, null, null, false, false, false),
     RAINBOW_DAMAGES_PERCENT(damages_Percent(), null, null, null, false, false, true),
     AVERAGE_RAINBOW_DAMAGE_PERCENT(null, null, null, null, false, false, true), //TODO Add Average Rainbow Damage %
@@ -263,6 +268,51 @@ public enum SumEnum {
 
         ids.add(Identifications.DAMAGE_PERCENT);
         ids.add(Identifications.ELEMENTAL_DAMAGE_PERCENT);
+
+        return ids;
+    }
+
+    private static List<Identifications> raw_Damages() {
+        List<Identifications> ids = new ArrayList<>();
+
+        ids.add(Identifications.RAW_DAMAGE);
+        ids.add(Identifications.RAW_NEUTRAL_DAMAGE);
+        ids.add(Identifications.RAW_EARTH_DAMAGE);
+        ids.add(Identifications.RAW_THUNDER_DAMAGE);
+        ids.add(Identifications.RAW_WATER_DAMAGE);
+        ids.add(Identifications.RAW_FIRE_DAMAGE);
+        ids.add(Identifications.RAW_AIR_DAMAGE);
+        ids.add(Identifications.RAW_ELEMENTAL_DAMAGE);
+
+        return ids;
+    }
+
+    private static List<Identifications> raw_Spell_Damages() {
+        List<Identifications> ids = new ArrayList<>();
+
+        ids.add(Identifications.RAW_SPELL_DAMAGE);
+        ids.add(Identifications.RAW_NEUTRAL_SPELL_DAMAGE);
+        ids.add(Identifications.RAW_EARTH_SPELL_DAMAGE);
+        ids.add(Identifications.RAW_THUNDER_SPELL_DAMAGE);
+        ids.add(Identifications.RAW_WATER_SPELL_DAMAGE);
+        ids.add(Identifications.RAW_FIRE_SPELL_DAMAGE);
+        ids.add(Identifications.RAW_AIR_SPELL_DAMAGE);
+        ids.add(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
+
+        return ids;
+    }
+
+    private static List<Identifications> raw_Melee_Damages() {
+        List<Identifications> ids = new ArrayList<>();
+
+        ids.add(Identifications.RAW_MELEE_DAMAGE);
+        ids.add(Identifications.RAW_NEUTRAL_MELEE_DAMAGE);
+        ids.add(Identifications.RAW_EARTH_MELEE_DAMAGE);
+        ids.add(Identifications.RAW_THUNDER_MELEE_DAMAGE);
+        ids.add(Identifications.RAW_WATER_MELEE_DAMAGE);
+        ids.add(Identifications.RAW_FIRE_MELEE_DAMAGE);
+        ids.add(Identifications.RAW_AIR_MELEE_DAMAGE);
+        ids.add(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE);
 
         return ids;
     }

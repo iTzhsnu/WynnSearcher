@@ -102,8 +102,9 @@ public class Damage_IDs {
         return 10 + i * 130;
     }
 
+    //OLD Y: 1130
     public static int getY(int i) {
-        return 1130 + i * 60;
+        return 1630 + i * 60;
     }
 
     public static class Damage_IDs_Panel {

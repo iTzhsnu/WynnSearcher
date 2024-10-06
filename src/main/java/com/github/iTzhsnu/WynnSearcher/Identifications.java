@@ -195,8 +195,13 @@ public enum Identifications {
     SUM_FIRE_DPS("", "fire_dps", null, "", "sum", SumEnum.FIRE_DPS, "", null, false),
     SUM_AIR_DPS("", "air_dps", null, "", "sum", SumEnum.AIR_DPS, "", null, false),
 
+    SUM_BASE_DAMAGES("", "base_damages", null, "", "sum", SumEnum.BASE_DAMAGES, "", null, false),
+    SUM_BASE_RAINBOW_DAMAGES("", "base_rainbow_damage", null, "", "sum", SumEnum.BASE_RAINBOW_DAMAGES, "", null, false),
+
     SUM_RAW_DAMAGES("", "raw_damages", null, "", "sum", SumEnum.RAW_DAMAGES, "", null, false),
-    SUM_RAW_RAINBOW_DAMAGES("", "raw_rainbow_damage", null, "", "sum", SumEnum.RAW_RAINBOW_DAMAGES, "", null, false),
+    SUM_RAW_SPELL_DAMAGES("", "raw_spell_damages", null, "", "sum", SumEnum.RAW_SPELL_DAMAGES, "", null, false),
+    SUM_RAW_MELEE_DAMAGES("", "raw_melee_damages", null, "", "sum", SumEnum.RAW_MELEE_DAMAGES, "", null, false),
+
     SUM_DAMAGES_PERCENT("", "damages", "damages", "", "sum", SumEnum.DAMAGES_PERCENT, "", "", false),
     SUM_RAINBOW_DAMAGES_PERCENT("", "rainbow_damage", "rainbow_damage", "", "sum", SumEnum.RAINBOW_DAMAGES_PERCENT, "", "", false),
 

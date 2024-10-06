@@ -180,7 +180,7 @@ public class ID_Display {
         //Radiance
         if (abilityBuffs.getBox().get(Ability_Buffs_Enum.RADIANCE.getPos()).isSelected()) {
             float radiance = 1.2F;
-            if (itemJsons.getMajorIDList().contains(MajorIDEnum.DIVINE_HONOR)) radiance += 0.05F;
+            if (itemJsons.getMajorIDList().contains(MajorIDEnum.DIVINE_HONOR)) radiance += 0.05F; //MAJOR ID: DIVINE HONOR
             for (int i = 5; ItemUITemplate.ITEM_IDS.size() > i; ++i) {
                 Identifications id = ItemUITemplate.ITEM_IDS.get(i);
                 if (id == Identifications.COMBAT_XP_BONUS || id == Identifications.LOOT_BONUS || id == Identifications.LOOT_QUALITY || id == Identifications.GATHERING_XP_BONUS || id == Identifications.GATHERING_SPEED_BONUS) continue;
