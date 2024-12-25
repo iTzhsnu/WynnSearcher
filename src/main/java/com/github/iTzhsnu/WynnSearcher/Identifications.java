@@ -63,7 +63,7 @@ public enum Identifications {
     ATTACK_SPEED("Attack Speed", "attackSpeed", null, "", "string", null, "nothing", null, false),
     ATTACK_SPEED_BONUS("Attack Speed Bonus", "rawAttackSpeed", "rawAttackSpeed", "tier", "int", null, "identifications", "identifications", true),
 
-    MAX_MANA("Max Mana", "maxMana", "maxMana", "", "int", null, "identifications", "identifications", true),
+    MAX_MANA("Max Mana", "rawMaxMana", "rawMaxMana", "", "int", null, "identifications", "identifications", true),
     MANA_REGEN("Mana Regen", "manaRegen", "manaRegen", "/5s", "int", null, "identifications", "identifications", true),
     MANA_STEAL("Mana Steal", "manaSteal", "manaSteal", "/3s", "int", null, "identifications", "identifications", true),
 
@@ -139,6 +139,7 @@ public enum Identifications {
     RAW_AIR_SPELL_DAMAGE("Raw Air Spell Damage", "rawAirSpellDamage", "rawAirSpellDamage", "", "int", null, "identifications", "identifications", true),
     RAW_ELEMENTAL_SPELL_DAMAGE("Raw Elem. Spell Damage", "rawElementalSpellDamage", "rawElementalSpellDamage", "", "int", null, "identifications", "identifications", true),
 
+    MELEE_RANGE_PERCENT("Melee Range", "mainAttackRange", "mainAttackRange", "%", "int", null, "identifications", "identifications", true),
     KNOCKBACK("Knockback", "knockback", "knockback", "%", "int", null, "identifications", "identifications", true),
     HEALING_EFFICIENCY("Healing Efficiency", "healingEfficiency", "healingEfficiency", "%", "int", null, "identifications", "identifications", true),
     WEAKEN_ENEMY("Weaken Enemy", "weakenEnemy", "weakenEnemy", "%", "int", null, "identifications", "identifications", true),

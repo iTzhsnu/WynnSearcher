@@ -30,7 +30,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Raw Melee Damage", "Raw Neutral Melee Damage", "Raw Earth Melee Damage", "Raw Thunder Melee Damage", "Raw Water Melee Damage",  "Raw Fire Melee Damage", "Raw Air Melee Damage",  "Raw Elemental Melee Damage",
             "Spell Damage %", "Neutral Spell Damage %", "Earth Spell Damage %", "Thunder Spell Damage %", "Water Spell Damage %", "Fire Spell Damage %", "Air Spell Damage %", "Elemental Spell Damage %",
             "Raw Spell Damage", "Raw Neutral Spell Damage", "Raw Earth Spell Damage", "Raw Thunder Spell Damage", "Raw Water Spell Damage", "Raw Fire Spell Damage", "Raw Air Spell Damage", "Raw Elemental Spell Damage",
-            "Knockback", "Healing Efficiency", "Weaken Enemy", "Slow Enemy",
+            "Melee Range", "Knockback", "Healing Efficiency", "Weaken Enemy", "Slow Enemy",
             "Drop Type: Normal", "Drop Type: Loot Chests", "Drop Type: Raid Rewards", "Drop Type: Dungeon Drop", "Drop Type: Dungeon Merchant",
             "Drop Type: Boss Altar", "Drop Type: Discontinued", "Drop Type: Unknown", "Drop Type: Merchant", "Drop Type: Quest",
             "Drop Type: Unobtainable", "Drop Type: Specific Drop", "Drop Type: Secret Discovery", "Drop Type: The Qira Hive", "Drop Type: Legendary Island",
@@ -181,6 +181,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Raw Air Spell Damage", Identifications.RAW_AIR_SPELL_DAMAGE);
         put("Raw Elemental Spell Damage", Identifications.RAW_ELEMENTAL_SPELL_DAMAGE);
 
+        put("Melee Range", Identifications.MELEE_RANGE_PERCENT);
         put("Knockback", Identifications.KNOCKBACK);
         put("Healing Efficiency", Identifications.HEALING_EFFICIENCY);
         put("Weaken Enemy", Identifications.WEAKEN_ENEMY);
