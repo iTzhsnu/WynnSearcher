@@ -16,7 +16,7 @@ public class Damage_IDs {
         return GET_DAMAGE_ID_NUM_FROM_ID.size();
     }
 
-    public static final Map<Identifications, Integer> GET_DAMAGE_ID_NUM_FROM_ID = new HashMap<Identifications, Integer>(65, 2);
+    public static final Map<Identifications, Integer> GET_DAMAGE_ID_NUM_FROM_ID = new HashMap<Identifications, Integer>(66, 2);
 
     public Damage_IDs(JPanel p) {
         damage_ID_Panels.add(new Damage_IDs_Panel("Damage %", getX(0), getY(0), p, Identifications.DAMAGE_PERCENT));
@@ -92,6 +92,7 @@ public class Damage_IDs {
         damage_ID_Panels.add(new Damage_IDs_Panel("Stealing", getX(1), getY(8), p, Identifications.STEALING));
         damage_ID_Panels.add(new Damage_IDs_Panel("Life Steal", getX(2), getY(8), p, Identifications.LIFE_STEAL));
         damage_ID_Panels.add(new Damage_IDs_Panel("Walk Speed", getX(3), getY(8), p, Identifications.WALK_SPEED));
+        damage_ID_Panels.add(new Damage_IDs_Panel("Health Bonus", getX(4), getY(8), p, Identifications.HEALTH_BONUS));
     }
 
     public Damage_IDs_Panel getID(int num) {

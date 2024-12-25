@@ -561,7 +561,12 @@ public class CrafterUI implements ActionListener {
                 for (int n = 0; lJ.size() > n; ++n) {
                     JsonObject j = lJ.get(n);
                     if (id.getIngName() != null && j.get("itemOnlyIDs") != null && j.get("itemOnlyIDs").getAsJsonObject().get(id.getIngName()) != null) {
-                        total += (int) Math.floor(j.get("itemOnlyIDs").getAsJsonObject().get(id.getIngName()).getAsInt() * ingEffective[n] / 100F);
+                        int value = j.get("itemOnlyIDs").getAsJsonObject().get(id.getIngName()).getAsInt();
+                        if ((value < 0 && ingEffective[n] < 0) || (value > 0 && ingEffective[n] > 0)) {
+                            total += Math.round(value * ingEffective[n] / 100F); //Old Math.floor
+                        } else {
+                            total += Math.round(value * ingEffective[n] / 100F * -1) * -1;
+                        }
                     }
                 }
                 if (total != 0) {

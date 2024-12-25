@@ -20,6 +20,7 @@ public class Main {
         ItemUITemplate.ITEM_IDS.put(ItemUITemplate.ITEM_IDS.size(), Identifications.LIFE_STEAL);
         ItemUITemplate.ITEM_IDS.put(ItemUITemplate.ITEM_IDS.size(), Identifications.MANA_STEAL);
         ItemUITemplate.ITEM_IDS.put(ItemUITemplate.ITEM_IDS.size(), Identifications.MANA_REGEN);
+        ItemUITemplate.ITEM_IDS.put(ItemUITemplate.ITEM_IDS.size(), Identifications.MAX_MANA);
 
         ItemUITemplate.ITEM_IDS.put(ItemUITemplate.ITEM_IDS.size(), Identifications.EARTH_DEFENSE_PERCENT);
         ItemUITemplate.ITEM_IDS.put(ItemUITemplate.ITEM_IDS.size(), Identifications.THUNDER_DEFENSE_PERCENT);

@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.List;
 
 public class SearchUI extends JFrame implements ActionListener {
-    public static final String VERSION = "3.3.2";
+    public static final String VERSION = "3.3.3";
 
     //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
@@ -2803,6 +2803,9 @@ public class SearchUI extends JFrame implements ActionListener {
                 break;
             case "Type: Other Items":
                 setVisibleOther(visible);
+                break;
+            case "Type: Aspect":
+                setVisibleAspect(visible);
                 break;
         }
         itemAPIConnect.setVisible(visible);

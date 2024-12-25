@@ -18,7 +18,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Neutral Damage", "Earth Damage", "Thunder Damage", "Water Damage", "Fire Damage", "Air Damage",
             "Damage %", "Neutral Damage %", "Earth Damage %", "Thunder Damage %", "Water Damage %", "Fire Damage %", "Air Damage %", "Elemental Damage %",
             "Attack Speed", "Attack Speed Bonus",
-            "Mana Regen", "Mana Steal",
+            "Max Mana", "Mana Regen", "Mana Steal",
             "Walk Speed", "Sprint Bonus", "Sprint Regen", "Jump Height",
             "Poison", "Thorns", "Reflection", "Exploding",  "Critical Damage %",
             "Stealing", "Combat XP Bonus", "Gathering XP Bonus", "Gathering Speed Bonus", "Loot Bonus", "Loot Quality",
@@ -101,6 +101,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Attack Speed", Identifications.ATTACK_SPEED);
         put("Attack Speed Bonus", Identifications.ATTACK_SPEED_BONUS);
 
+        put("Max Mana", Identifications.MAX_MANA);
         put("Mana Regen", Identifications.MANA_REGEN);
         put("Mana Steal", Identifications.MANA_STEAL);
 

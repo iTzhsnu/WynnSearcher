@@ -63,6 +63,7 @@ public enum Identifications {
     ATTACK_SPEED("Attack Speed", "attackSpeed", null, "", "string", null, "nothing", null, false),
     ATTACK_SPEED_BONUS("Attack Speed Bonus", "rawAttackSpeed", "rawAttackSpeed", "tier", "int", null, "identifications", "identifications", true),
 
+    MAX_MANA("Max Mana", "maxMana", "maxMana", "", "int", null, "identifications", "identifications", true),
     MANA_REGEN("Mana Regen", "manaRegen", "manaRegen", "/5s", "int", null, "identifications", "identifications", true),
     MANA_STEAL("Mana Steal", "manaSteal", "manaSteal", "/3s", "int", null, "identifications", "identifications", true),
 
