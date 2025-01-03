@@ -5,11 +5,11 @@ Can Easily Search Wynncraft Item and Ingredients
 Java 16 or above  
 
 ## How to Use
-This description is old. sorry.
+These pictures are old. sorry.
 ### Searcher 
 ![](readme_pictures/how_to_use.png)
 
-### Builder (Not Working)
+### Builder (maybe not working)
 ![](readme_pictures/how_to_use_2_1.png)
 ![](readme_pictures/how_to_use_2_2.png)
 
@@ -20,7 +20,7 @@ This description is old. sorry.
 ![](readme_pictures/how_to_use_4_1.png)
 ![](readme_pictures/how_to_use_4_2.png)
 
-### Changes (Coming Soon...?)
+### Changes (Scheduled to be discontinued)
 ![](readme_pictures/how_to_use_5_1.png)
 ![](readme_pictures/how_to_use_5_2.png)
 
