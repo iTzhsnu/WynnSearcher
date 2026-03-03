@@ -16,7 +16,7 @@ public class SearchNew {
     public static void main(String[] args) {
         new GetAPI().loadArchiveV3API(equips, ingredients, others, new JLabel());
 
-        searchUnknownIDs(equips);
+        searchUnknownIDs(others);
     }
 
     private static void searchUnknownIDs(List<JsonObject> items) {

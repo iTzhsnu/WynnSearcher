@@ -30,7 +30,7 @@ public class GetAPI {
         try {
             return FileUtils.urlToFile(s);
         } catch (IllegalArgumentException e) {
-         return new File(s);
+            return new File(s);
         }
     }
 
