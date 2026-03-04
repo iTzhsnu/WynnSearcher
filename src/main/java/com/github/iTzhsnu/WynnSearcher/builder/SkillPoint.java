@@ -73,7 +73,7 @@ public class SkillPoint {
                 getSkillPoints(j, Identifications.DEFENSE, defI, i, totalSP, originalSP, i != 8);
                 getSkillPoints(j, Identifications.AGILITY, agiI, i, totalSP, originalSP, i != 8);
 
-                if (strR[i] == 0 && dexR[i] == 0 && intR[i] == 0 && defR[i] == 0 && agiR[i] == 0 && !isCrafted[i] && i != 8) {
+                if (strR[i] == 0 && dexR[i] == 0 && intR[i] == 0 && defR[i] == 0 && agiR[i] == 0 && !isCrafted[i]) { // if Weapon isCrafted = true
                     addSPB(i, strI, dexI, intI, defI, agiI, originalSP, totalSP);
                     checked.add(i);
                     checkSet(j, haveSPBSets, originalSP, totalSP);
@@ -327,7 +327,7 @@ public class SkillPoint {
     }
 
     private static boolean[] checkCrafted(List<JsonObject> json) {
-        boolean[] isCrafted = new boolean[] {false, false, false, false, false, false, false, false};
+        boolean[] isCrafted = new boolean[] {false, false, false, false, false, false, false, false, true}; // Weapons do not grant equipment skill points.
 
         for (int i = 0; 8 > i; ++i) {
             JsonObject j = json.get(i);

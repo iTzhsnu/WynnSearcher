@@ -1140,6 +1140,104 @@
         "rawHealth": 70,
         "walkSpeed": 20
       }
+    },
+
+    "Conquered Skies": {
+      "size": 2,
+      "2": {
+        "rawStrength": 85,
+        "lifeSteal": 280,
+        "slowEnemy": 8,
+        "jumpHeight": 5
+      }
+    },
+
+    "Cosmic Foundations": {
+      "size": 4,
+      "3": {
+        "rawStrength": 15,
+        "rawDexterity": 15,
+        "rawIntelligence": 15,
+        "rawDefence": 15,
+        "rawAgility": 15
+      },
+      "4": {
+        "rawStrength": 15,
+        "rawDexterity": 15,
+        "rawIntelligence": 15,
+        "rawDefence": 15,
+        "rawAgility": 15,
+        "rawHealth": 1500,
+        "manaSteal": 20,
+        "thorns": 20,
+        "reflection": 20,
+        "elementalSpellDamage": 40,
+        "rawElementalSpellDamage": 200,
+        "elementalDefence": 50
+      }
+    },
+
+    "Corrupted": {
+      "size": 9,
+      "1": {
+        "xpBonus": 4
+      },
+      "2": {
+        "xpBonus": 8,
+        "rawHealth": 40
+      },
+      "3": {
+        "xpBonus": 12,
+        "rawHealth": 40
+      },
+      "4": {
+        "xpBonus": 16,
+        "rawHealth": 40,
+        "walkSpeed": 8,
+        "thorns": 15
+      },
+      "5": {
+        "xpBonus": 20,
+        "rawHealth": 125,
+        "walkSpeed": 8,
+        "thorns": 15
+      },
+      "6": {
+        "xpBonus": 24,
+        "rawHealth": 125,
+        "walkSpeed": 8,
+        "thorns": 15,
+        "manaSteal": 8
+      },
+      "7": {
+        "xpBonus": 28,
+        "rawHealth": 125,
+        "walkSpeed": 8,
+        "thorns": 30,
+        "manaSteal": 8,
+        "manaRegen": 6,
+        "healthRegenRaw": -40
+      },
+      "8": {
+        "xpBonus": 32,
+        "rawHealth": -400,
+        "walkSpeed": 15,
+        "thorns": 30,
+        "manaSteal": 8,
+        "manaRegen": -6,
+        "healthRegenRaw": -60,
+        "rawAttackSpeed": 1
+      },
+      "9": {
+        "xpBonus": 36,
+        "rawHealth": -1250,
+        "walkSpeed": 20,
+        "thorns": 30,
+        "manaSteal": 8,
+        "manaRegen": -18,
+        "healthRegenRaw": -100,
+        "rawAttackSpeed": 1
+      }
     }
   }
 }

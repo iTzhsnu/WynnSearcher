@@ -23,6 +23,7 @@ public class ID_Display {
     private final List<JLabel> ids = new ArrayList<>();
     private int[] id_Numbers = new int[] {};
     private final List<SetBonus> setBonuses = new ArrayList<>();
+    private final JsonObject setListJson;
 
     public static final Map<Integer, Identifications> IDS_ = new HashMap<Integer, Identifications>(){{
         put(0, Identifications.HEALTH);
@@ -44,6 +45,8 @@ public class ID_Display {
     }};
 
     public ID_Display(JPanel p) {
+        setListJson = new GetAPI().getSetItems();
+
         pane.setPreferredSize(new Dimension(250, 2500));
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
@@ -111,13 +114,13 @@ public class ID_Display {
         if (!itemJsons.getJsonObjectList().isEmpty()) {
             for (JsonObject j : itemJsons.getJsonObjectList()) {
                 setNumbers(j, numbers);
-                if (j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals("set")) setSetBonuses(j.get("name").getAsString(), false);
+                setSetBonuses(j.get("name").getAsString(), false); // Auto Detect Set Bonus
             }
         }
 
         if (itemJsons.getWeapon() != null) {
             setNumbers(itemJsons.getWeapon(), numbers);
-            if (itemJsons.getWeapon().get(Identifications.RARITY.getItemName()) != null && itemJsons.getWeapon().get(Identifications.RARITY.getItemName()).getAsString().equals("set")) setSetBonuses(itemJsons.getWeapon().get("name").getAsString(), true);
+            setSetBonuses(itemJsons.getWeapon().get("name").getAsString(), true);
         }
 
         //Set Bonus
@@ -364,9 +367,8 @@ public class ID_Display {
     }
 
     public void setSetBonuses(String itemName, boolean isWeapon) {
-        JsonObject j = new GetAPI().getSetItems();
-        if (j.get(itemName) != null) {
-            String s = j.get(itemName).getAsString();
+        if (setListJson.get(itemName) != null) {
+            String s = setListJson.get(itemName).getAsString();
             if (!setBonuses.isEmpty()) {
                 boolean hasThisSetBonus = false;
                 for (SetBonus setBonus : setBonuses) {
