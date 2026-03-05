@@ -157,7 +157,7 @@ public enum Identifications {
     INGREDIENT_EFFECTIVENESS_RIGHT("Ingredient Effectiveness (Right)", null, "right", "%", "int", null, null, "ingredientPositionModifiers", false),
     INGREDIENT_EFFECTIVENESS_LEFT("Ingredient Effectiveness (Left)", null, "left", "%", "int", null, null, "ingredientPositionModifiers", false),
     INGREDIENT_EFFECTIVENESS_TOUCHING("Ingredient Effectiveness (Touch)", null, "touching", "%", "int", null, null, "ingredientPositionModifiers", false),
-    INGREDIENT_EFFECTIVENESS_NOT_TOUCHING("Ingredient Effectiveness (Not Touch)", null, "notTouching", "%", "int", null, null, "ingredientPositionModifiers", false),
+    INGREDIENT_EFFECTIVENESS_NOT_TOUCHING("Ingredient Effectiveness (Not Touch)", null, "not_touching", "%", "int", null, null, "ingredientPositionModifiers", false),
     INGREDIENT_EFFECTIVENESS("", null, "ingEffective", "", "sum", SumEnum.INGREDIENT_EFFECTIVENESS, null, "", false),
 
     DROP_TYPE("Drop Type", "dropRestriction", "droppedBy", "", "string", null, "nothing", "nothing", false),
