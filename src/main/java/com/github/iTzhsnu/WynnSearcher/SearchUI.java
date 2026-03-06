@@ -2163,22 +2163,7 @@ public class SearchUI extends JFrame implements ActionListener {
                             }
                         } else if (Objects.equals(id, Identifications.ATTACK_SPEED) && j.get(id.getItemName()) != null) {
                             //Attack Speed
-                            switch (j.get(id.getItemName()).getAsString()) {
-                                case "super_fast": total += 7;
-                                break;
-                                case "very_fast": total += 6;
-                                break;
-                                case "fast": total += 5;
-                                break;
-                                case "normal": total += 4;
-                                break;
-                                case "slow": total += 3;
-                                break;
-                                case "very_slow": total += 2;
-                                break;
-                                case "super_slow": total += 1;
-                                break;
-                            }
+                            total += getAttackSpeed(j.get(id.getItemName()).getAsString());
                         }
                     } else if (Objects.equals(id.getIDType(), "sum")) {
                         if (id.getSum().getSumIDs() != null) {
@@ -2770,23 +2755,8 @@ public class SearchUI extends JFrame implements ActionListener {
         }
         //DPS (Attack Speed)
         if (sum.isDPS()) {
-            if (j.get("attackSpeed") != null) {
-                switch (j.get("attackSpeed").getAsString()) {
-                    case "super_fast": sum_total *= 4.3F;
-                        break;
-                    case "very_fast": sum_total *= 3.1F;
-                        break;
-                    case "fast": sum_total *= 2.5F;
-                        break;
-                    case "normal": sum_total *= 2.05F;
-                        break;
-                    case "slow": sum_total *= 1.5F;
-                        break;
-                    case "very_slow": sum_total *= 0.83F;
-                        break;
-                    case "super_slow": sum_total *= 0.51F;
-                        break;
-                }
+            if (j.get(Identifications.ATTACK_SPEED.getItemName()) != null) {
+                sum_total *= getAttackSpeed(j.get(Identifications.ATTACK_SPEED.getItemName()).getAsString());
             }
         }
         return total + sum_total;
@@ -2892,5 +2862,18 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public static int getBaseID(int i) {
         return Math.round(i / 1.3F);
+    }
+
+    public static float getAttackSpeed(String s) {
+        return switch (s) {
+            case "super_fast", "superFast" -> 4.3F;
+            case "very_fast", "veryFast" -> 3.1F;
+            case "fast" -> 2.5F;
+            case "normal" -> 2.05F;
+            case "slow" -> 1.5F;
+            case "very_slow", "verySlow" -> 0.83F;
+            case "super_slow", "superSlow" -> 0.51F;
+            default -> 0;
+        };
     }
 }
