@@ -78,15 +78,15 @@ public class ItemUITemplate extends JPanel {
 
         switch (type) {
             case ITEM:
-                if (!isCustom) urlSize = 56;
+                //if (!isCustom) urlSize = 56;
                 setItemDisplay();
                 break;
             case INGREDIENT:
-                if (!isCustom) urlSize = 32;
+                //if (!isCustom) urlSize = 32;
                 setIngDisplay();
                 break;
             case OTHER:
-                if (!isCustom && !json.get("type").getAsString().equals("charm") && !json.get("type").getAsString().equals("tome")) urlSize = 32;
+                //if (!isCustom && !json.get("type").getAsString().equals("charm") && !json.get("type").getAsString().equals("tome")) urlSize = 32;
                 setOtherDisplay();
                 break;
             case ASPECT:
@@ -165,19 +165,19 @@ public class ItemUITemplate extends JPanel {
     }
 
     public void setItemDisplay() {
-        JButton dataButton = new JButton("Open Wynndata");
-        dataButton.setBorderPainted(false);
-        dataButton.setOpaque(false);
-        dataButton.setBackground(Color.WHITE);
-        dataButton.setForeground(Color.BLUE);
-        dataButton.addActionListener(new OpenURLAction());
+        //JButton dataButton = new JButton("Open Wynndata");
+        //dataButton.setBorderPainted(false);
+        //dataButton.setOpaque(false);
+        //dataButton.setBackground(Color.WHITE);
+        //dataButton.setForeground(Color.BLUE);
+        //dataButton.addActionListener(new OpenURLAction());
 
-        JButton builderButton = new JButton("Open Wynnbuilder");
-        builderButton.setBorderPainted(false);
-        builderButton.setOpaque(false);
-        builderButton.setBackground(Color.WHITE);
-        builderButton.setForeground(Color.BLUE);
-        builderButton.addActionListener(new OpenURLAction());
+        //JButton builderButton = new JButton("Open Wynnbuilder");
+        //builderButton.setBorderPainted(false);
+        //builderButton.setOpaque(false);
+        //builderButton.setBackground(Color.WHITE);
+        //builderButton.setForeground(Color.BLUE);
+        //builderButton.addActionListener(new OpenURLAction());
 
         String itemName = "";
 
@@ -185,8 +185,8 @@ public class ItemUITemplate extends JPanel {
             label.add(new JLabel(json.get("name").getAsString()));
             itemName = json.get("name").getAsString();
             String name = itemName.replaceAll(" ", "%20");
-            dataButton.setToolTipText("https://www.wynndata.tk/i/" + name);
-            builderButton.setToolTipText("https://hppeng-wynn.github.io/item/#" + name);
+        //    dataButton.setToolTipText("https://www.wynndata.tk/i/" + name);
+        //    builderButton.setToolTipText("https://hppeng-wynn.github.io/item/#" + name);
         }
 
         if (json.get("weaponType") != null) {
@@ -538,12 +538,12 @@ public class ItemUITemplate extends JPanel {
 
         if (!isCustom) {
             label.add(new JLabel(" "));
-            label.add(new JLabel("External Links"));
-            add(label.get(label.size() - 2));
+        //    label.add(new JLabel("External Links"));
+        //    add(label.get(label.size() - 2));
             add(label.get(label.size() - 1));
 
-            add(dataButton);
-            add(builderButton);
+        //    add(dataButton);
+        //    add(builderButton);
 
             JLabel sortValue = new JLabel("Sort Value: " + totalValue);
             sortValue.setForeground(Color.DARK_GRAY);
@@ -552,12 +552,12 @@ public class ItemUITemplate extends JPanel {
     }
 
     public void setIngDisplay() {
-        JButton dataButton = new JButton("Wynndata Link");
-        dataButton.setBorderPainted(false);
-        dataButton.setOpaque(false);
-        dataButton.setBackground(Color.WHITE);
-        dataButton.setForeground(Color.BLUE);
-        dataButton.addActionListener(new OpenURLAction());
+        //JButton dataButton = new JButton("Wynndata Link");
+        //dataButton.setBorderPainted(false);
+        //dataButton.setOpaque(false);
+        //dataButton.setBackground(Color.WHITE);
+        //dataButton.setForeground(Color.BLUE);
+        //dataButton.addActionListener(new OpenURLAction());
 
         String itemName = "";
         if (json.get("name") != null) {
@@ -567,7 +567,7 @@ public class ItemUITemplate extends JPanel {
             } else {
                 label.add(new JLabel(itemName));
             }
-            dataButton.setToolTipText("https://www.wynndata.tk/i/" + itemName.replaceAll(" ", "%20"));
+            //dataButton.setToolTipText("https://www.wynndata.tk/i/" + itemName.replaceAll(" ", "%20"));
         }
 
         if (json.get("tier") != null) {
@@ -816,9 +816,9 @@ public class ItemUITemplate extends JPanel {
             add(label.get(label.size() - 1));
         }
 
-        label.add(new JLabel("External Links"));
-        add(label.get(label.size() - 1));
-        add(dataButton);
+        //label.add(new JLabel("External Links"));
+        //add(label.get(label.size() - 1));
+        //add(dataButton);
 
         JLabel sortValue = new JLabel("Sort Value: " + totalValue);
         sortValue.setForeground(Color.DARK_GRAY);
@@ -827,23 +827,23 @@ public class ItemUITemplate extends JPanel {
 
     public void setOtherDisplay() {
         String type = json.get("type").getAsString();
-        JButton dataButton = new JButton("Open Wynndata");
-        dataButton.setBorderPainted(false);
-        dataButton.setOpaque(false);
-        dataButton.setBackground(Color.WHITE);
-        dataButton.setForeground(Color.BLUE);
-        dataButton.addActionListener(new OpenURLAction());
+        //JButton dataButton = new JButton("Open Wynndata");
+        //dataButton.setBorderPainted(false);
+        //dataButton.setOpaque(false);
+        //dataButton.setBackground(Color.WHITE);
+        //dataButton.setForeground(Color.BLUE);
+        //dataButton.addActionListener(new OpenURLAction());
 
         String itemName = "";
 
         if (json.get("name") != null) {
             itemName = json.get("name").getAsString();
             label.add(new JLabel(json.get("name").getAsString()));
-            String s = json.get("name").getAsString().replaceAll(" ", "%20");
-            if (type.equals("material")) {
-                s = "Refined%20" + json.get("name").getAsString().replaceAll(" ", "%20");
-            }
-            dataButton.setToolTipText("https://www.wynndata.tk/i/" + s);
+            //String s = json.get("name").getAsString().replaceAll(" ", "%20");
+            //if (type.equals("material")) {
+            //    s = "Refined%20" + json.get("name").getAsString().replaceAll(" ", "%20");
+            //}
+            //dataButton.setToolTipText("https://www.wynndata.tk/i/" + s);
         }
 
         label.add(new JLabel("Type: " + type.substring(0, 1).toUpperCase() + type.substring(1)));
@@ -1162,11 +1162,11 @@ public class ItemUITemplate extends JPanel {
             add(label.get(label.size() - 1));
         }
 
-        if (!type.equals("tome") && !type.equals("charm")) {
-            label.add(new JLabel("External Links"));
-            add(label.get(label.size() - 1));
-            add(dataButton);
-        }
+        //if (!type.equals("tome") && !type.equals("charm")) {
+        //    label.add(new JLabel("External Links"));
+        //    add(label.get(label.size() - 1));
+        //    add(dataButton);
+        //}
 
         JLabel sortValue = new JLabel("Sort Value: " + totalValue);
         sortValue.setForeground(Color.DARK_GRAY);
