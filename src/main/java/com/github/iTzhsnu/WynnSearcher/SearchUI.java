@@ -1,5 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.github.iTzhsnu.WynnSearcher.general.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,7 +14,7 @@ import java.util.*;
 import java.util.List;
 
 public class SearchUI extends JFrame implements ActionListener {
-    public static final String VERSION = "3.4.4";
+    public static final String VERSION = "4.0.0";
 
     //API
     private final List<JsonObject> wynnItems = new ArrayList<>();
@@ -165,6 +166,7 @@ public class SearchUI extends JFrame implements ActionListener {
     private final JsonObject how_to_obtain_ing;
     private final JsonObject how_to_obtain_other;
 
+
     public static boolean isReversedID(Identifications id) {
         return id == Identifications.RAW_1ST_SPELL_COST || id == Identifications.RAW_2ND_SPELL_COST || id == Identifications.RAW_3RD_SPELL_COST || id == Identifications.RAW_4TH_SPELL_COST || id == Identifications.PERCENT_1ST_SPELL_COST || id == Identifications.PERCENT_2ND_SPELL_COST || id == Identifications.PERCENT_3RD_SPELL_COST || id == Identifications.PERCENT_4TH_SPELL_COST;
     }
@@ -176,11 +178,11 @@ public class SearchUI extends JFrame implements ActionListener {
         List<JsonObject> wynnRecipes = new ArrayList<>();
         String recipeAPIConnect = getAPI.loadRecipeData(wynnRecipes);
 
-        getAPI.loadWynnAspectAPI("warrior", warriorAspectJson);
-        getAPI.loadWynnAspectAPI("assassin", assassinAspectJson);
-        getAPI.loadWynnAspectAPI("mage", mageAspectJson);
-        getAPI.loadWynnAspectAPI("archer", archerAspectJson);
-        getAPI.loadWynnAspectAPI("shaman", shamanAspectJson);
+        getAPI.loadWynnAspectAPI(JsonValues.WARRIOR, warriorAspectJson);
+        getAPI.loadWynnAspectAPI(JsonValues.ASSASSIN, assassinAspectJson);
+        getAPI.loadWynnAspectAPI(JsonValues.MAGE, mageAspectJson);
+        getAPI.loadWynnAspectAPI(JsonValues.ARCHER, archerAspectJson);
+        getAPI.loadWynnAspectAPI(JsonValues.SHAMAN, shamanAspectJson);
         aspects.addAll(warriorAspectJson);
         aspects.addAll(assassinAspectJson);
         aspects.addAll(mageAspectJson);
@@ -217,10 +219,10 @@ public class SearchUI extends JFrame implements ActionListener {
 
         //Item or Ingredient
         itemType.setBounds(320, 15, 170, 20);
-        itemType.addItem("Type: Armor and Weapon");
-        itemType.addItem("Type: Ingredient");
-        itemType.addItem("Type: Other Items");
-        itemType.addItem("Type: Aspect");
+        itemType.addItem(DataKeys.TYPE_EQUIPMENT);
+        itemType.addItem(DataKeys.TYPE_INGREDIENT);
+        itemType.addItem(DataKeys.TYPE_OTHER_ITEM);
+        itemType.addItem(DataKeys.TYPE_ASPECT);
         itemType.addActionListener(this);
 
         typeItemDataSet();
@@ -371,22 +373,22 @@ public class SearchUI extends JFrame implements ActionListener {
         if (type.getSelectedIndex() == 4) {
             changesUI.setFileList(itemType.getItemAt(itemType.getSelectedIndex()));
         }
-        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Armor and Weapon")) {
+        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_EQUIPMENT)) {
             setVisibleIngredient(false);
             setVisibleOther(false);
             setVisibleAspect(false);
             setVisibleItem(true);
-        } else if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Ingredient")) {
+        } else if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_INGREDIENT)) {
             setVisibleItem(false);
             setVisibleOther(false);
             setVisibleAspect(false);
             setVisibleIngredient(true);
-        } else if (itemType.getItemAt(itemType.getSelectedIndex()).equals("Type: Other Items")) {
+        } else if (itemType.getItemAt(itemType.getSelectedIndex()).equals(DataKeys.TYPE_OTHER_ITEM)) {
             setVisibleItem(false);
             setVisibleIngredient(false);
             setVisibleAspect(false);
             setVisibleOther(true);
-        } else if (itemType.getItemAt(itemType.getSelectedIndex()).equals("Type: Aspect")) {
+        } else if (itemType.getItemAt(itemType.getSelectedIndex()).equals(DataKeys.TYPE_ASPECT)) {
             setVisibleItem(false);
             setVisibleIngredient(false);
             setVisibleOther(false);
@@ -445,17 +447,17 @@ public class SearchUI extends JFrame implements ActionListener {
 
         new GetAPI().getWynnAPIV3_3(wynnItems, wynnIngredients, wynnOtherItems, itemAPIConnect);
 
-        new GetAPI().setWynnAbilityTreeAPI("warrior");
-        new GetAPI().setWynnAbilityTreeAPI("assassin");
-        new GetAPI().setWynnAbilityTreeAPI("mage");
-        new GetAPI().setWynnAbilityTreeAPI("archer");
-        new GetAPI().setWynnAbilityTreeAPI("shaman");
+        new GetAPI().setWynnAbilityTreeAPI(JsonValues.WARRIOR);
+        new GetAPI().setWynnAbilityTreeAPI(JsonValues.ASSASSIN);
+        new GetAPI().setWynnAbilityTreeAPI(JsonValues.MAGE);
+        new GetAPI().setWynnAbilityTreeAPI(JsonValues.ARCHER);
+        new GetAPI().setWynnAbilityTreeAPI(JsonValues.SHAMAN);
 
-        new GetAPI().getWynnAspectAPI("warrior");
-        new GetAPI().getWynnAspectAPI("assassin");
-        new GetAPI().getWynnAspectAPI("mage");
-        new GetAPI().getWynnAspectAPI("archer");
-        new GetAPI().getWynnAspectAPI("shaman");
+        new GetAPI().getWynnAspectAPI(JsonValues.WARRIOR);
+        new GetAPI().getWynnAspectAPI(JsonValues.ASSASSIN);
+        new GetAPI().getWynnAspectAPI(JsonValues.MAGE);
+        new GetAPI().getWynnAspectAPI(JsonValues.ARCHER);
+        new GetAPI().getWynnAspectAPI(JsonValues.SHAMAN);
 
         setItemJson();
         setIngredientJson();
@@ -800,7 +802,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public boolean canSearchItem() {
-        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Armor and Weapon")) {
+        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_EQUIPMENT)) {
             if (bow.isSelected() || spear.isSelected() || wand.isSelected() || dagger.isSelected() || relik.isSelected() || helmet.isSelected() || chestplate.isSelected() || leggings.isSelected() || boots.isSelected() || ring.isSelected() || bracelet.isSelected() || necklace.isSelected()) {
                 boolean hasText = false;
                 for (JComboBox<String> box : idBoxes_1) {
@@ -813,7 +815,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public boolean canSearchIngredient() {
-        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Ingredient")) {
+        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_INGREDIENT)) {
             if (armouring.isSelected() || tailoring.isSelected() || weaponsmithing.isSelected() || woodworking.isSelected() || jeweling.isSelected() || scribing.isSelected() || cooking.isSelected() || alchemism.isSelected()) {
                 boolean hasText = false;
                 for (JComboBox<String> box : idBoxes_1) {
@@ -826,7 +828,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public boolean canSearchOtherItems() {
-        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Other Items")) {
+        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_OTHER_ITEM)) {
             if (tome.isSelected() || charm.isSelected() || tool.isSelected() || material.isSelected()) {
                 boolean hasText = false;
                 for (JComboBox<String> box : idBoxes_1) {
@@ -839,7 +841,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public boolean canSearchAspects() {
-        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), "Type: Aspect")) {
+        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_ASPECT)) {
             if (archetype1Aspect.isSelected() || archetype2Aspect.isSelected() || archetype3Aspect.isSelected() || otherTypeAspect.isSelected()) {
                 boolean hasText = false;
                 for (JComboBox<String> box : idBoxes_1) {
@@ -855,6 +857,7 @@ public class SearchUI extends JFrame implements ActionListener {
         return !((JTextField) box.getEditor().getEditorComponent()).getText().isEmpty();
     }
 
+    // TODO check
     public void searchItems(List<JsonObject> modify) {
         long startTime = System.currentTimeMillis();
 
@@ -863,7 +866,7 @@ public class SearchUI extends JFrame implements ActionListener {
         long midTime = System.currentTimeMillis();
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
-            sortItems(null);
+            sort(null, ItemType.ITEM);
         }
 
         setDisplaySize();
@@ -871,6 +874,7 @@ public class SearchUI extends JFrame implements ActionListener {
         displayTime.setText((midTime - startTime) + "ms, " + (System.currentTimeMillis() - midTime) + "ms");
     }
 
+    // TODO check
     public void filterItems(List<JsonObject> modify) {
         searchedItems.clear();
         if (modify != null && !modify.isEmpty()) {
@@ -895,10 +899,10 @@ public class SearchUI extends JFrame implements ActionListener {
             }
         }
 
-        searchItemFromIDs(idBoxes_1, idMin_1, idMax_1, how_to_obtain_item);
-        searchItemFromIDs(idBoxes_2, idMin_2, idMax_2, how_to_obtain_item);
-        searchItemFromIDs(idBoxes_3, idMin_3, idMax_3, how_to_obtain_item);
-        searchItemFromIDs(idBoxes_4, idMin_4, idMax_4, how_to_obtain_item);
+        searchIDs(idBoxes_1, idMin_1, idMax_1, how_to_obtain_item, ItemType.ITEM);
+        searchIDs(idBoxes_2, idMin_2, idMax_2, how_to_obtain_item, ItemType.ITEM);
+        searchIDs(idBoxes_3, idMin_3, idMax_3, how_to_obtain_item, ItemType.ITEM);
+        searchIDs(idBoxes_4, idMin_4, idMax_4, how_to_obtain_item, ItemType.ITEM);
 
         Identifications id_0 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 0), Identifications.EMPTY);
         Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 1), Identifications.EMPTY);
@@ -912,14 +916,15 @@ public class SearchUI extends JFrame implements ActionListener {
 
         searchFromName();
 
-        filterItemFromSize(idBoxes_1, idMin_1, idMax_1);
-        filterItemFromSize(idBoxes_2, idMin_2, idMax_2);
-        filterItemFromSize(idBoxes_3, idMin_3, idMax_3);
-        filterItemFromSize(idBoxes_4, idMin_4, idMax_4);
+        filterRange(idBoxes_1, idMin_1, idMax_1, how_to_obtain_item, ItemType.ITEM);
+        filterRange(idBoxes_2, idMin_2, idMax_2, how_to_obtain_item, ItemType.ITEM);
+        filterRange(idBoxes_3, idMin_3, idMax_3, how_to_obtain_item, ItemType.ITEM);
+        filterRange(idBoxes_4, idMin_4, idMax_4, how_to_obtain_item, ItemType.ITEM);
 
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
     }
 
+    // TODO check
     public void searchIngredient(List<JsonObject> modify) {
         long startTime = System.currentTimeMillis();
 
@@ -928,7 +933,7 @@ public class SearchUI extends JFrame implements ActionListener {
         long midTime = System.currentTimeMillis();
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
-            sortIngredients(null);
+            sort(null, ItemType.INGREDIENT);
         }
 
         setDisplaySize();
@@ -936,6 +941,7 @@ public class SearchUI extends JFrame implements ActionListener {
         displayTime.setText((midTime - startTime) + "ms, " + (System.currentTimeMillis() - midTime) + "ms");
     }
 
+    // TODO check
     public void filterIng(List<JsonObject> modify) {
         searchedItems.clear();
 
@@ -956,10 +962,10 @@ public class SearchUI extends JFrame implements ActionListener {
                     } else {
                         for (JsonObject json : tailoringJson) {
                             boolean add = true;
-                            JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
+                            JsonArray array = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray();
                             for (int i = 0; array.size() > i; ++i) {
                                 String s = array.get(i).getAsString();
-                                if (s.contains("armouring")) add = false;
+                                if (s.contains(JsonValues.ARMOURING)) add = false;
                             }
                             if (add) searchedItems.add(json);
                         }
@@ -973,10 +979,10 @@ public class SearchUI extends JFrame implements ActionListener {
                     } else {
                         for (JsonObject json : weaponsmithingJson) {
                             boolean add = true;
-                            JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
+                            JsonArray array = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray();
                             for (int i = 0; array.size() > i; ++i) {
                                 String s = array.get(i).getAsString();
-                                if (hasIngType(s, "armouring") || hasIngType(s, "tailoring")) add = false;
+                                if (hasIngType(s, JsonValues.ARMOURING) || hasIngType(s, JsonValues.TAILORING)) add = false;
                             }
                             if (add) searchedItems.add(json);
                         }
@@ -990,10 +996,10 @@ public class SearchUI extends JFrame implements ActionListener {
                     } else {
                         for (JsonObject json : woodworkingJson) {
                             boolean add = true;
-                            JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
+                            JsonArray array = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray();
                             for (int i = 0; array.size() > i; ++i) {
                                 String s = array.get(i).getAsString();
-                                if (hasIngType(s, "armouring") || hasIngType(s, "tailoring") || hasIngType(s, "weaponsmithing"))
+                                if (hasIngType(s, JsonValues.ARMOURING) || hasIngType(s, JsonValues.TAILORING) || hasIngType(s, JsonValues.WEAPONSMITHING))
                                     add = false;
                             }
                             if (add) searchedItems.add(json);
@@ -1008,10 +1014,10 @@ public class SearchUI extends JFrame implements ActionListener {
                     } else {
                         for (JsonObject json : jewelingJson) {
                             boolean add = true;
-                            JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
+                            JsonArray array = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray();
                             for (int i = 0; array.size() > i; ++i) {
                                 String s = array.get(i).getAsString();
-                                if (hasIngType(s, "armouring") || hasIngType(s, "tailoring") || hasIngType(s, "weaponsmithing") || hasIngType(s, "woodworking"))
+                                if (hasIngType(s, JsonValues.ARMOURING) || hasIngType(s, JsonValues.TAILORING) || hasIngType(s, JsonValues.WEAPONSMITHING) || hasIngType(s, JsonValues.WOODWORKING))
                                     add = false;
                             }
                             if (add) searchedItems.add(json);
@@ -1026,10 +1032,10 @@ public class SearchUI extends JFrame implements ActionListener {
                     } else {
                         for (JsonObject json : scribingJson) {
                             boolean add = true;
-                            JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
+                            JsonArray array = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray();
                             for (int i = 0; array.size() > i; ++i) {
                                 String s = array.get(i).getAsString();
-                                if (hasIngType(s, "armouring") || hasIngType(s, "tailoring") || hasIngType(s, "weaponsmithing") || hasIngType(s, "woodworking") || hasIngType(s, "jeweling"))
+                                if (hasIngType(s, JsonValues.ARMOURING) || hasIngType(s, JsonValues.TAILORING) || hasIngType(s, JsonValues.WEAPONSMITHING) || hasIngType(s, JsonValues.WOODWORKING) || hasIngType(s, JsonValues.JEWELING))
                                     add = false;
                             }
                             if (add) searchedItems.add(json);
@@ -1044,10 +1050,10 @@ public class SearchUI extends JFrame implements ActionListener {
                     } else {
                         for (JsonObject json : cookingJson) {
                             boolean add = true;
-                            JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
+                            JsonArray array = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray();
                             for (int i = 0; array.size() > i; ++i) {
                                 String s = array.get(i).getAsString();
-                                if (hasIngType(s, "armouring") || hasIngType(s, "tailoring") || hasIngType(s, "weaponsmithing") || hasIngType(s, "woodworking") || hasIngType(s, "jeweling") || hasIngType(s, "scribing"))
+                                if (hasIngType(s, JsonValues.ARMOURING) || hasIngType(s, JsonValues.TAILORING) || hasIngType(s, JsonValues.WEAPONSMITHING) || hasIngType(s, JsonValues.WOODWORKING) || hasIngType(s, JsonValues.JEWELING) || hasIngType(s, JsonValues.SCRIBING))
                                     add = false;
                             }
                             if (add) searchedItems.add(json);
@@ -1062,10 +1068,10 @@ public class SearchUI extends JFrame implements ActionListener {
                     } else {
                         for (JsonObject json : alchemismJson) {
                             boolean add = true;
-                            JsonArray array = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
+                            JsonArray array = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray();
                             for (int i = 0; array.size() > i; ++i) {
                                 String s = array.get(i).getAsString();
-                                if (hasIngType(s, "armouring") || hasIngType(s, "tailoring") || hasIngType(s, "weaponsmithing") || hasIngType(s, "woodworking") || hasIngType(s, "jeweling") || hasIngType(s, "scribing") || hasIngType(s, "cooking"))
+                                if (hasIngType(s, JsonValues.ARMOURING) || hasIngType(s, JsonValues.TAILORING) || hasIngType(s, JsonValues.WEAPONSMITHING) || hasIngType(s, JsonValues.WOODWORKING) || hasIngType(s, JsonValues.JEWELING) || hasIngType(s, JsonValues.SCRIBING) || hasIngType(s, JsonValues.COOKING))
                                     add = false;
                             }
                             if (add) searchedItems.add(json);
@@ -1075,23 +1081,24 @@ public class SearchUI extends JFrame implements ActionListener {
             }
         }
 
-        searchIngFromIDs(idBoxes_1, idMin_1, idMax_1);
-        searchIngFromIDs(idBoxes_2, idMin_2, idMax_2);
-        searchIngFromIDs(idBoxes_3, idMin_3, idMax_3);
-        searchIngFromIDs(idBoxes_4, idMin_4, idMax_4);
+        searchIDs(idBoxes_1, idMin_1, idMax_1, how_to_obtain_ing, ItemType.INGREDIENT);
+        searchIDs(idBoxes_2, idMin_2, idMax_2, how_to_obtain_ing, ItemType.INGREDIENT);
+        searchIDs(idBoxes_3, idMin_3, idMax_3, how_to_obtain_ing, ItemType.INGREDIENT);
+        searchIDs(idBoxes_4, idMin_4, idMax_4, how_to_obtain_ing, ItemType.INGREDIENT);
 
         searchFromTier();
 
         searchFromName();
 
-        filterIngredientFromSize(idBoxes_1, idMin_1, idMax_1);
-        filterIngredientFromSize(idBoxes_2, idMin_2, idMax_2);
-        filterIngredientFromSize(idBoxes_3, idMin_3, idMax_3);
-        filterIngredientFromSize(idBoxes_4, idMin_4, idMax_4);
+        filterRange(idBoxes_1, idMin_1, idMax_1, how_to_obtain_ing, ItemType.INGREDIENT);
+        filterRange(idBoxes_2, idMin_2, idMax_2, how_to_obtain_ing, ItemType.INGREDIENT);
+        filterRange(idBoxes_3, idMin_3, idMax_3, how_to_obtain_ing, ItemType.INGREDIENT);
+        filterRange(idBoxes_4, idMin_4, idMax_4, how_to_obtain_ing, ItemType.INGREDIENT);
 
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
     }
 
+    // TODO check
     public void searchOtherItems(List<JsonObject> modify) {
         long startTime = System.currentTimeMillis();
 
@@ -1100,7 +1107,7 @@ public class SearchUI extends JFrame implements ActionListener {
         long midTime = System.currentTimeMillis();
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
-            sortOtherItems(null);
+            sort(null, ItemType.OTHER);
         }
 
         setDisplaySize();
@@ -1108,6 +1115,7 @@ public class SearchUI extends JFrame implements ActionListener {
         displayTime.setText((midTime - startTime) + "ms, " + (System.currentTimeMillis() - midTime) + "ms");
     }
 
+    // TODO check
     public void filterOther(List<JsonObject> modify) {
         searchedItems.clear();
 
@@ -1137,10 +1145,10 @@ public class SearchUI extends JFrame implements ActionListener {
             }
         }
 
-        searchItemFromIDs(idBoxes_1, idMin_1, idMax_1, how_to_obtain_other);
-        searchItemFromIDs(idBoxes_2, idMin_2, idMax_2, how_to_obtain_other);
-        searchItemFromIDs(idBoxes_3, idMin_3, idMax_3, how_to_obtain_other);
-        searchItemFromIDs(idBoxes_4, idMin_4, idMax_4, how_to_obtain_other);
+        searchIDs(idBoxes_1, idMin_1, idMax_1, how_to_obtain_other, ItemType.OTHER);
+        searchIDs(idBoxes_2, idMin_2, idMax_2, how_to_obtain_other, ItemType.OTHER);
+        searchIDs(idBoxes_3, idMin_3, idMax_3, how_to_obtain_other, ItemType.OTHER);
+        searchIDs(idBoxes_4, idMin_4, idMax_4, how_to_obtain_other, ItemType.OTHER);
 
         Identifications id_0 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 0), Identifications.EMPTY);
         Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 1), Identifications.EMPTY);
@@ -1154,14 +1162,15 @@ public class SearchUI extends JFrame implements ActionListener {
 
         searchFromName();
 
-        filterItemFromSize(idBoxes_1, idMin_1, idMax_1);
-        filterItemFromSize(idBoxes_2, idMin_2, idMax_2);
-        filterItemFromSize(idBoxes_3, idMin_3, idMax_3);
-        filterItemFromSize(idBoxes_4, idMin_4, idMax_4);
+        filterRange(idBoxes_1, idMin_1, idMax_1, how_to_obtain_other, ItemType.OTHER);
+        filterRange(idBoxes_2, idMin_2, idMax_2, how_to_obtain_other, ItemType.OTHER);
+        filterRange(idBoxes_3, idMin_3, idMax_3, how_to_obtain_other, ItemType.OTHER);
+        filterRange(idBoxes_4, idMin_4, idMax_4, how_to_obtain_other, ItemType.OTHER);
 
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
     }
 
+    // TODO check
     public void searchAspects() {
         long startTime = System.currentTimeMillis();
 
@@ -1174,6 +1183,7 @@ public class SearchUI extends JFrame implements ActionListener {
         displayTime.setText((System.currentTimeMillis() - startTime) + "ms");
     }
 
+    // TODO check
     public void filterAspects() {
         searchedItems.clear();
 
@@ -1206,25 +1216,25 @@ public class SearchUI extends JFrame implements ActionListener {
         JCheckBox needCheckBox = armouring;
 
         switch (needName) {
-            case "TAILORING":
+            case JsonValues.TAILORING:
                 needCheckBox = tailoring;
                 break;
-            case "WEAPONSMITHING":
+            case JsonValues.WEAPONSMITHING:
                 needCheckBox = weaponsmithing;
                 break;
-            case "WOODWORKING":
+            case JsonValues.WOODWORKING:
                 needCheckBox = woodworking;
                 break;
-            case "JEWELING":
+            case JsonValues.JEWELING:
                 needCheckBox = jeweling;
                 break;
-            case "SCRIBING":
+            case JsonValues.SCRIBING:
                 needCheckBox = scribing;
                 break;
-            case "COOKING":
+            case JsonValues.COOKING:
                 needCheckBox = cooking;
                 break;
-            case "ALCHEMISM":
+            case JsonValues.ALCHEMISM:
                 needCheckBox = alchemism;
                 break;
         }
@@ -1234,81 +1244,122 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public void setItemJson() {
         for (JsonObject item : wynnItems) {
-            if (item.get("weaponType") != null) {
-                switch (item.get("weaponType").getAsString()) {
-                    case "bow":
+            if (item.get(JsonKeys.SUBTYPE.getKey()) != null) {
+                switch (item.get(JsonKeys.SUBTYPE.getKey()).getAsString()) {
+                    case JsonValues.BOW:
                         bowJson.add(item);
                         break;
-                    case "spear":
+                    case JsonValues.SPEAR:
                         spearJson.add(item);
                         break;
-                    case "wand":
+                    case JsonValues.WAND:
                         wandJson.add(item);
                         break;
-                    case "dagger":
+                    case JsonValues.DAGGER:
                         daggerJson.add(item);
                         break;
-                    case "relik":
+                    case JsonValues.RELIK:
                         relikJson.add(item);
                         break;
-                }
-            } else if (item.get("armourType") != null) {
-                switch (item.get("armourType").getAsString()) {
-                    case "helmet":
+                    case JsonValues.HELMET:
                         helmetJson.add(item);
                         break;
-                    case "chestplate":
+                    case JsonValues.CHESTPLATE:
                         chestplateJson.add(item);
                         break;
-                    case "leggings":
+                    case JsonValues.LEGGINGS:
                         leggingsJson.add(item);
                         break;
-                    case "boots":
+                    case JsonValues.BOOTS:
                         bootsJson.add(item);
                         break;
-                }
-            } else if (item.get("accessoryType") != null) {
-                switch (item.get("accessoryType").getAsString()) {
-                    case "ring":
+                    case JsonValues.RING:
                         ringJson.add(item);
                         break;
-                    case "bracelet":
+                    case JsonValues.BRACELET:
                         braceletJson.add(item);
                         break;
-                    case "necklace":
+                    case JsonValues.NECKLACE:
                         necklaceJson.add(item);
                         break;
                 }
             }
+
+            //if (item.get("weaponType") != null) {
+            //    switch (item.get("weaponType").getAsString()) {
+            //        case "bow":
+            //            bowJson.add(item);
+            //            break;
+            //        case "spear":
+            //            spearJson.add(item);
+            //            break;
+            //        case "wand":
+            //            wandJson.add(item);
+            //            break;
+            //        case "dagger":
+            //            daggerJson.add(item);
+            //            break;
+            //        case "relik":
+            //            relikJson.add(item);
+            //            break;
+            //    }
+            //} else if (item.get("armourType") != null) {
+            //    switch (item.get("armourType").getAsString()) {
+            //        case "helmet":
+            //            helmetJson.add(item);
+            //            break;
+            //        case "chestplate":
+            //            chestplateJson.add(item);
+            //            break;
+            //        case "leggings":
+            //            leggingsJson.add(item);
+            //            break;
+            //        case "boots":
+            //            bootsJson.add(item);
+            //            break;
+            //    }
+            //} else if (item.get("accessoryType") != null) {
+            //    switch (item.get("accessoryType").getAsString()) {
+            //        case "ring":
+            //            ringJson.add(item);
+            //            break;
+            //        case "bracelet":
+            //            braceletJson.add(item);
+            //            break;
+            //        case "necklace":
+            //            necklaceJson.add(item);
+            //            break;
+            //    }
+            //}
         }
     }
 
     public void setIngredientJson() {
         for (JsonObject ing : wynnIngredients) {
-            for (int i = 0; ing.get("requirements").getAsJsonObject().get("skills").getAsJsonArray().size() > i; ++i) {
-                switch (ing.get("requirements").getAsJsonObject().get("skills").getAsJsonArray().get(i).getAsString()) {
-                    case "armouring":
+            for (int i = 0; ing.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray().size() > i; ++i) {
+                switch (ing.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray().get(i).getAsString()) {
+                    case JsonValues.ARMOURING:
                         armouringJson.add(ing);
                         break;
-                    case "tailoring":
+                    case JsonValues.TAILORING:
                         tailoringJson.add(ing);
                         break;
-                    case "weaponsmithing":
+                    case JsonValues.WEAPONSMITHING:
                         weaponsmithingJson.add(ing);
                         break;
-                    case "woodworking":
+                    case JsonValues.WOODWORKING:
                         woodworkingJson.add(ing);
                         break;
-                    case "jeweling":
+                    case JsonValues.JEWELING:
                         jewelingJson.add(ing);
                         break;
-                    case "scribing":
+                    case JsonValues.SCRIBING:
                         scribingJson.add(ing);
                         break;
-                    case "cooking":
+                    case JsonValues.COOKING:
                         cookingJson.add(ing);
                         break;
-                    case "alchemism":
+                    case JsonValues.ALCHEMISM:
                         alchemismJson.add(ing);
                         break;
                 }
@@ -1318,54 +1369,66 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public void setOtherItemsJson() {
         for (JsonObject j : wynnOtherItems) {
-            switch (j.get("type").getAsString()) {
-                case "tome":
+            switch (j.get(JsonKeys.TYPE.getKey()).getAsString()) {
+                case JsonValues.TOME:
                     tomeJson.add(j);
-                    switch (j.get("tomeType").getAsString()) {
-                        case "guild_tome": //x1 Slots
+                    switch (j.get(JsonKeys.SUBTYPE.getKey()).getAsString()) {
+                        case JsonValues.GUILD_TOME: //x1 Slots
                             guildTomeJson.add(j);
                             break;
-                        case "marathon_tome": //x2 Slots
+                        case JsonValues.MARATHON_TOME: //x2 Slots
                             marathonTomeJson.add(j);
                             break;
-                        case "expertise_tome": //x2 Slots
+                        case JsonValues.EXPERTISE_TOME: //x2 Slots
                             expertiseTomeJson.add(j);
                             break;
-                        case "lootrun_tome": //x1 Slots
+                        case JsonValues.LOOTRUN_TOME: //x1 Slots
                             lootrunTomeJson.add(j);
                             break;
-                        case "mysticism_tome": //x2 Slots
+                        case JsonValues.MYSTICISM_TOME: //x2 Slots
                             mysticismTomeJson.add(j);
                             break;
-                        case "weapon_tome": //x2 Slots
+                        case JsonValues.WEAPON_TOME: //x2 Slots
                             weaponTomeJson.add(j);
                             break;
-                        case "armour_tome": //x4 Slots
+                        case JsonValues.ARMOUR_TOME: //x4 Slots
                             armourTomeJson.add(j);
                             break;
                     }
                     break;
-                case "charm":
+                case JsonValues.CHARM:
                     charmJson.add(j);
                     break;
-                case "tool":
+                case JsonValues.TOOL:
                     toolJson.add(j);
                     break;
-                case "material":
+                case JsonValues.MATERIAL:
                     materialJson.add(j);
                     break;
             }
         }
     }
 
-    public void searchItemFromIDs(List<JComboBox<String>> box, JTextField min, JTextField max, JsonObject how_to_obtain) {
+    // UPDATED
+    public void searchIDs(List<JComboBox<String>> box, JTextField min, JTextField max, JsonObject how_to_obtain, ItemType type) {
         Identifications id_0 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
         Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
         Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
         Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
 
+        String idName_0 = id_0.getItemName();
+        String idName_1 = id_1.getItemName();
+        String idName_2 = id_2.getItemName();
+        String idName_3 = id_3.getItemName();
+        if (type == ItemType.INGREDIENT) {
+            idName_0 = id_0.getIngName();
+            idName_1 = id_1.getIngName();
+            idName_2 = id_2.getIngName();
+            idName_3 = id_3.getIngName();
+        }
+
         if (!getComboBoxText(box, 0).isEmpty() || !getComboBoxText(box, 1).isEmpty() || !getComboBoxText(box, 2).isEmpty() || !getComboBoxText(box, 3).isEmpty()) {
-            if (id_0.getItemName() != null || id_1.getItemName() != null || id_2.getItemName() != null || id_3.getItemName() != null) {
+            if (idName_0 != null || idName_1 != null || idName_2 != null || idName_3 != null) {
                 for (int i = searchedItems.size() - 1; i >= 0; --i) {
                     JsonObject j = searchedItems.get(i);
                     if (!min.getText().isEmpty() || !max.getText().isEmpty()) { //ID Range Filter 0 ~ 0
@@ -1374,7 +1437,7 @@ public class SearchUI extends JFrame implements ActionListener {
                         if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
                         if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
                         if (min_Int == 0 || max_Int == 0) {
-                            if (notHaveItemID(id_0, j, 0, 0, how_to_obtain) && notHaveItemID(id_1, j, 0, 0, how_to_obtain) && notHaveItemID(id_2, j, 0, 0, how_to_obtain) && notHaveItemID(id_3, j, 0, 0, how_to_obtain)) {
+                            if (!hasID(id_0, j, how_to_obtain, min, max, type) && !hasID(id_1, j, how_to_obtain, min, max, type) && !hasID(id_2, j, how_to_obtain, min, max, type) && !hasID(id_3, j, how_to_obtain, min, max, type)) {
                                 continue;
                             }
                         }
@@ -1383,87 +1446,9 @@ public class SearchUI extends JFrame implements ActionListener {
                     for (int num = 0; 4 > num; ++num) {
                         if (!getComboBoxText(box, num).isEmpty()) {
                             Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, num), Identifications.EMPTY);
-                            if (id.getItemName() != null && id.getItemFieldPos() != null) {
-                                if (notHaveItemID(id_0, j, num, 1, how_to_obtain) && notHaveItemID(id_1, j, num, 2, how_to_obtain) && notHaveItemID(id_2, j, num, 3, how_to_obtain)) {
-                                    if (!Objects.equals(id.getIDType(), "sum")) {
-                                        if (id.getItemFieldPos().equals("nothing") && j.get(id.getItemName()) != null) {
-                                            if (id.getItemName().equals(Identifications.DROP_TYPE.getItemName())) { //Drop Type
-                                                if (ItemUITemplate.haveManualDrop(how_to_obtain, j.get("name").getAsString()) > 0) { //Manual Drop Type
-                                                    if (how_to_obtain.get(id.getDisplayName()) != null) {
-                                                        if (how_to_obtain.get(id.getDisplayName()).isJsonArray()) {
-                                                            for (JsonElement je : how_to_obtain.get(id.getDisplayName()).getAsJsonArray()) {
-                                                                if (je.getAsString().equals(j.get("name").getAsString())) {
-                                                                    remove = false;
-                                                                    break;
-                                                                }
-                                                            }
-                                                        } else if (how_to_obtain.get(id.getDisplayName()).isJsonObject()) {
-                                                            if (how_to_obtain.get(id.getDisplayName()).getAsJsonObject().get(j.get("name").getAsString()) != null) {
-                                                                remove = false;
-                                                            }
-                                                        }
-                                                    }
-                                                } else {
-                                                    if (j.get("dropMeta") != null) { //Meta Drop Type
-                                                        if (j.get("dropMeta").getAsJsonObject().get("type").isJsonArray()) {
-                                                            if (id == Identifications.DROP_TYPE_MERCHANT) remove = false;
-                                                        } else {
-                                                            if (id.getDisplayName().equals(j.get("dropMeta").getAsJsonObject().get("type").getAsString())) remove = false;
-                                                        }
-                                                    } else if (j.get("dropRestriction") != null && j.get("dropRestriction").getAsString().equals(id.getDisplayName())) { //Restriction Drop Type
-                                                        remove = false;
-                                                    }
-                                                }
-                                            } else if (id.equals(Identifications.MAJOR_IDS)) { //Major ID
-                                                if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
-                                                    String s = max.getText();
-                                                    if (!min.getText().isEmpty()) s = min.getText();
-                                                    //if (j.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString().toLowerCase().contains(s.toLowerCase())) remove = false;
-                                                    for (Map.Entry<String, JsonElement> entry : j.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().entrySet()) {
-                                                        if (entry.getKey().toLowerCase().contains(s.toLowerCase())) {
-                                                            remove = false;
-                                                            break;
-                                                        }
-                                                    }
-                                                } else { //has No Text (Major ID)
-                                                    remove = false;
-                                                }
-                                            } else { //Other
-                                                remove = false;
-                                            }
-                                        } else if (j.get(id.getItemFieldPos()) != null && j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-                                            remove = false;
-                                        }
-                                    } else if (Objects.equals(id.getIDType(), "sum")) {
-                                        boolean needAll = true;
-                                        boolean need = false;
-                                        for (int n = 0; id.getSum().getIds().size() > n; ++n) {
-                                            Identifications id2 = id.getSum().getIds().get(n);
-                                            if (id2.getItemName() != null) {
-                                                if (id2.getItemFieldPos().equals("nothing")) {
-                                                    if (j.get(id2.getItemName()) != null) {
-                                                        need = true;
-                                                    } else {
-                                                        needAll = false;
-                                                    }
-                                                } else {
-                                                    if (j.get(id2.getItemFieldPos()) != null && j.get(id2.getItemFieldPos()).getAsJsonObject().get(id2.getItemName()) != null) {
-                                                        need = true;
-                                                    } else {
-                                                        needAll = false;
-                                                    }
-                                                }
-                                            } else {
-                                                needAll = false;
-                                            }
-                                        }
-                                        if (id.getSum().isNeedAll() && needAll) {
-                                            remove = false;
-                                        } else if (!id.getSum().isNeedAll() && need) {
-                                            remove = false;
-                                        }
-                                    }
-                                }
+                            if (hasID(id, j, how_to_obtain, min, max, type)) {
+                                remove = false;
+                                break;
                             }
                         }
                     }
@@ -1475,308 +1460,30 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    public boolean notHaveItemID(Identifications id, JsonObject j, int idPos, int needPos, JsonObject how_to_obtain) {
-        if (idPos >= needPos && id.getItemName() != null && id.getItemFieldPos() != null) {
-            if (!Objects.equals(id.getIDType(), "sum")) {
-                if (id.getItemFieldPos().equals("nothing")) {
-                    return j.get(id.getItemName()) == null;
-                } else return j.get(id.getItemFieldPos()) == null || j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) == null;
-            } else if (id.getIDType().equals("sum")) {
-                boolean need = false;
-                boolean needAll = true;
-                for (int n = 0; id.getSum().getIds().size() > n; ++n) {
-                    Identifications id2 = id.getSum().getIds().get(n);
-                    if (id2.getItemName() != null) {
-                        if (id2.getItemFieldPos().equals("nothing")) {
-                            if (j.get(id2.getItemName()) != null) {
-                                if (id2.getItemName().equals(Identifications.DROP_TYPE.getItemName())) {
-                                    //Drop Type
-                                    if (ItemUITemplate.haveManualDrop(how_to_obtain, j.get("name").getAsString()) > 0) {
-                                        if (how_to_obtain.get(id.getDisplayName()) != null) {
-                                            if (how_to_obtain.get(id.getDisplayName()).isJsonArray()) {
-                                                boolean has = false;
-                                                for (JsonElement je : how_to_obtain.get(id.getDisplayName()).getAsJsonArray()) {
-                                                    if (je.getAsString().equals(j.get("name").getAsString())) {
-                                                        need = true;
-                                                        has = true;
-                                                        break;
-                                                    }
-                                                }
-                                                if (!has) needAll = false;
-                                            } else if (how_to_obtain.get(id.getDisplayName()).isJsonObject()) {
-                                                if (how_to_obtain.get(id.getDisplayName()).getAsJsonObject().get(j.get("name").getAsString()) != null) {
-                                                    need = true;
-                                                } else {
-                                                    needAll = false;
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        if (j.get("dropMeta") != null) {
-                                            if (j.get("dropMeta").getAsJsonObject().get("type").isJsonArray()) {
-                                                if (id == Identifications.DROP_TYPE_MERCHANT) {
-                                                    need = true;
-                                                } else {
-                                                    needAll = false;
-                                                }
-                                            } else {
-                                                if (id.getDisplayName().equals(j.get("dropMeta").getAsJsonObject().get("type").getAsString())) {
-                                                    need = true;
-                                                } else {
-                                                    needAll = false;
-                                                }
-                                            }
-                                        } else if (j.get("dropRestriction") != null) {
-                                            if (j.get("dropRestriction").getAsString().equals(id.getDisplayName())) {
-                                                need = true;
-                                            } else {
-                                                needAll = false;
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    need = true;
-                                }
-                            } else {
-                                needAll = false;
-                            }
-                        } else {
-                            if (j.get(id2.getItemFieldPos()) != null && j.get(id2.getItemFieldPos()).getAsJsonObject().get(id2.getItemName()) != null) {
-                                need = true;
-                            } else {
-                                needAll = false;
-                            }
-                        }
-                    } else {
-                        needAll = false;
-                    }
-                }
-
-                if (id.getSum().isNeedAll() && needAll) {
-                    return false;
+    // UPDATED
+    public boolean hasID(Identifications id, JsonObject j, JsonObject how_to_obtain, JTextField min, JTextField max, ItemType type) {
+        if (id.getIDType() != DataType.SUM) {
+            return hasIDValue(j, id, how_to_obtain, min, max, type);
+        } else {
+            boolean need = false;
+            boolean needAll = true;
+            for (int n = 0; id.getSum().getIds().size() > n; ++n) {
+                Identifications id2 = id.getSum().getIds().get(n);
+                boolean has = hasIDValue(j, id2, how_to_obtain, min, max, type);
+                if (has) {
+                    need = true;
                 } else {
-                    return id.getSum().isNeedAll() || !need;
+                    needAll = false;
                 }
             }
-        }
-        return true;
-    }
 
-    public void searchIngFromIDs(List<JComboBox<String>> box, JTextField min, JTextField max) {
-        Identifications id_0 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
-        Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
-        Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
-        Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
-
-        if (!getComboBoxText(box, 0).isEmpty() || !getComboBoxText(box, 1).isEmpty() || !getComboBoxText(box, 2).isEmpty() || !getComboBoxText(box, 3).isEmpty()) {
-            if (id_0.getIngName() != null || id_1.getIngName() != null || id_2.getIngName() != null || id_3.getIngName() != null) {
-                for (int i = searchedItems.size() - 1; i >= 0; --i) {
-                    JsonObject j = searchedItems.get(i);
-                    if (!min.getText().isEmpty() || !max.getText().isEmpty()) { //ID Range Filter 0 ~ 0
-                        int min_Int = Integer.MIN_VALUE;
-                        int max_Int = Integer.MAX_VALUE;
-                        if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
-                        if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
-                        if (min_Int == 0 || max_Int == 0) {
-                            if (notHaveIngID(id_0, j, 0, 0) && notHaveIngID(id_1, j, 0, 0) && notHaveIngID(id_2, j, 0, 0) && notHaveIngID(id_3, j, 0, 0)) continue;
-                        }
-                    }
-                    boolean remove = true;
-                    for (int num = 0; 4 > num; ++num) {
-                        if (!getComboBoxText(box, num).isEmpty()) {
-                            Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, num), Identifications.EMPTY);
-                            if (id.getIngName() != null && id.getIngFieldPos() != null) {
-                                if (notHaveIngID(id_0, j, num, 1) && notHaveIngID(id_1, j, num, 2) && notHaveIngID(id_2, j, num, 3)) {
-                                    if (!Objects.equals(id.getIDType(), "sum")) {
-                                        if (Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
-                                            remove = false;
-                                        } else if (Objects.equals(id.getIngFieldPos(), "nothing") && j.get(id.getIngName()) != null) {
-                                            if (id.getIngName().equals(Identifications.DROP_TYPE.getIngName())) {
-                                                switch (id) {
-                                                    case DROP_TYPE_UNKNOWN: {
-                                                        boolean isObtainable = false;
-                                                        for (JsonElement je : j.get("droppedBy").getAsJsonArray()) {
-                                                            if (je.getAsJsonObject().get("name") != null && !je.getAsJsonObject().get("name").getAsString().equals("Ingredient Dummy")) {
-                                                                isObtainable = true;
-                                                                break;
-                                                            }
-                                                        }
-                                                        int haveItem = ItemUITemplate.haveManualDrop(how_to_obtain_ing, j.get("name").getAsString());
-                                                        if (haveItem > 0 && haveItem != 1) isObtainable = true;
-                                                        remove = isObtainable;
-                                                        break;
-                                                    }
-                                                    case DROP_TYPE_SPECIFIC_DROP: {
-                                                        for (JsonElement je : j.get("droppedBy").getAsJsonArray()) {
-                                                            if (je.getAsJsonObject().get("name") != null && !je.getAsJsonObject().get("name").getAsString().equals("Ingredient Dummy")) {
-                                                                remove = false;
-                                                                break;
-                                                            }
-                                                        }
-                                                        if (how_to_obtain_ing.get("specific") != null && how_to_obtain_ing.get("specific").getAsJsonObject().get(j.get("name").getAsString()) != null)
-                                                            remove = false;
-                                                        break;
-                                                    }
-                                                    case DROP_TYPE_NORMAL:
-                                                    case DROP_TYPE_UNOBTAINABLE:
-                                                        if (how_to_obtain_ing.get(id.getDisplayName()) != null) {
-                                                            for (JsonElement je : how_to_obtain_ing.get(id.getDisplayName()).getAsJsonArray()) {
-                                                                if (je.getAsString().equals(j.get("name").getAsString())) {
-                                                                    remove = false;
-                                                                    break;
-                                                                }
-                                                            }
-                                                        }
-                                                        break;
-                                                    case DROP_TYPE_MERCHANT:
-                                                    case DROP_TYPE_QUEST:
-                                                    case DROP_TYPE_RAID_REWARDS:
-                                                    case DROP_TYPE_WORLD_EVENT:
-                                                    case DROP_TYPE_LOOTRUN:
-                                                        if (how_to_obtain_ing.get(id.getDisplayName()) != null && how_to_obtain_ing.get(id.getDisplayName()).getAsJsonObject().get(j.get("name").getAsString()) != null) remove = false;
-                                                        break;
-                                                }
-                                            } else {
-                                                remove = false;
-                                            }
-                                        } else if (!Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() != 0) {
-                                            remove = false;
-                                        }
-                                    } else if (Objects.equals(id.getIDType(), "sum")) {
-                                        boolean need = false;
-                                        boolean needAll = true;
-
-                                        for (int n = 0; id.getSum().getIds().size() > n; ++n) {
-                                            Identifications ids = id.getSum().getIds().get(n);
-                                            if (ids.getIngName() != null && ids.getIngFieldPos() != null) {
-                                                if (Objects.equals(ids.getIngFieldPos(), "identifications") && j.get(ids.getIngFieldPos()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
-                                                    need = true;
-                                                } else if (Objects.equals(ids.getIngFieldPos(), "nothing") && j.get(ids.getIngName()) != null) {
-                                                    if (searchedItems.get(i).get(ids.getIngName()).getAsInt() == 0) {
-                                                        needAll = false;
-                                                    } else {
-                                                        need = true;
-                                                    }
-                                                } else if (!Objects.equals(ids.getIngFieldPos(), "identifications") && j.get(ids.getIngFieldPos()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
-                                                    if (j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt() == 0) {
-                                                        needAll = false;
-                                                    } else {
-                                                        need = true;
-                                                    }
-                                                } else {
-                                                    needAll = false;
-                                                }
-                                            }
-                                        }
-                                        if (id.getSum().isNeedAll() && needAll) {
-                                            remove = false;
-                                        } else if (!id.getSum().isNeedAll() && need) {
-                                            remove = false;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (remove) {
-                        searchedItems.remove(i);
-                    }
-                }
+            if (id.getSum().isNeedAll() && needAll) {
+                return true;
+            } else {
+                return (!id.getSum().isNeedAll() && need);
             }
         }
     }
-
-    public boolean notHaveIngID(Identifications id, JsonObject json, int idPos, int needPos) {
-        if (idPos >= needPos) {
-            if (!Objects.equals(id.getIDType(), "sum")) {
-                if (id.getIngName() != null && id.getIngFieldPos() != null) {
-                    if (Objects.equals(id.getIngFieldPos(), "identifications") && json.get(id.getIngFieldPos()) != null && json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
-                        return false;
-                    } else if (Objects.equals(id.getIngFieldPos(), "nothing") && json.get(id.getIngName()) != null) {
-                        if (id.getIngName().equals(Identifications.DROP_TYPE.getIngName())) {
-                            switch (id) {
-                                case DROP_TYPE_UNKNOWN: {
-                                    boolean isObtainable = false;
-                                    for (Map.Entry<String, JsonElement> entry : json.get("droppedBy").getAsJsonObject().entrySet()) {
-                                        if (!entry.getKey().equals("Ingredient Dummy")) {
-                                            isObtainable = true;
-                                            break;
-                                        }
-                                    }
-                                    int haveItem = ItemUITemplate.haveManualDrop(how_to_obtain_ing, json.get("name").getAsString());
-                                    if (haveItem > 0 && haveItem != 1) isObtainable = true;
-                                    return isObtainable;
-                                }
-                                case DROP_TYPE_SPECIFIC_DROP: {
-                                    for (Map.Entry<String, JsonElement> entry : json.get("droppedBy").getAsJsonObject().entrySet()) {
-                                        if (!entry.getKey().equals("Ingredient Dummy")) {
-                                            return false;
-                                        }
-                                    }
-                                    if (how_to_obtain_ing.get("specific") != null && how_to_obtain_ing.get("specific").getAsJsonObject().get(json.get("name").getAsString()) != null) return false;
-                                    break;
-                                }
-                                case DROP_TYPE_NORMAL:
-                                case DROP_TYPE_UNOBTAINABLE:
-                                    if (how_to_obtain_ing.get(id.getDisplayName()) != null) {
-                                        for (JsonElement je : how_to_obtain_ing.get(id.getDisplayName()).getAsJsonArray()) {
-                                            if (je.getAsString().equals(json.get("name").getAsString())) {
-                                                return false;
-                                            }
-                                        }
-                                    }
-                                    break;
-                                case DROP_TYPE_MERCHANT:
-                                case DROP_TYPE_QUEST:
-                                case DROP_TYPE_RAID_REWARDS:
-                                case DROP_TYPE_WORLD_EVENT:
-                                case DROP_TYPE_LOOTRUN:
-                                    if (how_to_obtain_ing.get(id.getDisplayName()) != null && how_to_obtain_ing.get(id.getDisplayName()).getAsJsonObject().get(json.get("name").getAsString()) != null) return false;
-                                    break;
-                            }
-                        } else {
-                            return false;
-                        }
-                    } else return Objects.equals(id.getIngFieldPos(), "identifications") || json.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() == 0;
-
-                }
-            } else if (Objects.equals(id.getIDType(), "sum")) {
-                boolean need = false;
-                boolean needAll = true;
-
-                for (int n = 0; id.getSum().getIds().size() > n; ++n) {
-                    Identifications ids = id.getSum().getIds().get(n);
-                    if (ids.getIngName() != null && ids.getIngFieldPos() != null) {
-                        if (Objects.equals(ids.getIngFieldPos(), "identifications")) {
-                            if (json.get(ids.getIngFieldPos()) != null && json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
-                                needAll = false;
-                            } else {
-                                need = true;
-                            }
-                        } else if (Objects.equals(ids.getIngFieldPos(), "nothing")) {
-                            if (json.get(ids.getIngName()).getAsInt() == 0) {
-                                needAll = false;
-                            } else {
-                                need = true;
-                            }
-                        } else if (!Objects.equals(ids.getIngFieldPos(), "identifications")) {
-                            if (json.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt() == 0) {
-                                needAll = false;
-                            } else {
-                                need = true;
-                            }
-                        }
-                    }
-                }
-                if (id.getSum().isNeedAll() && needAll) {
-                    return false;
-                } else {
-                    return id.getSum().isNeedAll() || !need;
-                }
-            }
-        }
-        return true;
-        }
 
     public String getComboBoxText(List<JComboBox<String>> boxes, int i) {
         return ((JTextField) boxes.get(i).getEditor().getEditorComponent()).getText();
@@ -1809,73 +1516,73 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void searchFromTier() {
-        if (!itemTier.getItemAt(itemTier.getSelectedIndex()).equals("All") || !tier.getItemAt(tier.getSelectedIndex()).equals("All")) {
+        if (!itemTier.getItemAt(itemTier.getSelectedIndex()).equals(DataKeys.RARITY_ALL) || !tier.getItemAt(tier.getSelectedIndex()).equals(DataKeys.RARITY_ALL)) {
             for (int i = searchedItems.size() - 1; i >= 0; --i) {
                 JsonObject j = searchedItems.get(i);
                 if (j.get(Identifications.RARITY.getItemName()) != null) {
                     String s = j.get(Identifications.RARITY.getItemName()).getAsString();
                     switch (itemTier.getItemAt(itemTier.getSelectedIndex())) {
-                        case "No Normal":
-                            if (s.equals("normal")) {
+                        case DataKeys.RARITY_NO_NORMAL:
+                            if (s.equals(JsonValues.R_NORMAL)) {
                                 searchedItems.remove(i);
                             }
                             break;
-                        case "Mythic":
-                            if (!s.equals("mythic")) {
+                        case DataKeys.RARITY_MYTHIC:
+                            if (!s.equals(JsonValues.MYTHIC)) {
                                 searchedItems.remove(i);
                             }
                             break;
-                        case "Fabled":
-                            if (!s.equals("fabled")) {
+                        case DataKeys.RARITY_FABLED:
+                            if (!s.equals(JsonValues.FABLED)) {
                                 searchedItems.remove(i);
                             }
                             break;
-                        case "Legendary":
-                            if (!s.equals("legendary")) {
+                        case DataKeys.RARITY_LEGENDARY:
+                            if (!s.equals(JsonValues.LEGENDARY)) {
                                 searchedItems.remove(i);
                             }
                             break;
-                        case "Rare":
-                            if (!s.equals("rare")) {
+                        case DataKeys.RARITY_RARE:
+                            if (!s.equals(JsonValues.RARE)) {
                                 searchedItems.remove(i);
                             }
                             break;
-                        case "Unique":
-                            if (!s.equals("unique")) {
+                        case DataKeys.RARITY_UNIQUE:
+                            if (!s.equals(JsonValues.UNIQUE)) {
                                 searchedItems.remove(i);
                             }
                             break;
-                        case "Set":
-                            if (!s.equals("set")) {
-                                searchedItems.remove(i);
-                            }
-                            break;
-                        case "Normal":
-                            if (!s.equals("normal")) {
+                        //case "Set": // Set Rarity was discontinued.
+                        //    if (!s.equals("set")) {
+                        //        searchedItems.remove(i);
+                        //    }
+                        //    break;
+                        case DataKeys.RARITY_NORMAL:
+                            if (!s.equals(JsonValues.R_NORMAL)) {
                                 searchedItems.remove(i);
                             }
                             break;
                     }
                 } else if (j.get(Identifications.RARITY.getIngName()) != null) {
-                    int t = j.get(Identifications.RARITY.getIngName()).getAsInt();
+                    String t = j.get(Identifications.RARITY.getIngName()).getAsString();
                     switch (tier.getItemAt(tier.getSelectedIndex())) {
-                        case "0 Star":
-                            if (t != 0) {
+                        case DataKeys.RARITY_0STAR:
+                            if (!t.equals(JsonValues.STAR_0)) {
                                 searchedItems.remove(i);
                             }
                             break;
-                        case "1 Star":
-                            if (t != 1) {
+                        case DataKeys.RARITY_1STAR:
+                            if (!t.equals(JsonValues.STAR_1)) {
                                 searchedItems.remove(i);
                             }
                             break;
-                        case "2 Star":
-                            if (t != 2) {
+                        case DataKeys.RARITY_2STAR:
+                            if (!t.equals(JsonValues.STAR_2)) {
                                 searchedItems.remove(i);
                             }
                             break;
-                        case "3 Star":
-                            if (t != 3) {
+                        case DataKeys.RARITY_3STAR:
+                            if (!t.equals(JsonValues.STAR_3)) {
                                 searchedItems.remove(i);
                             }
                             break;
@@ -1888,8 +1595,8 @@ public class SearchUI extends JFrame implements ActionListener {
     public void searchFromName() {
         for (int i = searchedItems.size() - 1; i >= 0  ; --i) {
             JsonObject json = searchedItems.get(i);
-            if (json.get("name") != null) {
-                if (!json.get("name").getAsString().toLowerCase().contains(searchF.getText().toLowerCase())) {
+            if (json.get(JsonKeys.NAME.getKey()) != null) {
+                if (!json.get(JsonKeys.NAME.getKey()).getAsString().toLowerCase().contains(searchF.getText().toLowerCase())) {
                     searchedItems.remove(i);
                 }
             } else {
@@ -1898,7 +1605,8 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    public void filterItemFromSize(List<JComboBox<String>> box, JTextField min, JTextField max) {
+    // UPDATED
+    public void filterRange(List<JComboBox<String>> box, JTextField min, JTextField max, JsonObject how_to_obtain, ItemType type) {
         if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
             int min_Int = Integer.MIN_VALUE;
             int max_Int = Integer.MAX_VALUE;
@@ -1909,72 +1617,59 @@ public class SearchUI extends JFrame implements ActionListener {
                 Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
                 Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
                 Identifications id_4 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
-                if (id_1.getItemName() != null || id_2.getItemName() != null || id_3.getItemName() != null || id_4.getItemName() != null) {
-                    if (!id_1.getIDType().equals("string") && !id_2.getIDType().equals("string") && !id_3.getIDType().equals("string") && !id_4.getIDType().equals("string")) {
+
+                String idName_1 = id_1.getItemName();
+                String idName_2 = id_2.getItemName();
+                String idName_3 = id_3.getItemName();
+                String idName_4 = id_4.getItemName();
+                if (type == ItemType.INGREDIENT) {
+                    idName_1 = id_1.getIngName();
+                    idName_2 = id_2.getIngName();
+                    idName_3 = id_3.getIngName();
+                    idName_4 = id_4.getIngName();
+                }
+
+                if (idName_1 != null || idName_2 != null || idName_3 != null || idName_4 != null) {
+                    if (id_1.getIDType() != DataType.STRING && id_2.getIDType() != DataType.STRING && id_3.getIDType() != DataType.STRING && id_4.getIDType() != DataType.STRING) {
                         for (int i = searchedItems.size() - 1; i >= 0; --i) {
                             JsonObject j = searchedItems.get(i);
                             float total_min = 0;
                             float total_max = 0;
                             for (int s = 0; 4 > s; ++s) {
                                 Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, s), Identifications.EMPTY);
-                                if (id.getItemName() != null && id.getItemFieldPos() != null) {
-                                    if (!id.getIDType().equals("sum")) {
-                                        if (id.getItemFieldPos().equals("nothing")) {
-                                            if (id.getIDType().equals("int")) {
-                                                total_min += j.get(id.getItemName()).getAsInt();
-                                                total_max += j.get(id.getItemName()).getAsInt();
-                                            } else if (id.getIDType().equals("string")) {
+                                String idName = id.getItemName();
+                                JsonKeys fieldPos = id.getItemFieldPos();
+                                if (type == ItemType.INGREDIENT) {
+                                    idName = id.getIngName();
+                                    fieldPos = id.getIngFieldPos();
+                                }
+
+                                if (idName != null && fieldPos != null) {
+                                    if (id.getIDType() != DataType.SUM) {
+                                        if (id.getIDType() == DataType.STRING) {
+                                            if (id == Identifications.ATTACK_SPEED) {
+                                                float atkSpd = getAttackSpeed(j);
+                                                total_min += atkSpd;
+                                                total_min += atkSpd;
+                                            } else if (hasIDValue(j, id, how_to_obtain, min, max, type)) {
                                                 total_min += 1;
                                                 total_max += 1;
                                             }
+                                        } else if (id.getIDType() == DataType.INT) {
+                                            total_min += getIDValue(j, id, JsonKeys.MIN, type);
+                                            total_max += getIDValue(j, id, JsonKeys.MAX, type);
                                         } else {
-                                            if (j.get(id.getItemFieldPos()) != null && j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-                                                if (!j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).isJsonObject()) {
-                                                    total_min += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsInt();
-                                                    total_max += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsInt();
-                                                } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && id.isItemVariable()) {
-                                                    if (isReversedID(id)) {
-                                                        String rawOrMax = "raw";
-                                                        if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("raw") == null) rawOrMax = "max";
-                                                        int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get(rawOrMax).getAsInt());
-                                                        total_min += base;
-                                                        total_max += base;
-                                                    } else {
-                                                        String minOrMax = "max";
-                                                        if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
-                                                        int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get(minOrMax).getAsInt());
-                                                        total_min += base;
-                                                        total_max += base;
-                                                    }
-                                                } else if (id.isItemVariable()) { //Item ID Variable
-                                                    if (!j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).isJsonObject()) {
-                                                        total_min += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsInt();
-                                                        total_max += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsInt();
-                                                    } else if (isReversedID(id)) {
-                                                        if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("raw") == null) {
-                                                            int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
-                                                            total_min += ItemUITemplate.getReversedMinInt(base);
-                                                            total_max += ItemUITemplate.getReversedMaxInt(base);
-                                                        } else {
-                                                            total_min += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("min").getAsInt();
-                                                            total_max += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt();
-                                                        }
-                                                    } else {
-                                                        total_min += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("min").getAsInt();
-                                                        total_max += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt();
-                                                    }
-                                                }
-                                            }
+                                            System.out.println("Warning: Can't filtering this id. ID Name: " + id.getDisplayName());
                                         }
                                     } else {
                                         if (id.getSum().getSumIDs() != null) {
                                             for (int n = 0; id.getSum().getSumIDs().size() > n; n++) {
-                                                total_min += getTotalSumItemFloat(j, id.getSum().getSumIDs().get(n), true);
-                                                total_max += getTotalSumItemFloat(j, id.getSum().getSumIDs().get(n), false);
+                                                total_min += getTotalSumFloat(j, id.getSum().getSumIDs().get(n), JsonKeys.MIN, type);
+                                                total_max += getTotalSumFloat(j, id.getSum().getSumIDs().get(n), JsonKeys.MAX, type);
                                             }
                                         } else {
-                                            total_min += getTotalSumItemFloat(j, id.getSum(), true);
-                                            total_max += getTotalSumItemFloat(j, id.getSum(), false);
+                                            total_min += getTotalSumFloat(j, id.getSum(), JsonKeys.MIN, type);
+                                            total_max += getTotalSumFloat(j, id.getSum(), JsonKeys.MAX, type);
                                         }
                                     }
                                 }
@@ -1989,132 +1684,16 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    public void filterIngredientFromSize(List<JComboBox<String>> box, JTextField min, JTextField max) {
-        if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
-            int min_Int = Integer.MIN_VALUE;
-            int max_Int = Integer.MAX_VALUE;
-            if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
-            if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
-            if (min_Int != Integer.MIN_VALUE || max_Int != Integer.MAX_VALUE) {
-                Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
-                Identifications id_2 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
-                Identifications id_3 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
-                Identifications id_4 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
-                if (id_1.getIngName() != null || id_2.getIngName() != null || id_3.getIngName() != null || id_4.getIngName() != null) {
-                    for (int i = searchedItems.size() - 1; i >= 0; --i) {
-                        JsonObject j = searchedItems.get(i);
-                        int total_min = 0;
-                        int total_max = 0;
-                        for (int s = 0; 4 > s; ++s) {
-                            Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, s), Identifications.EMPTY);
-                            if (id.getIngName() != null && id.getIngFieldPos() != null) {
-                                if (!id.getIDType().equals("sum")) {
-                                    if (Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
-                                        total_min += j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("min").getAsInt();
-                                        total_max += j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("max").getAsInt();
-                                    } else if (Objects.equals(id.getIngFieldPos(), "nothing") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsInt() != 0) {
-                                        if (id.getIngName().equals(Identifications.DROP_TYPE.getIngName())) {
-                                            switch (id) {
-                                                case DROP_TYPE_UNKNOWN: {
-                                                    boolean isObtainable = false;
-                                                    for (Map.Entry<String, JsonElement> entry : j.get("droppedBy").getAsJsonObject().entrySet()) {
-                                                        if (!entry.getKey().equals("Ingredient Dummy")) {
-                                                            isObtainable = true;
-                                                            break;
-                                                        }
-                                                    }
-                                                    int haveItem = ItemUITemplate.haveManualDrop(how_to_obtain_ing, j.get("name").getAsString());
-                                                    if (haveItem > 0 && haveItem != 1) isObtainable = true;
-                                                    if (!isObtainable) {
-                                                        total_min += 1;
-                                                        total_max += 1;
-                                                    }
-                                                    break;
-                                                }
-                                                case DROP_TYPE_SPECIFIC_DROP: {
-                                                    for (Map.Entry<String, JsonElement> entry : j.get("droppedBy").getAsJsonObject().entrySet()) {
-                                                        if (!entry.getKey().equals("Ingredient Dummy")) {
-                                                            total_min += 1;
-                                                            total_max += 1;
-                                                            break;
-                                                        }
-                                                    }
-                                                    if (how_to_obtain_ing.get("specific") != null && how_to_obtain_ing.get("specific").getAsJsonObject().get(j.get("name").getAsString()) != null) {
-                                                        total_min += 1;
-                                                        total_max += 1;
-                                                    }
-                                                    break;
-                                                }
-                                                case DROP_TYPE_NORMAL:
-                                                case DROP_TYPE_UNOBTAINABLE:
-                                                    if (how_to_obtain_ing.get(id.getDisplayName()) != null) {
-                                                        for (JsonElement je : how_to_obtain_ing.get(id.getDisplayName()).getAsJsonArray()) {
-                                                            if (je.getAsString().equals(j.get("name").getAsString())) {
-                                                                total_min += 1;
-                                                                total_max += 1;
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                    break;
-                                                case DROP_TYPE_MERCHANT:
-                                                case DROP_TYPE_QUEST:
-                                                case DROP_TYPE_RAID_REWARDS:
-                                                    if (how_to_obtain_ing.get(id.getDisplayName()) != null && how_to_obtain_ing.get(id.getDisplayName()).getAsJsonObject().get(j.get("name").getAsString()) != null) {
-                                                        total_min += 1;
-                                                        total_max += 1;
-                                                    }
-                                                    break;
-                                            }
-                                        } else {
-                                            total_min += j.get(id.getIngName()).getAsInt();
-                                            total_max += j.get(id.getIngName()).getAsInt();
-                                        }
-                                    } else if (!Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt() != 0) {
-                                        total_min += j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt();
-                                        total_max += j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt();
-                                    }
-                                } else {
-                                    int sum_total_min = 0;
-                                    int sum_total_max = 0;
-                                    for (int n = 0; id.getSum().getIds().size() > n; ++n) {
-                                        Identifications ids = id.getSum().getIds().get(n);
-                                        if (ids.getIngName() != null && ids.getIngFieldPos() != null) {
-                                            if (Objects.equals(ids.getIngFieldPos(), "identifications") && j.get(ids.getIngFieldPos()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
-                                                sum_total_min += j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("min").getAsInt();
-                                                sum_total_max += j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("max").getAsInt();
-                                            } else if (Objects.equals(ids.getIngFieldPos(), "nothing") && j.get(ids.getIngName()) != null && j.get(ids.getIngName()).getAsInt() != 0) {
-                                                sum_total_min += j.get(ids.getIngName()).getAsInt();
-                                                sum_total_max += j.get(ids.getIngName()).getAsInt();
-                                            } else if (!Objects.equals(ids.getIngFieldPos(), "identifications") && j.get(ids.getIngFieldPos()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt() != 0) {
-                                                sum_total_min += j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt();
-                                                sum_total_max += j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt();
-                                            }
-                                        }
-                                    }
-                                    total_min += sum_total_min;
-                                    total_max += sum_total_max;
-                                }
-                            }
-                        }
-                        if (min_Int > total_min || max_Int < total_max) {
-                            if (min_Int > total_max || max_Int < total_min) searchedItems.remove(i);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public void sortItems(Set<String> sortItemList) {
+    // UPDATED
+    public void sort(Set<String> sortList, ItemType type) {
         int si = searchedItems.size() - 1;
         int iu = 0;
         float max = Integer.MIN_VALUE;
-        boolean bSortType = false;
+        JsonKeys bSortType = JsonKeys.MAX;
 
-        if (sortType.getItemAt(sortType.getSelectedIndex()).equals("Sort: Min")) {
+        if (sortType.getItemAt(sortType.getSelectedIndex()).equals(DataKeys.SORT_MIN)) {
             max = Integer.MAX_VALUE;
-            bSortType = true;
+            bSortType = JsonKeys.MIN;
         }
 
         for (int i = 0; si >= i; ++i) {
@@ -2123,63 +1702,36 @@ public class SearchUI extends JFrame implements ActionListener {
 
             for (int num = 0; 4 > num; ++num) {
                 Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, num), Identifications.EMPTY);
-                if (id.getItemName() != null && id.getItemFieldPos() != null) {
-                    if (!Objects.equals(id.getIDType(), "sum")) {
-                        if (Objects.equals(id.getIDType(), "int")) {
-                            //Integer Type IDs
-                            if (id.getItemFieldPos().equals("nothing")) {
-                                if (id.getIDType().equals("int")) {
-                                    total += j.get(id.getItemName()).getAsInt();
-                                }
-                            } else {
-                                if (j.get(id.getItemFieldPos()) != null && j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-                                    if (!j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).isJsonObject()) {
-                                        total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsInt();
-                                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && id.isItemVariable()) {
-                                        if (isReversedID(id)) {
-                                            total += getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
-                                        } else {
-                                            String minOrMax = "max";
-                                            if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
-                                            total += getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get(minOrMax).getAsInt());
-                                        }
-                                    } else if (id.isItemVariable()) { //Item ID Variable
-                                        if (isReversedID(id)) {
-                                            int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
-                                            if (bSortType) {
-                                                total += ItemUITemplate.getReversedMinInt(base);
-                                            } else {
-                                                total += ItemUITemplate.getReversedMaxInt(base);
-                                            }
-                                        } else {
-                                            if (bSortType) {
-                                                total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("min").getAsInt();
-                                            } else {
-                                                total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } else if (Objects.equals(id, Identifications.ATTACK_SPEED) && j.get(id.getItemName()) != null) {
+                String idName = id.getItemName();
+                JsonKeys fieldPos = id.getItemFieldPos();
+                if (type == ItemType.INGREDIENT) {
+                    idName = id.getIngName();
+                    fieldPos = id.getIngFieldPos();
+                }
+
+                if (idName != null && fieldPos != null) {
+                    if (id.getIDType() != DataType.SUM) {
+                        if (id.getIDType() == DataType.INT) {
+                            total += getIDValue(j, id, bSortType, type);
+                        } else if (id == Identifications.ATTACK_SPEED) {
                             //Attack Speed
-                            total += getAttackSpeed(j.get(id.getItemName()).getAsString());
+                            total += getAttackSpeed(j);
                         }
-                    } else if (Objects.equals(id.getIDType(), "sum")) {
+                    } else { // is SUM
                         if (id.getSum().getSumIDs() != null) {
                             //SUM in SUM
                             for (int n = 0; id.getSum().getSumIDs().size() > n; ++n) {
-                                total += getTotalSumItemFloat(j, id.getSum().getSumIDs().get(n), bSortType);
+                                total += getTotalSumFloat(j, id.getSum().getSumIDs().get(n), bSortType, type);
                             }
                         } else {
                             //Normal SUM
-                            total += getTotalSumItemFloat(j, id.getSum(), bSortType);
+                            total += getTotalSumFloat(j, id.getSum(), bSortType, type);
                         }
                     }
                 }
             }
 
-            if (bSortType) {
+            if (bSortType == JsonKeys.MIN) {
                 if (total < max) {
                     max = total;
                     iu = si - i;
@@ -2192,8 +1744,8 @@ public class SearchUI extends JFrame implements ActionListener {
             }
         }
 
-        if (sortItemList != null) {
-            sortItemList.add(searchedItems.get(iu).get("name").getAsString());
+        if (sortList != null) {
+            sortList.add(searchedItems.get(iu).get("name").getAsString());
         } else {
             JPanel previous = null;
             JPanel above = null;
@@ -2203,204 +1755,7 @@ public class SearchUI extends JFrame implements ActionListener {
             if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
                 above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
             }
-            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), ItemType.ITEM, previous, above, scrollPane.getWidth(), max, false));
-            searched.add(itemDisplays.get(itemDisplays.size() - 1));
-        }
-        searchedItems.remove(iu);
-    }
-
-    public void sortIngredients(Set<String> sortIngList) {
-        int si = searchedItems.size() - 1;
-        int iu = 0;
-        int max = Integer.MIN_VALUE;
-        boolean bSortType = false;
-
-        if (sortType.getItemAt(sortType.getSelectedIndex()).equals("Sort: Min")) {
-            max = Integer.MAX_VALUE;
-            bSortType = true;
-        }
-
-        for (int i = 0; si >= i; ++i) {
-            JsonObject j = searchedItems.get(si - i);
-            int total = 0;
-
-            for (int num = 0; 4 > num; ++num) {
-                Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, num), Identifications.EMPTY);
-                if (id.getIngName() != null) {
-                    if (!Objects.equals(id.getIDType(), "sum")) {
-                        if (Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
-                            int t = j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("max").getAsInt();
-                            if (bSortType) {
-                                t = j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsJsonObject().get("min").getAsInt();
-                            }
-                            total += t;
-                        } else if (Objects.equals(id.getIngFieldPos(), "nothing") && j.get(id.getIngName()) != null) {
-                            if (id.getIDType().equals("int")) {
-                                total += j.get(id.getIngName()).getAsInt();
-                            }
-                        } else if (!Objects.equals(id.getIngFieldPos(), "identifications") && j.get(id.getIngFieldPos()) != null && j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()) != null) {
-                            total += j.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName()).getAsInt();
-                        }
-                    } else if (Objects.equals(id.getIDType(), "sum")) {
-                        int sum_total = 0;
-                        for (int n = 0; id.getSum().getIds().size() > n; ++n) {
-                            Identifications ids = id.getSum().getIds().get(n);
-                            if (Objects.equals(ids.getIngFieldPos(), "identifications") && j.get(ids.getIngFieldPos()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
-                                int t = j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("max").getAsInt();
-                                if (bSortType) {
-                                    t = j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsJsonObject().get("min").getAsInt();
-                                }
-                                sum_total += t;
-                            } else if (Objects.equals(ids.getIngFieldPos(), "nothing") && j.get(ids.getIngName()) != null) {
-                                if (ids.getIDType().equals("int")) {
-                                    sum_total += j.get(ids.getIngName()).getAsInt();
-                                }
-                            } else if (!Objects.equals(ids.getIngFieldPos(), "identifications") && j.get(ids.getIngFieldPos()) != null && j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()) != null) {
-                                sum_total += j.get(ids.getIngFieldPos()).getAsJsonObject().get(ids.getIngName()).getAsInt();
-                            }
-                        }
-                        total += sum_total;
-                    }
-                }
-            }
-
-            if (bSortType) {
-                if (total < max) {
-                    max = total;
-                    iu = si - i;
-                }
-            } else {
-                if (total > max) {
-                    max = total;
-                    iu = si - i;
-                }
-            }
-        }
-
-        if (sortIngList != null) {
-            sortIngList.add(searchedItems.get(iu).get("name").getAsString());
-        } else {
-            JPanel previous = null;
-            JPanel above = null;
-            if (!itemDisplays.isEmpty()) {
-                previous = itemDisplays.get(itemDisplays.size() - 1);
-            }
-            if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
-                above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
-            }
-            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), ItemType.INGREDIENT, previous, above, scrollPane.getWidth(), max, false));
-            searched.add(itemDisplays.get(itemDisplays.size() - 1));
-        }
-        searchedItems.remove(iu);
-    }
-
-    public void sortOtherItems(Set<String> sortOtherList) {
-        int si = searchedItems.size() - 1;
-        int iu = 0;
-        float max = Integer.MIN_VALUE;
-        boolean bSortType = false;
-
-        if (sortType.getItemAt(sortType.getSelectedIndex()).equals("Sort: Min")) {
-            max = Integer.MAX_VALUE;
-            bSortType = true;
-        }
-
-        for (int i = 0; si >= i; ++i) {
-            JsonObject j = searchedItems.get(si - i);
-            float total = 0;
-
-            for (int num = 0; 4 > num; ++num) {
-                Identifications id = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, num), Identifications.EMPTY);
-                if (id.getItemName() != null && id.getItemFieldPos() != null) {
-                    if (!Objects.equals(id.getIDType(), "sum")) {
-                        if (Objects.equals(id.getIDType(), "int")) {
-                            //Integer Type IDs
-                            if (id.getItemFieldPos().equals("nothing")) {
-                                if (id.getIDType().equals("int")) {
-                                    total += j.get(id.getItemName()).getAsInt();
-                                }
-                            } else {
-                                if (j.get(id.getItemFieldPos()) != null && j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-                                    if (!j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).isJsonObject()) {
-                                        total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsInt();
-                                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && id.isItemVariable()) {
-                                        if (isReversedID(id)) {
-                                            if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("raw") == null) {
-                                                total += getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
-                                            } else {
-                                                total += getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("raw").getAsInt());
-                                            }
-                                        } else {
-                                            String minOrMax = "max";
-                                            if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
-                                            total += getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get(minOrMax).getAsInt());
-                                        }
-                                    } else if (id.isItemVariable()) { //Item ID Variable
-                                        if (isReversedID(id)) {
-                                            if (j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("raw") == null) {
-                                                int base = getBaseID(j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt());
-                                                if (bSortType) {
-                                                    total += ItemUITemplate.getReversedMinInt(base);
-                                                } else {
-                                                    total += ItemUITemplate.getReversedMaxInt(base);
-                                                }
-                                            } else {
-                                                if (bSortType) {
-                                                    total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("min").getAsInt();
-                                                } else {
-                                                    total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt();
-                                                }
-                                            }
-                                        } else {
-                                            if (bSortType) {
-                                                total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("min").getAsInt();
-                                            } else {
-                                                total += j.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()).getAsJsonObject().get("max").getAsInt();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else if (Objects.equals(id.getIDType(), "sum")) {
-                        if (id.getSum().getSumIDs() != null) {
-                            //SUM in SUM
-                            for (int n = 0; id.getSum().getSumIDs().size() > n; ++n) {
-                                total += getTotalSumItemFloat(j, id.getSum().getSumIDs().get(n), bSortType);
-                            }
-                        } else {
-                            //Normal SUM
-                            total += getTotalSumItemFloat(j, id.getSum(), bSortType);
-                        }
-                    }
-                }
-            }
-
-            if (bSortType) {
-                if (total < max) {
-                    max = total;
-                    iu = si - i;
-                }
-            } else {
-                if (total > max) {
-                    max = total;
-                    iu = si - i;
-                }
-            }
-        }
-
-        if (sortOtherList != null) {
-            sortOtherList.add(searchedItems.get(iu).get("name").getAsString());
-        } else {
-            JPanel previous = null;
-            JPanel above = null;
-            if (!itemDisplays.isEmpty()) {
-                previous = itemDisplays.get(itemDisplays.size() - 1);
-            }
-            if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
-                above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
-            }
-            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), ItemType.OTHER, previous, above, scrollPane.getWidth(), max, false));
+            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), type, previous, above, scrollPane.getWidth(), max, false));
             searched.add(itemDisplays.get(itemDisplays.size() - 1));
         }
         searchedItems.remove(iu);
@@ -2596,7 +1951,209 @@ public class SearchUI extends JFrame implements ActionListener {
         return true;
     }
 
-    public float getTotalSumItemFloat(JsonObject j, SumEnum sum, boolean getMin) {
+    public int getIDValue(JsonObject j, Identifications id, JsonKeys sortType, ItemType type) {
+        String idName = id.getItemName();
+        JsonKeys fieldPos = id.getItemFieldPos();
+        if (type == ItemType.INGREDIENT) {
+            idName = id.getIngName();
+            fieldPos = id.getIngFieldPos();
+        }
+
+        if (idName != null && fieldPos != null && id.getIDType() == DataType.INT) {
+            if (fieldPos == JsonKeys.NOTHING) {
+                return j.get(idName).getAsInt();
+            } else {
+                if (j.get(fieldPos.getKey()) != null && j.get(fieldPos.getKey()).getAsJsonObject().get(idName) != null) {
+                    if (!j.get(fieldPos.getKey()).getAsJsonObject().get(idName).isJsonObject()) {
+                        return j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsInt(); // Not a Json Object
+                    } else if (j.get(JsonKeys.IDENTIFIED.getKey()) != null && j.get(JsonKeys.IDENTIFIED.getKey()).getAsBoolean() && id.isItemVariable()) {
+                        if (j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(JsonKeys.RAW.getKey()) != null) {
+                            return j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(JsonKeys.RAW.getKey()).getAsInt();
+                            //return getBaseID(j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(JsonKeys.RAW.getKey()).getAsInt()); // this old code why used?
+                        } else {
+                            String minOrMax = JsonKeys.MAX.getKey();
+                            if (isReversedID(id)) {
+                                if (j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt() > 0) minOrMax = JsonKeys.MIN.getKey();
+                            } else {
+                                if (j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt() < 0) minOrMax = JsonKeys.MIN.getKey();
+                            }
+                            return getBaseID(j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(minOrMax).getAsInt());
+                        }
+                    } else if (id.isItemVariable()) { //Item ID Variable
+                        if (j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(sortType.getKey()) != null) {
+                            return j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(sortType.getKey()).getAsInt();
+                        } else {
+                            System.out.println("Warning: Variable ID Value get failed.");
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    public boolean hasIDValue(JsonObject j, Identifications id, JsonObject how_to_obtain, JTextField min, JTextField max, ItemType type) {
+        if (type == ItemType.INGREDIENT) {
+            return hasIngIDValue(j, id, id.getIngName(), id.getIngFieldPos());
+        } else {
+            return hasItemIDValue(j, id, id.getItemName(), id.getItemFieldPos(), how_to_obtain, min, max);
+        }
+    }
+
+    public boolean hasItemIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos, JsonObject how_to_obtain, JTextField min, JTextField max) {
+        if (idName != null) {
+            if (id.getIDType() == DataType.INT) {
+                return getIDValue(j, id, JsonKeys.MAX, ItemType.ITEM) != 0;
+            } else if (id.getIDType() == DataType.STRING) {
+                // Check has ID
+                if (fieldPos != null) {
+                    if (fieldPos == JsonKeys.NOTHING) {
+                        if (j.get(idName) == null) return false;
+                    } else if (fieldPos == JsonKeys.OTHERS) {
+                        return false;
+                    } else {
+                        if (j.get(fieldPos.getKey()) != null) {
+                            if (j.get(fieldPos.getKey()).getAsJsonObject().get(idName) == null) return false;
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+
+                // Check match ID or Filtering
+                if (id.getItemName().equals(Identifications.DROP_TYPE.getItemName())) { // If Drop Type
+                    if (j.get(JsonKeys.NAME.getKey()) != null) {
+                        String itemName = j.get(JsonKeys.NAME.getKey()).getAsString();
+                        if (ItemUITemplate.haveManualDrop(how_to_obtain, itemName) > 0 && how_to_obtain.get(id.getDisplayName()) != null) { // Manual Drop Type Check
+                            if (how_to_obtain.get(id.getDisplayName()).isJsonArray()) {
+                                for (JsonElement je : how_to_obtain.get(id.getDisplayName()).getAsJsonArray()) {
+                                    if (je.getAsString().equals(itemName)) {
+                                        return true;
+                                    }
+                                }
+                            } else if (how_to_obtain.get(id.getDisplayName()).isJsonObject()) {
+                                if (how_to_obtain.get(id.getDisplayName()).getAsJsonObject().get(itemName) != null) {
+                                    return true;
+                                }
+                            }
+                        }
+
+                        if (j.get(JsonKeys.DROP_META.getKey()) != null) {
+                            if (j.get(JsonKeys.DROP_META.getKey()).getAsJsonObject().get(JsonKeys.TYPE.getKey()).isJsonArray()) {
+                                return id == Identifications.DROP_TYPE_MERCHANT;
+                            } else {
+                                return id.getDisplayName().equals(j.get(JsonKeys.DROP_META.getKey()).getAsJsonObject().get(JsonKeys.TYPE.getKey()).getAsString());
+                            }
+                        }
+                    }
+                } else if (id == Identifications.MAJOR_IDS) {
+                    if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
+                        String s = max.getText();
+                        if (!min.getText().isEmpty()) s = min.getText();
+                        //if (j.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString().toLowerCase().contains(s.toLowerCase())) remove = false;
+                        for (Map.Entry<String, JsonElement> entry : j.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().entrySet()) {
+                            if (entry.getKey().toLowerCase().contains(s.toLowerCase())) {
+                                return true;
+                            }
+                        }
+                    } else { //has No Text (Major ID)
+                        return true;
+                    }
+                } else if (id == Identifications.ATTACK_SPEED) {
+                    if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
+                        String s = max.getText();
+                        if (!min.getText().isEmpty()) s = min.getText();
+
+                        return j.get(idName).getAsString().contains(s);
+                    } else { // has No Text (Attack Speed)
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            } else {
+                System.out.println("Warning: Can't check this ID");
+            }
+        }
+        return false;
+    }
+
+    public boolean hasIngIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos) {
+        if (idName != null) {
+            if (id.getIDType() == DataType.INT) {
+                return getIDValue(j, id, JsonKeys.MAX, ItemType.INGREDIENT) != 0;
+            } else if (id.getIDType() == DataType.STRING) {
+                // Check has ID
+                if (fieldPos != null) {
+                    if (fieldPos == JsonKeys.NOTHING) {
+                        if (j.get(idName) == null) return false;
+                    } else if (fieldPos == JsonKeys.OTHERS) {
+                        return false;
+                    } else {
+                        if (j.get(fieldPos.getKey()) != null) {
+                            if (j.get(fieldPos.getKey()).getAsJsonObject().get(idName) == null) return false;
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+
+                // Check match ID or filtering
+                if (id.getIngName().equals(Identifications.DROP_TYPE.getIngName())) {
+                    switch (id) {
+                        case DROP_TYPE_UNKNOWN: {
+                            boolean isObtainable = false;
+                            for (JsonElement je : j.get(JsonKeys.DROPPED_BY.getKey()).getAsJsonArray()) {
+                                if (je.getAsJsonObject().get("name") != null && !je.getAsJsonObject().get("name").getAsString().equals("Ingredient Dummy")) {
+                                    isObtainable = true;
+                                    break;
+                                }
+                            }
+                            int haveItem = ItemUITemplate.haveManualDrop(how_to_obtain_ing, j.get("name").getAsString());
+                            if (haveItem > 0 && haveItem != 1) isObtainable = true;
+
+                            return !isObtainable;
+                        }
+                        case DROP_TYPE_SPECIFIC_DROP: {
+                            for (JsonElement je : j.get(JsonKeys.DROPPED_BY.getKey()).getAsJsonArray()) {
+                                if (je.getAsJsonObject().get("name") != null && !je.getAsJsonObject().get("name").getAsString().equals("Ingredient Dummy")) {
+                                    return true;
+                                }
+                            }
+                            return (how_to_obtain_ing.get("specific") != null && how_to_obtain_ing.get("specific").getAsJsonObject().get(j.get("name").getAsString()) != null);
+                        }
+                        case DROP_TYPE_NORMAL:
+                        case DROP_TYPE_UNOBTAINABLE:
+                            if (how_to_obtain_ing.get(id.getDisplayName()) != null) {
+                                for (JsonElement je : how_to_obtain_ing.get(id.getDisplayName()).getAsJsonArray()) {
+                                    if (je.getAsString().equals(j.get("name").getAsString())) {
+                                        return true;
+                                    }
+                                }
+                            }
+                            break;
+                        case DROP_TYPE_MERCHANT:
+                        case DROP_TYPE_QUEST:
+                        case DROP_TYPE_RAID_REWARDS:
+                        case DROP_TYPE_WORLD_EVENT:
+                        case DROP_TYPE_LOOTRUN:
+                            return (how_to_obtain_ing.get(id.getDisplayName()) != null && how_to_obtain_ing.get(id.getDisplayName()).getAsJsonObject().get(j.get("name").getAsString()) != null);
+                    }
+                } else {
+                    return true;
+                }
+            } else {
+                System.out.println("Warning: Can't check this ID");
+            }
+        }
+        return false;
+    }
+
+    public float getTotalSumFloat(JsonObject j, SumEnum sum, JsonKeys sortType, ItemType type) {
         float total = 0;
         float sum_total = 0;
         int sum_total_sub = 0;
@@ -2604,93 +2161,14 @@ public class SearchUI extends JFrame implements ActionListener {
         if (sum.getIds() != null) {
             for (int n = 0; sum.getIds().size() > n; ++n) {
                 Identifications ids = sum.getIds().get(n);
-                if (j.get(ids.getItemFieldPos()) != null && j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()) != null) {
-                    if (!j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).isJsonObject()) {
-                        sum_total += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsInt();
-                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && ids.isItemVariable() && !sum.isDPS()) {
-                        if (isReversedID(ids)) {
-                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) {
-                                sum_total += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
-                            } else {
-                                sum_total += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw").getAsInt());
-                            }
-                        } else {
-                            String minOrMax = "max";
-                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
-                            sum_total += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get(minOrMax).getAsInt());
-                        }
-                    } else if (ids.isItemVariable()) { //Item ID Variable
-                        if (sum.isDPS()) { //DPS (Average)
-                            float total_Damage = j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt() + j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
-                            sum_total += total_Damage / 2F;
-                        } else if (isReversedID(ids)) {
-                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) {
-                                int base = getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
-                                if (getMin) {
-                                    sum_total += ItemUITemplate.getReversedMinInt(base);
-                                } else {
-                                    sum_total += ItemUITemplate.getReversedMaxInt(base);
-                                }
-                            } else {
-                                if (getMin) {
-                                    sum_total += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt();
-                                } else {
-                                    sum_total += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
-                                }
-                            }
-                        } else {
-                            if (getMin) {
-                                sum_total += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt();
-                            } else {
-                                sum_total += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
-                            }
-                        }
-                    }
-                }
+                sum_total += getIDValue(j, ids, sortType, type);
             }
         }
         //Sub IDs
         if (sum.getMultiIDs() != null) {
             for (int n = 0; sum.getMultiIDs().size() > n; ++n) {
                 Identifications ids = sum.getMultiIDs().get(n);
-                if (j.get(ids.getItemFieldPos()) != null && j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()) != null) {
-                    if (!j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).isJsonObject()) {
-                        sum_total_sub += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsInt();
-                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && ids.isItemVariable()) {
-                        if (isReversedID(ids)) {
-                            String rawOrMax = "raw";
-                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) rawOrMax = "max";
-                            sum_total_sub += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get(rawOrMax).getAsInt());
-                        } else {
-                            String minOrMax = "max";
-                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
-                            sum_total_sub += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get(minOrMax).getAsInt());
-                        }
-                    } else if (ids.isItemVariable()) { //Item ID Variable
-                        if (isReversedID(ids)) {
-                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) {
-                                int base = getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
-                                if (getMin) {
-                                    sum_total_sub += ItemUITemplate.getReversedMinInt(base);
-                                } else {
-                                    sum_total_sub += ItemUITemplate.getReversedMaxInt(base);
-                                }
-                            } else {
-                                if (getMin) {
-                                    sum_total_sub += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt();
-                                } else {
-                                    sum_total_sub += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
-                                }
-                            }
-                        } else {
-                            if (getMin) {
-                                sum_total_sub += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt();
-                            } else {
-                                sum_total_sub += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
-                            }
-                        }
-                    }
-                }
+                sum_total_sub += getIDValue(j, ids, sortType, type);
             }
             if (sum_total < 0 && sum_total_sub < 0) {
                 sum_total_sub *= -1;
@@ -2705,47 +2183,8 @@ public class SearchUI extends JFrame implements ActionListener {
         if (sum.getAddIDs() != null) {
             for (int n = 0; sum.getAddIDs().size() > n; ++n) {
                 Identifications ids = sum.getAddIDs().get(n);
-                int t = 0;
-                if (j.get(ids.getItemFieldPos()) != null && j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()) != null) {
-                    if (!j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).isJsonObject()) {
-                        t += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsInt();
-                    } else if (j.get("identified") != null && j.get("identified").getAsBoolean() && ids.isItemVariable()) {
-                        if (isReversedID(ids)) {
-                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) {
-                                t += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
-                            } else {
-                                t += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw").getAsInt();
-                            }
-                        } else {
-                            String minOrMax = "max";
-                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
-                            t += getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get(minOrMax).getAsInt());
-                        }
-                    } else if (ids.isItemVariable()) { //Item ID Variable
-                        if (isReversedID(ids)) {
-                            if (j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("raw") == null) {
-                                int base = getBaseID(j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt());
-                                if (getMin) {
-                                    t += ItemUITemplate.getReversedMinInt(base);
-                                } else {
-                                    t += ItemUITemplate.getReversedMaxInt(base);
-                                }
-                            } else {
-                                if (getMin) {
-                                    t += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt();
-                                } else {
-                                    t += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
-                                }
-                            }
-                        } else {
-                            if (getMin) {
-                                t += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("min").getAsInt();
-                            } else {
-                                t += j.get(ids.getItemFieldPos()).getAsJsonObject().get(ids.getItemName()).getAsJsonObject().get("max").getAsInt();
-                            }
-                        }
-                    }
-                }
+                int t = getIDValue(j, ids, sortType, type);
+
                 if (sum.isMeleeDPS()) {
                     sum_total += t;
                 } else {
@@ -2765,16 +2204,16 @@ public class SearchUI extends JFrame implements ActionListener {
     public void setSearcherVisible(boolean visible) {
         itemType.setVisible(visible);
         switch (itemType.getItemAt(itemType.getSelectedIndex())) {
-            case "Type: Armor and Weapon":
+            case DataKeys.TYPE_EQUIPMENT:
                 setVisibleItem(visible);
                 break;
-            case "Type: Ingredient":
+            case DataKeys.TYPE_INGREDIENT:
                 setVisibleIngredient(visible);
                 break;
-            case "Type: Other Items":
+            case DataKeys.TYPE_OTHER_ITEM:
                 setVisibleOther(visible);
                 break;
-            case "Type: Aspect":
+            case DataKeys.TYPE_ASPECT:
                 setVisibleAspect(visible);
                 break;
         }
@@ -2864,15 +2303,22 @@ public class SearchUI extends JFrame implements ActionListener {
         return Math.round(i / 1.3F);
     }
 
+    public static float getAttackSpeed(JsonObject j) {
+        if (j.get(Identifications.ATTACK_SPEED.getItemName()) != null) {
+            return getAttackSpeed(j.get(Identifications.ATTACK_SPEED.getItemName()).getAsString());
+        }
+        return 0;
+    }
+
     public static float getAttackSpeed(String s) {
         return switch (s) {
-            case "super_fast", "superFast" -> 4.3F;
-            case "very_fast", "veryFast" -> 3.1F;
-            case "fast" -> 2.5F;
-            case "normal" -> 2.05F;
-            case "slow" -> 1.5F;
-            case "very_slow", "verySlow" -> 0.83F;
-            case "super_slow", "superSlow" -> 0.51F;
+            case "super_fast", JsonValues.SUPER_FAST -> 4.3F;
+            case "very_fast", JsonValues.VERY_FAST -> 3.1F;
+            case JsonValues.FAST -> 2.5F;
+            case JsonValues.A_NORMAL -> 2.05F;
+            case JsonValues.SLOW -> 1.5F;
+            case "very_slow", JsonValues.VERY_SLOW -> 0.83F;
+            case "super_slow", JsonValues.SUPER_SLOW -> 0.51F;
             default -> 0;
         };
     }

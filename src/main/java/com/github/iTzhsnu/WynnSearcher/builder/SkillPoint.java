@@ -175,8 +175,8 @@ public class SkillPoint {
     }
 
     private static void getTomeSkillPoints(JsonObject json, int[] originalSP, int[] totalSP) {
-        if (json.get(Identifications.STRENGTH_REQ.getItemFieldPos()) != null) {
-            JsonObject j = json.get(Identifications.STRENGTH_REQ.getItemFieldPos()).getAsJsonObject();
+        if (json.get(Identifications.STRENGTH_REQ.getItemFieldPos().getKey()) != null) {
+            JsonObject j = json.get(Identifications.STRENGTH_REQ.getItemFieldPos().getKey()).getAsJsonObject();
 
             //Strength
             if (j.get(Identifications.STRENGTH.getItemName()) != null) {
@@ -212,8 +212,8 @@ public class SkillPoint {
 
     private static void getSkillPoints(JsonObject json, Identifications id, int[] sps, int i, int[] total, int[] original, boolean addTotal) {
         int sp = 0;
-        if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-            JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+        if (json.get(id.getItemFieldPos().getKey()) != null && json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
+            JsonElement j = json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
             if (!j.isJsonObject()) {
                 sp = j.getAsInt();
             } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
@@ -291,8 +291,8 @@ public class SkillPoint {
     }
 
     private static void setSPReq(JsonObject json, int pos, int[] strR, int[] dexR, int[] intR, int[] defR, int[] agiR, int[] maxSPReq) {
-        if (json.get(Identifications.STRENGTH_REQ.getItemFieldPos()) != null) {
-            JsonObject j = json.get(Identifications.STRENGTH_REQ.getItemFieldPos()).getAsJsonObject();
+        if (json.get(Identifications.STRENGTH_REQ.getItemFieldPos().getKey()) != null) {
+            JsonObject j = json.get(Identifications.STRENGTH_REQ.getItemFieldPos().getKey()).getAsJsonObject();
 
             //Strength Req
             if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {

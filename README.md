@@ -1,5 +1,5 @@
 # WynnSearcher
-Can Easily Search Wynncraft Item and Ingredients
+Can easily search Wynncraft Equipments and Ingredients
 
 ## Requirement
 Java 16 or above  

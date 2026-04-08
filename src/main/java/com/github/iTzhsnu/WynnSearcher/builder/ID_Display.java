@@ -25,7 +25,7 @@ public class ID_Display {
     private final List<SetBonus> setBonuses = new ArrayList<>();
     private final JsonObject setListJson;
 
-    public static final Map<Integer, Identifications> IDS_ = new HashMap<Integer, Identifications>(){{
+    public static final Map<Integer, Identifications> IDS_ = new HashMap<>() {{
         put(0, Identifications.HEALTH);
         put(1, Identifications.EARTH_DEFENSE);
         put(2, Identifications.THUNDER_DEFENSE);
@@ -36,7 +36,7 @@ public class ID_Display {
 
     public static final Map<Identifications, Integer> ID_INT = new HashMap<>();
 
-    private static final Map<Integer, Float> CLASS_DEF = new HashMap<Integer, Float>() {{
+    private static final Map<Integer, Float> CLASS_DEF = new HashMap<>() {{
         put(0, 1F); //Warrior
         put(1, 1F); //Assassin
         put(2, 0.8F); //Mage
@@ -429,8 +429,8 @@ public class ID_Display {
 
         for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) {
             Identifications id = ItemUITemplate.ITEM_IDS.get(i);
-            if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-                JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+            if (json.get(id.getItemFieldPos().getKey()) != null && json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
+                JsonElement j = json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
                 if (!j.isJsonObject()) {
                     numbers[ID_INT.get(id)] += j.getAsInt();
                 } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
@@ -445,8 +445,8 @@ public class ID_Display {
 
         for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) {
             Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
-            if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-                JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+            if (json.get(id.getItemFieldPos().getKey()) != null && json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
+                JsonElement j = json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
                 if (!j.isJsonObject()) {
                     numbers[ID_INT.get(id)] += j.getAsInt();
                 } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {

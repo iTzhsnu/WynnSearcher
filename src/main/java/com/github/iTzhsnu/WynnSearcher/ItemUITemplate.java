@@ -1,6 +1,9 @@
 package com.github.iTzhsnu.WynnSearcher;
 
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeCheckBox;
+import com.github.iTzhsnu.WynnSearcher.general.ItemType;
+import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
+import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,21 +25,21 @@ public class ItemUITemplate extends JPanel {
     private final boolean isCustom;
     private int urlSize = 0;
 
-    public static final Map<Integer, Identifications> ITEM_IDS = new HashMap<Integer, Identifications>(82, 2);
+    public static final Map<Integer, Identifications> ITEM_IDS = new HashMap<>(82, 2);
 
-    public static final Map<Integer, Identifications> REVERSED_ITEM_IDS = new HashMap<Integer, Identifications>(8, 2) {{
-       put(0, Identifications.PERCENT_1ST_SPELL_COST);
-       put(1, Identifications.PERCENT_2ND_SPELL_COST);
-       put(2, Identifications.PERCENT_3RD_SPELL_COST);
-       put(3, Identifications.PERCENT_4TH_SPELL_COST);
+    public static final Map<Integer, Identifications> REVERSED_ITEM_IDS = new HashMap<>(8, 2) {{
+        put(0, Identifications.PERCENT_1ST_SPELL_COST);
+        put(1, Identifications.PERCENT_2ND_SPELL_COST);
+        put(2, Identifications.PERCENT_3RD_SPELL_COST);
+        put(3, Identifications.PERCENT_4TH_SPELL_COST);
 
-       put(4, Identifications.RAW_1ST_SPELL_COST);
-       put(5, Identifications.RAW_2ND_SPELL_COST);
-       put(6, Identifications.RAW_3RD_SPELL_COST);
-       put(7, Identifications.RAW_4TH_SPELL_COST);
+        put(4, Identifications.RAW_1ST_SPELL_COST);
+        put(5, Identifications.RAW_2ND_SPELL_COST);
+        put(6, Identifications.RAW_3RD_SPELL_COST);
+        put(7, Identifications.RAW_4TH_SPELL_COST);
     }};
 
-    public static final Map<Integer, Identifications> DAMAGE_IDS = new HashMap<Integer, Identifications>(6, 2) {{
+    public static final Map<Integer, Identifications> DAMAGE_IDS = new HashMap<>(6, 2) {{
         put(0, Identifications.NEUTRAL_DAMAGE);
         put(1, Identifications.EARTH_DAMAGE);
         put(2, Identifications.THUNDER_DAMAGE);
@@ -45,7 +48,7 @@ public class ItemUITemplate extends JPanel {
         put(5, Identifications.AIR_DAMAGE);
     }};
 
-    public static final Map<Integer, Identifications> DEFENSE_IDS = new HashMap<Integer, Identifications>(6, 2) {{
+    public static final Map<Integer, Identifications> DEFENSE_IDS = new HashMap<>(6, 2) {{
         put(0, Identifications.HEALTH);
         put(1, Identifications.EARTH_DEFENSE);
         put(2, Identifications.THUNDER_DEFENSE);
@@ -54,7 +57,7 @@ public class ItemUITemplate extends JPanel {
         put(5, Identifications.AIR_DEFENSE);
     }};
 
-    public static final Map<Integer, Identifications> SP_REQUESTS = new HashMap<Integer, Identifications>(5, 2) {{
+    public static final Map<Integer, Identifications> SP_REQUESTS = new HashMap<>(5, 2) {{
         put(0, Identifications.STRENGTH_REQ);
         put(1, Identifications.DEXTERITY_REQ);
         put(2, Identifications.INTELLIGENCE_REQ);
@@ -62,7 +65,7 @@ public class ItemUITemplate extends JPanel {
         put(4, Identifications.AGILITY_REQ);
     }};
 
-    public static final Map<Integer, Identifications> INGREDIENT_EFFECTIVENESS = new HashMap<Integer, Identifications>(6, 2) {{
+    public static final Map<Integer, Identifications> INGREDIENT_EFFECTIVENESS = new HashMap<>(6, 2) {{
         put(0, Identifications.INGREDIENT_EFFECTIVENESS_ABOVE);
         put(1, Identifications.INGREDIENT_EFFECTIVENESS_UNDER);
         put(2, Identifications.INGREDIENT_EFFECTIVENESS_LEFT);
@@ -114,43 +117,16 @@ public class ItemUITemplate extends JPanel {
         }
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        if (json.get(Identifications.RARITY.getItemName()) != null) {
-            switch (json.get(Identifications.RARITY.getItemName()).getAsString()) {
-                case "unique":
-                    setBackground(new Color(252, 242, 99));
-                    break;
-                case "rare":
-                    setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
-                    break;
-                case "legendary":
-                    setBackground(new Color(135, 206, 250));
-                    break;
-                case "fabled":
-                    setBackground(new Color(220, 107, 154)); //OLD COLOR 255 81 81
-                    break;
-                case "mythic":
-                    setBackground(new Color(145, 93, 163));
-                    break;
-                case "set":
-                    setBackground(new Color(121, 192, 110)); //OLD COLOR 85 255 85
-                    break;
-                case "crafted":
-                    setBackground(new Color(0, 175, 204));
-                    break;
-                default:
-                    setBackground(new Color(230, 230, 230));
-                    break;
-            }
-        } else if (json.get(Identifications.RARITY.getIngName()) != null) {
+        if (type == ItemType.INGREDIENT && json.get(Identifications.RARITY.getIngName()) != null) {
             try {
-                switch (json.get(Identifications.RARITY.getIngName()).getAsInt()) {
-                    case 1:
+                switch (json.get(Identifications.RARITY.getIngName()).getAsString()) {
+                    case JsonValues.STAR_1:
                         setBackground(new Color(252, 242, 99));
                         break;
-                    case 2:
+                    case JsonValues.STAR_2:
                         setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
                         break;
-                    case 3:
+                    case JsonValues.STAR_3:
                         setBackground(new Color(135, 206, 250));
                         break;
                     default:
@@ -159,6 +135,33 @@ public class ItemUITemplate extends JPanel {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("old item found.");
+            }
+        } else if (json.get(Identifications.RARITY.getItemName()) != null) {
+            switch (json.get(Identifications.RARITY.getItemName()).getAsString()) {
+                case JsonValues.UNIQUE:
+                    setBackground(new Color(252, 242, 99));
+                    break;
+                case JsonValues.RARE:
+                    setBackground(new Color(255, 168, 211)); //OLD COLOR 220, 107, 154
+                    break;
+                case JsonValues.LEGENDARY:
+                    setBackground(new Color(135, 206, 250));
+                    break;
+                case JsonValues.FABLED:
+                    setBackground(new Color(220, 107, 154)); //OLD COLOR 255 81 81
+                    break;
+                case JsonValues.MYTHIC:
+                    setBackground(new Color(145, 93, 163));
+                    break;
+                case "set": // This rarity was discontinued.
+                    setBackground(new Color(121, 192, 110)); //OLD COLOR 85 255 85
+                    break;
+                case JsonValues.CRAFTED:
+                    setBackground(new Color(0, 175, 204));
+                    break;
+                default:
+                    setBackground(new Color(230, 230, 230));
+                    break;
             }
         }
         setVisible(true);
@@ -181,46 +184,46 @@ public class ItemUITemplate extends JPanel {
 
         String itemName = "";
 
-        if (json.get("name") != null) {
-            label.add(new JLabel(json.get("name").getAsString()));
-            itemName = json.get("name").getAsString();
-            String name = itemName.replaceAll(" ", "%20");
+        if (json.get(JsonKeys.NAME.getKey()) != null) {
+            label.add(new JLabel(json.get(JsonKeys.NAME.getKey()).getAsString()));
+            itemName = json.get(JsonKeys.NAME.getKey()).getAsString();
+        //    String name = itemName.replaceAll(" ", "%20");
         //    dataButton.setToolTipText("https://www.wynndata.tk/i/" + name);
         //    builderButton.setToolTipText("https://hppeng-wynn.github.io/item/#" + name);
         }
 
-        if (json.get("weaponType") != null) {
-            label.add(new JLabel("Type: " + json.get("weaponType").getAsString().substring(0, 1).toUpperCase() + json.get("weaponType").getAsString().substring(1)));
-        } else if (json.get("armourType") != null) {
-            label.add(new JLabel("Type: " + json.get("armourType").getAsString().substring(0, 1).toUpperCase() + json.get("armourType").getAsString().substring(1)));
-        } else if (json.get("accessoryType") != null) {
-            label.add(new JLabel("Type: " + json.get("accessoryType").getAsString().substring(0, 1).toUpperCase() + json.get("accessoryType").getAsString().substring(1)));
+        if (json.get(JsonKeys.SUBTYPE.getKey()) != null) {
+            label.add(new JLabel("Type: " + json.get(JsonKeys.SUBTYPE.getKey()).getAsString().substring(0, 1).toUpperCase() + json.get(JsonKeys.SUBTYPE.getKey()).getAsString().substring(1)));
         }
+        //if (json.get("weaponType") != null) {
+        //    label.add(new JLabel("Type: " + json.get("weaponType").getAsString().substring(0, 1).toUpperCase() + json.get("weaponType").getAsString().substring(1)));
+        //} else if (json.get("armourType") != null) {
+        //    label.add(new JLabel("Type: " + json.get("armourType").getAsString().substring(0, 1).toUpperCase() + json.get("armourType").getAsString().substring(1)));
+        //} else if (json.get("accessoryType") != null) {
+        //    label.add(new JLabel("Type: " + json.get("accessoryType").getAsString().substring(0, 1).toUpperCase() + json.get("accessoryType").getAsString().substring(1)));
+        //}
 
-        if (json.get("attackSpeed") != null) {
-            StringBuilder sb = new StringBuilder();
-            String s = json.get("attackSpeed").getAsString();
-            if (json.get("attackSpeed").getAsString().contains("_")) {
-                String[] ss = s.split("_");
-                for (String s1 : ss) {
-                    String s2 = " " + s1.substring(0, 1).toUpperCase() + s1.substring(1);
-                    sb.append(s2);
-                }
+        if (json.get(Identifications.ATTACK_SPEED.getItemName()) != null) {
+            String s = json.get(Identifications.ATTACK_SPEED.getItemName()).getAsString();
+            String s1;
+            if (s.equals(JsonValues.SUPER_FAST) || s.equals(JsonValues.SUPER_SLOW)) {
+                s1 = " " + s.substring(0, 1).toUpperCase() + s.substring(1, 5) + " " + s.substring(5);
+            } else if (s.equals(JsonValues.VERY_FAST) || s.equals(JsonValues.VERY_SLOW)) {
+                s1 = " " + s.substring(0, 1).toUpperCase() + s.substring(1, 4) + " " + s.substring(4);
             } else {
-                String s1 = " " + s.substring(0, 1).toUpperCase() + s.substring(1);
-                sb.append(s1);
+                s1 = " " + s.substring(0, 1).toUpperCase() + s.substring(1);
             }
-            label.add(new JLabel("Attack Speed:" + sb));
+            label.add(new JLabel("Attack Speed:" + s1));
         }
 
         label.add(new JLabel(" "));
 
-        if (json.get("base") != null) {
-            JsonObject j = json.get("base").getAsJsonObject();
+        if (json.get(JsonKeys.BASE.getKey()) != null) {
+            JsonObject j = json.get(JsonKeys.BASE.getKey()).getAsJsonObject();
             if (j.get(Identifications.HEALTH.getItemName()) != null) {
                 JsonElement j2 = j.get(Identifications.HEALTH.getItemName());
-                if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
-                    label.add(new JLabel("Health: " + j2.getAsJsonObject().get("min").getAsInt() + "-" + j2.getAsJsonObject().get("max").getAsInt()));
+                if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals(JsonValues.CRAFTED)) {
+                    label.add(new JLabel("Health: " + j2.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt() + "-" + j2.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()));
                 } else if (j.get(Identifications.HEALTH.getItemName()).getAsInt() != 0) {
                     label.add(new JLabel("Health: " + setPlus(j2.getAsInt())));
                 }
@@ -250,10 +253,10 @@ public class ItemUITemplate extends JPanel {
                 Identifications id = DAMAGE_IDS.get(i);
                 if (j.get(id.getItemName()) != null) {
                     JsonObject j2 = j.get(id.getItemName()).getAsJsonObject();
-                    if (json.get(Identifications.RARITY.getItemName()) != null && !json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
-                        label.add(new JLabel(id.getDisplayName() + ": " + j2.get("min").getAsInt() + "-" + j2.getAsJsonObject().get("max").getAsInt()));
+                    if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals(JsonValues.CRAFTED)) {
+                        label.add(new JLabel(id.getDisplayName() + ": " + j2.get(JsonKeys.MIN.getKey()).getAsString() + " to " + j2.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsString()));
                     } else {
-                        label.add(new JLabel(id.getDisplayName() + ": " + j2.get("min").getAsString() + " to " + j2.getAsJsonObject().get("max").getAsString()));
+                        label.add(new JLabel(id.getDisplayName() + ": " + j2.get(JsonKeys.MIN.getKey()).getAsInt() + "-" + j2.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()));
                     }
                 }
             }
@@ -262,12 +265,12 @@ public class ItemUITemplate extends JPanel {
         label.add(new JLabel(" "));
 
         int lv = 0;
-        if (json.get("requirements") != null) {
-            JsonObject j = json.get("requirements").getAsJsonObject();
+        if (json.get(JsonKeys.REQUIREMENTS.getKey()) != null) {
+            JsonObject j = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject();
             if (j.get(Identifications.LEVEL.getItemName()) != null) {
                 JsonElement j2 = j.get(Identifications.LEVEL.getItemName());
-                if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
-                    label.add(new JLabel("Combat Lv. Min: " + j2.getAsJsonObject().get("min").getAsInt() + "-" + j2.getAsJsonObject().get("max").getAsInt()));
+                if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals(JsonValues.CRAFTED)) {
+                    label.add(new JLabel("Combat Lv. Min: " + j2.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt() + "-" + j2.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()));
                 } else {
                     label.add(new JLabel("Combat Lv. Min: " + j2.getAsInt()));
                     lv = j2.getAsInt();
@@ -308,41 +311,41 @@ public class ItemUITemplate extends JPanel {
 
         for (int i = 0; ITEM_IDS.size() > i; ++i) {
             Identifications id = ITEM_IDS.get(i);
-            if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-                JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+            if (json.get(id.getItemFieldPos().getKey()) != null && json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
+                JsonElement j = json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
                 if (!j.isJsonObject()) { //Constant Value
                     label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
-                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) { //Identified Items
-                    String minOrMax = "max";
-                    if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
+                } else if (json.get(JsonKeys.IDENTIFIED.getKey()) != null && json.get(JsonKeys.IDENTIFIED.getKey()).getAsBoolean()) { //Identified Items
+                    String minOrMax = JsonKeys.MAX.getKey();
+                    if (j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt() < 0) minOrMax = JsonKeys.MIN.getKey();
                     label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt())) + id.getDisplaySp()));
-                } else if (id.isItemVariable() || json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) { //Crafted Items or Variable ID
-                    label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                } else if (id.isItemVariable() || json.get(Identifications.RARITY.getItemName()).getAsString().equals(JsonValues.CRAFTED)) { //Crafted Items or Variable ID
+                    label.add(new JLabel(setPlus(j.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()) + id.getDisplaySp()));
                 }
             }
         }
 
         for (int i = 0; REVERSED_ITEM_IDS.size() > i; ++i) {
             Identifications id = REVERSED_ITEM_IDS.get(i);
-            if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-                JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+            if (json.get(id.getItemFieldPos().getKey()) != null && json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
+                JsonElement j = json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
                 if (!j.isJsonObject()) { //Constant Value
                     label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
-                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) { //Identified Items
-                    if (j.getAsJsonObject().get("raw") == null) {
-                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt())) + id.getDisplaySp()));
+                } else if (json.get(JsonKeys.IDENTIFIED.getKey()) != null && json.get(JsonKeys.IDENTIFIED.getKey()).getAsBoolean()) { //Identified Items
+                    if (j.getAsJsonObject().get(JsonKeys.RAW.getKey()) == null) {
+                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt())) + id.getDisplaySp()));
                     } else {
-                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("raw").getAsInt()) + id.getDisplaySp()));
+                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get(JsonKeys.RAW.getKey()).getAsInt()) + id.getDisplaySp()));
                     }
                 } else {
-                    if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) { //Crafted Items
-                        label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                    if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals(JsonValues.CRAFTED)) { //Crafted Items
+                        label.add(new JLabel(setPlus(j.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()) + id.getDisplaySp()));
                     } else { //Normal Items
-                        if (j.getAsJsonObject().get("raw") == null) {
-                            int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
+                        if (j.getAsJsonObject().get(JsonKeys.RAW.getKey()) == null) {
+                            int base = SearchUI.getBaseID(j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt());
                             label.add(new JLabel(getReversedMax(base) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(base) + id.getDisplaySp()));
                         } else {
-                            label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                            label.add(new JLabel(setPlus(j.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()) + id.getDisplaySp()));
                         }
                     }
                 }
@@ -390,7 +393,7 @@ public class ItemUITemplate extends JPanel {
 
         JButton_Custom l = null;
         if (!isCustom) {
-            if (json.get("dropRestriction") != null || json.get("dropMeta") != null) {
+            if (json.get(JsonKeys.DROP_RESTRICTION.getKey()) != null || json.get(JsonKeys.DROP_META.getKey()) != null) {
                 label.add(new JLabel(" "));
                 l = new JButton_Custom("How to Obtain (Not Perfect)");
                 l.setBorderPainted(false);
@@ -403,7 +406,7 @@ public class ItemUITemplate extends JPanel {
 
                 JsonObject manual = new GetAPI().getHowToObtainItem();
                 int p = haveManualDrop(manual, itemName);
-                if (p > 0 && (p != 14 || json.get("dropMeta") == null)) {
+                if (p > 0 && (p != 14 || json.get(JsonKeys.DROP_META.getKey()) == null)) {
                     if (p == 1) {
                         //Unobtainable
                         l.setToolTipText("<html>" + TreeCheckBox.fixesText("&fThis item can't be obtained."));
@@ -456,8 +459,8 @@ public class ItemUITemplate extends JPanel {
                         l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.substring(0, sb.toString().length() - 4)));
                     }
                 } else {
-                    if (json.get("dropMeta") != null) {
-                        JsonObject j = json.get("dropMeta").getAsJsonObject();
+                    if (json.get(JsonKeys.DROP_META.getKey()) != null) {
+                        JsonObject j = json.get(JsonKeys.DROP_META.getKey()).getAsJsonObject();
                         boolean skipLocate = false;
                         if (j.get("name") != null) sb.append(j.get("name").getAsString());
                         if (j.get("type") != null) {
@@ -497,8 +500,8 @@ public class ItemUITemplate extends JPanel {
                             sb.append(s);
                         }
                         l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.toString()));
-                    } else if (json.get("dropRestriction") != null) {
-                        switch (json.get("dropRestriction").getAsString()) {
+                    } else if (json.get(JsonKeys.DROP_RESTRICTION.getKey()) != null) {
+                        switch (json.get(JsonKeys.DROP_RESTRICTION.getKey()).getAsString()) {
                             case "normal": {
                                 l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + "Hostile Mob and Any Loot Chests<br>Level " + Math.max((lv - 4), 1) + " to " + (lv + 4)));
                                 break;
@@ -560,30 +563,42 @@ public class ItemUITemplate extends JPanel {
         //dataButton.addActionListener(new OpenURLAction());
 
         String itemName = "";
-        if (json.get("name") != null) {
-            itemName = json.get("name").getAsString();
-            if (json.get("displayName") != null) {
-                label.add(new JLabel(json.get("displayName").getAsString()));
+        if (json.get(JsonKeys.NAME.getKey()) != null) {
+            itemName = json.get(JsonKeys.NAME.getKey()).getAsString();
+            if (json.get(JsonKeys.DISPLAY_NAME.getKey()) != null) {
+                label.add(new JLabel(json.get(JsonKeys.DISPLAY_NAME.getKey()).getAsString()));
             } else {
                 label.add(new JLabel(itemName));
             }
             //dataButton.setToolTipText("https://www.wynndata.tk/i/" + itemName.replaceAll(" ", "%20"));
         }
 
-        if (json.get("tier") != null) {
-            label.add(new JLabel("Star: " + json.get("tier").getAsInt()));
+        if (json.get(Identifications.RARITY.getIngName()) != null) {
+            int star = 0;
+            switch (json.get(Identifications.RARITY.getIngName()).getAsString()) {
+                case JsonValues.STAR_1:
+                    star = 1;
+                    break;
+                case JsonValues.STAR_2:
+                    star = 2;
+                    break;
+                case JsonValues.STAR_3:
+                    star = 3;
+                    break;
+            }
+            label.add(new JLabel("Star: " + star));
         }
 
         int lv = 0;
-        if (json.get("requirements") != null && json.get("requirements").getAsJsonObject().get(Identifications.LEVEL.getIngName()) != null) {
-            lv = json.get("requirements").getAsJsonObject().get(Identifications.LEVEL.getIngName()).getAsInt();
+        if (json.get(Identifications.LEVEL.getIngFieldPos().getKey()) != null && json.get(Identifications.LEVEL.getIngFieldPos().getKey()).getAsJsonObject().get(Identifications.LEVEL.getIngName()) != null) {
+            lv = json.get(Identifications.LEVEL.getIngFieldPos().getKey()).getAsJsonObject().get(Identifications.LEVEL.getIngName()).getAsInt();
             label.add(new JLabel("Lv. Min: " + lv));
         }
 
         label.add(new JLabel(" "));
 
-        if (json.get("itemOnlyIDs") != null) {
-            JsonObject j = json.getAsJsonObject("itemOnlyIDs").getAsJsonObject();
+        if (json.get(JsonKeys.ITEMONLYIDS.getKey()) != null) {
+            JsonObject j = json.getAsJsonObject(JsonKeys.ITEMONLYIDS.getKey()).getAsJsonObject();
             boolean run = false;
             if (j.get(Identifications.DURABILITY.getIngName()) != null && j.get(Identifications.DURABILITY.getIngName()).getAsInt() != 0) {
                 label.add(new JLabel("Durability: " + setPlus(j.get(Identifications.DURABILITY.getIngName()).getAsInt() / 1000)));
@@ -612,8 +627,8 @@ public class ItemUITemplate extends JPanel {
             if (run) label.add(new JLabel(" "));
         }
 
-        if (json.get("consumableOnlyIDs") != null) {
-            JsonObject j = json.get("consumableOnlyIDs").getAsJsonObject();
+        if (json.get(JsonKeys.CONSUMABLEONLYIDS.getKey()) != null) {
+            JsonObject j = json.get(JsonKeys.CONSUMABLEONLYIDS.getKey()).getAsJsonObject();
             boolean run = false;
             if (j.get(Identifications.DURATION.getIngName()) != null && j.get(Identifications.DURATION.getIngName()).getAsInt() != 0) {
                 label.add(new JLabel("Duration: " + setPlus(j.get(Identifications.DURATION.getIngName()).getAsInt())));
@@ -626,8 +641,8 @@ public class ItemUITemplate extends JPanel {
             if (run) label.add(new JLabel(" "));
         }
 
-        if (json.get("ingredientPositionModifiers") != null) {
-            JsonObject j = json.get("ingredientPositionModifiers").getAsJsonObject();
+        if (json.get(JsonKeys.INGREDIENTPOSITIONMODIFIERS.getKey()) != null) {
+            JsonObject j = json.get(JsonKeys.INGREDIENTPOSITIONMODIFIERS.getKey()).getAsJsonObject();
             boolean run = false;
             if (j.get(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE.getIngName()) != null && j.get(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE.getIngName()).getAsInt() != 0) {
                 label.add(new JLabel("Ingredient Effectiveness (Above): " + setPlus(j.get(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE.getIngName()).getAsInt()) + "%"));
@@ -656,18 +671,18 @@ public class ItemUITemplate extends JPanel {
             if (run) label.add(new JLabel(" "));
         }
 
-        if (json.get("identifications") != null) {
-            JsonObject j = json.get("identifications").getAsJsonObject();
+        if (json.get(JsonKeys.IDENTIFICATION.getKey()) != null) {
+            JsonObject j = json.get(JsonKeys.IDENTIFICATION.getKey()).getAsJsonObject();
             boolean run = false;
 
             for (int i = 0; ITEM_IDS.size() > i; ++i) {
                 Identifications id = ITEM_IDS.get(i);
-                if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
+                if (id.getIngName() != null && id.getIngFieldPos() == JsonKeys.IDENTIFICATION && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
                     JsonElement je = j.get(id.getIngName());
                     if (!je.isJsonObject()) {
                         label.add(new JLabel(id.getDisplayName() + " " + setPlus(je.getAsInt()) + id.getDisplaySp()));
                     } else {
-                        label.add(new JLabel(setPlus(je.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                        label.add(new JLabel(setPlus(je.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()) + id.getDisplaySp()));
                     }
                     run = true;
                 }
@@ -675,12 +690,12 @@ public class ItemUITemplate extends JPanel {
 
             for (int i = 0; REVERSED_ITEM_IDS.size() > i; ++i) {
                 Identifications id = REVERSED_ITEM_IDS.get(i);
-                if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
+                if (id.getIngName() != null && id.getIngFieldPos() == JsonKeys.IDENTIFICATION && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
                     JsonElement je = j.get(id.getIngName());
                     if (!je.isJsonObject()) {
                         label.add(new JLabel(id.getDisplayName() + " " + setPlus(je.getAsInt()) + id.getDisplaySp()));
                     } else {
-                        label.add(new JLabel(setPlus(je.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                        label.add(new JLabel(setPlus(je.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()) + id.getDisplaySp()));
                     }
                     run = true;
                 }
@@ -689,8 +704,8 @@ public class ItemUITemplate extends JPanel {
             if (run) label.add(new JLabel(" "));
         }
 
-        if (json.get("requirements") != null && json.get("requirements").getAsJsonObject().get("skills") != null) {
-            JsonArray j = json.get("requirements").getAsJsonObject().get("skills").getAsJsonArray();
+        if (json.get(JsonKeys.REQUIREMENTS.getKey()) != null && json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()) != null) {
+            JsonArray j = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray();
             label.add(new JLabel("Can Use:"));
             for (int i = 0; j.size() > i; ++i) {
                 label.add(new JLabel(j.get(i).getAsString().substring(0, 1).toUpperCase() + j.get(i).getAsString().substring(1)));
@@ -826,7 +841,7 @@ public class ItemUITemplate extends JPanel {
     }
 
     public void setOtherDisplay() {
-        String type = json.get("type").getAsString();
+        String type = json.get(JsonKeys.TYPE.getKey()).getAsString();
         //JButton dataButton = new JButton("Open Wynndata");
         //dataButton.setBorderPainted(false);
         //dataButton.setOpaque(false);
@@ -836,9 +851,9 @@ public class ItemUITemplate extends JPanel {
 
         String itemName = "";
 
-        if (json.get("name") != null) {
-            itemName = json.get("name").getAsString();
-            label.add(new JLabel(json.get("name").getAsString()));
+        if (json.get(JsonKeys.NAME.getKey()) != null) {
+            itemName = json.get(JsonKeys.NAME.getKey()).getAsString();
+            label.add(new JLabel(json.get(JsonKeys.NAME.getKey()).getAsString()));
             //String s = json.get("name").getAsString().replaceAll(" ", "%20");
             //if (type.equals("material")) {
             //    s = "Refined%20" + json.get("name").getAsString().replaceAll(" ", "%20");
@@ -848,72 +863,83 @@ public class ItemUITemplate extends JPanel {
 
         label.add(new JLabel("Type: " + type.substring(0, 1).toUpperCase() + type.substring(1)));
 
-        if (json.get("tomeType") != null) {
+        if (json.get(JsonKeys.SUBTYPE.getKey()) != null) {
             String s;
-            switch (json.get("tomeType").getAsString()) {
-                case "guild_tome": //x1 Slots
+            switch (json.get(JsonKeys.SUBTYPE.getKey()).getAsString()) {
+                case JsonValues.GUILD_TOME: //x1 Slots
                     s = "Guild";
                     break;
-                case "marathon_tome": //x2 Slots
+                case JsonValues.MARATHON_TOME: //x2 Slots
                     s = "Marathon";
                     break;
-                case "expertise_tome": //x2 Slots
+                case JsonValues.EXPERTISE_TOME: //x2 Slots
                     s = "Expertise";
                     break;
-                case "lootrun_tome": //x1 Slots
+                case JsonValues.LOOTRUN_TOME: //x1 Slots
                     s = "Lootrun";
                     break;
-                case "mysticism_tome": //x2 Slots
+                case JsonValues.MYSTICISM_TOME: //x2 Slots
                     s = "Mysticism";
                     break;
-                case "weapon_tome": //x2 Slots
+                case JsonValues.WEAPON_TOME: //x2 Slots
                     s = "Weapon";
                     break;
-                case "armour_tome": //x4 Slots
+                case JsonValues.ARMOUR_TOME: //x4 Slots
                     s = "Armour";
                     break;
                 default:
-                    s = json.get("tomeType").getAsString();
-                    System.out.println(itemName + " has unknown tome type: " + s);
+                    s = json.get(JsonKeys.SUBTYPE.getKey()).getAsString();
+                    //System.out.println(itemName + " has unknown tome type: " + s);
                     break;
             }
-            label.add(new JLabel("Tome Type: " + s));
+
+            switch (type) {
+                case JsonValues.TOME:
+                    label.add(new JLabel("Tome Type: " + s));
+                    break;
+                case JsonValues.TOOL:
+                    label.add(new JLabel("Tool Type: " + s.substring(0, 1).toUpperCase() + s.substring(1)));
+                    break;
+                case JsonValues.MATERIAL:
+                    label.add(new JLabel("Gather Type: " + s.substring(0, 1).toUpperCase() + s.substring(1)));
+                    break;
+            }
         }
 
-        if (json.get("toolType") != null) {
-            label.add(new JLabel("Tool Type: " + json.get("toolType").getAsString().substring(0, 1).toUpperCase() + json.get("toolType").getAsString().substring(1)));
-        }
+        //if (json.get("toolType") != null) {
+        //    label.add(new JLabel("Tool Type: " + json.get("toolType").getAsString().substring(0, 1).toUpperCase() + json.get("toolType").getAsString().substring(1)));
+        //}
 
-        if (type.equals("material") && json.get("tier") != null) {
-            label.add(new JLabel("Star: " + json.get("tier").getAsInt()));
-        }
+        //if (type.equals(JsonValues.MATERIAL) && json.get("tier") != null) {
+        //    label.add(new JLabel("Star: " + json.get("tier").getAsInt()));
+        //}
 
         int lv = 0;
-        if (json.get("requirements") != null && json.get("requirements").getAsJsonObject().get("level") != null) {
-            int i = json.get("requirements").getAsJsonObject().get("level").getAsInt();
+        if (json.get(Identifications.LEVEL.getItemFieldPos().getKey()) != null && json.get(Identifications.LEVEL.getItemFieldPos().getKey()).getAsJsonObject().get(Identifications.LEVEL.getItemName()) != null) {
+            int i = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(Identifications.LEVEL.getItemName()).getAsInt();
             lv = i;
             switch (type) {
-                case "tome":
-                case "charm":
+                case JsonValues.TOME:
+                case JsonValues.CHARM:
                     label.add(new JLabel("Combat Lv. Min: " + i));
                     break;
-                case "tool":
-                    switch (json.get("toolType").getAsString()) {
-                        case "pickaxe":
+                case JsonValues.TOOL:
+                    switch (json.get(JsonKeys.SUBTYPE.getKey()).getAsString()) {
+                        case JsonValues.PICKAXE:
                             label.add(new JLabel("Mining Lv. Min: " + i));
                             break;
-                        case "axe":
+                        case JsonValues.AXE:
                             label.add(new JLabel("Woodcutting Lv. Min: " + i));
                             break;
-                        case "scythe":
+                        case JsonValues.SCYTHE:
                             label.add(new JLabel("Farming Lv. Min: " + i));
                             break;
-                        case "rod":
+                        case JsonValues.ROD:
                             label.add(new JLabel("Fishing Lv. Min: " + i));
                             break;
                     }
                     break;
-                case "material":
+                case JsonValues.MATERIAL:
                     label.add(new JLabel("Lv. Min: " + i));
                     break;
             }
@@ -921,9 +947,9 @@ public class ItemUITemplate extends JPanel {
 
         label.add(new JLabel(" "));
 
-        if (json.get("gatheringSpeed") != null) { //Tools
+        if (json.get(JsonKeys.GATHERING_SPEED.getKey()) != null) { //Tools
             String s = "Slow";
-            int i = json.get("gatheringSpeed").getAsInt();
+            int i = json.get(JsonKeys.GATHERING_SPEED.getKey()).getAsInt();
             if (i >= 120) {
                 s = "Very Fast";
             } else if (i >= 65) {
@@ -934,12 +960,12 @@ public class ItemUITemplate extends JPanel {
             label.add(new JLabel("Gathering Speed: " + i + " (" + s + ")"));
         }
 
-        if (json.get("craftable") != null) { //Material
-            label.add(new JLabel("Use this material to craft"));
-            for (JsonElement j : json.get("craftable").getAsJsonArray()) {
-                label.add(new JLabel(j.getAsString()));
-            }
-        }
+        //if (json.get("craftable") != null) { //Material
+        //    label.add(new JLabel("Use this material to craft"));
+        //    for (JsonElement j : json.get("craftable").getAsJsonArray()) {
+        //        label.add(new JLabel(j.getAsString()));
+        //    }
+        //}
 
         //DELETED
         //if (type.equals("tome") && json.get("base") != null) { //Tome
@@ -952,51 +978,53 @@ public class ItemUITemplate extends JPanel {
         //    label.add(new JLabel(" "));
         //}
 
-        if (type.equals("charm") && json.get(Identifications.LEVELED_XP_BONUS.getItemFieldPos()) != null && json.get("requirements") != null) {
-            JsonObject j = json.get(Identifications.LEVELED_XP_BONUS.getItemFieldPos()).getAsJsonObject();
-            int min = json.get("requirements").getAsJsonObject().get("levelRange").getAsJsonObject().get("min").getAsInt();
-            int max = json.get("requirements").getAsJsonObject().get("levelRange").getAsJsonObject().get("max").getAsInt();
+        // level range removed from api?
+        if (type.equals(JsonValues.CHARM) && json.get(Identifications.LEVELED_XP_BONUS.getItemFieldPos().getKey()) != null && json.get(JsonKeys.REQUIREMENTS.getKey()) != null) {
+            JsonObject j = json.get(Identifications.LEVELED_XP_BONUS.getItemFieldPos().getKey()).getAsJsonObject();
+            //int min = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get("levelRange").getAsJsonObject().get("min").getAsInt();
+            //int max = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get("levelRange").getAsJsonObject().get("max").getAsInt();
+            int max = lv + 20;
 
-            if (j.get(Identifications.LEVELED_XP_BONUS.getItemName()) != null) label.add(new JLabel(setPlus(j.get(Identifications.LEVELED_XP_BONUS.getItemName()).getAsJsonObject().get("min").getAsInt()) + "% XP from Lv." + min + "-" + max + " contents " + setPlus(j.get(Identifications.LEVELED_XP_BONUS.getItemName()).getAsJsonObject().get("max").getAsInt()) + "%"));
+            if (j.get(Identifications.LEVELED_XP_BONUS.getItemName()) != null) label.add(new JLabel(setPlus(j.get(Identifications.LEVELED_XP_BONUS.getItemName()).getAsJsonObject().get("min").getAsInt()) + "% XP from Lv." + lv + "-" + max + " contents " + setPlus(j.get(Identifications.LEVELED_XP_BONUS.getItemName()).getAsJsonObject().get("max").getAsInt()) + "%"));
             if (j.get(Identifications.DAMAGE_FROM_MOBS.getItemName()) != null) label.add(new JLabel(setPlus(j.get(Identifications.DAMAGE_FROM_MOBS.getItemName()).getAsJsonObject().get("min").getAsInt()) + "% Damage taken from mobs " + setPlus(j.get(Identifications.DAMAGE_FROM_MOBS.getItemName()).getAsJsonObject().get("max").getAsInt()) + "%"));
-            if (j.get(Identifications.LEVELED_LOOT_BONUS.getItemName()) != null) label.add(new JLabel(setPlus(j.get(Identifications.LEVELED_LOOT_BONUS.getItemName()).getAsJsonObject().get("min").getAsInt()) + "% Loot from Lv." + min + "-" + max + " contents " + setPlus(j.get(Identifications.LEVELED_LOOT_BONUS.getItemName()).getAsJsonObject().get("max").getAsInt()) + "%"));
+            if (j.get(Identifications.LEVELED_LOOT_BONUS.getItemName()) != null) label.add(new JLabel(setPlus(j.get(Identifications.LEVELED_LOOT_BONUS.getItemName()).getAsJsonObject().get("min").getAsInt()) + "% Loot from Lv." + lv + "-" + max + " contents " + setPlus(j.get(Identifications.LEVELED_LOOT_BONUS.getItemName()).getAsJsonObject().get("max").getAsInt()) + "%"));
         }
 
-        if (type.equals("tome") || type.equals("charm")) { //IDs
+        if (type.equals(JsonValues.TOME) || type.equals(JsonValues.CHARM)) { //IDs
             for (int i = 0; ITEM_IDS.size() > i; ++i) {
                 Identifications id = ITEM_IDS.get(i);
-                if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-                    JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+                if (json.get(id.getItemFieldPos().getKey()) != null && json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
+                    JsonElement j = json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
                     if (!j.isJsonObject()) {
                         label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
-                    } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
-                        String minOrMax = "max";
-                        if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
+                    } else if (json.get(JsonKeys.IDENTIFIED.getKey()) != null && json.get(JsonKeys.IDENTIFIED.getKey()).getAsBoolean()) {
+                        String minOrMax = JsonKeys.MAX.getKey();
+                        if (j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt() < 0) minOrMax = JsonKeys.MIN.getKey();
                         label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt())) + id.getDisplaySp()));
                     } else if (id.isItemVariable()) {
-                        label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                        label.add(new JLabel(setPlus(j.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()) + id.getDisplaySp()));
                     }
                 }
             }
 
             for (int i = 0; REVERSED_ITEM_IDS.size() > i; ++i) {
                 Identifications id = REVERSED_ITEM_IDS.get(i);
-                if (json.get(id.getItemFieldPos()) != null && json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName()) != null) {
-                    JsonElement j = json.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+                if (json.get(id.getItemFieldPos().getKey()) != null && json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
+                    JsonElement j = json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
                     if (!j.isJsonObject()) {
                         label.add(new JLabel(id.getDisplayName() + " "+ setPlus(j.getAsInt()) + id.getDisplaySp()));
-                    } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
-                        if (j.getAsJsonObject().get("raw") == null) {
-                            label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt())) + id.getDisplaySp()));
+                    } else if (json.get(JsonKeys.IDENTIFIED.getKey()) != null && json.get(JsonKeys.IDENTIFIED.getKey()).getAsBoolean()) {
+                        if (j.getAsJsonObject().get(JsonKeys.RAW.getKey()) == null) {
+                            label.add(new JLabel(id.getDisplayName() + " " + setPlus(SearchUI.getBaseID(j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt())) + id.getDisplaySp()));
                         } else {
-                            label.add(new JLabel(id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("raw").getAsInt()) + id.getDisplaySp()));
+                            label.add(new JLabel(id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get(JsonKeys.RAW.getKey()).getAsInt()) + id.getDisplaySp()));
                         }
                     } else {
-                        if (j.getAsJsonObject().get("raw") == null) {
-                            int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
+                        if (j.getAsJsonObject().get(JsonKeys.RAW.getKey()) == null) {
+                            int base = SearchUI.getBaseID(j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt());
                             label.add(new JLabel(getReversedMax(base) + id.getDisplaySp() + " " + id.getDisplayName() + " " + getReversedMin(base) + id.getDisplaySp()));
                         } else {
-                            label.add(new JLabel(setPlus(j.getAsJsonObject().get("min").getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get("max").getAsInt()) + id.getDisplaySp()));
+                            label.add(new JLabel(setPlus(j.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(j.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()) + id.getDisplaySp()));
                         }
                     }
                 }
@@ -1005,8 +1033,8 @@ public class ItemUITemplate extends JPanel {
 
         label.add(new JLabel(" "));
 
-        if (!type.equals("material") && !type.equals("tool") && json.get("tier") != null) {
-            label.add(new JLabel("Rarity: " + json.get("tier").getAsString().substring(0, 1).toUpperCase() + json.get("tier").getAsString().substring(1)));
+        if (!type.equals(JsonValues.MATERIAL) && !type.equals(JsonValues.TOOL) && json.get(Identifications.RARITY.getItemName()) != null) {
+            label.add(new JLabel("Rarity: " + json.get(Identifications.RARITY.getItemName()).getAsString().substring(0, 1).toUpperCase() + json.get(Identifications.RARITY.getItemName()).getAsString().substring(1)));
         }
 
         if (json.get("restrictions") != null) {
@@ -1015,7 +1043,7 @@ public class ItemUITemplate extends JPanel {
 
         JButton_Custom l = null;
         if (!isCustom) {
-            if (json.get("dropRestriction") != null || json.get("dropMeta") != null) {
+            if (json.get(JsonKeys.DROP_RESTRICTION.getKey()) != null || json.get(JsonKeys.DROP_META.getKey()) != null) {
                 label.add(new JLabel(" "));
                 l = new JButton_Custom("How to Obtain (Not Perfect)");
                 l.setBorderPainted(false);
@@ -1080,8 +1108,8 @@ public class ItemUITemplate extends JPanel {
                         l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.substring(0, sb.toString().length() - 4)));
                     }
                 } else {
-                    if (json.get("dropMeta") != null) {
-                        JsonObject j = json.get("dropMeta").getAsJsonObject();
+                    if (json.get(JsonKeys.DROP_META.getKey()) != null) {
+                        JsonObject j = json.get(JsonKeys.DROP_META.getKey()).getAsJsonObject();
                         boolean skipLocate = false;
                         if (j.get("name") != null) sb.append(j.get("name").getAsString());
                         if (j.get("type") != null) {
@@ -1121,8 +1149,8 @@ public class ItemUITemplate extends JPanel {
                             sb.append(s);
                         }
                         l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb.toString()));
-                    } else if (json.get("dropRestriction") != null) {
-                        switch (json.get("dropRestriction").getAsString()) {
+                    } else if (json.get(JsonKeys.DROP_RESTRICTION.getKey()) != null) {
+                        switch (json.get(JsonKeys.DROP_RESTRICTION.getKey()).getAsString()) {
                             case "normal": {
                                 l.setToolTipText("<html>" + TreeCheckBox.fixesText(sb + "Hostile Mob and Any Loot Chests<br>Level " + Math.max((lv - 4), 1) + " to " + (lv + 4)));
                                 break;

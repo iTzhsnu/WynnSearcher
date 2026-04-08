@@ -2,6 +2,7 @@ package com.github.iTzhsnu.WynnSearcher;
 
 import com.github.iTzhsnu.WynnSearcher.builder.*;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.*;
+import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -171,8 +172,8 @@ public class BuilderUI implements ActionListener {
 
     public void setTomeJson() {
         for (JsonObject j : otherItemAPI) {
-            if (j.get("tomeType") != null) {
-                switch (j.get("tomeType").getAsString()) {
+            if (j.get(JsonKeys.SUBTYPE.getKey()) != null) {
+                switch (j.get(JsonKeys.SUBTYPE.getKey()).getAsString()) {
                     case "guild_tome": //x1 Slots
                         guildTomeJson.add(j);
                         break;
@@ -201,10 +202,15 @@ public class BuilderUI implements ActionListener {
 
     public void setJson(List<JsonObject> jsonList) {
         for (JsonObject item : jsonList) {
-            if (item.get("weaponType") != null) {
-                weaponJson.add(item);
-            } else if (item.get("armourType") != null) {
-                switch (item.get("armourType").getAsString()) {
+            if (item.get(JsonKeys.SUBTYPE.getKey()) != null) {
+                switch (item.get(JsonKeys.SUBTYPE.getKey()).getAsString()) {
+                    case "bow":
+                    case "spear":
+                    case "wand":
+                    case "dagger":
+                    case "relik":
+                        weaponJson.add(item);
+                        break;
                     case "helmet":
                         helmetJson.add(item);
                         break;
@@ -217,9 +223,6 @@ public class BuilderUI implements ActionListener {
                     case "boots":
                         bootsJson.add(item);
                         break;
-                }
-            } else if (item.get("accessoryType") != null) {
-                switch (item.get("accessoryType").getAsString()) {
                     case "ring":
                         ringJson.add(item);
                         break;
@@ -231,6 +234,37 @@ public class BuilderUI implements ActionListener {
                         break;
                 }
             }
+
+            //if (item.get("weaponType") != null) {
+            //    weaponJson.add(item);
+            //} else if (item.get("armourType") != null) {
+            //    switch (item.get("armourType").getAsString()) {
+            //        case "helmet":
+            //            helmetJson.add(item);
+            //            break;
+            //        case "chestplate":
+            //            chestplateJson.add(item);
+            //            break;
+            //        case "leggings":
+            //            leggingsJson.add(item);
+            //            break;
+            //        case "boots":
+            //            bootsJson.add(item);
+            //            break;
+            //    }
+            //} else if (item.get("accessoryType") != null) {
+            //    switch (item.get("accessoryType").getAsString()) {
+            //        case "ring":
+            //            ringJson.add(item);
+            //            break;
+            //        case "bracelet":
+            //            braceletJson.add(item);
+            //            break;
+            //        case "necklace":
+            //            necklaceJson.add(item);
+            //            break;
+            //    }
+            //}
         }
     }
 

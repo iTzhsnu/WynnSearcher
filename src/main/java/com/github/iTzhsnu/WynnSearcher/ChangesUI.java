@@ -1,5 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.github.iTzhsnu.WynnSearcher.general.ItemType;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -293,9 +294,9 @@ public class ChangesUI implements ActionListener {
                 } else if (beforeE != null || afterE != null) {
                     return true;
                 }
-            } else if (before.get(id.getItemFieldPos()) != null && after.get(id.getItemFieldPos()) != null) {
-                JsonElement beforeE = before.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
-                JsonElement afterE = after.get(id.getItemFieldPos()).getAsJsonObject().get(id.getItemName());
+            } else if (before.get(id.getItemFieldPos().getKey()) != null && after.get(id.getItemFieldPos().getKey()) != null) {
+                JsonElement beforeE = before.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
+                JsonElement afterE = after.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
                 if (beforeE != null && afterE != null) {
                     if (!beforeE.isJsonObject() && !afterE.isJsonObject()) {
                         return !beforeE.equals(afterE);
@@ -309,7 +310,7 @@ public class ChangesUI implements ActionListener {
                     return beforeE != null || afterE != null;
                 }
             }
-            return before.get(id.getItemFieldPos()) != null || after.get(id.getItemFieldPos()) != null;
+            return before.get(id.getItemFieldPos().getKey()) != null || after.get(id.getItemFieldPos().getKey()) != null;
         } else {
             return false;
         }
@@ -325,9 +326,9 @@ public class ChangesUI implements ActionListener {
                 } else if (beforeE != null || afterE != null) {
                     return true;
                 }
-            } else if (before.get(id.getIngFieldPos()) != null && after.get(id.getIngFieldPos()) != null) {
-                JsonElement beforeE = before.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName());
-                JsonElement afterE = after.get(id.getIngFieldPos()).getAsJsonObject().get(id.getIngName());
+            } else if (before.get(id.getIngFieldPos().getKey()) != null && after.get(id.getIngFieldPos().getKey()) != null) {
+                JsonElement beforeE = before.get(id.getIngFieldPos().getKey()).getAsJsonObject().get(id.getIngName());
+                JsonElement afterE = after.get(id.getIngFieldPos().getKey()).getAsJsonObject().get(id.getIngName());
                 if (beforeE != null && afterE != null) {
                     if (!beforeE.isJsonObject() && !afterE.isJsonObject()) {
                         return !beforeE.equals(afterE);
@@ -341,7 +342,7 @@ public class ChangesUI implements ActionListener {
                     return beforeE != null || afterE != null;
                 }
             }
-            return before.get(id.getIngFieldPos()) != null || after.get(id.getIngFieldPos()) != null;
+            return before.get(id.getIngFieldPos().getKey()) != null || after.get(id.getIngFieldPos().getKey()) != null;
         } else {
             return false;
         }
@@ -497,19 +498,19 @@ public class ChangesUI implements ActionListener {
                 case INGREDIENT:
                     search.filterIng(modify);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sortIngredients(changedL);
+                        search.sort(changedL, ItemType.INGREDIENT);
                     }
                     break;
                 case OTHER:
                     search.filterOther(modify);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sortOtherItems(changedL);
+                        search.sort(changedL, ItemType.OTHER);
                     }
                     break;
                 default:
                     search.filterItems(modify);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sortItems(changedL);
+                        search.sort(changedL, ItemType.ITEM);
                     }
                     break;
             }

@@ -1,5 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
+import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -22,6 +24,7 @@ public class GetAPI {
     public static final String WYNN_ITEM_V3_API = "https://api.wynncraft.com/v3/item/search";
     public static final String WYNN_ABILITY_TREE_API = "https://api.wynncraft.com/v3/ability/"; // map/[class], tree/[class]
     public static final String WYNN_ASPECT_API = "https://api.wynncraft.com/v3/aspects/"; //[class]
+    private static final String TOKEN = "GlCY_kwnhnRxDtMCuRvUVjbQKJsybABjrcU2E3wm6iA";
 
     public GetAPI() {}
 
@@ -195,13 +198,14 @@ public class GetAPI {
                         break;
                 }
 
-                String post = "{\"query\":null,\"type\":[" + s + "],\"tier\":[],\"attackSpeed\":[],\"levelRange\":[0,110],\"professions\":[],\"identifications\":[]}";
+                String post = "{\"query\":null,\"type\":[" + s + "],\"tier\":[],\"attackSpeed\":[],\"levelRange\":[0,120],\"professions\":[],\"identifications\":[]}";
                 StringBuilder builder = new StringBuilder();
 
                 if (true) {
                     URLConnection urlConn = new URL(WYNN_ITEM_V3_API + "?fullResult").openConnection();
                     urlConn.setDoOutput(true);
                     urlConn.setRequestProperty("Content-Type", "application/json");
+                    urlConn.setRequestProperty("Authorization", "Bearer " + TOKEN);
 
                     DataOutputStream dos = new DataOutputStream(urlConn.getOutputStream());
                     dos.writeBytes(post);
@@ -249,9 +253,9 @@ public class GetAPI {
                 JsonObject json = JsonParser.parseString(builder.toString()).getAsJsonObject();
                 for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
                     JsonObject j = json.get(entry.getKey()).getAsJsonObject();
-                    j.addProperty("name", entry.getKey());
+                    j.addProperty(JsonKeys.NAME.getKey(), entry.getKey());
 
-                    if (j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals("common")) j.addProperty(Identifications.RARITY.getItemName(), "normal"); //Fixes Rarity Common => Normal
+                    if (j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals("common")) j.addProperty(Identifications.RARITY.getItemName(), JsonValues.R_NORMAL); //Fixes Rarity Common => Normal
                     switch (i) {
                         case 0: //Weapons
                         case 1: //Armours

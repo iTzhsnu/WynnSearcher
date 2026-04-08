@@ -17,6 +17,8 @@ public class SearchNew {
         new GetAPI().loadArchiveV3API(equips, ingredients, others, new JLabel());
 
         searchUnknownIDs(others);
+        searchUnknownIDs(equips);
+        searchUnknownIDs_ING();
     }
 
     private static void searchUnknownIDs(List<JsonObject> items) {
@@ -27,9 +29,9 @@ public class SearchNew {
         for (Identifications id : Identifications.values()) {
             if (id.getItemFieldPos() != null) {
                 switch (id.getItemFieldPos()) {
-                    case "base" -> ids_base.add(id.getItemName());
-                    case "requirements" -> ids_req.add(id.getItemName());
-                    case "identifications" -> ids_id.add(id.getItemName());
+                    case BASE -> ids_base.add(id.getItemName());
+                    case REQUIREMENTS -> ids_req.add(id.getItemName());
+                    case IDENTIFICATION -> ids_id.add(id.getItemName());
                 }
             }
         }
@@ -102,9 +104,9 @@ public class SearchNew {
         for (Identifications id : Identifications.values()) {
             if (id.getIngFieldPos() != null) {
                 switch (id.getIngFieldPos()) {
-                    case "itemOnlyIDs" -> ids_itemOnly.add(id.getIngName());
-                    case "consumableOnlyIDs" -> ids_consumeOnly.add(id.getIngName());
-                    case "identifications" -> ids_id.add(id.getIngName());
+                    case ITEMONLYIDS -> ids_itemOnly.add(id.getIngName());
+                    case CONSUMABLEONLYIDS -> ids_consumeOnly.add(id.getIngName());
+                    case IDENTIFICATION -> ids_id.add(id.getIngName());
                 }
             }
         }

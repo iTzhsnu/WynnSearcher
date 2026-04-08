@@ -1,7 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.CrafterUI;
-import com.github.iTzhsnu.WynnSearcher.ItemType;
+import com.github.iTzhsnu.WynnSearcher.general.ItemType;
 import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

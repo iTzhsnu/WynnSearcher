@@ -1,5 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.github.iTzhsnu.WynnSearcher.general.ItemType;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -41,7 +42,7 @@ public class CrafterUI implements ActionListener {
     private final JPanel ingPanel = new JPanel();
     private final JScrollPane ingScroll;
 
-    private static final Map<Integer, Identifications> SP_REQ = new HashMap<Integer, Identifications>(5, 2) {{
+    private static final Map<Integer, Identifications> SP_REQ = new HashMap<>(5, 2) {{
         put(0, Identifications.STRENGTH_REQ);
         put(1, Identifications.DEXTERITY_REQ);
         put(2, Identifications.INTELLIGENCE_REQ);
@@ -49,7 +50,7 @@ public class CrafterUI implements ActionListener {
         put(4, Identifications.AGILITY_REQ);
     }};
 
-    private static final Map<String, String> TYPE_TO_SKILL = new HashMap<String, String>(15, 2) {{
+    private static final Map<String, String> TYPE_TO_SKILL = new HashMap<>(15, 2) {{
         put("helmet", "armouring");
         put("chestplate", "armouring");
         put("leggings", "tailoring");

@@ -1,4 +1,4 @@
-package com.github.iTzhsnu.WynnSearcher;
+package com.github.iTzhsnu.WynnSearcher.general;
 
 public enum ItemType {
     ITEM,
