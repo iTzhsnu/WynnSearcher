@@ -1,5 +1,7 @@
 # WynnSearcher
-Can easily search Wynncraft Equipments and Ingredients
+Can easily search Wynncraft Equipments and Ingredients  
+Searcher is support fruma update.  
+Builder, Crafter, Custom is in progress.  
 
 ## Requirement
 Java 16 or above  
@@ -9,14 +11,14 @@ These pictures are old. sorry.
 ### Searcher 
 ![](readme_pictures/how_to_use.png)
 
-### Builder (maybe not working)
+### Builder (In progress)
 ![](readme_pictures/how_to_use_2_1.png)
 ![](readme_pictures/how_to_use_2_2.png)
 
-### Crafter
+### Crafter (In progress)
 ![](readme_pictures/how_to_use_3.png)
 
-### Custom
+### Custom (In progress)
 ![](readme_pictures/how_to_use_4_1.png)
 ![](readme_pictures/how_to_use_4_2.png)
 
