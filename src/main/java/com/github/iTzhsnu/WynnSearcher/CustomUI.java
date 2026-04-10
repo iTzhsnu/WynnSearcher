@@ -42,7 +42,7 @@ public class CustomUI implements ActionListener {
     private final JLabel majorIDText = new JLabel("Major ID");
     private final JsonObject majorIDJson;
 
-    private static final Map<Integer, Identifications> ID_FROM_NOT_VARIABLE_INT = new HashMap<Integer, Identifications>() {{
+    private static final Map<Integer, Identifications> ID_FROM_NOT_VARIABLE_INT = new HashMap<>() {{
         put(1, Identifications.STRENGTH_REQ);
         put(2, Identifications.DEXTERITY_REQ);
         put(3, Identifications.INTELLIGENCE_REQ);
@@ -57,7 +57,7 @@ public class CustomUI implements ActionListener {
         put(12, Identifications.AIR_DEFENSE);
     }};
 
-    private static final Map<Integer, Identifications> ID_FROM_VARIABLE_INT = new HashMap<Integer, Identifications>() {{
+    private static final Map<Integer, Identifications> ID_FROM_VARIABLE_INT = new HashMap<>() {{
         put(0, Identifications.NEUTRAL_DAMAGE);
         put(1, Identifications.EARTH_DAMAGE);
         put(2, Identifications.THUNDER_DAMAGE);
