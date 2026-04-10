@@ -24,7 +24,6 @@ public class GetAPI {
     public static final String WYNN_ITEM_V3_API = "https://api.wynncraft.com/v3/item/search";
     public static final String WYNN_ABILITY_TREE_API = "https://api.wynncraft.com/v3/ability/"; // map/[class], tree/[class]
     public static final String WYNN_ASPECT_API = "https://api.wynncraft.com/v3/aspects/"; //[class]
-    private static final String TOKEN = "GlCY_kwnhnRxDtMCuRvUVjbQKJsybABjrcU2E3wm6iA";
 
     public GetAPI() {}
 
@@ -171,6 +170,19 @@ public class GetAPI {
         JsonObject saveIngredientJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
         JsonObject saveOtherItemsJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
 
+        // Get Token
+        StringBuilder token = new StringBuilder();
+        try {
+            BufferedReader tokenBuffer = new BufferedReader(new FileReader(getFilePath("/items_data/token.txt")));
+            String s = tokenBuffer.readLine();
+            while (s != null) {
+                token.append(s);
+                s = tokenBuffer.readLine();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         try {
             for (int i = 0; 8 > i; ++i) {
                 String s = "\"weapons\"";
@@ -205,7 +217,7 @@ public class GetAPI {
                     URLConnection urlConn = new URL(WYNN_ITEM_V3_API + "?fullResult").openConnection();
                     urlConn.setDoOutput(true);
                     urlConn.setRequestProperty("Content-Type", "application/json");
-                    urlConn.setRequestProperty("Authorization", "Bearer " + TOKEN);
+                    urlConn.setRequestProperty("Authorization", "Bearer " + token);
 
                     DataOutputStream dos = new DataOutputStream(urlConn.getOutputStream());
                     dos.writeBytes(post);
