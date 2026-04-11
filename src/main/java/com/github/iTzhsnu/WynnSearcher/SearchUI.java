@@ -2000,10 +2000,21 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
+    public boolean hasIntIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos) {
+        if (id.getIDType() == DataType.INT) {
+            if (fieldPos == JsonKeys.NOTHING) {
+                return j.get(idName) != null;
+            } else {
+                if (j.get(fieldPos.getKey()) != null) return j.get(fieldPos.getKey()).getAsJsonObject().get(idName) != null;
+            }
+        }
+        return false;
+    }
+
     public boolean hasItemIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos, JsonObject how_to_obtain, JTextField min, JTextField max) {
         if (idName != null) {
             if (id.getIDType() == DataType.INT) {
-                return getIDValue(j, id, JsonKeys.MAX, ItemType.ITEM) != 0;
+                return hasIntIDValue(j, id, idName, fieldPos);
             } else if (id.getIDType() == DataType.STRING) {
                 // Check has ID
                 if (fieldPos != null) {
@@ -2083,7 +2094,7 @@ public class SearchUI extends JFrame implements ActionListener {
     public boolean hasIngIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos) {
         if (idName != null) {
             if (id.getIDType() == DataType.INT) {
-                return getIDValue(j, id, JsonKeys.MAX, ItemType.INGREDIENT) != 0;
+                return hasIntIDValue(j, id, idName, fieldPos);
             } else if (id.getIDType() == DataType.STRING) {
                 // Check has ID
                 if (fieldPos != null) {
