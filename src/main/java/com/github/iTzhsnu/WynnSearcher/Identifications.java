@@ -2,6 +2,7 @@ package com.github.iTzhsnu.WynnSearcher;
 
 import com.github.iTzhsnu.WynnSearcher.general.DataType;
 import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
+import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
 
 public enum Identifications {
     EMPTY(null, null, null, "", DataType.NOTHING, null, null, null, false),
@@ -163,25 +164,27 @@ public enum Identifications {
     INGREDIENT_EFFECTIVENESS_NOT_TOUCHING("Ingredient Effectiveness (Not Touch)", null, "notTouching", "%", DataType.INT, null, null, JsonKeys.INGREDIENTPOSITIONMODIFIERS, false),
     INGREDIENT_EFFECTIVENESS("", null, "ingEffective", "", DataType.SUM, SumEnum.INGREDIENT_EFFECTIVENESS, null, JsonKeys.OTHERS, false),
 
-    DROP_TYPE("Drop Type", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_NORMAL("normal", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_LOOT_CHESTS("lootchest", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_RAID_REWARDS("raid", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_DUNGEON_DROP("dungeon", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_DUNGEON_MERCHANT("dungeonMerchant", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_BOSS_ALTAR("altar", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_DISCONTINUED("discontinued", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_UNKNOWN("never", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_MERCHANT("merchant", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_QUEST("quest", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_UNOBTAINABLE("unobtainable", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_SPECIFIC_DROP("specific", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_SECRET_DISCOVERY("secret_discovery", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_THE_QIRA_HIVE("the_qira_hive", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_LEGENDARY_ISLAND("legendary_island", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_WORLD_EVENT("world_event", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_LOOTRUN("lootrun", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
-    DROP_TYPE_OTHER("other", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE("Drop Type", JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false), // This is Dummy
+    DROP_TYPE_NORMAL(JsonValues.D_NORMAL, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_LOOT_CHESTS(JsonValues.LOOTCHEST, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_RAID_REWARDS(JsonValues.RAID, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_DUNGEON_DROP(JsonValues.DUNGEON, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_DUNGEON_MERCHANT(JsonValues.DUNGEON_MERCHANT, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_BOSS_ALTAR(JsonValues.ALTAR, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_DISCONTINUED(JsonValues.DISCONTINUED, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_UNKNOWN(JsonValues.NEVER, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_MERCHANT(JsonValues.MERCHANT, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_QUEST(JsonValues.QUEST, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_UNOBTAINABLE(JsonValues.UNOBTAINABLE, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_SPECIFIC_DROP(JsonValues.SPECIFIC, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_SECRET_DISCOVERY(JsonValues.SECRET_DISCOVERY, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_THE_QIRA_HIVE(JsonValues.THE_QIRA_HIVE, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_LEGENDARY_ISLAND(JsonValues.LEGENDARY_ISLAND, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_WORLD_EVENT(JsonValues.WORLD_EVENT, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_LOOTRUN(JsonValues.LOOTRUN, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_MINIBOSS(JsonValues.MINIBOSS, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_CHALLENGE(JsonValues.CHALLENGE, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
+    DROP_TYPE_OTHER(JsonValues.OTHER, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
 
     SUM_TOTAL_HEALTH("", "total_health", "total_health", "", DataType.SUM, SumEnum.TOTAL_HEALTH, JsonKeys.OTHERS, JsonKeys.OTHERS, false),
     SUM_TOTAL_HP_REGEN("", "total_hp_regen", "total_hp_regen", "", DataType.SUM, SumEnum.TOTAL_HEALTH_REGEN, JsonKeys.OTHERS, JsonKeys.OTHERS, false),

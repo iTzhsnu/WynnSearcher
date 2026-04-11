@@ -21,7 +21,15 @@ public enum JsonKeys {
     DROP_RESTRICTION("dropRestriction"),
     DROP_META("dropMeta"),
     DROPPED_BY("droppedBy"),
+    EVENT("event"),
+    COORDINATES("coordinates"), // official api
+    COORDS("coords"), // official api ingredient use this
     GATHERING_SPEED("gatheringSpeed"),
+
+    // used by custom drop type
+    IS_MOBNAME("ismobname"),
+    POS("pos"),
+    PRICE("price"),
 
     OTHERS("") // Used for detection
     ;

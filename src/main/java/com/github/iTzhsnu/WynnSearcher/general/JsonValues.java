@@ -53,7 +53,7 @@ public class JsonValues {
     public static final String LEGENDARY = "legendary";
     public static final String RARE = "rare";
     public static final String UNIQUE = "unique";
-    public static final String R_NORMAL = "normal";
+    public static final String R_NORMAL = "normal"; // Rarity Normal
     public static final String CRAFTED = "crafted";
 
     // Ingredient Rarity
@@ -66,16 +66,42 @@ public class JsonValues {
     public static final String SUPER_FAST = "superFast";
     public static final String VERY_FAST = "veryFast";
     public static final String FAST = "fast";
-    public static final String A_NORMAL = "normal";
+    public static final String A_NORMAL = "normal"; // Attack Speed Normal
     public static final String SLOW = "slow";
     public static final String VERY_SLOW = "verySlow";
     public static final String SUPER_SLOW = "superSlow";
 
-    // TOOLS
+    // Tools
     public static final String PICKAXE = "pickaxe";
     public static final String AXE = "axe";
     public static final String SCYTHE = "scythe";
     public static final String ROD = "rod";
+
+    // Drop Types (Original)
+    public static final String D_NORMAL = "normal"; // Mob and Loot Chest drop
+    public static final String LOOTCHEST = "lootchest"; // Tier 3 and 4 Loot Chest Drop
+    public static final String NEVER = "never"; // Unknown
+    public static final String DUNGEON = "dungeon"; // Dungeon
+    public static final String DUNGEON_MERCHANT = "dungeonMerchant";
+    public static final String RAID = "raid";
+    public static final String ALTAR = "altar";
+    public static final String MERCHANT = "merchant";
+    public static final String LOOTRUN = "lootrun";
+    public static final String EVENT = "event";
+    public static final String DUMMY = "Ingredient Dummy"; // Ingredient Drop Type: Unknown
+    public static final String CHALLENGE = "challenge"; //Ex. Legendary Island
+    public static final String QUEST = "quest";
+    public static final String MINIBOSS = "miniboss";
+
+    // Drop Type (Custom)
+    public static final String DISCONTINUED = "discontinued";
+    public static final String UNOBTAINABLE = "unobtainable";
+    public static final String LEGENDARY_ISLAND = "legendary_island";
+    public static final String THE_QIRA_HIVE = "the_qira_hive";
+    public static final String SECRET_DISCOVERY = "secret_discovery";
+    public static final String OTHER = "other";
+    public static final String WORLD_EVENT = "world_event";
+    public static final String SPECIFIC = "specific"; // Drop from specific mobs
 
 
 }

@@ -2053,10 +2053,19 @@ public class SearchUI extends JFrame implements ActionListener {
 
                         if (j.get(JsonKeys.DROP_META.getKey()) != null) {
                             if (j.get(JsonKeys.DROP_META.getKey()).getAsJsonObject().get(JsonKeys.TYPE.getKey()).isJsonArray()) {
-                                return id == Identifications.DROP_TYPE_MERCHANT;
+                                for (JsonElement je : j.get(JsonKeys.DROP_META.getKey()).getAsJsonObject().get(JsonKeys.TYPE.getKey()).getAsJsonArray()) {
+                                    return id.getDisplayName().equals(je.getAsString());
+                                }
                             } else {
                                 return id.getDisplayName().equals(j.get(JsonKeys.DROP_META.getKey()).getAsJsonObject().get(JsonKeys.TYPE.getKey()).getAsString());
                             }
+                        }
+
+                        if (j.get(JsonKeys.DROP_RESTRICTION.getKey()) != null) {
+                            if (id == Identifications.DROP_TYPE_UNKNOWN) {
+                                if (ItemUITemplate.haveManualDrop(how_to_obtain, itemName) > 0) return false;
+                            }
+                            return id.getDisplayName().equals(j.get(JsonKeys.DROP_RESTRICTION.getKey()).getAsString());
                         }
                     }
                 } else if (id == Identifications.MAJOR_IDS) {
@@ -2119,29 +2128,29 @@ public class SearchUI extends JFrame implements ActionListener {
                         case DROP_TYPE_UNKNOWN: {
                             boolean isObtainable = false;
                             for (JsonElement je : j.get(JsonKeys.DROPPED_BY.getKey()).getAsJsonArray()) {
-                                if (je.getAsJsonObject().get("name") != null && !je.getAsJsonObject().get("name").getAsString().equals("Ingredient Dummy")) {
+                                if (je.getAsJsonObject().get(JsonKeys.NAME.getKey()) != null && !je.getAsJsonObject().get(JsonKeys.NAME.getKey()).getAsString().equals(JsonValues.DUMMY)) {
                                     isObtainable = true;
                                     break;
                                 }
                             }
-                            int haveItem = ItemUITemplate.haveManualDrop(how_to_obtain_ing, j.get("name").getAsString());
+                            int haveItem = ItemUITemplate.haveManualDrop(how_to_obtain_ing, j.get(JsonKeys.NAME.getKey()).getAsString());
                             if (haveItem > 0 && haveItem != 1) isObtainable = true;
 
                             return !isObtainable;
                         }
                         case DROP_TYPE_SPECIFIC_DROP: {
                             for (JsonElement je : j.get(JsonKeys.DROPPED_BY.getKey()).getAsJsonArray()) {
-                                if (je.getAsJsonObject().get("name") != null && !je.getAsJsonObject().get("name").getAsString().equals("Ingredient Dummy")) {
+                                if (je.getAsJsonObject().get(JsonKeys.NAME.getKey()) != null && !je.getAsJsonObject().get(JsonKeys.NAME.getKey()).getAsString().equals(JsonValues.DUMMY)) {
                                     return true;
                                 }
                             }
-                            return (how_to_obtain_ing.get("specific") != null && how_to_obtain_ing.get("specific").getAsJsonObject().get(j.get("name").getAsString()) != null);
+                            return (how_to_obtain_ing.get(JsonValues.SPECIFIC) != null && how_to_obtain_ing.get(JsonValues.SPECIFIC).getAsJsonObject().get(j.get(JsonKeys.NAME.getKey()).getAsString()) != null);
                         }
                         case DROP_TYPE_NORMAL:
                         case DROP_TYPE_UNOBTAINABLE:
                             if (how_to_obtain_ing.get(id.getDisplayName()) != null) {
                                 for (JsonElement je : how_to_obtain_ing.get(id.getDisplayName()).getAsJsonArray()) {
-                                    if (je.getAsString().equals(j.get("name").getAsString())) {
+                                    if (je.getAsString().equals(j.get(JsonKeys.NAME.getKey()).getAsString())) {
                                         return true;
                                     }
                                 }
@@ -2152,7 +2161,7 @@ public class SearchUI extends JFrame implements ActionListener {
                         case DROP_TYPE_RAID_REWARDS:
                         case DROP_TYPE_WORLD_EVENT:
                         case DROP_TYPE_LOOTRUN:
-                            return (how_to_obtain_ing.get(id.getDisplayName()) != null && how_to_obtain_ing.get(id.getDisplayName()).getAsJsonObject().get(j.get("name").getAsString()) != null);
+                            return (how_to_obtain_ing.get(id.getDisplayName()) != null && how_to_obtain_ing.get(id.getDisplayName()).getAsJsonObject().get(j.get(JsonKeys.NAME.getKey()).getAsString()) != null);
                     }
                 } else {
                     return true;
