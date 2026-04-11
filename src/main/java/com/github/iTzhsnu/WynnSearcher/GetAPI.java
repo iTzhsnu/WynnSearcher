@@ -276,7 +276,7 @@ public class GetAPI {
                             saveEquipAndWeaponJ.get("items").getAsJsonArray().add(j);
                             break;
                         case 6: //Ingredients
-                            if (j.get("droppedBy") == null) j.add("droppedBy", JsonParser.parseString("[{\"name\":\"Ingredient Dummy\"}]"));
+                            if (j.get(JsonKeys.DROPPED_BY.getKey()) == null) j.add(JsonKeys.DROPPED_BY.getKey(), JsonParser.parseString("[{\"name\":\"Ingredient Dummy\"}]"));
                             ingredients.add(j);
                             saveIngredientJ.get("items").getAsJsonArray().add(j);
                             break;
@@ -512,8 +512,17 @@ public class GetAPI {
                 builder.append(line);
             }
 
+            JsonObject json = JsonParser.parseString(builder.toString()).getAsJsonObject();
+            for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
+                JsonObject j = json.get(entry.getKey()).getAsJsonObject();
+                if (j.get("rarity") != null) {
+                    j.addProperty(Identifications.RARITY.getItemName(), j.get("rarity").getAsString());
+                    j.remove("rarity");
+                }
+            }
+
             FileWriter writer = new FileWriter(getFilePath("/items_data/" + s + "_aspect.json"));
-            writer.write(builder.toString());
+            writer.write(json.toString());
             writer.close();
 
             System.out.println(s + " Aspects Loaded.");
