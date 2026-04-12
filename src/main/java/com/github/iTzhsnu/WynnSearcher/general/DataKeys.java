@@ -8,7 +8,7 @@ public class DataKeys {
     public static final String TYPE_ASPECT = "Type: Aspect";
 
     // Equipment Rarity
-    public static final String RARITY_ALL = "all";
+    public static final String RARITY_ALL = "All";
     public static final String RARITY_NO_NORMAL = "No Normal";
     public static final String RARITY_MYTHIC = "Mythic";
     public static final String RARITY_FABLED = "Fabled";
@@ -16,6 +16,7 @@ public class DataKeys {
     public static final String RARITY_RARE = "Rare";
     public static final String RARITY_UNIQUE = "Unique";
     public static final String RARITY_NORMAL = "Normal";
+    public static final String RARITY_SET = "Set"; // set rarity was discontinued but set bonus is available.
 
     // Ingredient Rarity
     public static final String RARITY_0STAR = "0 Star";

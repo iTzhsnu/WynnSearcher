@@ -34,7 +34,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Drop Type: Normal", "Drop Type: Loot Chests", "Drop Type: Raid Rewards", "Drop Type: Dungeon Drop", "Drop Type: Dungeon Merchant",
             "Drop Type: Boss Altar", "Drop Type: Discontinued", "Drop Type: Unknown", "Drop Type: Merchant", "Drop Type: Quest",
             "Drop Type: Unobtainable", "Drop Type: Specific Drop", "Drop Type: Secret Discovery", "Drop Type: The Qira Hive", "Drop Type: Legendary Island",
-            "Drop Type: World Event", "Drop Type: Lootrun", "Drop Type: Mini Boss", "Drop Type: Challenge", "Drop Type: Other",
+            "Drop Type: World Event", "Drop Type: Lootrun", "Drop Type: Mini Boss", "Drop Type: Challenge", "Drop Type: Other", "Set",
             "Durability", "Duration", "Charges", "Ingredient Effectiveness", "Ingredient Effectiveness (Above)", "Ingredient Effectiveness (Under)",
             "Ingredient Effectiveness (Right)", "Ingredient Effectiveness (Left)", "Ingredient Effectiveness (Touching)", "Ingredient Effectiveness (Not Touching)",
             "Sum (Total Health)", "Sum (Total Health Regen)", "Sum (Raw Defenses)", "Sum (Raw Rainbow Defenses)", "Sum (Defenses %)", "Sum (Rainbow Defenses %)",
@@ -47,7 +47,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Sum (Raw Spell Costs)", "Sum (Spell Costs %)"
     };
 
-    public static final Map<String, Identifications> ID_LIST = new HashMap<>(221, 2) {{
+    public static final Map<String, Identifications> ID_LIST = new HashMap<>(222, 2) {{
         put("Level", Identifications.LEVEL);
         put("Strength Req", Identifications.STRENGTH_REQ);
         put("Dexterity Req", Identifications.DEXTERITY_REQ);
@@ -218,6 +218,8 @@ public class IDBoxAdapter extends KeyAdapter {
         put("Drop Type: Mini Boss", Identifications.DROP_TYPE_MINIBOSS);
         put("Drop Type: Challenge", Identifications.DROP_TYPE_CHALLENGE);
         put("Drop Type: Other", Identifications.DROP_TYPE_OTHER);
+
+        put("Set", Identifications.SET);
 
         put("Sum (Total Health)", Identifications.SUM_TOTAL_HEALTH);
         put("Sum (Total Health Regen)", Identifications.SUM_TOTAL_HP_REGEN);

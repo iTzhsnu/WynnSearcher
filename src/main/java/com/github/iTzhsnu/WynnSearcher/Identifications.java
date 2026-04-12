@@ -186,6 +186,8 @@ public enum Identifications {
     DROP_TYPE_CHALLENGE(JsonValues.CHALLENGE, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
     DROP_TYPE_OTHER(JsonValues.OTHER, JsonKeys.DROP_RESTRICTION.getKey(), JsonKeys.DROPPED_BY.getKey(), "", DataType.STRING, null, JsonKeys.NOTHING, JsonKeys.NOTHING, false),
 
+    SET("Set", JsonKeys.SETS.getKey(), null, "", DataType.STRING, null, JsonKeys.NOTHING, null, false), // real Data Type is array
+
     SUM_TOTAL_HEALTH("", "total_health", "total_health", "", DataType.SUM, SumEnum.TOTAL_HEALTH, JsonKeys.OTHERS, JsonKeys.OTHERS, false),
     SUM_TOTAL_HP_REGEN("", "total_hp_regen", "total_hp_regen", "", DataType.SUM, SumEnum.TOTAL_HEALTH_REGEN, JsonKeys.OTHERS, JsonKeys.OTHERS, false),
     SUM_RAW_DEFENSES("", "raw_defenses", null, "", DataType.SUM, SumEnum.RAW_DEFENSES, JsonKeys.OTHERS, null, false),

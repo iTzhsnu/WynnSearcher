@@ -393,7 +393,7 @@ public class ItemUITemplate extends JPanel {
 
         JButton_Custom sets_label = null;
         if (!isCustom && json.get(JsonKeys.SETS.getKey()) != null) {
-            String setName = json.get(JsonKeys.SETS.getKey()).getAsString();
+            String setName = json.get(JsonKeys.SETS.getKey()).getAsString(); // Warning: this is string array
             if (SearchUI.getSetsJson().get(setName) != null) {
                 //label.add(new JLabel(" "));
                 sets_label = new JButton_Custom("Set Bonuses");

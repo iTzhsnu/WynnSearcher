@@ -532,15 +532,15 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void typeItemDataSet() {
-        itemTier.addItem("All");
-        itemTier.addItem("No Normal");
-        itemTier.addItem("Mythic");
-        itemTier.addItem("Fabled");
-        itemTier.addItem("Legendary");
-        itemTier.addItem("Rare");
-        itemTier.addItem("Unique");
-        itemTier.addItem("Set");
-        itemTier.addItem("Normal");
+        itemTier.addItem(DataKeys.RARITY_ALL);
+        itemTier.addItem(DataKeys.RARITY_NO_NORMAL);
+        itemTier.addItem(DataKeys.RARITY_MYTHIC);
+        itemTier.addItem(DataKeys.RARITY_FABLED);
+        itemTier.addItem(DataKeys.RARITY_LEGENDARY);
+        itemTier.addItem(DataKeys.RARITY_RARE);
+        itemTier.addItem(DataKeys.RARITY_UNIQUE);
+        itemTier.addItem(DataKeys.RARITY_SET);
+        itemTier.addItem(DataKeys.RARITY_NORMAL);
         itemTier.setBounds(320, 35, 170, 20);
 
         bow.setBounds(500, 10, 50, 20);
@@ -1517,6 +1517,14 @@ public class SearchUI extends JFrame implements ActionListener {
         if (!itemTier.getItemAt(itemTier.getSelectedIndex()).equals(DataKeys.RARITY_ALL) || !tier.getItemAt(tier.getSelectedIndex()).equals(DataKeys.RARITY_ALL)) {
             for (int i = searchedItems.size() - 1; i >= 0; --i) {
                 JsonObject j = searchedItems.get(i);
+
+                if (itemTier.getItemAt(itemTier.getSelectedIndex()).equals(DataKeys.RARITY_SET)) { // rarity set was discontinued but set bonus is available.
+                    if (j.get(JsonKeys.SETS.getKey()) == null) {
+                        searchedItems.remove(i);
+                    }
+                    continue;
+                }
+
                 if (j.get(Identifications.RARITY.getItemName()) != null) {
                     String s = j.get(Identifications.RARITY.getItemName()).getAsString();
                     switch (itemTier.getItemAt(itemTier.getSelectedIndex())) {
@@ -2082,8 +2090,17 @@ public class SearchUI extends JFrame implements ActionListener {
                         String s = max.getText();
                         if (!min.getText().isEmpty()) s = min.getText();
 
-                        return j.get(idName).getAsString().contains(s);
+                        return j.get(idName).getAsString().toLowerCase().contains(s.toLowerCase());
                     } else { // has No Text (Attack Speed)
+                        return true;
+                    }
+                } else if (id == Identifications.SET) {
+                    if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
+                        String s = max.getText();
+                        if (!min.getText().isEmpty()) s = min.getText();
+
+                        return j.get(idName).getAsString().toLowerCase().contains(s.toLowerCase()); // Warning: this is string array
+                    } else { // has No Text (SET)
                         return true;
                     }
                 } else {
