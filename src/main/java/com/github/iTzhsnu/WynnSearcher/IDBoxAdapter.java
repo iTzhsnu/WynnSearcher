@@ -44,7 +44,7 @@ public class IDBoxAdapter extends KeyAdapter {
             "Sum (Total Melee Damage)", "Sum (Total Neutral Melee Damage)", "Sum (Total Earth Melee Damage)", "Sum (Total Thunder Melee Damage)", "Sum (Total Water Melee Damage)", "Sum (Total Fire Melee Damage)", "Sum (Total Air Melee Damage)",
             "Sum (Total Melee DPS)", "Sum (Total Neutral Melee DPS)", "Sum (Total Earth Melee DPS)", "Sum (Total Thunder Melee DPS)", "Sum (Total Water Melee DPS)", "Sum (Total Fire Melee DPS)", "Sum (Total Air Melee DPS)",
             "Sum (Total Spell DPS)", "Sum (Total Neutral Spell DPS)", "Sum (Total Earth Spell DPS)", "Sum (Total Thunder Spell DPS)", "Sum (Total Water Spell DPS)", "Sum (Total Fire Spell DPS)", "Sum (Total Air Spell DPS)",
-            "Sum (Raw Spell Costs)", "Sum (Spell Costs %)"
+            "Sum (Raw Spell Costs)", "Sum (Spell Costs %)", "Sum (Melee Damages appropriate)", "Sum (Spell Damages appropriate)"
     };
 
     public static final Map<String, Identifications> ID_LIST = new HashMap<>(222, 2) {{
@@ -271,6 +271,9 @@ public class IDBoxAdapter extends KeyAdapter {
 
         put("Sum (Raw Spell Costs)", Identifications.SUM_RAW_SPELL_COSTS);
         put("Sum (Spell Costs %)", Identifications.SUM_SPELL_COSTS_PERCENT);
+
+        put("Sum (Melee Damages appropriate)", Identifications.SUM_MELEE_APPROPRIATE);
+        put("Sum (Spell Damages appropriate)", Identifications.SUM_SPELL_APPROPRIATE);
     }};
 
     public IDBoxAdapter(JComboBox<String> box) {

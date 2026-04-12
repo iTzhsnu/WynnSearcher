@@ -1,212 +1,358 @@
 {
   "e1": {
+    "pos": 1,
     "type": "earth",
     "convert": 17,
-    "damage": "3-6",
-    "earth_def": 2,
-    "air_def": -1
+    "min": 4,
+    "max": 5,
+    "rawHealth": 5,
+    "baseEarthDefence": 2,
+    "baseThunderDefence": -1
   },
   "e2": {
+    "pos": 1,
     "type": "earth",
     "convert": 21,
-    "damage": "5-8",
-    "earth_def": 4,
-    "air_def": -2
+    "min": 6,
+    "max": 7,
+    "rawHealth": 10,
+    "baseEarthDefence": 5,
+    "baseThunderDefence": -2
   },
+
   "e3": {
+    "pos": 1,
     "type": "earth",
     "convert": 25,
-    "damage": "6-10",
-    "earth_def": 8,
-    "air_def": -3
+    "min": 7,
+    "max": 9,
+    "rawHealth": 20,
+    "baseEarthDefence": 9,
+    "baseThunderDefence": -3
   },
   "e4": {
+    "pos": 1,
     "type": "earth",
     "convert": 31,
-    "damage": "7-10",
-    "earth_def": 14,
-    "air_def": -5
+    "min": 8,
+    "max": 9,
+    "rawHealth": 30,
+    "baseEarthDefence": 14,
+    "baseThunderDefence": -4
   },
   "e5": {
+    "pos": 1,
     "type": "earth",
     "convert": 38,
-    "damage": "9-11",
-    "earth_def": 22,
-    "air_def": -9
+    "min": 9,
+    "max": 11,
+    "rawHealth": 45,
+    "baseEarthDefence": 22,
+    "baseThunderDefence": -7
   },
   "e6": {
+    "pos": 1,
     "type": "earth",
     "convert": 46,
-    "damage": "11-13",
-    "earth_def": 30,
-    "air_def": -13
+    "min": 11,
+    "max": 12,
+    "rawHealth": 60,
+    "baseEarthDefence": 29,
+    "baseThunderDefence": -7
   },
+  "e7": {
+    "pos": 1,
+    "type": "earth",
+    "convert": 52,
+    "min": 12,
+    "max": 14,
+    "rawHealth": 75,
+    "baseEarthDefence": 37,
+    "baseThunderDefence": -12
+  },
+
   "t1": {
+    "pos": 2,
     "type": "thunder",
     "convert": 9,
-    "damage": "1-8",
-    "thunder_def": 3,
-    "earth_def": -1
+    "min": 1,
+    "max": 8,
+    "rawHealth": 5,
+    "baseEarthDefence": -1,
+    "baseThunderDefence": 2
   },
   "t2": {
+    "pos": 2,
     "type": "thunder",
     "convert": 11,
-    "damage": "1-12",
-    "thunder_def": 5,
-    "earth_def": -1
+    "min": 1,
+    "max": 12,
+    "rawHealth": 10,
+    "baseEarthDefence": -1,
+    "baseThunderDefence": 4
   },
   "t3": {
+    "pos": 2,
     "type": "thunder",
     "convert": 13,
-    "damage": "2-15",
-    "thunder_def": 9,
-    "earth_def": -2
+    "min": 2,
+    "max": 14,
+    "rawHealth": 20,
+    "baseEarthDefence": -2,
+    "baseThunderDefence": 8
   },
+
   "t4": {
+    "pos": 2,
     "type": "thunder",
     "convert": 17,
-    "damage": "3-15",
-    "thunder_def": 14,
-    "earth_def": -4
+    "min": 2,
+    "max": 15,
+    "rawHealth": 30,
+    "baseEarthDefence": -3,
+    "baseThunderDefence": 13
   },
   "t5": {
+    "pos": 2,
     "type": "thunder",
     "convert": 22,
-    "damage": "4-17",
-    "thunder_def": 20,
-    "earth_def": -7
+    "min": 3,
+    "max": 17,
+    "rawHealth": 45,
+    "baseEarthDefence": -5,
+    "baseThunderDefence": 20
   },
   "t6": {
+    "pos": 2,
     "type": "thunder",
     "convert": 28,
-    "damage": "5-20",
-    "thunder_def": 28,
-    "earth_def": -10
+    "min": 4,
+    "max": 19,
+    "rawHealth": 60,
+    "baseEarthDefence": -6,
+    "baseThunderDefence": 28
   },
+  "t7": {
+    "pos": 2,
+    "type": "thunder",
+    "convert": 32,
+    "min": 5,
+    "max": 21,
+    "rawHealth": 75,
+    "baseEarthDefence": -11,
+    "baseThunderDefence": 36
+  },
+
   "w1": {
-    "type": "water",
-    "convert": 9,
-    "damage": "3-4",
-    "water_def": 3,
-    "thunder_def": -1
-  },
-  "w2": {
+    "pos": 3,
     "type": "water",
     "convert": 13,
-    "damage": "4-6",
-    "water_def": 6,
-    "thunder_def": -1
+    "min": 3,
+    "max": 4,
+    "rawHealth": 5,
+    "baseThunderDefence": -1,
+    "baseWaterDefence": 3
   },
-  "w3": {
+  "w2": {
+    "pos": 3,
     "type": "water",
     "convert": 15,
-    "damage": "5-8",
-    "water_def": 11,
-    "thunder_def": -2
+    "min": 5,
+    "max": 6,
+    "rawHealth": 10,
+    "baseThunderDefence": -1,
+    "baseWaterDefence": 6
+  },
+  "w3": {
+    "pos": 3,
+    "type": "water",
+    "convert": 17,
+    "min": 6,
+    "max": 8,
+    "rawHealth": 20,
+    "baseThunderDefence": -3,
+    "baseWaterDefence": 11
   },
   "w4": {
+    "pos": 3,
     "type": "water",
     "convert": 21,
-    "damage": "6-8",
-    "water_def": 18,
-    "thunder_def": -4
+    "min": 7,
+    "max": 8,
+    "rawHealth": 30,
+    "baseThunderDefence": -4,
+    "baseWaterDefence": 16
   },
   "w5": {
+    "pos": 3,
     "type": "water",
     "convert": 26,
-    "damage": "7-10",
-    "water_def": 28,
-    "thunder_def": -7
+    "min": 8,
+    "max": 10,
+    "rawHealth": 45,
+    "baseThunderDefence": -6,
+    "baseWaterDefence": 23
   },
   "w6": {
+    "pos": 3,
     "type": "water",
     "convert": 32,
-    "damage": "9-11",
-    "water_def": 40,
-    "thunder_def": -10
+    "min": 10,
+    "max": 13,
+    "rawHealth": 60,
+    "baseThunderDefence": -10,
+    "baseWaterDefence": 32
   },
+  "w7": {
+    "pos": 3,
+    "type": "water",
+    "convert": 38,
+    "min": 11,
+    "max": 15,
+    "rawHealth": 75,
+    "baseThunderDefence": -15,
+    "baseWaterDefence": 40
+  },
+
   "f1": {
+    "pos": 4,
     "type": "fire",
     "convert": 14,
-    "damage": "2-5",
-    "fire_def": 3,
-    "water_def": -1
+    "min": 2,
+    "max": 5,
+    "rawHealth": 5,
+    "baseWaterDefence": -1,
+    "baseFireDefence": 3
   },
   "f2": {
+    "pos": 4,
     "type": "fire",
     "convert": 16,
-    "damage": "4-8",
-    "fire_def": 5,
-    "water_def": -2
+    "min": 4,
+    "max": 7,
+    "rawHealth": 10,
+    "baseWaterDefence": -1,
+    "baseFireDefence": 6
   },
   "f3": {
+    "pos": 4,
     "type": "fire",
     "convert": 19,
-    "damage": "5-9",
-    "fire_def": 9,
-    "water_def": -3
+    "min": 5,
+    "max": 9,
+    "rawHealth": 20,
+    "baseWaterDefence": -2,
+    "baseFireDefence": 10
   },
   "f4": {
+    "pos": 4,
     "type": "fire",
     "convert": 24,
-    "damage": "6-9",
-    "fire_def": 16,
-    "water_def": -5
+    "min": 6,
+    "max": 9,
+    "rawHealth": 30,
+    "baseWaterDefence": -3,
+    "baseFireDefence": 15
   },
   "f5": {
+    "pos": 4,
     "type": "fire",
     "convert": 30,
-    "damage": "8-10",
-    "fire_def": 25,
-    "water_def": -9
+    "min": 7,
+    "max": 11,
+    "rawHealth": 45,
+    "baseWaterDefence": -5,
+    "baseFireDefence": 22
   },
   "f6": {
+    "pos": 4,
     "type": "fire",
     "convert": 37,
-    "damage": "10-12",
-    "fire_def": 36,
-    "water_def": -13
+    "min": 9,
+    "max": 14,
+    "rawHealth": 60,
+    "baseWaterDefence": -9,
+    "baseFireDefence": 31
   },
+  "f7": {
+    "pos": 4,
+    "type": "fire",
+    "convert": 44,
+    "min": 10,
+    "max": 16,
+    "rawHealth": 75,
+    "baseWaterDefence": -14,
+    "baseFireDefence": 39
+  },
+
   "a1": {
+    "pos": 5,
     "type": "air",
     "convert": 11,
-    "damage": "2-6",
-    "air_def": 3,
-    "fire_def": -1
+    "min": 2,
+    "max": 6,
+    "rawHealth": 5,
+    "baseFireDefence": -1,
+    "baseAirDefence": 3
   },
   "a2": {
+    "pos": 5,
     "type": "air",
     "convert": 14,
-    "damage": "3-10",
-    "air_def": 6,
-    "fire_def": -2
+    "min": 3,
+    "max": 9,
+    "rawHealth": 10,
+    "baseFireDefence": -2,
+    "baseAirDefence": 6
   },
   "a3": {
+    "pos": 5,
     "type": "air",
     "convert": 17,
-    "damage": "4-11",
-    "air_def": 10,
-    "fire_def": -3
+    "min": 4,
+    "max": 11,
+    "rawHealth": 20,
+    "baseFireDefence": -3,
+    "baseAirDefence": 10
   },
   "a4": {
+    "pos": 5,
     "type": "air",
     "convert": 22,
-    "damage": "5-11",
-    "air_def": 16,
-    "fire_def": -5
+    "min": 5,
+    "max": 11,
+    "rawHealth": 30,
+    "baseFireDefence": -5,
+    "baseAirDefence": 16
   },
   "a5": {
+    "pos": 5,
     "type": "air",
     "convert": 28,
-    "damage": "7-12",
-    "air_def": 24,
-    "fire_def": -9
+    "min": 7,
+    "max": 12,
+    "rawHealth": 45,
+    "baseFireDefence": -7,
+    "baseAirDefence": 23
   },
   "a6": {
+    "pos": 5,
     "type": "air",
     "convert": 35,
-    "damage": "8-14",
-    "air_def": 34,
-    "fire_def": -13
+    "min": 8,
+    "max": 15,
+    "rawHealth": 60,
+    "baseFireDefence": -8,
+    "baseAirDefence": 30
+  },
+  "a7": {
+    "pos": 5,
+    "type": "air",
+    "convert": 42,
+    "min": 9,
+    "max": 17,
+    "rawHealth": 75,
+    "baseFireDefence": -13,
+    "baseAirDefence": 38
   }
 }

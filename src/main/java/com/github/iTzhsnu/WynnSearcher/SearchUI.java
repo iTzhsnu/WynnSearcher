@@ -4,12 +4,16 @@ import com.github.iTzhsnu.WynnSearcher.general.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.List;
 
@@ -167,6 +171,10 @@ public class SearchUI extends JFrame implements ActionListener {
     private static JsonObject how_to_obtain_ing = null;
     private static JsonObject how_to_obtain_other = null;
 
+    // Damage appropriate for the weapon
+    private JsonObject appropriateCache = null;
+    private static JsonObject powderData;
+
 
     public static boolean isReversedID(Identifications id) {
         return id == Identifications.RAW_1ST_SPELL_COST || id == Identifications.RAW_2ND_SPELL_COST || id == Identifications.RAW_3RD_SPELL_COST || id == Identifications.RAW_4TH_SPELL_COST || id == Identifications.PERCENT_1ST_SPELL_COST || id == Identifications.PERCENT_2ND_SPELL_COST || id == Identifications.PERCENT_3RD_SPELL_COST || id == Identifications.PERCENT_4TH_SPELL_COST;
@@ -194,6 +202,8 @@ public class SearchUI extends JFrame implements ActionListener {
         how_to_obtain_item = getAPI.getHowToObtainItem();
         how_to_obtain_ing = getAPI.getHowToObtainIng();
         how_to_obtain_other = getAPI.getHowToObtainOther();
+
+        powderData = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/powders.json")), StandardCharsets.UTF_8))).getAsJsonObject();
 
         setItemJson();
         setIngredientJson();
@@ -1463,6 +1473,10 @@ public class SearchUI extends JFrame implements ActionListener {
         if (id.getIDType() != DataType.SUM) {
             return hasIDValue(j, id, how_to_obtain, min, max, type);
         } else {
+            if (id.getItemName().equals(DataKeys.DAMAGE_APPROPRIATE)) {
+                return hasDamageAppropriateSUMID(j, id.getSum(), min, max);
+            }
+
             boolean need = false;
             boolean needAll = true;
             for (int n = 0; id.getSum().getIds().size() > n; ++n) {
@@ -1669,12 +1683,12 @@ public class SearchUI extends JFrame implements ActionListener {
                                     } else {
                                         if (id.getSum().getSumIDs() != null) {
                                             for (int n = 0; id.getSum().getSumIDs().size() > n; n++) {
-                                                total_min += getTotalSumFloat(j, id.getSum().getSumIDs().get(n), JsonKeys.MIN, type);
-                                                total_max += getTotalSumFloat(j, id.getSum().getSumIDs().get(n), JsonKeys.MAX, type);
+                                                total_min += getTotalSumFloat(j, id.getSum().getSumIDs().get(n), JsonKeys.MIN, type, min, max);
+                                                total_max += getTotalSumFloat(j, id.getSum().getSumIDs().get(n), JsonKeys.MAX, type, min, max);
                                             }
                                         } else {
-                                            total_min += getTotalSumFloat(j, id.getSum(), JsonKeys.MIN, type);
-                                            total_max += getTotalSumFloat(j, id.getSum(), JsonKeys.MAX, type);
+                                            total_min += getTotalSumFloat(j, id.getSum(), JsonKeys.MIN, type, min, max);
+                                            total_max += getTotalSumFloat(j, id.getSum(), JsonKeys.MAX, type, min, max);
                                         }
                                     }
                                 }
@@ -1722,14 +1736,33 @@ public class SearchUI extends JFrame implements ActionListener {
                             total += getAttackSpeed(j);
                         }
                     } else { // is SUM
-                        if (id.getSum().getSumIDs() != null) {
+                        if (id.getItemName().equals(DataKeys.DAMAGE_APPROPRIATE)) {
+                            JTextField minField = idMin_1;
+                            JTextField maxField = idMax_1;
+                            switch (num) {
+                                case 1:
+                                    minField = idMin_2;
+                                    maxField = idMax_2;
+                                    break;
+                                case 2:
+                                    minField = idMin_3;
+                                    maxField = idMax_3;
+                                    break;
+                                case 3:
+                                    minField = idMin_4;
+                                    maxField = idMax_4;
+                                    break;
+                            }
+
+                            total += getDamAppropriateSUMFloat(j, id.getSum(), bSortType, minField, maxField);
+                        } else if (id.getSum().getSumIDs() != null) {
                             //SUM in SUM
                             for (int n = 0; id.getSum().getSumIDs().size() > n; ++n) {
-                                total += getTotalSumFloat(j, id.getSum().getSumIDs().get(n), bSortType, type);
+                                total += getTotalSumFloat(j, id.getSum().getSumIDs().get(n), bSortType, type, null, null);
                             }
                         } else {
                             //Normal SUM
-                            total += getTotalSumFloat(j, id.getSum(), bSortType, type);
+                            total += getTotalSumFloat(j, id.getSum(), bSortType, type, null, null);
                         }
                     }
                 }
@@ -2186,7 +2219,11 @@ public class SearchUI extends JFrame implements ActionListener {
         return false;
     }
 
-    public float getTotalSumFloat(JsonObject j, SumEnum sum, JsonKeys sortType, ItemType type) {
+    public float getTotalSumFloat(JsonObject j, SumEnum sum, JsonKeys sortType, ItemType type, JTextField min, JTextField max) {
+        if (SumEnum.MELEE_APPROPRIATE == sum || SumEnum.SPELL_APPROPRIATE == sum) {
+            return getDamAppropriateSUMFloat(j, sum, sortType, min, max);
+        }
+
         float total = 0;
         float sum_total = 0;
         int sum_total_sub = 0;
@@ -2232,6 +2269,172 @@ public class SearchUI extends JFrame implements ActionListener {
             }
         }
         return total + sum_total;
+    }
+
+    public boolean hasDamageAppropriateSUMID(JsonObject j, SumEnum sum, JTextField min, JTextField max) {
+        if (min != null && max != null) {
+            if (!min.getText().isEmpty()) {
+                JsonObject weapon = getItemJsonFromName(min.getText());
+                if (weapon != null) {
+                    boolean[] has = new boolean[] { false, false, false, false, false, false };
+
+                    // Powder Damage
+                    if (!max.getText().isEmpty()) {
+                        int size = (max.getText().length() >> 1) << 1;
+                        String powder = max.getText();
+                        POWDER_FIND: for (int i = 0; size > i; i += 2) {
+                            try {
+                                int tier = Integer.parseInt(powder.substring(i + 1, i + 2));
+                                if (tier > 0 && 7 >= tier) {
+                                    switch (powder.charAt(i)) {
+                                        case DataKeys.POWDER_E -> has[1] = true;
+                                        case DataKeys.POWDER_T -> has[2] = true;
+                                        case DataKeys.POWDER_W -> has[3] = true;
+                                        case DataKeys.POWDER_F -> has[4] = true;
+                                        case DataKeys.POWDER_A -> has[5] = true;
+                                        default -> {
+                                            break POWDER_FIND;
+                                        }
+                                    }
+                                } else {
+                                    break;
+                                }
+                            } catch (NumberFormatException e) {
+                                break;
+                            }
+                        }
+                    }
+
+                    // Weapon Damage
+                    if (weapon.get(Identifications.NEUTRAL_DAMAGE.getItemFieldPos().getKey()) != null) {
+                        JsonObject w = weapon.get(Identifications.NEUTRAL_DAMAGE.getItemFieldPos().getKey()).getAsJsonObject();
+                        for (int i = 0; ItemUITemplate.DAMAGE_IDS.size() > i; ++i) {
+                            if (w.get(ItemUITemplate.DAMAGE_IDS.get(i).getItemName()) != null) {
+                                has[i] = true;
+                            }
+                        }
+                    }
+
+                    //
+                    if (has[0] || has[1] || has[2] || has[3] || has[4] || has[5]) {
+                        for (Identifications id : sum.getSumIDs().get(6).getAddIDs()) { // Raw Damage
+                            if (hasID(id, j, null, null, null, ItemType.ITEM)) return true;
+                        }
+
+                        if (has[1] || has[2] || has[3] || has[4] || has[5]) { // Elemental Damage
+                            for (Identifications id : sum.getSumIDs().get(7).getAddIDs()) {
+                                if (hasID(id, j, null, null, null, ItemType.ITEM)) return true;
+                            }
+                        }
+
+                        for (int i = 0; 6 > i; ++i) {
+                            if (has[i]) {
+                                for (Identifications id : sum.getSumIDs().get(i).getAddIDs()) {
+                                    if (hasID(id, j, null, null, null, ItemType.ITEM)) return true;
+                                }
+                                for (Identifications id : sum.getSumIDs().get(i).getMultiIDs()) {
+                                    if (hasID(id, j, null, null, null, ItemType.ITEM)) return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public float getDamAppropriateSUMFloat(JsonObject j, SumEnum sum, JsonKeys sortType, JTextField min, JTextField max) {
+        if (min != null && max != null) {
+            if (!min.getText().isEmpty()) {
+                JsonObject weapon = getItemJsonFromName(min.getText());
+                if (weapon != null) {
+                    float total = 0;
+                    float total_sub = 0;
+
+                    int[] damages_min = new int[] { getIDValue(weapon, Identifications.NEUTRAL_DAMAGE, JsonKeys.MIN, ItemType.ITEM), getIDValue(weapon, Identifications.EARTH_DAMAGE, JsonKeys.MIN, ItemType.ITEM), getIDValue(weapon, Identifications.THUNDER_DAMAGE, JsonKeys.MIN, ItemType.ITEM), getIDValue(weapon, Identifications.WATER_DAMAGE, JsonKeys.MIN, ItemType.ITEM), getIDValue(weapon, Identifications.FIRE_DAMAGE, JsonKeys.MIN, ItemType.ITEM), getIDValue(weapon, Identifications.AIR_DAMAGE, JsonKeys.MIN, ItemType.ITEM) };
+                    int[] damages_max = new int[] { getIDValue(weapon, Identifications.NEUTRAL_DAMAGE, JsonKeys.MAX, ItemType.ITEM), getIDValue(weapon, Identifications.EARTH_DAMAGE, JsonKeys.MAX, ItemType.ITEM), getIDValue(weapon, Identifications.THUNDER_DAMAGE, JsonKeys.MAX, ItemType.ITEM), getIDValue(weapon, Identifications.WATER_DAMAGE, JsonKeys.MAX, ItemType.ITEM), getIDValue(weapon, Identifications.FIRE_DAMAGE, JsonKeys.MAX, ItemType.ITEM), getIDValue(weapon, Identifications.AIR_DAMAGE, JsonKeys.MAX, ItemType.ITEM) };
+
+                    if (!max.getText().isEmpty()) {
+                        setPowderOnNonCraft(damages_min, max.getText(), JsonKeys.MIN);
+                        setPowderOnNonCraft(damages_max, max.getText(), JsonKeys.MAX);
+                    }
+
+                    //System.out.println(damages_min[0] + "-" + damages_max[0] + "\n" + damages_min[1] + "-" + damages_max[1] + "\n" + damages_min[2] + "-" + damages_max[2] + "\n" + damages_min[3] + "-" + damages_max[3] + "\n" + damages_min[4] + "-" + damages_max[4] + "\n" + damages_min[5] + "-" + damages_max[5] + "\n");
+
+                    float[] damages = new float[] { (damages_min[0] + damages_max[0]) * 0.5F, (damages_min[1] + damages_max[1]) * 0.5F, (damages_min[2] + damages_max[2]) * 0.5F, (damages_min[3] + damages_max[3]) * 0.5F, (damages_min[4] + damages_max[4]) * 0.5F, (damages_min[5] + damages_max[5]) * 0.5F };
+
+                    for (int i = 0; 6 > i; ++i) {
+                        if (damages[i] != 0) {
+                            for (Identifications id : sum.getSumIDs().get(i).getMultiIDs()) {
+                                total += damages[i] * getIDValue(j, id, sortType, ItemType.ITEM) * 0.01F;
+                            }
+                            for (Identifications id : sum.getSumIDs().get(i).getAddIDs()) {
+                                total_sub += getIDValue(j, id, sortType, ItemType.ITEM);
+                            }
+                        }
+                    }
+
+                    if (damages[0] != 0 || damages[1] != 0 || damages[2] != 0 || damages[3] != 0 || damages[4] != 0 || damages[5] != 0) {
+                        for (Identifications id : sum.getSumIDs().get(6).getAddIDs()) {
+                            total_sub += getIDValue(j, id, sortType, ItemType.ITEM);
+                        }
+
+                        if (damages[1] != 0 || damages[2] != 0 || damages[3] != 0 || damages[4] != 0 || damages[5] != 0) {
+                            for (Identifications id : sum.getSumIDs().get(7).getAddIDs()) {
+                                total_sub += getIDValue(j, id, sortType, ItemType.ITEM);
+                            }
+                        }
+
+                        if (sum.isMeleeDPS()) {
+                            return total + total_sub;
+                        } else if (sum.isDPS()) {
+                            total *= getAttackSpeed(weapon);
+                            return total + total_sub;
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    // int[] {neutral_min, neutral_max, earth_min, ...}
+    // Neutral, Earth, Thunder, Water, Fire, Air
+    public static void setPowderOnNonCraft(int[] damages, String powderText, JsonKeys sortType) {
+        int neutral = damages[0];
+
+        int size = (powderText.length() >> 1) << 1;
+        for (int i = 0; size > i; i += 2) {
+            String text = powderText.substring(i, i + 2);
+            if (powderData.get(text) != null) {
+                JsonObject powder = powderData.get(text).getAsJsonObject();
+                int pos = powder.get(JsonKeys.POS.getKey()).getAsInt();
+                int conv = powder.get("convert").getAsInt();
+
+                int converted = (int) Math.floor(Math.min(neutral, damages[0] * conv * 0.01F));
+
+                neutral -= converted;
+
+                damages[pos] += converted + powder.get(sortType.getKey()).getAsInt();
+            }
+        }
+
+        damages[0] = neutral;
+    }
+
+    public JsonObject getItemJsonFromName(String name) {
+        if (appropriateCache != null && appropriateCache.get(JsonKeys.NAME.getKey()).getAsString().equalsIgnoreCase(name)) {
+            return appropriateCache;
+        } else {
+            for (JsonObject j : wynnItems) {
+                if (j.get(JsonKeys.NAME.getKey()) != null && j.get(JsonKeys.NAME.getKey()).getAsString().equalsIgnoreCase(name)) {
+                    appropriateCache = j;
+                    return j;
+                }
+            }
+        }
+        return null;
     }
 
     public void setSearcherVisible(boolean visible) {

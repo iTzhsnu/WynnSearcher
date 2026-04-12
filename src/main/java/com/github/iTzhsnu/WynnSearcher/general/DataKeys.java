@@ -27,4 +27,12 @@ public class DataKeys {
     // Sort Type
     public static final String SORT_MIN = "Sort: Min";
 
+    // Damage appropriate for the weapon
+    public static final String DAMAGE_APPROPRIATE = "damage_appropriate";
+    public static final char POWDER_E = 'e';
+    public static final char POWDER_T = 't';
+    public static final char POWDER_W = 'w';
+    public static final char POWDER_F = 'f';
+    public static final char POWDER_A = 'a';
+
 }

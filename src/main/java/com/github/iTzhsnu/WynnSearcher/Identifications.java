@@ -1,5 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.github.iTzhsnu.WynnSearcher.general.DataKeys;
 import com.github.iTzhsnu.WynnSearcher.general.DataType;
 import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
 import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
@@ -239,7 +240,10 @@ public enum Identifications {
     SUM_TOTAL_AIR_SPELL_DPS("", "total_air_spell_dps", null, "", DataType.SUM, SumEnum.TOTAL_AIR_SPELL_DPS, JsonKeys.OTHERS, null, false),
 
     SUM_RAW_SPELL_COSTS("", "raw_spell_costs", null, "", DataType.SUM, SumEnum.RAW_SPELL_COSTS, JsonKeys.OTHERS, JsonKeys.OTHERS, false),
-    SUM_SPELL_COSTS_PERCENT("", "spell_costs", null, "", DataType.SUM, SumEnum.SPELL_COSTS_PERCENT, JsonKeys.OTHERS, JsonKeys.OTHERS, false)
+    SUM_SPELL_COSTS_PERCENT("", "spell_costs", null, "", DataType.SUM, SumEnum.SPELL_COSTS_PERCENT, JsonKeys.OTHERS, JsonKeys.OTHERS, false),
+
+    SUM_MELEE_APPROPRIATE("", DataKeys.DAMAGE_APPROPRIATE, null, "", DataType.SUM, SumEnum.MELEE_APPROPRIATE, JsonKeys.OTHERS, null, false),
+    SUM_SPELL_APPROPRIATE("", DataKeys.DAMAGE_APPROPRIATE, null, "", DataType.SUM, SumEnum.SPELL_APPROPRIATE, JsonKeys.OTHERS, null, false),
     ;
 
     private final String displayName;
