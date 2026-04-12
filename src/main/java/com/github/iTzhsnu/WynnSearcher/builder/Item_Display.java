@@ -1,6 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.CrafterUI;
+import com.github.iTzhsnu.WynnSearcher.SearchUI;
 import com.github.iTzhsnu.WynnSearcher.general.ItemType;
 import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
 import com.google.gson.JsonObject;
@@ -112,11 +113,11 @@ public class Item_Display {
         if (itemsPanel.size() > 3) above = itemsPanel.get(itemsPanel.size() - 4);
         if (itemName.contains("CI-")) {
             json = JsonParser.parseString(itemName.replace("CI-", "")).getAsJsonObject();
-            itemsPanel.add(new ItemUITemplate(json, type, previous, above, 1045, 0, true));
+            itemsPanel.add(new ItemUITemplate(json, type, previous, above, 1045, 0, true, SearchUI.getHow_to_obtain_item()));
         } else if (itemName.contains("CR-")) {
             if (itemName.contains("\"type\":\"" + itemType + "\"")) {
                 json = CrafterUI.getCraftItemJson(recipe, ing, itemName, false);
-                itemsPanel.add(new ItemUITemplate(json, type, previous, above, 1045, 0, true));
+                itemsPanel.add(new ItemUITemplate(json, type, previous, above, 1045, 0, true, SearchUI.getHow_to_obtain_item()));
             }
         } else if (!itemName.isEmpty()) {
             for (JsonObject j : itemJ) {
@@ -126,7 +127,7 @@ public class Item_Display {
                 }
             }
             if (json != null) {
-                itemsPanel.add(new ItemUITemplate(json, type, previous, above, 1045, 0, false));
+                itemsPanel.add(new ItemUITemplate(json, type, previous, above, 1045, 0, false, SearchUI.getHow_to_obtain_item()));
             }
         }
         return json;

@@ -35,6 +35,7 @@ public class SearchUI extends JFrame implements ActionListener {
     private final List<JsonObject> ringJson = new ArrayList<>();
     private final List<JsonObject> braceletJson = new ArrayList<>();
     private final List<JsonObject> necklaceJson = new ArrayList<>();
+    private static JsonObject setsJson = null;
 
     //Ingredient Type Json
     private final List<JsonObject> armouringJson = new ArrayList<>();
@@ -162,9 +163,9 @@ public class SearchUI extends JFrame implements ActionListener {
     private final ChangesUI changesUI;
 
     //How to Obtain
-    private final JsonObject how_to_obtain_item;
-    private final JsonObject how_to_obtain_ing;
-    private final JsonObject how_to_obtain_other;
+    private static JsonObject how_to_obtain_item = null;
+    private static JsonObject how_to_obtain_ing = null;
+    private static JsonObject how_to_obtain_other = null;
 
 
     public static boolean isReversedID(Identifications id) {
@@ -177,6 +178,7 @@ public class SearchUI extends JFrame implements ActionListener {
         getAPI.loadArchiveV3API(wynnItems, wynnIngredients, wynnOtherItems, itemAPIConnect);
         List<JsonObject> wynnRecipes = new ArrayList<>();
         String recipeAPIConnect = getAPI.loadRecipeData(wynnRecipes);
+        setsJson = getAPI.loadWynnSetsAPI();
 
         getAPI.loadWynnAspectAPI(JsonValues.WARRIOR, warriorAspectJson);
         getAPI.loadWynnAspectAPI(JsonValues.ASSASSIN, assassinAspectJson);
@@ -445,23 +447,27 @@ public class SearchUI extends JFrame implements ActionListener {
         if (!toolJson.isEmpty()) toolJson.clear();
         if (!materialJson.isEmpty()) materialJson.clear();
 
-        new GetAPI().getWynnAPIV3_3(wynnItems, wynnIngredients, wynnOtherItems, itemAPIConnect);
+        GetAPI api = new GetAPI();
 
-        new GetAPI().setWynnAbilityTreeAPI(JsonValues.WARRIOR);
-        new GetAPI().setWynnAbilityTreeAPI(JsonValues.ASSASSIN);
-        new GetAPI().setWynnAbilityTreeAPI(JsonValues.MAGE);
-        new GetAPI().setWynnAbilityTreeAPI(JsonValues.ARCHER);
-        new GetAPI().setWynnAbilityTreeAPI(JsonValues.SHAMAN);
+        api.getWynnAPIV3_3(wynnItems, wynnIngredients, wynnOtherItems, itemAPIConnect);
+        api.getWynnSetsAPI();
 
-        new GetAPI().getWynnAspectAPI(JsonValues.WARRIOR);
-        new GetAPI().getWynnAspectAPI(JsonValues.ASSASSIN);
-        new GetAPI().getWynnAspectAPI(JsonValues.MAGE);
-        new GetAPI().getWynnAspectAPI(JsonValues.ARCHER);
-        new GetAPI().getWynnAspectAPI(JsonValues.SHAMAN);
+        api.setWynnAbilityTreeAPI(JsonValues.WARRIOR);
+        api.setWynnAbilityTreeAPI(JsonValues.ASSASSIN);
+        api.setWynnAbilityTreeAPI(JsonValues.MAGE);
+        api.setWynnAbilityTreeAPI(JsonValues.ARCHER);
+        api.setWynnAbilityTreeAPI(JsonValues.SHAMAN);
+
+        api.getWynnAspectAPI(JsonValues.WARRIOR);
+        api.getWynnAspectAPI(JsonValues.ASSASSIN);
+        api.getWynnAspectAPI(JsonValues.MAGE);
+        api.getWynnAspectAPI(JsonValues.ARCHER);
+        api.getWynnAspectAPI(JsonValues.SHAMAN);
 
         setItemJson();
         setIngredientJson();
         setOtherItemsJson();
+        setsJson = api.loadWynnSetsAPI();
         crafterUI.updateIngAPI();
         builderUI.updateAPIs();
 
@@ -857,7 +863,6 @@ public class SearchUI extends JFrame implements ActionListener {
         return !((JTextField) box.getEditor().getEditorComponent()).getText().isEmpty();
     }
 
-    // TODO check
     public void searchItems(List<JsonObject> modify) {
         long startTime = System.currentTimeMillis();
 
@@ -866,7 +871,7 @@ public class SearchUI extends JFrame implements ActionListener {
         long midTime = System.currentTimeMillis();
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
-            sort(null, ItemType.ITEM);
+            sort(null, ItemType.ITEM, how_to_obtain_item);
         }
 
         setDisplaySize();
@@ -874,7 +879,6 @@ public class SearchUI extends JFrame implements ActionListener {
         displayTime.setText((midTime - startTime) + "ms, " + (System.currentTimeMillis() - midTime) + "ms");
     }
 
-    // TODO check
     public void filterItems(List<JsonObject> modify) {
         searchedItems.clear();
         if (modify != null && !modify.isEmpty()) {
@@ -924,7 +928,6 @@ public class SearchUI extends JFrame implements ActionListener {
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
     }
 
-    // TODO check
     public void searchIngredient(List<JsonObject> modify) {
         long startTime = System.currentTimeMillis();
 
@@ -933,7 +936,7 @@ public class SearchUI extends JFrame implements ActionListener {
         long midTime = System.currentTimeMillis();
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
-            sort(null, ItemType.INGREDIENT);
+            sort(null, ItemType.INGREDIENT, how_to_obtain_ing);
         }
 
         setDisplaySize();
@@ -941,7 +944,6 @@ public class SearchUI extends JFrame implements ActionListener {
         displayTime.setText((midTime - startTime) + "ms, " + (System.currentTimeMillis() - midTime) + "ms");
     }
 
-    // TODO check
     public void filterIng(List<JsonObject> modify) {
         searchedItems.clear();
 
@@ -1098,7 +1100,6 @@ public class SearchUI extends JFrame implements ActionListener {
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
     }
 
-    // TODO check
     public void searchOtherItems(List<JsonObject> modify) {
         long startTime = System.currentTimeMillis();
 
@@ -1107,7 +1108,7 @@ public class SearchUI extends JFrame implements ActionListener {
         long midTime = System.currentTimeMillis();
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
-            sort(null, ItemType.OTHER);
+            sort(null, ItemType.OTHER, how_to_obtain_other);
         }
 
         setDisplaySize();
@@ -1115,7 +1116,6 @@ public class SearchUI extends JFrame implements ActionListener {
         displayTime.setText((midTime - startTime) + "ms, " + (System.currentTimeMillis() - midTime) + "ms");
     }
 
-    // TODO check
     public void filterOther(List<JsonObject> modify) {
         searchedItems.clear();
 
@@ -1409,7 +1409,6 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    // UPDATED
     public void searchIDs(List<JComboBox<String>> box, JTextField min, JTextField max, JsonObject how_to_obtain, ItemType type) {
         Identifications id_0 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
         Identifications id_1 = IDBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
@@ -1460,7 +1459,6 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    // UPDATED
     public boolean hasID(Identifications id, JsonObject j, JsonObject how_to_obtain, JTextField min, JTextField max, ItemType type) {
         if (id.getIDType() != DataType.SUM) {
             return hasIDValue(j, id, how_to_obtain, min, max, type);
@@ -1605,7 +1603,6 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    // UPDATED
     public void filterRange(List<JComboBox<String>> box, JTextField min, JTextField max, JsonObject how_to_obtain, ItemType type) {
         if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
             int min_Int = Integer.MIN_VALUE;
@@ -1684,8 +1681,7 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    // UPDATED
-    public void sort(Set<String> sortList, ItemType type) {
+    public void sort(Set<String> sortList, ItemType type, JsonObject how_to_obtain) {
         int si = searchedItems.size() - 1;
         int iu = 0;
         float max = Integer.MIN_VALUE;
@@ -1755,7 +1751,7 @@ public class SearchUI extends JFrame implements ActionListener {
             if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
                 above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
             }
-            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), type, previous, above, scrollPane.getWidth(), max, false));
+            itemDisplays.add(new ItemUITemplate(searchedItems.get(iu), type, previous, above, scrollPane.getWidth(), max, false, how_to_obtain));
             searched.add(itemDisplays.get(itemDisplays.size() - 1));
         }
         searchedItems.remove(iu);
@@ -1771,7 +1767,7 @@ public class SearchUI extends JFrame implements ActionListener {
             if (itemDisplays.size() >= (int) Math.floor((scrollPane.getWidth() - 5) / 260d)) {
                 above = itemDisplays.get(itemDisplays.size() - (int) Math.floor((scrollPane.getWidth() - 5) / 260d));
             }
-            itemDisplays.add(new ItemUITemplate(searchedItems.get(i), ItemType.ASPECT, previous, above, scrollPane.getWidth(), 0, false));
+            itemDisplays.add(new ItemUITemplate(searchedItems.get(i), ItemType.ASPECT, previous, above, scrollPane.getWidth(), 0, false, null));
             searched.add(itemDisplays.get(itemDisplays.size() - 1));
 
             searchedItems.remove(i);
@@ -1951,7 +1947,7 @@ public class SearchUI extends JFrame implements ActionListener {
         return true;
     }
 
-    public int getIDValue(JsonObject j, Identifications id, JsonKeys sortType, ItemType type) {
+    public static int getIDValue(JsonObject j, Identifications id, JsonKeys sortType, ItemType type) {
         String idName = id.getItemName();
         JsonKeys fieldPos = id.getItemFieldPos();
         if (type == ItemType.INGREDIENT) {
@@ -1992,15 +1988,15 @@ public class SearchUI extends JFrame implements ActionListener {
         return 0;
     }
 
-    public boolean hasIDValue(JsonObject j, Identifications id, JsonObject how_to_obtain, JTextField min, JTextField max, ItemType type) {
+    public static boolean hasIDValue(JsonObject j, Identifications id, JsonObject how_to_obtain, JTextField min, JTextField max, ItemType type) {
         if (type == ItemType.INGREDIENT) {
-            return hasIngIDValue(j, id, id.getIngName(), id.getIngFieldPos());
+            return hasIngIDValue(j, id, id.getIngName(), id.getIngFieldPos(), how_to_obtain);
         } else {
             return hasItemIDValue(j, id, id.getItemName(), id.getItemFieldPos(), how_to_obtain, min, max);
         }
     }
 
-    public boolean hasIntIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos) {
+    public static boolean hasIntIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos) {
         if (id.getIDType() == DataType.INT) {
             if (fieldPos == JsonKeys.NOTHING) {
                 return j.get(idName) != null;
@@ -2011,7 +2007,7 @@ public class SearchUI extends JFrame implements ActionListener {
         return false;
     }
 
-    public boolean hasItemIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos, JsonObject how_to_obtain, JTextField min, JTextField max) {
+    public static boolean hasItemIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos, JsonObject how_to_obtain, JTextField min, JTextField max) {
         if (idName != null) {
             if (id.getIDType() == DataType.INT) {
                 return hasIntIDValue(j, id, idName, fieldPos);
@@ -2100,7 +2096,7 @@ public class SearchUI extends JFrame implements ActionListener {
         return false;
     }
 
-    public boolean hasIngIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos) {
+    public static boolean hasIngIDValue(JsonObject j, Identifications id, String idName, JsonKeys fieldPos, JsonObject how_to_obtain) {
         if (idName != null) {
             if (id.getIDType() == DataType.INT) {
                 return hasIntIDValue(j, id, idName, fieldPos);
@@ -2133,7 +2129,7 @@ public class SearchUI extends JFrame implements ActionListener {
                                     break;
                                 }
                             }
-                            int haveItem = ItemUITemplate.haveManualDrop(how_to_obtain_ing, j.get(JsonKeys.NAME.getKey()).getAsString());
+                            int haveItem = ItemUITemplate.haveManualDrop(how_to_obtain, j.get(JsonKeys.NAME.getKey()).getAsString());
                             if (haveItem > 0 && haveItem != 1) isObtainable = true;
 
                             return !isObtainable;
@@ -2144,12 +2140,12 @@ public class SearchUI extends JFrame implements ActionListener {
                                     return true;
                                 }
                             }
-                            return (how_to_obtain_ing.get(JsonValues.SPECIFIC) != null && how_to_obtain_ing.get(JsonValues.SPECIFIC).getAsJsonObject().get(j.get(JsonKeys.NAME.getKey()).getAsString()) != null);
+                            return (how_to_obtain.get(JsonValues.SPECIFIC) != null && how_to_obtain.get(JsonValues.SPECIFIC).getAsJsonObject().get(j.get(JsonKeys.NAME.getKey()).getAsString()) != null);
                         }
                         case DROP_TYPE_NORMAL:
                         case DROP_TYPE_UNOBTAINABLE:
-                            if (how_to_obtain_ing.get(id.getDisplayName()) != null) {
-                                for (JsonElement je : how_to_obtain_ing.get(id.getDisplayName()).getAsJsonArray()) {
+                            if (how_to_obtain.get(id.getDisplayName()) != null) {
+                                for (JsonElement je : how_to_obtain.get(id.getDisplayName()).getAsJsonArray()) {
                                     if (je.getAsString().equals(j.get(JsonKeys.NAME.getKey()).getAsString())) {
                                         return true;
                                     }
@@ -2161,7 +2157,7 @@ public class SearchUI extends JFrame implements ActionListener {
                         case DROP_TYPE_RAID_REWARDS:
                         case DROP_TYPE_WORLD_EVENT:
                         case DROP_TYPE_LOOTRUN:
-                            return (how_to_obtain_ing.get(id.getDisplayName()) != null && how_to_obtain_ing.get(id.getDisplayName()).getAsJsonObject().get(j.get(JsonKeys.NAME.getKey()).getAsString()) != null);
+                            return (how_to_obtain.get(id.getDisplayName()) != null && how_to_obtain.get(id.getDisplayName()).getAsJsonObject().get(j.get(JsonKeys.NAME.getKey()).getAsString()) != null);
                     }
                 } else {
                     return true;
@@ -2341,5 +2337,21 @@ public class SearchUI extends JFrame implements ActionListener {
             case "super_slow", JsonValues.SUPER_SLOW -> 0.51F;
             default -> 0;
         };
+    }
+
+    public static JsonObject getSetsJson() {
+        return setsJson;
+    }
+
+    public static JsonObject getHow_to_obtain_item() {
+        return how_to_obtain_item;
+    }
+
+    public static JsonObject getHow_to_obtain_ing() {
+        return how_to_obtain_ing;
+    }
+
+    public static JsonObject getHow_to_obtain_other() {
+        return how_to_obtain_other;
     }
 }

@@ -24,6 +24,7 @@ public class GetAPI {
     public static final String WYNN_ITEM_V3_API = "https://api.wynncraft.com/v3/item/search";
     public static final String WYNN_ABILITY_TREE_API = "https://api.wynncraft.com/v3/ability/"; // map/[class], tree/[class]
     public static final String WYNN_ASPECT_API = "https://api.wynncraft.com/v3/aspects/"; //[class]
+    public static final String WYNN_SETS_API = "https://api.wynncraft.com/v3/item/sets";
 
     public GetAPI() {}
 
@@ -323,9 +324,9 @@ public class GetAPI {
                 label.setForeground(new Color(0, 169, 104));
             }
         } catch (IOException e) {
-            e.printStackTrace();
             label.setText(e.getMessage());
             label.setForeground(new Color(255, 255, 0));
+            System.out.println(e.getMessage());
         }
     }
 
@@ -353,9 +354,9 @@ public class GetAPI {
             label.setText("Archive Loaded");
             label.setForeground(new Color(0, 169, 104));
         } catch (IOException e) {
-            e.printStackTrace();
             label.setText("Load Failed");
             label.setForeground(new Color(255, 0, 0));
+            System.out.println(e.getMessage());
         }
     }
 
@@ -465,7 +466,7 @@ public class GetAPI {
             //return JsonParser.parseString(treeBuilder.toString()).getAsJsonObject();
         } catch (IOException e) {
             System.out.println(s + " Ability Tree Load Failed.");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         //return null;
@@ -492,7 +493,7 @@ public class GetAPI {
 
             return treeJ;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         connect.setText("Load Failed");
@@ -525,10 +526,11 @@ public class GetAPI {
             writer.write(json.toString());
             writer.close();
 
-            System.out.println(s + " Aspects Loaded.");
+            System.out.println(s + " Aspects loaded.");
 
         } catch (IOException e) {
-            System.out.println(s + " Aspects Load Failed.");
+            System.out.println(s + " Aspects load failed.");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -540,8 +542,45 @@ public class GetAPI {
                 list.add(entry.getValue().getAsJsonObject());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(s + " Aspects json read failed.");
+            System.out.println(e.getMessage());
         }
+    }
+
+    public void getWynnSetsAPI() {
+        try {
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_SETS_API).openStream(), StandardCharsets.UTF_8));
+            String line;
+            StringBuilder builder = new StringBuilder();
+
+            while ((line = buffer.readLine()) != null) {
+                builder.append(line);
+            }
+
+            JsonObject json = JsonParser.parseString(builder.toString()).getAsJsonObject();
+            for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
+                JsonObject j = json.get(entry.getKey()).getAsJsonObject();
+                j.addProperty(JsonKeys.NAME.getKey(), entry.getKey());
+            }
+
+            FileWriter writer = new FileWriter(getFilePath("/items_data/sets.json"));
+            writer.write(json.toString());
+            writer.close();
+
+            System.out.println("Sets loaded.");
+        } catch (IOException e) {
+            System.out.println("Sets load failed.");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public JsonObject loadWynnSetsAPI() {
+        try {
+            return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/sets.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public File getOldItemFile() {

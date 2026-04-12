@@ -498,19 +498,19 @@ public class ChangesUI implements ActionListener {
                 case INGREDIENT:
                     search.filterIng(modify);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sort(changedL, ItemType.INGREDIENT);
+                        search.sort(changedL, ItemType.INGREDIENT, SearchUI.getHow_to_obtain_ing());
                     }
                     break;
                 case OTHER:
                     search.filterOther(modify);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sort(changedL, ItemType.OTHER);
+                        search.sort(changedL, ItemType.OTHER, SearchUI.getHow_to_obtain_other());
                     }
                     break;
                 default:
                     search.filterItems(modify);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sort(changedL, ItemType.ITEM);
+                        search.sort(changedL, ItemType.ITEM, SearchUI.getHow_to_obtain_item());
                     }
                     break;
             }
@@ -520,13 +520,13 @@ public class ChangesUI implements ActionListener {
             for (String s : changedL) {
                 for (JsonObject j : before) {
                     if (j.get("name").getAsString().equals(s)) {
-                        search.getItemDisplays().add(new ItemUITemplate(j, itemType, null, null, search.getScrollPane().getWidth(), 0, false));
+                        search.getItemDisplays().add(new ItemUITemplate(j, itemType, null, null, search.getScrollPane().getWidth(), 0, false, SearchUI.getHow_to_obtain_item()));
                         break;
                     }
                 }
                 for (JsonObject j : after) {
                     if (j.get("name").getAsString().equals(s)) {
-                        search.getItemDisplays().add(new ItemUITemplate(j, itemType, null, null, search.getScrollPane().getWidth(), 0, false));
+                        search.getItemDisplays().add(new ItemUITemplate(j, itemType, null, null, search.getScrollPane().getWidth(), 0, false, SearchUI.getHow_to_obtain_item()));
                         break;
                     }
                 }

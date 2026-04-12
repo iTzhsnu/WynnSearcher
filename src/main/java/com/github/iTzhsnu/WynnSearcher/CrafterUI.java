@@ -320,7 +320,7 @@ public class CrafterUI implements ActionListener {
         String s = output.getText();
         if (s.contains("CR-")) {
             List<JsonObject> ingJsonCopy = new ArrayList<>(ingJson);
-            ItemUITemplate itemUI = new ItemUITemplate(getCraftItemJson(recipeJson, ingJsonCopy, s, true), ItemType.ITEM, null, null, 270, 0, true);
+            ItemUITemplate itemUI = new ItemUITemplate(getCraftItemJson(recipeJson, ingJsonCopy, s, true), ItemType.ITEM, null, null, 270, 0, true, null);
             setIngDisplay(ingJsonCopy);
             created.add(itemUI);
             if (itemUI.getBounds().y + itemUI.getBounds().height > 745) {
@@ -353,13 +353,13 @@ public class CrafterUI implements ActionListener {
         for (int i = 0; lj.size() > i; ++i) {
             JsonObject j = lj.get(i);
             if (i == 0) {
-                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, null, null, 530, 0, false);
+                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, null, null, 530, 0, false, SearchUI.getHow_to_obtain_ing());
                 lp.add(p);
             } else if (i == 1) {
-                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, lp.get(0), null, 530, 0, false);
+                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, lp.get(0), null, 530, 0, false, SearchUI.getHow_to_obtain_ing());
                 lp.add(p);
             } else {
-                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, lp.get(i - 1), lp.get(i - 2), 530, 0, false);
+                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, lp.get(i - 1), lp.get(i - 2), 530, 0, false, SearchUI.getHow_to_obtain_ing());
                 lp.add(p);
             }
         }

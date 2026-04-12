@@ -74,7 +74,7 @@ public class ItemUITemplate extends JPanel {
         put(5, Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING);
     }};
 
-    public ItemUITemplate(JsonObject json, ItemType type, JPanel previous, JPanel above, int uiWidth, float totalValue, boolean isCustom) {
+    public ItemUITemplate(JsonObject json, ItemType type, JPanel previous, JPanel above, int uiWidth, float totalValue, boolean isCustom, JsonObject how_to_obtain) {
         this.json = json;
         this.totalValue = totalValue;
         this.isCustom = isCustom;
@@ -82,15 +82,15 @@ public class ItemUITemplate extends JPanel {
         switch (type) {
             case ITEM:
                 //if (!isCustom) urlSize = 56;
-                setItemDisplay();
+                setItemDisplay(how_to_obtain);
                 break;
             case INGREDIENT:
                 //if (!isCustom) urlSize = 32;
-                setIngDisplay();
+                setIngDisplay(how_to_obtain);
                 break;
             case OTHER:
                 //if (!isCustom && !json.get("type").getAsString().equals("charm") && !json.get("type").getAsString().equals("tome")) urlSize = 32;
-                setOtherDisplay();
+                setOtherDisplay(how_to_obtain);
                 break;
             case ASPECT:
                 setAspectDisplay(4);
@@ -167,7 +167,7 @@ public class ItemUITemplate extends JPanel {
         setVisible(true);
     }
 
-    public void setItemDisplay() {
+    public void setItemDisplay(JsonObject how_to_obtain) {
         //JButton dataButton = new JButton("Open Wynndata");
         //dataButton.setBorderPainted(false);
         //dataButton.setOpaque(false);
@@ -375,23 +375,75 @@ public class ItemUITemplate extends JPanel {
             label.add(new JLabel("Rarity: " + json.get(Identifications.RARITY.getItemName()).getAsString().substring(0, 1).toUpperCase() + json.get(Identifications.RARITY.getItemName()).getAsString().substring(1)));
         }
 
-        if (json.get("durability") != null) {
-            label.add(new JLabel("Durability: " + json.get("durability").getAsString()));
+        if (json.get(Identifications.DURABILITY.getIngName()) != null) { // Crafted
+            label.add(new JLabel("Durability: " + json.get(Identifications.DURABILITY.getIngName()).getAsString()));
         }
 
-        if (json.get("duration") != null) {
-            label.add(new JLabel("Duration: " + json.get("duration").getAsString()));
+        if (json.get(Identifications.DURATION.getIngName()) != null) { // Crafted
+            label.add(new JLabel("Duration: " + json.get(Identifications.DURATION.getIngName()).getAsString()));
         }
 
-        if (json.get("charges") != null) {
-            label.add(new JLabel("Charge: " + json.get("charges").getAsInt()));
+        if (json.get(Identifications.CHARGES.getIngName()) != null) { // Crafted
+            label.add(new JLabel("Charge: " + json.get(Identifications.CHARGES.getIngName()).getAsInt()));
         }
 
         if (json.get("restrictions") != null && !json.get("restrictions").isJsonNull()) {
             label.add(new JLabel(json.get("restrictions").getAsString()));
         }
 
-        JButton_Custom l = null;
+        JButton_Custom sets_label = null;
+        if (!isCustom && json.get(JsonKeys.SETS.getKey()) != null) {
+            String setName = json.get(JsonKeys.SETS.getKey()).getAsString();
+            if (SearchUI.getSetsJson().get(setName) != null) {
+                //label.add(new JLabel(" "));
+                sets_label = new JButton_Custom("Set Bonuses");
+                sets_label.setBorderPainted(false);
+                sets_label.setOpaque(false);
+                sets_label.setBackground(Color.WHITE);
+                sets_label.setForeground(Color.BLUE);
+
+                JsonObject setJ = SearchUI.getSetsJson().get(setName).getAsJsonObject();
+                StringBuilder sb = new StringBuilder();
+                sb.append(setName);
+
+                if (setJ.get(JsonKeys.BONUSES.getKey()) != null) {
+                    JsonObject bonusJ = setJ.get(JsonKeys.BONUSES.getKey()).getAsJsonObject();
+                    for (int n = 1; 10 > n; ++n) {
+                        if (bonusJ.get(String.valueOf(n)) != null && bonusJ.get(String.valueOf(n)).getAsJsonObject().get(JsonKeys.MINOR.getKey()) != null) {
+                            JsonObject j = bonusJ.get(String.valueOf(n)).getAsJsonObject().get(JsonKeys.MINOR.getKey()).getAsJsonObject();
+
+                            sb.append("<br>");
+                            sb.append(n);
+                            sb.append(":");
+
+                            for (int i = 0; ITEM_IDS.size() > i; ++i) {
+                                Identifications id = ITEM_IDS.get(i);
+                                if (j.get(id.getItemName()) != null) {
+                                    String s = "<br>" + id.getDisplayName() + " " + setPlus(j.get(id.getItemName()).getAsInt()) + id.getDisplaySp();
+                                    sb.append(s);
+                                }
+                            }
+
+                            for (int i = 0; REVERSED_ITEM_IDS.size() > i; ++i) {
+                                Identifications id = ITEM_IDS.get(i);
+                                if (j.get(id.getItemName()) != null) {
+                                    String s = "<br>" + id.getDisplayName() + " " + setPlus(j.get(id.getItemName()).getAsInt()) + id.getDisplaySp();
+                                    sb.append(s);
+                                }
+                            }
+
+                            sb.append("<br>");
+                        }
+                    }
+                }
+
+                sets_label.setToolTipText("<html><font color=\"#FFFFFF\">" + sb.substring(0, sb.toString().length() - 4));
+                sets_label.addActionListener(new FullMessageAction());
+            }
+        }
+
+
+        JButton_Custom l = null; // How to Obtain Label
         if (!isCustom) {
             if (json.get(JsonKeys.DROP_RESTRICTION.getKey()) != null || json.get(JsonKeys.DROP_META.getKey()) != null) {
                 label.add(new JLabel(" "));
@@ -401,7 +453,7 @@ public class ItemUITemplate extends JPanel {
                 l.setBackground(Color.WHITE);
                 l.setForeground(Color.BLUE);
 
-                l.setToolTipText(getHowToObtainText(itemName, json, lv, new GetAPI().getHowToObtainItem()));
+                l.setToolTipText(getHowToObtainText(itemName, json, lv, how_to_obtain));
 
                 l.addActionListener(new FullMessageAction());
             }
@@ -409,6 +461,11 @@ public class ItemUITemplate extends JPanel {
 
         for (JLabel jLabel : label) {
             add(jLabel);
+        }
+
+        if (sets_label != null) {
+            add(sets_label);
+            urlSize += 28;
         }
 
         if (l != null) {
@@ -431,7 +488,7 @@ public class ItemUITemplate extends JPanel {
         }
     }
 
-    public void setIngDisplay() {
+    public void setIngDisplay(JsonObject manual) {
         //JButton dataButton = new JButton("Wynndata Link");
         //dataButton.setBorderPainted(false);
         //dataButton.setOpaque(false);
@@ -599,7 +656,6 @@ public class ItemUITemplate extends JPanel {
             l.setForeground(Color.BLUE);
             StringBuilder sb = new StringBuilder();
             sb.append("&fThis ingredient can be dropped by:<br>");
-            JsonObject manual = new GetAPI().getHowToObtainIng();
             int haveManualDrop = haveManualDrop(manual, itemName);
             if (haveManualDrop > 0) {
                 if (haveManualDrop == 11) {
@@ -717,7 +773,7 @@ public class ItemUITemplate extends JPanel {
         add(sortValue);
     }
 
-    public void setOtherDisplay() {
+    public void setOtherDisplay(JsonObject how_to_obtain) {
         String type = json.get(JsonKeys.TYPE.getKey()).getAsString();
         //JButton dataButton = new JButton("Open Wynndata");
         //dataButton.setBorderPainted(false);
@@ -928,7 +984,7 @@ public class ItemUITemplate extends JPanel {
                 l.setBackground(Color.WHITE);
                 l.setForeground(Color.BLUE);
 
-                l.setToolTipText(getHowToObtainText(itemName, json, lv, new GetAPI().getHowToObtainOther()));
+                l.setToolTipText(getHowToObtainText(itemName, json, lv, how_to_obtain));
 
                 l.addActionListener(new FullMessageAction());
             }

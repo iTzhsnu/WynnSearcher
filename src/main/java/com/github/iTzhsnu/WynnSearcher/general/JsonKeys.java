@@ -25,6 +25,10 @@ public enum JsonKeys {
     COORDINATES("coordinates"), // official api
     COORDS("coords"), // official api ingredient use this
     GATHERING_SPEED("gatheringSpeed"),
+    SETS("sets"),
+    BONUSES("bonuses"),
+    MINOR("minor"),
+    MAJOR("major"),
 
     // used by custom drop type
     IS_MOBNAME("ismobname"),
