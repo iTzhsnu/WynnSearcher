@@ -1294,53 +1294,6 @@ public class SearchUI extends JFrame implements ActionListener {
                         break;
                 }
             }
-
-            //if (item.get("weaponType") != null) {
-            //    switch (item.get("weaponType").getAsString()) {
-            //        case "bow":
-            //            bowJson.add(item);
-            //            break;
-            //        case "spear":
-            //            spearJson.add(item);
-            //            break;
-            //        case "wand":
-            //            wandJson.add(item);
-            //            break;
-            //        case "dagger":
-            //            daggerJson.add(item);
-            //            break;
-            //        case "relik":
-            //            relikJson.add(item);
-            //            break;
-            //    }
-            //} else if (item.get("armourType") != null) {
-            //    switch (item.get("armourType").getAsString()) {
-            //        case "helmet":
-            //            helmetJson.add(item);
-            //            break;
-            //        case "chestplate":
-            //            chestplateJson.add(item);
-            //            break;
-            //        case "leggings":
-            //            leggingsJson.add(item);
-            //            break;
-            //        case "boots":
-            //            bootsJson.add(item);
-            //            break;
-            //    }
-            //} else if (item.get("accessoryType") != null) {
-            //    switch (item.get("accessoryType").getAsString()) {
-            //        case "ring":
-            //            ringJson.add(item);
-            //            break;
-            //        case "bracelet":
-            //            braceletJson.add(item);
-            //            break;
-            //        case "necklace":
-            //            necklaceJson.add(item);
-            //            break;
-            //    }
-            //}
         }
     }
 
