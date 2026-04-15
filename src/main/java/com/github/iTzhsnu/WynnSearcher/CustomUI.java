@@ -33,7 +33,7 @@ public class CustomUI implements ActionListener {
     private final List<JLabel> name = new ArrayList<>();
     private final JButton create = new JButton("Create");
     private final JButton load = new JButton("Load");
-    private final JTextField itemText = new JTextField();
+    private final JTextField itemText = SearchUI.createNoBeepTextField();
     private final JPanel display = new JPanel();
     private final JScrollPane scroll;
     private final JComboBox<String> itemType = new JComboBox<>();
@@ -356,8 +356,8 @@ public class CustomUI implements ActionListener {
         JLabel name = new JLabel(labelName);
 
         if (isVariable) {
-            JTextField min = new JTextField();
-            JTextField max = new JTextField();
+            JTextField min = SearchUI.createNoBeepTextField();
+            JTextField max = SearchUI.createNoBeepTextField();
 
             name.setBounds(posX + 45, posY, width + 20, 20);
             min.setBounds(posX, posY, 40, 20);
@@ -369,7 +369,7 @@ public class CustomUI implements ActionListener {
             pane.add(this.min.get(this.min.size() - 1));
             pane.add(this.max.get(this.max.size() - 1));
         } else {
-            JTextField notVariable = new JTextField();
+            JTextField notVariable = SearchUI.createNoBeepTextField();
             name.setBounds(posX, posY, width + 20, 20);
             notVariable.setBounds(posX + width, posY, 40, 20);
             this.notVariable.add(notVariable);

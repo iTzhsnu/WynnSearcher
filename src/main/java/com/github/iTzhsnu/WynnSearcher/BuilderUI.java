@@ -50,7 +50,7 @@ public class BuilderUI implements ActionListener {
     private final JButton update = new JButton("Update");
     private final JButton save = new JButton("Save");
     private final JButton load = new JButton("Load");
-    private final JTextField output = new JTextField();
+    private final JTextField output = SearchUI.createNoBeepTextField();
 
     //API Connect
     private final JLabel itemConnect;
@@ -354,39 +354,39 @@ public class BuilderUI implements ActionListener {
     }
 
     public void setComboBox() {
-        JComboBox<String> helmetBox = new JComboBox<>();
-        JComboBox<String> chestplateBox = new JComboBox<>();
-        JComboBox<String> leggingsBox = new JComboBox<>();
-        JComboBox<String> bootsBox = new JComboBox<>();
+        JComboBox<String> helmetBox = SearchUI.createNoBeepComboBox();
+        JComboBox<String> chestplateBox = SearchUI.createNoBeepComboBox();
+        JComboBox<String> leggingsBox = SearchUI.createNoBeepComboBox();
+        JComboBox<String> bootsBox = SearchUI.createNoBeepComboBox();
 
-        JComboBox<String> ring1Box = new JComboBox<>();
-        JComboBox<String> ring2Box = new JComboBox<>();
-        JComboBox<String> braceletBox = new JComboBox<>();
-        JComboBox<String> necklaceBox = new JComboBox<>();
-        JComboBox<String> weaponBox = new JComboBox<>();
+        JComboBox<String> ring1Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> ring2Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> braceletBox = SearchUI.createNoBeepComboBox();
+        JComboBox<String> necklaceBox = SearchUI.createNoBeepComboBox();
+        JComboBox<String> weaponBox = SearchUI.createNoBeepComboBox();
 
-        JComboBox<String> armourTome1Box = new JComboBox<>();
-        JComboBox<String> armourTome2Box = new JComboBox<>();
-        JComboBox<String> armourTome3Box = new JComboBox<>();
-        JComboBox<String> armourTome4Box = new JComboBox<>();
-        JComboBox<String> guildTomeBox = new JComboBox<>();
+        JComboBox<String> armourTome1Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> armourTome2Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> armourTome3Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> armourTome4Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> guildTomeBox = SearchUI.createNoBeepComboBox();
 
-        JComboBox<String> weaponTome1Box = new JComboBox<>();
-        JComboBox<String> weaponTome2Box = new JComboBox<>();
-        JComboBox<String> marathonTome1Box = new JComboBox<>();
-        JComboBox<String> marathonTome2Box = new JComboBox<>();
-        JComboBox<String> lootrunTomeBox = new JComboBox<>();
+        JComboBox<String> weaponTome1Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> weaponTome2Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> marathonTome1Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> marathonTome2Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> lootrunTomeBox = SearchUI.createNoBeepComboBox();
 
-        JComboBox<String> expertiseTome1Box = new JComboBox<>();
-        JComboBox<String> expertiseTome2Box = new JComboBox<>();
-        JComboBox<String> mysticismTome1Box = new JComboBox<>();
-        JComboBox<String> mysticismTome2Box = new JComboBox<>();
+        JComboBox<String> expertiseTome1Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> expertiseTome2Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> mysticismTome1Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> mysticismTome2Box = SearchUI.createNoBeepComboBox();
 
-        JComboBox<String> aspect1Box = new JComboBox<>();
-        JComboBox<String> aspect2Box = new JComboBox<>();
-        JComboBox<String> aspect3Box = new JComboBox<>();
-        JComboBox<String> aspect4Box = new JComboBox<>();
-        JComboBox<String> aspect5Box = new JComboBox<>();
+        JComboBox<String> aspect1Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> aspect2Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> aspect3Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> aspect4Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> aspect5Box = SearchUI.createNoBeepComboBox();
 
         for (JsonObject j : helmetJson) {
             if (j.get("name") != null) {
@@ -473,7 +473,7 @@ public class BuilderUI implements ActionListener {
         helmetBox.setBounds(10, 10, 200, 20);
         itemBox.add(helmetBox);
 
-        JTextField helmetPowder = new JTextField();
+        JTextField helmetPowder = SearchUI.createNoBeepTextField();
         helmetPowder.setBounds(130, 35, 80, 20);
         powderField.add(helmetPowder);
 
@@ -484,7 +484,7 @@ public class BuilderUI implements ActionListener {
         chestplateBox.setBounds(220, 10, 200, 20);
         itemBox.add(chestplateBox);
 
-        JTextField chestplatePowder = new JTextField();
+        JTextField chestplatePowder = SearchUI.createNoBeepTextField();
         chestplatePowder.setBounds(340, 35, 80, 20);
         powderField.add(chestplatePowder);
 
@@ -495,7 +495,7 @@ public class BuilderUI implements ActionListener {
         leggingsBox.setBounds(430, 10, 200, 20);
         itemBox.add(leggingsBox);
 
-        JTextField leggingsPowder = new JTextField();
+        JTextField leggingsPowder = SearchUI.createNoBeepTextField();
         leggingsPowder.setBounds(550, 35, 80, 20);
         powderField.add(leggingsPowder);
 
@@ -506,7 +506,7 @@ public class BuilderUI implements ActionListener {
         bootsBox.setBounds(640, 10, 200, 20);
         itemBox.add(bootsBox);
 
-        JTextField bootsPowder = new JTextField();
+        JTextField bootsPowder = SearchUI.createNoBeepTextField();
         bootsPowder.setBounds(760, 35, 80, 20);
         powderField.add(bootsPowder);
 

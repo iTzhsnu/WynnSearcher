@@ -603,7 +603,7 @@ public class SkillPoint {
     }
 
     public static class SkillPointPanel {
-        private final JTextField textField = new JTextField("0");
+        private final JTextField textField = SearchUI.createNoBeepTextField("0");
         private final JLabel name_label = new JLabel();
         private final JLabel boost_label = new JLabel();
         private final JLabel total_label = new JLabel("(0)");

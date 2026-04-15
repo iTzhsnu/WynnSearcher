@@ -34,7 +34,7 @@ public class CrafterUI implements ActionListener {
 
     private final JButton create = new JButton("Create");
     private final JButton load = new JButton("Load");
-    private final JTextField output = new JTextField();
+    private final JTextField output = SearchUI.createNoBeepTextField();
     private final JPanel outputP = new JPanel();
 
     private final JPanel created = new JPanel();
@@ -220,7 +220,7 @@ public class CrafterUI implements ActionListener {
 
     public void setIngBox() {
         for (int i = 0; 6 > i; ++i) {
-            JComboBox<String> box = new JComboBox<>();
+            JComboBox<String> box = SearchUI.createNoBeepComboBox();
             int pos = (int) Math.floor(i / 2F);
 
             for (JsonObject j : ingJson) {

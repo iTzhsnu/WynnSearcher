@@ -127,7 +127,7 @@ public class SearchUI extends JFrame implements ActionListener {
     //Search Button and Text
     private final JLabel name = new JLabel("Name:");
     private final JButton searchB = new JButton("Search");
-    private final JTextField searchF = new JTextField();
+    private final JTextField searchF = createNoBeepTextField();
     private final Container contentPane;
     private final JPanel searched = new JPanel();
     private final List<JPanel> itemDisplays = new ArrayList<>();
@@ -487,7 +487,7 @@ public class SearchUI extends JFrame implements ActionListener {
     public void setIDBoxAndIDField(List<JComboBox<String>> boxes, JTextField min, JTextField max, int baseX, int baseY, int length, boolean need) {
         for (int i = 0; length > i; ++i) {
             //ID Box
-            boxes.add(new JComboBox<>());
+            boxes.add(createNoBeepComboBox());
             boxes.get(i).setBounds(baseX + (224 * i), baseY, 200, 20);
             for (String s : IDBoxAdapter.DISPLAY_ID_LIST) {
                 boxes.get(i).addItem(s);
@@ -501,7 +501,6 @@ public class SearchUI extends JFrame implements ActionListener {
             }
 
             boxes.get(i).getEditor().getEditorComponent().addKeyListener(new IDBoxAdapter(boxes.get(i)));
-            IDBoxAdapter.removeBeepSounds(((JTextField) boxes.get(i).getEditor().getEditorComponent()).getActionMap());
 
             //And Or
             if (i < 3) {
@@ -2529,9 +2528,21 @@ public class SearchUI extends JFrame implements ActionListener {
         return how_to_obtain_other;
     }
 
+    public static JTextField createNoBeepTextField(String s) {
+        JTextField noBeepText = new JTextField(s);
+        IDBoxAdapter.removeBeepSounds(noBeepText.getActionMap());
+        return noBeepText;
+    }
+
     public static JTextField createNoBeepTextField() {
         JTextField noBeepText = new JTextField();
         IDBoxAdapter.removeBeepSounds(noBeepText.getActionMap());
         return noBeepText;
+    }
+
+    public static JComboBox<String> createNoBeepComboBox() {
+        JComboBox<String> noBeepBox = new JComboBox<>();
+        IDBoxAdapter.removeBeepSounds(((JTextField) noBeepBox.getEditor().getEditorComponent()).getActionMap());
+        return noBeepBox;
     }
 }

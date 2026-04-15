@@ -1,6 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
+import com.github.iTzhsnu.WynnSearcher.SearchUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -109,7 +110,7 @@ public class Damage_IDs {
     }
 
     public static class Damage_IDs_Panel {
-        private final JTextField textField = new JTextField("0");
+        private final JTextField textField = SearchUI.createNoBeepTextField("0");
         private final JLabel original = new JLabel("Original: 0");
 
         public Damage_IDs_Panel(String name, int x, int y, JPanel p, Identifications id) {
