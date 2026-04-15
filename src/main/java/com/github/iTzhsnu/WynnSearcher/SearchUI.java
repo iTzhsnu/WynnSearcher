@@ -146,16 +146,16 @@ public class SearchUI extends JFrame implements ActionListener {
     private final List<JComboBox<String>> idBoxes_4 = new ArrayList<>();
 
     //ID Min Text
-    private final JTextField idMin_1 = new JTextField();
-    private final JTextField idMin_2 = new JTextField();
-    private final JTextField idMin_3 = new JTextField();
-    private final JTextField idMin_4 = new JTextField();
+    private final JTextField idMin_1 = createNoBeepTextField();
+    private final JTextField idMin_2 = createNoBeepTextField();
+    private final JTextField idMin_3 = createNoBeepTextField();
+    private final JTextField idMin_4 = createNoBeepTextField();
 
     //ID Max Text
-    private final JTextField idMax_1 = new JTextField();
-    private final JTextField idMax_2 = new JTextField();
-    private final JTextField idMax_3 = new JTextField();
-    private final JTextField idMax_4 = new JTextField();
+    private final JTextField idMax_1 = createNoBeepTextField();
+    private final JTextField idMax_2 = createNoBeepTextField();
+    private final JTextField idMax_3 = createNoBeepTextField();
+    private final JTextField idMax_4 = createNoBeepTextField();
 
     //ID Text
     private final List<JLabel> idTexts = new ArrayList<>();
@@ -263,8 +263,8 @@ public class SearchUI extends JFrame implements ActionListener {
 
         //Sort Min or Max
         sortType.setBounds(10, 90, 90, 20);
-        sortType.addItem("Sort: Max");
-        sortType.addItem("Sort: Min");
+        sortType.addItem(JsonKeys.MAX.getKey());
+        sortType.addItem(JsonKeys.MIN.getKey());
 
         //Searched Item Count
         searchedItemCount.setBounds(450, 235, 200, 40);
@@ -501,6 +501,7 @@ public class SearchUI extends JFrame implements ActionListener {
             }
 
             boxes.get(i).getEditor().getEditorComponent().addKeyListener(new IDBoxAdapter(boxes.get(i)));
+            IDBoxAdapter.removeBeepSounds(((JTextField) boxes.get(i).getEditor().getEditorComponent()).getActionMap());
 
             //And Or
             if (i < 3) {
@@ -1426,7 +1427,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (id.getIDType() != DataType.SUM) {
             return hasIDValue(j, id, how_to_obtain, min, max, type);
         } else {
-            if (id.getItemName().equals(DataKeys.DAMAGE_APPROPRIATE)) {
+            if (id == Identifications.SUM_MELEE_APPROPRIATE || id == Identifications.SUM_SPELL_APPROPRIATE) {
                 return hasDamageAppropriateSUMID(j, id.getSum(), min, max);
             }
 
@@ -1689,7 +1690,7 @@ public class SearchUI extends JFrame implements ActionListener {
                             total += getAttackSpeed(j);
                         }
                     } else { // is SUM
-                        if (id.getItemName().equals(DataKeys.DAMAGE_APPROPRIATE)) {
+                        if (id == Identifications.SUM_MELEE_APPROPRIATE || id == Identifications.SUM_SPELL_APPROPRIATE) {
                             JTextField minField = idMin_1;
                             JTextField maxField = idMax_1;
                             switch (num) {
@@ -2526,5 +2527,11 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public static JsonObject getHow_to_obtain_other() {
         return how_to_obtain_other;
+    }
+
+    public static JTextField createNoBeepTextField() {
+        JTextField noBeepText = new JTextField();
+        IDBoxAdapter.removeBeepSounds(noBeepText.getActionMap());
+        return noBeepText;
     }
 }

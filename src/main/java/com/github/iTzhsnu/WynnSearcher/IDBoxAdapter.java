@@ -1,10 +1,13 @@
 package com.github.iTzhsnu.WynnSearcher;
 
 import javax.swing.*;
+import javax.swing.text.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class IDBoxAdapter extends KeyAdapter {
     private final JComboBox<String> box;
@@ -274,6 +277,40 @@ public class IDBoxAdapter extends KeyAdapter {
 
         put("Sum (Melee Damages appropriate)", Identifications.SUM_MELEE_APPROPRIATE);
         put("Sum (Spell Damages appropriate)", Identifications.SUM_SPELL_APPROPRIATE);
+
+        put("str", Identifications.STRENGTH);
+        put("dex", Identifications.DEXTERITY);
+        put("int", Identifications.INTELLIGENCE);
+        put("def", Identifications.DEFENSE);
+        put("agi", Identifications.AGILITY);
+
+        put("sdp", Identifications.SPELL_DAMAGE_PERCENT);
+        put("rsd", Identifications.RAW_SPELL_DAMAGE);
+        put("sdr", Identifications.RAW_SPELL_DAMAGE);
+
+        put("ndp", Identifications.NEUTRAL_DAMAGE_PERCENT);
+        put("edp", Identifications.EARTH_DAMAGE_PERCENT);
+        put("tdp", Identifications.THUNDER_DAMAGE_PERCENT);
+        put("wdp", Identifications.WATER_DAMAGE_PERCENT);
+        put("fdp", Identifications.FIRE_DAMAGE_PERCENT);
+        put("adp", Identifications.AIR_DAMAGE_PERCENT);
+
+        put("mr", Identifications.MANA_REGEN);
+        put("ms", Identifications.MANA_STEAL);
+        put("ls", Identifications.LIFE_STEAL);
+
+        put("hpr", Identifications.RAW_HEALTH_REGEN);
+        put("hprp", Identifications.HEALTH_REGEN_PERCENT);
+
+        put("1st", Identifications.RAW_1ST_SPELL_COST);
+        put("2nd", Identifications.RAW_2ND_SPELL_COST);
+        put("3rd", Identifications.RAW_3RD_SPELL_COST);
+        put("4th", Identifications.RAW_4TH_SPELL_COST);
+
+        put("1stp", Identifications.PERCENT_1ST_SPELL_COST);
+        put("2ndp", Identifications.PERCENT_2ND_SPELL_COST);
+        put("3rdp", Identifications.PERCENT_3RD_SPELL_COST);
+        put("4thp", Identifications.PERCENT_4TH_SPELL_COST);
     }};
 
     public IDBoxAdapter(JComboBox<String> box) {
@@ -307,6 +344,45 @@ public class IDBoxAdapter extends KeyAdapter {
         if (selectionStart < selectionEnd) {
             ((JTextField) box.getEditor().getEditorComponent()).setSelectionStart(selectionStart);
             ((JTextField) box.getEditor().getEditorComponent()).setSelectionEnd(selectionEnd);
+        }
+    }
+
+    public static void removeBeepSounds(ActionMap am) {
+        String delPrev = DefaultEditorKit.deletePrevCharAction;
+        String delNext = DefaultEditorKit.deleteNextCharAction;
+
+        am.put(delPrev, new SilentDeleteTextAction(delPrev, am.get(delPrev)));
+        am.put(delNext, new SilentDeleteTextAction(delNext, am.get(delNext)));
+    }
+
+    static class SilentDeleteTextAction extends TextAction {
+        private final transient Action deleteAction;
+
+        public SilentDeleteTextAction(String name, Action deleteAction) {
+            super(name);
+            this.deleteAction = deleteAction;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JTextComponent c = getTextComponent(e);
+            if (Objects.isNull(c) || !c.isEditable() || !skipBeep(c)) {
+                deleteAction.actionPerformed(e);
+            }
+        }
+
+        private boolean skipBeep(JTextComponent textComponent) {
+            Caret caret = textComponent.getCaret();
+            int dot = caret.getDot();
+            int mark = caret.getMark();
+            boolean skip;
+            if (DefaultEditorKit.deletePrevCharAction.equals(getValue(NAME))) {
+                skip = dot == 0 && mark == 0;
+            } else {
+                Document doc = textComponent.getDocument();
+                skip = dot == mark && doc.getLength() == dot;
+            }
+            return skip;
         }
     }
 }
