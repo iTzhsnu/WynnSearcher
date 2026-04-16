@@ -218,7 +218,7 @@ public class GetAPI {
                     URLConnection urlConn = new URL(WYNN_ITEM_V3_API + "?fullResult").openConnection();
                     urlConn.setDoOutput(true);
                     urlConn.setRequestProperty("Content-Type", "application/json");
-                    urlConn.setRequestProperty("Authorization", "Bearer " + token);
+                    if (!token.isEmpty()) urlConn.setRequestProperty("Authorization", "Bearer " + token);
 
                     DataOutputStream dos = new DataOutputStream(urlConn.getOutputStream());
                     dos.writeBytes(post);
