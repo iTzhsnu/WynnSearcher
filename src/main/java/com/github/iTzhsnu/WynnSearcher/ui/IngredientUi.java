@@ -129,39 +129,37 @@ public class IngredientUi extends ItemUi {
             if (run) label.add(new JLabel(" "));
         }
 
-        if (json.get(JsonKeys.IDENTIFICATION.getKey()) != null) {
-            JsonObject j = json.get(JsonKeys.IDENTIFICATION.getKey()).getAsJsonObject();
-            boolean run = false;
-
-            for (int i = 0; ITEM_IDS.size() > i; ++i) {
-                Identifications id = ITEM_IDS.get(i);
-                if (id.getIngName() != null && id.getIngFieldPos() == JsonKeys.IDENTIFICATION && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
-                    JsonElement je = j.get(id.getIngName());
-                    if (!je.isJsonObject()) {
-                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(je.getAsInt()) + id.getDisplaySp()));
-                    } else {
-                        label.add(new JLabel(setPlus(je.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()) + id.getDisplaySp()));
-                    }
-                    run = true;
+        // IDs
+        boolean needIdSpace = false;
+        for (int i = 0; ITEM_IDS.size() > i; ++i) {
+            Identifications id = ITEM_IDS.get(i);
+            int minValue = item.getIdValue(id, JsonKeys.MIN);
+            int maxValue = item.getIdValue(id, JsonKeys.MAX);
+            if (minValue != 0 || maxValue != 0) {
+                if (minValue == maxValue) { //Constant Value
+                    label.add(new JLabel(id.getDisplayName() + " "+ setPlus(maxValue) + id.getDisplaySp()));
+                } else { //Crafted Items or Variable ID
+                    label.add(new JLabel(setPlus(minValue) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(maxValue) + id.getDisplaySp()));
                 }
+                needIdSpace = true;
             }
-
-            for (int i = 0; REVERSED_ITEM_IDS.size() > i; ++i) {
-                Identifications id = REVERSED_ITEM_IDS.get(i);
-                if (id.getIngName() != null && id.getIngFieldPos() == JsonKeys.IDENTIFICATION && j.get(id.getIngName()) != null && j.get(id.getIngName()).getAsJsonObject() != null) {
-                    JsonElement je = j.get(id.getIngName());
-                    if (!je.isJsonObject()) {
-                        label.add(new JLabel(id.getDisplayName() + " " + setPlus(je.getAsInt()) + id.getDisplaySp()));
-                    } else {
-                        label.add(new JLabel(setPlus(je.getAsJsonObject().get(JsonKeys.MIN.getKey()).getAsInt()) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(je.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt()) + id.getDisplaySp()));
-                    }
-                    run = true;
-                }
-            }
-
-            if (run) label.add(new JLabel(" "));
         }
+        for (int i = 0; REVERSED_ITEM_IDS.size() > i; ++i) {
+            Identifications id = REVERSED_ITEM_IDS.get(i);
+            int minValue = item.getIdValue(id, JsonKeys.MIN);
+            int maxValue = item.getIdValue(id, JsonKeys.MAX);
+            if (minValue != 0 || maxValue != 0) {
+                if (minValue == maxValue) { //Constant Value
+                    label.add(new JLabel(id.getDisplayName() + " "+ setPlus(maxValue) + id.getDisplaySp()));
+                } else {
+                    label.add(new JLabel(setPlus(minValue) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(maxValue) + id.getDisplaySp()));
+                }
+                needIdSpace = true;
+            }
+        }
+        if (needIdSpace) label.add(new JLabel(" "));
 
+        // Skill
         if (json.get(JsonKeys.REQUIREMENTS.getKey()) != null && json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()) != null) {
             JsonArray j = json.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject().get(JsonKeys.SKILLS.getKey()).getAsJsonArray();
             label.add(new JLabel("Can Use:"));

@@ -50,7 +50,7 @@ public enum Identifications {
     FIRE_DAMAGE("Fire Damage", "baseFireDamage", null, "", DataType.INT, null, JsonKeys.BASE, null, true),
     AIR_DAMAGE("Air Damage", "baseAirDamage", null, "", DataType.INT, null, JsonKeys.BASE, null, true),
 
-    DAMAGE_PERCENT("Damage", "damage", "baseDamage", "%", DataType.INT, null, JsonKeys.IDENTIFICATION, JsonKeys.IDENTIFICATION, true), // Ingredient Warning: Blueshift Beacon say "baseDamage"
+    DAMAGE_PERCENT("Damage", "damage", "baseDamage", "%", DataType.INT, null, JsonKeys.IDENTIFICATION, JsonKeys.BASE, true), // Ingredient Warning: Blueshift Beacon say "baseDamage"
     NEUTRAL_DAMAGE_PERCENT("Neutral Damage", "neutralDamage", "neutralDamage", "%", DataType.INT, null, JsonKeys.IDENTIFICATION, JsonKeys.IDENTIFICATION, true),
     EARTH_DAMAGE_PERCENT("Earth Damage", "earthDamage", "earthDamage", "%", DataType.INT, null, JsonKeys.IDENTIFICATION, JsonKeys.IDENTIFICATION, true),
     THUNDER_DAMAGE_PERCENT("Thunder Damage", "thunderDamage", "thunderDamage", "%", DataType.INT, null, JsonKeys.IDENTIFICATION, JsonKeys.IDENTIFICATION, true),
