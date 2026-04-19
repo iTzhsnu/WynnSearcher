@@ -341,9 +341,12 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void updateApi() {
-        ApiDataManager.getManager().updateApi();
+        ApiDataManager api = ApiDataManager.getManager();
+        api.updateApi();
         crafterUI.updateIngAPI();
         builderUI.updateApi();
+
+        ApiDataManager.setApiConnectText(itemAPIConnect, "Item", api.itemApiConnect);
 
         updateAPI.setVisible(true);
     }
