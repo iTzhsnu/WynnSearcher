@@ -2,6 +2,10 @@ package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
 import com.github.iTzhsnu.WynnSearcher.SearchUI;
+import com.github.iTzhsnu.WynnSearcher.data.ItemBase;
+import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
+import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
+import com.github.iTzhsnu.WynnSearcher.ui.UiUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -32,7 +36,7 @@ public class SkillPoint {
         p.add(spText);
     }
 
-    public void setSkillPoint(ItemJsons items, List<SetBonus> setBonuses) {
+    public void setSkillPoint(ItemData items, List<SetBonus> setBonuses) {
         int[] strI = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Strength Skill Point Bonus
         int[] dexI = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Dexterity Skill Point Bonus
         int[] intI = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Intelligence Skill Point Bonus
@@ -54,7 +58,7 @@ public class SkillPoint {
         Set<Integer> isNull = new HashSet<>();
         List<Integer> crafted = new ArrayList<>();
         List<Integer> checked = new ArrayList<>();
-        int size = items.getJsonObjectList().size();
+        int size = items.getEquipmentsNoWeapon().size();
 
         //Add Guild Tome SPB
         if (items.getGuildTome() != null) {
@@ -63,20 +67,20 @@ public class SkillPoint {
 
         //Set Req and Bonus
         for (int i = 0; 8 >= i; ++i) {
-            JsonObject j = items.getEquipments().get(i);
-            if (j != null) {
-                setSPReq(j, i, strR, dexR, intR, defR, agiR, maxSPReq);
+            ItemBase item = items.getEquipments().get(i);
+            if (item != null) {
+                setSPReq(item, i, strR, dexR, intR, defR, agiR, maxSPReq);
 
-                getSkillPoints(j, Identifications.STRENGTH, strI, i, totalSP, originalSP, i != 8);
-                getSkillPoints(j, Identifications.DEXTERITY, dexI, i, totalSP, originalSP, i != 8);
-                getSkillPoints(j, Identifications.INTELLIGENCE, intI, i, totalSP, originalSP, i != 8);
-                getSkillPoints(j, Identifications.DEFENSE, defI, i, totalSP, originalSP, i != 8);
-                getSkillPoints(j, Identifications.AGILITY, agiI, i, totalSP, originalSP, i != 8);
+                getSkillPoints(item, Identifications.STRENGTH, strI, i, totalSP, originalSP, i != 8);
+                getSkillPoints(item, Identifications.DEXTERITY, dexI, i, totalSP, originalSP, i != 8);
+                getSkillPoints(item, Identifications.INTELLIGENCE, intI, i, totalSP, originalSP, i != 8);
+                getSkillPoints(item, Identifications.DEFENSE, defI, i, totalSP, originalSP, i != 8);
+                getSkillPoints(item, Identifications.AGILITY, agiI, i, totalSP, originalSP, i != 8);
 
                 if (strR[i] == 0 && dexR[i] == 0 && intR[i] == 0 && defR[i] == 0 && agiR[i] == 0 && !isCrafted[i]) { // if Weapon isCrafted = true
                     addSPB(i, strI, dexI, intI, defI, agiI, originalSP, totalSP);
                     checked.add(i);
-                    checkSet(j, haveSPBSets, originalSP, totalSP);
+                    checkSet(item, haveSPBSets, originalSP, totalSP);
                 }
             } else {
                 isNull.add(i);
@@ -174,76 +178,49 @@ public class SkillPoint {
         }
     }
 
-    private static void getTomeSkillPoints(JsonObject json, int[] originalSP, int[] totalSP) {
-        if (json.get(Identifications.STRENGTH_REQ.getItemFieldPos().getKey()) != null) {
-            JsonObject j = json.get(Identifications.STRENGTH_REQ.getItemFieldPos().getKey()).getAsJsonObject();
+    private static void getTomeSkillPoints(ItemBase item, int[] originalSP, int[] totalSP) {
+        if (item.haveFieldPos(Identifications.STRENGTH)) {
 
             //Strength
-            if (j.get(Identifications.STRENGTH.getItemName()) != null) {
-                originalSP[0] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
-                totalSP[0] += j.get(Identifications.STRENGTH.getItemName()).getAsInt();
+            if (item.getIdValue(Identifications.STRENGTH, JsonKeys.MAX) != 0) {
+                originalSP[0] += item.getIdValue(Identifications.STRENGTH, JsonKeys.MAX);
+                totalSP[0] += item.getIdValue(Identifications.STRENGTH, JsonKeys.MAX);
             }
 
             //Dexterity
-            if (j.get(Identifications.DEXTERITY.getItemName()) != null) {
-                originalSP[1] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
-                totalSP[1] += j.get(Identifications.DEXTERITY.getItemName()).getAsInt();
+            if (item.getIdValue(Identifications.DEXTERITY, JsonKeys.MAX) != 0) {
+                originalSP[1] += item.getIdValue(Identifications.DEXTERITY, JsonKeys.MAX);
+                totalSP[1] += item.getIdValue(Identifications.DEXTERITY, JsonKeys.MAX);
             }
 
             //Intelligence
-            if (j.get(Identifications.INTELLIGENCE.getItemName()) != null) {
-                originalSP[2] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
-                totalSP[2] += j.get(Identifications.INTELLIGENCE.getItemName()).getAsInt();
+            if (item.getIdValue(Identifications.INTELLIGENCE, JsonKeys.MAX) != 0) {
+                originalSP[2] += item.getIdValue(Identifications.INTELLIGENCE, JsonKeys.MAX);
+                totalSP[2] += item.getIdValue(Identifications.INTELLIGENCE, JsonKeys.MAX);
             }
 
             //Defense
-            if (j.get(Identifications.DEFENSE.getItemName()) != null) {
-                originalSP[3] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
-                totalSP[3] += j.get(Identifications.DEFENSE.getItemName()).getAsInt();
+            if (item.getIdValue(Identifications.DEFENSE, JsonKeys.MAX) != 0) {
+                originalSP[3] += item.getIdValue(Identifications.DEFENSE, JsonKeys.MAX);
+                totalSP[3] += item.getIdValue(Identifications.DEFENSE, JsonKeys.MAX);
             }
 
             //Agility
-            if (j.get(Identifications.AGILITY.getItemName()) != null) {
-                originalSP[4] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
-                totalSP[4] += j.get(Identifications.AGILITY.getItemName()).getAsInt();
+            if (item.getIdValue(Identifications.AGILITY, JsonKeys.MAX) != 0) {
+                originalSP[4] += item.getIdValue(Identifications.AGILITY, JsonKeys.MAX);
+                totalSP[4] += item.getIdValue(Identifications.AGILITY, JsonKeys.MAX);
             }
         }
     }
 
-    private static void getSkillPoints(JsonObject json, Identifications id, int[] sps, int i, int[] total, int[] original, boolean addTotal) {
-        int sp = 0;
-        if (json.get(id.getItemFieldPos().getKey()) != null && json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
-            JsonElement j = json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
-            if (!j.isJsonObject()) {
-                sp = j.getAsInt();
-            } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
-                String minOrMax = "max";
-                if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
-                sp = SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt());
-            } else if (id.isItemVariable() || json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
-                sp = j.getAsJsonObject().get("max").getAsInt();
-            }
-        }
+    private static void getSkillPoints(ItemBase item, Identifications id, int[] sps, int i, int[] total, int[] original, boolean addTotal) {
+        int sp = item.getIdValue(id, JsonKeys.MAX);
 
-        if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
+        if (item.getIdString(Identifications.RARITY).equals(JsonValues.CRAFTED)) {
             sps[i] += sp;
         } else {
             if (sp < 0) { //SP Bonus Minus
-                int pos = 0; //Default: Strength
-                switch (id) {
-                    case DEXTERITY:
-                        pos = 1;
-                        break;
-                    case INTELLIGENCE:
-                        pos = 2;
-                        break;
-                    case DEFENSE:
-                        pos = 3;
-                        break;
-                    case AGILITY:
-                        pos = 4;
-                        break;
-                }
+                int pos = getSkillPointPos(id);
                 if (addTotal) total[pos] += sp;
                 original[pos] += sp;
             } else { //SP Bonus Plus
@@ -290,48 +267,46 @@ public class SkillPoint {
         return haveSPBSets;
     }
 
-    private static void setSPReq(JsonObject json, int pos, int[] strR, int[] dexR, int[] intR, int[] defR, int[] agiR, int[] maxSPReq) {
-        if (json.get(Identifications.STRENGTH_REQ.getItemFieldPos().getKey()) != null) {
-            JsonObject j = json.get(Identifications.STRENGTH_REQ.getItemFieldPos().getKey()).getAsJsonObject();
-
+    private static void setSPReq(ItemBase item, int pos, int[] strR, int[] dexR, int[] intR, int[] defR, int[] agiR, int[] maxSPReq) {
+        if (item.haveFieldPos(Identifications.STRENGTH_REQ)) {
             //Strength Req
-            if (j.get(Identifications.STRENGTH_REQ.getItemName()) != null && j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt() != 0) {
-                strR[pos] = j.get(Identifications.STRENGTH_REQ.getItemName()).getAsInt();
+            if (item.getIdValue(Identifications.STRENGTH_REQ, JsonKeys.MAX) != 0) {
+                strR[pos] = item.getIdValue(Identifications.STRENGTH_REQ, JsonKeys.MAX);
                 if (strR[pos] > maxSPReq[0]) maxSPReq[0] = strR[pos]; //Strength Req > Max SP Req
             }
 
             //Dexterity Req
-            if (j.get(Identifications.DEXTERITY_REQ.getItemName()) != null && j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt() != 0) {
-                dexR[pos] = j.get(Identifications.DEXTERITY_REQ.getItemName()).getAsInt();
+            if (item.getIdValue(Identifications.DEXTERITY_REQ, JsonKeys.MAX) != 0) {
+                dexR[pos] = item.getIdValue(Identifications.DEXTERITY_REQ, JsonKeys.MAX);
                 if (dexR[pos] > maxSPReq[1]) maxSPReq[1] = dexR[pos];
             }
 
             //Intelligence Req
-            if (j.get(Identifications.INTELLIGENCE_REQ.getItemName()) != null && j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt() != 0) {
-                intR[pos] = j.get(Identifications.INTELLIGENCE_REQ.getItemName()).getAsInt();
+            if (item.getIdValue(Identifications.INTELLIGENCE_REQ, JsonKeys.MAX) != 0) {
+                intR[pos] = item.getIdValue(Identifications.INTELLIGENCE_REQ, JsonKeys.MAX);
                 if (intR[pos] > maxSPReq[2]) maxSPReq[2] = intR[pos];
             }
 
             //Defense Req
-            if (j.get(Identifications.DEFENSE_REQ.getItemName()) != null && j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt() != 0) {
-                defR[pos] = j.get(Identifications.DEFENSE_REQ.getItemName()).getAsInt();
+            if (item.getIdValue(Identifications.DEFENSE_REQ, JsonKeys.MAX) != 0) {
+                defR[pos] = item.getIdValue(Identifications.DEFENSE_REQ, JsonKeys.MAX);
                 if (defR[pos] > maxSPReq[3]) maxSPReq[3] = defR[pos];
             }
 
             //Agility Req
-            if (j.get(Identifications.AGILITY_REQ.getItemName()) != null && j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt() != 0) {
-                agiR[pos] = j.get(Identifications.AGILITY_REQ.getItemName()).getAsInt();
+            if (item.getIdValue(Identifications.AGILITY_REQ, JsonKeys.MAX) != 0) {
+                agiR[pos] = item.getIdValue(Identifications.AGILITY_REQ, JsonKeys.MAX);
                 if (agiR[pos] > maxSPReq[4]) maxSPReq[4] = agiR[pos];
             }
         }
     }
 
-    private static boolean[] checkCrafted(List<JsonObject> json) {
+    private static boolean[] checkCrafted(List<ItemBase> items) {
         boolean[] isCrafted = new boolean[] {false, false, false, false, false, false, false, false, true}; // Weapons do not grant equipment skill points.
 
         for (int i = 0; 8 > i; ++i) {
-            JsonObject j = json.get(i);
-            if (j != null && j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
+            ItemBase item = items.get(i);
+            if (item != null && item.getIdString(Identifications.RARITY).equals(JsonValues.CRAFTED)) {
                 isCrafted[i] = true;
             }
         }
@@ -339,10 +314,10 @@ public class SkillPoint {
         return isCrafted;
     }
 
-    private static void checkSet(JsonObject j, List<SetBonus> setBonuses, int[] originalSP, int[] totalSP) {
+    private static void checkSet(ItemBase item, List<SetBonus> setBonuses, int[] originalSP, int[] totalSP) {
         if (!setBonuses.isEmpty()) {
             for (SetBonus set : setBonuses) {
-                if (set.getEquippedItems().contains(j.get("name").getAsString())) {
+                if (set.getEquippedItems().contains(item.getName())) {
                     set.addEquipped();
 
                     int[] ids_before = set.getId_Numbers(set.getEquippedSize() - 1);
@@ -412,7 +387,7 @@ public class SkillPoint {
         totalSP[4] += agiI[i];
     }
 
-    private static boolean searchEquip(List<JsonObject> items, List<SetBonus> setBonuses, int[] strR, int[] dexR, int[] intR, int[] defR, int[] agiR, int[] strI, int[] dexI, int[] intI, int[] defI, int[] agiI, int[] originalSP, int[] totalSP, List<Integer> checked, List<Integer> crafted, Set<Integer> isNull, int size) {
+    private static boolean searchEquip(List<ItemBase> items, List<SetBonus> setBonuses, int[] strR, int[] dexR, int[] intR, int[] defR, int[] agiR, int[] strI, int[] dexI, int[] intI, int[] defI, int[] agiI, int[] originalSP, int[] totalSP, List<Integer> checked, List<Integer> crafted, Set<Integer> isNull, int size) {
         if (checked.size() == size) return false;
 
         for (int i = 0; 8 > i; ++i) {
@@ -429,7 +404,7 @@ public class SkillPoint {
         return false;
     }
 
-    private static boolean searchMinReq(List<JsonObject> items, List<SetBonus> setBonuses, int[] maxR, int[] strR, int[] dexR, int[] intR, int[] defR, int[] agiR, int[] strI, int[] dexI, int[] intI, int[] defI, int[] agiI, int[] originalSP, int[] totalSP, int[] assignSP, List<Integer> checked, List<Integer> crafted, Set<Integer> isNull, int size) {
+    private static boolean searchMinReq(List<ItemBase> items, List<SetBonus> setBonuses, int[] maxR, int[] strR, int[] dexR, int[] intR, int[] defR, int[] agiR, int[] strI, int[] dexI, int[] intI, int[] defI, int[] agiI, int[] originalSP, int[] totalSP, int[] assignSP, List<Integer> checked, List<Integer> crafted, Set<Integer> isNull, int size) {
         if (checked.size() == size) return false;
 
         int[] minRequests = new int[] {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
@@ -594,6 +569,16 @@ public class SkillPoint {
         return eSPB;
     }
 
+    private static int getSkillPointPos(Identifications id) {
+        return switch (id) {
+            case DEXTERITY -> 1;
+            case INTELLIGENCE -> 2;
+            case DEFENSE -> 3;
+            case AGILITY -> 4;
+            default -> 0;
+        };
+    }
+
     public enum SkillPointType {
         STRENGTH,
         DEXTERITY,
@@ -603,7 +588,7 @@ public class SkillPoint {
     }
 
     public static class SkillPointPanel {
-        private final JTextField textField = SearchUI.createNoBeepTextField("0");
+        private final JTextField textField = UiUtils.createNoBeepTextField("0");
         private final JLabel name_label = new JLabel();
         private final JLabel boost_label = new JLabel();
         private final JLabel total_label = new JLabel("(0)");

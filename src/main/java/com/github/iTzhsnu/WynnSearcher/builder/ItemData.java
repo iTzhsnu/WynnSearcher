@@ -1,5 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
+import com.github.iTzhsnu.WynnSearcher.data.ItemBase;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -7,45 +8,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ItemJsons {
-    private final JsonObject helmet;
-    private final JsonObject chestplate;
-    private final JsonObject leggings;
-    private final JsonObject boots;
-    private final JsonObject ring1;
-    private final JsonObject ring2;
-    private final JsonObject bracelet;
-    private final JsonObject necklace;
-    private final JsonObject weapon;
+public class ItemData {
+    private final ItemBase helmet;
+    private final ItemBase chestplate;
+    private final ItemBase leggings;
+    private final ItemBase boots;
+    private final ItemBase ring1;
+    private final ItemBase ring2;
+    private final ItemBase bracelet;
+    private final ItemBase necklace;
+    private final ItemBase weapon;
 
     //Tomes
-    private final JsonObject armourTome1;
-    private final JsonObject armourTome2;
-    private final JsonObject armourTome3;
-    private final JsonObject armourTome4;
-    private final JsonObject guildTome;
-    private final JsonObject weaponTome1;
-    private final JsonObject weaponTome2;
-    private final JsonObject marathonTome1;
-    private final JsonObject marathonTome2;
-    private final JsonObject lootrunTome;
-    private final JsonObject expertiseTome1;
-    private final JsonObject expertiseTome2;
-    private final JsonObject mysticismTome1;
-    private final JsonObject mysticismTome2;
+    private final ItemBase armourTome1;
+    private final ItemBase armourTome2;
+    private final ItemBase armourTome3;
+    private final ItemBase armourTome4;
+    private final ItemBase guildTome;
+    private final ItemBase weaponTome1;
+    private final ItemBase weaponTome2;
+    private final ItemBase marathonTome1;
+    private final ItemBase marathonTome2;
+    private final ItemBase lootrunTome;
+    private final ItemBase expertiseTome1;
+    private final ItemBase expertiseTome2;
+    private final ItemBase mysticismTome1;
+    private final ItemBase mysticismTome2;
 
     //Aspects
-    private final JsonObject aspect1;
-    private final JsonObject aspect2;
-    private final JsonObject aspect3;
-    private final JsonObject aspect4;
-    private final JsonObject aspect5;
+    private final ItemBase aspect1;
+    private final ItemBase aspect2;
+    private final ItemBase aspect3;
+    private final ItemBase aspect4;
+    private final ItemBase aspect5;
 
-    public ItemJsons(JsonObject helmet, JsonObject chestplate, JsonObject leggings, JsonObject boots, JsonObject ring1, JsonObject ring2, JsonObject bracelet, JsonObject necklace, JsonObject weapon
-            , JsonObject armourTome1, JsonObject armourTome2, JsonObject armourTome3, JsonObject armourTome4, JsonObject guildTome
-            , JsonObject weaponTome1, JsonObject weaponTome2, JsonObject marathonTome1, JsonObject marathonTome2, JsonObject lootrunTome
-            , JsonObject expertiseTome1, JsonObject expertiseTome2, JsonObject mysticismTome1, JsonObject mysticismTome2
-            , JsonObject aspect1, JsonObject aspect2, JsonObject aspect3, JsonObject aspect4, JsonObject aspect5) {
+    public ItemData(ItemBase helmet, ItemBase chestplate, ItemBase leggings, ItemBase boots, ItemBase ring1, ItemBase ring2, ItemBase bracelet, ItemBase necklace, ItemBase weapon
+            , ItemBase armourTome1, ItemBase armourTome2, ItemBase armourTome3, ItemBase armourTome4, ItemBase guildTome
+            , ItemBase weaponTome1, ItemBase weaponTome2, ItemBase marathonTome1, ItemBase marathonTome2, ItemBase lootrunTome
+            , ItemBase expertiseTome1, ItemBase expertiseTome2, ItemBase mysticismTome1, ItemBase mysticismTome2
+            , ItemBase aspect1, ItemBase aspect2, ItemBase aspect3, ItemBase aspect4, ItemBase aspect5) {
         this.helmet = helmet;
         this.chestplate = chestplate;
         this.leggings = leggings;
@@ -78,28 +79,28 @@ public class ItemJsons {
         this.aspect5 = aspect5;
     }
 
-    public JsonObject getHelmet() {
+    public ItemBase getHelmet() {
         return helmet;
     }
 
-    public JsonObject getChestplate() {
+    public ItemBase getChestplate() {
         return chestplate;
     }
 
-    public JsonObject getLeggings() {
+    public ItemBase getLeggings() {
         return leggings;
     }
 
-    public JsonObject getBoots() {
+    public ItemBase getBoots() {
         return boots;
     }
 
-    public JsonObject getWeapon() {
+    public ItemBase getWeapon() {
         return weapon;
     }
 
-    public List<JsonObject> getTomes() {
-        List<JsonObject> list = new ArrayList<>();
+    public List<ItemBase> getTomes() {
+        List<ItemBase> list = new ArrayList<>();
 
         if (armourTome1 != null) list.add(armourTome1);
         if (armourTome2 != null) list.add(armourTome2);
@@ -121,12 +122,12 @@ public class ItemJsons {
         return list;
     }
 
-    public JsonObject getGuildTome() {
+    public ItemBase getGuildTome() {
         return guildTome;
     }
 
-    public List<JsonObject> getJsonObjectList() {
-        List<JsonObject> list = new ArrayList<>();
+    public List<ItemBase> getEquipmentsNoWeapon() {
+        List<ItemBase> list = new ArrayList<>();
 
         if (helmet != null) list.add(helmet);
         if (chestplate != null) list.add(chestplate);
@@ -140,8 +141,8 @@ public class ItemJsons {
         return list;
     }
 
-    public List<JsonObject> getEquipments() {
-        List<JsonObject> list = new ArrayList<>();
+    public List<ItemBase> getEquipments() {
+        List<ItemBase> list = new ArrayList<>();
 
         list.add(helmet);
         list.add(chestplate);
@@ -156,8 +157,8 @@ public class ItemJsons {
         return list;
     }
 
-    public List<JsonObject> getAspects() {
-        List<JsonObject> list = new ArrayList<>();
+    public List<ItemBase> getAspects() {
+        List<ItemBase> list = new ArrayList<>();
 
         if (aspect1 != null) list.add(aspect1);
         if (aspect2 != null) list.add(aspect2);
@@ -170,8 +171,9 @@ public class ItemJsons {
 
     public List<MajorIDEnum> getMajorIDList() {
         List<MajorIDEnum> l = new ArrayList<>();
-        if (!getJsonObjectList().isEmpty()) {
-            for (JsonObject j : getJsonObjectList()) {
+        if (!getEquipmentsNoWeapon().isEmpty()) {
+            for (ItemBase item : getEquipmentsNoWeapon()) {
+                JsonObject j = item.getJson();
                 if (j.get("majorIds") != null) {
                     for (Map.Entry<String, JsonElement> entry : j.get("majorIds").getAsJsonObject().entrySet()) {
                         MajorIDEnum majorID = MajorIDEnum.GET_MAJOR_IDS.getOrDefault(entry.getKey(), MajorIDEnum.EMPTY);
@@ -180,8 +182,8 @@ public class ItemJsons {
                 }
             }
         }
-        if (getWeapon() != null && getWeapon().get("majorIds") != null) {
-            for (Map.Entry<String, JsonElement> entry : getWeapon().get("majorIds").getAsJsonObject().entrySet()) {
+        if (getWeapon() != null && getWeapon().getJson().get("majorIds") != null) {
+            for (Map.Entry<String, JsonElement> entry : getWeapon().getJson().get("majorIds").getAsJsonObject().entrySet()) {
                 MajorIDEnum majorID = MajorIDEnum.GET_MAJOR_IDS.getOrDefault(entry.getKey(), MajorIDEnum.EMPTY);
                 if (majorID != MajorIDEnum.EMPTY && !l.contains(majorID)) l.add(majorID);
             }
@@ -191,8 +193,9 @@ public class ItemJsons {
 
     public List<String> getMajorIDNameList() {
         List<String> l = new ArrayList<>();
-        if (!getJsonObjectList().isEmpty()) {
-            for (JsonObject j : getJsonObjectList()) {
+        if (!getEquipmentsNoWeapon().isEmpty()) {
+            for (ItemBase item : getEquipmentsNoWeapon()) {
+                JsonObject j = item.getJson();
                 if (j.get("majorIds") != null) {
                     for (Map.Entry<String, JsonElement> entry : j.get("majorIds").getAsJsonObject().entrySet()) {
                         if (!l.contains(entry.getKey())) l.add(entry.getKey());
@@ -200,11 +203,9 @@ public class ItemJsons {
                 }
             }
         }
-        if (getWeapon() != null && getWeapon().get("majorIds") != null) {
-            if (getWeapon().get("majorIds") != null) {
-                for (Map.Entry<String, JsonElement> entry : getWeapon().get("majorIds").getAsJsonObject().entrySet()) {
-                    if (!l.contains(entry.getKey())) l.add(entry.getKey());
-                }
+        if (getWeapon() != null && getWeapon().getJson().get("majorIds") != null) {
+            for (Map.Entry<String, JsonElement> entry : getWeapon().getJson().get("majorIds").getAsJsonObject().entrySet()) {
+                if (!l.contains(entry.getKey())) l.add(entry.getKey());
             }
         }
         return l;

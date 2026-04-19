@@ -1,7 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
-import com.github.iTzhsnu.WynnSearcher.SearchUI;
+import com.github.iTzhsnu.WynnSearcher.ui.UiUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ public class Damage_IDs {
         return GET_DAMAGE_ID_NUM_FROM_ID.size();
     }
 
-    public static final Map<Identifications, Integer> GET_DAMAGE_ID_NUM_FROM_ID = new HashMap<Identifications, Integer>(66, 2);
+    public static final Map<Identifications, Integer> GET_DAMAGE_ID_NUM_FROM_ID = new HashMap<>(66, 2);
 
     public Damage_IDs(JPanel p) {
         damage_ID_Panels.add(new Damage_IDs_Panel("Damage %", getX(0), getY(0), p, Identifications.DAMAGE_PERCENT));
@@ -110,7 +110,7 @@ public class Damage_IDs {
     }
 
     public static class Damage_IDs_Panel {
-        private final JTextField textField = SearchUI.createNoBeepTextField("0");
+        private final JTextField textField = UiUtils.createNoBeepTextField("0");
         private final JLabel original = new JLabel("Original: 0");
 
         public Damage_IDs_Panel(String name, int x, int y, JPanel p, Identifications id) {

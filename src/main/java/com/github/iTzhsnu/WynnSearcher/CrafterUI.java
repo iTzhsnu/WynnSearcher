@@ -1,6 +1,11 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.github.iTzhsnu.WynnSearcher.data.Ingredient;
+import com.github.iTzhsnu.WynnSearcher.data.Item;
 import com.github.iTzhsnu.WynnSearcher.general.ItemType;
+import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
+import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
+import com.github.iTzhsnu.WynnSearcher.ui.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -10,8 +15,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,10 +23,7 @@ import java.util.Map;
 public class CrafterUI implements ActionListener {
     private final Container pane;
 
-    private final List<JsonObject> ingJson;
-    private final List<JsonObject> recipeJson;
-
-    private final JLabel itemAPIConnect = new JLabel();
+    private final JLabel itemApiConnect = new JLabel();
     private final JComboBox<String> recipeType = new JComboBox<>();
     private final JComboBox<String> attackSpeed = new JComboBox<>();
     private final JComboBox<String> level = new JComboBox<>();
@@ -34,7 +34,7 @@ public class CrafterUI implements ActionListener {
 
     private final JButton create = new JButton("Create");
     private final JButton load = new JButton("Load");
-    private final JTextField output = SearchUI.createNoBeepTextField();
+    private final JTextField output = UiUtils.createNoBeepTextField();
     private final JPanel outputP = new JPanel();
 
     private final JPanel created = new JPanel();
@@ -51,67 +51,59 @@ public class CrafterUI implements ActionListener {
     }};
 
     private static final Map<String, String> TYPE_TO_SKILL = new HashMap<>(15, 2) {{
-        put("helmet", "armouring");
-        put("chestplate", "armouring");
-        put("leggings", "tailoring");
-        put("boots", "tailoring");
-        put("ring", "jeweling");
-        put("bracelet", "jeweling");
-        put("necklace", "jeweling");
-        put("spear", "weaponsmithing");
-        put("dagger", "weaponsmithing");
-        put("bow", "woodworking");
-        put("wand", "woodworking");
-        put("relik", "woodworking");
-        put("scroll", "scribing");
-        put("food", "cooking");
-        put("potion", "alchemism");
+        put(JsonValues.HELMET, JsonValues.ARMOURING);
+        put(JsonValues.CHESTPLATE, JsonValues.ARMOURING);
+        put(JsonValues.LEGGINGS, JsonValues.TAILORING);
+        put(JsonValues.BOOTS, JsonValues.TAILORING);
+        put(JsonValues.RING, JsonValues.JEWELING);
+        put(JsonValues.BRACELET, JsonValues.JEWELING);
+        put(JsonValues.NECKLACE, JsonValues.JEWELING);
+        put(JsonValues.SPEAR, JsonValues.WEAPONSMITHING);
+        put(JsonValues.DAGGER, JsonValues.WEAPONSMITHING);
+        put(JsonValues.BOW, JsonValues.WOODWORKING);
+        put(JsonValues.WAND, JsonValues.WOODWORKING);
+        put(JsonValues.RELIK, JsonValues.WOODWORKING);
+        put("scroll", JsonValues.SCRIBING);
+        put("food", JsonValues.COOKING);
+        put("potion", JsonValues.ALCHEMISM);
     }};
 
-    public CrafterUI(Container pane, List<JsonObject> ingJson, List<JsonObject> recipeJson, String recipeAPIConnect, JLabel itemAPIConnect) {
+    public CrafterUI(Container pane) {
         this.pane = pane;
-        this.ingJson = ingJson;
-        this.recipeJson = recipeJson;
 
-        this.itemAPIConnect.setText(itemAPIConnect.getText());
-        this.itemAPIConnect.setForeground(itemAPIConnect.getForeground());
-        this.itemAPIConnect.setBounds(530, 5, 150, 20);
+        ApiDataManager api = ApiDataManager.getManager();
+        ApiDataManager.setApiConnectText(itemApiConnect, "Item", api.itemApiConnect);
+        itemApiConnect.setBounds(530, 5, 150, 20);
 
-        JLabel recipeConnect = new JLabel(recipeAPIConnect);
+        JLabel recipeConnect = new JLabel();
+        ApiDataManager.setApiConnectText(recipeConnect, "Recipe", api.recipeApiConnect);
         recipeConnect.setBounds(530, 30, 150, 20);
-        if (recipeAPIConnect.equals("Recipe API Connected")) {
-            recipeConnect.setForeground(new Color(0, 169, 104));
-        } else if (recipeAPIConnect.equals("Archive Loaded")) {
-            recipeConnect.setForeground(new Color(0, 169, 104));
-        } else {
-            recipeConnect.setForeground(new Color(255, 0, 0));
-        }
 
         //Recipe Type
         JLabel typeText = new JLabel("Type:");
         typeText.setBounds(10, 40, 30, 20);
         recipeType.setBounds(45, 40, 90, 20);
-        recipeType.addItem("helmet");
-        recipeType.addItem("chestplate");
-        recipeType.addItem("leggings");
-        recipeType.addItem("boots");
-        recipeType.addItem("ring");
-        recipeType.addItem("bracelet");
-        recipeType.addItem("necklace");
-        recipeType.addItem("bow");
-        recipeType.addItem("wand");
-        recipeType.addItem("relik");
-        recipeType.addItem("spear");
-        recipeType.addItem("dagger");
+        recipeType.addItem(JsonValues.HELMET);
+        recipeType.addItem(JsonValues.CHESTPLATE);
+        recipeType.addItem(JsonValues.LEGGINGS);
+        recipeType.addItem(JsonValues.BOOTS);
+        recipeType.addItem(JsonValues.RING);
+        recipeType.addItem(JsonValues.BRACELET);
+        recipeType.addItem(JsonValues.NECKLACE);
+        recipeType.addItem(JsonValues.BOW);
+        recipeType.addItem(JsonValues.WAND);
+        recipeType.addItem(JsonValues.RELIK);
+        recipeType.addItem(JsonValues.SPEAR);
+        recipeType.addItem(JsonValues.DAGGER);
         recipeType.addItem("scroll");
         recipeType.addItem("food");
         recipeType.addItem("potion");
 
         //Attack Speed
         attackSpeed.setBounds(260, 40, 80, 20);
-        attackSpeed.addItem("slow");
-        attackSpeed.addItem("normal");
-        attackSpeed.addItem("fast");
+        attackSpeed.addItem(JsonValues.SLOW);
+        attackSpeed.addItem(JsonValues.A_NORMAL);
+        attackSpeed.addItem(JsonValues.FAST);
         attackSpeed.setSelectedIndex(2);
 
         //Level
@@ -172,7 +164,7 @@ public class CrafterUI implements ActionListener {
         texts.add(mat2);
         texts.add(oText);
 
-        pane.add(this.itemAPIConnect);
+        pane.add(itemApiConnect);
         pane.add(recipeType);
         pane.add(attackSpeed);
         pane.add(level);
@@ -190,7 +182,7 @@ public class CrafterUI implements ActionListener {
     }
 
     public void setCrafterVisible(boolean visible) {
-        itemAPIConnect.setVisible(visible);
+        itemApiConnect.setVisible(visible);
         recipeType.setVisible(visible);
         attackSpeed.setVisible(visible);
         level.setVisible(visible);
@@ -220,12 +212,13 @@ public class CrafterUI implements ActionListener {
 
     public void setIngBox() {
         for (int i = 0; 6 > i; ++i) {
-            JComboBox<String> box = SearchUI.createNoBeepComboBox();
+            JComboBox<String> box = UiUtils.createNoBeepComboBox();
             int pos = (int) Math.floor(i / 2F);
 
-            for (JsonObject j : ingJson) {
-                if (j.get("name") != null) {
-                    box.addItem(j.get("name").getAsString());
+            ApiDataManager api = ApiDataManager.getManager();
+            for (Ingredient ing : api.wynnIngredients) {
+                if (!ing.getName().isEmpty()) {
+                    box.addItem(ing.getName());
                 }
             }
 
@@ -236,7 +229,7 @@ public class CrafterUI implements ActionListener {
             }
             box.setEditable(true);
             box.setSelectedIndex(-1);
-            box.getEditor().getEditorComponent().addKeyListener(new Adapter(box, ingJson));
+            box.getEditor().getEditorComponent().addKeyListener(new ItemBoxAdapter<>(box, api.wynnIngredients));
 
             ingBox.add(box);
             pane.add(ingBox.get(ingBox.size() - 1));
@@ -244,15 +237,16 @@ public class CrafterUI implements ActionListener {
     }
 
     public void updateIngAPI() {
+        ApiDataManager api = ApiDataManager.getManager();
         for (JComboBox<String> b : ingBox) {
             b.removeAllItems();
-            for (JsonObject j : ingJson) {
-                if (j.get("name") != null) b.addItem(j.get("name").getAsString());
+            for (Ingredient i : api.wynnIngredients) {
+                if (!i.getName().isEmpty()) b.addItem(i.getName());
             }
             b.setSelectedIndex(-1);
         }
-        itemAPIConnect.setText("Item API Latest");
-        itemAPIConnect.setForeground(new Color(0, 169, 104));
+        itemApiConnect.setText("Item API Latest");
+        itemApiConnect.setForeground(new Color(0, 169, 104));
     }
 
     public void setLevel() {
@@ -293,16 +287,16 @@ public class CrafterUI implements ActionListener {
         }
         String recType = recipeType.getItemAt(recipeType.getSelectedIndex());
         String lv = level.getItemAt(level.getSelectedIndex());
-        String lvS = "\"level\":\"" + lv + "\",";
-        String type = "\"type\":\"" + recType + "\",";
+        String lvS = Identifications.LEVEL.getItemName() + ":\"" + lv + "\",";
+        String type = JsonKeys.TYPE + ":\"" + recType + "\",";
         String mat1 = "\"material1\":" + material1.getItemAt(material1.getSelectedIndex()) + ",";
         String mat2 = "\"material2\":" + material2.getItemAt(material2.getSelectedIndex()) + "}";
 
         sb.append(lvS);
         sb.append(type);
 
-        if (recType.equals("bow") || recType.equals("wand") || recType.equals("relik") || recType.equals("spear") || recType.equals("dagger")) {
-            String atkSpd = "\"attackSpeed\":\"" + attackSpeed.getItemAt(attackSpeed.getSelectedIndex()) + "\",";
+        if (recType.equals(JsonValues.BOW) || recType.equals(JsonValues.WAND) || recType.equals(JsonValues.RELIK) || recType.equals(JsonValues.SPEAR) || recType.equals(JsonValues.DAGGER)) {
+            String atkSpd = Identifications.ATTACK_SPEED.getItemName() + ":\"" + attackSpeed.getItemAt(attackSpeed.getSelectedIndex()) + "\",";
             sb.append(atkSpd);
         }
 
@@ -317,10 +311,12 @@ public class CrafterUI implements ActionListener {
         created.removeAll();
         ingPanel.removeAll();
 
+        ApiDataManager api = ApiDataManager.getManager();
+
         String s = output.getText();
         if (s.contains("CR-")) {
-            List<JsonObject> ingJsonCopy = new ArrayList<>(ingJson);
-            ItemUITemplate itemUI = new ItemUITemplate(getCraftItemJson(recipeJson, ingJsonCopy, s, true), ItemType.ITEM, null, null, 270, 0, true, null);
+            List<Ingredient> ingJsonCopy = new ArrayList<>(api.wynnIngredients);
+            ItemUi itemUI = new EquipmentUi(new Item(getCraftItemJson(api.wynnRecipes, ingJsonCopy, s, true)), ItemType.ITEM, null, null, 270, 0, true);
             setIngDisplay(ingJsonCopy);
             created.add(itemUI);
             if (itemUI.getBounds().y + itemUI.getBounds().height > 745) {
@@ -347,19 +343,19 @@ public class CrafterUI implements ActionListener {
         }
     }
 
-    public void setIngDisplay(List<JsonObject> lj) {
+    public void setIngDisplay(List<Ingredient> lj) {
         List<JPanel> lp = new ArrayList<>();
 
         for (int i = 0; lj.size() > i; ++i) {
-            JsonObject j = lj.get(i);
+            Ingredient ing = lj.get(i);
             if (i == 0) {
-                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, null, null, 530, 0, false, SearchUI.getHow_to_obtain_ing());
+                ItemUi p = new IngredientUi(ing, ItemType.INGREDIENT, null, null, 530, 0, false);
                 lp.add(p);
             } else if (i == 1) {
-                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, lp.get(0), null, 530, 0, false, SearchUI.getHow_to_obtain_ing());
+                ItemUi p = new IngredientUi(ing, ItemType.INGREDIENT, lp.get(0), null, 530, 0, false);
                 lp.add(p);
             } else {
-                ItemUITemplate p = new ItemUITemplate(j, ItemType.INGREDIENT, lp.get(i - 1), lp.get(i - 2), 530, 0, false, SearchUI.getHow_to_obtain_ing());
+                ItemUi p = new IngredientUi(ing, ItemType.INGREDIENT, lp.get(i - 1), lp.get(i - 2), 530, 0, false);
                 lp.add(p);
             }
         }
@@ -393,7 +389,7 @@ public class CrafterUI implements ActionListener {
         SwingUtilities.updateComponentTreeUI(ingPanel);
     }
 
-    public static JsonObject getCraftItemJson(List<JsonObject> recipes, List<JsonObject> ing, String s, boolean isCopiedIngs) {
+    public static JsonObject getCraftItemJson(List<JsonObject> recipes, List<Ingredient> ingredients, String s, boolean isCopiedIngs) {
         if (s.contains("CR-")) {
             String sJ = s.replace("CR-", "");
             JsonObject itemJ = JsonParser.parseString(sJ).getAsJsonObject();
@@ -470,9 +466,9 @@ public class CrafterUI implements ActionListener {
                     JsonElement je = itemJ.get("ing").getAsJsonArray().get(i);
                     lJ.add(JsonParser.parseString("{}").getAsJsonObject());
                     if (!je.getAsString().isEmpty()) {
-                        for (JsonObject jo : ing) {
-                            if (jo.get("name") != null && jo.get("name").getAsString().equals(je.getAsString())) {
-                                lJ.set(i, jo);
+                        for (Ingredient ing : ingredients) {
+                            if (!ing.getName().isEmpty() && ing.getName().equals(je.getAsString())) {
+                                lJ.set(i, ing.getJson()); // TODO
                                 break;
                             }
                         }
@@ -575,13 +571,13 @@ public class CrafterUI implements ActionListener {
                 }
             }
 
-            for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) { //IDs
-                Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+            for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) { //IDs
+                Identifications id = ItemUi.ITEM_IDS.get(i);
                 int total_Min = 0;
                 int total_Max = 0;
                 for (int n = 0; lJ.size() > n; ++n) {
                     JsonObject j = lJ.get(n);
-                    if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get("identifications") != null && j.get("identifications").getAsJsonObject().get(id.getIngName()) != null) {
+                    if (id.getIngName() != null && id.getIngFieldPos() == JsonKeys.IDENTIFICATION && j.get(JsonKeys.IDENTIFICATION.getKey()) != null && j.get(JsonKeys.IDENTIFICATION.getKey()).getAsJsonObject().get(id.getIngName()) != null) {
                         JsonElement je = j.get("identifications").getAsJsonObject().get(id.getIngName());
                         if (!je.isJsonObject()) {
                             total_Min += (int) Math.floor(je.getAsInt() * ingEffective[n] / 100F);
@@ -601,13 +597,13 @@ public class CrafterUI implements ActionListener {
                 }
             }
 
-            for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) { //Reversed IDs
-                Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
+            for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) { //Reversed IDs
+                Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
                 int total_Min = 0;
                 int total_Max = 0;
                 for (int n = 0; lJ.size() > n; ++n) {
                     JsonObject j = lJ.get(n);
-                    if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get("identifications") != null && j.get("identifications").getAsJsonObject().get(id.getIngName()) != null) {
+                    if (id.getIngName() != null && id.getIngFieldPos() == JsonKeys.IDENTIFICATION && j.get(JsonKeys.IDENTIFICATION.getKey()) != null && j.get(JsonKeys.IDENTIFICATION.getKey()).getAsJsonObject().get(id.getIngName()) != null) {
                         JsonElement je = j.get("identifications").getAsJsonObject().get(id.getIngName());
                         if (!je.isJsonObject()) {
                             total_Min += (int) Math.floor(je.getAsInt() * ingEffective[n] / 100F);
@@ -666,9 +662,9 @@ public class CrafterUI implements ActionListener {
             }
 
             if (isCopiedIngs) {
-                ing.clear();
+                ingredients.clear();
                 for (int i = 0; lJ.size() > i; ++i) {
-                    if (lJ.get(i).get("name") != null) ing.add(customIngredient(lJ.get(i), ingEffective[i]));
+                    if (lJ.get(i).get("name") != null) ingredients.add(new Ingredient(customIngredient(lJ.get(i), ingEffective[i])));
                 }
             }
 
@@ -769,10 +765,10 @@ public class CrafterUI implements ActionListener {
         }
 
         for (int i = 0; 76 >= i; ++i) { //IDs
-            Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+            Identifications id = ItemUi.ITEM_IDS.get(i);
             int total_Min = 0;
             int total_Max = 0;
-            if (id.getIngName() != null && id.getIngFieldPos().equals("identifications") && j.get("identifications") != null && j.get("identifications").getAsJsonObject().get(id.getIngName()) != null) {
+            if (id.getIngName() != null && id.getIngFieldPos() == JsonKeys.IDENTIFICATION && j.get(JsonKeys.IDENTIFICATION.getKey()) != null && j.get(JsonKeys.IDENTIFICATION.getKey()).getAsJsonObject().get(id.getIngName()) != null) {
                 JsonElement je = j.get("identifications").getAsJsonObject().get(id.getIngName());
                 if (!je.isJsonObject()) {
                     total_Min += (int) Math.floor(je.getAsInt() * percent / 100F);
@@ -791,45 +787,5 @@ public class CrafterUI implements ActionListener {
             }
         }
         return j;
-    }
-
-    public static class Adapter extends KeyAdapter {
-        private final JComboBox<String> box;
-        private final List<JsonObject> json;
-
-        public Adapter(JComboBox<String> box, List<JsonObject> json) {
-            super();
-            this.box = box;
-            this.json = json;
-        }
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-            JTextField text = (JTextField) e.getComponent();
-
-            setList(box, text.getText(), text.getCaretPosition(), text.getSelectionStart(), text.getSelectionEnd());
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            super.keyPressed(e);
-        }
-
-        private void setList(JComboBox<String> box, String text, int caretPos, int selectionStart, int selectionEnd) {
-            box.removeAllItems();
-
-            for (JsonObject j : json) {
-                if (j.get("name") != null) {
-                    if (text.isEmpty() || j.get("name").getAsString().toLowerCase().contains(text.toLowerCase())) box.addItem(j.get("name").getAsString());
-                }
-            }
-
-            ((JTextField) box.getEditor().getEditorComponent()).setText(text);
-            ((JTextField) box.getEditor().getEditorComponent()).setCaretPosition(caretPos);
-            if (selectionStart < selectionEnd) {
-                ((JTextField) box.getEditor().getEditorComponent()).setSelectionStart(selectionStart);
-                ((JTextField) box.getEditor().getEditorComponent()).setSelectionEnd(selectionEnd);
-            }
-        }
     }
 }

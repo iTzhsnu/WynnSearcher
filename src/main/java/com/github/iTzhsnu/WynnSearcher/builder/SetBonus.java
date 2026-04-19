@@ -1,8 +1,8 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
-import com.github.iTzhsnu.WynnSearcher.GetAPI;
+import com.github.iTzhsnu.WynnSearcher.ApiDataManager;
 import com.github.iTzhsnu.WynnSearcher.Identifications;
-import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
+import com.github.iTzhsnu.WynnSearcher.ui.ItemUi;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -18,7 +18,7 @@ public class SetBonus {
 
     public SetBonus(String setName, String itemName, boolean isWeapon) {
         this.setName = setName;
-        JsonObject j = new GetAPI().getSetBonus();
+        JsonObject j = ApiDataManager.getManager().getSetBonus();
         if (j.get(setName) != null) {
             size = j.get(setName).getAsJsonObject().get("size").getAsInt();
         } else {
@@ -59,15 +59,15 @@ public class SetBonus {
         };
 
         if (size > 0) {
-            JsonElement jo = new GetAPI().getSetBonus().get(setName);
+            JsonElement jo = ApiDataManager.getManager().getSetBonus().get(setName);
             if (jo != null && jo.getAsJsonObject().get(String.valueOf(size)) != null) {
                 JsonObject j = jo.getAsJsonObject().get(String.valueOf(size)).getAsJsonObject();
-                for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) {
-                    Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+                for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) {
+                    Identifications id = ItemUi.ITEM_IDS.get(i);
                     if (j.get(id.getItemName()) != null) id_Numbers[ID_Display.ID_INT.get(id)] = j.get(id.getItemName()).getAsInt();
                 }
-                for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) {
-                    Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
+                for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) {
+                    Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
                     if (j.get(id.getItemName()) != null) id_Numbers[ID_Display.ID_INT.get(id)] = j.get(id.getItemName()).getAsInt();
                 }
             }

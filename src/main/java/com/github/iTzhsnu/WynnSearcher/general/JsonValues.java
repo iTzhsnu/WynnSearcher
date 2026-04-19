@@ -46,6 +46,7 @@ public class JsonValues {
     public static final String CHARM = "charm";
     public static final String TOOL = "tool";
     public static final String MATERIAL = "material";
+    public static final String ASPECT = "aspect";
 
     // Equipment Rarity
     public static final String MYTHIC = "mythic";

@@ -1,4 +1,4 @@
-import com.github.iTzhsnu.WynnSearcher.GetAPI;
+import com.github.iTzhsnu.WynnSearcher.ApiDataManager;
 import com.github.iTzhsnu.WynnSearcher.Identifications;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,7 +14,7 @@ public class SearchNew {
     private static final List<JsonObject> others = new ArrayList<>();
 
     public static void main(String[] args) {
-        new GetAPI().loadArchiveV3API(equips, ingredients, others, new JLabel());
+        ApiDataManager api = ApiDataManager.getManager();
 
         searchUnknownIDs(others);
         searchUnknownIDs(equips);

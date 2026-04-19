@@ -1,8 +1,13 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.github.iTzhsnu.WynnSearcher.data.Item;
+import com.github.iTzhsnu.WynnSearcher.data.ItemBase;
 import com.github.iTzhsnu.WynnSearcher.general.ItemType;
 import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
 import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
+import com.github.iTzhsnu.WynnSearcher.ui.EquipmentUi;
+import com.github.iTzhsnu.WynnSearcher.ui.ItemUi;
+import com.github.iTzhsnu.WynnSearcher.ui.UiUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -33,7 +38,7 @@ public class CustomUI implements ActionListener {
     private final List<JLabel> name = new ArrayList<>();
     private final JButton create = new JButton("Create");
     private final JButton load = new JButton("Load");
-    private final JTextField itemText = SearchUI.createNoBeepTextField();
+    private final JTextField itemText = UiUtils.createNoBeepTextField();
     private final JPanel display = new JPanel();
     private final JScrollPane scroll;
     private final JComboBox<String> itemType = new JComboBox<>();
@@ -198,7 +203,7 @@ public class CustomUI implements ActionListener {
         uiTemplate("Raw 3rd Cost", 345, getY(9), false, 105);
         uiTemplate("Raw 4th Cost", 345, getY(10), false, 105);
 
-        majorIDJson = new GetAPI().getMajorIDJson();
+        majorIDJson = ApiDataManager.getManager().getMajorIDJson();
 
         setMajorIDBox(685, getY(20));
 
@@ -356,8 +361,8 @@ public class CustomUI implements ActionListener {
         JLabel name = new JLabel(labelName);
 
         if (isVariable) {
-            JTextField min = SearchUI.createNoBeepTextField();
-            JTextField max = SearchUI.createNoBeepTextField();
+            JTextField min = UiUtils.createNoBeepTextField();
+            JTextField max = UiUtils.createNoBeepTextField();
 
             name.setBounds(posX + 45, posY, width + 20, 20);
             min.setBounds(posX, posY, 40, 20);
@@ -369,7 +374,7 @@ public class CustomUI implements ActionListener {
             pane.add(this.min.get(this.min.size() - 1));
             pane.add(this.max.get(this.max.size() - 1));
         } else {
-            JTextField notVariable = SearchUI.createNoBeepTextField();
+            JTextField notVariable = UiUtils.createNoBeepTextField();
             name.setBounds(posX, posY, width + 20, 20);
             notVariable.setBounds(posX + width, posY, 40, 20);
             this.notVariable.add(notVariable);
@@ -434,10 +439,10 @@ public class CustomUI implements ActionListener {
                 Identifications id;
                 if (i <= 5) { //SP Requests
                     id = ID_FROM_NOT_VARIABLE_INT.get(i);
-                } else if (i - ID_FROM_NOT_VARIABLE_INT.size() > ItemUITemplate.ITEM_IDS.size()) { //Reversed IDs
-                    id = ItemUITemplate.REVERSED_ITEM_IDS.get(i - ID_FROM_NOT_VARIABLE_INT.size() - ItemUITemplate.ITEM_IDS.size() - 1);
+                } else if (i - ID_FROM_NOT_VARIABLE_INT.size() > ItemUi.ITEM_IDS.size()) { //Reversed IDs
+                    id = ItemUi.REVERSED_ITEM_IDS.get(i - ID_FROM_NOT_VARIABLE_INT.size() - ItemUi.ITEM_IDS.size() - 1);
                 } else { //Normal IDs
-                    id = ItemUITemplate.ITEM_IDS.get(i - ID_FROM_NOT_VARIABLE_INT.size() - 1);
+                    id = ItemUi.ITEM_IDS.get(i - ID_FROM_NOT_VARIABLE_INT.size() - 1);
                 }
                 if (notVariable.get(i).getText().matches("[+-]?\\d*(\\.\\d+)?") && !notVariable.get(i).getText().equals("0")) {
                     if (j.get(id.getItemFieldPos().getKey()) == null) j.add(id.getItemFieldPos().getKey(), JsonParser.parseString("{}"));
@@ -446,17 +451,17 @@ public class CustomUI implements ActionListener {
                     } else { //ID Variable
                         int min = Integer.parseInt(notVariable.get(i).getText());
                         int max = Integer.parseInt(notVariable.get(i).getText());
-                        if (SearchUI.isReversedID(id)) {
+                        if (ItemBase.isReversedId(id)) {
                             if (min > 0) {
-                                min = ItemUITemplate.getReversedMinInt(min);
-                                max = ItemUITemplate.getReversedMaxInt(max);
+                                min = ItemUi.getReversedMinInt(min);
+                                max = ItemUi.getReversedMaxInt(max);
                             } else {
-                                min = ItemUITemplate.getReversedMaxInt(min);
-                                max = ItemUITemplate.getReversedMinInt(max);
+                                min = ItemUi.getReversedMaxInt(min);
+                                max = ItemUi.getReversedMinInt(max);
                             }
                         } else {
-                            min = ItemUITemplate.getMinInt(min);
-                            max = ItemUITemplate.getMaxInt(max);
+                            min = ItemUi.getMinInt(min);
+                            max = ItemUi.getMaxInt(max);
                         }
 
                         j.get(id.getItemFieldPos().getKey()).getAsJsonObject().add(id.getItemName(), JsonParser.parseString("{\"min\":" + min + ",\"max\":" + max + "}"));
@@ -510,7 +515,7 @@ public class CustomUI implements ActionListener {
         j.addProperty(JsonKeys.TYPE.getKey(), selectedType);
         j.addProperty("identified", !variable.isSelected());
 
-        ItemUITemplate itemUI = new ItemUITemplate(j, ItemType.ITEM, null, null, 270, 0, true, null);
+        ItemUi itemUI = new EquipmentUi(new Item(j), ItemType.ITEM, null, null, 270, 0, true);
         display.add(itemUI);
         if (itemUI.getBounds().y + itemUI.getBounds().height > 497) {
             display.setPreferredSize(new Dimension(270, itemUI.getBounds().y + itemUI.getBounds().height));
@@ -525,7 +530,7 @@ public class CustomUI implements ActionListener {
         display.removeAll();
         if (itemText.getText().contains("CI-")) {
             JsonObject j = JsonParser.parseString(itemText.getText().replace("CI-", "")).getAsJsonObject();
-            ItemUITemplate itemUI = new ItemUITemplate(j, ItemType.ITEM, null, null, 270, 0, true, null);
+            ItemUi itemUI = new EquipmentUi(new Item(j), ItemType.ITEM, null, null, 270, 0, true);
             display.add(itemUI);
             if (itemUI.getBounds().y + itemUI.getBounds().height > 497) {
                 display.setPreferredSize(new Dimension(270, itemUI.getBounds().y + itemUI.getBounds().height));
@@ -541,10 +546,10 @@ public class CustomUI implements ActionListener {
                 Identifications id;
                 if (i <= 12) {
                     id = ID_FROM_NOT_VARIABLE_INT.get(i);
-                } else if (i - ID_FROM_NOT_VARIABLE_INT.size() > ItemUITemplate.ITEM_IDS.size()) { //Reversed IDs
-                    id = ItemUITemplate.REVERSED_ITEM_IDS.get(i - ID_FROM_NOT_VARIABLE_INT.size() - ItemUITemplate.ITEM_IDS.size() - 1);
+                } else if (i - ID_FROM_NOT_VARIABLE_INT.size() > ItemUi.ITEM_IDS.size()) { //Reversed IDs
+                    id = ItemUi.REVERSED_ITEM_IDS.get(i - ID_FROM_NOT_VARIABLE_INT.size() - ItemUi.ITEM_IDS.size() - 1);
                 } else { //Normal IDs
-                    id = ItemUITemplate.ITEM_IDS.get(i - ID_FROM_NOT_VARIABLE_INT.size() - 1);
+                    id = ItemUi.ITEM_IDS.get(i - ID_FROM_NOT_VARIABLE_INT.size() - 1);
                 }
                 if (j.get(id.getItemFieldPos().getKey()) != null && j.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
                     JsonElement je = j.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
@@ -552,8 +557,8 @@ public class CustomUI implements ActionListener {
                         notVariable.get(i).setText(String.valueOf(je.getAsInt()));
                     } else {
                         String getMinOrMax = JsonKeys.MAX.getKey();
-                        if (je.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt() < 0 && !SearchUI.isReversedID(id)) getMinOrMax = JsonKeys.MIN.getKey();
-                        notVariable.get(i).setText(String.valueOf(SearchUI.getBaseID(je.getAsJsonObject().get(getMinOrMax).getAsInt())));
+                        if (je.getAsJsonObject().get(JsonKeys.MAX.getKey()).getAsInt() < 0 && !ItemBase.isReversedId(id)) getMinOrMax = JsonKeys.MIN.getKey();
+                        notVariable.get(i).setText(String.valueOf(ItemBase.getBaseId(je.getAsJsonObject().get(getMinOrMax).getAsInt())));
                     }
                 } else {
                     notVariable.get(i).setText("");

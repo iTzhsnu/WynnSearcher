@@ -25,6 +25,7 @@ public class DataKeys {
     public static final String RARITY_3STAR = "3 Star";
 
     // Sort Type
+    public static final String SORT_MAX = "Sort: Max";
     public static final String SORT_MIN = "Sort: Min";
 
     // Damage appropriate for the weapon

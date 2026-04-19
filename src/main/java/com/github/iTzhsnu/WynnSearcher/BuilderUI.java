@@ -2,7 +2,10 @@ package com.github.iTzhsnu.WynnSearcher;
 
 import com.github.iTzhsnu.WynnSearcher.builder.*;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.*;
-import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
+import com.github.iTzhsnu.WynnSearcher.data.ItemBase;
+import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
+import com.github.iTzhsnu.WynnSearcher.ui.ItemBoxAdapter;
+import com.github.iTzhsnu.WynnSearcher.ui.UiUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -19,29 +22,6 @@ public class BuilderUI implements ActionListener {
     private final JPanel pane = new JPanel();
     private final JScrollPane scrollPane;
 
-    //Json
-    private final List<JsonObject> itemAPI;
-    private final List<JsonObject> weaponJson = new ArrayList<>();
-    private final List<JsonObject> helmetJson = new ArrayList<>();
-    private final List<JsonObject> chestplateJson = new ArrayList<>();
-    private final List<JsonObject> leggingsJson = new ArrayList<>();
-    private final List<JsonObject> bootsJson = new ArrayList<>();
-    private final List<JsonObject> ringJson = new ArrayList<>();
-    private final List<JsonObject> braceletJson = new ArrayList<>();
-    private final List<JsonObject> necklaceJson = new ArrayList<>();
-    private final List<JsonObject> ingAPI;
-    private final List<JsonObject> recipeAPI;
-    private final List<JsonObject> otherItemAPI;
-    private final List<JsonObject> armourTomeJson = new ArrayList<>();
-    private final List<JsonObject> weaponTomeJson = new ArrayList<>();
-    private final List<JsonObject> guildTomeJson = new ArrayList<>();
-    private final List<JsonObject> lootrunTomeJson = new ArrayList<>();
-    private final List<JsonObject> marathonTomeJson = new ArrayList<>();
-    private final List<JsonObject> expertiseTomeJson = new ArrayList<>();
-    private final List<JsonObject> mysticismTomeJson = new ArrayList<>();
-
-    private final List<JsonObject> aspectJson;
-
     //UIs
     private final List<JLabel> texts = new ArrayList<>();
     private final List<JComboBox<String>> itemBox = new ArrayList<>();
@@ -50,11 +30,11 @@ public class BuilderUI implements ActionListener {
     private final JButton update = new JButton("Update");
     private final JButton save = new JButton("Save");
     private final JButton load = new JButton("Load");
-    private final JTextField output = SearchUI.createNoBeepTextField();
+    private final JTextField output = UiUtils.createNoBeepTextField();
 
     //API Connect
-    private final JLabel itemConnect;
-    private final JLabel recipeConnect;
+    private final JLabel itemConnect = new JLabel();
+    private final JLabel recipeConnect = new JLabel();
     private final JLabel treeConnect = new JLabel("Tree API Connected");
 
     //Skill Point, Damage IDs and ID Display
@@ -75,15 +55,7 @@ public class BuilderUI implements ActionListener {
     private final TreeBase mage;
     private final TreeBase shaman;
 
-    public BuilderUI(Container p, List<JsonObject> itemAPI, List<JsonObject> ingAPI, List<JsonObject> otherItemAPI, List<JsonObject> aspectAPI, List<JsonObject> recipeAPI, JLabel itemAPIConnect, String recipeAPIConnect) {
-        this.itemAPI = itemAPI;
-        this.ingAPI = ingAPI;
-        this.recipeAPI = recipeAPI;
-        this.otherItemAPI = otherItemAPI;
-        this.aspectJson = aspectAPI;
-        setJson(itemAPI);
-        setTomeJson();
-
+    public BuilderUI(Container p) {
         pane.setPreferredSize(new Dimension(1064, 2185));
         pane.setLayout(null);
 
@@ -91,20 +63,13 @@ public class BuilderUI implements ActionListener {
         scrollPane.setBounds(2, 30, 1082, 730);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
-        itemConnect = new JLabel(itemAPIConnect.getText());
-        recipeConnect = new JLabel(recipeAPIConnect);
-        itemConnect.setForeground(itemAPIConnect.getForeground());
-        if (recipeAPIConnect.equals("Recipe API Connected")) {
-            recipeConnect.setForeground(new Color(0, 169, 104));
-        } else if (recipeAPIConnect.equals("Archive Loaded")) {
-            recipeConnect.setForeground(new Color(0, 169, 104));
-        } else {
-            recipeConnect.setForeground(new Color(255, 0, 0));
-        }
+        ApiDataManager api = ApiDataManager.getManager();
+        ApiDataManager.setApiConnectText(itemConnect, "Item", api.itemApiConnect);
+        ApiDataManager.setApiConnectText(recipeConnect, "Recipe", api.recipeApiConnect);
         itemConnect.setBounds(400, 5, 150, 20);
         recipeConnect.setBounds(600, 5, 150, 20);
 
-        setComboBox();
+        setComboBoxes(api);
 
         create.setBounds(860, 10, 80, 40);
         create.addActionListener(this);
@@ -147,11 +112,11 @@ public class BuilderUI implements ActionListener {
 
         treeConnect.setForeground(new Color(0, 169, 104));
         treeConnect.setBounds(800, 5, 150, 20);
-        warrior = new TreeBase(pane, Archetype.FALLEN, Archetype.BATTLE_MONK, Archetype.PALADIN, "warrior", treeConnect);
-        assassin = new TreeBase(pane, Archetype.SHADESTEPPER, Archetype.TRICKSTER, Archetype.ACROBAT, "assassin", treeConnect);
-        archer = new TreeBase(pane, Archetype.BOLTSLINGER, Archetype.SHARPSHOOTER, Archetype.TRAPPER, "archer", treeConnect);
-        mage = new TreeBase(pane, Archetype.RIFTWALKER, Archetype.LIGHT_BENDER, Archetype.ARCANIST, "mage", treeConnect);
-        shaman = new TreeBase(pane, Archetype.SUMMONER, Archetype.RITUALIST, Archetype.ACOLYTE, "shaman", treeConnect);
+        warrior = new TreeBase(pane, Archetype.FALLEN, Archetype.BATTLE_MONK, Archetype.PALADIN, JsonValues.WARRIOR, treeConnect);
+        assassin = new TreeBase(pane, Archetype.SHADESTEPPER, Archetype.TRICKSTER, Archetype.ACROBAT, JsonValues.ASSASSIN, treeConnect);
+        archer = new TreeBase(pane, Archetype.BOLTSLINGER, Archetype.SHARPSHOOTER, Archetype.TRAPPER, JsonValues.ARCHER, treeConnect);
+        mage = new TreeBase(pane, Archetype.RIFTWALKER, Archetype.LIGHT_BENDER, Archetype.ARCANIST, JsonValues.MAGE, treeConnect);
+        shaman = new TreeBase(pane, Archetype.SUMMONER, Archetype.RITUALIST, Archetype.ACOLYTE, JsonValues.SHAMAN, treeConnect);
 
         setClassOnlyDisplayVisible();
 
@@ -170,104 +135,6 @@ public class BuilderUI implements ActionListener {
         p.add(treeConnect);
     }
 
-    public void setTomeJson() {
-        for (JsonObject j : otherItemAPI) {
-            if (j.get(JsonKeys.SUBTYPE.getKey()) != null) {
-                switch (j.get(JsonKeys.SUBTYPE.getKey()).getAsString()) {
-                    case "guild_tome": //x1 Slots
-                        guildTomeJson.add(j);
-                        break;
-                    case "marathon_tome": //x2 Slots
-                        marathonTomeJson.add(j);
-                        break;
-                    case "expertise_tome": //x2 Slots
-                        expertiseTomeJson.add(j);
-                        break;
-                    case "lootrun_tome": //x1 Slots
-                        lootrunTomeJson.add(j);
-                        break;
-                    case "mysticism_tome": //x2 Slots
-                        mysticismTomeJson.add(j);
-                        break;
-                    case "weapon_tome": //x2 Slots
-                        weaponTomeJson.add(j);
-                        break;
-                    case "armour_tome": //x4 Slots
-                        armourTomeJson.add(j);
-                        break;
-                }
-            }
-        }
-    }
-
-    public void setJson(List<JsonObject> jsonList) {
-        for (JsonObject item : jsonList) {
-            if (item.get(JsonKeys.SUBTYPE.getKey()) != null) {
-                switch (item.get(JsonKeys.SUBTYPE.getKey()).getAsString()) {
-                    case "bow":
-                    case "spear":
-                    case "wand":
-                    case "dagger":
-                    case "relik":
-                        weaponJson.add(item);
-                        break;
-                    case "helmet":
-                        helmetJson.add(item);
-                        break;
-                    case "chestplate":
-                        chestplateJson.add(item);
-                        break;
-                    case "leggings":
-                        leggingsJson.add(item);
-                        break;
-                    case "boots":
-                        bootsJson.add(item);
-                        break;
-                    case "ring":
-                        ringJson.add(item);
-                        break;
-                    case "bracelet":
-                        braceletJson.add(item);
-                        break;
-                    case "necklace":
-                        necklaceJson.add(item);
-                        break;
-                }
-            }
-
-            //if (item.get("weaponType") != null) {
-            //    weaponJson.add(item);
-            //} else if (item.get("armourType") != null) {
-            //    switch (item.get("armourType").getAsString()) {
-            //        case "helmet":
-            //            helmetJson.add(item);
-            //            break;
-            //        case "chestplate":
-            //            chestplateJson.add(item);
-            //            break;
-            //        case "leggings":
-            //            leggingsJson.add(item);
-            //            break;
-            //        case "boots":
-            //            bootsJson.add(item);
-            //            break;
-            //    }
-            //} else if (item.get("accessoryType") != null) {
-            //    switch (item.get("accessoryType").getAsString()) {
-            //        case "ring":
-            //            ringJson.add(item);
-            //            break;
-            //        case "bracelet":
-            //            braceletJson.add(item);
-            //            break;
-            //        case "necklace":
-            //            necklaceJson.add(item);
-            //            break;
-            //    }
-            //}
-        }
-    }
-
     public void setBuilderVisible(boolean visible) {
         scrollPane.setVisible(visible);
         itemConnect.setVisible(visible);
@@ -275,6 +142,7 @@ public class BuilderUI implements ActionListener {
         treeConnect.setVisible(visible);
     }
 
+    // TODO Update
     public void setClassOnlyDisplayVisible() {
         boolean archerB = false;
         boolean mageB = false;
@@ -353,194 +221,89 @@ public class BuilderUI implements ActionListener {
         }
     }
 
-    public void setComboBox() {
-        JComboBox<String> helmetBox = SearchUI.createNoBeepComboBox();
-        JComboBox<String> chestplateBox = SearchUI.createNoBeepComboBox();
-        JComboBox<String> leggingsBox = SearchUI.createNoBeepComboBox();
-        JComboBox<String> bootsBox = SearchUI.createNoBeepComboBox();
+    public void setComboBoxes(ApiDataManager api) {
+        JComboBox<String> helmetBox = setComboBox(api.helmetData);
+        JComboBox<String> chestplateBox = setComboBox(api.chestplateData);
+        JComboBox<String> leggingsBox = setComboBox(api.leggingsData);
+        JComboBox<String> bootsBox = setComboBox(api.bootsData);
 
-        JComboBox<String> ring1Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> ring2Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> braceletBox = SearchUI.createNoBeepComboBox();
-        JComboBox<String> necklaceBox = SearchUI.createNoBeepComboBox();
-        JComboBox<String> weaponBox = SearchUI.createNoBeepComboBox();
+        JComboBox<String> ring1Box = setComboBox(api.ringData);
+        JComboBox<String> ring2Box = setComboBox(api.ringData);
+        JComboBox<String> braceletBox = setComboBox(api.braceletData);
+        JComboBox<String> necklaceBox = setComboBox(api.necklaceData);
+        JComboBox<String> weaponBox = setComboBox(api.weaponData);
 
-        JComboBox<String> armourTome1Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> armourTome2Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> armourTome3Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> armourTome4Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> guildTomeBox = SearchUI.createNoBeepComboBox();
+        JComboBox<String> armourTome1Box = setComboBox(api.armourTomeData);
+        JComboBox<String> armourTome2Box = setComboBox(api.armourTomeData);
+        JComboBox<String> armourTome3Box = setComboBox(api.armourTomeData);
+        JComboBox<String> armourTome4Box = setComboBox(api.armourTomeData);
+        JComboBox<String> guildTomeBox = setComboBox(api.guildTomeData);
 
-        JComboBox<String> weaponTome1Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> weaponTome2Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> marathonTome1Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> marathonTome2Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> lootrunTomeBox = SearchUI.createNoBeepComboBox();
+        JComboBox<String> weaponTome1Box = setComboBox(api.weaponTomeData);
+        JComboBox<String> weaponTome2Box = setComboBox(api.weaponTomeData);
+        JComboBox<String> marathonTome1Box = setComboBox(api.marathonTomeData);
+        JComboBox<String> marathonTome2Box = setComboBox(api.marathonTomeData);
+        JComboBox<String> lootrunTomeBox = setComboBox(api.lootrunTomeData);
 
-        JComboBox<String> expertiseTome1Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> expertiseTome2Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> mysticismTome1Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> mysticismTome2Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> expertiseTome1Box = setComboBox(api.expertiseTomeData);
+        JComboBox<String> expertiseTome2Box = setComboBox(api.expertiseTomeData);
+        JComboBox<String> mysticismTome1Box = setComboBox(api.mysticismTomeData);
+        JComboBox<String> mysticismTome2Box = setComboBox(api.mysticismTomeData);
 
-        JComboBox<String> aspect1Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> aspect2Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> aspect3Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> aspect4Box = SearchUI.createNoBeepComboBox();
-        JComboBox<String> aspect5Box = SearchUI.createNoBeepComboBox();
+        JComboBox<String> aspect1Box = setComboBox(api.aspects);
+        JComboBox<String> aspect2Box = setComboBox(api.aspects);
+        JComboBox<String> aspect3Box = setComboBox(api.aspects);
+        JComboBox<String> aspect4Box = setComboBox(api.aspects);
+        JComboBox<String> aspect5Box = setComboBox(api.aspects);
 
-        for (JsonObject j : helmetJson) {
-            if (j.get("name") != null) {
-                helmetBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : chestplateJson) {
-            if (j.get("name") != null) {
-                chestplateBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : leggingsJson) {
-            if (j.get("name") != null) {
-                leggingsBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : bootsJson) {
-            if (j.get("name") != null) {
-                bootsBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : ringJson) {
-            if (j.get("name") != null) {
-                ring1Box.addItem(j.get("name").getAsString());
-                ring2Box.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : braceletJson) {
-            if (j.get("name") != null) {
-                braceletBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : necklaceJson) {
-            if (j.get("name") != null) {
-                necklaceBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : weaponJson) {
-            if (j.get("name") != null) {
-                weaponBox.addItem(j.get("name").getAsString());
-            }
-        }
-
-        for (JsonObject j : armourTomeJson) {
-            armourTome1Box.addItem(j.get("name").getAsString());
-            armourTome2Box.addItem(j.get("name").getAsString());
-            armourTome3Box.addItem(j.get("name").getAsString());
-            armourTome4Box.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : guildTomeJson) {
-            guildTomeBox.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : weaponTomeJson) {
-            weaponTome1Box.addItem(j.get("name").getAsString());
-            weaponTome2Box.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : marathonTomeJson) {
-            marathonTome1Box.addItem(j.get("name").getAsString());
-            marathonTome2Box.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : lootrunTomeJson) {
-            lootrunTomeBox.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : expertiseTomeJson) {
-            expertiseTome1Box.addItem(j.get("name").getAsString());
-            expertiseTome2Box.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : mysticismTomeJson) {
-            mysticismTome1Box.addItem(j.get("name").getAsString());
-            mysticismTome2Box.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : aspectJson) {
-            aspect1Box.addItem(j.get("name").getAsString());
-            aspect2Box.addItem(j.get("name").getAsString());
-            aspect3Box.addItem(j.get("name").getAsString());
-            aspect4Box.addItem(j.get("name").getAsString());
-            aspect5Box.addItem(j.get("name").getAsString());
-        }
-
-        //Helmet
-        helmetBox.setEditable(true);
-        helmetBox.setSelectedIndex(-1);
-        helmetBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(helmetBox, helmetJson));
+        // Helmet
         helmetBox.setBounds(10, 10, 200, 20);
         itemBox.add(helmetBox);
 
-        JTextField helmetPowder = SearchUI.createNoBeepTextField();
+        JTextField helmetPowder = UiUtils.createNoBeepTextField();
         helmetPowder.setBounds(130, 35, 80, 20);
         powderField.add(helmetPowder);
 
         //Chestplate
-        chestplateBox.setEditable(true);
-        chestplateBox.setSelectedIndex(-1);
-        chestplateBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(chestplateBox, chestplateJson));
         chestplateBox.setBounds(220, 10, 200, 20);
         itemBox.add(chestplateBox);
 
-        JTextField chestplatePowder = SearchUI.createNoBeepTextField();
+        JTextField chestplatePowder = UiUtils.createNoBeepTextField();
         chestplatePowder.setBounds(340, 35, 80, 20);
         powderField.add(chestplatePowder);
 
         //Leggings
-        leggingsBox.setEditable(true);
-        leggingsBox.setSelectedIndex(-1);
-        leggingsBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(leggingsBox, leggingsJson));
         leggingsBox.setBounds(430, 10, 200, 20);
         itemBox.add(leggingsBox);
 
-        JTextField leggingsPowder = SearchUI.createNoBeepTextField();
+        JTextField leggingsPowder = UiUtils.createNoBeepTextField();
         leggingsPowder.setBounds(550, 35, 80, 20);
         powderField.add(leggingsPowder);
 
         //Boots
-        bootsBox.setEditable(true);
-        bootsBox.setSelectedIndex(-1);
-        bootsBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(bootsBox, bootsJson));
         bootsBox.setBounds(640, 10, 200, 20);
         itemBox.add(bootsBox);
 
-        JTextField bootsPowder = SearchUI.createNoBeepTextField();
+        JTextField bootsPowder = UiUtils.createNoBeepTextField();
         bootsPowder.setBounds(760, 35, 80, 20);
         powderField.add(bootsPowder);
 
         //Rings
-        ring1Box.setEditable(true);
-        ring1Box.setSelectedIndex(-1);
-        ring1Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(ring1Box, ringJson));
         ring1Box.setBounds(10, 65, 200, 20);
         itemBox.add(ring1Box);
 
-        ring2Box.setEditable(true);
-        ring2Box.setSelectedIndex(-1);
-        ring2Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(ring2Box, ringJson));
         ring2Box.setBounds(220, 65, 200, 20);
         itemBox.add(ring2Box);
 
         //Bracelet
-        braceletBox.setEditable(true);
-        braceletBox.setSelectedIndex(-1);
-        braceletBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(braceletBox, braceletJson));
         braceletBox.setBounds(430, 65, 200, 20);
         itemBox.add(braceletBox);
 
         //Necklace
-        necklaceBox.setEditable(true);
-        necklaceBox.setSelectedIndex(-1);
-        necklaceBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(necklaceBox, necklaceJson));
         necklaceBox.setBounds(640, 65, 200, 20);
         itemBox.add(necklaceBox);
 
         //Weapon
-        weaponBox.setEditable(true);
-        weaponBox.setSelectedIndex(-1);
-        weaponBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(weaponBox, weaponJson));
         weaponBox.setBounds(850, 65, 200, 20);
         itemBox.add(weaponBox);
 
@@ -549,124 +312,67 @@ public class BuilderUI implements ActionListener {
         powderField.add(weaponPowder);
 
         //Armour Tomes
-        armourTome1Box.setEditable(true);
-        armourTome1Box.setSelectedIndex(-1);
-        armourTome1Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(armourTome1Box, armourTomeJson));
         armourTome1Box.setBounds(10, 120, 200, 20);
         itemBox.add(armourTome1Box);
 
-        armourTome2Box.setEditable(true);
-        armourTome2Box.setSelectedIndex(-1);
-        armourTome2Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(armourTome2Box, armourTomeJson));
         armourTome2Box.setBounds(220, 120, 200, 20);
         itemBox.add(armourTome2Box);
 
-        armourTome3Box.setEditable(true);
-        armourTome3Box.setSelectedIndex(-1);
-        armourTome3Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(armourTome3Box, armourTomeJson));
         armourTome3Box.setBounds(430, 120, 200, 20);
         itemBox.add(armourTome3Box);
 
-        armourTome4Box.setEditable(true);
-        armourTome4Box.setSelectedIndex(-1);
-        armourTome4Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(armourTome4Box, armourTomeJson));
         armourTome4Box.setBounds(640, 120, 200, 20);
         itemBox.add(armourTome4Box);
 
         //Guild Tome
-        guildTomeBox.setEditable(true);
-        guildTomeBox.setSelectedIndex(-1);
-        guildTomeBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(guildTomeBox, guildTomeJson));
         guildTomeBox.setBounds(850, 120, 200, 20);
         itemBox.add(guildTomeBox);
 
         //Weapon Tomes
-        weaponTome1Box.setEditable(true);
-        weaponTome1Box.setSelectedIndex(-1);
-        weaponTome1Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(weaponTome1Box, weaponTomeJson));
         weaponTome1Box.setBounds(10, 175, 200, 20);
         itemBox.add(weaponTome1Box);
 
-        weaponTome2Box.setEditable(true);
-        weaponTome2Box.setSelectedIndex(-1);
-        weaponTome2Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(weaponTome2Box, weaponTomeJson));
         weaponTome2Box.setBounds(220, 175, 200, 20);
         itemBox.add(weaponTome2Box);
 
         //Marathon Tomes
-        marathonTome1Box.setEditable(true);
-        marathonTome1Box.setSelectedIndex(-1);
-        marathonTome1Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(marathonTome1Box, marathonTomeJson));
         marathonTome1Box.setBounds(430, 175, 200, 20);
         itemBox.add(marathonTome1Box);
 
-        marathonTome2Box.setEditable(true);
-        marathonTome2Box.setSelectedIndex(-1);
-        marathonTome2Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(marathonTome2Box, marathonTomeJson));
         marathonTome2Box.setBounds(640, 175, 200, 20);
         itemBox.add(marathonTome2Box);
 
         //Lootrun Tome
-        lootrunTomeBox.setEditable(true);
-        lootrunTomeBox.setSelectedIndex(-1);
-        lootrunTomeBox.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(lootrunTomeBox, lootrunTomeJson));
         lootrunTomeBox.setBounds(850, 175, 200, 20);
         itemBox.add(lootrunTomeBox);
 
         //Expertise Tomes
-        expertiseTome1Box.setEditable(true);
-        expertiseTome1Box.setSelectedIndex(-1);
-        expertiseTome1Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(expertiseTome1Box, expertiseTomeJson));
         expertiseTome1Box.setBounds(10, 230, 200, 20);
         itemBox.add(expertiseTome1Box);
 
-        expertiseTome2Box.setEditable(true);
-        expertiseTome2Box.setSelectedIndex(-1);
-        expertiseTome2Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(expertiseTome2Box, expertiseTomeJson));
         expertiseTome2Box.setBounds(220, 230, 200, 20);
         itemBox.add(expertiseTome2Box);
 
         //Mysticism Tomes
-        mysticismTome1Box.setEditable(true);
-        mysticismTome1Box.setSelectedIndex(-1);
-        mysticismTome1Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(mysticismTome1Box, mysticismTomeJson));
         mysticismTome1Box.setBounds(430, 230, 200, 20);
         itemBox.add(mysticismTome1Box);
 
-        mysticismTome2Box.setEditable(true);
-        mysticismTome2Box.setSelectedIndex(-1);
-        mysticismTome2Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(mysticismTome2Box, mysticismTomeJson));
         mysticismTome2Box.setBounds(640, 230, 200, 20);
         itemBox.add(mysticismTome2Box);
 
         //Aspects
-        aspect1Box.setEditable(true);
-        aspect1Box.setSelectedIndex(-1);
-        aspect1Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect1Box, aspectJson));
         aspect1Box.setBounds(10, 285, 200, 20);
         itemBox.add(aspect1Box);
 
-        aspect2Box.setEditable(true);
-        aspect2Box.setSelectedIndex(-1);
-        aspect2Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect2Box, aspectJson));
         aspect2Box.setBounds(220, 285, 200, 20);
         itemBox.add(aspect2Box);
 
-        aspect3Box.setEditable(true);
-        aspect3Box.setSelectedIndex(-1);
-        aspect3Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect3Box, aspectJson));
         aspect3Box.setBounds(430, 285, 200, 20);
         itemBox.add(aspect3Box);
 
-        aspect4Box.setEditable(true);
-        aspect4Box.setSelectedIndex(-1);
-        aspect4Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect4Box, aspectJson));
         aspect4Box.setBounds(640, 285, 200, 20);
         itemBox.add(aspect4Box);
 
-        aspect5Box.setEditable(true);
-        aspect5Box.setSelectedIndex(-1);
-        aspect5Box.getEditor().getEditorComponent().addKeyListener(new CrafterUI.Adapter(aspect5Box, aspectJson));
         aspect5Box.setBounds(850, 285, 200, 20);
         itemBox.add(aspect5Box);
 
@@ -779,24 +485,23 @@ public class BuilderUI implements ActionListener {
         }
     }
 
-    public void updateAPIs() {
-        if (!weaponJson.isEmpty()) weaponJson.clear();
-        if (!helmetJson.isEmpty()) helmetJson.clear();
-        if (!chestplateJson.isEmpty()) chestplateJson.clear();
-        if (!leggingsJson.isEmpty()) leggingsJson.clear();
-        if (!bootsJson.isEmpty()) bootsJson.clear();
-        if (!ringJson.isEmpty()) ringJson.clear();
-        if (!braceletJson.isEmpty()) braceletJson.clear();
-        if (!necklaceJson.isEmpty()) necklaceJson.clear();
-        setJson(itemAPI);
-        if (!weaponTomeJson.isEmpty()) weaponTomeJson.clear();
-        if (!guildTomeJson.isEmpty()) guildTomeJson.clear();
-        if (!armourTomeJson.isEmpty()) armourTomeJson.clear();
-        if (!lootrunTomeJson.isEmpty()) lootrunTomeJson.clear();
-        if (!marathonTomeJson.isEmpty()) marathonTomeJson.clear();
-        if (!expertiseTomeJson.isEmpty()) expertiseTomeJson.clear();
-        if (!mysticismTomeJson.isEmpty()) mysticismTomeJson.clear();
-        setTomeJson();
+    public <T extends ItemBase> JComboBox<String> setComboBox(List<T> items) {
+        JComboBox<String> box = UiUtils.createNoBeepComboBox();
+        setBoxItem(box, items);
+
+        box.setEditable(true);
+        box.setSelectedIndex(-1);
+        box.getEditor().getEditorComponent().addKeyListener(new ItemBoxAdapter<>(box, items));
+        return box;
+    }
+
+    public <T extends ItemBase> void setBoxItem(JComboBox<String> box, List<T> items) {
+        for (T i : items) {
+            if (!i.getName().isEmpty()) box.addItem(i.getName());
+        }
+    }
+
+    public void updateApi() {
         for (JComboBox<String> b : itemBox) b.removeAllItems();
 
         JComboBox<String> helmetBox = itemBox.get(0);
@@ -826,79 +531,34 @@ public class BuilderUI implements ActionListener {
         JComboBox<String> mysticismTome1Box = itemBox.get(21);
         JComboBox<String> mysticismTome2Box = itemBox.get(22);
 
-        for (JsonObject j : helmetJson) {
-            if (j.get("name") != null) {
-                helmetBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : chestplateJson) {
-            if (j.get("name") != null) {
-                chestplateBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : leggingsJson) {
-            if (j.get("name") != null) {
-                leggingsBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : bootsJson) {
-            if (j.get("name") != null) {
-                bootsBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : ringJson) {
-            if (j.get("name") != null) {
-                ring1Box.addItem(j.get("name").getAsString());
-                ring2Box.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : braceletJson) {
-            if (j.get("name") != null) {
-                braceletBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : necklaceJson) {
-            if (j.get("name") != null) {
-                necklaceBox.addItem(j.get("name").getAsString());
-            }
-        }
-        for (JsonObject j : weaponJson) {
-            if (j.get("name") != null) {
-                weaponBox.addItem(j.get("name").getAsString());
-            }
-        }
+        ApiDataManager api = ApiDataManager.getManager();
+        setBoxItem(helmetBox, api.helmetData);
+        setBoxItem(chestplateBox, api.chestplateData);
+        setBoxItem(leggingsBox, api.leggingsData);
+        setBoxItem(bootsBox, api.bootsData);
 
-        for (JsonObject j : armourTomeJson) {
-            armourTome1Box.addItem(j.get("name").getAsString());
-            armourTome2Box.addItem(j.get("name").getAsString());
-            armourTome3Box.addItem(j.get("name").getAsString());
-            armourTome4Box.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : guildTomeJson) {
-            guildTomeBox.addItem(j.get("name").getAsString());
-        }
+        setBoxItem(ring1Box, api.ringData);
+        setBoxItem(ring2Box, api.ringData);
+        setBoxItem(braceletBox, api.braceletData);
+        setBoxItem(necklaceBox, api.necklaceData);
+        setBoxItem(weaponBox, api.weaponData);
 
-        for (JsonObject j : weaponTomeJson) {
-            weaponTome1Box.addItem(j.get("name").getAsString());
-            weaponTome2Box.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : marathonTomeJson) {
-            marathonTome1Box.addItem(j.get("name").getAsString());
-            marathonTome2Box.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : lootrunTomeJson) {
-            lootrunTomeBox.addItem(j.get("name").getAsString());
-        }
+        setBoxItem(armourTome1Box, api.armourTomeData);
+        setBoxItem(armourTome2Box, api.armourTomeData);
+        setBoxItem(armourTome3Box, api.armourTomeData);
+        setBoxItem(armourTome4Box, api.armourTomeData);
+        setBoxItem(guildTomeBox, api.guildTomeData);
 
-        for (JsonObject j : expertiseTomeJson) {
-            expertiseTome1Box.addItem(j.get("name").getAsString());
-            expertiseTome2Box.addItem(j.get("name").getAsString());
-        }
-        for (JsonObject j : mysticismTomeJson) {
-            mysticismTome1Box.addItem(j.get("name").getAsString());
-            mysticismTome2Box.addItem(j.get("name").getAsString());
-        }
+        setBoxItem(weaponTome1Box, api.weaponTomeData);
+        setBoxItem(weaponTome2Box, api.weaponTomeData);
+        setBoxItem(marathonTome1Box, api.marathonTomeData);
+        setBoxItem(marathonTome2Box, api.marathonTomeData);
+        setBoxItem(lootrunTomeBox, api.lootrunTomeData);
 
+        setBoxItem(expertiseTome1Box, api.expertiseTomeData);
+        setBoxItem(expertiseTome2Box, api.expertiseTomeData);
+        setBoxItem(mysticismTome1Box, api.mysticismTomeData);
+        setBoxItem(mysticismTome2Box, api.mysticismTomeData);
 
         for (JComboBox<String> b : itemBox) b.setSelectedIndex(-1);
         itemConnect.setText("Item API Latest");
@@ -922,7 +582,7 @@ public class BuilderUI implements ActionListener {
 
     public void getItemID_And_Display() {
         comprehensive_Display.reset();
-        item_display.setItem_Display(itemBox, ingAPI, recipeAPI, helmetJson, chestplateJson, leggingsJson, bootsJson, ringJson, braceletJson, necklaceJson, weaponJson, armourTomeJson, guildTomeJson, weaponTomeJson, marathonTomeJson, lootrunTomeJson, expertiseTomeJson, mysticismTomeJson, aspectJson, classes.getSelectedIndex());
+        item_display.setItem_Display(itemBox, classes.getSelectedIndex());
         id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), abilityBuffs ,powder_effects, powderField, classes.getSelectedIndex(), false);
         skillPoint.setSkillPoint(item_display.getItemJsons(), id_display.getSetBonuses());
         damage_display.setDamage_Display(item_display.getItemJsons(), skillPoint, abilityBuffs, getTree(), powder_effects, id_display.getId_Numbers(), powderField);

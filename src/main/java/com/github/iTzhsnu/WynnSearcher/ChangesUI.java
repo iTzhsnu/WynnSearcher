@@ -1,6 +1,13 @@
 package com.github.iTzhsnu.WynnSearcher;
 
+import com.github.iTzhsnu.WynnSearcher.data.Ingredient;
+import com.github.iTzhsnu.WynnSearcher.data.Item;
+import com.github.iTzhsnu.WynnSearcher.data.ItemBase;
 import com.github.iTzhsnu.WynnSearcher.general.ItemType;
+import com.github.iTzhsnu.WynnSearcher.ui.EquipmentUi;
+import com.github.iTzhsnu.WynnSearcher.ui.IngredientUi;
+import com.github.iTzhsnu.WynnSearcher.ui.ItemUi;
+import com.github.iTzhsnu.WynnSearcher.ui.OthersUi;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -23,25 +30,18 @@ public class ChangesUI implements ActionListener {
     private final File itemFile;
     private final File ingFile;
     private final File otherFile;
-    private final List<JsonObject> itemLatest;
-    private final List<JsonObject> ingLatest;
-    private final List<JsonObject> otherLatest;
-
     private final JComboBox<String> type = new JComboBox<>();
     private final JComboBox<String> before = new JComboBox<>();
     private final JComboBox<String> after = new JComboBox<>();
     private final JComboBox<String> check_type = new JComboBox<>();
 
-    public ChangesUI(SearchUI search, List<JsonObject> itemLatest, List<JsonObject> ingLatest, List<JsonObject> otherLatest) {
+    public ChangesUI(SearchUI search) {
         this.search = search;
         Container pane = search.getContentPane();
-        GetAPI getAPI = new GetAPI();
-        itemFile = getAPI.getOldItemFile();
-        ingFile = getAPI.getOldIngFile();
-        otherFile = getAPI.getOldOtherFile();
-        this.itemLatest = itemLatest;
-        this.ingLatest = ingLatest;
-        this.otherLatest = otherLatest;
+        ApiDataManager apiMan = ApiDataManager.getManager();
+        itemFile = apiMan.getOldItemFile();
+        ingFile = apiMan.getOldIngFile();
+        otherFile = apiMan.getOldOtherFile();
 
         type.addItem("New Item");
         type.addItem("Changed Item");
@@ -113,10 +113,11 @@ public class ChangesUI implements ActionListener {
 
     public void searchItems() {
         long startTime = System.currentTimeMillis();
+        ApiDataManager api = ApiDataManager.getManager();
 
         if (itemFile.listFiles() != null && !before.getItemAt(before.getSelectedIndex()).isEmpty() && !after.getItemAt(after.getSelectedIndex()).isEmpty()) {
-            List<JsonObject> beforeJ = new ArrayList<>();
-            List<JsonObject> afterJ = new ArrayList<>(itemLatest);
+            List<ItemBase> beforeJ = new ArrayList<>();
+            List<ItemBase> afterJ = new ArrayList<>(api.wynnItems);
 
             if (after.getItemAt(after.getSelectedIndex()).equals("Latest (Now)")) {
                 search.filterItemType(afterJ);
@@ -143,10 +144,11 @@ public class ChangesUI implements ActionListener {
 
     public void searchIng() {
         long startTime = System.currentTimeMillis();
+        ApiDataManager api = ApiDataManager.getManager();
 
         if (ingFile.listFiles() != null && !before.getItemAt(before.getSelectedIndex()).isEmpty() && !after.getItemAt(after.getSelectedIndex()).isEmpty()) {
-            List<JsonObject> beforeJ = new ArrayList<>();
-            List<JsonObject> afterJ = new ArrayList<>(ingLatest);
+            List<ItemBase> beforeJ = new ArrayList<>();
+            List<ItemBase> afterJ = new ArrayList<>(api.wynnIngredients);
 
             if (after.getItemAt(after.getSelectedIndex()).equals("Latest (Now)")) {
                 search.filterIngType(afterJ);
@@ -173,10 +175,11 @@ public class ChangesUI implements ActionListener {
 
     public void searchOther() {
         long startTime = System.currentTimeMillis();
+        ApiDataManager api = ApiDataManager.getManager();
 
         if (otherFile.listFiles() != null && !before.getItemAt(before.getSelectedIndex()).isEmpty() && !after.getItemAt(after.getSelectedIndex()).isEmpty()) {
-            List<JsonObject> beforeJ = new ArrayList<>();
-            List<JsonObject> afterJ = new ArrayList<>(otherLatest);
+            List<ItemBase> beforeJ = new ArrayList<>();
+            List<ItemBase> afterJ = new ArrayList<>(api.wynnOtherItems);
 
             if (after.getItemAt(after.getSelectedIndex()).equals("Latest (Now)")) {
                 search.filterOtherType(afterJ);
@@ -223,40 +226,43 @@ public class ChangesUI implements ActionListener {
         }
     }
 
-    public boolean checkIDsDiff(JsonObject before, JsonObject after, ItemType itemType) {
-        for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) {
-            if (checkIDDiff(ItemUITemplate.ITEM_IDS.get(i), before, after, itemType)) return true;
+    public boolean checkIDsDiff(ItemBase beforeI, ItemBase afterI, ItemType itemType) {
+        JsonObject before = beforeI.getJson();
+        JsonObject after = afterI.getJson();
+
+        for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) {
+            if (checkIDDiff(ItemUi.ITEM_IDS.get(i), before, after, itemType)) return true;
         }
 
-        for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) {
-            if (checkIDDiff(ItemUITemplate.REVERSED_ITEM_IDS.get(i), before, after, itemType)) return true;
+        for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) {
+            if (checkIDDiff(ItemUi.REVERSED_ITEM_IDS.get(i), before, after, itemType)) return true;
         }
 
-        for (int i = 0; ItemUITemplate.SP_REQUESTS.size() > i; ++i) {
-            if (checkIDDiff(ItemUITemplate.SP_REQUESTS.get(i), before, after, itemType)) return true;
+        for (int i = 0; ItemUi.SP_REQUESTS.size() > i; ++i) {
+            if (checkIDDiff(ItemUi.SP_REQUESTS.get(i), before, after, itemType)) return true;
         }
 
         if (itemType == ItemType.INGREDIENT) {
-            for (int i = 0; ItemUITemplate.INGREDIENT_EFFECTIVENESS.size() > i; ++i) {
-                if (checkIDDiff(ItemUITemplate.INGREDIENT_EFFECTIVENESS.get(i), before, after, itemType)) return true;
+            for (int i = 0; ItemUi.INGREDIENT_EFFECTIVENESS.size() > i; ++i) {
+                if (checkIDDiff(ItemUi.INGREDIENT_EFFECTIVENESS.get(i), before, after, itemType)) return true;
             }
 
             return checkIDDiff(Identifications.DURABILITY, before, after, itemType) || checkIDDiff(Identifications.DURATION, before, after, itemType) || checkIDDiff(Identifications.CHARGES, before, after, itemType);
         } else {
-            for (int i = 0; ItemUITemplate.DAMAGE_IDS.size() > i; ++i) {
-                if (checkIDDiff(ItemUITemplate.DAMAGE_IDS.get(i), before, after, itemType)) return true;
+            for (int i = 0; ItemUi.DAMAGE_IDS.size() > i; ++i) {
+                if (checkIDDiff(ItemUi.DAMAGE_IDS.get(i), before, after, itemType)) return true;
             }
 
-            for (int i = 0; ItemUITemplate.DEFENSE_IDS.size() > i; ++i) {
-                if (checkIDDiff(ItemUITemplate.DEFENSE_IDS.get(i), before, after, itemType)) return true;
+            for (int i = 0; ItemUi.DEFENSE_IDS.size() > i; ++i) {
+                if (checkIDDiff(ItemUi.DEFENSE_IDS.get(i), before, after, itemType)) return true;
             }
 
             return checkIDDiff(Identifications.ATTACK_SPEED, before, after, itemType);
         }
     }
 
-    public boolean checkMajorIDsDiff(JsonObject before, JsonObject after) {
-        return checkIDDiff(Identifications.MAJOR_IDS, before, after, ItemType.ITEM);
+    public boolean checkMajorIDsDiff(ItemBase before, ItemBase after) {
+        return checkIDDiff(Identifications.MAJOR_IDS, before.getJson(), after.getJson(), ItemType.ITEM);
     }
 
     public boolean checkObtainDiff(JsonObject before, JsonObject after, ItemType itemType) {
@@ -348,7 +354,7 @@ public class ChangesUI implements ActionListener {
         }
     }
 
-    public boolean findJsonFile(File file, List<JsonObject> before, List<JsonObject> after, String beforeFileName, String afterFileName, ItemType itemType) {
+    public boolean findJsonFile(File file, List<ItemBase> before, List<ItemBase> after, String beforeFileName, String afterFileName, ItemType itemType) {
         try {
             boolean before_B = false;
             boolean after_B = afterFileName.equals("Latest (Now)");
@@ -356,7 +362,14 @@ public class ChangesUI implements ActionListener {
                 if (f.getName().replaceAll(".json", "").equals(beforeFileName)) {
                     for (JsonElement je : JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))).getAsJsonObject().get("items").getAsJsonArray()) {
                         if (filterSelectedSearchType(itemType, je.getAsJsonObject())) {
-                            before.add(je.getAsJsonObject());
+                            switch (itemType) {
+                                case ITEM:
+                                case OTHER:
+                                    before.add(new Item(je.getAsJsonObject()));
+                                    break;
+                                case INGREDIENT:
+                                    before.add(new Ingredient(je.getAsJsonObject()));
+                            }
                         }
                     }
                     before_B = true;
@@ -369,7 +382,14 @@ public class ChangesUI implements ActionListener {
                     after.clear();
                     for (JsonElement je : JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))).getAsJsonObject().get("items").getAsJsonArray()) {
                         if (filterSelectedSearchType(itemType, je.getAsJsonObject())) {
-                            after.add(je.getAsJsonObject());
+                            switch (itemType) {
+                                case ITEM:
+                                case OTHER:
+                                    after.add(new Item(je.getAsJsonObject()));
+                                    break;
+                                case INGREDIENT:
+                                    after.add(new Ingredient(je.getAsJsonObject()));
+                            }
                         }
                     }
                     after_B = true;
@@ -399,24 +419,26 @@ public class ChangesUI implements ActionListener {
         }
     }
 
-    public void searchNewItems(ItemType itemType, List<JsonObject> before, List<JsonObject> after) {
+    public void searchNewItems(ItemType itemType, List<ItemBase> before, List<ItemBase> after) {
         Set<String> beforeL = new HashSet<>(before.size());
-        List<JsonObject> afterL = new ArrayList<>();
+        List<ItemBase> afterL = new ArrayList<>();
+        List<Ingredient> afterIng = new ArrayList<>();
 
-        for (JsonObject j : before) {
-            beforeL.add(j.get("name").getAsString());
+        for (ItemBase item : before) {
+            beforeL.add(item.getName());
         }
 
-        for (JsonObject j : after) {
-            if (!beforeL.contains(j.get("name").getAsString())) {
-                afterL.add(j);
+        for (ItemBase item : after) {
+            if (!beforeL.contains(item.getName())) {
+                afterL.add(item);
+                if (itemType == ItemType.INGREDIENT) afterIng.add((Ingredient) item);
             }
         }
 
         if (!afterL.isEmpty()) {
             switch (itemType) {
                 case INGREDIENT:
-                    search.searchIngredient(afterL);
+                    search.searchIngredient(afterIng);
                     break;
                 case OTHER:
                     search.searchOtherItems(afterL);
@@ -430,34 +452,34 @@ public class ChangesUI implements ActionListener {
         }
     }
 
-    public void searchChangedItems(ItemType itemType, List<JsonObject> before, List<JsonObject> after, long startTime) {
+    public void searchChangedItems(ItemType itemType, List<ItemBase> before, List<ItemBase> after, long startTime) {
         long midTime = startTime;
 
         Set<String> changedL = new HashSet<>(); //Changed Item List (String Name)
 
         if (check_type.getItemAt(check_type.getSelectedIndex()).equals("Check Any")) {
             Set<String> beforeL = new HashSet<>(before.size(), 2); //Before
-            Set<JsonObject> setBefore = new HashSet<>(before);
-            for (JsonObject j : before) {
-                beforeL.add(j.get("name").getAsString());
+            Set<ItemBase> setBefore = new HashSet<>(before);
+            for (ItemBase item : before) {
+                beforeL.add(item.getName());
             }
 
-            for (JsonObject j : after) {
-                if (!setBefore.contains(j) && beforeL.contains(j.get("name").getAsString())) { //Before != After
-                    changedL.add(j.get("name").getAsString());
+            for (ItemBase item : after) {
+                if (!setBefore.contains(item) && beforeL.contains(item.getName())) { //Before != After
+                    changedL.add(item.getName());
                 }
             }
         } else {
-            Map<String, JsonObject> afterMap = new HashMap<>(after.size(), 2);
+            Map<String, ItemBase> afterMap = new HashMap<>(after.size(), 2);
 
-            for (JsonObject j : after) {
-                afterMap.put(j.get("name").getAsString(), j);
+            for (ItemBase item : after) {
+                afterMap.put(item.getName(), item);
             }
 
-            for (JsonObject j : before) {
-                String name = j.get("name").getAsString();
+            for (ItemBase item : before) {
+                String name = item.getName();
                 if (check_type.getItemAt(check_type.getSelectedIndex()).equals("Check IDs") || check_type.getItemAt(check_type.getSelectedIndex()).equals("Check IDs and Obtain")) {
-                    if (checkIDsDiff(j, afterMap.get(name), itemType)) {
+                    if (checkIDsDiff(item, afterMap.get(name), itemType)) {
                         changedL.add(name);
                         continue;
                     }
@@ -472,7 +494,7 @@ public class ChangesUI implements ActionListener {
 
                 if (itemType != ItemType.INGREDIENT) {
                     if (check_type.getItemAt(check_type.getSelectedIndex()).equals("Check Major IDs") || check_type.getItemAt(check_type.getSelectedIndex()).equals("Check IDs and Obtain")) {
-                        if (checkMajorIDsDiff(j, afterMap.get(name))) {
+                        if (checkMajorIDsDiff(item, afterMap.get(name))) {
                             changedL.add(name);
                         }
                     }
@@ -481,36 +503,40 @@ public class ChangesUI implements ActionListener {
         }
 
         if (changedL.size() > 0) {
-            List<JsonObject> modify = new ArrayList<>();
-            for (JsonObject j : before) {
-                if (changedL.contains(j.get("name").getAsString())) {
+            List<ItemBase> modify = new ArrayList<>();
+            List<Ingredient> modifyIng = new ArrayList<>();
+            for (ItemBase j : before) {
+                if (changedL.contains(j.getName())) {
                     modify.add(j);
+                    if (itemType == ItemType.INGREDIENT) modifyIng.add((Ingredient) j);
                 }
             }
-            for (JsonObject j : after) {
-                if (changedL.contains(j.get("name").getAsString())) {
+            for (ItemBase j : after) {
+                if (changedL.contains(j.getName())) {
                     modify.add(j);
+                    if (itemType == ItemType.INGREDIENT) modifyIng.add((Ingredient) j);
                 }
             }
             changedL.clear();
 
+            ApiDataManager api = ApiDataManager.getManager();
             switch (itemType) {
                 case INGREDIENT:
-                    search.filterIng(modify);
+                    search.filterIng(modifyIng);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sort(changedL, ItemType.INGREDIENT, SearchUI.getHow_to_obtain_ing());
+                        search.sort(changedL, ItemType.INGREDIENT, api.howToObtainIng);
                     }
                     break;
                 case OTHER:
                     search.filterOther(modify);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sort(changedL, ItemType.OTHER, SearchUI.getHow_to_obtain_other());
+                        search.sort(changedL, ItemType.OTHER, api.howToObtainOthers);
                     }
                     break;
                 default:
                     search.filterItems(modify);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sort(changedL, ItemType.ITEM, SearchUI.getHow_to_obtain_item());
+                        search.sort(changedL, ItemType.ITEM, api.howToObtainItem);
                     }
                     break;
             }
@@ -518,15 +544,23 @@ public class ChangesUI implements ActionListener {
             midTime = System.currentTimeMillis();
 
             for (String s : changedL) {
-                for (JsonObject j : before) {
-                    if (j.get("name").getAsString().equals(s)) {
-                        search.getItemDisplays().add(new ItemUITemplate(j, itemType, null, null, search.getScrollPane().getWidth(), 0, false, SearchUI.getHow_to_obtain_item()));
+                for (ItemBase item : before) {
+                    if (item.getName().equals(s)) {
+                        switch (itemType) {
+                            case ITEM -> search.getItemDisplays().add(new EquipmentUi(item, itemType, null, null, search.getScrollPane().getWidth(), 0, false));
+                            case INGREDIENT -> search.getItemDisplays().add(new IngredientUi(item, itemType, null, null, search.getScrollPane().getWidth(), 0, false));
+                            case OTHER -> search.getItemDisplays().add(new OthersUi(item, itemType, null, null, search.getScrollPane().getWidth(), 0, false));
+                        }
                         break;
                     }
                 }
-                for (JsonObject j : after) {
-                    if (j.get("name").getAsString().equals(s)) {
-                        search.getItemDisplays().add(new ItemUITemplate(j, itemType, null, null, search.getScrollPane().getWidth(), 0, false, SearchUI.getHow_to_obtain_item()));
+                for (ItemBase item : after) {
+                    if (item.getName().equals(s)) {
+                        switch (itemType) {
+                            case ITEM -> search.getItemDisplays().add(new EquipmentUi(item, itemType, null, null, search.getScrollPane().getWidth(), 0, false));
+                            case INGREDIENT -> search.getItemDisplays().add(new IngredientUi(item, itemType, null, null, search.getScrollPane().getWidth(), 0, false));
+                            case OTHER -> search.getItemDisplays().add(new OthersUi(item, itemType, null, null, search.getScrollPane().getWidth(), 0, false));
+                        }
                         break;
                     }
                 }
@@ -537,24 +571,26 @@ public class ChangesUI implements ActionListener {
         search.setProcessTime(startTime, midTime);
     }
 
-    public void searchRemovedItems(ItemType itemType, List<JsonObject> before, List<JsonObject> after) {
-        List<JsonObject> beforeL = new ArrayList<>();
+    public void searchRemovedItems(ItemType itemType, List<ItemBase> before, List<ItemBase> after) {
+        List<ItemBase> beforeL = new ArrayList<>();
+        List<Ingredient> beforeIng = new ArrayList<>();
         Set<String> afterL = new HashSet<>(after.size());
 
-        for (JsonObject j : after) {
-            afterL.add(j.get("name").getAsString());
+        for (ItemBase item : after) {
+            afterL.add(item.getName());
         }
 
-        for (JsonObject j : before) {
-            if (!afterL.contains(j.get("name").getAsString())) {
-                beforeL.add(j);
+        for (ItemBase item : before) {
+            if (!afterL.contains(item.getName())) {
+                beforeL.add(item);
+                if (itemType == ItemType.INGREDIENT) beforeIng.add((Ingredient) item);
             }
         }
 
         if (!beforeL.isEmpty()) {
             switch (itemType) {
                 case INGREDIENT:
-                    search.searchIngredient(beforeL);
+                    search.searchIngredient(beforeIng);
                     break;
                 case OTHER:
                     search.searchOtherItems(beforeL);

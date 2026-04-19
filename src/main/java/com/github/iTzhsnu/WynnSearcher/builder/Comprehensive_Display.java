@@ -1,7 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
-import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
+import com.github.iTzhsnu.WynnSearcher.ui.ItemUi;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,15 +23,15 @@ public class Comprehensive_Display {
         p.add(scrollPane);
     }
 
-    public void setDisplay(ItemJsons itemJsons, List<SetBonus> setBonuses, List<Integer> equipOrder) {
+    public void setDisplay(ItemData itemData, List<SetBonus> setBonuses, List<Integer> equipOrder) {
         int size = 0;
 
         //Equip Order
-        if (!itemJsons.getJsonObjectList().isEmpty()) {
+        if (!itemData.getEquipmentsNoWeapon().isEmpty()) {
             label.add(new JLabel("Equip Order"));
 
-            for (int i = 0; itemJsons.getJsonObjectList().size() > i; ++i) {
-                label.add(new JLabel(itemJsons.getEquipments().get(equipOrder.get(i)).get("name").getAsString()));
+            for (int i = 0; itemData.getEquipmentsNoWeapon().size() > i; ++i) {
+                label.add(new JLabel(itemData.getEquipments().get(equipOrder.get(i)).getName()));
             }
 
             label.add(new JLabel(" "));
@@ -46,16 +46,16 @@ public class Comprehensive_Display {
             label.add(new JLabel("Set Bonuses"));
             for (SetBonus setBonus : setBonuses) {
                 label.add(new JLabel(setBonus.getName()));
-                for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) {
-                    Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+                for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) {
+                    Identifications id = ItemUi.ITEM_IDS.get(i);
                     if (setBonus.getId_Numbers(false)[ID_Display.ID_INT.get(id)] != 0) {
-                        label.add(new JLabel(id.getDisplayName() + ": " + ItemUITemplate.setPlus(setBonus.getId_Numbers(false)[ID_Display.ID_INT.get(id)]) + id.getDisplaySp()));
+                        label.add(new JLabel(id.getDisplayName() + ": " + ItemUi.setPlus(setBonus.getId_Numbers(false)[ID_Display.ID_INT.get(id)]) + id.getDisplaySp()));
                     }
                 }
-                for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) {
-                    Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
+                for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) {
+                    Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
                     if (setBonus.getId_Numbers(false)[ID_Display.ID_INT.get(id)] != 0) {
-                        label.add(new JLabel(id.getDisplayName() + ": " + ItemUITemplate.setPlus(setBonus.getId_Numbers(false)[ID_Display.ID_INT.get(id)]) + id.getDisplaySp()));
+                        label.add(new JLabel(id.getDisplayName() + ": " + ItemUi.setPlus(setBonus.getId_Numbers(false)[ID_Display.ID_INT.get(id)]) + id.getDisplaySp()));
                     }
                 }
                 label.add(new JLabel(" "));
@@ -69,9 +69,9 @@ public class Comprehensive_Display {
 
 
         //Major IDs
-        if (!itemJsons.getMajorIDNameList().isEmpty()) {
+        if (!itemData.getMajorIDNameList().isEmpty()) {
             label.add(new JLabel("Major IDs"));
-            for (String s : itemJsons.getMajorIDNameList()) {
+            for (String s : itemData.getMajorIDNameList()) {
                 label.add(new JLabel(s));
             }
 

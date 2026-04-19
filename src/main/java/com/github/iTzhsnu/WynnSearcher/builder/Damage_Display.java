@@ -5,22 +5,21 @@ import com.github.iTzhsnu.WynnSearcher.builder.skilltree.AbilityIDEnum;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.SpellEnum;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeBase;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeCheckBox;
+import com.github.iTzhsnu.WynnSearcher.data.DataUtils;
+import com.github.iTzhsnu.WynnSearcher.data.ItemBase;
+import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
+import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Damage_Display {
     private final JPanel pane = new JPanel();
-    private ItemJsons itemJsons = null;
-    private JsonObject weapon = null;
+    private ItemData itemData = null;
+    private ItemBase weapon = null;
     private TotalMaxDamage totalMaxDamage = null;
 
     private float neutral_min = 0;
@@ -79,9 +78,9 @@ public class Damage_Display {
         p.add(scrollPane);
     }
 
-    public void setDamage_Display(ItemJsons itemJsons, SkillPoint sp, Ability_Buffs abilityBuffs, TreeBase tree, Powder_Effects powder_effects, int[] id_Numbers, List<JTextField> powders) {
-        this.itemJsons = itemJsons;
-        this.weapon = itemJsons.getWeapon();
+    public void setDamage_Display(ItemData itemData, SkillPoint sp, Ability_Buffs abilityBuffs, TreeBase tree, Powder_Effects powder_effects, int[] id_Numbers, List<JTextField> powders) {
+        this.itemData = itemData;
+        this.weapon = itemData.getWeapon();
         pane.removeAll();
 
         if (!list.isEmpty()) list.clear();
@@ -129,8 +128,8 @@ public class Damage_Display {
         have_mastery = new boolean[] {false, false, false, false, false, false};
 
         if (weapon != null) {
-            if (weapon.get("base") != null) {
-                JsonObject json = weapon.get("base").getAsJsonObject();
+            if (weapon.haveFieldPos(Identifications.NEUTRAL_DAMAGE)) {
+                JsonObject json = weapon.getJson().get(Identifications.NEUTRAL_DAMAGE.getItemFieldPos().getKey()).getAsJsonObject();
                 //Neutral Damage
                 neutral_min = getDamage(json, Identifications.NEUTRAL_DAMAGE, false);
                 neutral_max = getDamage(json, Identifications.NEUTRAL_DAMAGE, true);
@@ -162,21 +161,19 @@ public class Damage_Display {
 
             //Attack Speed
             atkSpd = id_Numbers[ID_Display.ID_INT.get(Identifications.ATTACK_SPEED_BONUS)];
-            if (weapon.get(Identifications.ATTACK_SPEED.getItemName()) != null) {
-                switch (weapon.get(Identifications.ATTACK_SPEED.getItemName()).getAsString()) {
-                    case "very_slow": atkSpd += 1;
-                        break;
-                    case "slow": atkSpd += 2;
-                        break;
-                    case "normal": atkSpd += 3;
-                        break;
-                    case "fast": atkSpd += 4;
-                        break;
-                    case "very_fast": atkSpd += 5;
-                        break;
-                    case "super_fast": atkSpd += 6;
-                        break;
-                }
+            switch (weapon.getIdString(Identifications.ATTACK_SPEED)) {
+                case JsonValues.VERY_SLOW: atkSpd += 1;
+                    break;
+                case JsonValues.SLOW: atkSpd += 2;
+                    break;
+                case JsonValues.A_NORMAL: atkSpd += 3;
+                    break;
+                case JsonValues.FAST: atkSpd += 4;
+                    break;
+                case JsonValues.VERY_FAST: atkSpd += 5;
+                    break;
+                case JsonValues.SUPER_FAST: atkSpd += 6;
+                    break;
             }
 
             //Ability Tree
@@ -1065,8 +1062,8 @@ public class Damage_Display {
         if (tbd[AbilityIDEnum.BASH.pos]) {
             list.add(new Damage_Template("Bash", calc_Spell_Cost(40 + spell_cost_1, intelligence, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_1ST_SPELL_COST)], id_Numbers[ID_Display.ID_INT.get(Identifications.PERCENT_1ST_SPELL_COST)]), pane, list.get(list.size() - 1), sp, crit_boost, true));
             float[] bash = set_Damage_Percent(SpellEnum.BASH);
-            if (itemJsons.getMajorIDList().contains(MajorIDEnum.DIVINE_HONOR)) add_Damage_Percent(bash, SpellEnum.DIVINE_HONOR); //Divine Honor
-            if (itemJsons.getMajorIDList().contains(MajorIDEnum.OVERWHELM)) add_Damage_Percent(bash, SpellEnum.OVERWHELM); //Overwhelm
+            if (itemData.getMajorIDList().contains(MajorIDEnum.DIVINE_HONOR)) add_Damage_Percent(bash, SpellEnum.DIVINE_HONOR); //Divine Honor
+            if (itemData.getMajorIDList().contains(MajorIDEnum.OVERWHELM)) add_Damage_Percent(bash, SpellEnum.OVERWHELM); //Overwhelm
             if (tbd[AbilityIDEnum.DOUBLE_BASH.pos]) add_Damage_Percent(bash, SpellEnum.DOUBLE_BASH);
             if (tbd[AbilityIDEnum.QUADRUPLE_BASH.pos]) add_Damage_Percent(bash, SpellEnum.QUADRUPLE_BASH);
             if (tbd[AbilityIDEnum.STRONGER_BASH.pos]) add_Damage_Percent(bash, SpellEnum.STRONGER_BASH);
@@ -1079,7 +1076,7 @@ public class Damage_Display {
         //Charge
         if (tbd[AbilityIDEnum.CHARGE.pos]) {
             list.add(new Damage_Template("Charge", calc_Spell_Cost(25 + spell_cost_2, intelligence, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_2ND_SPELL_COST)], id_Numbers[ID_Display.ID_INT.get(Identifications.PERCENT_2ND_SPELL_COST)]), pane, list.get(list.size() - 1), sp, crit_boost, false));
-            if (itemJsons.getMajorIDList().contains(MajorIDEnum.RALLY)) { //Rally (Major ID)
+            if (itemData.getMajorIDList().contains(MajorIDEnum.RALLY)) { //Rally (Major ID)
                 list.get(list.size() - 1).addHeal("Heal", id_Numbers, 0.1F, false, false);
                 list.get(list.size() - 1).addHeal("Heal to Allies", id_Numbers, 0.15F, false, false);
             } else {
@@ -1123,7 +1120,7 @@ public class Damage_Display {
             if (tbd[AbilityIDEnum.AIR_SHOUT.pos]) calcSpell("Air Shout", list.size() - 1, calc_raw, list, spell_total, id_Numbers, air_shout, sp, false, false);
             if (tbd[AbilityIDEnum.TEMPEST.pos]) {
                 float[] tempest = set_Damage_Percent(SpellEnum.TEMPEST);
-                if (itemJsons.getMajorIDList().contains(MajorIDEnum.RECKLESS_ABANDON)) add_Damage_Percent(tempest, SpellEnum.RECKLESS_ABANDON);
+                if (itemData.getMajorIDList().contains(MajorIDEnum.RECKLESS_ABANDON)) add_Damage_Percent(tempest, SpellEnum.RECKLESS_ABANDON);
                 calcSpell("Single Tempest", list.size() - 1, calc_raw, list, spell_total, id_Numbers, tempest, sp, false, false);
                 calcSpell("Total Tempest", list.size() - 1, calc_raw, list, spell_total, id_Numbers, calc_Total_Damage_Percent(tempest), sp, false, false);
             }
@@ -1243,7 +1240,7 @@ public class Damage_Display {
                 float[] multihit = set_Damage_Percent(SpellEnum.MULTIHIT);
                 if (tbd[AbilityIDEnum.STRONGER_MULTIHIT.pos]) {
                     add_Damage_Percent(multihit, SpellEnum.STRONGER_MULTIHIT);
-                    if (itemJsons.getMajorIDList().contains(MajorIDEnum.JUGGLE)) add_Damage_Percent(multihit, SpellEnum.JUGGLE);
+                    if (itemData.getMajorIDList().contains(MajorIDEnum.JUGGLE)) add_Damage_Percent(multihit, SpellEnum.JUGGLE);
                 }
                 if (tbd[AbilityIDEnum.BLADE_FURY.pos]) add_Damage_Percent(multihit, SpellEnum.BLADE_FURY);
                 calcSpell("Single Hit", list.size() - 1, calc_raw, list, multihit_Boost, id_Numbers, multihit, sp, false, true);
@@ -1266,7 +1263,7 @@ public class Damage_Display {
                 add_Damage_Percent(smoke_Bomb, SpellEnum.WALL_OF_SMOKE);
                 bomb_count = 3;
             }
-            if (itemJsons.getMajorIDList().contains(MajorIDEnum.CHERRY_BOMBS)) { //Cherry Bombs
+            if (itemData.getMajorIDList().contains(MajorIDEnum.CHERRY_BOMBS)) { //Cherry Bombs
                 add_Damage_Percent(smoke_Bomb, SpellEnum.CHERRY_BOMBS);
                 calcSpell("Single Hit", list.size() - 1, calc_raw, list, spell_total * echo, id_Numbers, smoke_Bomb, sp, false, false);
                 calcSpell("Total Damage", list.size() - 1, calc_raw, list, spell_total * echo, id_Numbers, calc_Total_Damage_Percent_Manual(smoke_Bomb, bomb_count), sp, true, false);
@@ -1354,7 +1351,7 @@ public class Damage_Display {
                     add_Damage_Percent(arrow_Storm, SpellEnum.ARROW_HURRICANE);
                     stream = 3;
                 }
-                if (itemJsons.getMajorIDList().contains(MajorIDEnum.HAWKEYE)) { //Hawkeye
+                if (itemData.getMajorIDList().contains(MajorIDEnum.HAWKEYE)) { //Hawkeye
                     arrow_Storm[0] = 0.1F; //Neutral
                     arrow_Storm[1] = 0F; //Earth
                     arrow_Storm[2] = 0.01F; //Thunder
@@ -1383,7 +1380,7 @@ public class Damage_Display {
         if (tbd[AbilityIDEnum.ARROW_BOMB.pos]) {
             list.add(new Damage_Template("Arrow Bomb", calc_Spell_Cost(45 + spell_cost_3, intelligence, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_3RD_SPELL_COST)], id_Numbers[ID_Display.ID_INT.get(Identifications.PERCENT_3RD_SPELL_COST)]), pane, list.get(list.size() - 1), sp, crit_boost, true));
             float[] arrow_Bomb = set_Damage_Percent(SpellEnum.ARROW_BOMB);
-            if (itemJsons.getMajorIDList().contains(MajorIDEnum.FORESTS_BLESSING)) add_Damage_Percent(arrow_Bomb, SpellEnum.FORESTS_BLESSING); //Forest's Blessing
+            if (itemData.getMajorIDList().contains(MajorIDEnum.FORESTS_BLESSING)) add_Damage_Percent(arrow_Bomb, SpellEnum.FORESTS_BLESSING); //Forest's Blessing
             if (tbd[AbilityIDEnum.REFINED_GUNPOWDER.pos]) add_Damage_Percent(arrow_Bomb, SpellEnum.REFINED_GUNPOWDER);
             if (tbd[AbilityIDEnum.SHOCKING_BOMB.pos]) add_Damage_Percent(arrow_Bomb, SpellEnum.SHOCKING_BOMB);
             calcSpell("Arrow Bomb", list.size() - 1, calc_raw, list, spell_total, id_Numbers, arrow_Bomb, sp, false, false);
@@ -1550,10 +1547,10 @@ public class Damage_Display {
                 list.add(new Damage_Template("Arcane Transfer", 0, pane, list.get(list.size() - 1), sp, crit_boost, false));
             } else {
                 list.add(new Damage_Template("Heal", calc_Spell_Cost(35 + spell_cost_1, intelligence, id_Numbers[ID_Display.ID_INT.get(Identifications.RAW_1ST_SPELL_COST)], id_Numbers[ID_Display.ID_INT.get(Identifications.PERCENT_1ST_SPELL_COST)]), pane, list.get(list.size() - 1), sp, crit_boost, false));
-                if (itemJsons.getMajorIDList().contains(MajorIDEnum.EXPUNGE)) {
+                if (itemData.getMajorIDList().contains(MajorIDEnum.EXPUNGE)) {
                     list.get(list.size() - 1).addHeal("Heal (Instant)", id_Numbers, 0.2F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], false);
                 } else if (tbd[AbilityIDEnum.ORPHIONS_PULSE.pos]) { //Orphion's Pulse
-                    if (itemJsons.getMajorIDList().contains(MajorIDEnum.GENTLE_GLOW)) { //Gentle Glow
+                    if (itemData.getMajorIDList().contains(MajorIDEnum.GENTLE_GLOW)) { //Gentle Glow
                         list.get(list.size() - 1).addHeal("Total Heal", id_Numbers, 0.6F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
                         list.get(list.size() - 1).addHeal("per Heal", id_Numbers, 0.2F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
                         list.get(list.size() - 1).addHeal("per Heal to Allies", id_Numbers, 0.15F * 1.6F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
@@ -1563,7 +1560,7 @@ public class Damage_Display {
                         list.get(list.size() - 1).addHeal("Second and Third Heal Pulses", id_Numbers, 0.2F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], false);
                     }
                 } else {
-                    if (itemJsons.getMajorIDList().contains(MajorIDEnum.GENTLE_GLOW)) { //Gentle Glow
+                    if (itemData.getMajorIDList().contains(MajorIDEnum.GENTLE_GLOW)) { //Gentle Glow
                         list.get(list.size() - 1).addHeal("Heal", id_Numbers, 0.15F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
                         list.get(list.size() - 1).addHeal("Heal to Allies", id_Numbers, 0.15F * 1.6F, tbd[AbilityIDEnum.FLUID_HEALING_MAGE.pos], true);
                     } else {
@@ -1689,7 +1686,7 @@ public class Damage_Display {
                 totem_percent *= 0.6F;
                 totem_count = 2;
             }
-            if (itemJsons.getMajorIDList().contains(MajorIDEnum.FURIOUS_EFFIGY)) furious_effigy = 2; //Has Furious Effigy (x2 Time)
+            if (itemData.getMajorIDList().contains(MajorIDEnum.FURIOUS_EFFIGY)) furious_effigy = 2; //Has Furious Effigy (x2 Time)
             if (tbd[AbilityIDEnum.REGENERATION.pos]) list.get(list.size() - 1).addHeal("Heal", id_Numbers, 0.01F * furious_effigy, false, false);
             calcSpell("DPS", list.size() - 1, calc_raw, list, totem_percent, id_Numbers, calc_Total_Damage_Percent_Manual(totem, 2.5F * totem_count * furious_effigy), sp, false, false);
             calcSpell("Single Hit", list.size() - 1, calc_raw, list, totem_percent, id_Numbers, totem, sp, false, false);
@@ -1720,7 +1717,7 @@ public class Damage_Display {
             float aura_percent = spell_total;
             int totem_count = 1;
             float heal = 1F;
-            boolean gentle_Glow = itemJsons.getMajorIDList().contains(MajorIDEnum.GENTLE_GLOW); //Gentle Glow
+            boolean gentle_Glow = itemData.getMajorIDList().contains(MajorIDEnum.GENTLE_GLOW); //Gentle Glow
             if (tbd[AbilityIDEnum.SHOCKING_AURA.pos]) add_Damage_Percent(aura, SpellEnum.SHOCKING_AURA);
             if (tbd[AbilityIDEnum.STORM_DANCE.pos]) add_Damage_Percent(aura, SpellEnum.STORM_DANCE);
             if (tbd[AbilityIDEnum.TRIPLE_TOTEM.pos]) {
@@ -1790,7 +1787,7 @@ public class Damage_Display {
             float[] puppet_Master = set_Damage_Percent(SpellEnum.PUPPET_MASTER);
             float puppet_Percent = spell_total;
             float puppet_AtkSpd = 2F;
-            if (itemJsons.getMajorIDList().contains(MajorIDEnum.STRINGS_OF_FATE)) puppet_Percent *= 2F; //Strings of Fate (Major ID)
+            if (itemData.getMajorIDList().contains(MajorIDEnum.STRINGS_OF_FATE)) puppet_Percent *= 2F; //Strings of Fate (Major ID)
             if (tbd[AbilityIDEnum.BULLWHIP.pos] && abilityBuffs.getBox().get(Ability_Buffs_Enum.BULLWHIP.getPos()).isSelected()) puppet_Percent *= 1.2F; //Bullwhip
             if (tbd[AbilityIDEnum.INVIGORATING_WAVE.pos] && abilityBuffs.getBox().get(Ability_Buffs_Enum.INVIGORATING_WAVE.getPos()).isSelected()) puppet_AtkSpd *= 1.3F; //Invigorating Wave
             int maxPuppets = 3;
@@ -1806,7 +1803,7 @@ public class Damage_Display {
         if (tbd[AbilityIDEnum.EXPLODING_PUPPETS.pos]) {
             list.add(new Damage_Template("Exploding Puppets", 0, pane, list.get(list.size() - 1), sp, crit_boost, false));
             float puppet_Percent = spell_total;
-            if (itemJsons.getMajorIDList().contains(MajorIDEnum.STRINGS_OF_FATE)) puppet_Percent *= 2F; //Strings of Fate (Major ID)
+            if (itemData.getMajorIDList().contains(MajorIDEnum.STRINGS_OF_FATE)) puppet_Percent *= 2F; //Strings of Fate (Major ID)
             calcSpell("", list.size() - 1, calc_raw, list, puppet_Percent, id_Numbers, set_Damage_Percent(SpellEnum.EXPLODING_PUPPETS), sp, false, false);
         }
 
@@ -2121,23 +2118,7 @@ public class Damage_Display {
 
     private void calcSpell(String name, int pos, Calc_Raw damages, List<Damage_Template> list, float boost, int[] id_Numbers, float[] percent, SkillPoint sp, boolean isTotal, boolean checkDamage) {
         float tomeBonus = 1F + (id_Numbers[109] / 100F);
-        float atkSpd = 0.51F;
-        if (weapon != null && weapon.get(Identifications.ATTACK_SPEED.getItemName()) != null) {
-            switch (weapon.get(Identifications.ATTACK_SPEED.getItemName()).getAsString()) {
-                case "very_slow": atkSpd = 0.83F;
-                    break;
-                case "slow": atkSpd = 1.5F;
-                    break;
-                case "normal": atkSpd = 2.05F;
-                    break;
-                case "fast": atkSpd = 2.5F;
-                    break;
-                case "very_fast": atkSpd = 3.1F;
-                    break;
-                case "super_fast": atkSpd = 4.3F;
-                    break;
-            }
-        }
+        float atkSpd = weapon.getAttackSpeed();
 
         float neutral_min_base = damages.neutral_min;
         float earth_min_base = damages.earth_min;
@@ -2287,108 +2268,25 @@ public class Damage_Display {
     }
 
     public void calcPowderDamages(List<JTextField> powders) {
-        JsonObject powderJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/powders.json")), StandardCharsets.UTF_8))).getAsJsonObject();
-        if (weapon.get(Identifications.POWDER_SLOTS.getItemName()) != null && weapon.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() > 0 && powders.get(4).getText().length() > 1) {
-            String[] turn = new String[] {"", "", "", "", ""};
-            int[] convert = new int[] {0, 0, 0, 0, 0};
-            for (int i = 0; (int) Math.floor(powders.get(4).getText().length() / 2F) * 2 > i; i += 2) {
-                if (weapon.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() >= i / 2) {
-                    String name = String.valueOf(powders.get(4).getText().charAt(i)) + powders.get(4).getText().charAt(i + 1);
-                    if (powderJ.get(name) != null) {
-                        JsonObject j = powderJ.get(name).getAsJsonObject();
-                        String[] ss = j.get("damage").getAsString().split("-");
-                        switch (j.get("type").getAsString()) {
-                            case "earth": { //Earth Powder Damage
-                                earth_min += Integer.parseInt(ss[0]);
-                                earth_max += Integer.parseInt(ss[1]);
-                                break;
-                            }
-                            case "thunder": { //Thunder Powder Damage
-                                thunder_min += Integer.parseInt(ss[0]);
-                                thunder_max += Integer.parseInt(ss[1]);
-                                break;
-                            }
-                            case "water": { //Water Powder Damage
-                                water_min += Integer.parseInt(ss[0]);
-                                water_max += Integer.parseInt(ss[1]);
-                                break;
-                            }
-                            case "fire": { //Fire Powder Damage
-                                fire_min += Integer.parseInt(ss[0]);
-                                fire_max += Integer.parseInt(ss[1]);
-                                break;
-                            }
-                            case "air": { //Air Powder Damage
-                                air_min += Integer.parseInt(ss[0]);
-                                air_max += Integer.parseInt(ss[1]);
-                                break;
-                            }
-                        }
-                        for (int n = 0; 5 > n; ++n) { //Powder Convert
-                            if (turn[n].isEmpty()) {
-                                turn[n] = j.get("type").getAsString();
-                                convert[n] += j.get("convert").getAsInt();
-                                break;
-                            } else if (turn[n].equals(j.get("type").getAsString())) {
-                                convert[n] += j.get("convert").getAsInt();
-                                break;
-                            }
-                        }
-                    }
-                } else {
-                    break;
-                }
-            }
+        int[] min = new int[] { (int)neutral_min, (int)earth_min, (int)thunder_min, (int)water_min, (int)fire_min, (int)air_min };
+        int[] max = new int[] { (int)neutral_max, (int)earth_max, (int)thunder_max, (int)water_max, (int)fire_max, (int)air_max };
 
-            for (int i = 0; 5 > i; ++i) { //Powder Convert (Math.round)
-                if (turn[i].isEmpty()) {
-                    break;
-                } else if (neutral_min > 0 || neutral_max > 0) {
-                    if (convert[i] > 100) { //Convert 101%+ => 100%
-                        convert[i] = 100;
-                    }
+        DataUtils.setPowderOnNonCraft(min, powders.get(4).getText(), JsonKeys.MIN);
+        DataUtils.setPowderOnNonCraft(max, powders.get(4).getText(), JsonKeys.MAX);
 
-                    float convertCalcMin = neutral_min * (convert[i] / 100F);
-                    float convertCalcMax = neutral_max * (convert[i] / 100F);
+        neutral_min = min[0];
+        earth_min = min[1];
+        thunder_min = min[2];
+        water_min = min[3];
+        fire_min = min[4];
+        air_min = min[5];
 
-                    if (neutral_min == 0) convertCalcMin = 0;
-                    if (neutral_max == 0) convertCalcMax = 0;
-
-                    //Add Elemental
-                    switch (turn[i]) {
-                        case "earth": {
-                            earth_min += convertCalcMin; //Neutral Damage Min * (Convert % / 100)
-                            earth_max += convertCalcMax; //Neutral Damage Max * (Convert % / 100)
-                            break;
-                        }
-                        case "thunder": {
-                            thunder_min += convertCalcMin;
-                            thunder_max += convertCalcMax;
-                            break;
-                        }
-                        case "water": {
-                            water_min += convertCalcMin;
-                            water_max += convertCalcMax;
-                            break;
-                        }
-                        case "fire": {
-                            fire_min += convertCalcMin;
-                            fire_max += convertCalcMax;
-                            break;
-                        }
-                        case "air": {
-                            air_min += convertCalcMin;
-                            air_max += convertCalcMax;
-                            break;
-                        }
-                    }
-
-                    //Remove Neutral
-                    neutral_min -= convertCalcMin;
-                    neutral_max -= convertCalcMax;
-                }
-            }
-        }
+        neutral_max = max[0];
+        earth_max = max[1];
+        thunder_max = max[2];
+        water_max = max[3];
+        fire_max = max[4];
+        air_max = max[5];
     }
 
     public void setAbilityData(TreeBase tree, Ability_Buffs abilityBuffs) {

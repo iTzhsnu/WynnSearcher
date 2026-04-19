@@ -1,20 +1,16 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
-import com.github.iTzhsnu.WynnSearcher.GetAPI;
+import com.github.iTzhsnu.WynnSearcher.ApiDataManager;
 import com.github.iTzhsnu.WynnSearcher.Identifications;
-import com.github.iTzhsnu.WynnSearcher.ItemUITemplate;
-import com.github.iTzhsnu.WynnSearcher.SearchUI;
+import com.github.iTzhsnu.WynnSearcher.data.ItemBase;
+import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
+import com.github.iTzhsnu.WynnSearcher.ui.ItemUi;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeBase;
 import com.github.iTzhsnu.WynnSearcher.builder.skilltree.TreeCheckBox;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.*;
 
@@ -45,7 +41,7 @@ public class ID_Display {
     }};
 
     public ID_Display(JPanel p) {
-        setListJson = new GetAPI().getSetItems();
+        setListJson = ApiDataManager.getManager().getSetItems();
 
         pane.setPreferredSize(new Dimension(250, 2500));
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
@@ -63,15 +59,15 @@ public class ID_Display {
         for (int i = 0; IDS_.size() > i; ++i) {
             ID_INT.put(IDS_.get(i), i);
         }
-        for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) {
-            ID_INT.put(ItemUITemplate.ITEM_IDS.get(i), i + IDS_.size());
+        for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) {
+            ID_INT.put(ItemUi.ITEM_IDS.get(i), i + IDS_.size());
         }
-        for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) {
-            ID_INT.put(ItemUITemplate.REVERSED_ITEM_IDS.get(i), i + IDS_.size() + ItemUITemplate.ITEM_IDS.size());
+        for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) {
+            ID_INT.put(ItemUi.REVERSED_ITEM_IDS.get(i), i + IDS_.size() + ItemUi.ITEM_IDS.size());
         }
     }
 
-    public void setIDs(ItemJsons itemJsons, Damage_IDs damage_ids, SkillPoint sp, TreeBase tree, Ability_Buffs abilityBuffs, Powder_Effects powder_effects, List<JTextField> powders, int classID, boolean updateOnly) {
+    public void setIDs(ItemData itemData, Damage_IDs damage_ids, SkillPoint sp, TreeBase tree, Ability_Buffs abilityBuffs, Powder_Effects powder_effects, List<JTextField> powders, int classID, boolean updateOnly) {
         pane.removeAll();
         if (!ids.isEmpty()) ids.clear();
         if (!setBonuses.isEmpty()) setBonuses.clear();
@@ -104,23 +100,23 @@ public class ID_Display {
         float def = 2F - CLASS_DEF.get(classID); //Base Defense
 
         //Tomes
-        if (itemJsons.getTomes() != null) { //Tomes
-            for (JsonObject j : itemJsons.getTomes()) {
-                setNumbers(j, numbers);
+        if (itemData.getTomes() != null) { //Tomes
+            for (ItemBase item : itemData.getTomes()) {
+                setNumbers(item, numbers);
             }
         }
 
         //Weapon, Armor, Accessory
-        if (!itemJsons.getJsonObjectList().isEmpty()) {
-            for (JsonObject j : itemJsons.getJsonObjectList()) {
-                setNumbers(j, numbers);
-                setSetBonuses(j.get("name").getAsString(), false); // Auto Detect Set Bonus
+        if (!itemData.getEquipmentsNoWeapon().isEmpty()) {
+            for (ItemBase item : itemData.getEquipmentsNoWeapon()) {
+                setNumbers(item, numbers);
+                setSetBonuses(item.getName(), false); // Auto Detect Set Bonus
             }
         }
 
-        if (itemJsons.getWeapon() != null) {
-            setNumbers(itemJsons.getWeapon(), numbers);
-            setSetBonuses(itemJsons.getWeapon().get("name").getAsString(), true);
+        if (itemData.getWeapon() != null) {
+            setNumbers(itemData.getWeapon(), numbers);
+            setSetBonuses(itemData.getWeapon().getName(), true);
         }
 
         //Set Bonus
@@ -130,50 +126,50 @@ public class ID_Display {
             }
         }
 
-        JsonObject powderJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/other/powders.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+        JsonObject powderJ = ApiDataManager.getManager().powderData;
 
         //Helmet Powder
-        if (itemJsons.getHelmet() != null) {
-            setArmorPowder(itemJsons.getHelmet(), powderJ, powders.get(0), numbers);
+        if (itemData.getHelmet() != null) {
+            setArmorPowder(itemData.getHelmet(), powderJ, powders.get(0), numbers);
         }
 
         //Chestplate Powder
-        if (itemJsons.getChestplate() != null) {
-            setArmorPowder(itemJsons.getChestplate(), powderJ, powders.get(1), numbers);
+        if (itemData.getChestplate() != null) {
+            setArmorPowder(itemData.getChestplate(), powderJ, powders.get(1), numbers);
         }
 
         //Leggings Powder
-        if (itemJsons.getLeggings() != null) {
-            setArmorPowder(itemJsons.getLeggings(), powderJ, powders.get(2), numbers);
+        if (itemData.getLeggings() != null) {
+            setArmorPowder(itemData.getLeggings(), powderJ, powders.get(2), numbers);
         }
 
         //Boots Powder
-        if (itemJsons.getBoots() != null) {
-            setArmorPowder(itemJsons.getBoots(), powderJ, powders.get(3), numbers);
+        if (itemData.getBoots() != null) {
+            setArmorPowder(itemData.getBoots(), powderJ, powders.get(3), numbers);
         }
 
         if (updateOnly) { //Update Edited ID
-            for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) { //Damages and Health Regen
-                Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+            for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) { //Damages and Health Regen
+                Identifications id = ItemUi.ITEM_IDS.get(i);
                 if (Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
                     numbers[ID_INT.get(id)] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).getValue();
                 }
             }
-            for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) { //Spell Costs
-                Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
+            for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) { //Spell Costs
+                Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
                 if (Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
                     numbers[ID_INT.get(id)] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).getValue();
                 }
             }
         } else { //Set Editable ID Original Num
-            for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) { //Damages and Health Regen
-                Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+            for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) { //Damages and Health Regen
+                Identifications id = ItemUi.ITEM_IDS.get(i);
                 if (Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
                     damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).setValue(numbers[ID_INT.get(id)]);
                 }
             }
-            for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) { //Spell Costs
-                Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
+            for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) { //Spell Costs
+                Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
                 if (Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
                     damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).setValue(numbers[ID_INT.get(id)]);
                 }
@@ -183,9 +179,9 @@ public class ID_Display {
         //Radiance
         if (abilityBuffs.getBox().get(Ability_Buffs_Enum.RADIANCE.getPos()).isSelected()) {
             float radiance = 1.2F;
-            if (itemJsons.getMajorIDList().contains(MajorIDEnum.DIVINE_HONOR)) radiance += 0.05F; //MAJOR ID: DIVINE HONOR
-            for (int i = 5; ItemUITemplate.ITEM_IDS.size() > i; ++i) {
-                Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+            if (itemData.getMajorIDList().contains(MajorIDEnum.DIVINE_HONOR)) radiance += 0.05F; //MAJOR ID: DIVINE HONOR
+            for (int i = 5; ItemUi.ITEM_IDS.size() > i; ++i) {
+                Identifications id = ItemUi.ITEM_IDS.get(i);
                 if (id == Identifications.COMBAT_XP_BONUS || id == Identifications.LOOT_BONUS || id == Identifications.LOOT_QUALITY || id == Identifications.GATHERING_XP_BONUS || id == Identifications.GATHERING_SPEED_BONUS) continue;
                 if (numbers[ID_INT.get(id)] > 0) {
                     numbers[ID_INT.get(id)] -= numbers_Sub[ID_INT.get(id)];
@@ -193,8 +189,8 @@ public class ID_Display {
                     numbers[ID_INT.get(id)] += numbers_Sub[ID_INT.get(id)];
                 }
             }
-            for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) {
-                Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
+            for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) {
+                Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
                 if (0 > numbers[ID_INT.get(id)]) numbers[ID_INT.get(id)] = Math.round(numbers[ID_INT.get(id)] * radiance);
             }
         }
@@ -351,12 +347,12 @@ public class ID_Display {
             ids.add(new JLabel(IDS_.get(i).getDisplayName() + ": " + (int) Math.floor(numbers[ID_INT.get(IDS_.get(i))] * ((100F + numbers[ID_INT.get(Identifications.EARTH_DEFENSE_PERCENT) + i - 1] + numbers[ID_INT.get(Identifications.ELEMENTAL_DEFENSE_PERCENT)]) / 100F))));
         }
         ids.add(new JLabel(" "));
-        for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) { //Normal IDS
-            Identifications id = ItemUITemplate.ITEM_IDS.get(i);
+        for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) { //Normal IDS
+            Identifications id = ItemUi.ITEM_IDS.get(i);
             if (numbers[ID_INT.get(id)] != 0) ids.add(new JLabel(id.getDisplayName() + ": " + numbers[ID_INT.get(id)] + id.getDisplaySp()));
         }
-        for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) { //Reversed IDS
-            Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
+        for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) { //Reversed IDS
+            Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
             if (numbers[ID_INT.get(id)] != 0) ids.add(new JLabel(id.getDisplayName() + ": " + numbers[ID_INT.get(id)] + id.getDisplaySp()));
         }
 
@@ -394,83 +390,41 @@ public class ID_Display {
         return setBonuses;
     }
 
-    private static void setNumbers(JsonObject json, int[] numbers) {
-        if (json.get("base") != null) {
-            JsonObject j = json.get("base").getAsJsonObject();
-            if (j.get(Identifications.HEALTH.getItemName()) != null) {
-                JsonElement j2 = j.get(Identifications.HEALTH.getItemName());
-                if (json.get(Identifications.RARITY.getItemName()) != null && json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted") && j2.isJsonObject()) {
-                    numbers[ID_INT.get(Identifications.HEALTH)] += j2.getAsJsonObject().get("max").getAsInt();
-                } else if (j2.getAsInt() != 0) {
-                    numbers[ID_INT.get(Identifications.HEALTH)] += j2.getAsInt();
-                }
-            }
-
-            if (j.get(Identifications.EARTH_DEFENSE.getItemName()) != null && j.get(Identifications.EARTH_DEFENSE.getItemName()).getAsInt() != 0) {
-                numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get(Identifications.EARTH_DEFENSE.getItemName()).getAsInt();
-            }
-
-            if (j.get(Identifications.THUNDER_DEFENSE.getItemName()) != null && j.get(Identifications.THUNDER_DEFENSE.getItemName()).getAsInt() != 0) {
-                numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get(Identifications.THUNDER_DEFENSE.getItemName()).getAsInt();
-            }
-
-            if (j.get(Identifications.WATER_DEFENSE.getItemName()) != null && j.get(Identifications.WATER_DEFENSE.getItemName()).getAsInt() != 0) {
-                numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get(Identifications.WATER_DEFENSE.getItemName()).getAsInt();
-            }
-
-            if (j.get(Identifications.FIRE_DEFENSE.getItemName()) != null && j.get(Identifications.FIRE_DEFENSE.getItemName()).getAsInt() != 0) {
-                numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get(Identifications.FIRE_DEFENSE.getItemName()).getAsInt();
-            }
-
-            if (j.get(Identifications.AIR_DEFENSE.getItemName()) != null && j.get(Identifications.AIR_DEFENSE.getItemName()).getAsInt() != 0) {
-                numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get(Identifications.AIR_DEFENSE.getItemName()).getAsInt();
-            }
+    private static void setNumbers(ItemBase item, int[] numbers) {
+        if (item.haveFieldPos(JsonKeys.BASE)) {
+            numbers[ID_INT.get(Identifications.HEALTH)] = item.getIdValue(Identifications.HEALTH, JsonKeys.MAX);
+            numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += item.getIdValue(Identifications.EARTH_DEFENSE, JsonKeys.MAX);
+            numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += item.getIdValue(Identifications.THUNDER_DEFENSE, JsonKeys.MAX);
+            numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += item.getIdValue(Identifications.WATER_DEFENSE, JsonKeys.MAX);
+            numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += item.getIdValue(Identifications.FIRE_DEFENSE, JsonKeys.MAX);
+            numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += item.getIdValue(Identifications.AIR_DEFENSE, JsonKeys.MAX);
         }
 
-        for (int i = 0; ItemUITemplate.ITEM_IDS.size() > i; ++i) {
-            Identifications id = ItemUITemplate.ITEM_IDS.get(i);
-            if (json.get(id.getItemFieldPos().getKey()) != null && json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
-                JsonElement j = json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
-                if (!j.isJsonObject()) {
-                    numbers[ID_INT.get(id)] += j.getAsInt();
-                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
-                    String minOrMax = "max";
-                    if (j.getAsJsonObject().get("max").getAsInt() < 0) minOrMax = "min";
-                    numbers[ID_INT.get(id)] += SearchUI.getBaseID(j.getAsJsonObject().get(minOrMax).getAsInt());
-                } else if (id.isItemVariable() || json.get(Identifications.RARITY.getItemName()).getAsString().equals("crafted")) {
-                    numbers[ID_INT.get(id)] += j.getAsJsonObject().get("max").getAsInt();
-                }
-            }
+        for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) {
+            Identifications id = ItemUi.ITEM_IDS.get(i);
+            numbers[ID_INT.get(id)] += item.getIdValue(id, JsonKeys.MAX);
         }
 
-        for (int i = 0; ItemUITemplate.REVERSED_ITEM_IDS.size() > i; ++i) {
-            Identifications id = ItemUITemplate.REVERSED_ITEM_IDS.get(i);
-            if (json.get(id.getItemFieldPos().getKey()) != null && json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName()) != null) {
-                JsonElement j = json.get(id.getItemFieldPos().getKey()).getAsJsonObject().get(id.getItemName());
-                if (!j.isJsonObject()) {
-                    numbers[ID_INT.get(id)] += j.getAsInt();
-                } else if (json.get("identified") != null && json.get("identified").getAsBoolean()) {
-                    numbers[ID_INT.get(id)] += SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
-                } else {
-                    int base = SearchUI.getBaseID(j.getAsJsonObject().get("max").getAsInt());
-                    numbers[ID_INT.get(id)] += ItemUITemplate.getReversedMinInt(base);
-                }
-            }
+        for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) {
+            Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
+            numbers[ID_INT.get(id)] += item.getIdValue(id, JsonKeys.MAX);
         }
     }
 
-    private static void setArmorPowder(JsonObject json, JsonObject powderJ, JTextField powder, int[] numbers) {
-        if (json.get(Identifications.POWDER_SLOTS.getItemName()) != null && json.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() > 0 && powder.getText().length() > 1) {
+    private static void setArmorPowder(ItemBase item, JsonObject powderJ, JTextField powder, int[] numbers) {
+        int slot = item.getIdValue(Identifications.POWDER_SLOTS, JsonKeys.MAX);
+        if (slot > 0 && powder.getText().length() > 1) {
             for (int i = 0; (int) Math.floor(powder.getText().length() / 2F) * 2 > i; i += 2) {
-                if (json.get(Identifications.POWDER_SLOTS.getItemName()).getAsInt() >= i / 2) {
+                if (slot >= i / 2) {
                     String name = String.valueOf(powder.getText().charAt(i)) + powder.getText().charAt(i + 1);
                     if (powderJ.get(name) != null) {
                         JsonObject j = powderJ.get(name).getAsJsonObject();
-                        if (j.get("earth_def") != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get("earth_def").getAsInt();
-                        if (j.get("thunder_def") != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get("thunder_def").getAsInt();
-                        if (j.get("water_def") != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get("water_def").getAsInt();
-                        if (j.get("fire_def") != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get("fire_def").getAsInt();
-                        if (j.get("air_def") != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get("air_def").getAsInt();
+                        if (j.get(Identifications.HEALTH_BONUS.getItemName()) != null) numbers[ID_INT.get(Identifications.HEALTH_BONUS)] += j.get(Identifications.HEALTH_BONUS.getItemName()).getAsInt();
+                        if (j.get(Identifications.EARTH_DEFENSE.getItemName()) != null) numbers[ID_INT.get(Identifications.EARTH_DEFENSE)] += j.get(Identifications.EARTH_DEFENSE.getItemName()).getAsInt();
+                        if (j.get(Identifications.THUNDER_DEFENSE.getItemName()) != null) numbers[ID_INT.get(Identifications.THUNDER_DEFENSE)] += j.get(Identifications.THUNDER_DEFENSE.getItemName()).getAsInt();
+                        if (j.get(Identifications.WATER_DEFENSE.getItemName()) != null) numbers[ID_INT.get(Identifications.WATER_DEFENSE)] += j.get(Identifications.WATER_DEFENSE.getItemName()).getAsInt();
+                        if (j.get(Identifications.FIRE_DEFENSE.getItemName()) != null) numbers[ID_INT.get(Identifications.FIRE_DEFENSE)] += j.get(Identifications.FIRE_DEFENSE.getItemName()).getAsInt();
+                        if (j.get(Identifications.AIR_DEFENSE.getItemName()) != null) numbers[ID_INT.get(Identifications.AIR_DEFENSE)] += j.get(Identifications.AIR_DEFENSE.getItemName()).getAsInt();
                     }
                 } else {
                     break;

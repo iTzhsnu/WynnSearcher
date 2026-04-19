@@ -1,4 +1,6 @@
-package com.github.iTzhsnu.WynnSearcher;
+package com.github.iTzhsnu.WynnSearcher.ui;
+
+import com.github.iTzhsnu.WynnSearcher.Identifications;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -9,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class IDBoxAdapter extends KeyAdapter {
+public class IdBoxAdapter extends KeyAdapter {
     private final JComboBox<String> box;
 
     public static final String[] DISPLAY_ID_LIST = new String[] {
@@ -313,7 +315,7 @@ public class IDBoxAdapter extends KeyAdapter {
         put("4thp", Identifications.PERCENT_4TH_SPELL_COST);
     }};
 
-    public IDBoxAdapter(JComboBox<String> box) {
+    public IdBoxAdapter(JComboBox<String> box) {
         super();
         this.box = box;
     }

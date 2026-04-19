@@ -1,6 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher.builder.skilltree;
 
-import com.github.iTzhsnu.WynnSearcher.GetAPI;
+import com.github.iTzhsnu.WynnSearcher.ApiDataManager;
+import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -29,20 +30,20 @@ public class TreeBase implements ActionListener {
         this.classes = classes;
 
         List<JsonObject> map = new ArrayList<>();
-        JsonObject tree = new GetAPI().loadWynnAbilityTreeAPI(classes, map, connect);
-        //JsonObject tree = new GetAPI().setWynnAbilityTreeAPI(classes, map, connect);
+        JsonObject tree = ApiDataManager.getManager().loadWynnAbilityTreeAPI(classes, map, connect);
+
         for (JsonObject json : map) { //Connector
             int x = -1;
             int y = -1;
 
-            if (json.get("coordinates") != null) {
-                JsonObject j = json.get("coordinates").getAsJsonObject();
-                x += j.get("x").getAsInt();
-                y += j.get("y").getAsInt();
+            if (json.get(JsonKeys.COORDINATES.getKey()) != null) {
+                JsonObject j = json.get(JsonKeys.COORDINATES.getKey()).getAsJsonObject();
+                x += j.get(JsonKeys.X.getKey()).getAsInt();
+                y += j.get(JsonKeys.Y.getKey()).getAsInt();
             }
 
-            if (x != -1 && y != -1 && json.get("meta") != null && json.get("meta").getAsJsonObject().get("icon") != null) {
-                switch (json.get("meta").getAsJsonObject().get("icon").getAsString()) {
+            if (x != -1 && y != -1 && json.get(JsonKeys.META.getKey()) != null && json.get(JsonKeys.META.getKey()).getAsJsonObject().get(JsonKeys.ICON.getKey()) != null) {
+                switch (json.get(JsonKeys.META.getKey()).getAsJsonObject().get(JsonKeys.ICON.getKey()).getAsString()) {
                     case "connector_up_right_down_left":
                         new TreeIcon(posWidth(x, 0), posHeight(y, 0), getPane()).all();
                         break;
@@ -80,18 +81,18 @@ public class TreeBase implements ActionListener {
             }
         }
 
-        if (tree.get("pages") != null) {
+        if (tree.get(JsonKeys.PAGES.getKey()) != null) {
             for (int i = 1; 7 >= i; ++i) {
-                JsonObject json = tree.get("pages").getAsJsonObject().get(String.valueOf(i)).getAsJsonObject();
+                JsonObject json = tree.get(JsonKeys.PAGES.getKey()).getAsJsonObject().get(String.valueOf(i)).getAsJsonObject();
                 for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
                     int x = -1;
                     int y = -1;
                     if (i > 1) y += 6 * (i - 1);
                     JsonObject j = json.get(entry.getKey()).getAsJsonObject();
-                    j.addProperty("apiName", entry.getKey());
-                    if (j.get("coordinates") != null) {
-                        x += j.get("coordinates").getAsJsonObject().get("x").getAsInt();
-                        y += j.get("coordinates").getAsJsonObject().get("y").getAsInt();
+                    j.addProperty(JsonKeys.INTERNAL_NAME.getKey(), entry.getKey()); // TODO apiName => internalName
+                    if (j.get(JsonKeys.COORDINATES.getKey()) != null) {
+                        x += j.get(JsonKeys.COORDINATES.getKey()).getAsJsonObject().get(JsonKeys.X.getKey()).getAsInt();
+                        y += j.get(JsonKeys.COORDINATES.getKey()).getAsJsonObject().get(JsonKeys.Y.getKey()).getAsInt();
                     }
 
                     if (x != -1 && y != -1) {
@@ -103,17 +104,17 @@ public class TreeBase implements ActionListener {
                         Archetype archetype = Archetype.NONE;
                         int minArchetype = 0;
                         int cost = 0;
-                        if (j.get("name") != null) { //Name
-                            name = j.get("name").getAsString();
+                        if (j.get(JsonKeys.NAME.getKey()) != null) { //Name
+                            name = j.get(JsonKeys.NAME.getKey()).getAsString();
                         }
-                        if (j.get("description") != null) { //Description
+                        if (j.get(JsonKeys.DESCRIPTION.getKey()) != null) { //Description
                             description = new ArrayList<>();
-                            for (JsonElement je : j.get("description").getAsJsonArray()) {
+                            for (JsonElement je : j.get(JsonKeys.DESCRIPTION.getKey()).getAsJsonArray()) {
                                 description.add(je.getAsString());
                             }
                         }
-                        if (j.get("requirements") != null) { //Requirements
-                            JsonObject jo = j.get("requirements").getAsJsonObject();
+                        if (j.get(JsonKeys.REQUIREMENTS.getKey()) != null) { //Requirements
+                            JsonObject jo = j.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject();
                             if (jo.get("NODE") != null) { //Requirements Ability
                                 req = jo.get("NODE").getAsString();
                             }
