@@ -3,7 +3,7 @@ package com.github.iTzhsnu.WynnSearcher.builder;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum MajorIDEnum {
+public enum MajorIdEnum {
     EMPTY,
 
     TWISTING_THREADS,
@@ -83,7 +83,7 @@ public enum MajorIDEnum {
 
     ;
 
-    public static final Map<String, MajorIDEnum> GET_MAJOR_IDS = new HashMap<String, MajorIDEnum>() {{
+    public static final Map<String, MajorIdEnum> GET_MAJOR_IDS = new HashMap<String, MajorIdEnum>() {{
         put("Twisting Threads", TWISTING_THREADS); //TODO
         put("Fixate", FIXATE); //TODO x4/3 Winded Effect
         put("Lifestream", LIFESTREAM); //TODO

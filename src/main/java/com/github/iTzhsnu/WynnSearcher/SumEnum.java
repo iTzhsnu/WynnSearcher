@@ -5,117 +5,118 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum SumEnum {
-    TOTAL_HEALTH(create_ID_List(Identifications.HEALTH, Identifications.HEALTH_BONUS), null, null, null, false, false, false),
-    TOTAL_HEALTH_REGEN(create_ID_List(Identifications.RAW_HEALTH_REGEN), null, create_ID_List(Identifications.HEALTH_REGEN_PERCENT), null, false, false, false),
-    RAW_DEFENSES(raw_Defenses(), null, null, null, false, false, false),
-    RAW_RAINBOW_DEFENSES(raw_Defenses(), null, null, null, false, false, true),
-    DEFENSES_PERCENT(elem_Defenses_Percent(), null, null, null, false, false, false),
-    RAINBOW_DEFENSES_PERCENT(defenses_Percent(), null, null, null, false, false, true),
-    SKILL_POINT_BONUS(skill_Points(), null, null, null, false, false, false),
-    RAINBOW_SKILL_POINT_BONUS(skill_Points(), null, null, null, false, false, true),
+    TOTAL_HEALTH(createIdList(Identifications.HEALTH, Identifications.HEALTH_BONUS), null, null, null, false, false, false, false),
+    TOTAL_HEALTH_REGEN(createIdList(Identifications.RAW_HEALTH_REGEN), null, createIdList(Identifications.HEALTH_REGEN_PERCENT), null, false, false, false, false),
+    RAW_DEFENSES(rawDefenses(), null, null, null, false, false, false, false),
+    RAW_RAINBOW_DEFENSES(rawDefenses(), null, null, null, false, false, true, false),
+    DEFENSES_PERCENT(elemDefensePercent(), null, null, null, false, false, false, false),
+    RAINBOW_DEFENSES_PERCENT(defensesPercent(), null, null, null, false, false, true, false),
+    SKILL_POINT_BONUS(skillPoints(), null, null, null, false, false, false, false),
+    RAINBOW_SKILL_POINT_BONUS(skillPoints(), null, null, null, false, false, true, false),
 
-    BASE_DPS(damages(), null, null, null, true, false, false),
-    NEUTRAL_DPS(neutral_Damage(), null, null, null, true, false, false),
-    EARTH_DPS(earth_Damage(), null, null, null, true, false, false),
-    THUNDER_DPS(thunder_Damage(), null, null, null, true, false, false),
-    WATER_DPS(water_Damage(), null, null, null, true, false, false),
-    FIRE_DPS(fire_Damage(), null, null, null, true, false, false),
-    AIR_DPS(air_Damage(), null, null, null, true, false, false),
+    BASE_DPS(damages(), null, null, null, true, false, false, true),
+    NEUTRAL_DPS(neutralDamage(), null, null, null, true, false, false, true),
+    EARTH_DPS(earthDamage(), null, null, null, true, false, false, true),
+    THUNDER_DPS(thunderDamage(), null, null, null, true, false, false, true),
+    WATER_DPS(waterDamage(), null, null, null, true, false, false, true),
+    FIRE_DPS(fireDamage(), null, null, null, true, false, false, true),
+    AIR_DPS(airDamage(), null, null, null, true, false, false, true),
 
-    BASE_DAMAGES(damages(), null, null, null, false, false, false),
-    BASE_RAINBOW_DAMAGES(rainbow_damages(), null, null, null, false, false, true),
+    BASE_DAMAGES(damages(), null, null, null, false, false, false, false),
+    BASE_RAINBOW_DAMAGES(rainbowDamages(), null, null, null, false, false, true, false),
 
-    RAW_DAMAGES(raw_Damages(), null, null, null, false, false, false),
-    RAW_SPELL_DAMAGES(raw_Spell_Damages(), null, null, null, false, false, false),
-    RAW_MELEE_DAMAGES(raw_Melee_Damages(), null, null, null, false, false, false),
+    RAW_DAMAGES(rawDamages(), null, null, null, false, false, false, false),
+    RAW_SPELL_DAMAGES(rawSpellDamages(), null, null, null, false, false, false, false),
+    RAW_MELEE_DAMAGES(rawMeleeDamages(), null, null, null, false, false, false, false),
 
-    DAMAGES_PERCENT(elem_Damage_Percent(), null, null, null, false, false, false),
-    RAINBOW_DAMAGES_PERCENT(damages_Percent(), null, null, null, false, false, true),
-    AVERAGE_RAINBOW_DAMAGE_PERCENT(null, null, null, null, false, false, true), //TODO Add Average Rainbow Damage %
+    DAMAGES_PERCENT(elemDamagePercent(), null, null, null, false, false, false, false),
+    RAINBOW_DAMAGES_PERCENT(damagesPercent(), null, null, null, false, false, true, false),
 
     // ~ Melee Damage
-    TOTAL_NEUTRAL_MELEE_DAMAGE(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), create_ID_List(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
-    TOTAL_EARTH_MELEE_DAMAGE(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_EARTH_DAMAGE) , create_ID_List(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
-    TOTAL_THUNDER_MELEE_DAMAGE(thunder_Damage(), create_ID_List(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), create_ID_List(Identifications.THUNDER_DAMAGE_PERCENT, Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
-    TOTAL_WATER_MELEE_DAMAGE(water_Damage(), create_ID_List(Identifications.RAW_WATER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_WATER_DAMAGE), create_ID_List(Identifications.WATER_DAMAGE, Identifications.WATER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
-    TOTAL_FIRE_MELEE_DAMAGE(fire_Damage(), create_ID_List(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_FIRE_DAMAGE), create_ID_List(Identifications.FIRE_DAMAGE_PERCENT, Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
-    TOTAL_AIR_MELEE_DAMAGE(air_Damage(), create_ID_List(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_AIR_DAMAGE), create_ID_List(Identifications.AIR_DAMAGE_PERCENT, Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
+    TOTAL_NEUTRAL_MELEE_DAMAGE(neutralDamage(), createIdList(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), createIdList(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
+    TOTAL_EARTH_MELEE_DAMAGE(earthDamage(), createIdList(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_EARTH_DAMAGE) , createIdList(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
+    TOTAL_THUNDER_MELEE_DAMAGE(thunderDamage(), createIdList(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), createIdList(Identifications.THUNDER_DAMAGE_PERCENT, Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
+    TOTAL_WATER_MELEE_DAMAGE(waterDamage(), createIdList(Identifications.RAW_WATER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_WATER_DAMAGE), createIdList(Identifications.WATER_DAMAGE, Identifications.WATER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
+    TOTAL_FIRE_MELEE_DAMAGE(fireDamage(), createIdList(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_FIRE_DAMAGE), createIdList(Identifications.FIRE_DAMAGE_PERCENT, Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
+    TOTAL_AIR_MELEE_DAMAGE(airDamage(), createIdList(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_AIR_DAMAGE), createIdList(Identifications.AIR_DAMAGE_PERCENT, Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
 
     // ~ Melee DPS
-    TOTAL_NEUTRAL_MELEE_DPS(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), create_ID_List(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), null, true, true, false),
-    TOTAL_NEUTRAL_SPELL_DPS(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), create_ID_List(Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT), null, true, false, false),
-    TOTAL_EARTH_MELEE_DPS(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_EARTH_DAMAGE), create_ID_List(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TOTAL_EARTH_SPELL_DPS(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_EARTH_DAMAGE), create_ID_List(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
-    TOTAL_THUNDER_MELEE_DPS(thunder_Damage(), create_ID_List(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), create_ID_List(Identifications.THUNDER_DAMAGE_PERCENT, Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TOTAL_THUNDER_SPELL_DPS(thunder_Damage(), create_ID_List(Identifications.RAW_THUNDER_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), create_ID_List(Identifications.THUNDER_DAMAGE_PERCENT, Identifications.THUNDER_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
-    TOTAL_WATER_MELEE_DPS(water_Damage(), create_ID_List(Identifications.RAW_WATER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_WATER_DAMAGE), create_ID_List(Identifications.WATER_DAMAGE_PERCENT, Identifications.WATER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TOTAL_WATER_SPELL_DPS(water_Damage(), create_ID_List(Identifications.RAW_WATER_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_WATER_DAMAGE), create_ID_List(Identifications.WATER_DAMAGE_PERCENT, Identifications.WATER_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
-    TOTAL_FIRE_MELEE_DPS(fire_Damage(), create_ID_List(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_FIRE_DAMAGE), create_ID_List(Identifications.FIRE_DAMAGE_PERCENT, Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TOTAL_FIRE_SPELL_DPS(fire_Damage(), create_ID_List(Identifications.RAW_FIRE_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_FIRE_DAMAGE), create_ID_List(Identifications.FIRE_DAMAGE_PERCENT, Identifications.FIRE_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
-    TOTAL_AIR_MELEE_DPS(air_Damage(), create_ID_List(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_AIR_DAMAGE), create_ID_List(Identifications.AIR_DAMAGE_PERCENT, Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TOTAL_AIR_SPELL_DPS(air_Damage(), create_ID_List(Identifications.RAW_AIR_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_AIR_DAMAGE), create_ID_List(Identifications.AIR_DAMAGE_PERCENT, Identifications.AIR_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
+    TOTAL_NEUTRAL_MELEE_DPS(neutralDamage(), createIdList(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), createIdList(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT), null, true, true, false, true),
+    TOTAL_NEUTRAL_SPELL_DPS(neutralDamage(), createIdList(Identifications.RAW_NEUTRAL_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), createIdList(Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT), null, true, false, false, true),
+    TOTAL_EARTH_MELEE_DPS(earthDamage(), createIdList(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_EARTH_DAMAGE), createIdList(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TOTAL_EARTH_SPELL_DPS(earthDamage(), createIdList(Identifications.RAW_EARTH_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_EARTH_DAMAGE), createIdList(Identifications.EARTH_DAMAGE_PERCENT, Identifications.EARTH_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
+    TOTAL_THUNDER_MELEE_DPS(thunderDamage(), createIdList(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), createIdList(Identifications.THUNDER_DAMAGE_PERCENT, Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TOTAL_THUNDER_SPELL_DPS(thunderDamage(), createIdList(Identifications.RAW_THUNDER_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), createIdList(Identifications.THUNDER_DAMAGE_PERCENT, Identifications.THUNDER_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
+    TOTAL_WATER_MELEE_DPS(waterDamage(), createIdList(Identifications.RAW_WATER_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_WATER_DAMAGE), createIdList(Identifications.WATER_DAMAGE_PERCENT, Identifications.WATER_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TOTAL_WATER_SPELL_DPS(waterDamage(), createIdList(Identifications.RAW_WATER_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_WATER_DAMAGE), createIdList(Identifications.WATER_DAMAGE_PERCENT, Identifications.WATER_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
+    TOTAL_FIRE_MELEE_DPS(fireDamage(), createIdList(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_FIRE_DAMAGE), createIdList(Identifications.FIRE_DAMAGE_PERCENT, Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TOTAL_FIRE_SPELL_DPS(fireDamage(), createIdList(Identifications.RAW_FIRE_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_FIRE_DAMAGE), createIdList(Identifications.FIRE_DAMAGE_PERCENT, Identifications.FIRE_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
+    TOTAL_AIR_MELEE_DPS(airDamage(), createIdList(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_AIR_DAMAGE), createIdList(Identifications.AIR_DAMAGE_PERCENT, Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TOTAL_AIR_SPELL_DPS(airDamage(), createIdList(Identifications.RAW_AIR_SPELL_DAMAGE, Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_AIR_DAMAGE), createIdList(Identifications.AIR_DAMAGE_PERCENT, Identifications.AIR_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
 
-    RAW_SPELL_COSTS(create_ID_List(Identifications.RAW_1ST_SPELL_COST, Identifications.RAW_2ND_SPELL_COST, Identifications.RAW_3RD_SPELL_COST, Identifications.RAW_4TH_SPELL_COST), null, null, null, false, false, false),
-    SPELL_COSTS_PERCENT(create_ID_List(Identifications.PERCENT_1ST_SPELL_COST, Identifications.PERCENT_2ND_SPELL_COST, Identifications.PERCENT_3RD_SPELL_COST, Identifications.PERCENT_4TH_SPELL_COST), null, null, null, false, false, false),
+    RAW_SPELL_COSTS(createIdList(Identifications.RAW_1ST_SPELL_COST, Identifications.RAW_2ND_SPELL_COST, Identifications.RAW_3RD_SPELL_COST, Identifications.RAW_4TH_SPELL_COST), null, null, null, false, false, false, false),
+    SPELL_COSTS_PERCENT(createIdList(Identifications.PERCENT_1ST_SPELL_COST, Identifications.PERCENT_2ND_SPELL_COST, Identifications.PERCENT_3RD_SPELL_COST, Identifications.PERCENT_4TH_SPELL_COST), null, null, null, false, false, false, false),
 
-    INGREDIENT_EFFECTIVENESS(create_ID_List(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE, Identifications.INGREDIENT_EFFECTIVENESS_UNDER, Identifications.INGREDIENT_EFFECTIVENESS_RIGHT, Identifications.INGREDIENT_EFFECTIVENESS_LEFT, Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING, Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING), null, null, null, false, false, false),
+    INGREDIENT_EFFECTIVENESS(createIdList(Identifications.INGREDIENT_EFFECTIVENESS_ABOVE, Identifications.INGREDIENT_EFFECTIVENESS_UNDER, Identifications.INGREDIENT_EFFECTIVENESS_RIGHT, Identifications.INGREDIENT_EFFECTIVENESS_LEFT, Identifications.INGREDIENT_EFFECTIVENESS_TOUCHING, Identifications.INGREDIENT_EFFECTIVENESS_NOT_TOUCHING), null, null, null, false, false, false, false),
 
     // Total Melee DPS
-    TMD_NEUTRAL(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), create_ID_List(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TMD_EARTH(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_EARTH_DAMAGE), create_ID_List(Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.EARTH_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TMD_THUNDER(thunder_Damage(), create_ID_List(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), create_ID_List(Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.THUNDER_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TMD_WATER(water_Damage(), create_ID_List(Identifications.RAW_WATER_MELEE_DAMAGE, Identifications.RAW_WATER_DAMAGE), create_ID_List(Identifications.WATER_MELEE_DAMAGE_PERCENT, Identifications.WATER_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TMD_FIRE(fire_Damage(), create_ID_List(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_FIRE_DAMAGE), create_ID_List(Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.FIRE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TMD_AIR(air_Damage(), create_ID_List(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_AIR_DAMAGE), create_ID_List(Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.AIR_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false),
-    TMD_SP(null, create_ID_List(Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_DAMAGE), null, null, true, true, false),
-    TOTAL_MELEE_DPS(damages(), null, null, create_SUM_List(TMD_NEUTRAL, TMD_EARTH, TMD_THUNDER, TMD_WATER, TMD_FIRE, TMD_AIR, TMD_SP), true, true, false),
+    TMD_NEUTRAL(neutralDamage(), createIdList(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), createIdList(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TMD_EARTH(earthDamage(), createIdList(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_EARTH_DAMAGE), createIdList(Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.EARTH_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TMD_THUNDER(thunderDamage(), createIdList(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), createIdList(Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.THUNDER_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TMD_WATER(waterDamage(), createIdList(Identifications.RAW_WATER_MELEE_DAMAGE, Identifications.RAW_WATER_DAMAGE), createIdList(Identifications.WATER_MELEE_DAMAGE_PERCENT, Identifications.WATER_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TMD_FIRE(fireDamage(), createIdList(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_FIRE_DAMAGE), createIdList(Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.FIRE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TMD_AIR(airDamage(), createIdList(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_AIR_DAMAGE), createIdList(Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.AIR_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, true, false, true),
+    TMD_SP(null, createIdList(Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_DAMAGE), null, null, true, true, false, true),
+    TOTAL_MELEE_DPS(damages(), null, null, createSUmList(TMD_NEUTRAL, TMD_EARTH, TMD_THUNDER, TMD_WATER, TMD_FIRE, TMD_AIR, TMD_SP), true, true, false, true),
 
     // Total Melee Damage
-    TM_NEUTRAL(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), create_ID_List(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.NEUTRAL_DAMAGE_PERCENT), null, false, false, false),
-    TM_EARTH(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_EARTH_DAMAGE), create_ID_List(Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.EARTH_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
-    TM_THUNDER(thunder_Damage(), create_ID_List(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), create_ID_List(Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.THUNDER_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
-    TM_WATER(water_Damage(), create_ID_List(Identifications.RAW_WATER_MELEE_DAMAGE, Identifications.RAW_WATER_DAMAGE), create_ID_List(Identifications.WATER_MELEE_DAMAGE_PERCENT, Identifications.WATER_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
-    TM_FIRE(fire_Damage(), create_ID_List(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_FIRE_DAMAGE), create_ID_List(Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.FIRE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
-    TM_AIR(air_Damage(), create_ID_List(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_AIR_DAMAGE), create_ID_List(Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.AIR_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false),
-    TM_SP(create_ID_List(Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_DAMAGE), null, null, null, false, false, false),
-    TOTAL_MELEE_DAMAGE(damages(), null, null, create_SUM_List(TM_NEUTRAL, TM_EARTH, TM_THUNDER, TM_WATER, TM_FIRE, TM_AIR, TM_SP), false, false, false),
+    TM_NEUTRAL(neutralDamage(), createIdList(Identifications.RAW_NEUTRAL_MELEE_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), createIdList(Identifications.NEUTRAL_MELEE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.NEUTRAL_DAMAGE_PERCENT), null, false, false, false, true),
+    TM_EARTH(earthDamage(), createIdList(Identifications.RAW_EARTH_MELEE_DAMAGE, Identifications.RAW_EARTH_DAMAGE), createIdList(Identifications.EARTH_MELEE_DAMAGE_PERCENT, Identifications.EARTH_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
+    TM_THUNDER(thunderDamage(), createIdList(Identifications.RAW_THUNDER_MELEE_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), createIdList(Identifications.THUNDER_MELEE_DAMAGE_PERCENT, Identifications.THUNDER_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
+    TM_WATER(waterDamage(), createIdList(Identifications.RAW_WATER_MELEE_DAMAGE, Identifications.RAW_WATER_DAMAGE), createIdList(Identifications.WATER_MELEE_DAMAGE_PERCENT, Identifications.WATER_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
+    TM_FIRE(fireDamage(), createIdList(Identifications.RAW_FIRE_MELEE_DAMAGE, Identifications.RAW_FIRE_DAMAGE), createIdList(Identifications.FIRE_MELEE_DAMAGE_PERCENT, Identifications.FIRE_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
+    TM_AIR(airDamage(), createIdList(Identifications.RAW_AIR_MELEE_DAMAGE, Identifications.RAW_AIR_DAMAGE), createIdList(Identifications.AIR_MELEE_DAMAGE_PERCENT, Identifications.AIR_DAMAGE_PERCENT, Identifications.MELEE_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_MELEE_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, false, false, false, true),
+    TM_SP(createIdList(Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_DAMAGE), null, null, null, false, false, false, true),
+    TOTAL_MELEE_DAMAGE(damages(), null, null, createSUmList(TM_NEUTRAL, TM_EARTH, TM_THUNDER, TM_WATER, TM_FIRE, TM_AIR, TM_SP), false, false, false, true),
 
     // Total Spell DPS
-    TS_NEUTRAL(neutral_Damage(), create_ID_List(Identifications.RAW_NEUTRAL_SPELL_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), create_ID_List(Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.NEUTRAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
-    TS_EARTH(earth_Damage(), create_ID_List(Identifications.RAW_EARTH_SPELL_DAMAGE, Identifications.RAW_EARTH_DAMAGE), create_ID_List(Identifications.EARTH_SPELL_DAMAGE_PERCENT, Identifications.EARTH_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
-    TS_THUNDER(thunder_Damage(), create_ID_List(Identifications.RAW_THUNDER_SPELL_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), create_ID_List(Identifications.THUNDER_SPELL_DAMAGE_PERCENT, Identifications.THUNDER_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
-    TS_WATER(water_Damage(), create_ID_List(Identifications.RAW_WATER_SPELL_DAMAGE, Identifications.RAW_WATER_DAMAGE), create_ID_List(Identifications.WATER_SPELL_DAMAGE_PERCENT, Identifications.WATER_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
-    TS_FIRE(fire_Damage(), create_ID_List(Identifications.RAW_FIRE_SPELL_DAMAGE, Identifications.RAW_FIRE_DAMAGE), create_ID_List(Identifications.FIRE_SPELL_DAMAGE_PERCENT, Identifications.FIRE_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
-    TS_AIR(air_Damage(), create_ID_List(Identifications.RAW_AIR_SPELL_DAMAGE, Identifications.RAW_AIR_DAMAGE), create_ID_List(Identifications.AIR_SPELL_DAMAGE_PERCENT, Identifications.AIR_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false),
-    TS_SP(create_ID_List(Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_DAMAGE), null, null, null, false, false, false),
-    TOTAL_SPELL_DPS(damages(), null, null, create_SUM_List(TS_NEUTRAL, TS_EARTH, TS_THUNDER, TS_WATER, TS_FIRE, TS_AIR, TS_SP), true, false, false),
+    TS_NEUTRAL(neutralDamage(), createIdList(Identifications.RAW_NEUTRAL_SPELL_DAMAGE, Identifications.RAW_NEUTRAL_DAMAGE), createIdList(Identifications.NEUTRAL_SPELL_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.NEUTRAL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
+    TS_EARTH(earthDamage(), createIdList(Identifications.RAW_EARTH_SPELL_DAMAGE, Identifications.RAW_EARTH_DAMAGE), createIdList(Identifications.EARTH_SPELL_DAMAGE_PERCENT, Identifications.EARTH_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
+    TS_THUNDER(thunderDamage(), createIdList(Identifications.RAW_THUNDER_SPELL_DAMAGE, Identifications.RAW_THUNDER_DAMAGE), createIdList(Identifications.THUNDER_SPELL_DAMAGE_PERCENT, Identifications.THUNDER_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
+    TS_WATER(waterDamage(), createIdList(Identifications.RAW_WATER_SPELL_DAMAGE, Identifications.RAW_WATER_DAMAGE), createIdList(Identifications.WATER_SPELL_DAMAGE_PERCENT, Identifications.WATER_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
+    TS_FIRE(fireDamage(), createIdList(Identifications.RAW_FIRE_SPELL_DAMAGE, Identifications.RAW_FIRE_DAMAGE), createIdList(Identifications.FIRE_SPELL_DAMAGE_PERCENT, Identifications.FIRE_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
+    TS_AIR(airDamage(), createIdList(Identifications.RAW_AIR_SPELL_DAMAGE, Identifications.RAW_AIR_DAMAGE), createIdList(Identifications.AIR_SPELL_DAMAGE_PERCENT, Identifications.AIR_DAMAGE_PERCENT, Identifications.SPELL_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT, Identifications.ELEMENTAL_SPELL_DAMAGE_PERCENT, Identifications.DAMAGE_PERCENT), null, true, false, false, true),
+    TS_SP(createIdList(Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE, Identifications.RAW_DAMAGE), null, null, null, false, false, false, true),
+    TOTAL_SPELL_DPS(damages(), null, null, createSUmList(TS_NEUTRAL, TS_EARTH, TS_THUNDER, TS_WATER, TS_FIRE, TS_AIR, TS_SP), true, false, false, true),
 
-    TM_DAM(null, create_ID_List(Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_DAMAGE), null, null, false, false, false),
-    TM_ELEM(null, create_ID_List(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE), null, null, false, false, false),
-    TS_DAM(null, create_ID_List(Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_DAMAGE), null, null, false, false, false),
-    TS_ELEM(null, create_ID_List(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE), null, null, false, false, false),
-    MELEE_APPROPRIATE(null, null, null, create_SUM_List(TM_NEUTRAL, TM_EARTH, TM_THUNDER, TM_WATER, TM_FIRE, TM_AIR, TM_DAM, TM_ELEM), false, true, false),
-    SPELL_APPROPRIATE(null, null, null, create_SUM_List(TS_NEUTRAL, TS_EARTH, TS_THUNDER, TS_WATER, TS_FIRE, TS_AIR, TS_DAM, TS_ELEM), true, false, false)
+    TM_DAM(null, createIdList(Identifications.RAW_MELEE_DAMAGE, Identifications.RAW_DAMAGE), null, null, false, false, false, true),
+    TM_ELEM(null, createIdList(Identifications.RAW_ELEMENTAL_MELEE_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE), null, null, false, false, false, true),
+    TS_DAM(null, createIdList(Identifications.RAW_SPELL_DAMAGE, Identifications.RAW_DAMAGE), null, null, false, false, false, true),
+    TS_ELEM(null, createIdList(Identifications.RAW_ELEMENTAL_SPELL_DAMAGE, Identifications.RAW_ELEMENTAL_DAMAGE), null, null, false, false, false, true),
+    MELEE_APPROPRIATE(null, null, null, createSUmList(TM_NEUTRAL, TM_EARTH, TM_THUNDER, TM_WATER, TM_FIRE, TM_AIR, TM_DAM, TM_ELEM), false, true, false, true),
+    SPELL_APPROPRIATE(null, null, null, createSUmList(TS_NEUTRAL, TS_EARTH, TS_THUNDER, TS_WATER, TS_FIRE, TS_AIR, TS_DAM, TS_ELEM), true, false, false, true)
     ;
 
     private final List<Identifications> ids;
-    private final List<Identifications> addIDs;
-    private final List<Identifications> multiIDs;
+    private final List<Identifications> addIds;
+    private final List<Identifications> multiIds;
     private final List<SumEnum> sumIDs;
     private final boolean dps;
-    private final boolean meleeDPS;
+    private final boolean meleeDps;
     private final boolean needAll;
+    private final boolean average;
 
-    // if meleeDPS = true: (Base IDs * Multi IDs + Add IDs) * DPS
-    // if meleeDPS = false: Base IDs * Multi IDs * DPS + Add IDs
-    SumEnum(List<Identifications> ids, List<Identifications> addIDs, List<Identifications> multiIDs, List<SumEnum> sumIDs, boolean dps, boolean meleeDPS, boolean needAll) {
+    // if meleeDps = true: (Base IDs * Multi IDs + Add IDs) * DPS
+    // if meleeDps = false: Base IDs * Multi IDs * DPS + Add IDs
+    SumEnum(List<Identifications> ids, List<Identifications> addIds, List<Identifications> multiIds, List<SumEnum> sumIDs, boolean dps, boolean meleeDps, boolean needAll, boolean average) {
         this.ids = ids;
-        this.addIDs = addIDs;
-        this.multiIDs = multiIDs;
+        this.addIds = addIds;
+        this.multiIds = multiIds;
         this.sumIDs = sumIDs;
         this.dps = dps;
-        this.meleeDPS = meleeDPS;
+        this.meleeDps = meleeDps;
         this.needAll = needAll;
+        this.average = average;
     }
 
     public List<Identifications> getIds() {
@@ -123,31 +124,35 @@ public enum SumEnum {
     }
 
 
-    public List<Identifications> getAddIDs() {
-        return this.addIDs;
+    public List<Identifications> getAddIds() {
+        return this.addIds;
     }
 
-    public List<Identifications> getMultiIDs() {
-        return this.multiIDs;
+    public List<Identifications> getMultiIds() {
+        return this.multiIds;
     }
 
     public List<SumEnum> getSumIDs() {
         return this.sumIDs;
     }
 
-    public boolean isDPS() {
+    public boolean isDps() {
         return this.dps;
     }
 
-    public boolean isMeleeDPS() {
-        return this.meleeDPS;
+    public boolean isMeleeDps() {
+        return this.meleeDps;
     }
 
     public boolean isNeedAll() {
         return this.needAll;
     }
 
-    private static List<Identifications> raw_Defenses() {
+    public boolean isAverage() {
+        return this.average;
+    }
+
+    private static List<Identifications> rawDefenses() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.EARTH_DEFENSE);
@@ -159,7 +164,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> defenses_Percent() {
+    private static List<Identifications> defensesPercent() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.EARTH_DEFENSE_PERCENT);
@@ -171,15 +176,15 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> elem_Defenses_Percent() {
-        List<Identifications> ids = defenses_Percent();
+    private static List<Identifications> elemDefensePercent() {
+        List<Identifications> ids = defensesPercent();
 
         ids.add(Identifications.ELEMENTAL_DEFENSE_PERCENT);
 
         return ids;
     }
 
-    private static List<Identifications> skill_Points() {
+    private static List<Identifications> skillPoints() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.STRENGTH);
@@ -191,7 +196,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> neutral_Damage() {
+    private static List<Identifications> neutralDamage() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.NEUTRAL_DAMAGE);
@@ -199,7 +204,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> earth_Damage() {
+    private static List<Identifications> earthDamage() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.EARTH_DAMAGE);
@@ -207,7 +212,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> thunder_Damage() {
+    private static List<Identifications> thunderDamage() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.THUNDER_DAMAGE);
@@ -215,7 +220,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> water_Damage() {
+    private static List<Identifications> waterDamage() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.WATER_DAMAGE);
@@ -223,7 +228,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> fire_Damage() {
+    private static List<Identifications> fireDamage() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.FIRE_DAMAGE);
@@ -231,7 +236,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> air_Damage() {
+    private static List<Identifications> airDamage() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.AIR_DAMAGE);
@@ -252,7 +257,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> rainbow_damages() {
+    private static List<Identifications> rainbowDamages() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.EARTH_DAMAGE);
@@ -264,29 +269,15 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> damages_Percent() {
-        List<Identifications> ids = new ArrayList<>();
-
-        ids.add(Identifications.DAMAGE_PERCENT);
-        ids.add(Identifications.EARTH_DAMAGE_PERCENT);
-        ids.add(Identifications.THUNDER_DAMAGE_PERCENT);
-        ids.add(Identifications.WATER_DAMAGE_PERCENT);
-        ids.add(Identifications.FIRE_DAMAGE_PERCENT);
-        ids.add(Identifications.AIR_DAMAGE_PERCENT);
-
-        return ids;
+    private static List<Identifications> damagesPercent() {
+        return createIdList(Identifications.DAMAGE_PERCENT, Identifications.EARTH_DAMAGE_PERCENT, Identifications.THUNDER_DAMAGE_PERCENT, Identifications.WATER_DAMAGE_PERCENT, Identifications.FIRE_DAMAGE_PERCENT, Identifications.AIR_DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT);
     }
 
-    private static List<Identifications> elem_Damage_Percent() {
-        List<Identifications> ids = damages_Percent();
-
-        ids.add(Identifications.DAMAGE_PERCENT);
-        ids.add(Identifications.ELEMENTAL_DAMAGE_PERCENT);
-
-        return ids;
+    private static List<Identifications> elemDamagePercent() {
+        return createIdList(Identifications.DAMAGE_PERCENT, Identifications.ELEMENTAL_DAMAGE_PERCENT);
     }
 
-    private static List<Identifications> raw_Damages() {
+    private static List<Identifications> rawDamages() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.RAW_DAMAGE);
@@ -301,7 +292,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> raw_Spell_Damages() {
+    private static List<Identifications> rawSpellDamages() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.RAW_SPELL_DAMAGE);
@@ -316,7 +307,7 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> raw_Melee_Damages() {
+    private static List<Identifications> rawMeleeDamages() {
         List<Identifications> ids = new ArrayList<>();
 
         ids.add(Identifications.RAW_MELEE_DAMAGE);
@@ -331,11 +322,11 @@ public enum SumEnum {
         return ids;
     }
 
-    private static List<Identifications> create_ID_List(Identifications... ids) {
+    private static List<Identifications> createIdList(Identifications... ids) {
         return new ArrayList<>(Arrays.asList(ids));
     }
 
-    private static List<SumEnum> create_SUM_List(SumEnum... sums) {
+    private static List<SumEnum> createSUmList(SumEnum... sums) {
         return new ArrayList<>(Arrays.asList(sums));
     }
 }

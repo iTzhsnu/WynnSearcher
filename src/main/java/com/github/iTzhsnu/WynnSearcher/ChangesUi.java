@@ -25,8 +25,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.List;
 
-public class ChangesUI implements ActionListener {
-    private final SearchUI search;
+public class ChangesUi implements ActionListener {
+    private final SearchUi search;
     private final File itemFile;
     private final File ingFile;
     private final File otherFile;
@@ -35,7 +35,7 @@ public class ChangesUI implements ActionListener {
     private final JComboBox<String> after = new JComboBox<>();
     private final JComboBox<String> check_type = new JComboBox<>();
 
-    public ChangesUI(SearchUI search) {
+    public ChangesUi(SearchUi search) {
         this.search = search;
         Container pane = search.getContentPane();
         ApiDataManager apiMan = ApiDataManager.getManager();
@@ -519,24 +519,23 @@ public class ChangesUI implements ActionListener {
             }
             changedL.clear();
 
-            ApiDataManager api = ApiDataManager.getManager();
             switch (itemType) {
                 case INGREDIENT:
                     search.filterIng(modifyIng);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sort(changedL, ItemType.INGREDIENT, api.howToObtainIng);
+                        search.sort(changedL, ItemType.INGREDIENT);
                     }
                     break;
                 case OTHER:
                     search.filterOther(modify);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sort(changedL, ItemType.OTHER, api.howToObtainOthers);
+                        search.sort(changedL, ItemType.OTHER);
                     }
                     break;
                 default:
                     search.filterItems(modify);
                     for (int i = search.getSearchedItems().size(); i > 0; --i) {
-                        search.sort(changedL, ItemType.ITEM, api.howToObtainItem);
+                        search.sort(changedL, ItemType.ITEM);
                     }
                     break;
             }

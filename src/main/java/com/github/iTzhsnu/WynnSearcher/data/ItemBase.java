@@ -16,7 +16,7 @@ public abstract class ItemBase {
     public abstract int getIdValue(Identifications id, JsonKeys sortType);
 
     protected int getIdValue(Identifications id, String idName, JsonKeys fieldPos, JsonKeys sortType) {
-        if (idName != null && fieldPos != null && id.getIDType() == DataType.INT) {
+        if (idName != null && fieldPos != null && id.getIdType() == DataType.INT) {
             if (fieldPos == JsonKeys.NOTHING) {
                 if (j.get(idName) != null) return j.get(idName).getAsInt();
             } else {
@@ -50,7 +50,7 @@ public abstract class ItemBase {
     }
 
     public boolean haveId(Identifications id, JsonObject howToObtain, String min, String max) {
-        if (id.getIDType() != DataType.SUM) {
+        if (id.getIdType() != DataType.SUM) {
             return haveIdValue(id, howToObtain, min, max);
         } else {
             if (id == Identifications.SUM_MELEE_APPROPRIATE || id == Identifications.SUM_SPELL_APPROPRIATE) {
@@ -91,14 +91,18 @@ public abstract class ItemBase {
         if (sum.getIds() != null) {
             for (int n = 0; sum.getIds().size() > n; ++n) {
                 Identifications ids = sum.getIds().get(n);
-                sum_total += getIdValue(ids, sortType);
+                if (sum.isAverage()) {
+                    sum_total += (getIdValue(ids, JsonKeys.MAX) + getIdValue(ids, JsonKeys.MIN)) * 0.5F;
+                } else {
+                    sum_total += getIdValue(ids, sortType);
+                }
             }
         }
 
         //Sub IDs
-        if (sum.getMultiIDs() != null) {
-            for (int n = 0; sum.getMultiIDs().size() > n; ++n) {
-                Identifications ids = sum.getMultiIDs().get(n);
+        if (sum.getMultiIds() != null) {
+            for (int n = 0; sum.getMultiIds().size() > n; ++n) {
+                Identifications ids = sum.getMultiIds().get(n);
                 sum_total_sub += getIdValue(ids, sortType);
             }
             if (sum_total < 0 && sum_total_sub < 0) {
@@ -111,12 +115,12 @@ public abstract class ItemBase {
             }
             sum_total = sum_total * (1F + sum_total_sub / 100F);
         }
-        if (sum.getAddIDs() != null) {
-            for (int n = 0; sum.getAddIDs().size() > n; ++n) {
-                Identifications ids = sum.getAddIDs().get(n);
+        if (sum.getAddIds() != null) {
+            for (int n = 0; sum.getAddIds().size() > n; ++n) {
+                Identifications ids = sum.getAddIds().get(n);
                 int t = getIdValue(ids, sortType);
 
-                if (sum.isMeleeDPS()) {
+                if (sum.isMeleeDps()) {
                     sum_total += t;
                 } else {
                     total += t;
@@ -125,7 +129,7 @@ public abstract class ItemBase {
         }
 
         //DPS (Attack Speed)
-        if (sum.isDPS()) {
+        if (sum.isDps()) {
             if (j.get(Identifications.ATTACK_SPEED.getItemName()) != null) {
                 sum_total *= getAttackSpeed();
             }
@@ -135,8 +139,8 @@ public abstract class ItemBase {
 
     public boolean hasDamageAppropriateSumId(SumEnum sum, String weaponName, String powder) {
         if (weaponName != null && powder != null) {
-            if (!weaponName.isEmpty() && DataUtils.getItemJsonFromName(weaponName) != null) {
-                JsonObject weapon = DataUtils.getItemJsonFromName(weaponName).j;
+            if (!weaponName.isEmpty() && DataUtils.getItemDataFromName(weaponName) != null) {
+                JsonObject weapon = DataUtils.getItemDataFromName(weaponName).j;
                 if (weapon != null) {
                     boolean[] has = new boolean[] { false, false, false, false, false, false };
 
@@ -179,13 +183,13 @@ public abstract class ItemBase {
 
                     if (has[0] || has[1] || has[2] || has[3] || has[4] || has[5]) {
                         // Raw Damage
-                        for (Identifications id : sum.getSumIDs().get(6).getAddIDs()) {
+                        for (Identifications id : sum.getSumIDs().get(6).getAddIds()) {
                             if (haveId(id, null, null, null)) return true;
                         }
 
                         // Raw Elemental Damage
                         if (has[1] || has[2] || has[3] || has[4] || has[5]) {
-                            for (Identifications id : sum.getSumIDs().get(7).getAddIDs()) {
+                            for (Identifications id : sum.getSumIDs().get(7).getAddIds()) {
                                 if (haveId(id, null, null, null)) return true;
                             }
                         }
@@ -194,12 +198,12 @@ public abstract class ItemBase {
                         for (int i = 0; 6 > i; ++i) {
                             if (has[i]) {
                                 // Raw **** Damage and Raw **** Spell or Melee Damage
-                                for (Identifications id : sum.getSumIDs().get(i).getAddIDs()) {
+                                for (Identifications id : sum.getSumIDs().get(i).getAddIds()) {
                                     if (haveId(id, null, null, null)) return true;
                                 }
 
                                 // **** Damage %, Elemental Damage %, **** Melee or Spell Damage % and Elemental Melee or Spell Damage %
-                                for (Identifications id : sum.getSumIDs().get(i).getMultiIDs()) {
+                                for (Identifications id : sum.getSumIDs().get(i).getMultiIds()) {
                                     if (haveId(id, null, null, null)) return true;
                                 }
                             }
@@ -214,54 +218,54 @@ public abstract class ItemBase {
     public float getDamAppropriateSumFloat(SumEnum sum, JsonKeys sortType, String weaponName, String powder) {
         if (weaponName != null && powder != null) {
             if (!weaponName.isEmpty()) {
-                ItemBase weapon = DataUtils.getItemJsonFromName(weaponName);
+                ItemBase weapon = DataUtils.getItemDataFromName(weaponName);
                 if (weapon != null) {
                     float total = 0;
-                    float total_sub = 0;
+                    float totalSub = 0;
 
                     // Set Weapon Min and Max Damage
-                    int[] damages_min = new int[] { weapon.getIdValue(Identifications.NEUTRAL_DAMAGE, JsonKeys.MIN), weapon.getIdValue(Identifications.EARTH_DAMAGE, JsonKeys.MIN), weapon.getIdValue(Identifications.THUNDER_DAMAGE, JsonKeys.MIN), weapon.getIdValue(Identifications.WATER_DAMAGE, JsonKeys.MIN), weapon.getIdValue(Identifications.FIRE_DAMAGE, JsonKeys.MIN), weapon.getIdValue(Identifications.AIR_DAMAGE, JsonKeys.MIN) };
-                    int[] damages_max = new int[] { weapon.getIdValue(Identifications.NEUTRAL_DAMAGE, JsonKeys.MAX), weapon.getIdValue(Identifications.EARTH_DAMAGE, JsonKeys.MAX), weapon.getIdValue(Identifications.THUNDER_DAMAGE, JsonKeys.MAX), weapon.getIdValue(Identifications.WATER_DAMAGE, JsonKeys.MAX), weapon.getIdValue(Identifications.FIRE_DAMAGE, JsonKeys.MAX), weapon.getIdValue(Identifications.AIR_DAMAGE, JsonKeys.MAX) };
+                    int[] damagesMin = new int[] { weapon.getIdValue(Identifications.NEUTRAL_DAMAGE, JsonKeys.MIN), weapon.getIdValue(Identifications.EARTH_DAMAGE, JsonKeys.MIN), weapon.getIdValue(Identifications.THUNDER_DAMAGE, JsonKeys.MIN), weapon.getIdValue(Identifications.WATER_DAMAGE, JsonKeys.MIN), weapon.getIdValue(Identifications.FIRE_DAMAGE, JsonKeys.MIN), weapon.getIdValue(Identifications.AIR_DAMAGE, JsonKeys.MIN) };
+                    int[] damagesMax = new int[] { weapon.getIdValue(Identifications.NEUTRAL_DAMAGE, JsonKeys.MAX), weapon.getIdValue(Identifications.EARTH_DAMAGE, JsonKeys.MAX), weapon.getIdValue(Identifications.THUNDER_DAMAGE, JsonKeys.MAX), weapon.getIdValue(Identifications.WATER_DAMAGE, JsonKeys.MAX), weapon.getIdValue(Identifications.FIRE_DAMAGE, JsonKeys.MAX), weapon.getIdValue(Identifications.AIR_DAMAGE, JsonKeys.MAX) };
 
                     // Set Powder Damage
                     if (!powder.isEmpty()) {
-                        DataUtils.setPowderOnNonCraft(damages_min, powder, JsonKeys.MIN);
-                        DataUtils.setPowderOnNonCraft(damages_max, powder, JsonKeys.MAX);
+                        DataUtils.setPowderOnNonCraft(damagesMin, powder, JsonKeys.MIN);
+                        DataUtils.setPowderOnNonCraft(damagesMax, powder, JsonKeys.MAX);
                     }
 
                     // Average Base Damage
-                    float[] damages = new float[] { (damages_min[0] + damages_max[0]) * 0.5F, (damages_min[1] + damages_max[1]) * 0.5F, (damages_min[2] + damages_max[2]) * 0.5F, (damages_min[3] + damages_max[3]) * 0.5F, (damages_min[4] + damages_max[4]) * 0.5F, (damages_min[5] + damages_max[5]) * 0.5F };
+                    float[] damages = new float[] { (damagesMin[0] + damagesMax[0]) * 0.5F, (damagesMin[1] + damagesMax[1]) * 0.5F, (damagesMin[2] + damagesMax[2]) * 0.5F, (damagesMin[3] + damagesMax[3]) * 0.5F, (damagesMin[4] + damagesMax[4]) * 0.5F, (damagesMin[5] + damagesMax[5]) * 0.5F };
 
                     // Damage %
                     for (int i = 0; 6 > i; ++i) {
                         if (damages[i] != 0) {
-                            for (Identifications id : sum.getSumIDs().get(i).getMultiIDs()) {
-                                total += damages[i] * weapon.getIdValue(id, sortType) * 0.01F;
+                            for (Identifications id : sum.getSumIDs().get(i).getMultiIds()) {
+                                total += damages[i] * getIdValue(id, sortType) * 0.01F;
                             }
-                            for (Identifications id : sum.getSumIDs().get(i).getAddIDs()) {
-                                total_sub += weapon.getIdValue(id, sortType);
+                            for (Identifications id : sum.getSumIDs().get(i).getAddIds()) {
+                                totalSub += getIdValue(id, sortType);
                             }
                         }
                     }
 
                     if (damages[0] != 0 || damages[1] != 0 || damages[2] != 0 || damages[3] != 0 || damages[4] != 0 || damages[5] != 0) {
                         // Raw Damage and Raw Melee or Spell Damage
-                        for (Identifications id : sum.getSumIDs().get(6).getAddIDs()) {
-                            total_sub += weapon.getIdValue(id, sortType);
+                        for (Identifications id : sum.getSumIDs().get(6).getAddIds()) {
+                            totalSub += getIdValue(id, sortType);
                         }
 
                         // Raw Elemental Damage and Raw Elemental Melee or Spell Damage
                         if (damages[1] != 0 || damages[2] != 0 || damages[3] != 0 || damages[4] != 0 || damages[5] != 0) {
-                            for (Identifications id : sum.getSumIDs().get(7).getAddIDs()) {
-                                total_sub += weapon.getIdValue(id, sortType);
+                            for (Identifications id : sum.getSumIDs().get(7).getAddIds()) {
+                                totalSub += getIdValue(id, sortType);
                             }
                         }
 
-                        if (sum.isMeleeDPS()) {
-                            return total + total_sub;
-                        } else if (sum.isDPS()) {
+                        if (sum.isMeleeDps()) {
+                            return total + totalSub;
+                        } else if (sum.isDps()) {
                             total *= weapon.getAttackSpeed();
-                            return total + total_sub;
+                            return total + totalSub;
                         }
                     }
                 }

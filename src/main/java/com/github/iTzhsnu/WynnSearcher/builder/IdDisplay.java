@@ -14,7 +14,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.*;
 
-public class ID_Display {
+public class IdDisplay {
     private final JPanel pane = new JPanel();
     private final List<JLabel> ids = new ArrayList<>();
     private int[] id_Numbers = new int[] {};
@@ -40,7 +40,7 @@ public class ID_Display {
         put(4, 0.6F); //Shaman
     }};
 
-    public ID_Display(JPanel p) {
+    public IdDisplay(JPanel p) {
         setListJson = ApiDataManager.getManager().getSetItems();
 
         pane.setPreferredSize(new Dimension(250, 2500));
@@ -67,7 +67,7 @@ public class ID_Display {
         }
     }
 
-    public void setIDs(ItemData itemData, Damage_IDs damage_ids, SkillPoint sp, TreeBase tree, Ability_Buffs abilityBuffs, Powder_Effects powder_effects, List<JTextField> powders, int classID, boolean updateOnly) {
+    public void setIDs(ItemData itemData, DamageId damage_ids, SkillPoint sp, TreeBase tree, AbilityBuffs abilityBuffs, PowderEffect powder_effects, List<JTextField> powders, int classID, boolean updateOnly) {
         pane.removeAll();
         if (!ids.isEmpty()) ids.clear();
         if (!setBonuses.isEmpty()) setBonuses.clear();
@@ -151,35 +151,35 @@ public class ID_Display {
         if (updateOnly) { //Update Edited ID
             for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) { //Damages and Health Regen
                 Identifications id = ItemUi.ITEM_IDS.get(i);
-                if (Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
-                    numbers[ID_INT.get(id)] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).getValue();
+                if (DamageId.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
+                    numbers[ID_INT.get(id)] = damage_ids.getID(DamageId.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).getValue();
                 }
             }
             for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) { //Spell Costs
                 Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
-                if (Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
-                    numbers[ID_INT.get(id)] = damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).getValue();
+                if (DamageId.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
+                    numbers[ID_INT.get(id)] = damage_ids.getID(DamageId.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).getValue();
                 }
             }
         } else { //Set Editable ID Original Num
             for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) { //Damages and Health Regen
                 Identifications id = ItemUi.ITEM_IDS.get(i);
-                if (Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
-                    damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).setValue(numbers[ID_INT.get(id)]);
+                if (DamageId.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
+                    damage_ids.getID(DamageId.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).setValue(numbers[ID_INT.get(id)]);
                 }
             }
             for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) { //Spell Costs
                 Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
-                if (Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
-                    damage_ids.getID(Damage_IDs.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).setValue(numbers[ID_INT.get(id)]);
+                if (DamageId.GET_DAMAGE_ID_NUM_FROM_ID.getOrDefault(id, -1) != -1) {
+                    damage_ids.getID(DamageId.GET_DAMAGE_ID_NUM_FROM_ID.get(id)).setValue(numbers[ID_INT.get(id)]);
                 }
             }
         }
 
         //Radiance
-        if (abilityBuffs.getBox().get(Ability_Buffs_Enum.RADIANCE.getPos()).isSelected()) {
+        if (abilityBuffs.getBox().get(AbilityBuffsEnum.RADIANCE.getPos()).isSelected()) {
             float radiance = 1.2F;
-            if (itemData.getMajorIDList().contains(MajorIDEnum.DIVINE_HONOR)) radiance += 0.05F; //MAJOR ID: DIVINE HONOR
+            if (itemData.getMajorIDList().contains(MajorIdEnum.DIVINE_HONOR)) radiance += 0.05F; //MAJOR ID: DIVINE HONOR
             for (int i = 5; ItemUi.ITEM_IDS.size() > i; ++i) {
                 Identifications id = ItemUi.ITEM_IDS.get(i);
                 if (id == Identifications.COMBAT_XP_BONUS || id == Identifications.LOOT_BONUS || id == Identifications.LOOT_QUALITY || id == Identifications.GATHERING_XP_BONUS || id == Identifications.GATHERING_SPEED_BONUS) continue;
@@ -292,33 +292,33 @@ public class ID_Display {
         if (powder_effects.getPowderPanel("Air").getValue() > 0) numbers[ID_INT.get(Identifications.AIR_DAMAGE_PERCENT)] += powder_effects.getPowderPanel("Air").getValue();
 
         float enemy_Damage_Bonus = 1F;
-        if (abilityBuffs.getBox().get(Ability_Buffs_Enum.WAR_SCREAM.getPos()).isSelected()) def *= 0.8F; //War Scream (+20% Resistance Bonus)
-        if (abilityBuffs.getBox().get(Ability_Buffs_Enum.IVYROOT_MAMBA.getPos()).isSelected()) enemy_Damage_Bonus -= 0.15F; //Ivyroot Mamba (-15% Damage Bonus)
-        if (abilityBuffs.getBox().get(Ability_Buffs_Enum.HAUNTING_MEMORY_LUNATIC.getPos()).isSelected()) enemy_Damage_Bonus -= 0.15F; //Haunting Memory (from Lunatic) (-15% Damage Bonus)
+        if (abilityBuffs.getBox().get(AbilityBuffsEnum.WAR_SCREAM.getPos()).isSelected()) def *= 0.8F; //War Scream (+20% Resistance Bonus)
+        if (abilityBuffs.getBox().get(AbilityBuffsEnum.IVYROOT_MAMBA.getPos()).isSelected()) enemy_Damage_Bonus -= 0.15F; //Ivyroot Mamba (-15% Damage Bonus)
+        if (abilityBuffs.getBox().get(AbilityBuffsEnum.HAUNTING_MEMORY_LUNATIC.getPos()).isSelected()) enemy_Damage_Bonus -= 0.15F; //Haunting Memory (from Lunatic) (-15% Damage Bonus)
         def *= enemy_Damage_Bonus; //Enemy Damage Bonus
-        if (abilityBuffs.getBox().get(Ability_Buffs_Enum.SAVIOURS_SACRIFICE.getPos()).isSelected()) def *= 0.8F;
+        if (abilityBuffs.getBox().get(AbilityBuffsEnum.SAVIOURS_SACRIFICE.getPos()).isSelected()) def *= 0.8F;
 
         //Check Boxes and Slider
         switch (tree.getClasses()) {
             case "warrior": {
-                if (abilityBuffs.getBox().get(Ability_Buffs_Enum.MANTLE.getPos()).isSelected()) def *= 0.3F; //Mantle
-                if (abilityBuffs.getBox().get(Ability_Buffs_Enum.BRINK_OF_MADNESS.getPos()).isSelected()) def *= 0.6F; //Brink of Madness
+                if (abilityBuffs.getBox().get(AbilityBuffsEnum.MANTLE.getPos()).isSelected()) def *= 0.3F; //Mantle
+                if (abilityBuffs.getBox().get(AbilityBuffsEnum.BRINK_OF_MADNESS.getPos()).isSelected()) def *= 0.6F; //Brink of Madness
                 break;
             }
             case "assassin": {
-                if (abilityBuffs.getBox().get(Ability_Buffs_Enum.MIRROR_IMAGE.getPos()).isSelected()) def *= 0.4F; //Mirror Image
-                if (abilityBuffs.getBox().get(Ability_Buffs_Enum.DISSOLUTION.getPos()).isSelected()) def *= 0.25F; //Dissolution
+                if (abilityBuffs.getBox().get(AbilityBuffsEnum.MIRROR_IMAGE.getPos()).isSelected()) def *= 0.4F; //Mirror Image
+                if (abilityBuffs.getBox().get(AbilityBuffsEnum.DISSOLUTION.getPos()).isSelected()) def *= 0.25F; //Dissolution
                 break;
             }
             case "shaman": {
-                if (abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_LUNATIC.getPos()).isSelected()) def *= 1.2F; //Mask of the Lunatic
-                if (abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_FANATIC.getPos()).isSelected()) { //Mask of the Fanatic
+                if (abilityBuffs.getBox().get(AbilityBuffsEnum.MASK_OF_THE_LUNATIC.getPos()).isSelected()) def *= 1.2F; //Mask of the Lunatic
+                if (abilityBuffs.getBox().get(AbilityBuffsEnum.MASK_OF_THE_FANATIC.getPos()).isSelected()) { //Mask of the Fanatic
                     numbers[ID_INT.get(Identifications.WALK_SPEED)] -= 35;
                     def *= 0.65F;
                 }
-                if (abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_COWARD.getPos()).isSelected()) numbers[ID_INT.get(Identifications.WALK_SPEED)] += 80; //Mask of the Coward
-                if (abilityBuffs.getBox().get(Ability_Buffs_Enum.CHANT_OF_THE_FANATIC.getPos()).isSelected()) def *= 0.3F; //Chant of the Fanatic
-                if (abilityBuffs.getBox().get(Ability_Buffs_Enum.AWAKENED.getPos()).isSelected()) { //Mask of the Awakened
+                if (abilityBuffs.getBox().get(AbilityBuffsEnum.MASK_OF_THE_COWARD.getPos()).isSelected()) numbers[ID_INT.get(Identifications.WALK_SPEED)] += 80; //Mask of the Coward
+                if (abilityBuffs.getBox().get(AbilityBuffsEnum.CHANT_OF_THE_FANATIC.getPos()).isSelected()) def *= 0.3F; //Chant of the Fanatic
+                if (abilityBuffs.getBox().get(AbilityBuffsEnum.AWAKENED.getPos()).isSelected()) { //Mask of the Awakened
                     def *= 0.65F;
                     numbers[ID_INT.get(Identifications.WALK_SPEED)] += 80;
                 }
@@ -336,7 +336,7 @@ public class ID_Display {
         ids.add(new JLabel("Health: " + health)); //Total Health
         ids.add(new JLabel("EHP: " + ehp)); //Effective Health
         ids.add(new JLabel("EHP (No Agi): " + (health / ((1F - defSP) * def)))); //Effective Health (No Agility)
-        if (numbers[ID_Display.ID_INT.get(Identifications.RAW_HEALTH_REGEN)] < 0) {
+        if (numbers[IdDisplay.ID_INT.get(Identifications.RAW_HEALTH_REGEN)] < 0) {
             ids.add(new JLabel("HPR: " + Math.min(Math.round(numbers[ID_INT.get(Identifications.RAW_HEALTH_REGEN)] * ((100F + (numbers[ID_INT.get(Identifications.HEALTH_REGEN_PERCENT)] * -1)) / 100F)), 0))); //Total Health Regen
         } else {
             ids.add(new JLabel("HPR: " + (Math.round(numbers[ID_INT.get(Identifications.RAW_HEALTH_REGEN)] * ((100F + numbers[ID_INT.get(Identifications.HEALTH_REGEN_PERCENT)]) / 100F))))); //Total Health Regen

@@ -690,7 +690,7 @@ public class ApiDataManager {
             buffer.close();
 
             String[] latest = builder.toString().split("\\.");
-            String[] now = SearchUI.VERSION.split("\\.");
+            String[] now = SearchUi.VERSION.split("\\.");
             if (Integer.parseInt(latest[0]) > Integer.parseInt(now[0])) {
                 return true;
             } else if (Integer.parseInt(latest[0]) == Integer.parseInt(now[0])) {

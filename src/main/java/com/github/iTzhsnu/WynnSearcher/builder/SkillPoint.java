@@ -1,13 +1,10 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.Identifications;
-import com.github.iTzhsnu.WynnSearcher.SearchUI;
 import com.github.iTzhsnu.WynnSearcher.data.ItemBase;
 import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
 import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
 import com.github.iTzhsnu.WynnSearcher.ui.UiUtils;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -235,10 +232,10 @@ public class SkillPoint {
         //Set Bonus
         for (SetBonus setBonus : setBonuses) {
             int[] ids = setBonus.getId_Numbers(true);
-            int[] sps = new int[] {ids[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids[ID_Display.ID_INT.get(Identifications.AGILITY)]};
+            int[] sps = new int[] {ids[IdDisplay.ID_INT.get(Identifications.STRENGTH)], ids[IdDisplay.ID_INT.get(Identifications.DEXTERITY)], ids[IdDisplay.ID_INT.get(Identifications.INTELLIGENCE)], ids[IdDisplay.ID_INT.get(Identifications.DEFENSE)], ids[IdDisplay.ID_INT.get(Identifications.AGILITY)]};
             //Have SP Bonus
             int[] ids_In_Weapon = setBonus.getId_Numbers(false);
-            int[] sps_In_Weapon = new int[] {ids_In_Weapon[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids_In_Weapon[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids_In_Weapon[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids_In_Weapon[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids_In_Weapon[ID_Display.ID_INT.get(Identifications.AGILITY)]};
+            int[] sps_In_Weapon = new int[] {ids_In_Weapon[IdDisplay.ID_INT.get(Identifications.STRENGTH)], ids_In_Weapon[IdDisplay.ID_INT.get(Identifications.DEXTERITY)], ids_In_Weapon[IdDisplay.ID_INT.get(Identifications.INTELLIGENCE)], ids_In_Weapon[IdDisplay.ID_INT.get(Identifications.DEFENSE)], ids_In_Weapon[IdDisplay.ID_INT.get(Identifications.AGILITY)]};
             if (sps_In_Weapon[0] > 0 || sps_In_Weapon[1] > 0 || sps_In_Weapon[2] > 0 || sps_In_Weapon[3] > 0 || sps_In_Weapon[4] > 0) haveSPBSets.add(setBonus);
 
             //Set Minus SP Bonus
@@ -321,10 +318,10 @@ public class SkillPoint {
                     set.addEquipped();
 
                     int[] ids_before = set.getId_Numbers(set.getEquippedSize() - 1);
-                    int[] sps_before = new int[] {ids_before[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids_before[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids_before[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids_before[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids_before[ID_Display.ID_INT.get(Identifications.AGILITY)]};
+                    int[] sps_before = new int[] {ids_before[IdDisplay.ID_INT.get(Identifications.STRENGTH)], ids_before[IdDisplay.ID_INT.get(Identifications.DEXTERITY)], ids_before[IdDisplay.ID_INT.get(Identifications.INTELLIGENCE)], ids_before[IdDisplay.ID_INT.get(Identifications.DEFENSE)], ids_before[IdDisplay.ID_INT.get(Identifications.AGILITY)]};
 
                     int[] ids_after = set.getId_Numbers(set.getEquippedSize());
-                    int[] sps_after = new int[] {ids_after[ID_Display.ID_INT.get(Identifications.STRENGTH)], ids_after[ID_Display.ID_INT.get(Identifications.DEXTERITY)], ids_after[ID_Display.ID_INT.get(Identifications.INTELLIGENCE)], ids_after[ID_Display.ID_INT.get(Identifications.DEFENSE)], ids_after[ID_Display.ID_INT.get(Identifications.AGILITY)]};
+                    int[] sps_after = new int[] {ids_after[IdDisplay.ID_INT.get(Identifications.STRENGTH)], ids_after[IdDisplay.ID_INT.get(Identifications.DEXTERITY)], ids_after[IdDisplay.ID_INT.get(Identifications.INTELLIGENCE)], ids_after[IdDisplay.ID_INT.get(Identifications.DEFENSE)], ids_after[IdDisplay.ID_INT.get(Identifications.AGILITY)]};
 
                     //Strength
                     if (sps_after[0] > 0) {

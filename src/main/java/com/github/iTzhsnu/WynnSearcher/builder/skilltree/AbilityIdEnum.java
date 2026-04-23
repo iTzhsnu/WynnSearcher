@@ -1,6 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher.builder.skilltree;
 
-public enum AbilityIDEnum {
+public enum AbilityIdEnum {
     //Warrior
     UNOBTAINABLE_CORRUPTION(0),
     BETTER_ENRAGED_BLOW(1),
@@ -174,7 +174,7 @@ public enum AbilityIDEnum {
     ;
 
     public final int pos;
-    AbilityIDEnum(int pos) {
+    AbilityIdEnum(int pos) {
         this.pos = pos;
     }
 }

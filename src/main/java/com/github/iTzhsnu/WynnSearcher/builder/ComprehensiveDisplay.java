@@ -8,11 +8,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Comprehensive_Display {
+public class ComprehensiveDisplay {
     private final JPanel pane = new JPanel();
     private final List<JLabel> label = new ArrayList<>();
 
-    public Comprehensive_Display(JPanel p) {
+    public ComprehensiveDisplay(JPanel p) {
         pane.setPreferredSize(new Dimension(182, 1000));
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
@@ -48,14 +48,14 @@ public class Comprehensive_Display {
                 label.add(new JLabel(setBonus.getName()));
                 for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) {
                     Identifications id = ItemUi.ITEM_IDS.get(i);
-                    if (setBonus.getId_Numbers(false)[ID_Display.ID_INT.get(id)] != 0) {
-                        label.add(new JLabel(id.getDisplayName() + ": " + ItemUi.setPlus(setBonus.getId_Numbers(false)[ID_Display.ID_INT.get(id)]) + id.getDisplaySp()));
+                    if (setBonus.getId_Numbers(false)[IdDisplay.ID_INT.get(id)] != 0) {
+                        label.add(new JLabel(id.getDisplayName() + ": " + ItemUi.setPlus(setBonus.getId_Numbers(false)[IdDisplay.ID_INT.get(id)]) + id.getDisplaySp()));
                     }
                 }
                 for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) {
                     Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
-                    if (setBonus.getId_Numbers(false)[ID_Display.ID_INT.get(id)] != 0) {
-                        label.add(new JLabel(id.getDisplayName() + ": " + ItemUi.setPlus(setBonus.getId_Numbers(false)[ID_Display.ID_INT.get(id)]) + id.getDisplaySp()));
+                    if (setBonus.getId_Numbers(false)[IdDisplay.ID_INT.get(id)] != 0) {
+                        label.add(new JLabel(id.getDisplayName() + ": " + ItemUi.setPlus(setBonus.getId_Numbers(false)[IdDisplay.ID_INT.get(id)]) + id.getDisplaySp()));
                     }
                 }
                 label.add(new JLabel(" "));

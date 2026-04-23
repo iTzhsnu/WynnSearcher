@@ -23,9 +23,9 @@ public class Item extends ItemBase {
     @Override
     public boolean haveIdValue(Identifications id, JsonObject howToObtain, String min, String max) {
         if (id.getItemName() != null) {
-            if (id.getIDType() == DataType.INT) {
+            if (id.getIdType() == DataType.INT) {
                 return getIdValue(id, JsonKeys.MAX) != 0;
-            } else if (id.getIDType() == DataType.STRING) {
+            } else if (id.getIdType() == DataType.STRING) {
                 // Check has ID
                 if (id.getItemFieldPos() != null) {
                     if (id.getItemFieldPos() == JsonKeys.NOTHING) {
@@ -112,7 +112,7 @@ public class Item extends ItemBase {
 
     @Override
     public String getIdString(Identifications id) {
-        return getIdString(id, id.getItemName(), id.getIngFieldPos());
+        return getIdString(id, id.getItemName(), id.getItemFieldPos());
     }
 
     @Override

@@ -169,23 +169,23 @@ public class ItemData {
         return list;
     }
 
-    public List<MajorIDEnum> getMajorIDList() {
-        List<MajorIDEnum> l = new ArrayList<>();
+    public List<MajorIdEnum> getMajorIDList() {
+        List<MajorIdEnum> l = new ArrayList<>();
         if (!getEquipmentsNoWeapon().isEmpty()) {
             for (ItemBase item : getEquipmentsNoWeapon()) {
                 JsonObject j = item.getJson();
                 if (j.get("majorIds") != null) {
                     for (Map.Entry<String, JsonElement> entry : j.get("majorIds").getAsJsonObject().entrySet()) {
-                        MajorIDEnum majorID = MajorIDEnum.GET_MAJOR_IDS.getOrDefault(entry.getKey(), MajorIDEnum.EMPTY);
-                        if (majorID != MajorIDEnum.EMPTY && !l.contains(majorID)) l.add(majorID);
+                        MajorIdEnum majorID = MajorIdEnum.GET_MAJOR_IDS.getOrDefault(entry.getKey(), MajorIdEnum.EMPTY);
+                        if (majorID != MajorIdEnum.EMPTY && !l.contains(majorID)) l.add(majorID);
                     }
                 }
             }
         }
         if (getWeapon() != null && getWeapon().getJson().get("majorIds") != null) {
             for (Map.Entry<String, JsonElement> entry : getWeapon().getJson().get("majorIds").getAsJsonObject().entrySet()) {
-                MajorIDEnum majorID = MajorIDEnum.GET_MAJOR_IDS.getOrDefault(entry.getKey(), MajorIDEnum.EMPTY);
-                if (majorID != MajorIDEnum.EMPTY && !l.contains(majorID)) l.add(majorID);
+                MajorIdEnum majorID = MajorIdEnum.GET_MAJOR_IDS.getOrDefault(entry.getKey(), MajorIdEnum.EMPTY);
+                if (majorID != MajorIdEnum.EMPTY && !l.contains(majorID)) l.add(majorID);
             }
         }
         return l;

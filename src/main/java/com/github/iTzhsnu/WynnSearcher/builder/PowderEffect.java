@@ -6,7 +6,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Powder_Effects implements ActionListener {
+public class PowderEffect implements ActionListener {
     private final JComboBox<String> powderType = new JComboBox<>();
     private final PowderPanel earth;
     private final PowderPanel thunder;
@@ -14,7 +14,7 @@ public class Powder_Effects implements ActionListener {
     private final PowderPanel fire;
     private final PowderPanel air;
 
-    public Powder_Effects(JPanel p) {
+    public PowderEffect(JPanel p) {
         powderType.addItem("Earth Powder");
         powderType.addItem("Thunder Powder");
         powderType.addItem("Water Powder");

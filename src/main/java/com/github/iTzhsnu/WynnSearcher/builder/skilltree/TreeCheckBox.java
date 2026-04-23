@@ -57,9 +57,9 @@ public class TreeCheckBox extends JCheckBox {
 
     public String getFixedTreeName() {
         StringBuilder sb = new StringBuilder();
-        for (String name_Split : name.split(">")) {
-            if (name_Split.length() > 5) {
-                String s = name_Split.substring(0, name_Split.length() - 6);
+        for (String nameSplit : name.split(">")) {
+            if (nameSplit.length() > 5) {
+                String s = nameSplit.substring(0, nameSplit.length() - 6);
                 if (!s.contains("span")) sb.append(s);
             }
         }

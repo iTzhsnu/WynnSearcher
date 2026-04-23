@@ -22,9 +22,9 @@ public class Ingredient extends ItemBase {
     @Override
     public boolean haveIdValue(Identifications id, JsonObject howToObtain, String min, String max) {
         if (id.getIngName() != null) {
-            if (id.getIDType() == DataType.INT) {
+            if (id.getIdType() == DataType.INT) {
                 return getIdValue(id, JsonKeys.MAX) != 0;
-            } else if (id.getIDType() == DataType.STRING) {
+            } else if (id.getIdType() == DataType.STRING) {
                 // Check has ID
                 if (id.getIngFieldPos() != null) {
                     if (id.getIngFieldPos() == JsonKeys.NOTHING) {

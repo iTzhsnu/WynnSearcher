@@ -284,7 +284,7 @@ public enum Identifications {
         return this.displaySp;
     }
 
-    public DataType getIDType() {
+    public DataType getIdType() {
         return this.idType;
     }
 

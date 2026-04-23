@@ -16,11 +16,11 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
-public class SearchUI extends JFrame implements ActionListener {
-    public static final String VERSION = "4.4.6";
+public class SearchUi extends JFrame implements ActionListener {
+    public static final String VERSION = "4.4.8";
 
     //API
-    private final JLabel itemAPIConnect = new JLabel("Item API Connecting...");
+    private final JLabel itemApiConnect = new JLabel("Item API Connecting...");
 
     //Item or Ingredient
     private final JComboBox<String> itemType = new JComboBox<>();
@@ -87,39 +87,41 @@ public class SearchUI extends JFrame implements ActionListener {
     private final JButton updateSize = new JButton("Update Size");
     private final JLabel displayTime = new JLabel();
     private final JComboBox<String> type = new JComboBox<>();
-    private final JButton updateAPI = new JButton("Update API");
+    private final JButton updateApi = new JButton("Update API");
+    private final JButton allTypeOnOff = new JButton("All Type On/Off");
+    private final JButton resetFilter = new JButton("Reset Filter");
 
     //ID Combo Box
-    private final List<JComboBox<String>> idBoxes_1 = new ArrayList<>();
-    private final List<JComboBox<String>> idBoxes_2 = new ArrayList<>();
-    private final List<JComboBox<String>> idBoxes_3 = new ArrayList<>();
-    private final List<JComboBox<String>> idBoxes_4 = new ArrayList<>();
+    private final List<JComboBox<String>> idBoxes1 = new ArrayList<>();
+    private final List<JComboBox<String>> idBoxes2 = new ArrayList<>();
+    private final List<JComboBox<String>> idBoxes3 = new ArrayList<>();
+    private final List<JComboBox<String>> idBoxes4 = new ArrayList<>();
 
     //ID Min Text
-    private final JTextField idMin_1 = UiUtils.createNoBeepTextField();
-    private final JTextField idMin_2 = UiUtils.createNoBeepTextField();
-    private final JTextField idMin_3 = UiUtils.createNoBeepTextField();
-    private final JTextField idMin_4 = UiUtils.createNoBeepTextField();
+    private final JTextField idMin1 = UiUtils.createNoBeepTextField();
+    private final JTextField idMin2 = UiUtils.createNoBeepTextField();
+    private final JTextField idMin3 = UiUtils.createNoBeepTextField();
+    private final JTextField idMin4 = UiUtils.createNoBeepTextField();
 
     //ID Max Text
-    private final JTextField idMax_1 = UiUtils.createNoBeepTextField();
-    private final JTextField idMax_2 = UiUtils.createNoBeepTextField();
-    private final JTextField idMax_3 = UiUtils.createNoBeepTextField();
-    private final JTextField idMax_4 = UiUtils.createNoBeepTextField();
+    private final JTextField idMax1 = UiUtils.createNoBeepTextField();
+    private final JTextField idMax2 = UiUtils.createNoBeepTextField();
+    private final JTextField idMax3 = UiUtils.createNoBeepTextField();
+    private final JTextField idMax4 = UiUtils.createNoBeepTextField();
 
     //ID Text
     private final List<JLabel> idTexts = new ArrayList<>();
 
     //Other UIs
-    private final CrafterUI crafterUI;
-    private final BuilderUI builderUI;
-    private final CustomUI customUI;
-    private final ChangesUI changesUI;
+    private final CrafterUi crafterUi;
+    private final BuilderUi builderUi;
+    private final CustomUi customUi;
+    private final ChangesUi changesUi;
 
-    public SearchUI() {
+    public SearchUi() {
         ApiDataManager.Init();
         ApiDataManager apiMan = ApiDataManager.getManager();
-        ApiDataManager.setApiConnectText(itemAPIConnect, "Item", apiMan.itemApiConnect);
+        ApiDataManager.setApiConnectText(itemApiConnect, "Item", apiMan.itemApiConnect);
 
         if (ApiDataManager.getVersion()) {
             setTitle("Wynncraft Searcher (" + VERSION + ") Update Available");
@@ -159,10 +161,10 @@ public class SearchUI extends JFrame implements ActionListener {
         setVisibleItem(true);
 
         //ID Search Setting Bar
-        setIDBoxAndIDField(idBoxes_1, idMin_1, idMax_1, 10, 65, 4, true);
-        setIDBoxAndIDField(idBoxes_2, idMin_2, idMax_2, 10, 115, 4, false);
-        setIDBoxAndIDField(idBoxes_3, idMin_3, idMax_3, 10, 165, 4, false);
-        setIDBoxAndIDField(idBoxes_4, idMin_4, idMax_4, 10, 215, 4, false);
+        setIdBoxAndIdField(idBoxes1, idMin1, idMax1, 10, 65, 4, true);
+        setIdBoxAndIdField(idBoxes2, idMin2, idMax2, 10, 115, 4, false);
+        setIdBoxAndIdField(idBoxes3, idMin3, idMax3, 10, 165, 4, false);
+        setIdBoxAndIdField(idBoxes4, idMin4, idMax4, 10, 215, 4, false);
 
         //Searched Items (or Ingredients) List Panel
         searched.setBorder(new LineBorder(Color.BLACK));
@@ -181,9 +183,17 @@ public class SearchUI extends JFrame implements ActionListener {
         //Searched Item Count
         searchedItemCount.setBounds(450, 235, 200, 40);
 
+        // Reset Filter
+        resetFilter.setBounds(610, 237, 100, 30);
+        resetFilter.addActionListener(this);
+
+        // All Type Toggle
+        allTypeOnOff.setBounds(720, 237, 120, 30);
+        allTypeOnOff.addActionListener(this);
+
         //Update API
-        updateAPI.setBounds(850, 237, 100, 30);
-        updateAPI.addActionListener(this);
+        updateApi.setBounds(850, 237, 100, 30);
+        updateApi.addActionListener(this);
 
         //Update Size
         updateSize.setBounds(960, 237, 105, 30);
@@ -212,17 +222,19 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(updateSize);
         contentPane.add(type);
         contentPane.add(displayTime);
-        contentPane.add(updateAPI);
+        contentPane.add(updateApi);
+        contentPane.add(allTypeOnOff);
+        contentPane.add(resetFilter);
 
-        this.crafterUI = new CrafterUI(contentPane);
-        this.builderUI = new BuilderUI(contentPane);
-        this.customUI = new CustomUI(contentPane);
-        this.changesUI = new ChangesUI(this);
+        this.crafterUi = new CrafterUi(contentPane);
+        this.builderUi = new BuilderUi(contentPane);
+        this.customUi = new CustomUi(contentPane);
+        this.changesUi = new ChangesUi(this);
 
-        crafterUI.setCrafterVisible(false);
-        builderUI.setBuilderVisible(false);
-        customUI.setCustomVisible(false);
-        changesUI.setChangesVisible(false);
+        crafterUi.setCrafterVisible(false);
+        builderUi.setBuilderVisible(false);
+        customUi.setCustomVisible(false);
+        changesUi.setChangesVisible(false);
 
         ToolTipManager tipManager = ToolTipManager.sharedInstance();
         tipManager.setInitialDelay(100);
@@ -241,10 +253,10 @@ public class SearchUI extends JFrame implements ActionListener {
             SwingUtilities.updateComponentTreeUI(searched);
         } else if (e.getSource() == type) {
             changeUIType();
-        } else if (e.getSource() == updateAPI) {
-            updateAPI.setVisible(false);
-            itemAPIConnect.setText("Updating");
-            itemAPIConnect.setForeground(new Color(255, 255, 0));
+        } else if (e.getSource() == updateApi) {
+            updateApi.setVisible(false);
+            itemApiConnect.setText("Updating");
+            itemApiConnect.setForeground(new Color(255, 255, 0));
             updateApi();
         } else if (e.getSource() == tome) {
             armourTome.setVisible(tome.isSelected());
@@ -256,6 +268,10 @@ public class SearchUI extends JFrame implements ActionListener {
             mysticismTome.setVisible(tome.isSelected());
         } else if (e.getSource() == aspectType) {
             changeAspectType();
+        } else if (e.getSource() == allTypeOnOff) {
+            changeAllType();
+        } else if (e.getSource() == resetFilter) {
+            resetFilterText();
         }
     }
 
@@ -266,19 +282,19 @@ public class SearchUI extends JFrame implements ActionListener {
         }
         if (canSearchItem()) {
             if (type.getSelectedIndex() == 4) {
-                changesUI.searchItems();
+                changesUi.searchItems();
             } else {
                 searchItems(null);
             }
         } else if (canSearchIngredient()) {
             if (type.getSelectedIndex() == 4) {
-                changesUI.searchIng();
+                changesUi.searchIng();
             } else {
                 searchIngredient(null);
             }
         } else if (canSearchOtherItems()) {
             if (type.getSelectedIndex() == 4) {
-                changesUI.searchOther();
+                changesUi.searchOther();
             } else {
                 searchOtherItems(null);
             }
@@ -295,7 +311,7 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public void changeItemType() {
         if (type.getSelectedIndex() == 4) {
-            changesUI.setFileList(itemType.getItemAt(itemType.getSelectedIndex()));
+            changesUi.setFileList(itemType.getItemAt(itemType.getSelectedIndex()));
         }
         if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_EQUIPMENT)) {
             setVisibleIngredient(false);
@@ -343,15 +359,15 @@ public class SearchUI extends JFrame implements ActionListener {
     public void updateApi() {
         ApiDataManager api = ApiDataManager.getManager();
         api.updateApi();
-        crafterUI.updateIngAPI();
-        builderUI.updateApi();
+        crafterUi.updateIngAPI();
+        builderUi.updateApi();
 
-        ApiDataManager.setApiConnectText(itemAPIConnect, "Item", api.itemApiConnect);
+        ApiDataManager.setApiConnectText(itemApiConnect, "Item", api.itemApiConnect);
 
-        updateAPI.setVisible(true);
+        updateApi.setVisible(true);
     }
 
-    public void setIDBoxAndIDField(List<JComboBox<String>> boxes, JTextField min, JTextField max, int baseX, int baseY, int length, boolean need) {
+    public void setIdBoxAndIdField(List<JComboBox<String>> boxes, JTextField min, JTextField max, int baseX, int baseY, int length, boolean need) {
         for (int i = 0; length > i; ++i) {
             //ID Box
             boxes.add(UiUtils.createNoBeepComboBox());
@@ -435,7 +451,7 @@ public class SearchUI extends JFrame implements ActionListener {
         bracelet.setBounds(910, 10, 80, 20);
         necklace.setBounds(835, 35, 80, 20);
 
-        itemAPIConnect.setBounds(925, 35, 120, 20);
+        itemApiConnect.setBounds(925, 35, 120, 20);
 
         contentPane.add(itemTier);
         contentPane.add(bow);
@@ -450,7 +466,7 @@ public class SearchUI extends JFrame implements ActionListener {
         contentPane.add(ring);
         contentPane.add(bracelet);
         contentPane.add(necklace);
-        contentPane.add(itemAPIConnect);
+        contentPane.add(itemApiConnect);
     }
 
     public void typeIngredientDataSet() {
@@ -529,7 +545,7 @@ public class SearchUI extends JFrame implements ActionListener {
         aspectType.addItem("Shaman");
         aspectType.addActionListener(this);
 
-        warriorAspectUI();
+        warriorAspectUi();
 
         contentPane.add(aspectType);
         contentPane.add(archetype1Aspect);
@@ -541,24 +557,24 @@ public class SearchUI extends JFrame implements ActionListener {
     public void changeAspectType() {
         switch (aspectType.getSelectedIndex()) {
             case 0:
-                warriorAspectUI();
+                warriorAspectUi();
                 break;
             case 1:
-                assassinAspectUI();
+                assassinAspectUi();
                 break;
             case 2:
-                mageAspectUI();
+                mageAspectUi();
                 break;
             case 3:
-                archerAspectUI();
+                archerAspectUi();
                 break;
             case 4:
-                shamanAspectUI();
+                shamanAspectUi();
                 break;
         }
     }
 
-    public void warriorAspectUI() {
+    public void warriorAspectUi() {
         archetype1Aspect.setText("Fallen");
         archetype2Aspect.setText("Battle Monk");
         archetype3Aspect.setText("Paladin");
@@ -569,7 +585,7 @@ public class SearchUI extends JFrame implements ActionListener {
         otherTypeAspect.setBounds(855, 10, 60, 20);
     }
 
-    public void assassinAspectUI() {
+    public void assassinAspectUi() {
         archetype1Aspect.setText("Shadestepper");
         archetype2Aspect.setText("Trickster");
         archetype3Aspect.setText("Acrobat");
@@ -580,7 +596,7 @@ public class SearchUI extends JFrame implements ActionListener {
         otherTypeAspect.setBounds(890, 10, 60, 20);
     }
 
-    public void mageAspectUI() {
+    public void mageAspectUi() {
         archetype1Aspect.setText("Riftwalker");
         archetype2Aspect.setText("Light Bender");
         archetype3Aspect.setText("Arcanist");
@@ -591,7 +607,7 @@ public class SearchUI extends JFrame implements ActionListener {
         otherTypeAspect.setBounds(890, 10, 60, 20);
     }
 
-    public void archerAspectUI() {
+    public void archerAspectUi() {
         archetype1Aspect.setText("Boltslinger");
         archetype2Aspect.setText("Trapper");
         archetype3Aspect.setText("Sharpshooter");
@@ -602,7 +618,7 @@ public class SearchUI extends JFrame implements ActionListener {
         otherTypeAspect.setBounds(895, 10, 60, 20);
     }
 
-    public void shamanAspectUI() {
+    public void shamanAspectUi() {
         archetype1Aspect.setText("Summoner");
         archetype2Aspect.setText("Ritualist");
         archetype3Aspect.setText("Acolyte");
@@ -684,11 +700,66 @@ public class SearchUI extends JFrame implements ActionListener {
         otherTypeAspect.setVisible(visible);
     }
 
+    public void changeAllType() {
+        boolean isOn = true;
+        switch (itemType.getItemAt(itemType.getSelectedIndex())) {
+            case DataKeys.TYPE_EQUIPMENT:
+                if (bow.isSelected() || spear.isSelected() || wand.isSelected() || dagger.isSelected() || relik.isSelected() || helmet.isSelected() || chestplate.isSelected() || leggings.isSelected() || boots.isSelected() || ring.isSelected() || bracelet.isSelected() || necklace.isSelected()) isOn = false;
+                bow.setSelected(isOn);
+                spear.setSelected(isOn);
+                wand.setSelected(isOn);
+                dagger.setSelected(isOn);
+                relik.setSelected(isOn);
+                helmet.setSelected(isOn);
+                chestplate.setSelected(isOn);
+                leggings.setSelected(isOn);
+                boots.setSelected(isOn);
+                ring.setSelected(isOn);
+                bracelet.setSelected(isOn);
+                necklace.setSelected(isOn);
+                break;
+            case DataKeys.TYPE_INGREDIENT:
+                if (armouring.isSelected() || tailoring.isSelected() || weaponsmithing.isSelected() || woodworking.isSelected() || jeweling.isSelected() || scribing.isSelected() || cooking.isSelected() || alchemism.isSelected()) isOn = false;
+                armouring.setSelected(isOn);
+                tailoring.setSelected(isOn);
+                weaponsmithing.setSelected(isOn);
+                woodworking.setSelected(isOn);
+                jeweling.setSelected(isOn);
+                scribing.setSelected(isOn);
+                cooking.setSelected(isOn);
+                alchemism.setSelected(isOn);
+                break;
+            case DataKeys.TYPE_OTHER_ITEM:
+                if (tome.isSelected() || charm.isSelected() || tool.isSelected() || material.isSelected()) isOn = false;
+                tome.setSelected(isOn);
+                charm.setSelected(isOn);
+                tool.setSelected(isOn);
+                material.setSelected(isOn);
+                break;
+        }
+    }
+
+    public void resetFilterText() {
+        searchF.setText("");
+        resetBoxes(idBoxes1, idMin1, idMax1);
+        resetBoxes(idBoxes2, idMin2, idMax2);
+        resetBoxes(idBoxes3, idMin3, idMax3);
+        resetBoxes(idBoxes4, idMin4, idMax4);
+    }
+
+    public void resetBoxes(List<JComboBox<String>> idBoxes, JTextField idMin, JTextField idMax) {
+        for (JComboBox<String> c : idBoxes) {
+            c.setSelectedIndex(-1);
+        }
+        idMin.setText("");
+        idMax.setText("");
+    }
+
     public boolean canSearchItem() {
         if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_EQUIPMENT)) {
             if (bow.isSelected() || spear.isSelected() || wand.isSelected() || dagger.isSelected() || relik.isSelected() || helmet.isSelected() || chestplate.isSelected() || leggings.isSelected() || boots.isSelected() || ring.isSelected() || bracelet.isSelected() || necklace.isSelected()) {
                 boolean hasText = false;
-                for (JComboBox<String> box : idBoxes_1) {
+                for (JComboBox<String> box : idBoxes1) {
                     if (notEmpty(box)) hasText = true;
                 }
                 return hasText;
@@ -701,7 +772,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_INGREDIENT)) {
             if (armouring.isSelected() || tailoring.isSelected() || weaponsmithing.isSelected() || woodworking.isSelected() || jeweling.isSelected() || scribing.isSelected() || cooking.isSelected() || alchemism.isSelected()) {
                 boolean hasText = false;
-                for (JComboBox<String> box : idBoxes_1) {
+                for (JComboBox<String> box : idBoxes1) {
                     if (notEmpty(box)) hasText = true;
                 }
                 return hasText;
@@ -714,7 +785,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_OTHER_ITEM)) {
             if (tome.isSelected() || charm.isSelected() || tool.isSelected() || material.isSelected()) {
                 boolean hasText = false;
-                for (JComboBox<String> box : idBoxes_1) {
+                for (JComboBox<String> box : idBoxes1) {
                     if (notEmpty(box)) hasText = true;
                 }
                 return hasText;
@@ -727,7 +798,7 @@ public class SearchUI extends JFrame implements ActionListener {
         if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_ASPECT)) {
             if (archetype1Aspect.isSelected() || archetype2Aspect.isSelected() || archetype3Aspect.isSelected() || otherTypeAspect.isSelected()) {
                 boolean hasText = false;
-                for (JComboBox<String> box : idBoxes_1) {
+                for (JComboBox<String> box : idBoxes1) {
                     if (notEmpty(box)) hasText = true;
                 }
                 return hasText;
@@ -748,7 +819,7 @@ public class SearchUI extends JFrame implements ActionListener {
         long midTime = System.currentTimeMillis();
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
-            sort(null, ItemType.ITEM, ApiDataManager.getManager().howToObtainItem);
+            sort(null, ItemType.ITEM);
         }
 
         setDisplaySize();
@@ -781,16 +852,16 @@ public class SearchUI extends JFrame implements ActionListener {
             }
         }
 
-        searchIDs(idBoxes_1, idMin_1, idMax_1, api.howToObtainItem, ItemType.ITEM);
-        searchIDs(idBoxes_2, idMin_2, idMax_2, api.howToObtainItem, ItemType.ITEM);
-        searchIDs(idBoxes_3, idMin_3, idMax_3, api.howToObtainItem, ItemType.ITEM);
-        searchIDs(idBoxes_4, idMin_4, idMax_4, api.howToObtainItem, ItemType.ITEM);
+        searchIds(idBoxes1, idMin1, idMax1, api.howToObtainItem, ItemType.ITEM);
+        searchIds(idBoxes2, idMin2, idMax2, api.howToObtainItem, ItemType.ITEM);
+        searchIds(idBoxes3, idMin3, idMax3, api.howToObtainItem, ItemType.ITEM);
+        searchIds(idBoxes4, idMin4, idMax4, api.howToObtainItem, ItemType.ITEM);
 
-        Identifications id_0 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 0), Identifications.EMPTY);
-        Identifications id_1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 1), Identifications.EMPTY);
-        Identifications id_2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 2), Identifications.EMPTY);
-        Identifications id_3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 3), Identifications.EMPTY);
-        if (id_0.getItemName() == null && id_1.getItemName() == null && id_2.getItemName() == null && id_3.getItemName() == null) {
+        Identifications id0 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 0), Identifications.EMPTY);
+        Identifications id1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 1), Identifications.EMPTY);
+        Identifications id2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 2), Identifications.EMPTY);
+        Identifications id3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 3), Identifications.EMPTY);
+        if (id0.getItemName() == null && id1.getItemName() == null && id2.getItemName() == null && id3.getItemName() == null) {
             removeAllSearchedItems();
         }
 
@@ -798,10 +869,10 @@ public class SearchUI extends JFrame implements ActionListener {
 
         searchFromName();
 
-        filterRange(idBoxes_1, idMin_1, idMax_1, api.howToObtainItem, ItemType.ITEM);
-        filterRange(idBoxes_2, idMin_2, idMax_2, api.howToObtainItem, ItemType.ITEM);
-        filterRange(idBoxes_3, idMin_3, idMax_3, api.howToObtainItem, ItemType.ITEM);
-        filterRange(idBoxes_4, idMin_4, idMax_4, api.howToObtainItem, ItemType.ITEM);
+        filterRange(idBoxes1, idMin1, idMax1, api.howToObtainItem, ItemType.ITEM);
+        filterRange(idBoxes2, idMin2, idMax2, api.howToObtainItem, ItemType.ITEM);
+        filterRange(idBoxes3, idMin3, idMax3, api.howToObtainItem, ItemType.ITEM);
+        filterRange(idBoxes4, idMin4, idMax4, api.howToObtainItem, ItemType.ITEM);
 
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
     }
@@ -814,7 +885,7 @@ public class SearchUI extends JFrame implements ActionListener {
         long midTime = System.currentTimeMillis();
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
-            sort(null, ItemType.INGREDIENT, ApiDataManager.getManager().howToObtainIng);
+            sort(null, ItemType.INGREDIENT);
         }
 
         setDisplaySize();
@@ -962,19 +1033,19 @@ public class SearchUI extends JFrame implements ActionListener {
             }
         }
 
-        searchIDs(idBoxes_1, idMin_1, idMax_1, api.howToObtainIng, ItemType.INGREDIENT);
-        searchIDs(idBoxes_2, idMin_2, idMax_2, api.howToObtainIng, ItemType.INGREDIENT);
-        searchIDs(idBoxes_3, idMin_3, idMax_3, api.howToObtainIng, ItemType.INGREDIENT);
-        searchIDs(idBoxes_4, idMin_4, idMax_4, api.howToObtainIng, ItemType.INGREDIENT);
+        searchIds(idBoxes1, idMin1, idMax1, api.howToObtainIng, ItemType.INGREDIENT);
+        searchIds(idBoxes2, idMin2, idMax2, api.howToObtainIng, ItemType.INGREDIENT);
+        searchIds(idBoxes3, idMin3, idMax3, api.howToObtainIng, ItemType.INGREDIENT);
+        searchIds(idBoxes4, idMin4, idMax4, api.howToObtainIng, ItemType.INGREDIENT);
 
         searchFromTier(ItemType.INGREDIENT);
 
         searchFromName();
 
-        filterRange(idBoxes_1, idMin_1, idMax_1, api.howToObtainIng, ItemType.INGREDIENT);
-        filterRange(idBoxes_2, idMin_2, idMax_2, api.howToObtainIng, ItemType.INGREDIENT);
-        filterRange(idBoxes_3, idMin_3, idMax_3, api.howToObtainIng, ItemType.INGREDIENT);
-        filterRange(idBoxes_4, idMin_4, idMax_4, api.howToObtainIng, ItemType.INGREDIENT);
+        filterRange(idBoxes1, idMin1, idMax1, api.howToObtainIng, ItemType.INGREDIENT);
+        filterRange(idBoxes2, idMin2, idMax2, api.howToObtainIng, ItemType.INGREDIENT);
+        filterRange(idBoxes3, idMin3, idMax3, api.howToObtainIng, ItemType.INGREDIENT);
+        filterRange(idBoxes4, idMin4, idMax4, api.howToObtainIng, ItemType.INGREDIENT);
 
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
     }
@@ -987,7 +1058,7 @@ public class SearchUI extends JFrame implements ActionListener {
         long midTime = System.currentTimeMillis();
 
         for (int sil = searchedItems.size() - 1; sil >= 0; --sil) {
-            sort(null, ItemType.OTHER, ApiDataManager.getManager().howToObtainOthers);
+            sort(null, ItemType.OTHER);
         }
 
         setDisplaySize();
@@ -1025,16 +1096,16 @@ public class SearchUI extends JFrame implements ActionListener {
             }
         }
 
-        searchIDs(idBoxes_1, idMin_1, idMax_1, api.howToObtainOthers, ItemType.OTHER);
-        searchIDs(idBoxes_2, idMin_2, idMax_2, api.howToObtainOthers, ItemType.OTHER);
-        searchIDs(idBoxes_3, idMin_3, idMax_3, api.howToObtainOthers, ItemType.OTHER);
-        searchIDs(idBoxes_4, idMin_4, idMax_4, api.howToObtainOthers, ItemType.OTHER);
+        searchIds(idBoxes1, idMin1, idMax1, api.howToObtainOthers, ItemType.OTHER);
+        searchIds(idBoxes2, idMin2, idMax2, api.howToObtainOthers, ItemType.OTHER);
+        searchIds(idBoxes3, idMin3, idMax3, api.howToObtainOthers, ItemType.OTHER);
+        searchIds(idBoxes4, idMin4, idMax4, api.howToObtainOthers, ItemType.OTHER);
 
-        Identifications id_0 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 0), Identifications.EMPTY);
-        Identifications id_1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 1), Identifications.EMPTY);
-        Identifications id_2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 2), Identifications.EMPTY);
-        Identifications id_3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, 3), Identifications.EMPTY);
-        if (id_0.getItemName() == null && id_1.getItemName() == null && id_2.getItemName() == null && id_3.getItemName() == null) {
+        Identifications id0 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 0), Identifications.EMPTY);
+        Identifications id1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 1), Identifications.EMPTY);
+        Identifications id2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 2), Identifications.EMPTY);
+        Identifications id3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 3), Identifications.EMPTY);
+        if (id0.getItemName() == null && id1.getItemName() == null && id2.getItemName() == null && id3.getItemName() == null) {
             removeAllSearchedItems();
         }
 
@@ -1042,15 +1113,14 @@ public class SearchUI extends JFrame implements ActionListener {
 
         searchFromName();
 
-        filterRange(idBoxes_1, idMin_1, idMax_1, api.howToObtainOthers, ItemType.OTHER);
-        filterRange(idBoxes_2, idMin_2, idMax_2, api.howToObtainOthers, ItemType.OTHER);
-        filterRange(idBoxes_3, idMin_3, idMax_3, api.howToObtainOthers, ItemType.OTHER);
-        filterRange(idBoxes_4, idMin_4, idMax_4, api.howToObtainOthers, ItemType.OTHER);
+        filterRange(idBoxes1, idMin1, idMax1, api.howToObtainOthers, ItemType.OTHER);
+        filterRange(idBoxes2, idMin2, idMax2, api.howToObtainOthers, ItemType.OTHER);
+        filterRange(idBoxes3, idMin3, idMax3, api.howToObtainOthers, ItemType.OTHER);
+        filterRange(idBoxes4, idMin4, idMax4, api.howToObtainOthers, ItemType.OTHER);
 
         searchedItemCount.setText("Searched Item: " + searchedItems.size());
     }
 
-    // TODO check
     public void searchAspects() {
         long startTime = System.currentTimeMillis();
 
@@ -1063,7 +1133,6 @@ public class SearchUI extends JFrame implements ActionListener {
         displayTime.setText((System.currentTimeMillis() - startTime) + "ms");
     }
 
-    // TODO check
     public void filterAspects() {
         ApiDataManager api = ApiDataManager.getManager();
         searchedItems.clear();
@@ -1123,34 +1192,34 @@ public class SearchUI extends JFrame implements ActionListener {
         return thisName.contains(needName) && needCheckBox.isSelected();
     }
 
-    public void searchIDs(List<JComboBox<String>> box, JTextField min, JTextField max, JsonObject howToObtain, ItemType type) {
-        Identifications id_0 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
-        Identifications id_1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
-        Identifications id_2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
-        Identifications id_3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
+    public void searchIds(List<JComboBox<String>> box, JTextField min, JTextField max, JsonObject howToObtain, ItemType type) {
+        Identifications id0 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
+        Identifications id1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
+        Identifications id2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
+        Identifications id3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
 
-        String idName_0 = id_0.getItemName();
-        String idName_1 = id_1.getItemName();
-        String idName_2 = id_2.getItemName();
-        String idName_3 = id_3.getItemName();
+        String idName0 = id0.getItemName();
+        String idName1 = id1.getItemName();
+        String idName2 = id2.getItemName();
+        String idName3 = id3.getItemName();
         if (type == ItemType.INGREDIENT) {
-            idName_0 = id_0.getIngName();
-            idName_1 = id_1.getIngName();
-            idName_2 = id_2.getIngName();
-            idName_3 = id_3.getIngName();
+            idName0 = id0.getIngName();
+            idName1 = id1.getIngName();
+            idName2 = id2.getIngName();
+            idName3 = id3.getIngName();
         }
 
         if (!getComboBoxText(box, 0).isEmpty() || !getComboBoxText(box, 1).isEmpty() || !getComboBoxText(box, 2).isEmpty() || !getComboBoxText(box, 3).isEmpty()) {
-            if (idName_0 != null || idName_1 != null || idName_2 != null || idName_3 != null) {
+            if (idName0 != null || idName1 != null || idName2 != null || idName3 != null) {
                 for (int i = searchedItems.size() - 1; i >= 0; --i) {
                     ItemBase item = searchedItems.get(i);
                     if (!min.getText().isEmpty() || !max.getText().isEmpty()) { //ID Range Filter 0 ~ 0
-                        int min_Int = Integer.MIN_VALUE;
-                        int max_Int = Integer.MAX_VALUE;
-                        if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
-                        if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
-                        if (min_Int == 0 || max_Int == 0) {
-                            if (!item.haveId(id_0, howToObtain, min.getText(), max.getText()) && !item.haveId(id_1, howToObtain, min.getText(), max.getText()) && !item.haveId(id_2, howToObtain, min.getText(), max.getText()) && !item.haveId(id_3, howToObtain, min.getText(), max.getText())) {
+                        int minInt = Integer.MIN_VALUE;
+                        int maxInt = Integer.MAX_VALUE;
+                        if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) minInt = Integer.parseInt(min.getText());
+                        if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) maxInt = Integer.parseInt(max.getText());
+                        if (minInt == 0 || maxInt == 0) {
+                            if (!item.haveId(id0, howToObtain, min.getText(), max.getText()) && !item.haveId(id1, howToObtain, min.getText(), max.getText()) && !item.haveId(id2, howToObtain, min.getText(), max.getText()) && !item.haveId(id3, howToObtain, min.getText(), max.getText())) {
                                 continue;
                             }
                         }
@@ -1297,33 +1366,33 @@ public class SearchUI extends JFrame implements ActionListener {
 
     public void filterRange(List<JComboBox<String>> box, JTextField min, JTextField max, JsonObject howToObtain, ItemType type) {
         if (!min.getText().isEmpty() || !max.getText().isEmpty()) {
-            int min_Int = Integer.MIN_VALUE;
-            int max_Int = Integer.MAX_VALUE;
-            if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) min_Int = Integer.parseInt(min.getText());
-            if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) max_Int = Integer.parseInt(max.getText());
-            if (min_Int != Integer.MIN_VALUE || max_Int != Integer.MAX_VALUE) {
-                Identifications id_1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
-                Identifications id_2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
-                Identifications id_3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
-                Identifications id_4 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
+            int minInt = Integer.MIN_VALUE;
+            int maxInt = Integer.MAX_VALUE;
+            if (!min.getText().isEmpty() && min.getText().matches("[+-]?\\d*(\\.\\d+)?")) minInt = Integer.parseInt(min.getText());
+            if (!max.getText().isEmpty() && max.getText().matches("[+-]?\\d*(\\.\\d+)?")) maxInt = Integer.parseInt(max.getText());
+            if (minInt != Integer.MIN_VALUE || maxInt != Integer.MAX_VALUE) {
+                Identifications id0 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 0), Identifications.EMPTY);
+                Identifications id1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 1), Identifications.EMPTY);
+                Identifications id2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 2), Identifications.EMPTY);
+                Identifications id3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, 3), Identifications.EMPTY);
 
-                String idName_1 = id_1.getItemName();
-                String idName_2 = id_2.getItemName();
-                String idName_3 = id_3.getItemName();
-                String idName_4 = id_4.getItemName();
+                String idName0 = id0.getItemName();
+                String idName1 = id1.getItemName();
+                String idName2 = id2.getItemName();
+                String idName3 = id3.getItemName();
                 if (type == ItemType.INGREDIENT) {
-                    idName_1 = id_1.getIngName();
-                    idName_2 = id_2.getIngName();
-                    idName_3 = id_3.getIngName();
-                    idName_4 = id_4.getIngName();
+                    idName0 = id0.getIngName();
+                    idName1 = id1.getIngName();
+                    idName2 = id2.getIngName();
+                    idName3 = id3.getIngName();
                 }
 
-                if (idName_1 != null || idName_2 != null || idName_3 != null || idName_4 != null) {
-                    if (id_1.getIDType() != DataType.STRING && id_2.getIDType() != DataType.STRING && id_3.getIDType() != DataType.STRING && id_4.getIDType() != DataType.STRING) {
+                if (idName0 != null || idName1 != null || idName2 != null || idName3 != null) {
+                    if (id0.getIdType() != DataType.STRING && id1.getIdType() != DataType.STRING && id2.getIdType() != DataType.STRING && id3.getIdType() != DataType.STRING) {
                         for (int i = searchedItems.size() - 1; i >= 0; --i) {
                             ItemBase item = searchedItems.get(i);
-                            float total_min = 0;
-                            float total_max = 0;
+                            float totalMin = 0;
+                            float totalMax = 0;
                             for (int s = 0; 4 > s; ++s) {
                                 Identifications id = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(box, s), Identifications.EMPTY);
                                 String idName = id.getItemName();
@@ -1334,37 +1403,37 @@ public class SearchUI extends JFrame implements ActionListener {
                                 }
 
                                 if (idName != null && fieldPos != null) {
-                                    if (id.getIDType() != DataType.SUM) {
-                                        if (id.getIDType() == DataType.STRING) {
+                                    if (id.getIdType() != DataType.SUM) {
+                                        if (id.getIdType() == DataType.STRING) {
                                             if (id == Identifications.ATTACK_SPEED) {
                                                 float atkSpd = item.getAttackSpeed();
-                                                total_min += atkSpd;
-                                                total_min += atkSpd;
+                                                totalMin += atkSpd;
+                                                totalMin += atkSpd;
                                             } else if (item.haveIdValue(id, howToObtain, min.getText(), max.getText())) {
-                                                total_min += 1;
-                                                total_max += 1;
+                                                totalMin += 1;
+                                                totalMax += 1;
                                             }
-                                        } else if (id.getIDType() == DataType.INT) {
-                                            total_min += item.getIdValue(id, JsonKeys.MIN);
-                                            total_max += item.getIdValue(id, JsonKeys.MAX);
+                                        } else if (id.getIdType() == DataType.INT) {
+                                            totalMin += item.getIdValue(id, JsonKeys.MIN);
+                                            totalMax += item.getIdValue(id, JsonKeys.MAX);
                                         } else {
                                             System.out.println("Warning: Can't filtering this id. ID Name: " + id.getDisplayName());
                                         }
                                     } else {
                                         if (id.getSum().getSumIDs() != null) {
                                             for (int n = 0; id.getSum().getSumIDs().size() > n; n++) {
-                                                total_min += item.getTotalSumFloat(id.getSum().getSumIDs().get(n), JsonKeys.MIN, min.getText(), max.getText());
-                                                total_max += item.getTotalSumFloat(id.getSum().getSumIDs().get(n), JsonKeys.MAX, min.getText(), max.getText());
+                                                totalMin += item.getTotalSumFloat(id.getSum().getSumIDs().get(n), JsonKeys.MIN, min.getText(), max.getText());
+                                                totalMax += item.getTotalSumFloat(id.getSum().getSumIDs().get(n), JsonKeys.MAX, min.getText(), max.getText());
                                             }
                                         } else {
-                                            total_min += item.getTotalSumFloat(id.getSum(), JsonKeys.MIN, min.getText(), max.getText());
-                                            total_max += item.getTotalSumFloat(id.getSum(), JsonKeys.MAX, min.getText(), max.getText());
+                                            totalMin += item.getTotalSumFloat(id.getSum(), JsonKeys.MIN, min.getText(), max.getText());
+                                            totalMax += item.getTotalSumFloat(id.getSum(), JsonKeys.MAX, min.getText(), max.getText());
                                         }
                                     }
                                 }
                             }
-                            if (min_Int > total_min || max_Int < total_max) {
-                                if (min_Int > total_max || max_Int < total_min) searchedItems.remove(i);
+                            if (minInt > totalMin || maxInt < totalMax) {
+                                if (minInt > totalMax || maxInt < totalMin) searchedItems.remove(i);
                             }
                         }
                     }
@@ -1373,7 +1442,7 @@ public class SearchUI extends JFrame implements ActionListener {
         }
     }
 
-    public void sort(Set<String> sortList, ItemType type, JsonObject howToObtain) {
+    public void sort(Set<String> sortList, ItemType type) {
         int si = searchedItems.size() - 1;
         int iu = 0;
         float max = Integer.MIN_VALUE;
@@ -1389,7 +1458,7 @@ public class SearchUI extends JFrame implements ActionListener {
             float total = 0;
 
             for (int num = 0; 4 > num; ++num) {
-                Identifications id = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes_1, num), Identifications.EMPTY);
+                Identifications id = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, num), Identifications.EMPTY);
                 String idName = id.getItemName();
                 JsonKeys fieldPos = id.getItemFieldPos();
                 if (type == ItemType.INGREDIENT) {
@@ -1398,8 +1467,8 @@ public class SearchUI extends JFrame implements ActionListener {
                 }
 
                 if (idName != null && fieldPos != null) {
-                    if (id.getIDType() != DataType.SUM) {
-                        if (id.getIDType() == DataType.INT) {
+                    if (id.getIdType() != DataType.SUM) {
+                        if (id.getIdType() == DataType.INT) {
                             total += item.getIdValue(id, bSortType);
                         } else if (id == Identifications.ATTACK_SPEED) {
                             //Attack Speed
@@ -1407,24 +1476,7 @@ public class SearchUI extends JFrame implements ActionListener {
                         }
                     } else { // is SUM
                         if (id == Identifications.SUM_MELEE_APPROPRIATE || id == Identifications.SUM_SPELL_APPROPRIATE) {
-                            JTextField minField = idMin_1;
-                            JTextField maxField = idMax_1;
-                            switch (num) {
-                                case 1:
-                                    minField = idMin_2;
-                                    maxField = idMax_2;
-                                    break;
-                                case 2:
-                                    minField = idMin_3;
-                                    maxField = idMax_3;
-                                    break;
-                                case 3:
-                                    minField = idMin_4;
-                                    maxField = idMax_4;
-                                    break;
-                            }
-
-                            total += item.getDamAppropriateSumFloat(id.getSum(), bSortType, minField.getText(), maxField.getText());
+                            total += item.getDamAppropriateSumFloat(id.getSum(), bSortType, idMin1.getText(), idMax1.getText());
                         } else if (id.getSum().getSumIDs() != null) {
                             //SUM in SUM
                             for (int n = 0; id.getSum().getSumIDs().size() > n; ++n) {
@@ -1685,7 +1737,7 @@ public class SearchUI extends JFrame implements ActionListener {
                 setVisibleAspect(visible);
                 break;
         }
-        itemAPIConnect.setVisible(visible);
+        itemApiConnect.setVisible(visible);
         name.setVisible(visible);
         searchB.setVisible(visible);
         searchF.setVisible(visible);
@@ -1693,24 +1745,24 @@ public class SearchUI extends JFrame implements ActionListener {
         searchedItemCount.setVisible(visible);
         updateSize.setVisible(visible);
         displayTime.setVisible(visible);
-        updateAPI.setVisible(visible);
+        updateApi.setVisible(visible);
         for (int i = 0; 3 >= i; ++i) {
-            idBoxes_1.get(i).setVisible(visible);
-            idBoxes_2.get(i).setVisible(visible);
-            idBoxes_3.get(i).setVisible(visible);
-            idBoxes_4.get(i).setVisible(visible);
+            idBoxes1.get(i).setVisible(visible);
+            idBoxes2.get(i).setVisible(visible);
+            idBoxes3.get(i).setVisible(visible);
+            idBoxes4.get(i).setVisible(visible);
         }
         for (JLabel idText : idTexts) {
             idText.setVisible(visible);
         }
-        idMin_1.setVisible(visible);
-        idMin_2.setVisible(visible);
-        idMin_3.setVisible(visible);
-        idMin_4.setVisible(visible);
-        idMax_1.setVisible(visible);
-        idMax_2.setVisible(visible);
-        idMax_3.setVisible(visible);
-        idMax_4.setVisible(visible);
+        idMin1.setVisible(visible);
+        idMin2.setVisible(visible);
+        idMin3.setVisible(visible);
+        idMin4.setVisible(visible);
+        idMax1.setVisible(visible);
+        idMax2.setVisible(visible);
+        idMax3.setVisible(visible);
+        idMax4.setVisible(visible);
         sortType.setVisible(visible);
 
         if (visible) {
@@ -1722,7 +1774,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void setCrafterVisible(boolean visible) {
-        crafterUI.setCrafterVisible(visible);
+        crafterUi.setCrafterVisible(visible);
 
         if (visible) {
             setSearcherVisible(false);
@@ -1733,7 +1785,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void setBuilderVisible(boolean visible) {
-        builderUI.setBuilderVisible(visible);
+        builderUi.setBuilderVisible(visible);
         if (visible) {
             setSearcherVisible(false);
             setCrafterVisible(false);
@@ -1743,7 +1795,7 @@ public class SearchUI extends JFrame implements ActionListener {
     }
 
     public void setCustomVisible(boolean visible) {
-        customUI.setCustomVisible(visible);
+        customUi.setCustomVisible(visible);
 
         if (visible) {
             setSearcherVisible(false);
@@ -1760,7 +1812,7 @@ public class SearchUI extends JFrame implements ActionListener {
             setBuilderVisible(false);
             setCustomVisible(false);
         }
-        changesUI.setChangesVisible(visible);
+        changesUi.setChangesVisible(visible);
     }
 
     public void setProcessTime(long startTime, long midTime) {

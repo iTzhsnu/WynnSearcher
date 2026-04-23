@@ -6,15 +6,15 @@ import com.google.gson.JsonObject;
 
 public class DataUtils {
 
-    private static ItemBase itemJsonCache = null;
-    public static ItemBase getItemJsonFromName(String name) {
-        if (itemJsonCache != null && itemJsonCache.getName().equalsIgnoreCase(name)) {
-            return itemJsonCache;
+    private static ItemBase itemDataCache = null;
+    public static ItemBase getItemDataFromName(String name) {
+        if (itemDataCache != null && itemDataCache.getName().equalsIgnoreCase(name)) {
+            return itemDataCache;
         } else {
             ApiDataManager api = ApiDataManager.getManager();
             for (ItemBase i : api.wynnItems) {
                 if (!i.getName().isEmpty() && i.getName().equalsIgnoreCase(name)) {
-                    itemJsonCache = i;
+                    itemDataCache = i;
                     return i;
                 }
             }

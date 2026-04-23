@@ -1,6 +1,6 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
-public enum Ability_Buffs_Enum {
+public enum AbilityBuffsEnum {
     //Sliders
     //All
     MARKED(0),
@@ -72,7 +72,7 @@ public enum Ability_Buffs_Enum {
     ;
 
     private final int pos;
-    Ability_Buffs_Enum(int pos) {
+    AbilityBuffsEnum(int pos) {
         this.pos = pos;
     }
 

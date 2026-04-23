@@ -2,12 +2,10 @@ package com.github.iTzhsnu.WynnSearcher.ui;
 
 import com.github.iTzhsnu.WynnSearcher.ApiDataManager;
 import com.github.iTzhsnu.WynnSearcher.Identifications;
-import com.github.iTzhsnu.WynnSearcher.SearchUI;
 import com.github.iTzhsnu.WynnSearcher.data.ItemBase;
 import com.github.iTzhsnu.WynnSearcher.general.ItemType;
 import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
 import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import javax.swing.*;

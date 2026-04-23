@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuilderUI implements ActionListener {
+public class BuilderUi implements ActionListener {
     //Main Panel
     private final JPanel pane = new JPanel();
     private final JScrollPane scrollPane;
@@ -39,23 +39,23 @@ public class BuilderUI implements ActionListener {
 
     //Skill Point, Damage IDs and ID Display
     private final SkillPoint skillPoint;
-    private final Damage_IDs damage_ids;
-    private final ID_Display id_display;
-    private final Damage_Display damage_display;
-    private final Item_Display item_display;
-    private final Powder_Effects powder_effects;
-    private final Comprehensive_Display comprehensive_Display;
+    private final DamageId damage_ids;
+    private final IdDisplay id_display;
+    private final DamageDisplay damage_display;
+    private final ItemDisplay item_display;
+    private final PowderEffect powder_effects;
+    private final ComprehensiveDisplay comprehensive_Display;
 
     //Ability Tree
     private final JComboBox<String> classes = new JComboBox<>();
-    private final Ability_Buffs abilityBuffs;
+    private final AbilityBuffs abilityBuffs;
     private final TreeBase warrior;
     private final TreeBase assassin;
     private final TreeBase archer;
     private final TreeBase mage;
     private final TreeBase shaman;
 
-    public BuilderUI(Container p) {
+    public BuilderUi(Container p) {
         pane.setPreferredSize(new Dimension(1064, 2185));
         pane.setLayout(null);
 
@@ -93,12 +93,12 @@ public class BuilderUI implements ActionListener {
         outputP.add(outputB);
 
         skillPoint = new SkillPoint(pane);
-        damage_ids = new Damage_IDs(pane);
-        id_display = new ID_Display(pane);
-        damage_display = new Damage_Display(pane);
-        item_display = new Item_Display(pane);
-        powder_effects = new Powder_Effects(pane);
-        comprehensive_Display = new Comprehensive_Display(pane);
+        damage_ids = new DamageId(pane);
+        id_display = new IdDisplay(pane);
+        damage_display = new DamageDisplay(pane);
+        item_display = new ItemDisplay(pane);
+        powder_effects = new PowderEffect(pane);
+        comprehensive_Display = new ComprehensiveDisplay(pane);
 
         classes.setBounds(10, 350, 80, 20);
         classes.addItem("Warrior");
@@ -108,7 +108,7 @@ public class BuilderUI implements ActionListener {
         classes.addItem("Shaman");
         classes.addActionListener(this);
 
-        abilityBuffs = new Ability_Buffs(pane);
+        abilityBuffs = new AbilityBuffs(pane);
 
         treeConnect.setForeground(new Color(0, 169, 104));
         treeConnect.setBounds(800, 5, 150, 20);
@@ -167,43 +167,43 @@ public class BuilderUI implements ActionListener {
                 break;
         }
         warrior.setTreeVisible(warriorB);
-        abilityBuffs.getSlider().get(Ability_Buffs_Enum.CORRUPTED.getPos()).setSlider_Visible(warriorB); //Corrupted
-        abilityBuffs.getSlider().get(Ability_Buffs_Enum.DISCOMBOBULATE.getPos()).setSlider_Visible(warriorB); //Discombobulate
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.MANTLE.getPos()).setVisible(warriorB); //Mantle
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.BRINK_OF_MADNESS.getPos()).setVisible(warriorB); //Brink of Madness
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.SACRED_SURGE.getPos()).setVisible(warriorB); //Sacred Surge
+        abilityBuffs.getSlider().get(AbilityBuffsEnum.CORRUPTED.getPos()).setSliderVisible(warriorB); //Corrupted
+        abilityBuffs.getSlider().get(AbilityBuffsEnum.DISCOMBOBULATE.getPos()).setSliderVisible(warriorB); //Discombobulate
+        abilityBuffs.getBox().get(AbilityBuffsEnum.MANTLE.getPos()).setVisible(warriorB); //Mantle
+        abilityBuffs.getBox().get(AbilityBuffsEnum.BRINK_OF_MADNESS.getPos()).setVisible(warriorB); //Brink of Madness
+        abilityBuffs.getBox().get(AbilityBuffsEnum.SACRED_SURGE.getPos()).setVisible(warriorB); //Sacred Surge
 
         assassin.setTreeVisible(assassinB);
-        abilityBuffs.getSlider().get(Ability_Buffs_Enum.CLONES.getPos()).setSlider_Visible(assassinB); //Clones
-        abilityBuffs.getSlider().get(Ability_Buffs_Enum.NIGHTCLOAK_KNIFE.getPos()).setSlider_Visible(assassinB); //Nightcloak Knife
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.BACKSTAB.getPos()).setVisible(assassinB); //Backstab
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.SURPRISE_STRIKE.getPos()).setVisible(assassinB); //Surprise Strike
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.DELIRIOUS_GAS.getPos()).setVisible(assassinB); //Derilious Gas
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.MIRROR_IMAGE.getPos()).setVisible(assassinB); //Mirror Image
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.SATSUJIN.getPos()).setVisible(assassinB); //Satsujin
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.FLOW_STATE.getPos()).setVisible(assassinB); //Flow State
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.PARRY.getPos()).setVisible(assassinB); //Parry
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.DISSOLUTION.getPos()).setVisible(assassinB); //Dissolution
+        abilityBuffs.getSlider().get(AbilityBuffsEnum.CLONES.getPos()).setSliderVisible(assassinB); //Clones
+        abilityBuffs.getSlider().get(AbilityBuffsEnum.NIGHTCLOAK_KNIFE.getPos()).setSliderVisible(assassinB); //Nightcloak Knife
+        abilityBuffs.getBox().get(AbilityBuffsEnum.BACKSTAB.getPos()).setVisible(assassinB); //Backstab
+        abilityBuffs.getBox().get(AbilityBuffsEnum.SURPRISE_STRIKE.getPos()).setVisible(assassinB); //Surprise Strike
+        abilityBuffs.getBox().get(AbilityBuffsEnum.DELIRIOUS_GAS.getPos()).setVisible(assassinB); //Derilious Gas
+        abilityBuffs.getBox().get(AbilityBuffsEnum.MIRROR_IMAGE.getPos()).setVisible(assassinB); //Mirror Image
+        abilityBuffs.getBox().get(AbilityBuffsEnum.SATSUJIN.getPos()).setVisible(assassinB); //Satsujin
+        abilityBuffs.getBox().get(AbilityBuffsEnum.FLOW_STATE.getPos()).setVisible(assassinB); //Flow State
+        abilityBuffs.getBox().get(AbilityBuffsEnum.PARRY.getPos()).setVisible(assassinB); //Parry
+        abilityBuffs.getBox().get(AbilityBuffsEnum.DISSOLUTION.getPos()).setVisible(assassinB); //Dissolution
 
         archer.setTreeVisible(archerB);
-        abilityBuffs.getSlider().get(Ability_Buffs_Enum.FOCUS.getPos()).setSlider_Visible(archerB); //Focus
-        abilityBuffs.getSlider().get(Ability_Buffs_Enum.PATIENT_HUNTER.getPos()).setSlider_Visible(archerB); //Patient Hunter
-        abilityBuffs.getSlider().get(Ability_Buffs_Enum.DECIMATOR.getPos()).setSlider_Visible(archerB); //Decimator
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.INITIATOR.getPos()).setVisible(archerB); //Initiator
+        abilityBuffs.getSlider().get(AbilityBuffsEnum.FOCUS.getPos()).setSliderVisible(archerB); //Focus
+        abilityBuffs.getSlider().get(AbilityBuffsEnum.PATIENT_HUNTER.getPos()).setSliderVisible(archerB); //Patient Hunter
+        abilityBuffs.getSlider().get(AbilityBuffsEnum.DECIMATOR.getPos()).setSliderVisible(archerB); //Decimator
+        abilityBuffs.getBox().get(AbilityBuffsEnum.INITIATOR.getPos()).setVisible(archerB); //Initiator
 
         mage.setTreeVisible(mageB);
-        abilityBuffs.getSlider().get(Ability_Buffs_Enum.WINDED.getPos()).setSlider_Visible(mageB); //Winded
+        abilityBuffs.getSlider().get(AbilityBuffsEnum.WINDED.getPos()).setSliderVisible(mageB); //Winded
 
         shaman.setTreeVisible(shamanB);
-        abilityBuffs.getSlider().get(Ability_Buffs_Enum.SHEPHERD.getPos()).setSlider_Visible(shamanB); //Shepherd
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_LUNATIC.getPos()).setVisible(shamanB); //Mask of the Lunatic
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_FANATIC.getPos()).setVisible(shamanB); //Mask of the Fanatic
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.MASK_OF_THE_COWARD.getPos()).setVisible(shamanB); //Mask of the Coward
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.CHANT_OF_THE_FANATIC.getPos()).setVisible(shamanB); //Chant of the Fanatic
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.BULLWHIP.getPos()).setVisible(shamanB); //Bullwhip
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.INVIGORATING_WAVE.getPos()).setVisible(shamanB); //Invigorating Wave
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.SACRIFICIAL_SHRINE.getPos()).setVisible(shamanB); //Sacrificial Shrine
-        abilityBuffs.getBox().get(Ability_Buffs_Enum.AWAKENED.getPos()).setVisible(shamanB); //Awakened
+        abilityBuffs.getSlider().get(AbilityBuffsEnum.SHEPHERD.getPos()).setSliderVisible(shamanB); //Shepherd
+        abilityBuffs.getBox().get(AbilityBuffsEnum.MASK_OF_THE_LUNATIC.getPos()).setVisible(shamanB); //Mask of the Lunatic
+        abilityBuffs.getBox().get(AbilityBuffsEnum.MASK_OF_THE_FANATIC.getPos()).setVisible(shamanB); //Mask of the Fanatic
+        abilityBuffs.getBox().get(AbilityBuffsEnum.MASK_OF_THE_COWARD.getPos()).setVisible(shamanB); //Mask of the Coward
+        abilityBuffs.getBox().get(AbilityBuffsEnum.CHANT_OF_THE_FANATIC.getPos()).setVisible(shamanB); //Chant of the Fanatic
+        abilityBuffs.getBox().get(AbilityBuffsEnum.BULLWHIP.getPos()).setVisible(shamanB); //Bullwhip
+        abilityBuffs.getBox().get(AbilityBuffsEnum.INVIGORATING_WAVE.getPos()).setVisible(shamanB); //Invigorating Wave
+        abilityBuffs.getBox().get(AbilityBuffsEnum.SACRIFICIAL_SHRINE.getPos()).setVisible(shamanB); //Sacrificial Shrine
+        abilityBuffs.getBox().get(AbilityBuffsEnum.AWAKENED.getPos()).setVisible(shamanB); //Awakened
     }
 
     private TreeBase getTree() {

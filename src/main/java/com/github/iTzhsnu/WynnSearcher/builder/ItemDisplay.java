@@ -1,7 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
 import com.github.iTzhsnu.WynnSearcher.ApiDataManager;
-import com.github.iTzhsnu.WynnSearcher.CrafterUI;
+import com.github.iTzhsnu.WynnSearcher.CrafterUi;
 import com.github.iTzhsnu.WynnSearcher.data.Item;
 import com.github.iTzhsnu.WynnSearcher.data.ItemBase;
 import com.github.iTzhsnu.WynnSearcher.general.ItemType;
@@ -14,12 +14,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item_Display {
+public class ItemDisplay {
     private final JPanel pane = new JPanel();
     private final List<JPanel> itemsPanel = new ArrayList<>();
     private ItemData itemData = new ItemData(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
-    public Item_Display(JPanel p) {
+    public ItemDisplay(JPanel p) {
         pane.setPreferredSize(new Dimension(1045, 497));
         pane.setLayout(null);
 
@@ -116,7 +116,7 @@ public class Item_Display {
             itemsPanel.add(new EquipmentUi(item, type, previous, above, 1045, 0, true));
         } else if (itemName.contains("CR-")) {
             if (itemName.contains("\"type\":\"" + itemType + "\"")) { // Todo fixes (Craft)
-                item = new Item(CrafterUI.getCraftItemJson(api.wynnRecipes, api.wynnIngredients, itemName, false));
+                item = new Item(CrafterUi.getCraftItemJson(api.wynnRecipes, api.wynnIngredients, itemName, false));
                 itemsPanel.add(new EquipmentUi(item, type, previous, above, 1045, 0, true));
             }
         } else if (!itemName.isEmpty()) {

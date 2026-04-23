@@ -4,12 +4,12 @@ import com.github.iTzhsnu.WynnSearcher.ui.ItemUi;
 
 public class Main {
     public static void main(String[] args) {
-        setITEM_IDS();
+        setItemIds();
 
-        new SearchUI().setVisible(true);
+        new SearchUi().setVisible(true);
     }
 
-    private static void setITEM_IDS() {
+    private static void setItemIds() {
         ItemUi.ITEM_IDS.put(ItemUi.ITEM_IDS.size(), Identifications.STRENGTH);
         ItemUi.ITEM_IDS.put(ItemUi.ITEM_IDS.size(), Identifications.DEXTERITY);
         ItemUi.ITEM_IDS.put(ItemUi.ITEM_IDS.size(), Identifications.INTELLIGENCE);

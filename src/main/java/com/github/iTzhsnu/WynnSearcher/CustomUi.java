@@ -22,14 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomUI implements ActionListener {
+public class CustomUi implements ActionListener {
     private final Container pane;
     //Variable Int Field
     private final List<JTextField> min = new ArrayList<>();
     private final List<JTextField> max = new ArrayList<>();
 
     //Not Variable Field
-    private final JComboBox<String> majorIDBox = new JComboBox<>();
+    private final JComboBox<String> majorIdBox = new JComboBox<>();
     private final JComboBox<String> atkSpdBox = new JComboBox<>();
     private final List<JTextField> notVariable = new ArrayList<>();
 
@@ -44,8 +44,8 @@ public class CustomUI implements ActionListener {
     private final JComboBox<String> itemType = new JComboBox<>();
     private final JPanel textScroll = new JPanel();
     private final JComboBox<String> rarity = new JComboBox<>();
-    private final JLabel majorIDText = new JLabel("Major ID");
-    private final JsonObject majorIDJson;
+    private final JLabel majorIdText = new JLabel("Major ID");
+    private final JsonObject majorIdJson;
 
     private static final Map<Integer, Identifications> ID_FROM_NOT_VARIABLE_INT = new HashMap<>() {{
         put(1, Identifications.STRENGTH_REQ);
@@ -71,7 +71,7 @@ public class CustomUI implements ActionListener {
         put(5, Identifications.AIR_DAMAGE);
     }};
 
-    public CustomUI(Container pane) {
+    public CustomUi(Container pane) {
         this.pane = pane;
 
         uiTemplate("Name", 20, getY(0), false, 95);
@@ -95,7 +95,7 @@ public class CustomUI implements ActionListener {
         uiTemplate("Water Dam", 10, getY(11), true, 75);
         uiTemplate("Fire Dam", 10, getY(12), true, 75);
         uiTemplate("Air Dam", 10, getY(13), true, 75);
-        atkSpdBoxUITemplate("Atk Spd", 10, getY(14));
+        atkSpdBoxUiTemplate("Atk Spd", 10, getY(14));
 
         uiTemplate("Strength", 20, getY(15), false, 95);
         uiTemplate("Dexterity", 20, getY(16), false, 95);
@@ -203,7 +203,7 @@ public class CustomUI implements ActionListener {
         uiTemplate("Raw 3rd Cost", 345, getY(9), false, 105);
         uiTemplate("Raw 4th Cost", 345, getY(10), false, 105);
 
-        majorIDJson = ApiDataManager.getManager().getMajorIDJson();
+        majorIdJson = ApiDataManager.getManager().getMajorIDJson();
 
         setMajorIDBox(685, getY(20));
 
@@ -288,8 +288,8 @@ public class CustomUI implements ActionListener {
         scroll.setVisible(visible);
         itemType.setVisible(visible);
         rarity.setVisible(visible);
-        majorIDBox.setVisible(visible);
-        majorIDText.setVisible(visible);
+        majorIdBox.setVisible(visible);
+        majorIdText.setVisible(visible);
 
         if (visible) {
             String selected = itemType.getItemAt(itemType.getSelectedIndex());
@@ -384,7 +384,7 @@ public class CustomUI implements ActionListener {
         pane.add(this.name.get(this.name.size() - 1));
     }
 
-    public void atkSpdBoxUITemplate(String labelName, int width, int height) {
+    public void atkSpdBoxUiTemplate(String labelName, int width, int height) {
         JLabel name = new JLabel(labelName);
 
         name.setBounds(width, height, 45, 20);
@@ -405,18 +405,18 @@ public class CustomUI implements ActionListener {
     }
 
     public void setMajorIDBox(int posX, int posY) {
-        majorIDBox.setBounds(posX + 60, posY, 200, 20);
-        majorIDBox.addItem("None");
-        if (majorIDJson.get("major_ids") != null) {
-            for (Map.Entry<String, JsonElement> entry : majorIDJson.get("major_ids").getAsJsonObject().entrySet()) {
-                majorIDBox.addItem(entry.getKey());
+        majorIdBox.setBounds(posX + 60, posY, 200, 20);
+        majorIdBox.addItem("None");
+        if (majorIdJson.get("major_ids") != null) {
+            for (Map.Entry<String, JsonElement> entry : majorIdJson.get("major_ids").getAsJsonObject().entrySet()) {
+                majorIdBox.addItem(entry.getKey());
             }
         }
 
-        majorIDText.setBounds(posX, posY, 50, 20);
+        majorIdText.setBounds(posX, posY, 50, 20);
 
-        pane.add(majorIDBox);
-        pane.add(majorIDText);
+        pane.add(majorIdBox);
+        pane.add(majorIdText);
     }
 
     public void createCustomItem() {
@@ -507,9 +507,9 @@ public class CustomUI implements ActionListener {
             }
         }
 
-        if (majorIDBox.getSelectedIndex() != 0) {
-            String majorIDName = majorIDBox.getItemAt(majorIDBox.getSelectedIndex());
-            j.add("majorIds", JsonParser.parseString("{\"name\":\"" + majorIDName + "\",\"description\":\"" + majorIDJson.get("major_ids").getAsJsonObject().get(majorIDName).getAsString() + "\"}"));
+        if (majorIdBox.getSelectedIndex() != 0) {
+            String majorIDName = majorIdBox.getItemAt(majorIdBox.getSelectedIndex());
+            j.add("majorIds", JsonParser.parseString("{\"name\":\"" + majorIDName + "\",\"description\":\"" + majorIdJson.get("major_ids").getAsJsonObject().get(majorIDName).getAsString() + "\"}"));
         }
 
         j.addProperty(JsonKeys.TYPE.getKey(), selectedType);
@@ -576,9 +576,9 @@ public class CustomUI implements ActionListener {
                 }
             }
             if (j.get(Identifications.MAJOR_IDS.getItemName()) != null) {
-                majorIDBox.setSelectedItem(j.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString());
+                majorIdBox.setSelectedItem(j.get(Identifications.MAJOR_IDS.getItemName()).getAsJsonObject().get("name").getAsString());
             } else {
-                majorIDBox.setSelectedIndex(0);
+                majorIdBox.setSelectedIndex(0);
             }
             if (j.get(Identifications.ATTACK_SPEED.getItemName()) != null) atkSpdBox.setSelectedItem(j.get(Identifications.ATTACK_SPEED.getItemName()).getAsString());
             if (j.get("identified") != null) variable.setSelected(!j.get("identified").getAsBoolean());

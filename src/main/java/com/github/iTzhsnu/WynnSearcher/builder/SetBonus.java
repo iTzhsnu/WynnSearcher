@@ -64,11 +64,11 @@ public class SetBonus {
                 JsonObject j = jo.getAsJsonObject().get(String.valueOf(size)).getAsJsonObject();
                 for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) {
                     Identifications id = ItemUi.ITEM_IDS.get(i);
-                    if (j.get(id.getItemName()) != null) id_Numbers[ID_Display.ID_INT.get(id)] = j.get(id.getItemName()).getAsInt();
+                    if (j.get(id.getItemName()) != null) id_Numbers[IdDisplay.ID_INT.get(id)] = j.get(id.getItemName()).getAsInt();
                 }
                 for (int i = 0; ItemUi.REVERSED_ITEM_IDS.size() > i; ++i) {
                     Identifications id = ItemUi.REVERSED_ITEM_IDS.get(i);
-                    if (j.get(id.getItemName()) != null) id_Numbers[ID_Display.ID_INT.get(id)] = j.get(id.getItemName()).getAsInt();
+                    if (j.get(id.getItemName()) != null) id_Numbers[IdDisplay.ID_INT.get(id)] = j.get(id.getItemName()).getAsInt();
                 }
             }
         }

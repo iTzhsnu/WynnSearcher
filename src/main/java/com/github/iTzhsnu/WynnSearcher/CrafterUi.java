@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CrafterUI implements ActionListener {
+public class CrafterUi implements ActionListener {
     private final Container pane;
 
     private final JLabel itemApiConnect = new JLabel();
@@ -68,7 +68,7 @@ public class CrafterUI implements ActionListener {
         put("potion", JsonValues.ALCHEMISM);
     }};
 
-    public CrafterUI(Container pane) {
+    public CrafterUi(Container pane) {
         this.pane = pane;
 
         ApiDataManager api = ApiDataManager.getManager();
