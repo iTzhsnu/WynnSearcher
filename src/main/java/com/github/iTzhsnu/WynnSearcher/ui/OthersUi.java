@@ -137,7 +137,7 @@ public class OthersUi extends ItemUi {
                 if (minValue != 0 || maxValue != 0) {
                     if (minValue == maxValue) { //Constant Value
                         label.add(new JLabel(id.getDisplayName() + " "+ setPlus(maxValue) + id.getDisplaySp()));
-                    } else if (id.isItemVariable() || item.getIdString(Identifications.RARITY).equals(JsonValues.CRAFTED)) { //Crafted Items or Variable ID
+                    } else { // Variable ID
                         label.add(new JLabel(setPlus(minValue) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(maxValue) + id.getDisplaySp()));
                     }
                 }
@@ -151,7 +151,7 @@ public class OthersUi extends ItemUi {
                 if (minValue != 0 || maxValue != 0) {
                     if (minValue == maxValue) { //Constant Value
                         label.add(new JLabel(id.getDisplayName() + " "+ setPlus(maxValue) + id.getDisplaySp()));
-                    } else if (id.isItemVariable() || item.getIdString(Identifications.RARITY).equals(JsonValues.CRAFTED)) { //Crafted Items or Variable ID
+                    } else { // Variable ID
                         label.add(new JLabel(setPlus(minValue) + id.getDisplaySp() + " " + id.getDisplayName() + " " + setPlus(maxValue) + id.getDisplaySp()));
                     }
                 }

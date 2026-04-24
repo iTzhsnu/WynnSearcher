@@ -23,7 +23,7 @@ public abstract class ItemBase {
                 if (j.get(fieldPos.getKey()) != null && j.get(fieldPos.getKey()).getAsJsonObject().get(idName) != null) {
                     if (!j.get(fieldPos.getKey()).getAsJsonObject().get(idName).isJsonObject()) {
                         return j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsInt(); // Not a Json Object
-                    } else if (j.get(JsonKeys.IDENTIFIED.getKey()) != null && j.get(JsonKeys.IDENTIFIED.getKey()).getAsBoolean() && id.isItemVariable()) {
+                    } else if (j.get(JsonKeys.IDENTIFIED.getKey()) != null && j.get(JsonKeys.IDENTIFIED.getKey()).getAsBoolean()) {
                         if (j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(JsonKeys.RAW.getKey()) != null) {
                             return j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(JsonKeys.RAW.getKey()).getAsInt();
                             //return getBaseId(j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(JsonKeys.RAW.getKey()).getAsInt()); // this old code why used?
@@ -36,7 +36,7 @@ public abstract class ItemBase {
                             }
                             return getBaseId(j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(minOrMax).getAsInt());
                         }
-                    } else if (id.isItemVariable()) { //Item ID Variable
+                    } else { //Item ID Variable
                         if (j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(sortType.getKey()) != null) {
                             return j.get(fieldPos.getKey()).getAsJsonObject().get(idName).getAsJsonObject().get(sortType.getKey()).getAsInt();
                         } else {
@@ -54,7 +54,7 @@ public abstract class ItemBase {
             return haveIdValue(id, howToObtain, min, max);
         } else {
             if (id == Identifications.SUM_MELEE_APPROPRIATE || id == Identifications.SUM_SPELL_APPROPRIATE) {
-                return hasDamageAppropriateSumId(id.getSum(), min, max);
+                return haveDamageAppropriateSumId(id.getSum(), min, max);
             }
 
             boolean need = false;
@@ -137,12 +137,12 @@ public abstract class ItemBase {
         return total + sum_total;
     }
 
-    public boolean hasDamageAppropriateSumId(SumEnum sum, String weaponName, String powder) {
+    public boolean haveDamageAppropriateSumId(SumEnum sum, String weaponName, String powder) {
         if (weaponName != null && powder != null) {
             if (!weaponName.isEmpty() && DataUtils.getItemDataFromName(weaponName) != null) {
                 JsonObject weapon = DataUtils.getItemDataFromName(weaponName).j;
                 if (weapon != null) {
-                    boolean[] has = new boolean[] { false, false, false, false, false, false };
+                    boolean[] have = new boolean[] { false, false, false, false, false, false };
 
                     // Powder Damage
                     if (!powder.isEmpty()) {
@@ -152,11 +152,11 @@ public abstract class ItemBase {
                                 int tier = Integer.parseInt(powder.substring(i + 1, i + 2));
                                 if (tier > 0 && 7 >= tier) {
                                     switch (powder.charAt(i)) {
-                                        case DataKeys.POWDER_E -> has[1] = true;
-                                        case DataKeys.POWDER_T -> has[2] = true;
-                                        case DataKeys.POWDER_W -> has[3] = true;
-                                        case DataKeys.POWDER_F -> has[4] = true;
-                                        case DataKeys.POWDER_A -> has[5] = true;
+                                        case DataKeys.POWDER_E -> have[1] = true;
+                                        case DataKeys.POWDER_T -> have[2] = true;
+                                        case DataKeys.POWDER_W -> have[3] = true;
+                                        case DataKeys.POWDER_F -> have[4] = true;
+                                        case DataKeys.POWDER_A -> have[5] = true;
                                         default -> {
                                             break POWDER_FIND;
                                         }
@@ -175,20 +175,20 @@ public abstract class ItemBase {
                         JsonObject w = weapon.get(Identifications.NEUTRAL_DAMAGE.getItemFieldPos().getKey()).getAsJsonObject();
                         for (int i = 0; ItemUi.DAMAGE_IDS.size() > i; ++i) {
                             if (w.get(ItemUi.DAMAGE_IDS.get(i).getItemName()) != null) {
-                                has[i] = true;
+                                have[i] = true;
                             }
                         }
                     }
 
 
-                    if (has[0] || has[1] || has[2] || has[3] || has[4] || has[5]) {
+                    if (have[0] || have[1] || have[2] || have[3] || have[4] || have[5]) {
                         // Raw Damage
                         for (Identifications id : sum.getSumIDs().get(6).getAddIds()) {
                             if (haveId(id, null, null, null)) return true;
                         }
 
                         // Raw Elemental Damage
-                        if (has[1] || has[2] || has[3] || has[4] || has[5]) {
+                        if (have[1] || have[2] || have[3] || have[4] || have[5]) {
                             for (Identifications id : sum.getSumIDs().get(7).getAddIds()) {
                                 if (haveId(id, null, null, null)) return true;
                             }
@@ -196,7 +196,7 @@ public abstract class ItemBase {
 
                         // Earth, Thunder, Water, Fire and Air Damage Raw and %
                         for (int i = 0; 6 > i; ++i) {
-                            if (has[i]) {
+                            if (have[i]) {
                                 // Raw **** Damage and Raw **** Spell or Melee Damage
                                 for (Identifications id : sum.getSumIDs().get(i).getAddIds()) {
                                     if (haveId(id, null, null, null)) return true;

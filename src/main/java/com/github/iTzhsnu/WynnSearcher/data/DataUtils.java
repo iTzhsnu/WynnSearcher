@@ -46,4 +46,17 @@ public class DataUtils {
         damages[0] = neutral;
     }
 
+    // damage = { Neutral, Earth, Thunder, Water, Fire, Air }
+    // percent, raw, damageTypePercent, damageTypeRaw = { Neutral, Earth, Thunder, Water, Fire, Damages, Elem Damage }
+    // sp = { Strength, Dexterity, Intelligence, Defense, Agility }
+    // ratio = { Damage, Earth, Thunder, Water Fire, Air }
+    public static float[] calcTotalDamage(int[] damage, int[] percent, int[] raw, int[] damageTypePercent, int[] damageTypeRaw, int[] sp, float attackSpeed, int[] ratio) {
+        float[] damageF = new float[6];
+
+
+
+
+        return damageF;
+    }
+
 }

@@ -276,6 +276,7 @@ public enum Identifications {
         return this.itemName;
     }
 
+    // if ingredient
     public String getIngName() {
         return this.ingName;
     }
@@ -296,10 +297,12 @@ public enum Identifications {
         return this.itemFieldPos;
     }
 
+    // if ingredient
     public JsonKeys getIngFieldPos() {
         return this.ingFieldPos;
     }
 
+    // Only use in custom.
     public boolean isItemVariable() {
         return this.itemVariable;
     }
