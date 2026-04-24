@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.List;
 
 public class SearchUi extends JFrame implements ActionListener {
-    public static final String VERSION = "4.4.8";
+    public static final String VERSION = "4.7.10";
 
     //API
     private final JLabel itemApiConnect = new JLabel("Item API Connecting...");
@@ -280,32 +280,46 @@ public class SearchUi extends JFrame implements ActionListener {
             searched.remove(itemDisplays.get(i));
             itemDisplays.remove(i);
         }
-        if (canSearchItem()) {
-            if (type.getSelectedIndex() == 4) {
-                changesUi.searchItems();
-            } else {
-                searchItems(null);
-            }
-        } else if (canSearchIngredient()) {
-            if (type.getSelectedIndex() == 4) {
-                changesUi.searchIng();
-            } else {
-                searchIngredient(null);
-            }
-        } else if (canSearchOtherItems()) {
-            if (type.getSelectedIndex() == 4) {
-                changesUi.searchOther();
-            } else {
-                searchOtherItems(null);
-            }
-        } else if (canSearchAspects()) {
-            if (type.getSelectedIndex() == 4) {
-                searchedItemCount.setText("Changes can't search Aspect");
-            } else {
-                searchAspects();
-            }
-        } else {
-            searchedItemCount.setText("Search Failed");
+        switch (itemType.getItemAt(itemType.getSelectedIndex())) {
+            case DataKeys.TYPE_EQUIPMENT:
+                if (bow.isSelected() || spear.isSelected() || wand.isSelected() || dagger.isSelected() || relik.isSelected() || helmet.isSelected() || chestplate.isSelected() || leggings.isSelected() || boots.isSelected() || ring.isSelected() || bracelet.isSelected() || necklace.isSelected()) {
+                    if (type.getSelectedIndex() == 4) {
+                        changesUi.searchItems();
+                    } else {
+                        searchItems(null);
+                    }
+                }
+                break;
+            case DataKeys.TYPE_INGREDIENT:
+                if (armouring.isSelected() || tailoring.isSelected() || weaponsmithing.isSelected() || woodworking.isSelected() || jeweling.isSelected() || scribing.isSelected() || cooking.isSelected() || alchemism.isSelected()) {
+                    if (type.getSelectedIndex() == 4) {
+                        changesUi.searchIng();
+                    } else {
+                        searchIngredient(null);
+                    }
+                }
+                break;
+            case DataKeys.TYPE_OTHER_ITEM:
+                if (tome.isSelected() || charm.isSelected() || tool.isSelected() || material.isSelected()) {
+                    if (type.getSelectedIndex() == 4) {
+                        changesUi.searchOther();
+                    } else {
+                        searchOtherItems(null);
+                    }
+                }
+                break;
+            case DataKeys.TYPE_ASPECT:
+                if (archetype1Aspect.isSelected() || archetype2Aspect.isSelected() || archetype3Aspect.isSelected() || otherTypeAspect.isSelected()) {
+                    if (type.getSelectedIndex() == 4) {
+                        searchedItemCount.setText("Changes can't search Aspect");
+                    } else {
+                        searchAspects();
+                    }
+                }
+                break;
+            default:
+                searchedItemCount.setText("Search Failed");
+                break;
         }
     }
 
@@ -755,60 +769,14 @@ public class SearchUi extends JFrame implements ActionListener {
         idMax.setText("");
     }
 
-    public boolean canSearchItem() {
-        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_EQUIPMENT)) {
-            if (bow.isSelected() || spear.isSelected() || wand.isSelected() || dagger.isSelected() || relik.isSelected() || helmet.isSelected() || chestplate.isSelected() || leggings.isSelected() || boots.isSelected() || ring.isSelected() || bracelet.isSelected() || necklace.isSelected()) {
-                boolean hasText = false;
-                for (JComboBox<String> box : idBoxes1) {
-                    if (notEmpty(box)) hasText = true;
-                }
-                return hasText;
-            }
+    public void autoSetLevelId() {
+        Identifications id0 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 0), Identifications.EMPTY);
+        Identifications id1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 1), Identifications.EMPTY);
+        Identifications id2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 2), Identifications.EMPTY);
+        Identifications id3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 3), Identifications.EMPTY);
+        if (id0 == Identifications.EMPTY && id1 == Identifications.EMPTY && id2 == Identifications.EMPTY && id3 == Identifications.EMPTY) {
+            idBoxes1.get(0).setSelectedIndex(0);
         }
-        return false;
-    }
-
-    public boolean canSearchIngredient() {
-        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_INGREDIENT)) {
-            if (armouring.isSelected() || tailoring.isSelected() || weaponsmithing.isSelected() || woodworking.isSelected() || jeweling.isSelected() || scribing.isSelected() || cooking.isSelected() || alchemism.isSelected()) {
-                boolean hasText = false;
-                for (JComboBox<String> box : idBoxes1) {
-                    if (notEmpty(box)) hasText = true;
-                }
-                return hasText;
-            }
-        }
-        return false;
-    }
-
-    public boolean canSearchOtherItems() {
-        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_OTHER_ITEM)) {
-            if (tome.isSelected() || charm.isSelected() || tool.isSelected() || material.isSelected()) {
-                boolean hasText = false;
-                for (JComboBox<String> box : idBoxes1) {
-                    if (notEmpty(box)) hasText = true;
-                }
-                return hasText;
-            }
-        }
-        return false;
-    }
-
-    public boolean canSearchAspects() {
-        if (Objects.equals(itemType.getItemAt(itemType.getSelectedIndex()), DataKeys.TYPE_ASPECT)) {
-            if (archetype1Aspect.isSelected() || archetype2Aspect.isSelected() || archetype3Aspect.isSelected() || otherTypeAspect.isSelected()) {
-                boolean hasText = false;
-                for (JComboBox<String> box : idBoxes1) {
-                    if (notEmpty(box)) hasText = true;
-                }
-                return hasText;
-            }
-        }
-        return false;
-    }
-
-    public boolean notEmpty(JComboBox<String> box) {
-        return !((JTextField) box.getEditor().getEditorComponent()).getText().isEmpty();
     }
 
     public void searchItems(List<ItemBase> modify) {
@@ -852,18 +820,12 @@ public class SearchUi extends JFrame implements ActionListener {
             }
         }
 
+        autoSetLevelId();
+
         searchIds(idBoxes1, idMin1, idMax1, api.howToObtainItem, ItemType.ITEM);
         searchIds(idBoxes2, idMin2, idMax2, api.howToObtainItem, ItemType.ITEM);
         searchIds(idBoxes3, idMin3, idMax3, api.howToObtainItem, ItemType.ITEM);
         searchIds(idBoxes4, idMin4, idMax4, api.howToObtainItem, ItemType.ITEM);
-
-        Identifications id0 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 0), Identifications.EMPTY);
-        Identifications id1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 1), Identifications.EMPTY);
-        Identifications id2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 2), Identifications.EMPTY);
-        Identifications id3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 3), Identifications.EMPTY);
-        if (id0.getItemName() == null && id1.getItemName() == null && id2.getItemName() == null && id3.getItemName() == null) {
-            removeAllSearchedItems();
-        }
 
         searchFromTier(ItemType.ITEM);
 
@@ -1033,6 +995,8 @@ public class SearchUi extends JFrame implements ActionListener {
             }
         }
 
+        autoSetLevelId();
+
         searchIds(idBoxes1, idMin1, idMax1, api.howToObtainIng, ItemType.INGREDIENT);
         searchIds(idBoxes2, idMin2, idMax2, api.howToObtainIng, ItemType.INGREDIENT);
         searchIds(idBoxes3, idMin3, idMax3, api.howToObtainIng, ItemType.INGREDIENT);
@@ -1096,18 +1060,12 @@ public class SearchUi extends JFrame implements ActionListener {
             }
         }
 
+        autoSetLevelId();
+
         searchIds(idBoxes1, idMin1, idMax1, api.howToObtainOthers, ItemType.OTHER);
         searchIds(idBoxes2, idMin2, idMax2, api.howToObtainOthers, ItemType.OTHER);
         searchIds(idBoxes3, idMin3, idMax3, api.howToObtainOthers, ItemType.OTHER);
         searchIds(idBoxes4, idMin4, idMax4, api.howToObtainOthers, ItemType.OTHER);
-
-        Identifications id0 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 0), Identifications.EMPTY);
-        Identifications id1 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 1), Identifications.EMPTY);
-        Identifications id2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 2), Identifications.EMPTY);
-        Identifications id3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 3), Identifications.EMPTY);
-        if (id0.getItemName() == null && id1.getItemName() == null && id2.getItemName() == null && id3.getItemName() == null) {
-            removeAllSearchedItems();
-        }
 
         searchFromTier(ItemType.OTHER);
 
@@ -1539,12 +1497,6 @@ public class SearchUi extends JFrame implements ActionListener {
             searched.add(itemDisplays.get(itemDisplays.size() - 1));
 
             searchedItems.remove(i);
-        }
-    }
-
-    public void removeAllSearchedItems() {
-        if (!searchedItems.isEmpty()) {
-            searchedItems.clear();
         }
     }
 

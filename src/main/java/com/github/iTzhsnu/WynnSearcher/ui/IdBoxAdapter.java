@@ -9,13 +9,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class IdBoxAdapter extends KeyAdapter {
     private final JComboBox<String> box;
 
     public static final String[] DISPLAY_ID_LIST = new String[] {
-            "Level", "Strength Req", "Dexterity Req", "Intelligence Req", "Defense Req", "Agility Req", "Quest Req", "Untradable",
+            "Level", "Sum (Spell Damages appropriate)", "Sum (Melee Damages appropriate)",
+            "Strength Req", "Dexterity Req", "Intelligence Req", "Defense Req", "Agility Req", "Quest Req", "Untradable",
             "Health", "Health Bonus", "Raw Health Regen", "Health Regen %", "Life Steal",
             "Strength", "Dexterity", "Intelligence", "Defense", "Agility",
             "Earth Defense", "Thunder Defense", "Water Defense", "Fire Defense", "Air Defense",
@@ -49,7 +49,7 @@ public class IdBoxAdapter extends KeyAdapter {
             "Sum (Total Melee Damage)", "Sum (Total Neutral Melee Damage)", "Sum (Total Earth Melee Damage)", "Sum (Total Thunder Melee Damage)", "Sum (Total Water Melee Damage)", "Sum (Total Fire Melee Damage)", "Sum (Total Air Melee Damage)",
             "Sum (Total Melee DPS)", "Sum (Total Neutral Melee DPS)", "Sum (Total Earth Melee DPS)", "Sum (Total Thunder Melee DPS)", "Sum (Total Water Melee DPS)", "Sum (Total Fire Melee DPS)", "Sum (Total Air Melee DPS)",
             "Sum (Total Spell DPS)", "Sum (Total Neutral Spell DPS)", "Sum (Total Earth Spell DPS)", "Sum (Total Thunder Spell DPS)", "Sum (Total Water Spell DPS)", "Sum (Total Fire Spell DPS)", "Sum (Total Air Spell DPS)",
-            "Sum (Raw Spell Costs)", "Sum (Spell Costs %)", "Sum (Melee Damages appropriate)", "Sum (Spell Damages appropriate)"
+            "Sum (Raw Spell Costs)", "Sum (Spell Costs %)"
     };
 
     public static final Map<String, Identifications> ID_LIST = new HashMap<>(222, 2) {{
@@ -349,18 +349,18 @@ public class IdBoxAdapter extends KeyAdapter {
         }
     }
 
-    public static void removeBeepSounds(ActionMap am) {
+    public static void removeBeepSound(ActionMap am) {
         String delPrev = DefaultEditorKit.deletePrevCharAction;
         String delNext = DefaultEditorKit.deleteNextCharAction;
 
-        am.put(delPrev, new SilentDeleteTextAction(delPrev, am.get(delPrev)));
-        am.put(delNext, new SilentDeleteTextAction(delNext, am.get(delNext)));
+        am.put(delPrev, new SilentBeepSoundAction(delPrev, am.get(delPrev)));
+        am.put(delNext, new SilentBeepSoundAction(delNext, am.get(delNext)));
     }
 
-    static class SilentDeleteTextAction extends TextAction {
+    static class SilentBeepSoundAction extends TextAction {
         private final transient Action deleteAction;
 
-        public SilentDeleteTextAction(String name, Action deleteAction) {
+        public SilentBeepSoundAction(String name, Action deleteAction) {
             super(name);
             this.deleteAction = deleteAction;
         }
@@ -368,7 +368,7 @@ public class IdBoxAdapter extends KeyAdapter {
         @Override
         public void actionPerformed(ActionEvent e) {
             JTextComponent c = getTextComponent(e);
-            if (Objects.isNull(c) || !c.isEditable() || !skipBeep(c)) {
+            if (c == null || !c.isEditable() || !skipBeep(c)) {
                 deleteAction.actionPerformed(e);
             }
         }
