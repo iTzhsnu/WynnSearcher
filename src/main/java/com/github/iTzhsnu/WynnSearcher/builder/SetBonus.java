@@ -18,7 +18,7 @@ public class SetBonus {
 
     public SetBonus(String setName, String itemName, boolean isWeapon) {
         this.setName = setName;
-        JsonObject j = ApiDataManager.getManager().getSetBonus();
+        JsonObject j = ApiDataManager.getManager().getManualSetBonus();
         if (j.get(setName) != null) {
             size = j.get(setName).getAsJsonObject().get("size").getAsInt();
         } else {
@@ -59,7 +59,7 @@ public class SetBonus {
         };
 
         if (size > 0) {
-            JsonElement jo = ApiDataManager.getManager().getSetBonus().get(setName);
+            JsonElement jo = ApiDataManager.getManager().getManualSetBonus().get(setName);
             if (jo != null && jo.getAsJsonObject().get(String.valueOf(size)) != null) {
                 JsonObject j = jo.getAsJsonObject().get(String.valueOf(size)).getAsJsonObject();
                 for (int i = 0; ItemUi.ITEM_IDS.size() > i; ++i) {

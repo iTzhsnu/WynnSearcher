@@ -30,7 +30,7 @@ public class TreeBase implements ActionListener {
         this.classes = classes;
 
         List<JsonObject> map = new ArrayList<>();
-        JsonObject tree = ApiDataManager.getManager().loadWynnAbilityTreeAPI(classes, map, connect);
+        JsonObject tree = ApiDataManager.getManager().loadWynnAbilityTreeApi(classes, map, connect);
 
         for (JsonObject json : map) { //Connector
             int x = -1;
@@ -82,7 +82,7 @@ public class TreeBase implements ActionListener {
         }
 
         if (tree.get(JsonKeys.PAGES.getKey()) != null) {
-            for (int i = 1; 7 >= i; ++i) {
+            for (int i = 1; 9 >= i; ++i) { // Page 1 to 9 (2026/04/26)
                 JsonObject json = tree.get(JsonKeys.PAGES.getKey()).getAsJsonObject().get(String.valueOf(i)).getAsJsonObject();
                 for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
                     int x = -1;
@@ -236,7 +236,7 @@ public class TreeBase implements ActionListener {
 
         setTreeUi();
 
-        pane.setPreferredSize(new Dimension(368, 1600));
+        pane.setPreferredSize(new Dimension(368, 2000)); // old y 1600
         pane.setLayout(null);
 
         scrollPane = new JScrollPane(pane);
@@ -244,7 +244,7 @@ public class TreeBase implements ActionListener {
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         text.setBounds(20, 685, 400, 20);
-        text.setText(this.archetype1 + ": 0 | " + this.archetype2 + ": 0 | " + this.archetype3 + ": 0 | Ability Point: 0/45");
+        text.setText(this.archetype1 + ": 0 | " + this.archetype2 + ": 0 | " + this.archetype3 + ": 0 | Ability Point: 0/50");
 
         p.add(scrollPane);
         p.add(text);
@@ -361,7 +361,7 @@ public class TreeBase implements ActionListener {
             for (int i = getTcb().size() - 1; i >= 0; --i) {
                 TreeCheckBox t = getTcb().get(i);
                 if (t.isSelected()) {
-                    if (totalCost > 45) {
+                    if (totalCost > 50) { // Max Ability Point
                         totalCost -= t.getCost();
                         if (t.getArchetype() != null) {
                             switch (t.getArchetype().getNum()) {
@@ -417,7 +417,7 @@ public class TreeBase implements ActionListener {
                 }
             }
         }
-        text.setText(this.archetype1 + ": " + archetype1 + " | " + this.archetype2 + ": " + archetype2 + " | " + this.archetype3 + ": " + archetype3 + " | " + "Ability Point: " + totalCost + "/45");
+        text.setText(this.archetype1 + ": " + archetype1 + " | " + this.archetype2 + ": " + archetype2 + " | " + this.archetype3 + ": " + archetype3 + " | " + "Ability Point: " + totalCost + "/50");
     }
 
     public boolean canUse(int pos) {

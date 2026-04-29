@@ -26,7 +26,7 @@ public abstract class ItemUi extends JPanel {
     protected final boolean isCustom;
     protected int urlSize = 0;
 
-    public static final Map<Integer, Identifications> ITEM_IDS = new HashMap<>(82, 2);
+    public static final Map<Integer, Identifications> ITEM_IDS = new HashMap<>(87, 2);
 
     public static final Map<Integer, Identifications> REVERSED_ITEM_IDS = new HashMap<>(8, 2) {{
         put(0, Identifications.PERCENT_1ST_SPELL_COST);
@@ -360,6 +360,7 @@ public abstract class ItemUi extends JPanel {
                        String s = " Merchant and " + j.get(JsonKeys.EVENT.getKey()).getAsString() + " Event";
                        sb.append(s);
                    } else {
+                       boolean skipUnknown = false;
                        switch (j.get(JsonKeys.TYPE.getKey()).getAsString()) {
                            case JsonValues.DUNGEON_MERCHANT:
                                sb.append(" Dungeon Merchant");
@@ -380,11 +381,11 @@ public abstract class ItemUi extends JPanel {
                            case JsonValues.QUEST:
                            case JsonValues.CHALLENGE:
                            case JsonValues.MINIBOSS:
-                               break;
+                               skipUnknown = true;
                            default:
                                String s = " " + j.get(JsonKeys.TYPE.getKey()).getAsString();
                                sb.append(s);
-                               System.out.println(itemName + " has unknown drop type: " + s);
+                               if (!skipUnknown) System.out.println(itemName + " has unknown drop type: " + j.get(JsonKeys.TYPE.getKey()).getAsString());
                                break;
                        }
                    }

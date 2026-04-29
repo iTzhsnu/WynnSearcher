@@ -33,6 +33,7 @@ public class SkillPoint {
         p.add(spText);
     }
 
+    // Todo Fixes bug
     public void setSkillPoint(ItemData items, List<SetBonus> setBonuses) {
         int[] strI = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Strength Skill Point Bonus
         int[] dexI = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Dexterity Skill Point Bonus

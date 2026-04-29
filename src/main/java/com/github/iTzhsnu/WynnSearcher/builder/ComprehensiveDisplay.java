@@ -41,7 +41,7 @@ public class ComprehensiveDisplay {
             }
         }
 
-        //Set Bonuses
+        //Set Bonuses (TODO change to set bonuses)
         if (!setBonuses.isEmpty()) {
             label.add(new JLabel("Set Bonuses"));
             for (SetBonus setBonus : setBonuses) {

@@ -1,5 +1,7 @@
 package com.github.iTzhsnu.WynnSearcher.builder;
 
+import com.github.iTzhsnu.WynnSearcher.data.DamageType;
+
 public class CalcRaw {
     public final float neutralMin;
     public final float earthMin;
@@ -82,43 +84,43 @@ public class CalcRaw {
         }
 
         //Min
-        check(totalMin + neutralMin, earthMin, DamageDisplay.Damage_Type.EARTH, neutral + elem, false);
-        check(totalMin + neutralMin, thunderMin, DamageDisplay.Damage_Type.THUNDER, neutral + elem, false);
-        check(totalMin + neutralMin, waterMin, DamageDisplay.Damage_Type.WATER, neutral + elem, false);
-        check(totalMin + neutralMin, fireMin, DamageDisplay.Damage_Type.FIRE, neutral + elem, false);
-        check(totalMin + neutralMin, airMin, DamageDisplay.Damage_Type.AIR, neutral + elem, false);
+        check(totalMin + neutralMin, earthMin, DamageType.EARTH, neutral + elem, false);
+        check(totalMin + neutralMin, thunderMin, DamageType.THUNDER, neutral + elem, false);
+        check(totalMin + neutralMin, waterMin, DamageType.WATER, neutral + elem, false);
+        check(totalMin + neutralMin, fireMin, DamageType.FIRE, neutral + elem, false);
+        check(totalMin + neutralMin, airMin, DamageType.AIR, neutral + elem, false);
 
         //Max
-        check(totalMax + neutralMax, earthMax, DamageDisplay.Damage_Type.EARTH, neutral + elem, true);
-        check(totalMax + neutralMax, thunderMax, DamageDisplay.Damage_Type.THUNDER, neutral + elem, true);
-        check(totalMax + neutralMax, waterMax, DamageDisplay.Damage_Type.WATER, neutral + elem, true);
-        check(totalMax + neutralMax, fireMax, DamageDisplay.Damage_Type.FIRE, neutral + elem, true);
-        check(totalMax + neutralMax, airMax, DamageDisplay.Damage_Type.AIR, neutral + elem, true);
+        check(totalMax + neutralMax, earthMax, DamageType.EARTH, neutral + elem, true);
+        check(totalMax + neutralMax, thunderMax, DamageType.THUNDER, neutral + elem, true);
+        check(totalMax + neutralMax, waterMax, DamageType.WATER, neutral + elem, true);
+        check(totalMax + neutralMax, fireMax, DamageType.FIRE, neutral + elem, true);
+        check(totalMax + neutralMax, airMax, DamageType.AIR, neutral + elem, true);
 
         if (elem != 0) {
             if (totalMin == 0) {
                 notUsedElemMin += percent[0];
             } else {
-                rawDamagesMin[DamageDisplay.Damage_Type.EARTH.id] += calc(elem, DamageDisplay.Damage_Type.EARTH, false, false) * percent[0];
-                rawDamagesMin[DamageDisplay.Damage_Type.THUNDER.id] += calc(elem, DamageDisplay.Damage_Type.THUNDER, false, false) * percent[0];
-                rawDamagesMin[DamageDisplay.Damage_Type.WATER.id] += calc(elem, DamageDisplay.Damage_Type.WATER, false, false) * percent[0];
-                rawDamagesMin[DamageDisplay.Damage_Type.FIRE.id] += calc(elem, DamageDisplay.Damage_Type.FIRE, false, false) * percent[0];
-                rawDamagesMin[DamageDisplay.Damage_Type.AIR.id] += calc(elem, DamageDisplay.Damage_Type.AIR, false, false) * percent[0];
+                rawDamagesMin[DamageType.EARTH.getId()] += calc(elem, DamageType.EARTH, false, false) * percent[0];
+                rawDamagesMin[DamageType.THUNDER.getId()] += calc(elem, DamageType.THUNDER, false, false) * percent[0];
+                rawDamagesMin[DamageType.WATER.getId()] += calc(elem, DamageType.WATER, false, false) * percent[0];
+                rawDamagesMin[DamageType.FIRE.getId()] += calc(elem, DamageType.FIRE, false, false) * percent[0];
+                rawDamagesMin[DamageType.AIR.getId()] += calc(elem, DamageType.AIR, false, false) * percent[0];
             }
 
             if (totalMax == 0) {
                 notUsedElemMax += percent[0];
             } else {
-                rawDamagesMax[DamageDisplay.Damage_Type.EARTH.id] += calc(elem, DamageDisplay.Damage_Type.EARTH, true, false) * percent[0];
-                rawDamagesMax[DamageDisplay.Damage_Type.THUNDER.id] += calc(elem, DamageDisplay.Damage_Type.THUNDER, true, false) * percent[0];
-                rawDamagesMax[DamageDisplay.Damage_Type.WATER.id] += calc(elem, DamageDisplay.Damage_Type.WATER, true, false) * percent[0];
-                rawDamagesMax[DamageDisplay.Damage_Type.FIRE.id] += calc(elem, DamageDisplay.Damage_Type.FIRE, true, false) * percent[0];
-                rawDamagesMax[DamageDisplay.Damage_Type.AIR.id] += calc(elem, DamageDisplay.Damage_Type.AIR, true, false) * percent[0];
+                rawDamagesMax[DamageType.EARTH.getId()] += calc(elem, DamageType.EARTH, true, false) * percent[0];
+                rawDamagesMax[DamageType.THUNDER.getId()] += calc(elem, DamageType.THUNDER, true, false) * percent[0];
+                rawDamagesMax[DamageType.WATER.getId()] += calc(elem, DamageType.WATER, true, false) * percent[0];
+                rawDamagesMax[DamageType.FIRE.getId()] += calc(elem, DamageType.FIRE, true, false) * percent[0];
+                rawDamagesMax[DamageType.AIR.getId()] += calc(elem, DamageType.AIR, true, false) * percent[0];
             }
 
             for (int i = 1; 6 > i; ++i) {
-                calcNotUsed(elem, notUsedElemMin, usedElemMin, haveElemMin, haveMastery[i], getDamageType(i), false);
-                calcNotUsed(elem, notUsedElemMax, usedElemMax, haveElemMax, haveMastery[i],getDamageType(i), true);
+                calcNotUsed(elem, notUsedElemMin, usedElemMin, haveElemMin, haveMastery[i], DamageType.getDamageType(i), false);
+                calcNotUsed(elem, notUsedElemMax, usedElemMax, haveElemMax, haveMastery[i], DamageType.getDamageType(i), true);
             }
         }
 
@@ -126,75 +128,75 @@ public class CalcRaw {
             if (neutralMin + totalMin == 0) {
                 notUsedTotalMin += percent[0];
             } else {
-                rawDamagesMin[DamageDisplay.Damage_Type.NEUTRAL.id] += calc(elem, DamageDisplay.Damage_Type.NEUTRAL, false, true) * percent[0];
-                rawDamagesMin[DamageDisplay.Damage_Type.EARTH.id] += calc(elem, DamageDisplay.Damage_Type.EARTH, false, true) * percent[0];
-                rawDamagesMin[DamageDisplay.Damage_Type.THUNDER.id] += calc(elem, DamageDisplay.Damage_Type.THUNDER, false, true) * percent[0];
-                rawDamagesMin[DamageDisplay.Damage_Type.WATER.id] += calc(elem, DamageDisplay.Damage_Type.WATER, false, true) * percent[0];
-                rawDamagesMin[DamageDisplay.Damage_Type.FIRE.id] += calc(elem, DamageDisplay.Damage_Type.FIRE, false, true) * percent[0];
-                rawDamagesMin[DamageDisplay.Damage_Type.AIR.id] += calc(elem, DamageDisplay.Damage_Type.AIR, false, true) * percent[0];
+                rawDamagesMin[DamageType.NEUTRAL.getId()] += calc(elem, DamageType.NEUTRAL, false, true) * percent[0];
+                rawDamagesMin[DamageType.EARTH.getId()] += calc(elem, DamageType.EARTH, false, true) * percent[0];
+                rawDamagesMin[DamageType.THUNDER.getId()] += calc(elem, DamageType.THUNDER, false, true) * percent[0];
+                rawDamagesMin[DamageType.WATER.getId()] += calc(elem, DamageType.WATER, false, true) * percent[0];
+                rawDamagesMin[DamageType.FIRE.getId()] += calc(elem, DamageType.FIRE, false, true) * percent[0];
+                rawDamagesMin[DamageType.AIR.getId()] += calc(elem, DamageType.AIR, false, true) * percent[0];
             }
 
             if (neutralMax + totalMax == 0) {
                 notUsedTotalMax += percent[0];
             } else {
-                rawDamagesMax[DamageDisplay.Damage_Type.NEUTRAL.id] += calc(elem, DamageDisplay.Damage_Type.NEUTRAL, true, true) * percent[0];
-                rawDamagesMax[DamageDisplay.Damage_Type.EARTH.id] += calc(elem, DamageDisplay.Damage_Type.EARTH, true, true) * percent[0];
-                rawDamagesMax[DamageDisplay.Damage_Type.THUNDER.id] += calc(elem, DamageDisplay.Damage_Type.THUNDER, true, true) * percent[0];
-                rawDamagesMax[DamageDisplay.Damage_Type.WATER.id] += calc(elem, DamageDisplay.Damage_Type.WATER, true, true) * percent[0];
-                rawDamagesMax[DamageDisplay.Damage_Type.FIRE.id] += calc(elem, DamageDisplay.Damage_Type.FIRE, true, true) * percent[0];
-                rawDamagesMax[DamageDisplay.Damage_Type.AIR.id] += calc(elem, DamageDisplay.Damage_Type.AIR, true, true) * percent[0];
+                rawDamagesMax[DamageType.NEUTRAL.getId()] += calc(elem, DamageType.NEUTRAL, true, true) * percent[0];
+                rawDamagesMax[DamageType.EARTH.getId()] += calc(elem, DamageType.EARTH, true, true) * percent[0];
+                rawDamagesMax[DamageType.THUNDER.getId()] += calc(elem, DamageType.THUNDER, true, true) * percent[0];
+                rawDamagesMax[DamageType.WATER.getId()] += calc(elem, DamageType.WATER, true, true) * percent[0];
+                rawDamagesMax[DamageType.FIRE.getId()] += calc(elem, DamageType.FIRE, true, true) * percent[0];
+                rawDamagesMax[DamageType.AIR.getId()] += calc(elem, DamageType.AIR, true, true) * percent[0];
             }
 
             for (int i = 1; 6 > i; ++i) {
-                calcNotUsed(neutral, notUsedTotalMin, usedTotalMin, haveDamageMin, haveMastery[i], getDamageType(i), false);
-                calcNotUsed(neutral, notUsedTotalMax, usedTotalMax, haveDamageMax, haveMastery[i],getDamageType(i), true);
+                calcNotUsed(neutral, notUsedTotalMin, usedTotalMin, haveDamageMin, haveMastery[i], DamageType.getDamageType(i), false);
+                calcNotUsed(neutral, notUsedTotalMax, usedTotalMax, haveDamageMax, haveMastery[i], DamageType.getDamageType(i), true);
             }
         }
     }
 
-    public void check(float totalDamage, float damage, DamageDisplay.Damage_Type type, int raw, boolean isMax) {
-        if (damage != 0 || haveMastery[type.id] || (totalDamage != 0 && percent[type.id] != 0)) {
+    public void check(float totalDamage, float damage, DamageType type, int raw, boolean isMax) {
+        if (damage != 0 || haveMastery[type.getId()] || (totalDamage != 0 && percent[type.getId()] != 0)) {
             if (isMax) {
-                rawDamagesMax[type.id] += raw * percent[type.id];
-                usedTotalMax = percent[type.id];
-                usedElemMax = percent[type.id];
+                rawDamagesMax[type.getId()] += raw * percent[type.getId()];
+                usedTotalMax = percent[type.getId()];
+                usedElemMax = percent[type.getId()];
             } else {
-                rawDamagesMin[type.id] += raw * percent[type.id];
-                usedTotalMin = percent[type.id];
-                usedElemMin = percent[type.id];
+                rawDamagesMin[type.getId()] += raw * percent[type.getId()];
+                usedTotalMin = percent[type.getId()];
+                usedElemMin = percent[type.getId()];
             }
-        } else if (percent[type.id] != 0) {
+        } else if (percent[type.getId()] != 0) {
             if (isMax) {
-                notUsedTotalMax += percent[type.id];
-                notUsedElemMax += percent[type.id];
+                notUsedTotalMax += percent[type.getId()];
+                notUsedElemMax += percent[type.getId()];
             } else {
-                notUsedTotalMin += percent[type.id];
-                notUsedElemMin += percent[type.id];
+                notUsedTotalMin += percent[type.getId()];
+                notUsedElemMin += percent[type.getId()];
             }
         }
     }
 
-    public void calcNotUsed(int raw, float notUsedRaw, float usedTotal, boolean haveDamage, boolean haveMastery, DamageDisplay.Damage_Type type, boolean isMax) {
+    public void calcNotUsed(int raw, float notUsedRaw, float usedTotal, boolean haveDamage, boolean haveMastery, DamageType type, boolean isMax) {
         if (notUsedRaw != 0) {
             if (!haveDamage) {
                 float totalPercent = percent[1] + percent[2] + percent[3] + percent[4] + percent[5];
 
                 if (isMax) {
-                    rawDamagesMax[type.id] += raw * notUsedRaw * percent[type.id] / totalPercent;
+                    rawDamagesMax[type.getId()] += raw * notUsedRaw * percent[type.getId()] / totalPercent;
                 } else {
-                    rawDamagesMin[type.id] += raw * notUsedRaw * percent[type.id] / totalPercent;
+                    rawDamagesMin[type.getId()] += raw * notUsedRaw * percent[type.getId()] / totalPercent;
                 }
-            } else if (percent[type.id] != 0 && haveMastery) {
+            } else if (percent[type.getId()] != 0 && haveMastery) {
                 if (isMax) {
-                    rawDamagesMax[type.id] += raw * notUsedRaw * percent[type.id] / usedTotal;
+                    rawDamagesMax[type.getId()] += raw * notUsedRaw * percent[type.getId()] / usedTotal;
                 } else {
-                    rawDamagesMin[type.id] += raw * notUsedRaw * percent[type.id] / usedTotal;
+                    rawDamagesMin[type.getId()] += raw * notUsedRaw * percent[type.getId()] / usedTotal;
                 }
             }
         }
     }
 
-    public float calc(int raw, DamageDisplay.Damage_Type elem, boolean max, boolean isNotElem) {
+    public float calc(int raw, DamageType elem, boolean max, boolean isNotElem) {
         if (raw == 0) return 0;
 
         float totalMin = earthMin + thunderMin + waterMin + fireMin + airMin;
@@ -247,22 +249,5 @@ public class CalcRaw {
         }
 
         return 0;
-    }
-
-    public DamageDisplay.Damage_Type getDamageType(int i) {
-        switch (i) {
-            case 1:
-                return DamageDisplay.Damage_Type.EARTH;
-            case 2:
-                return DamageDisplay.Damage_Type.THUNDER;
-            case 3:
-                return DamageDisplay.Damage_Type.WATER;
-            case 4:
-                return DamageDisplay.Damage_Type.FIRE;
-            case 5:
-                return DamageDisplay.Damage_Type.AIR;
-            default:
-                return DamageDisplay.Damage_Type.NEUTRAL;
-        }
     }
 }

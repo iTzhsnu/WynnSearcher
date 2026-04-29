@@ -38,17 +38,17 @@ public class BuilderUi implements ActionListener {
     private final JLabel treeConnect = new JLabel("Tree API Connected");
 
     //Skill Point, Damage IDs and ID Display
-    private final SkillPoint skillPoint;
-    private final DamageId damage_ids;
-    private final IdDisplay id_display;
-    private final DamageDisplay damage_display;
-    private final ItemDisplay item_display;
-    private final PowderEffect powder_effects;
-    private final ComprehensiveDisplay comprehensive_Display;
+    private final SkillPoint skillPoint; // TODO fixes bug
+    private final DamageId damageIds; // latest
+    private final IdDisplay idDisplay; // TODO update toggle ability effects
+    private final DamageDisplay damageDisplay; // TODO update ability effects
+    private final ItemDisplay itemDisplay; // latest
+    private final PowderEffect powderEffects; // TODO add tier 7 powder
+    private final ComprehensiveDisplay comprehensiveDisplay; // TODO set bonuses
 
     //Ability Tree
     private final JComboBox<String> classes = new JComboBox<>();
-    private final AbilityBuffs abilityBuffs;
+    private final AbilityBuffs abilityBuffs; // TODO update ability effects
     private final TreeBase warrior;
     private final TreeBase assassin;
     private final TreeBase archer;
@@ -93,12 +93,12 @@ public class BuilderUi implements ActionListener {
         outputP.add(outputB);
 
         skillPoint = new SkillPoint(pane);
-        damage_ids = new DamageId(pane);
-        id_display = new IdDisplay(pane);
-        damage_display = new DamageDisplay(pane);
-        item_display = new ItemDisplay(pane);
-        powder_effects = new PowderEffect(pane);
-        comprehensive_Display = new ComprehensiveDisplay(pane);
+        damageIds = new DamageId(pane);
+        idDisplay = new IdDisplay(pane);
+        damageDisplay = new DamageDisplay(pane);
+        itemDisplay = new ItemDisplay(pane);
+        powderEffects = new PowderEffect(pane);
+        comprehensiveDisplay = new ComprehensiveDisplay(pane);
 
         classes.setBounds(10, 350, 80, 20);
         classes.addItem("Warrior");
@@ -207,18 +207,13 @@ public class BuilderUi implements ActionListener {
     }
 
     private TreeBase getTree() {
-        switch (classes.getSelectedIndex()) {
-            case 1:
-                return assassin;
-            case 2:
-                return mage;
-            case 3:
-                return archer;
-            case 4:
-                return shaman;
-            default:
-                return warrior;
-        }
+        return switch (classes.getSelectedIndex()) {
+            case 1 -> assassin;
+            case 2 -> mage;
+            case 3 -> archer;
+            case 4 -> shaman;
+            default -> warrior;
+        };
     }
 
     public void setComboBoxes(ApiDataManager api) {
@@ -581,18 +576,18 @@ public class BuilderUi implements ActionListener {
     }
 
     public void getItemID_And_Display() {
-        comprehensive_Display.reset();
-        item_display.setItem_Display(itemBox, classes.getSelectedIndex());
-        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), abilityBuffs ,powder_effects, powderField, classes.getSelectedIndex(), false);
-        skillPoint.setSkillPoint(item_display.getItemJsons(), id_display.getSetBonuses());
-        damage_display.setDamage_Display(item_display.getItemJsons(), skillPoint, abilityBuffs, getTree(), powder_effects, id_display.getId_Numbers(), powderField);
-        comprehensive_Display.setDisplay(item_display.getItemJsons(), id_display.getSetBonuses(), skillPoint.getEquipOrder());
+        comprehensiveDisplay.reset();
+        itemDisplay.setItemDisplay(itemBox, classes.getSelectedIndex());
+        idDisplay.setIds(itemDisplay.getItemJsons(), damageIds, skillPoint, getTree(), abilityBuffs , powderEffects, powderField, classes.getSelectedIndex(), false);
+        skillPoint.setSkillPoint(itemDisplay.getItemJsons(), idDisplay.getSetBonuses());
+        damageDisplay.setDamageDisplay(itemDisplay.getItemJsons(), skillPoint, abilityBuffs, getTree(), powderEffects, idDisplay.getIdNumbers(), powderField);
+        comprehensiveDisplay.setDisplay(itemDisplay.getItemJsons(), idDisplay.getSetBonuses(), skillPoint.getEquipOrder());
     }
 
     public void updateIDs() {
         skillPoint.updateSkillPoint();
-        id_display.setIDs(item_display.getItemJsons(), damage_ids, skillPoint, getTree(), abilityBuffs, powder_effects, powderField, classes.getSelectedIndex(), true);
-        damage_display.setDamage_Display(item_display.getItemJsons(), skillPoint, abilityBuffs, getTree(), powder_effects, id_display.getId_Numbers(), powderField);
+        idDisplay.setIds(itemDisplay.getItemJsons(), damageIds, skillPoint, getTree(), abilityBuffs, powderEffects, powderField, classes.getSelectedIndex(), true);
+        damageDisplay.setDamageDisplay(itemDisplay.getItemJsons(), skillPoint, abilityBuffs, getTree(), powderEffects, idDisplay.getIdNumbers(), powderField);
     }
 
     public void saveBuild() {
@@ -639,8 +634,8 @@ public class BuilderUi implements ActionListener {
 
         //IDs
         sb.append("],\"ids\":[");
-        for (int i = 0; damage_ids.size() > i; ++i) {
-            String s = damage_ids.getID(i).getValue() + ",";
+        for (int i = 0; damageIds.size() > i; ++i) {
+            String s = damageIds.getID(i).getValue() + ",";
             sb.append(s);
         }
         sb.deleteCharAt(sb.length() - 1);
@@ -680,7 +675,7 @@ public class BuilderUi implements ActionListener {
 
         //Set IDs
         for (int i = 0; j.get("ids").getAsJsonArray().size() > i; ++i) {
-            damage_ids.getID(i).setTextValue(j.get("ids").getAsJsonArray().get(i).getAsInt());
+            damageIds.getID(i).setTextValue(j.get("ids").getAsJsonArray().get(i).getAsInt());
         }
 
         //Update Build

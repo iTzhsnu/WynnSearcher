@@ -99,15 +99,15 @@ public class ApiDataManager {
 
 
     private ApiDataManager() {
-        itemApiConnect = loadArchiveV3API(wynnItems, wynnIngredients, wynnOtherItems);
+        itemApiConnect = loadWynnItemApiV3(wynnItems, wynnIngredients, wynnOtherItems);
         recipeApiConnect = loadRecipeData(wynnRecipes);
-        setsJson = loadWynnSetsAPI();
+        setsJson = loadWynnSetsApi();
 
-        loadWynnAspectAPI(JsonValues.WARRIOR, warriorAspectData);
-        loadWynnAspectAPI(JsonValues.ASSASSIN, assassinAspectData);
-        loadWynnAspectAPI(JsonValues.MAGE, mageAspectData);
-        loadWynnAspectAPI(JsonValues.ARCHER, archerAspectData);
-        loadWynnAspectAPI(JsonValues.SHAMAN, shamanAspectData);
+        loadWynnAspectApi(JsonValues.WARRIOR, warriorAspectData);
+        loadWynnAspectApi(JsonValues.ASSASSIN, assassinAspectData);
+        loadWynnAspectApi(JsonValues.MAGE, mageAspectData);
+        loadWynnAspectApi(JsonValues.ARCHER, archerAspectData);
+        loadWynnAspectApi(JsonValues.SHAMAN, shamanAspectData);
         aspects.addAll(warriorAspectData);
         aspects.addAll(assassinAspectData);
         aspects.addAll(mageAspectData);
@@ -142,136 +142,7 @@ public class ApiDataManager {
         }
     }
 
-    private void getWynnAPIV3(List<JsonObject> equipAndWeapon, List<JsonObject> ingredients, List<JsonObject> otherItems, JLabel label) {
-        boolean connect = true;
-        JsonObject saveEquipAndWeaponJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
-        JsonObject saveIngredientJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
-        JsonObject saveOtherItemsJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
-        try {
-            //Load Items (1m20s Slow)
-            for (int i = 0; 8 > i; ++i) {
-                String s = "\"weapons\"";
-                switch (i) {
-                    case 1:
-                        s = "\"armour\"";
-                        break;
-                    case 2:
-                        s = "\"accessory\"";
-                        break;
-                    case 3:
-                        s = "\"tomes\"";
-                        break;
-                    case 4:
-                        s = "\"charms\"";
-                        break;
-                    case 5:
-                        s = "\"tools\"";
-                        break;
-                    case 6:
-                        s = "\"ingredients\"";
-                        break;
-                    case 7:
-                        s = "\"materials\"";
-                        break;
-                }
-
-                String post = "{\"query\":null,\"type\":[" + s + "],\"tier\":[],\"attackSpeed\":[],\"levelRange\":[0,110],\"professions\":[],\"identifications\":[]}";
-                //if (i == 8) post = "{\"query\":\"Tome Of Lootrun Mastery\",\"type\":[],\"tier\":[],\"attackSpeed\":[],\"levelRange\":[0,110],\"professions\":[],\"identifications\":[]}"; //Lootrun Tomes
-                int endPos = 1;
-                for (int n = 1; endPos >= n; ++n) {
-                    URLConnection urlConn = new URL(WYNN_ITEM_V3_API + "?page=" + n).openConnection();
-                    urlConn.setDoOutput(true);
-                    urlConn.setRequestProperty("Content-Type", "application/json");
-
-                    DataOutputStream dos = new DataOutputStream(urlConn.getOutputStream());
-                    dos.writeBytes(post);
-
-                    BufferedReader buffer = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), StandardCharsets.UTF_8));
-                    String line;
-                    StringBuilder builder = new StringBuilder();
-                    while ((line = buffer.readLine()) != null) {
-                        builder.append(line);
-                    }
-
-                    JsonObject json = JsonParser.parseString(builder.toString()).getAsJsonObject();
-                    if (json.get("results") != null) {
-                        if (n == 1) endPos = json.get("controller").getAsJsonObject().get("pages").getAsInt();
-                        for (Map.Entry<String, JsonElement> entry : json.get("results").getAsJsonObject().entrySet()) {
-                            JsonObject j = json.get("results").getAsJsonObject().get(entry.getKey()).getAsJsonObject();
-                            j.addProperty("name", entry.getKey());
-                            if (j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals("common")) j.addProperty(Identifications.RARITY.getItemName(), "normal"); //Fixes Rarity Common => Normal
-                            switch (i) {
-                                case 0: //Weapons
-                                case 1: //Armours
-                                case 2: //Accessories
-                                    equipAndWeapon.add(j);
-                                    saveEquipAndWeaponJ.get("items").getAsJsonArray().add(j);
-                                    break;
-                                case 6: //Ingredients
-                                    if (j.get("droppedBy") == null) j.add("droppedBy", JsonParser.parseString("{\"Ingredient Dummy\":null}"));
-                                    ingredients.add(j);
-                                    saveIngredientJ.get("items").getAsJsonArray().add(j);
-                                    break;
-                                case 3: //Tomes
-                                //case 8: //Lootrun Tomes
-                                    j.addProperty("type", "tome");
-                                    otherItems.add(j);
-                                    saveOtherItemsJ.get("items").getAsJsonArray().add(j);
-                                    break;
-                                case 4: //Charms
-                                    j.addProperty("type", "charm");
-                                    otherItems.add(j);
-                                    saveOtherItemsJ.get("items").getAsJsonArray().add(j);
-                                    break;
-                                case 5: //Tools
-                                    j.addProperty("type", "tool");
-                                    otherItems.add(j);
-                                    saveOtherItemsJ.get("items").getAsJsonArray().add(j);
-                                    break;
-                                case 7: //Materials
-                                    j.addProperty("type", "material");
-                                    otherItems.add(j);
-                                    saveOtherItemsJ.get("items").getAsJsonArray().add(j);
-                                    break;
-                            }
-                            System.out.println("[Load] " + entry.getKey());
-                        }
-                    } else {
-                        connect = false;
-                    }
-
-                    buffer.close();
-                }
-            }
-
-            //Write File
-            if (connect) {
-                FileWriter eawW = new FileWriter(getFilePath("/items_data/equip_and_weapons.json"));
-                FileWriter ingW = new FileWriter(getFilePath("/items_data/ingredients.json"));
-                FileWriter oItemsW = new FileWriter(getFilePath("/items_data/other_items.json"));
-                eawW.write(saveEquipAndWeaponJ.toString());
-                ingW.write(saveIngredientJ.toString());
-                oItemsW.write(saveOtherItemsJ.toString());
-                eawW.close();
-                ingW.close();
-                oItemsW.close();
-            }
-
-            if (connect) {
-                label.setText("Item API Latest");
-                label.setForeground(new Color(0, 169, 104));
-            } else {
-                label.setText("Update Failed");
-                label.setForeground(new Color(255, 255, 0));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            label.setText(e.getMessage());
-            label.setForeground(new Color(255, 255, 0));
-        }
-    }
-
-    private ErrorType getWynnAPIV3_3(List<Item> equipAndWeapon, List<Ingredient> ingredients, List<Item> otherItems) {
+    private ErrorType getWynnItemApiV3(List<Item> equipAndWeapon, List<Ingredient> ingredients, List<Item> otherItems) {
         JsonObject saveEquipAndWeaponJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
         JsonObject saveIngredientJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
         JsonObject saveOtherItemsJ = JsonParser.parseString("{\"items\":[]}").getAsJsonObject();
@@ -355,26 +226,9 @@ public class ApiDataManager {
                         case 4: //Charms
                         case 5: //Tools
                         case 7: //Materials
-                            //case 8: //Lootrun Tomes
-                            //j.addProperty("type", "tome");
                             otherItems.add(new Item(j));
                             saveOtherItemsJ.get("items").getAsJsonArray().add(j);
                             break;
-                        //case 4: //Charms
-                            //j.addProperty("type", "charm");
-                            //otherItems.add(j);
-                            //saveOtherItemsJ.get("items").getAsJsonArray().add(j);
-                            //break;
-                        //case 5: //Tools
-                            //j.addProperty("type", "tool");
-                            //otherItems.add(j);
-                            //saveOtherItemsJ.get("items").getAsJsonArray().add(j);
-                            //break;
-                        //case 7: //Materials
-                            //j.addProperty("type", "material");
-                            //otherItems.add(j);
-                            //saveOtherItemsJ.get("items").getAsJsonArray().add(j);
-                            //break;
                     }
                     System.out.println("[Load] " + entry.getKey());
                 }
@@ -389,20 +243,15 @@ public class ApiDataManager {
                 eawW.close();
                 ingW.close();
                 oItemsW.close();
-
-                //label.setText("Item API Latest");
-                //label.setForeground(new Color(0, 169, 104));
             }
             return ErrorType.LATEST;
         } catch (IOException e) {
-            //label.setText(e.getMessage());
-            //label.setForeground(new Color(255, 255, 0));
             System.out.println(e.getMessage());
             return ErrorType.FAILED;
         }
     }
 
-    private ErrorType loadArchiveV3API(List<Item> equipAndWeapon, List<Ingredient> ingredients, List<Item> otherItems) {
+    private ErrorType loadWynnItemApiV3(List<Item> equipAndWeapon, List<Ingredient> ingredients, List<Item> otherItems) {
         try {
             JsonObject eawJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/equip_and_weapons.json")), StandardCharsets.UTF_8))).getAsJsonObject();
             JsonObject ingJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/ingredients.json")), StandardCharsets.UTF_8))).getAsJsonObject();
@@ -424,13 +273,9 @@ public class ApiDataManager {
             }
 
             return ErrorType.SUCCEED;
-            //label.setText("Archive Loaded");
-            //label.setForeground(new Color(0, 169, 104));
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return ErrorType.FAILED;
-            //label.setText("Load Failed");
-            //label.setForeground(new Color(255, 0, 0));
         }
     }
 
@@ -460,7 +305,7 @@ public class ApiDataManager {
 
                 buffer.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
                 connect = false;
             }
         }
@@ -494,8 +339,7 @@ public class ApiDataManager {
         return ErrorType.SUCCEED;
     }
 
-    //public JsonObject setWynnAbilityTreeAPI(String s, List<JsonObject> treeMap, JLabel connect)
-    private void setWynnAbilityTreeAPI(String s) {
+    private void setWynnAbilityTreeApi(String s) {
         String treePath = WYNN_ABILITY_TREE_API + "tree/" + s;
         String mapPath = WYNN_ABILITY_TREE_API + "map/" + s;
 
@@ -537,16 +381,13 @@ public class ApiDataManager {
             mapFW.close();
 
             System.out.println(s + " Ability Tree Loaded.");
-            //return JsonParser.parseString(treeBuilder.toString()).getAsJsonObject();
         } catch (IOException e) {
             System.out.println(s + " Ability Tree Load Failed.");
             System.out.println(e.getMessage());
         }
-
-        //return null;
     }
 
-    public JsonObject loadWynnAbilityTreeAPI(String s, List<JsonObject> treeMap, JLabel connect) {
+    public JsonObject loadWynnAbilityTreeApi(String s, List<JsonObject> treeMap, JLabel connect) {
         connect.setText("Using Archive");
         connect.setForeground(new Color(255, 255, 0));
 
@@ -555,7 +396,7 @@ public class ApiDataManager {
             JsonObject mapJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/" + s + "_map.json")), StandardCharsets.UTF_8))).getAsJsonObject();
 
             //Tree Map
-            for (int i = 1; 7 >= i; ++i) {
+            for (int i = 1; 9 >= i; ++i) { // Page 1 to 9 (2026/04/26)
                 if (mapJ.get(String.valueOf(i)) != null) {
                     for (JsonElement je : mapJ.get(String.valueOf(i)).getAsJsonArray()) {
                         if (je.getAsJsonObject().get("type") != null && je.getAsJsonObject().get("type").getAsString().equals("connector")) {
@@ -575,9 +416,7 @@ public class ApiDataManager {
         return null;
     }
 
-    private void getWynnAspectAPI(String s) {
-        //JsonObject json = JsonParser.parseString("{\"aspects\":[]}").getAsJsonObject();
-
+    private void getWynnAspectApi(String s) {
         try {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_ASPECT_API + s).openStream(), StandardCharsets.UTF_8));
             String line;
@@ -608,7 +447,7 @@ public class ApiDataManager {
         }
     }
 
-    private void loadWynnAspectAPI(String s, List<Aspect> list) {
+    private void loadWynnAspectApi(String s, List<Aspect> list) {
         try {
             JsonObject json = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/" + s + "_aspect.json")), StandardCharsets.UTF_8))).getAsJsonObject();
 
@@ -621,7 +460,7 @@ public class ApiDataManager {
         }
     }
 
-    private void getWynnSetsAPI() {
+    private void getWynnSetsApi() {
         try {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(new URL(WYNN_SETS_API).openStream(), StandardCharsets.UTF_8));
             String line;
@@ -648,7 +487,7 @@ public class ApiDataManager {
         }
     }
 
-    private JsonObject loadWynnSetsAPI() {
+    private JsonObject loadWynnSetsApi() {
         try {
             return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/sets.json")), StandardCharsets.UTF_8))).getAsJsonObject();
         } catch (IOException e) {
@@ -669,7 +508,7 @@ public class ApiDataManager {
         return getFilePath("/items_data/old_data/other");
     }
 
-    public JsonObject getMajorIDJson() {
+    public JsonObject getMajorIdJson() {
         try {
             return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/major_ids.json")), StandardCharsets.UTF_8))).getAsJsonObject();
         } catch (FileNotFoundException e) {
@@ -737,8 +576,7 @@ public class ApiDataManager {
         return null;
     }
 
-    @Deprecated
-    public JsonObject getSetBonus() {
+    public JsonObject getManualSetBonus() {
         try {
             return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/set_bonus.json")), StandardCharsets.UTF_8))).getAsJsonObject().get("set_bonus").getAsJsonObject();
         } catch (IOException e) {
@@ -748,8 +586,7 @@ public class ApiDataManager {
         return null;
     }
 
-    @Deprecated
-    public JsonObject getSetItems() {
+    public JsonObject getManualSetItems() {
         try {
             return JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/set_items.json")), StandardCharsets.UTF_8))).getAsJsonObject().get("items").getAsJsonObject();
         } catch (IOException e) {
@@ -913,25 +750,25 @@ public class ApiDataManager {
 
         ApiDataManager api = ApiDataManager.getManager();
 
-        itemApiConnect = api.getWynnAPIV3_3(wynnItems, wynnIngredients, wynnOtherItems);
-        api.getWynnSetsAPI();
+        itemApiConnect = api.getWynnItemApiV3(wynnItems, wynnIngredients, wynnOtherItems);
+        api.getWynnSetsApi();
 
-        api.setWynnAbilityTreeAPI(JsonValues.WARRIOR);
-        api.setWynnAbilityTreeAPI(JsonValues.ASSASSIN);
-        api.setWynnAbilityTreeAPI(JsonValues.MAGE);
-        api.setWynnAbilityTreeAPI(JsonValues.ARCHER);
-        api.setWynnAbilityTreeAPI(JsonValues.SHAMAN);
+        api.setWynnAbilityTreeApi(JsonValues.WARRIOR);
+        api.setWynnAbilityTreeApi(JsonValues.ASSASSIN);
+        api.setWynnAbilityTreeApi(JsonValues.MAGE);
+        api.setWynnAbilityTreeApi(JsonValues.ARCHER);
+        api.setWynnAbilityTreeApi(JsonValues.SHAMAN);
 
-        api.getWynnAspectAPI(JsonValues.WARRIOR);
-        api.getWynnAspectAPI(JsonValues.ASSASSIN);
-        api.getWynnAspectAPI(JsonValues.MAGE);
-        api.getWynnAspectAPI(JsonValues.ARCHER);
-        api.getWynnAspectAPI(JsonValues.SHAMAN);
+        api.getWynnAspectApi(JsonValues.WARRIOR);
+        api.getWynnAspectApi(JsonValues.ASSASSIN);
+        api.getWynnAspectApi(JsonValues.MAGE);
+        api.getWynnAspectApi(JsonValues.ARCHER);
+        api.getWynnAspectApi(JsonValues.SHAMAN);
 
         setItemData();
         setIngredientData();
         setOtherItemsData();
-        setsJson = api.loadWynnSetsAPI();
+        setsJson = api.loadWynnSetsApi();
     }
 
     public static void setApiConnectText(JLabel label, String name, ErrorType error) {

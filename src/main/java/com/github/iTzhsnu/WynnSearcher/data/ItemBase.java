@@ -234,7 +234,14 @@ public abstract class ItemBase {
                     }
 
                     // Average Base Damage
-                    float[] damages = new float[] { (damagesMin[0] + damagesMax[0]) * 0.5F, (damagesMin[1] + damagesMax[1]) * 0.5F, (damagesMin[2] + damagesMax[2]) * 0.5F, (damagesMin[3] + damagesMax[3]) * 0.5F, (damagesMin[4] + damagesMax[4]) * 0.5F, (damagesMin[5] + damagesMax[5]) * 0.5F };
+                    float[] damages = new float[] {
+                            (damagesMin[DamageType.NEUTRAL.getId()] + damagesMax[DamageType.NEUTRAL.getId()]) * 0.5F,
+                            (damagesMin[DamageType.EARTH.getId()] + damagesMax[DamageType.EARTH.getId()]) * 0.5F,
+                            (damagesMin[DamageType.THUNDER.getId()] + damagesMax[DamageType.THUNDER.getId()]) * 0.5F,
+                            (damagesMin[DamageType.WATER.getId()] + damagesMax[DamageType.WATER.getId()]) * 0.5F,
+                            (damagesMin[DamageType.FIRE.getId()] + damagesMax[DamageType.FIRE.getId()]) * 0.5F,
+                            (damagesMin[DamageType.AIR.getId()] + damagesMax[DamageType.AIR.getId()]) * 0.5F
+                    };
 
                     // Damage %
                     for (int i = 0; 6 > i; ++i) {
@@ -248,14 +255,14 @@ public abstract class ItemBase {
                         }
                     }
 
-                    if (damages[0] != 0 || damages[1] != 0 || damages[2] != 0 || damages[3] != 0 || damages[4] != 0 || damages[5] != 0) {
+                    if (damages[DamageType.NEUTRAL.getId()] != 0 || damages[DamageType.EARTH.getId()] != 0 || damages[DamageType.THUNDER.getId()] != 0 || damages[DamageType.WATER.getId()] != 0 || damages[DamageType.FIRE.getId()] != 0 || damages[DamageType.AIR.getId()] != 0) {
                         // Raw Damage and Raw Melee or Spell Damage
                         for (Identifications id : sum.getSumIDs().get(6).getAddIds()) {
                             totalSub += getIdValue(id, sortType);
                         }
 
                         // Raw Elemental Damage and Raw Elemental Melee or Spell Damage
-                        if (damages[1] != 0 || damages[2] != 0 || damages[3] != 0 || damages[4] != 0 || damages[5] != 0) {
+                        if (damages[DamageType.EARTH.getId()] != 0 || damages[DamageType.THUNDER.getId()] != 0 || damages[DamageType.WATER.getId()] != 0 || damages[DamageType.FIRE.getId()] != 0 || damages[DamageType.AIR.getId()] != 0) {
                             for (Identifications id : sum.getSumIDs().get(7).getAddIds()) {
                                 totalSub += getIdValue(id, sortType);
                             }

@@ -203,7 +203,7 @@ public class CustomUi implements ActionListener {
         uiTemplate("Raw 3rd Cost", 345, getY(9), false, 105);
         uiTemplate("Raw 4th Cost", 345, getY(10), false, 105);
 
-        majorIdJson = ApiDataManager.getManager().getMajorIDJson();
+        majorIdJson = ApiDataManager.getManager().getMajorIdJson();
 
         setMajorIDBox(685, getY(20));
 

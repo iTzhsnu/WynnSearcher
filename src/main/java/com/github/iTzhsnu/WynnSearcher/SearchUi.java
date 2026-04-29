@@ -1698,6 +1698,8 @@ public class SearchUi extends JFrame implements ActionListener {
         updateSize.setVisible(visible);
         displayTime.setVisible(visible);
         updateApi.setVisible(visible);
+        resetFilter.setVisible(visible);
+        allTypeOnOff.setVisible(visible);
         for (int i = 0; 3 >= i; ++i) {
             idBoxes1.get(i).setVisible(visible);
             idBoxes2.get(i).setVisible(visible);

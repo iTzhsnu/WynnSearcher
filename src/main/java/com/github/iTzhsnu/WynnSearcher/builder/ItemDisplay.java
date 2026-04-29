@@ -30,7 +30,7 @@ public class ItemDisplay {
         p.add(scrollPane);
     }
 
-    public void setItem_Display(List<JComboBox<String>> box, int classID) {
+    public void setItemDisplay(List<JComboBox<String>> box, int classID) {
         pane.removeAll();
         if (!itemsPanel.isEmpty()) {
             itemsPanel.subList(0, itemsPanel.size()).clear();
@@ -48,21 +48,13 @@ public class ItemDisplay {
         ItemBase necklaceData = setItemData(((JTextField) box.get(7).getEditor().getEditorComponent()).getText(), api.necklaceData, JsonValues.NECKLACE, ItemType.ITEM);
 
         //Weapon
-        String weaponType = JsonValues.SPEAR;
-        switch (classID) {
-            case 1:
-                weaponType = JsonValues.DAGGER;
-                break;
-            case 2:
-                weaponType = JsonValues.BOW;
-                break;
-            case 3:
-                weaponType = JsonValues.WAND;
-                break;
-            case 4:
-                weaponType = JsonValues.RELIK;
-                break;
-        }
+        String weaponType = switch (classID) {
+            case 1 -> JsonValues.DAGGER;
+            case 2 -> JsonValues.BOW;
+            case 3 -> JsonValues.WAND;
+            case 4 -> JsonValues.RELIK;
+            default -> JsonValues.SPEAR;
+        };
         ItemBase weaponData = setItemData(((JTextField) box.get(8).getEditor().getEditorComponent()).getText(), api.weaponData, weaponType, ItemType.ITEM);
 
         //Tomes
@@ -81,7 +73,7 @@ public class ItemDisplay {
         ItemBase mysticismTome1Data = setItemData(((JTextField) box.get(21).getEditor().getEditorComponent()).getText(), api.mysticismTomeData, JsonValues.TOME, ItemType.OTHER);
         ItemBase mysticismTome2Data = setItemData(((JTextField) box.get(22).getEditor().getEditorComponent()).getText(), api.mysticismTomeData, JsonValues.TOME, ItemType.OTHER);
 
-        //Aspects (TODO)
+        //Aspects
         ItemBase aspect1Data = setItemData(((JTextField) box.get(23).getEditor().getEditorComponent()).getText(), api.aspects, JsonValues.ASPECT, ItemType.ASPECT);
         ItemBase aspect2Data = setItemData(((JTextField) box.get(24).getEditor().getEditorComponent()).getText(), api.aspects, JsonValues.ASPECT, ItemType.ASPECT);
         ItemBase aspect3Data = setItemData(((JTextField) box.get(25).getEditor().getEditorComponent()).getText(), api.aspects, JsonValues.ASPECT, ItemType.ASPECT);
