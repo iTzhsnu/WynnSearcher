@@ -210,7 +210,7 @@ public class ApiDataManager {
                     JsonObject j = je.getAsJsonObject();
                     String name = "";
                     if (j.get(JsonKeys.DISPLAY_NAME.getKey()) != null) name = j.get(JsonKeys.DISPLAY_NAME.getKey()).getAsString();
-                    if (j.get(JsonKeys.INTERNAL_NAME.getKey()) != null && j.get(JsonKeys.INTERNAL_NAME.getKey()).getAsString().contains("Masterwork") && j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals(JsonValues.MYTHIC)) name = j.get(JsonKeys.DISPLAY_NAME.getKey()).getAsString();
+                    if (j.get(JsonKeys.INTERNAL_NAME.getKey()) != null && j.get(JsonKeys.INTERNAL_NAME.getKey()).getAsString().toLowerCase().contains("masterwork") && j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals(JsonValues.MYTHIC)) name = j.get(JsonKeys.INTERNAL_NAME.getKey()).getAsString();
                     j.addProperty(JsonKeys.NAME.getKey(), name);
 
                     if (j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals("common")) j.addProperty(Identifications.RARITY.getItemName(), JsonValues.R_NORMAL); //Fixes Rarity Common => Normal
