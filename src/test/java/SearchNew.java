@@ -1,5 +1,7 @@
 import com.github.iTzhsnu.WynnSearcher.ApiDataManager;
 import com.github.iTzhsnu.WynnSearcher.Identifications;
+import com.github.iTzhsnu.WynnSearcher.data.Ingredient;
+import com.github.iTzhsnu.WynnSearcher.data.Item;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -14,14 +16,15 @@ public class SearchNew {
     private static final List<JsonObject> others = new ArrayList<>();
 
     public static void main(String[] args) {
+        ApiDataManager.Init();
         ApiDataManager api = ApiDataManager.getManager();
 
-        searchUnknownIDs(others);
-        searchUnknownIDs(equips);
-        searchUnknownIDs_ING();
+        searchUnknownIDs(api.wynnOtherItems);
+        searchUnknownIDs(api.wynnItems);
+        searchUnknownIDs_ING(api.wynnIngredients);
     }
 
-    private static void searchUnknownIDs(List<JsonObject> items) {
+    private static void searchUnknownIDs(List<Item> items) {
         List<String> ids_base = new ArrayList<>();
         List<String> ids_req = new ArrayList<>();
         List<String> ids_id = new ArrayList<>();
@@ -42,7 +45,8 @@ public class SearchNew {
         List<String> majorIDs = new ArrayList<>();
         StringBuilder majorID_SB = new StringBuilder();
 
-        for (JsonObject j : items) {
+        for (Item item : items) {
+            JsonObject j = item.getJson();
             if (j.get("base") != null) {
                 for (Map.Entry<String, JsonElement> entry : j.get("base").getAsJsonObject().entrySet()) {
                     if (!ids_base.contains(entry.getKey()) && !unknownBase.contains(entry.getKey())) {
@@ -96,7 +100,7 @@ public class SearchNew {
         }
     }
 
-    private static void searchUnknownIDs_ING() {
+    private static void searchUnknownIDs_ING(List<Ingredient> ings) {
         List<String> ids_itemOnly = new ArrayList<>();
         List<String> ids_consumeOnly = new ArrayList<>();
         List<String> ids_id = new ArrayList<>();
@@ -115,7 +119,8 @@ public class SearchNew {
         List<String> unknownConsumeOnly = new ArrayList<>();
         List<String> unknownIDs = new ArrayList<>();
 
-        for (JsonObject j : ingredients) {
+        for (Ingredient ing : ings) {
+            JsonObject j = ing.getJson();
             if (j.get("itemOnlyIDs") != null) {
                 for (Map.Entry<String, JsonElement> entry : j.get("itemOnlyIDs").getAsJsonObject().entrySet()) {
                     if (!ids_itemOnly.contains(entry.getKey()) && !unknownItemOnly.contains(entry.getKey())) {
