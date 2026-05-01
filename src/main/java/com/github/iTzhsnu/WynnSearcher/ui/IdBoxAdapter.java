@@ -313,6 +313,8 @@ public class IdBoxAdapter extends KeyAdapter {
         put("2ndp", Identifications.PERCENT_2ND_SPELL_COST);
         put("3rdp", Identifications.PERCENT_3RD_SPELL_COST);
         put("4thp", Identifications.PERCENT_4TH_SPELL_COST);
+
+        put("ws", Identifications.WALK_SPEED);
     }};
 
     public IdBoxAdapter(JComboBox<String> box) {

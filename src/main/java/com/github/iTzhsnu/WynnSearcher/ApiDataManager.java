@@ -6,6 +6,7 @@ import com.github.iTzhsnu.WynnSearcher.data.Item;
 import com.github.iTzhsnu.WynnSearcher.general.ErrorType;
 import com.github.iTzhsnu.WynnSearcher.general.JsonKeys;
 import com.github.iTzhsnu.WynnSearcher.general.JsonValues;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -204,10 +205,13 @@ public class ApiDataManager {
                     builder.append(line);
                 }
 
-                JsonObject json = JsonParser.parseString(builder.toString()).getAsJsonObject();
-                for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
-                    JsonObject j = json.get(entry.getKey()).getAsJsonObject();
-                    j.addProperty(JsonKeys.NAME.getKey(), entry.getKey());
+                JsonArray json = JsonParser.parseString(builder.toString()).getAsJsonArray();
+                for (JsonElement je : json) {
+                    JsonObject j = je.getAsJsonObject();
+                    String name = "";
+                    if (j.get(JsonKeys.DISPLAY_NAME.getKey()) != null) name = j.get(JsonKeys.DISPLAY_NAME.getKey()).getAsString();
+                    if (j.get(JsonKeys.INTERNAL_NAME.getKey()) != null && j.get(JsonKeys.INTERNAL_NAME.getKey()).getAsString().contains("Masterwork") && j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals(JsonValues.MYTHIC)) name = j.get(JsonKeys.DISPLAY_NAME.getKey()).getAsString();
+                    j.addProperty(JsonKeys.NAME.getKey(), name);
 
                     if (j.get(Identifications.RARITY.getItemName()) != null && j.get(Identifications.RARITY.getItemName()).getAsString().equals("common")) j.addProperty(Identifications.RARITY.getItemName(), JsonValues.R_NORMAL); //Fixes Rarity Common => Normal
                     switch (i) {
@@ -230,7 +234,7 @@ public class ApiDataManager {
                             saveOtherItemsJ.get("items").getAsJsonArray().add(j);
                             break;
                     }
-                    System.out.println("[Load] " + entry.getKey());
+                    System.out.println("[Load] " + name);
                 }
 
                 //Write File
@@ -392,8 +396,23 @@ public class ApiDataManager {
         connect.setForeground(new Color(255, 255, 0));
 
         try {
-            JsonObject treeJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/" + s + "_tree.json")), StandardCharsets.UTF_8))).getAsJsonObject();
-            JsonObject mapJ = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/" + s + "_map.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+            JsonElement treeJE = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/" + s + "_tree.json")), StandardCharsets.UTF_8)));
+            JsonElement mapJE = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/" + s + "_map.json")), StandardCharsets.UTF_8)));
+
+            JsonObject treeJ;
+            JsonObject mapJ;
+
+            if (treeJE.isJsonObject()) {
+                treeJ = treeJE.getAsJsonObject();
+            } else {
+                return null;
+            }
+
+            if (mapJE.isJsonObject()) {
+                mapJ = mapJE.getAsJsonObject();
+            } else {
+                return null;
+            }
 
             //Tree Map
             for (int i = 1; 9 >= i; ++i) { // Page 1 to 9 (2026/04/26)
@@ -426,9 +445,9 @@ public class ApiDataManager {
                 builder.append(line);
             }
 
-            JsonObject json = JsonParser.parseString(builder.toString()).getAsJsonObject();
-            for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
-                JsonObject j = json.get(entry.getKey()).getAsJsonObject();
+            JsonArray json = JsonParser.parseString(builder.toString()).getAsJsonArray();
+            for (JsonElement je : json) {
+                JsonObject j = je.getAsJsonObject();
                 if (j.get("rarity") != null) {
                     j.addProperty(Identifications.RARITY.getItemName(), j.get("rarity").getAsString());
                     j.remove("rarity");
@@ -449,10 +468,16 @@ public class ApiDataManager {
 
     private void loadWynnAspectApi(String s, List<Aspect> list) {
         try {
-            JsonObject json = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/" + s + "_aspect.json")), StandardCharsets.UTF_8))).getAsJsonObject();
+            JsonElement jsonE = JsonParser.parseReader(new JsonReader(new InputStreamReader(new FileInputStream(getFilePath("/items_data/" + s + "_aspect.json")), StandardCharsets.UTF_8)));
+            JsonArray json;
+            if (jsonE.isJsonArray()) {
+                json = jsonE.getAsJsonArray();
+            } else {
+                return;
+            }
 
-            for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
-                list.add(new Aspect(entry.getValue().getAsJsonObject()));
+            for (JsonElement je : json) {
+                list.add(new Aspect(je.getAsJsonObject()));
             }
         } catch (IOException e) {
             System.out.println(s + " Aspects json read failed.");
