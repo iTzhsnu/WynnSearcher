@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.List;
 
 public class SearchUi extends JFrame implements ActionListener {
-    public static final String VERSION = "4.7.10";
+    public static final String VERSION = "4.7.12";
 
     //API
     private final JLabel itemApiConnect = new JLabel("Item API Connecting...");
@@ -775,7 +775,7 @@ public class SearchUi extends JFrame implements ActionListener {
         Identifications id2 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 2), Identifications.EMPTY);
         Identifications id3 = IdBoxAdapter.ID_LIST.getOrDefault(getComboBoxText(idBoxes1, 3), Identifications.EMPTY);
         if (id0 == Identifications.EMPTY && id1 == Identifications.EMPTY && id2 == Identifications.EMPTY && id3 == Identifications.EMPTY) {
-            idBoxes1.get(0).setSelectedIndex(0);
+            ((JTextField) (idBoxes1.get(0).getEditor().getEditorComponent())).setText("Level");
         }
     }
 
