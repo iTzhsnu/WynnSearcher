@@ -105,6 +105,7 @@ public class Main {
         ItemUi.ITEM_IDS.put(ItemUi.ITEM_IDS.size(), Identifications.LOOT_QUALITY);
         ItemUi.ITEM_IDS.put(ItemUi.ITEM_IDS.size(), Identifications.SOUL_POINT_REGEN);
 
+        ItemUi.ITEM_IDS.put(ItemUi.ITEM_IDS.size(), Identifications.MELEE_RANGE_PERCENT);
         ItemUi.ITEM_IDS.put(ItemUi.ITEM_IDS.size(), Identifications.KNOCKBACK);
         ItemUi.ITEM_IDS.put(ItemUi.ITEM_IDS.size(), Identifications.HEALING_EFFICIENCY);
         ItemUi.ITEM_IDS.put(ItemUi.ITEM_IDS.size(), Identifications.WEAKEN_ENEMY);
