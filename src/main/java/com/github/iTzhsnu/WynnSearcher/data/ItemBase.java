@@ -85,16 +85,16 @@ public abstract class ItemBase {
         }
 
         float total = 0;
-        float sum_total = 0;
-        int sum_total_sub = 0;
+        float sumTotal = 0;
+        int sumTotalSub = 0;
         //Base IDs
         if (sum.getIds() != null) {
             for (int n = 0; sum.getIds().size() > n; ++n) {
                 Identifications ids = sum.getIds().get(n);
                 if (sum.isAverage()) {
-                    sum_total += (getIdValue(ids, JsonKeys.MAX) + getIdValue(ids, JsonKeys.MIN)) * 0.5F;
+                    sumTotal += (getIdValue(ids, JsonKeys.MAX) + getIdValue(ids, JsonKeys.MIN)) * 0.5F;
                 } else {
-                    sum_total += getIdValue(ids, sortType);
+                    sumTotal += getIdValue(ids, sortType);
                 }
             }
         }
@@ -103,17 +103,17 @@ public abstract class ItemBase {
         if (sum.getMultiIds() != null) {
             for (int n = 0; sum.getMultiIds().size() > n; ++n) {
                 Identifications ids = sum.getMultiIds().get(n);
-                sum_total_sub += getIdValue(ids, sortType);
+                sumTotalSub += getIdValue(ids, sortType);
             }
-            if (sum_total < 0 && sum_total_sub < 0) {
-                sum_total_sub *= -1;
-            } else if (sum_total < 0 && sum_total_sub > 0) {
-                sum_total_sub *= -1;
-                if (sum_total_sub < -100) {
-                    sum_total_sub = -100;
+            if (sumTotal < 0 && sumTotalSub < 0) {
+                sumTotalSub *= -1;
+            } else if (sumTotal < 0 && sumTotalSub > 0) {
+                sumTotalSub *= -1;
+                if (sumTotalSub < -100) {
+                    sumTotalSub = -100;
                 }
             }
-            sum_total = sum_total * (1F + sum_total_sub / 100F);
+            sumTotal = sumTotal * (1F + sumTotalSub / 100F);
         }
         if (sum.getAddIds() != null) {
             for (int n = 0; sum.getAddIds().size() > n; ++n) {
@@ -121,7 +121,7 @@ public abstract class ItemBase {
                 int t = getIdValue(ids, sortType);
 
                 if (sum.isMeleeDps()) {
-                    sum_total += t;
+                    sumTotal += t;
                 } else {
                     total += t;
                 }
@@ -131,10 +131,10 @@ public abstract class ItemBase {
         //DPS (Attack Speed)
         if (sum.isDps()) {
             if (j.get(Identifications.ATTACK_SPEED.getItemName()) != null) {
-                sum_total *= getAttackSpeed();
+                sumTotal *= getAttackSpeed();
             }
         }
-        return total + sum_total;
+        return total + sumTotal;
     }
 
     public boolean haveDamageAppropriateSumId(SumEnum sum, String weaponName, String powder) {

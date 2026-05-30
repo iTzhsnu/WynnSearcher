@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.List;
 
 public class SearchUi extends JFrame implements ActionListener {
-    public static final String VERSION = "4.7.13";
+    public static final String VERSION = "4.7.14";
 
     //API
     private final JLabel itemApiConnect = new JLabel("Item API Connecting...");
