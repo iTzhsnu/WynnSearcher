@@ -98,7 +98,7 @@ public class TreeBase implements ActionListener {
                     if (x != -1 && y != -1) {
                         String name = null;
                         List<String> description = null;
-                        String req = "";
+                        List<String> req = new ArrayList<>();
                         List<String> cantUse = null;
                         List<String> link = null;
                         Archetype archetype = Archetype.NONE;
@@ -116,7 +116,9 @@ public class TreeBase implements ActionListener {
                         if (j.get(JsonKeys.REQUIREMENTS.getKey()) != null) { //Requirements
                             JsonObject jo = j.get(JsonKeys.REQUIREMENTS.getKey()).getAsJsonObject();
                             if (jo.get("NODE") != null) { //Requirements Ability
-                                req = jo.get("NODE").getAsString();
+                                for (JsonElement je : jo.get("NODE").getAsJsonArray()) {
+                                    req.add(je.getAsString());
+                                }
                             }
                             if (jo.get("ABILITY_POINTS") != null) { //Requirements Ability Points
                                 cost = jo.get("ABILITY_POINTS").getAsInt();
@@ -424,7 +426,7 @@ public class TreeBase implements ActionListener {
         TreeCheckBox checkT = getTcb().get(pos);
         String apiName = checkT.getAPIName();
         List<String> link = checkT.getLink();
-        String req = checkT.getReq();
+        List<String> req = checkT.getReq();
         List<String> cantUse = checkT.getCantUse();
         boolean isLink = false;
         boolean reqB = req.isEmpty();
@@ -459,7 +461,7 @@ public class TreeBase implements ActionListener {
                 }
 
                 //is Req
-                if (!req.isEmpty() && t.getAPIName().equals(req)) reqB = true;
+                if (req.contains(t.getAPIName())) reqB = true; // TODO need check
 
                 //is Can't Use
                 if (cantUse != null) {

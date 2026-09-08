@@ -11,7 +11,7 @@ public class TreeCheckBox extends JCheckBox {
     private final int cost;
     private final int minArchetype;
     private final Archetype archetype;
-    private final String req;
+    private final List<String> req;
     private final List<String> cantUse;
     private final List<String> link;
     private final int x;
@@ -31,7 +31,7 @@ public class TreeCheckBox extends JCheckBox {
      * @param x Position X
      * @param y Position Y
      */
-    public TreeCheckBox(String name, List<String> description, String apiName, String req, List<String> cantUse, List<String> link, Archetype archetype, int minArchetype, int cost, int x, int y) {
+    public TreeCheckBox(String name, List<String> description, String apiName, List<String> req, List<String> cantUse, List<String> link, Archetype archetype, int minArchetype, int cost, int x, int y) {
         super();
         this.name = name;
         this.description = description;
@@ -87,7 +87,7 @@ public class TreeCheckBox extends JCheckBox {
         return link;
     }
 
-    public String getReq() {
+    public List<String> getReq() {
         return req;
     }
 
